@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("environment_id" => "EnvironmentId", "environment_name" => "EnvironmentName", "terminate_env_by_force" => "TerminateEnvByForce", "attribute_names" => "AttributeNames", "next_token" => "NextToken", "description" => "Description", "resource_lifecycle_config" => "ResourceLifecycleConfig", "tags" => "Tags", "application_name" => "ApplicationName", "environment_ids" => "EnvironmentIds", "environment_names" => "EnvironmentNames", "include_deleted" => "IncludeDeleted", "included_deleted_back_to" => "IncludedDeletedBackTo", "max_records" => "MaxRecords", "version_label" => "VersionLabel", "template_name" => "TemplateName", "status" => "Status", "option_settings" => "OptionSettings", "platform_arn" => "PlatformArn", "solution_stack_name" => "SolutionStackName", "source_configuration" => "SourceConfiguration", "filters" => "Filters", "max_items" => "MaxItems", "group_name" => "GroupName", "version_labels" => "VersionLabels", "options_to_remove" => "OptionsToRemove", "tier" => "Tier", "force_terminate" => "ForceTerminate", "terminate_resources" => "TerminateResources", "auto_create_application" => "AutoCreateApplication", "build_configuration" => "BuildConfiguration", "process" => "Process", "source_build_information" => "SourceBuildInformation", "source_bundle" => "SourceBundle", "application_names" => "ApplicationNames", "destination_environment_id" => "DestinationEnvironmentId", "destination_environment_name" => "DestinationEnvironmentName", "source_environment_id" => "SourceEnvironmentId", "source_environment_name" => "SourceEnvironmentName", "end_time" => "EndTime", "request_id" => "RequestId", "severity" => "Severity", "start_time" => "StartTime", "cnameprefix" => "CNAMEPrefix", "operations_role" => "OperationsRole", "tags_to_add" => "TagsToAdd", "tags_to_remove" => "TagsToRemove", "delete_source_bundle" => "DeleteSourceBundle", "options" => "Options")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("environment_id" => "EnvironmentId", "environment_name" => "EnvironmentName", "terminate_env_by_force" => "TerminateEnvByForce", "attribute_names" => "AttributeNames", "next_token" => "NextToken", "description" => "Description", "resource_lifecycle_config" => "ResourceLifecycleConfig", "tags" => "Tags", "application_name" => "ApplicationName", "environment_ids" => "EnvironmentIds", "environment_names" => "EnvironmentNames", "include_deleted" => "IncludeDeleted", "included_deleted_back_to" => "IncludedDeletedBackTo", "max_records" => "MaxRecords", "version_label" => "VersionLabel", "template_name" => "TemplateName", "status" => "Status", "option_settings" => "OptionSettings", "platform_arn" => "PlatformArn", "solution_stack_name" => "SolutionStackName", "source_configuration" => "SourceConfiguration", "filters" => "Filters", "max_items" => "MaxItems", "group_name" => "GroupName", "version_labels" => "VersionLabels", "options_to_remove" => "OptionsToRemove", "tier" => "Tier", "force_terminate" => "ForceTerminate", "terminate_resources" => "TerminateResources", "auto_create_application" => "AutoCreateApplication", "build_configuration" => "BuildConfiguration", "process" => "Process", "source_build_information" => "SourceBuildInformation", "source_bundle" => "SourceBundle", "application_names" => "ApplicationNames", "destination_environment_id" => "DestinationEnvironmentId", "destination_environment_name" => "DestinationEnvironmentName", "source_environment_id" => "SourceEnvironmentId", "source_environment_name" => "SourceEnvironmentName", "end_time" => "EndTime", "request_id" => "RequestId", "severity" => "Severity", "start_time" => "StartTime", "cnameprefix" => "CNAMEPrefix", "operations_role" => "OperationsRole", "tags_to_add" => "TagsToAdd", "tags_to_remove" => "TagsToRemove", "delete_source_bundle" => "DeleteSourceBundle", "options" => "Options")
 
 """
     abort_environment_update(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ Cancels in-progress environment configuration update or application version depl
   update that you want to cancel.
 """
 function abort_environment_update(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("AbortEnvironmentUpdate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -38,7 +38,7 @@ DescribeEnvironmentManagedActions.
 - `environment_name`: The name of the target environment.
 """
 function apply_environment_managed_action(ActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionId"=>ActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ the AWS Elastic Beanstalk Developer Guide.
 
 """
 function associate_environment_operations_role(EnvironmentName, OperationsRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ Checks if the specified CNAME is available.
 
 """
 function check_dnsavailability(CNAMEPrefix; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +96,7 @@ named env.yaml. See Compose Environments for details.
   solution stack to use, and optionally can specify environment links to create.
 """
 function compose_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ComposeEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ versions.
   the tags.
 """
 function create_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -167,7 +167,7 @@ exception when you attempt to launch an environment from the application version
   don't inherit the tags.
 """
 function create_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ ListAvailableSolutionStacks
 - `tags`: Specifies the tags applied to the configuration template.
 """
 function create_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,7 +278,7 @@ specified configuration.
   specified, Elastic Beanstalk attempts to deploy the sample application.
 """
 function create_environment(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -301,7 +301,7 @@ Create a new version of your custom platform.
   version don't inherit the tags.
 """
 function create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,7 +315,7 @@ CreateStorageLocation still returns the bucket name but does not create a new bu
 
 """
 function create_storage_location(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("CreateStorageLocation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -334,7 +334,7 @@ an application that has a running environment.
   before deleting the application.
 """
 function delete_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ application version that is associated with a running environment.
   bundle remains in Amazon S3.
 """
 function delete_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -371,7 +371,7 @@ modify the environment's copy of the template without affecting the running envi
 
 """
 function delete_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ until it is deleted with this action.
 
 """
 function delete_environment_configuration(ApplicationName, EnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -404,7 +404,7 @@ Deletes the specified version of a custom platform.
 - `platform_arn`: The ARN of the version of the custom platform.
 """
 function delete_platform_version(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DeletePlatformVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ AWS account. The result currently has one set of attributes—resource quotas.
 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ Retrieve a list of application versions.
 - `version_labels`: Specify a version label to show a specific application version.
 """
 function describe_application_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeApplicationVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -451,7 +451,7 @@ Returns the descriptions of existing applications.
   descriptions to only include those with the specified names.
 """
 function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -477,7 +477,7 @@ running environment if an option value is changed.
   want to describe.
 """
 function describe_configuration_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeConfigurationOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ DeleteEnvironmentConfiguration
   specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
 """
 function describe_configuration_settings(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ Health.
   EnvironmentName, or both.
 """
 function describe_environment_health(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEnvironmentHealth", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -542,7 +542,7 @@ Lists an environment's completed and failed managed actions.
 - `next_token`: The pagination token returned by a previous request.
 """
 function describe_environment_managed_action_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEnvironmentManagedActionHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -557,7 +557,7 @@ Lists an environment's upcoming and in-progress managed actions.
 - `status`: To show only actions with a particular status, specify a status.
 """
 function describe_environment_managed_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEnvironmentManagedActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ Returns AWS resources for this environment.
   either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 function describe_environment_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEnvironmentResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ Returns descriptions for existing environments.
   to include only those that are associated with this application version.
 """
 function describe_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ returns the most recent 1,000 events from the specified NextToken.
   to those associated with this application version.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +660,7 @@ This operation requires enhanced health reporting.
 - `next_token`: Specify the pagination token returned by a previous call.
 """
 function describe_instances_health(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribeInstancesHealth", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -675,7 +675,7 @@ version and other platform-related terms, see AWS Elastic Beanstalk Platforms Gl
 - `platform_arn`: The ARN of the platform version.
 """
 function describe_platform_version(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DescribePlatformVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -693,7 +693,7 @@ the AWS Elastic Beanstalk Developer Guide.
 
 """
 function disassociate_environment_operations_role(EnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -705,7 +705,7 @@ then in reverse chronological order.
 
 """
 function list_available_solution_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ListAvailableSolutionStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -734,7 +734,7 @@ platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
 """
 function list_platform_branches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ListPlatformBranches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -755,7 +755,7 @@ platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
 """
 function list_platform_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ListPlatformVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -772,7 +772,7 @@ details about resource tagging, see Tagging Application Resources.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -791,7 +791,7 @@ balancer, etc.) for a specified environment and forces a restart.
   Beanstalk returns MissingRequiredParameter error.
 """
 function rebuild_environment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("RebuildEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -820,7 +820,7 @@ RetrieveEnvironmentInfo
   either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 function request_environment_info(InfoType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -839,7 +839,7 @@ EC2 instance.
   AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 function restart_app_server(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("RestartAppServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -863,7 +863,7 @@ RequestEnvironmentInfo
   MissingRequiredParameter error.
 """
 function retrieve_environment_info(InfoType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -890,7 +890,7 @@ Swaps the CNAMEs of two environments.
   DestinationEnvironmentName.
 """
 function swap_environment_cnames(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("SwapEnvironmentCNAMEs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -916,7 +916,7 @@ Terminates the specified environment.
   User Guide.    Default: true   Valid Values: true | false
 """
 function terminate_environment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("TerminateEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -936,7 +936,7 @@ properties, specify an empty string.
   Elastic Beanstalk does not update the description.
 """
 function update_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -951,7 +951,7 @@ Modifies lifecycle settings for an application.
 
 """
 function update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -973,7 +973,7 @@ properties, specify an empty string.
 - `description`: A new description for this version.
 """
 function update_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1001,7 +1001,7 @@ Topics    DescribeConfigurationOptions
   set.  Constraint: You can remove only UserDefined configuration options.
 """
 function update_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1052,7 +1052,7 @@ different DeploymentStatus values.
   InvalidParameterValue error.
 """
 function update_environment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateEnvironment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1081,7 +1081,7 @@ custom user policy, see Creating a Custom User Policy.
   silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
 """
 function update_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1104,6 +1104,6 @@ indicating any errors or warnings associated with the selection of option values
   Condition: You cannot specify both this and an environment name.
 """
 function validate_configuration_settings(ApplicationName, OptionSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -336,7 +336,7 @@ end
     - `optional_param`: Optional param
     \"\"\"
     function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-        params = amazonify(MAPPING,kwargs)
+        params = amazonify(SERVICE_PARAMETER_MAP,kwargs)
         return sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
     end
     """
@@ -384,7 +384,7 @@ end
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                params = amazonify(MAPPING, kwargs)
+                params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                 return service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -421,7 +421,7 @@ end
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                params = amazonify(MAPPING,kwargs)
+                params = amazonify(SERVICE_PARAMETER_MAP,kwargs)
                 return service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
@@ -472,7 +472,7 @@ end
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                params = amazonify(MAPPING, kwargs)
+                params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                 return service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -508,7 +508,7 @@ end
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                params = amazonify(MAPPING,kwargs)
+                params = amazonify(SERVICE_PARAMETER_MAP,kwargs)
                 return service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """

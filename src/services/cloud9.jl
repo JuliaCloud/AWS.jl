@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("automatic_stop_time_minutes" => "automaticStopTimeMinutes", "client_request_token" => "clientRequestToken", "connection_type" => "connectionType", "description" => "description", "dry_run" => "dryRun", "image_id" => "imageId", "owner_arn" => "ownerArn", "subnet_id" => "subnetId", "tags" => "tags", "environment_id" => "environmentId", "max_results" => "maxResults", "next_token" => "nextToken", "permissions" => "permissions", "user_arn" => "userArn", "managed_credentials_action" => "managedCredentialsAction", "name" => "name")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("automatic_stop_time_minutes" => "automaticStopTimeMinutes", "client_request_token" => "clientRequestToken", "connection_type" => "connectionType", "description" => "description", "dry_run" => "dryRun", "image_id" => "imageId", "owner_arn" => "ownerArn", "subnet_id" => "subnetId", "tags" => "tags", "environment_id" => "environmentId", "max_results" => "maxResults", "next_token" => "nextToken", "permissions" => "permissions", "user_arn" => "userArn", "managed_credentials_action" => "managedCredentialsAction", "name" => "name")
 
 """
     create_environment_ec2(instance_type, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -53,7 +53,7 @@ EC2) instance, and then connects from the instance to the environment.
   development environment.
 """
 function create_environment_ec2(instanceType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("CreateEnvironmentEC2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceType"=>instanceType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ Adds an environment member to an Cloud9 development environment.
 
 """
 function create_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("CreateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ environment, also terminates the instance.
 
 """
 function delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Deletes an environment member from an Cloud9 development environment.
 
 """
 function delete_environment_membership(environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("DeleteEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ Gets information about environment members for an Cloud9 development environment
   returned.
 """
 function describe_environment_memberships(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("DescribeEnvironmentMemberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ Gets status information for an Cloud9 development environment.
 
 """
 function describe_environment_status(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("DescribeEnvironmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ Gets information about Cloud9 development environments.
 
 """
 function describe_environments(environmentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("DescribeEnvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIds"=>environmentIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ Gets a list of Cloud9 development environment identifiers.
   next token that is returned, until no more next tokens are returned.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ Gets a list of the tags associated with an Cloud9 development environment.
 
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -207,7 +207,7 @@ by using this method will NOT be automatically propagated to underlying resource
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -224,7 +224,7 @@ Removes tags from an Cloud9 development environment.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ Changes the settings of an existing Cloud9 development environment.
 - `name`: A replacement name for the environment.
 """
 function update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,6 +269,6 @@ environment.
 
 """
 function update_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloud9("UpdateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

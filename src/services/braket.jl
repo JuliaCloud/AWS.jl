@@ -5,7 +5,21 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "device_parameters" => "deviceParameters", "tags" => "tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("device_parameters" => "deviceParameters", "job_token" => "jobToken", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "checkpoint_config" => "checkpointConfig", "hyper_parameters" => "hyperParameters", "input_data_config" => "inputDataConfig", "stopping_condition" => "stoppingCondition")
+
+"""
+    cancel_job(job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Cancels an Amazon Braket job.
+
+# Arguments
+- `job_arn`: The ARN of the Amazon Braket job to cancel.
+
+"""
+function cancel_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return braket("PUT", "/job/$(jobArn)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 
 """
     cancel_quantum_task(client_token, quantum_task_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,8 +32,46 @@ Cancels the specified task.
 
 """
 function cancel_quantum_task(clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates an Amazon Braket job.
+
+# Arguments
+- `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
+  the container image the job uses and information about the Python scripts used for entry
+  and training.
+- `client_token`: A unique token that guarantees that the call to this API is idempotent.
+- `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
+  Braket job.
+- `instance_config`: Configuration of the resource instances to use while running the
+  hybrid job on Amazon Braket.
+- `job_name`: The name of the Amazon Braket job.
+- `output_data_config`: The path to the S3 location where you want to store job artifacts
+  and the encryption key used to store them.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume
+  to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket
+  job container on behalf of user, and output resources to the users' s3 buckets.
+
+# Keyword Parameters
+- `checkpoint_config`: Information about the output locations for job checkpoint data.
+- `hyper_parameters`: Algorithm-specific parameters used by an Amazon Braket job that
+  influence the quality of the training job. The values are set with a string of JSON
+  key:value pairs, where the key is the name of the hyperparameter and the value is the value
+  of th hyperparameter.
+- `input_data_config`: A list of parameters that specify the name and type of input data
+  and where it is located.
+- `stopping_condition`:  The user-defined criteria that specifies when a job stops running.
+- `tags`: A tag object that consists of a key and an optional value, used to manage
+  metadata for Amazon Braket resources.
+"""
+function create_job(algorithmSpecification, clientToken, deviceConfig, instanceConfig, jobName, outputDataConfig, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return braket("POST", "/job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmSpecification"=>algorithmSpecification, "clientToken"=>clientToken, "deviceConfig"=>deviceConfig, "instanceConfig"=>instanceConfig, "jobName"=>jobName, "outputDataConfig"=>outputDataConfig, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -38,10 +90,11 @@ Creates a quantum task.
 
 # Keyword Parameters
 - `device_parameters`: The parameters for the device to run the task on.
+- `job_token`: The token for an Amazon Braket job that associates it with the quantum task.
 - `tags`: Tags to be added to the quantum task you're creating.
 """
 function create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("POST", "/quantum-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,8 +108,22 @@ Retrieves the devices available in Amazon Braket.
 
 """
 function get_device(deviceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("GET", "/device/$(deviceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_job(job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieves the specified Amazon Braket job.
+
+# Arguments
+- `job_arn`: The ARN of the job to retrieve.
+
+"""
+function get_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return braket("GET", "/job/$(jobArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -69,7 +136,7 @@ Retrieves the specified quantum task.
 
 """
 function get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("GET", "/quantum-task/$(quantumTaskArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,7 +150,7 @@ Shows the tags associated with this resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,8 +168,27 @@ Searches for devices using the specified filters.
   token returned from the previous request continue results where the previous request ended.
 """
 function search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    search_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Searches for Amazon Braket jobs that match the specified filter values.
+
+# Arguments
+- `filters`: The filter values to use when searching for a job.
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned in the response. Use the
+  token returned from the previous request to continue results where the previous request
+  ended.
+"""
+function search_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return braket("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,7 +205,7 @@ Searches for tasks that match the specified filter values.
   token returned from the previous request continue results where the previous request ended.
 """
 function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +220,7 @@ Add a tag to the specified resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -149,6 +235,6 @@ Remove tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

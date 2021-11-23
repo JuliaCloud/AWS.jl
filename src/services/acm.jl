@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("certificate_authority_arn" => "CertificateAuthorityArn", "domain_validation_options" => "DomainValidationOptions", "idempotency_token" => "IdempotencyToken", "options" => "Options", "subject_alternative_names" => "SubjectAlternativeNames", "tags" => "Tags", "validation_method" => "ValidationMethod", "certificate_arn" => "CertificateArn", "certificate_chain" => "CertificateChain", "expiry_events" => "ExpiryEvents", "certificate_statuses" => "CertificateStatuses", "includes" => "Includes", "max_items" => "MaxItems", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("certificate_authority_arn" => "CertificateAuthorityArn", "domain_validation_options" => "DomainValidationOptions", "idempotency_token" => "IdempotencyToken", "options" => "Options", "subject_alternative_names" => "SubjectAlternativeNames", "tags" => "Tags", "validation_method" => "ValidationMethod", "certificate_arn" => "CertificateArn", "certificate_chain" => "CertificateChain", "expiry_events" => "ExpiryEvents", "certificate_statuses" => "CertificateStatuses", "includes" => "Includes", "max_items" => "MaxItems", "next_token" => "NextToken")
 
 """
     add_tags_to_certificate(certificate_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,7 +32,7 @@ have been applied to the certificate, use the ListTagsForCertificate action.
 
 """
 function add_tags_to_certificate(CertificateArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("AddTagsToCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ first be removed.
 
 """
 function delete_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ Returns detailed metadata about the specified ACM certificate.
 
 """
 function describe_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +96,7 @@ CLI, see Export a Private Certificate.
 
 """
 function export_certificate(CertificateArn, Passphrase; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("ExportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Passphrase"=>Passphrase), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -107,7 +107,7 @@ Returns the account configuration options associated with an Amazon Web Services
 
 """
 function get_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("GetAccountConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -126,7 +126,7 @@ certificates and inspect individual fields.
 
 """
 function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ operation returns the Amazon Resource Name (ARN) of the imported certificate.
   cannot apply tags when reimporting a certificate.
 """
 function import_certificate(Certificate, PrivateKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "PrivateKey"=>PrivateKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -198,7 +198,7 @@ more information, see Filters.
   NextToken from the response you just received.
 """
 function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,7 +217,7 @@ AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate 
 
 """
 function list_tags_for_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("ListTagsForCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ days before certificate expiration.
 - `expiry_events`: Specifies expiration events associated with an account.
 """
 function put_account_configuration(IdempotencyToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("PutAccountConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ ACM certificate, use the ListTagsForCertificate action.
 
 """
 function remove_tags_from_certificate(CertificateArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("RemoveTagsFromCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ Testing Managed Renewal in the ACM User Guide.
 
 """
 function renew_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("RenewCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -352,7 +352,7 @@ ignores the common name (CN)
   validate with email. We recommend that you use DNS validation.
 """
 function request_certificate(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("RequestCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -388,7 +388,7 @@ your contact email addresses, see Configure Email for your Domain.
 
 """
 function resend_validation_email(CertificateArn, Domain, ValidationDomain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("ResendValidationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Domain"=>Domain, "ValidationDomain"=>ValidationDomain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -409,6 +409,6 @@ information, see  Opting Out of Certificate Transparency Logging.
 
 """
 function update_certificate_options(CertificateArn, Options; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return acm("UpdateCertificateOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Options"=>Options), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

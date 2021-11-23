@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("group" => "Group", "group_name" => "GroupName", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "configuration" => "Configuration", "description" => "Description", "resource_query" => "ResourceQuery", "tags" => "Tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("group" => "Group", "group_name" => "GroupName", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "configuration" => "Configuration", "description" => "Description", "resource_query" => "ResourceQuery", "tags" => "Tags")
 
 """
     create_group(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,7 +39,7 @@ resource-groups:CreateGroup
 - `tags`: The tags to add to the group. A tag is key-value pair string.
 """
 function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -56,7 +56,7 @@ resource-groups:DeleteGroup
 - `group_name`: Deprecated - don't use this parameter. Use Group instead.
 """
 function delete_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/delete-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ command, you must have the following permissions:    resource-groups:GetGroup
 - `group_name`: Deprecated - don't use this parameter. Use Group instead.
 """
 function get_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/get-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ resource-groups:GetGroupConfiguration
 - `group`: The name or the ARN of the resource group.
 """
 function get_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/get-group-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -104,7 +104,7 @@ resource-groups:GetGroupQuery
 - `group_name`: Don't use this parameter. Use Group instead.
 """
 function get_group_query(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/get-group-query", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -120,7 +120,7 @@ resource-groups:GetTags
 
 """
 function get_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("GET", "/resources/$(Arn)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ command, you must have the following permissions:    resource-groups:GroupResour
 
 """
 function group_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/group-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ cloudformation:ListStackResources     tag:GetResources
   to indicate where the output should continue from.
 """
 function list_group_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/list-group-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -214,7 +214,7 @@ this command, you must have the following permissions:    resource-groups:ListGr
   to indicate where the output should continue from.
 """
 function list_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/groups-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -237,7 +237,7 @@ update.  Minimum permissions  To run this command, you must have the following p
   update.
 """
 function put_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/put-group-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ cloudformation:ListStackResources     tag:GetResources
   to indicate where the output should continue from.
 """
 function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/resources/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ have the following permissions:    resource-groups:Tag
 
 """
 function tag(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -306,7 +306,7 @@ command, you must have the following permissions:    resource-groups:UngroupReso
 
 """
 function ungroup_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/ungroup-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -323,7 +323,7 @@ you must have the following permissions:    resource-groups:Untag
 
 """
 function untag(Arn, Keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -341,7 +341,7 @@ group.  Minimum permissions  To run this command, you must have the following pe
 - `group_name`: Don't use this parameter. Use Group instead.
 """
 function update_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/update-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,6 +362,6 @@ must have the following permissions:    resource-groups:UpdateGroupQuery
 - `group_name`: Don't use this parameter. Use Group instead.
 """
 function update_group_query(ResourceQuery; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups("POST", "/update-group-query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

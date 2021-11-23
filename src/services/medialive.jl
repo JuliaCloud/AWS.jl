@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("destinations" => "destinations", "input_devices" => "inputDevices", "input_security_groups" => "inputSecurityGroups", "media_connect_flows" => "mediaConnectFlows", "name" => "name", "request_id" => "requestId", "role_arn" => "roleArn", "sources" => "sources", "tags" => "tags", "type" => "type", "vpc" => "vpc", "channel_ids" => "channelIds", "multiplex_ids" => "multiplexIds", "max_results" => "maxResults", "next_token" => "nextToken", "whitelist_rules" => "whitelistRules", "hd_device_settings" => "hdDeviceSettings", "uhd_device_settings" => "uhdDeviceSettings", "id" => "id", "start" => "start", "channel_class" => "channelClass", "channel_configuration" => "channelConfiguration", "codec" => "codec", "duration" => "duration", "maximum_bitrate" => "maximumBitrate", "maximum_framerate" => "maximumFramerate", "resolution" => "resolution", "resource_type" => "resourceType", "special_feature" => "specialFeature", "video_quality" => "videoQuality", "multiplex_settings" => "multiplexSettings", "cdi_input_specification" => "cdiInputSpecification", "encoder_settings" => "encoderSettings", "input_attachments" => "inputAttachments", "input_specification" => "inputSpecification", "log_level" => "logLevel", "reserved" => "reserved", "multiplex_program_settings" => "multiplexProgramSettings", "creates" => "creates", "deletes" => "deletes", "input_ids" => "inputIds", "input_security_group_ids" => "inputSecurityGroupIds", "target_customer_id" => "targetCustomerId", "target_region" => "targetRegion", "transfer_message" => "transferMessage")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("destinations" => "destinations", "input_devices" => "inputDevices", "input_security_groups" => "inputSecurityGroups", "media_connect_flows" => "mediaConnectFlows", "name" => "name", "request_id" => "requestId", "role_arn" => "roleArn", "sources" => "sources", "tags" => "tags", "type" => "type", "vpc" => "vpc", "channel_ids" => "channelIds", "multiplex_ids" => "multiplexIds", "max_results" => "maxResults", "next_token" => "nextToken", "whitelist_rules" => "whitelistRules", "hd_device_settings" => "hdDeviceSettings", "uhd_device_settings" => "uhdDeviceSettings", "id" => "id", "start" => "start", "channel_class" => "channelClass", "channel_configuration" => "channelConfiguration", "codec" => "codec", "duration" => "duration", "maximum_bitrate" => "maximumBitrate", "maximum_framerate" => "maximumFramerate", "resolution" => "resolution", "resource_type" => "resourceType", "special_feature" => "specialFeature", "video_quality" => "videoQuality", "multiplex_settings" => "multiplexSettings", "cdi_input_specification" => "cdiInputSpecification", "encoder_settings" => "encoderSettings", "input_attachments" => "inputAttachments", "input_specification" => "inputSpecification", "log_level" => "logLevel", "reserved" => "reserved", "multiplex_program_settings" => "multiplexProgramSettings", "creates" => "creates", "deletes" => "deletes", "input_ids" => "inputIds", "input_security_group_ids" => "inputSecurityGroupIds", "target_customer_id" => "targetCustomerId", "target_region" => "targetRegion", "transfer_message" => "transferMessage")
 
 """
     accept_input_device_transfer(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ AWS account.
 
 """
 function accept_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -35,7 +35,7 @@ Starts delete of resources.
 - `multiplex_ids`: List of multiplex IDs
 """
 function batch_delete(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/batch/delete", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -49,7 +49,7 @@ Starts existing resources
 - `multiplex_ids`: List of multiplex IDs
 """
 function batch_start(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/batch/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ Stops running resources
 - `multiplex_ids`: List of multiplex IDs
 """
 function batch_stop(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/batch/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ Update a channel schedule
 - `deletes`: Schedule actions to delete from the schedule.
 """
 function batch_update_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ Cancel an input device transfer that you have requested.
 
 """
 function cancel_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -109,7 +109,7 @@ vendor. After the request succeeds, you will own the device.
 - `id`: The id of the device you want to claim.
 """
 function claim_device(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/claimDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ creating multiple resources.
 - `vpc`: Settings for the VPC outputs
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ Only specify sources for PULL type Inputs. Leave Destinations
 - `vpc`:
 """
 function create_input(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ Creates a Input Security Group
 - `whitelist_rules`: List of IPv4 CIDR addresses to whitelist
 """
 function create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ resources.
 - `tags`: A collection of key-value pairs.
 """
 function create_multiplex(availabilityZones, multiplexSettings, name, requestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ resources.
 
 """
 function create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -246,7 +246,7 @@ exactly
 - `tags`: A collection of key-value pairs.
 """
 function create_partner_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputs/$(inputId)/partners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -262,7 +262,7 @@ Create tags for a resource
 - `tags`:
 """
 function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,7 +276,7 @@ Starts deletion of channel. The associated outputs are also deleted.
 
 """
 function delete_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ Deletes the input end point
 
 """
 function delete_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -304,7 +304,7 @@ Deletes an Input Security Group
 
 """
 function delete_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -318,7 +318,7 @@ Delete a multiplex. The multiplex must be idle.
 
 """
 function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,7 +333,7 @@ Delete a program from a multiplex.
 
 """
 function delete_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ Delete an expired reservation.
 
 """
 function delete_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -361,7 +361,7 @@ Delete all schedule actions on a channel.
 
 """
 function delete_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ Removes tags for a resource
 
 """
 function delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -390,7 +390,7 @@ Gets details about a channel
 
 """
 function describe_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -404,7 +404,7 @@ Produces details about an input
 
 """
 function describe_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -418,7 +418,7 @@ Gets the details for the input device
 
 """
 function describe_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputDevices/$(inputDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ Get the latest thumbnail data for the input device.
 
 """
 function describe_input_device_thumbnail(accept, inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +447,7 @@ Produces a summary of an Input Security Group
 
 """
 function describe_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ Gets details about a multiplex.
 
 """
 function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +476,7 @@ Get the details for a program in a multiplex.
 
 """
 function describe_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -490,7 +490,7 @@ Get details for an offering.
 
 """
 function describe_offering(offeringId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/offerings/$(offeringId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -504,7 +504,7 @@ Get details for a reservation.
 
 """
 function describe_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -521,7 +521,7 @@ Get a channel schedule
 - `next_token`:
 """
 function describe_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/channels/$(channelId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -535,7 +535,7 @@ Produces list of channels that have been created
 - `next_token`:
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ transferring to you.
 - `next_token`:
 """
 function list_input_device_transfers(transferType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -568,7 +568,7 @@ List input devices
 - `next_token`:
 """
 function list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ Produces a list of Input Security Groups for an account
 - `next_token`:
 """
 function list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,7 +596,7 @@ Produces list of inputs that have been created
 - `next_token`:
 """
 function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/inputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -613,7 +613,7 @@ List the programs that currently exist for a specific multiplex.
 - `next_token`: The token to retrieve the next page of results.
 """
 function list_multiplex_programs(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +627,7 @@ Retrieve a list of the existing multiplexes.
 - `next_token`: The token to retrieve the next page of results.
 """
 function list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/multiplexes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -652,7 +652,7 @@ List offerings available for purchase.
 - `video_quality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
 function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/offerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -674,7 +674,7 @@ List purchased reservations.
 - `video_quality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
 function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/reservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,7 +688,7 @@ Produces list of tags that have been created for a resource
 
 """
 function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("GET", "/prod/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -711,7 +711,7 @@ Purchase an offering and create a reservation.
 - `tags`: A collection of key-value pairs
 """
 function purchase_offering(count, offeringId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -726,7 +726,7 @@ Reject the transfer of the specified input device to your AWS account.
 
 """
 function reject_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -740,7 +740,7 @@ Starts an existing channel
 
 """
 function start_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/channels/$(channelId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -755,7 +755,7 @@ explicitly start each channel.
 
 """
 function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/multiplexes/$(multiplexId)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -769,7 +769,7 @@ Stops a running channel
 
 """
 function stop_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/channels/$(channelId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -783,7 +783,7 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 
 """
 function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +803,7 @@ other account must accept or reject the transfer.
 - `transfer_message`: An optional message for the recipient. Maximum 280 characters.
 """
 function transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ Updates a channel.
   role will be removed.
 """
 function update_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/channels/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -845,7 +845,7 @@ Changes the class of the channel.
 - `destinations`: A list of output destinations for this channel.
 """
 function update_channel_class(channelClass, channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -878,7 +878,7 @@ Only specify sources for PULL type Inputs. Leave Destinations
   empty.
 """
 function update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/inputs/$(inputId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -896,7 +896,7 @@ Updates the parameters for the input device.
 - `uhd_device_settings`: The settings that you want to apply to the UHD input device.
 """
 function update_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -913,7 +913,7 @@ Update an Input Security Group's Whilelists.
 - `whitelist_rules`: List of IPv4 CIDR addresses to whitelist
 """
 function update_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -930,7 +930,7 @@ Updates a multiplex.
 - `name`: Name of the multiplex.
 """
 function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/multiplexes/$(multiplexId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +947,7 @@ Update a program in a multiplex.
 - `multiplex_program_settings`: The new settings for a multiplex program.
 """
 function update_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -963,6 +963,6 @@ Update reservation.
 - `name`: Name of the reservation
 """
 function update_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return medialive("PUT", "/prod/reservations/$(reservationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

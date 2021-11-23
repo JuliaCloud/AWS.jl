@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "filter" => "filter", "assessment_target_arns" => "assessmentTargetArns", "assessment_run_arns" => "assessmentRunArns", "user_attributes_for_findings" => "userAttributesForFindings", "assessment_template_arns" => "assessmentTemplateArns", "tags" => "tags", "locale" => "locale", "resource_arn" => "resourceArn", "assessment_run_name" => "assessmentRunName", "resource_group_arn" => "resourceGroupArn", "stop_action" => "stopAction")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "filter" => "filter", "assessment_target_arns" => "assessmentTargetArns", "assessment_run_arns" => "assessmentRunArns", "user_attributes_for_findings" => "userAttributesForFindings", "assessment_template_arns" => "assessmentTemplateArns", "tags" => "tags", "locale" => "locale", "resource_arn" => "resourceArn", "assessment_run_name" => "assessmentRunName", "resource_group_arn" => "resourceGroupArn", "stop_action" => "stopAction")
 
 """
     add_attributes_to_findings(attributes, finding_arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ the findings.
 
 """
 function add_attributes_to_findings(attributes, findingArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("AddAttributesToFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes, "findingArns"=>findingArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -44,7 +44,7 @@ agents per AWS account. For more information, see  Amazon Inspector Assessment T
   current AWS account and region are included in the assessment target.
 """
 function create_assessment_target(assessmentTargetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("CreateAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetName"=>assessmentTargetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ Services needed to perform security assessments.
   each key must be unique.
 """
 function create_assessment_template(assessmentTargetArn, assessmentTemplateName, durationInSeconds, rulesPackageArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("CreateAssessmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTemplateName"=>assessmentTemplateName, "durationInSeconds"=>durationInSeconds, "rulesPackageArns"=>rulesPackageArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -91,7 +91,7 @@ detect before it runs the assessment.
 
 """
 function create_exclusions_preview(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("CreateExclusionsPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ For more information, see CreateAssessmentTarget.
 
 """
 function create_resource_group(resourceGroupTags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("CreateResourceGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceGroupTags"=>resourceGroupTags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ Deletes the assessment run that is specified by the ARN of the assessment run.
 
 """
 function delete_assessment_run(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DeleteAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ Deletes the assessment target that is specified by the ARN of the assessment tar
 
 """
 function delete_assessment_target(assessmentTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DeleteAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ Deletes the assessment template that is specified by the ARN of the assessment t
 
 """
 function delete_assessment_template(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DeleteAssessmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ Describes the assessment runs that are specified by the ARNs of the assessment r
 
 """
 function describe_assessment_runs(assessmentRunArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeAssessmentRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArns"=>assessmentRunArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -184,7 +184,7 @@ Describes the assessment targets that are specified by the ARNs of the assessmen
 
 """
 function describe_assessment_targets(assessmentTargetArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeAssessmentTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArns"=>assessmentTargetArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +199,7 @@ templates.
 
 """
 function describe_assessment_templates(assessmentTemplateArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeAssessmentTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArns"=>assessmentTemplateArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -210,7 +210,7 @@ Describes the IAM role that enables Amazon Inspector to access your AWS account.
 
 """
 function describe_cross_account_access_role(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeCrossAccountAccessRole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ Describes the exclusions that are specified by the exclusions' ARNs.
   and recommendation.
 """
 function describe_exclusions(exclusionArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeExclusions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exclusionArns"=>exclusionArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -244,7 +244,7 @@ Describes the findings that are specified by the ARNs of the findings.
   recommendation, and the short description that identifies the finding.
 """
 function describe_findings(findingArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingArns"=>findingArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -259,7 +259,7 @@ Describes the resource groups that are specified by the ARNs of the resource gro
 
 """
 function describe_resource_groups(resourceGroupArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeResourceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceGroupArns"=>resourceGroupArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ Describes the rules packages that are specified by the ARNs of the rules package
 - `locale`: The locale that you want to translate a rules package description into.
 """
 function describe_rules_packages(rulesPackageArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("DescribeRulesPackages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rulesPackageArns"=>rulesPackageArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ specified assessment run.
 
 """
 function get_assessment_report(assessmentRunArn, reportFileFormat, reportType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("GetAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn, "reportFileFormat"=>reportFileFormat, "reportType"=>reportType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ preview token. You can obtain the preview token by running the CreateExclusionsP
   previous response to continue listing data.
 """
 function get_exclusions_preview(assessmentTemplateArn, previewToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("GetExclusionsPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn, "previewToken"=>previewToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ Information about the data that is collected for the specified assessment run.
 
 """
 function get_telemetry_metadata(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("GetTelemetryMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ runs.
   previous response to continue listing data.
 """
 function list_assessment_run_agents(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListAssessmentRunAgents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ the ARNs of the assessment templates.
   response to continue listing data.
 """
 function list_assessment_runs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListAssessmentRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -412,7 +412,7 @@ about assessment targets, see Amazon Inspector Assessment Targets.
   response to continue listing data.
 """
 function list_assessment_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListAssessmentTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ by the ARNs of the assessment targets.
   previous response to continue listing data.
 """
 function list_assessment_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListAssessmentTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -459,7 +459,7 @@ UnsubscribeFromEvent.
   existing event subscriptions.
 """
 function list_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -481,7 +481,7 @@ List exclusions that are generated by the assessment run.
   response to continue listing data.
 """
 function list_exclusions(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListExclusions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ the assessment runs.
   to continue listing data.
 """
 function list_findings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListFindings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -524,7 +524,7 @@ Lists all available Amazon Inspector rules packages.
   response to continue listing data.
 """
 function list_rules_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListRulesPackages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +539,7 @@ Lists all tags associated with an assessment template.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,7 +561,7 @@ assessment target.
   to continue listing data.
 """
 function preview_agents(previewAgentsArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("PreviewAgents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("previewAgentsArn"=>previewAgentsArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -577,7 +577,7 @@ perform security assessments.
 
 """
 function register_cross_account_access_role(roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("RegisterCrossAccountAccessRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -595,7 +595,7 @@ ARNs of the findings where an attribute with the specified key exists.
 
 """
 function remove_attributes_from_findings(attributeKeys, findingArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("RemoveAttributesFromFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributeKeys"=>attributeKeys, "findingArns"=>findingArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -613,7 +613,7 @@ the assessment template.
   template.
 """
 function set_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("SetTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -633,7 +633,7 @@ AWS account.
   unique for the assessment template whose ARN is used to start the assessment run.
 """
 function start_assessment_run(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("StartAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -652,7 +652,7 @@ Stops the assessment run that is specified by the ARN of the assessment run.
   cancels the assessment run immediately, after which no findings are generated.
 """
 function stop_assessment_run(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("StopAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -670,7 +670,7 @@ a specified event to a specified SNS topic.
 
 """
 function subscribe_to_event(event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("SubscribeToEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,7 +688,7 @@ about a specified event to a specified SNS topic.
 
 """
 function unsubscribe_from_event(event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("UnsubscribeFromEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -708,6 +708,6 @@ are included in the assessment target.
   resource group to associate with the assessment target.
 """
 function update_assessment_target(assessmentTargetArn, assessmentTargetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return inspector("UpdateAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTargetName"=>assessmentTargetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

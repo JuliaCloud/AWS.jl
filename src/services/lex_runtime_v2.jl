@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("request_attributes" => "requestAttributes", "session_state" => "x-amz-lex-session-state", "input_stream" => "inputStream", "response_content_type" => "ResponseContentType", "messages" => "messages")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("request_attributes" => "requestAttributes", "session_state" => "x-amz-lex-session-state", "input_stream" => "inputStream", "response_content_type" => "ResponseContentType", "messages" => "messages")
 
 """
     delete_session(bot_alias_id, bot_id, locale_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ enables for the alias, you receive a BadRequestException.
 
 """
 function delete_session(botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_v2("DELETE", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ you receive a BadRequestException.
 
 """
 function get_session(botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_v2("GET", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ operation to enable your application to set the state of the bot.
   text/plain; charset=utf-8, Amazon Lex V2 returns text in the response.
 """
 function put_session(botAliasId, botId, localeId, sessionId, sessionState; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionState"=>sessionState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ when the period times out.    For more information, see Completion message.
 - `session_state`: The current state of the dialog between the user and the bot.
 """
 function recognize_text(botAliasId, botId, localeId, sessionId, text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("text"=>text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -176,6 +176,6 @@ is returned when the period times out.    For more information, see Completion m
   Amazon Lex V2.
 """
 function recognize_utterance(Content_Type, botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("data_delay_offset_in_minutes" => "DataDelayOffsetInMinutes", "server_side_kms_key_id" => "ServerSideKmsKeyId", "tags" => "Tags", "data_input_configuration" => "DataInputConfiguration", "data_output_configuration" => "DataOutputConfiguration", "data_upload_frequency" => "DataUploadFrequency", "role_arn" => "RoleArn", "dataset_name_begins_with" => "DatasetNameBeginsWith", "max_results" => "MaxResults", "next_token" => "NextToken", "data_pre_processing_configuration" => "DataPreProcessingConfiguration", "dataset_schema" => "DatasetSchema", "evaluation_data_end_time" => "EvaluationDataEndTime", "evaluation_data_start_time" => "EvaluationDataStartTime", "labels_input_configuration" => "LabelsInputConfiguration", "off_condition" => "OffCondition", "training_data_end_time" => "TrainingDataEndTime", "training_data_start_time" => "TrainingDataStartTime", "data_end_time_before" => "DataEndTimeBefore", "data_start_time_after" => "DataStartTimeAfter", "status" => "Status", "model_name_begins_with" => "ModelNameBeginsWith", "dataset_name" => "DatasetName", "inference_scheduler_name_begins_with" => "InferenceSchedulerNameBeginsWith", "model_name" => "ModelName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("data_delay_offset_in_minutes" => "DataDelayOffsetInMinutes", "server_side_kms_key_id" => "ServerSideKmsKeyId", "tags" => "Tags", "data_input_configuration" => "DataInputConfiguration", "data_output_configuration" => "DataOutputConfiguration", "data_upload_frequency" => "DataUploadFrequency", "role_arn" => "RoleArn", "dataset_name_begins_with" => "DatasetNameBeginsWith", "max_results" => "MaxResults", "next_token" => "NextToken", "data_pre_processing_configuration" => "DataPreProcessingConfiguration", "dataset_schema" => "DatasetSchema", "evaluation_data_end_time" => "EvaluationDataEndTime", "evaluation_data_start_time" => "EvaluationDataStartTime", "labels_input_configuration" => "LabelsInputConfiguration", "off_condition" => "OffCondition", "training_data_end_time" => "TrainingDataEndTime", "training_data_start_time" => "TrainingDataStartTime", "data_end_time_before" => "DataEndTimeBefore", "data_start_time_after" => "DataStartTimeAfter", "status" => "Status", "model_name_begins_with" => "ModelNameBeginsWith", "dataset_name" => "DatasetName", "inference_scheduler_name_begins_with" => "InferenceSchedulerNameBeginsWith", "model_name" => "ModelName")
 
 """
     create_dataset(client_token, dataset_name, dataset_schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ information. A dataset also contains any tags associated with the ingested data.
 - `tags`: Any tags associated with the ingested data described in the dataset.
 """
 function create_dataset(ClientToken, DatasetName, DatasetSchema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "DatasetSchema"=>DatasetSchema), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ You must also provide an S3 bucket location for the output data.
 - `tags`: Any tags associated with the inference scheduler.
 """
 function create_inference_scheduler(ClientToken, DataInputConfiguration, DataOutputConfiguration, DataUploadFrequency, InferenceSchedulerName, ModelName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("CreateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataInputConfiguration"=>DataInputConfiguration, "DataOutputConfiguration"=>DataOutputConfiguration, "DataUploadFrequency"=>DataUploadFrequency, "InferenceSchedulerName"=>InferenceSchedulerName, "ModelName"=>ModelName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ is used to evaluate the model's accuracy.
   used to begin the subset of training data for the ML model.
 """
 function create_model(ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -142,7 +142,7 @@ does prevent it from being used in the future.
 
 """
 function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ not affected.
 
 """
 function delete_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DeleteInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ it from being used with an inference scheduler, even one that is already set up.
 
 """
 function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ status, and so on.
 
 """
 function describe_data_ingestion_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DescribeDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -202,7 +202,7 @@ names, column names, and data types.
 
 """
 function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,7 +217,7 @@ status, and associated metadata
 
 """
 function describe_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DescribeInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -232,7 +232,7 @@ model name and ARN, dataset, training and evaluation information, status, and so
 
 """
 function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("DescribeModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ the input data, status, and so on.
 - `status`: Indicates the status of the data ingestion job.
 """
 function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListDataIngestionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Lists all datasets currently available in your account, filtering on the dataset
   datasets.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ scheduler.
 - `status`: The status of the inference execution.
 """
 function list_inference_executions(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListInferenceExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,7 +309,7 @@ Retrieves a list of all inference schedulers currently available for your accoun
   inference schedulers.
 """
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListInferenceSchedulers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +329,7 @@ status.
 - `status`: The status of the ML model.
 """
 function list_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ Lists all the tags for a specified resource, including key and value.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ Starts a data ingestion job. Amazon Lookout for Equipment returns the job status
 
 """
 function start_data_ingestion_job(ClientToken, DatasetName, IngestionInputConfiguration, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("StartDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "IngestionInputConfiguration"=>IngestionInputConfiguration, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -378,7 +378,7 @@ Starts an inference scheduler.
 
 """
 function start_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("StartInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +392,7 @@ Stops an inference scheduler.
 
 """
 function stop_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("StopInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -413,7 +413,7 @@ associated with each resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ Removes a specific tag from a given resource. The tag is specified by its key.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -463,6 +463,6 @@ Updates an inference scheduler.
   source for the inference scheduler.
 """
 function update_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutequipment("UpdateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

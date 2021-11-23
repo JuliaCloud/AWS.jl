@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("alias" => "alias", "max_results" => "maxResults", "next_token" => "nextToken", "client_token" => "clientToken", "tags" => "tags", "name" => "name")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("alias" => "alias", "max_results" => "maxResults", "next_token" => "nextToken", "client_token" => "clientToken", "tags" => "tags", "name" => "name")
 
 """
     create_alert_manager_definition(data, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ Create an alert manager definition.
   idempotency of the request.
 """
 function create_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("POST", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ Create a rule group namespace.
 - `tags`: Optional, user-provided tags for this rule groups namespace.
 """
 function create_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("POST", "/workspaces/$(workspaceId)/rulegroupsnamespaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -58,7 +58,7 @@ Creates a new AMP workspace.
 - `tags`: Optional, user-provided tags for this workspace.
 """
 function create_workspace(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -75,7 +75,7 @@ Deletes an alert manager definition.
   idempotency of the request.
 """
 function delete_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("DELETE", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ Delete a rule groups namespace.
   idempotency of the request.
 """
 function delete_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("DELETE", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ Deletes an AMP workspace.
   idempotency of the request.
 """
 function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ Describes an alert manager definition.
 
 """
 function describe_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/workspaces/$(workspaceId)/alertmanager/definition", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ Describe a rule groups namespace.
 
 """
 function describe_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ Describes an existing AMP workspace.
 
 """
 function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -173,7 +173,7 @@ Lists rule groups namespaces.
   is obtained from the output of the previous ListRuleGroupsNamespaces request.
 """
 function list_rule_groups_namespaces(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ Lists the tags you have assigned to the resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ Lists all AMP workspaces, including workspaces being created or deleted.
   is obtained from the output of the previous ListWorkspaces request.
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -222,7 +222,7 @@ Update an alert manager definition.
   idempotency of the request.
 """
 function put_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("PUT", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ Update a rule groups namespace.
   idempotency of the request.
 """
 function put_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("PUT", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -256,7 +256,7 @@ Creates tags for the specified resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ Deletes tags from the specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,6 +289,6 @@ Updates an AMP workspace alias.
   idempotency of the request.
 """
 function update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

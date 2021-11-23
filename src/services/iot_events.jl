@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "alarm_model_version" => "version", "detector_model_version" => "version", "input_description" => "inputDescription", "tags" => "tags", "detector_model_description" => "detectorModelDescription", "evaluation_method" => "evaluationMethod", "alarm_capabilities" => "alarmCapabilities", "alarm_event_actions" => "alarmEventActions", "alarm_model_description" => "alarmModelDescription", "alarm_notification" => "alarmNotification", "key" => "key", "severity" => "severity")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "alarm_model_version" => "version", "detector_model_version" => "version", "input_description" => "inputDescription", "tags" => "tags", "detector_model_description" => "detectorModelDescription", "evaluation_method" => "evaluationMethod", "alarm_capabilities" => "alarmCapabilities", "alarm_event_actions" => "alarmEventActions", "alarm_model_description" => "alarmModelDescription", "alarm_notification" => "alarmNotification", "key" => "key", "severity" => "severity")
 
 """
     create_alarm_model(alarm_model_name, alarm_rule, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,7 +36,7 @@ Create an alarm model in the AWS IoT Events Developer Guide.
   model.
 """
 function create_alarm_model(alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/alarm-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmModelName"=>alarmModelName, "alarmRule"=>alarmRule, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ Creates a detector model.
 - `tags`: Metadata that can be used to manage the detector model.
 """
 function create_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -81,7 +81,7 @@ Creates an input.
 - `tags`: Metadata that can be used to manage the input.
 """
 function create_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +96,7 @@ also deleted. This action can't be undone.
 
 """
 function delete_alarm_model(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("DELETE", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ Deletes a detector model. Any active instances of the detector model are also de
 
 """
 function delete_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("DELETE", "/detector-models/$(detectorModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ Deletes an input.
 
 """
 function delete_input(inputName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("DELETE", "/inputs/$(inputName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +141,7 @@ alarmModelVersion parameter, the latest version is returned.
 - `alarm_model_version`: The version of the alarm model.
 """
 function describe_alarm_model(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -158,7 +158,7 @@ the latest version is returned.
 - `detector_model_version`: The version of the detector model.
 """
 function describe_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/detector-models/$(detectorModelName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -173,7 +173,7 @@ analyzing your detector model, you have up to 24 hours to retrieve the analysis 
 
 """
 function describe_detector_model_analysis(analysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/analysis/detector-models/$(analysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ Describes an input.
 
 """
 function describe_input(inputName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/inputs/$(inputName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -198,7 +198,7 @@ Retrieves the current settings of the AWS IoT Events logging options.
 
 """
 function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ analyzing your detector model, you have up to 24 hours to retrieve the analysis 
 - `next_token`: The token that you can use to return the next set of results.
 """
 function get_detector_model_analysis_results(analysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/analysis/detector-models/$(analysisId)/results", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ associated with each alarm model version.
 - `next_token`: The token that you can use to return the next set of results.
 """
 function list_alarm_model_versions(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/alarm-models/$(alarmModelName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ with each alarm model.
 - `next_token`: The token that you can use to return the next set of results.
 """
 function list_alarm_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/alarm-models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ model version is returned.
 - `next_token`: The token that you can use to return the next set of results.
 """
 function list_detector_model_versions(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/detector-models/$(detectorModelName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -282,7 +282,7 @@ model is returned.
 - `next_token`: The token that you can use to return the next set of results.
 """
 function list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/detector-models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -299,7 +299,7 @@ end
 - `next_token`:  The token that you can use to return the next set of results.
 """
 function list_input_routings(inputIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/input-routings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputIdentifier"=>inputIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -313,7 +313,7 @@ Lists the inputs you have created.
 - `next_token`: The token that you can use to return the next set of results.
 """
 function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/inputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -327,7 +327,7 @@ Lists the tags (metadata) you have assigned to the resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ correct an invalid policy), it takes up to five minutes for that change to take 
 
 """
 function put_logging_options(loggingOptions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ detector model in the AWS IoT Events Developer Guide.
 
 """
 function start_detector_model_analysis(detectorModelDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/analysis/detector-models/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -375,7 +375,7 @@ manage a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -390,7 +390,7 @@ Removes the given tags (metadata) from the resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -415,7 +415,7 @@ deleted and then created again as new data arrives.
 - `severity`: A non-negative integer that reflects the severity level of the alarm.
 """
 function update_alarm_model(alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/alarm-models/$(alarmModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmRule"=>alarmRule, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ and then re-created as new inputs arrive.
   actions are executed.
 """
 function update_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -454,6 +454,6 @@ Updates an input.
 - `input_description`: A brief description of the input.
 """
 function update_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

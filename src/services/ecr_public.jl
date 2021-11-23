@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("registry_id" => "registryId", "catalog_data" => "catalogData", "tags" => "tags", "force" => "force", "max_results" => "maxResults", "next_token" => "nextToken", "repository_names" => "repositoryNames", "display_name" => "displayName", "image_ids" => "imageIds", "image_digest" => "imageDigest", "image_manifest_media_type" => "imageManifestMediaType", "image_tag" => "imageTag")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("registry_id" => "registryId", "catalog_data" => "catalogData", "tags" => "tags", "force" => "force", "max_results" => "maxResults", "next_token" => "nextToken", "repository_names" => "repositoryNames", "display_name" => "displayName", "image_ids" => "imageIds", "image_digest" => "imageDigest", "image_manifest_media_type" => "imageManifestMediaType", "image_tag" => "imageTag")
 
 """
     batch_check_layer_availability(layer_digests, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ push images.
   assumed.
 """
 function batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ tags) by specifying the image's digest in your request.
   delete. If you do not specify a registry, the default public registry is assumed.
 """
 function batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ push images.
   If you do not specify a registry, the default public registry is assumed.
 """
 function complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ repositories in the Amazon Elastic Container Registry User Guide.
   length of 256 characters.
 """
 function create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ on your behalf before deleting the repository.
   assumed.
 """
 function delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ Deletes the repository policy associated with the specified repository.
   is assumed.
 """
 function delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ Returns the image tag details for a repository in a public registry.
   public registry is assumed.
 """
 function describe_image_tags(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -208,7 +208,7 @@ so it may return a larger image size than the image sizes returned by DescribeIm
   public registry is assumed.
 """
 function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ Returns details for a public registry.
   not for other programmatic purposes.
 """
 function describe_registries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DescribeRegistries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ Describes repositories in a public registry.
   then all repositories in a registry are described.
 """
 function describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("DescribeRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,7 +278,7 @@ ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
 
 """
 function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("GetAuthorizationToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,7 +289,7 @@ Retrieves catalog metadata for a public registry.
 
 """
 function get_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("GetRegistryCatalogData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +308,7 @@ publicly in the Amazon ECR Public Gallery.
   is assumed.
 """
 function get_repository_catalog_data(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,7 +325,7 @@ Retrieves the repository policy for the specified repository.
   repository. If you do not specify a registry, the default public registry is assumed.
 """
 function get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ should use the docker CLI to pull, tag, and push images.
   upload layers. If you do not specify a registry, the default public registry is assumed.
 """
 function initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,7 +362,7 @@ List the tags for an Amazon ECR Public resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ pushing images. In most cases, you should use the docker CLI to pull, tag, and p
   registry is assumed.
 """
 function put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -406,7 +406,7 @@ Create or updates the catalog data for a public registry.
   publicly visible in the Amazon ECR Public Gallery for verified accounts.
 """
 function put_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("PutRegistryCatalogData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -425,7 +425,7 @@ Creates or updates the catalog data for a repository in a public registry.
   in. If you do not specify a registry, the default public registry is assumed.
 """
 function put_repository_catalog_data(catalogData, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -450,7 +450,7 @@ Container Registry User Guide.
   repository. If you do not specify a registry, the default public registry is assumed.
 """
 function set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -486,7 +486,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -515,6 +515,6 @@ push images.
   layer parts. If you do not specify a registry, the default public registry is assumed.
 """
 function upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("report_name" => "ReportName", "max_results" => "MaxResults", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("report_name" => "ReportName", "max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     delete_report_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Deletes the specified report.
   is case sensitive, and can't include spaces.
 """
 function delete_report_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_and_usage_report_service("DeleteReportDefinition", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -31,7 +31,7 @@ Lists the AWS Cost and Usage reports available to this account.
 - `next_token`:
 """
 function describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_and_usage_report_service("DescribeReportDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -46,7 +46,7 @@ Allows you to programatically update your report preferences.
 
 """
 function modify_report_definition(ReportDefinition, ReportName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_and_usage_report_service("ModifyReportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportDefinition"=>ReportDefinition, "ReportName"=>ReportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,6 +61,6 @@ Creates a new report using the description that you provide.
 
 """
 function put_report_definition(ReportDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_and_usage_report_service("PutReportDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReportDefinition"=>ReportDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

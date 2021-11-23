@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("tags" => "Tags", "subscribed_domains" => "SubscribedDomains", "configuration_set_name" => "ConfigurationSetName", "email_tags" => "EmailTags", "feedback_forwarding_email_address" => "FeedbackForwardingEmailAddress", "from_email_address" => "FromEmailAddress", "reply_to_addresses" => "ReplyToAddresses", "email_forwarding_enabled" => "EmailForwardingEnabled", "report_name" => "ReportName", "delivery_options" => "DeliveryOptions", "reputation_options" => "ReputationOptions", "sending_options" => "SendingOptions", "tracking_options" => "TrackingOptions", "behavior_on_mx_failure" => "BehaviorOnMxFailure", "mail_from_domain" => "MailFromDomain", "next_token" => "NextToken", "page_size" => "PageSize", "sending_pool_name" => "SendingPoolName", "tls_policy" => "TlsPolicy", "custom_redirect_domain" => "CustomRedirectDomain", "reputation_metrics_enabled" => "ReputationMetricsEnabled", "sending_enabled" => "SendingEnabled", "signing_enabled" => "SigningEnabled", "auto_warmup_enabled" => "AutoWarmupEnabled", "pool_name" => "PoolName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("tags" => "Tags", "subscribed_domains" => "SubscribedDomains", "configuration_set_name" => "ConfigurationSetName", "email_tags" => "EmailTags", "feedback_forwarding_email_address" => "FeedbackForwardingEmailAddress", "from_email_address" => "FromEmailAddress", "reply_to_addresses" => "ReplyToAddresses", "email_forwarding_enabled" => "EmailForwardingEnabled", "report_name" => "ReportName", "delivery_options" => "DeliveryOptions", "reputation_options" => "ReputationOptions", "sending_options" => "SendingOptions", "tracking_options" => "TrackingOptions", "behavior_on_mx_failure" => "BehaviorOnMxFailure", "mail_from_domain" => "MailFromDomain", "next_token" => "NextToken", "page_size" => "PageSize", "sending_pool_name" => "SendingPoolName", "tls_policy" => "TlsPolicy", "custom_redirect_domain" => "CustomRedirectDomain", "reputation_metrics_enabled" => "ReputationMetricsEnabled", "sending_enabled" => "SendingEnabled", "signing_enabled" => "SigningEnabled", "auto_warmup_enabled" => "AutoWarmupEnabled", "pool_name" => "PoolName")
 
 """
     create_configuration_set(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,7 +32,7 @@ the email.
   that you send using the configuration set.
 """
 function create_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ can include more than one event destination.
 
 """
 function create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -75,7 +75,7 @@ Pinpoint sends it using only the IP addresses in the associated pool.
   the pool.
 """
 function create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ to view the results of the test.
   associate with the predictive inbox placement test.
 """
 function create_deliverability_test_report(Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ around 72 hours to complete the domain verification process.
   associate with the email identity.
 """
 function create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -148,7 +148,7 @@ applied to the email.
 
 """
 function delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -168,7 +168,7 @@ Data Firehose to stream data to Amazon S3 for long-term storage.
 
 """
 function delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ Delete a dedicated IP pool.
 
 """
 function delete_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -198,7 +198,7 @@ identity can be either an email address or a domain name.
 
 """
 function delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -210,7 +210,7 @@ account in the current AWS Region.
 
 """
 function get_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/account", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 """
 function get_blacklist_reports(BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -246,7 +246,7 @@ rules in that configuration set are applied to the email.
 
 """
 function get_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ to Amazon S3 for long-term storage.
 
 """
 function get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ address.
 
 """
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +302,7 @@ List the dedicated IP addresses that are associated with your Amazon Pinpoint ac
 - `pool_name`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/dedicated-ips", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ Pricing.
 
 """
 function get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -334,7 +334,7 @@ Retrieve the results of a predictive inbox placement test.
 
 """
 function get_deliverability_test_report(ReportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -353,7 +353,7 @@ dashboard is enabled for (PutDeliverabilityDashboardOption operation).
 
 """
 function get_domain_deliverability_campaign(CampaignId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 """
 function get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -388,7 +388,7 @@ its custom Mail-From settings.
 
 """
 function get_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -410,7 +410,7 @@ the email.
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/configuration-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -428,7 +428,7 @@ current AWS Region.
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/dedicated-ip-pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -449,7 +449,7 @@ GetDeliverabilityTestReport operation to view the results.
   more than 1000.
 """
 function list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -479,7 +479,7 @@ domain.
   you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -499,7 +499,7 @@ identities that are verified as well as those that aren't.
   value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/identities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -518,7 +518,7 @@ tag value acts as a descriptor within a tag key.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("GET", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -533,7 +533,7 @@ Enable or disable the automatic warm-up feature for dedicated IP addresses.
   Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 function put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -549,7 +549,7 @@ Enable or disable the ability of your account to send email.
   ability to send email.
 """
 function put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/account/sending", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -572,7 +572,7 @@ create groups of dedicated IP addresses for sending specific types of email.
   plain text if a TLS connection can't be established.
 """
 function put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -592,7 +592,7 @@ particular configuration set in a specific AWS Region.
   configuration set.
 """
 function put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ specific AWS Region.
   email sending is disabled for the configuration set.
 """
 function put_configuration_set_sending_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -629,7 +629,7 @@ using Amazon Pinpoint.
 - `custom_redirect_domain`: The domain that you want to use to track open and click events.
 """
 function put_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +650,7 @@ by using the CreateDedicatedIpPool operation.
 
 """
 function put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -666,7 +666,7 @@ end
 
 """
 function put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +690,7 @@ cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
   send email and enabled the Deliverability dashboard for.
 """
 function put_deliverability_dashboard_option(DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -709,7 +709,7 @@ Used to enable or disable DKIM authentication for an email identity.
   from the identity aren't DKIM-signed.
 """
 function put_email_identity_dkim_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -743,7 +743,7 @@ occur (even if this setting is disabled).
   events occur (even if this setting is disabled).
 """
 function put_email_identity_feedback_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -769,7 +769,7 @@ Used to enable or disable the custom Mail-From domain configuration for an email
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
 function put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +803,7 @@ specify has to be a valid MIME message.
   recipient replies to the message, each Reply-to address receives the reply.
 """
 function send_email(Content, Destination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Destination"=>Destination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -827,7 +827,7 @@ descriptor within a tag key.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("POST", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -847,7 +847,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("DELETE", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -869,6 +869,6 @@ S3 for long-term storage.
 
 """
 function update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

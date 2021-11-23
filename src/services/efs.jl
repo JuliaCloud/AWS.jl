@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("ip_address" => "IpAddress", "security_groups" => "SecurityGroups", "max_results" => "MaxResults", "next_token" => "NextToken", "posix_user" => "PosixUser", "root_directory" => "RootDirectory", "tags" => "Tags", "provisioned_throughput_in_mibps" => "ProvisionedThroughputInMibps", "throughput_mode" => "ThroughputMode", "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck", "marker" => "Marker", "max_items" => "MaxItems", "creation_token" => "CreationToken", "file_system_id" => "FileSystemId", "access_point_id" => "AccessPointId", "mount_target_id" => "MountTargetId", "availability_zone_name" => "AvailabilityZoneName", "backup" => "Backup", "encrypted" => "Encrypted", "kms_key_id" => "KmsKeyId", "performance_mode" => "PerformanceMode")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("ip_address" => "IpAddress", "security_groups" => "SecurityGroups", "max_results" => "MaxResults", "next_token" => "NextToken", "posix_user" => "PosixUser", "root_directory" => "RootDirectory", "tags" => "Tags", "provisioned_throughput_in_mibps" => "ProvisionedThroughputInMibps", "throughput_mode" => "ThroughputMode", "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck", "marker" => "Marker", "max_items" => "MaxItems", "creation_token" => "CreationToken", "file_system_id" => "FileSystemId", "access_point_id" => "AccessPointId", "mount_target_id" => "MountTargetId", "availability_zone_name" => "AvailabilityZoneName", "backup" => "Backup", "encrypted" => "Encrypted", "kms_key_id" => "KmsKeyId", "performance_mode" => "PerformanceMode")
 
 """
     create_access_point(client_token, file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,7 +42,7 @@ elasticfilesystem:CreateAccessPoint action.
   Amazon Web Services General Reference Guide.
 """
 function create_access_point(ClientToken, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/access-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "FileSystemId"=>FileSystemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ permissions for the elasticfilesystem:CreateFileSystem action.
   EFS User Guide.  Default is bursting.
 """
 function create_file_system(CreationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/file-systems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreationToken"=>CreationToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -214,7 +214,7 @@ ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface
   be for the same VPC as subnet specified.
 """
 function create_mount_target(FileSystemId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/mount-targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -236,7 +236,7 @@ elasticfilesystem:CreateTags action.
 
 """
 function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ permissions for the elasticfilesystem:DeleteAccessPoint action.
 
 """
 function delete_access_point(AccessPointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,7 +276,7 @@ elasticfilesystem:DeleteFileSystem action.
 
 """
 function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ requires permissions for the elasticfilesystem:DeleteFileSystemPolicy action.
 
 """
 function delete_file_system_policy(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ action on the mount target's network interface:    ec2:DeleteNetworkInterface
 
 """
 function delete_mount_target(MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ permissions for the elasticfilesystem:DeleteTags action.
 
 """
 function delete_tags(FileSystemId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ elasticfilesystem:DescribeAccessPoints action.
   in the subsequent request to fetch the next page of access point descriptions.
 """
 function describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/access-points", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -383,7 +383,7 @@ information, see Managing Amazon EFS resource IDs.
   page of Amazon Web Services account preferences if the response payload was paginated.
 """
 function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/account-preferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -397,7 +397,7 @@ Returns the backup policy for the specified EFS file system.
 
 """
 function describe_backup_policy(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -412,7 +412,7 @@ permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
 
 """
 function describe_file_system_policy(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -449,7 +449,7 @@ elasticfilesystem:DescribeFileSystems action.
   100 per page if you have more than 100 file systems.
 """
 function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/file-systems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ elasticfilesystem:DescribeLifecycleConfiguration operation.
 
 """
 function describe_lifecycle_configuration(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ target's network interface.
 
 """
 function describe_mount_target_security_groups(MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -521,7 +521,7 @@ MountTargetId.
   either a mount target ID or ARN as input.
 """
 function describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/mount-targets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -547,7 +547,7 @@ action.
   response is paginated at 100 per page if you have more than 100 tags.
 """
 function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/tags/$(FileSystemId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,7 +569,7 @@ elasticfilesystem:DescribeAccessPoints action.
   page of access point descriptions if the response payload was paginated.
 """
 function list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("GET", "/2015-02-01/resource-tags/$(ResourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -593,7 +593,7 @@ target's network interface.
 - `security_groups`: An array of up to five VPC security group IDs.
 """
 function modify_mount_target_security_groups(MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -619,7 +619,7 @@ receive an error and need to use short IDs for file system and mount target reso
 
 """
 function put_account_preferences(ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/account-preferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdType"=>ResourceIdType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -635,7 +635,7 @@ of the file system.
 
 """
 function put_backup_policy(BackupPolicy, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPolicy"=>BackupPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -668,7 +668,7 @@ for the elasticfilesystem:PutFileSystemPolicy action.
   system. The default value is False.
 """
 function put_file_system_policy(FileSystemId, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -711,7 +711,7 @@ Management Service permissions as when you created the encrypted file system.
 
 """
 function put_lifecycle_configuration(FileSystemId, LifecyclePolicies; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LifecyclePolicies"=>LifecyclePolicies), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -728,7 +728,7 @@ elasticfilesystem:TagResource action.
 
 """
 function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -746,7 +746,7 @@ elasticfilesystem:UntagResource action.
 
 """
 function untag_resource(ResourceId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -770,6 +770,6 @@ system.
   ProvisionedThroughputInMibps.
 """
 function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

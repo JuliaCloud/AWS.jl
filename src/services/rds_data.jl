@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("database" => "database", "schema" => "schema", "parameter_sets" => "parameterSets", "transaction_id" => "transactionId", "continue_after_timeout" => "continueAfterTimeout", "include_result_metadata" => "includeResultMetadata", "parameters" => "parameters", "result_set_options" => "resultSetOptions")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("database" => "database", "schema" => "schema", "parameter_sets" => "parameterSets", "transaction_id" => "transactionId", "continue_after_timeout" => "continueAfterTimeout", "include_result_metadata" => "includeResultMetadata", "parameters" => "parameters", "result_set_options" => "resultSetOptions")
 
 """
     batch_execute_statement(resource_arn, secret_arn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,7 +35,7 @@ transactionID parameter, changes that result from the call are committed automat
   this parameter.
 """
 function batch_execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ commit. We recommend that you run each DDL statement in a separate
 - `schema`: The name of the database schema.
 """
 function begin_transaction(resourceArn, secretArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -76,7 +76,7 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 
 """
 function commit_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -99,7 +99,7 @@ BatchExecuteStatement or ExecuteStatement operation.
 - `schema`: The name of the database schema.
 """
 function execute_sql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -135,7 +135,7 @@ MB of response data, the call is terminated.
   this parameter.
 """
 function execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -151,6 +151,6 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 
 """
 function rollback_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

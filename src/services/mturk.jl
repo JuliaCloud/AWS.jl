@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "policy_levels" => "PolicyLevels", "retrieve_actions" => "RetrieveActions", "retrieve_results" => "RetrieveResults", "reason" => "Reason", "hittype_id" => "HITTypeId", "status" => "Status", "auto_approval_delay_in_seconds" => "AutoApprovalDelayInSeconds", "keywords" => "Keywords", "qualification_requirements" => "QualificationRequirements", "assignment_statuses" => "AssignmentStatuses", "qualification_type_id" => "QualificationTypeId", "must_be_owned_by_caller" => "MustBeOwnedByCaller", "query" => "Query", "integer_value" => "IntegerValue", "unique_request_token" => "UniqueRequestToken", "active" => "Active", "notification" => "Notification", "revert" => "Revert", "assignment_review_policy" => "AssignmentReviewPolicy", "hitlayout_id" => "HITLayoutId", "hitlayout_parameters" => "HITLayoutParameters", "hitreview_policy" => "HITReviewPolicy", "max_assignments" => "MaxAssignments", "question" => "Question", "requester_annotation" => "RequesterAnnotation", "assignment_id" => "AssignmentId", "hitid" => "HITId", "answer_key" => "AnswerKey", "auto_granted" => "AutoGranted", "auto_granted_value" => "AutoGrantedValue", "retry_delay_in_seconds" => "RetryDelayInSeconds", "test" => "Test", "test_duration_in_seconds" => "TestDurationInSeconds", "description" => "Description", "qualification_type_status" => "QualificationTypeStatus", "send_notification" => "SendNotification", "override_rejection" => "OverrideRejection", "requester_feedback" => "RequesterFeedback")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "policy_levels" => "PolicyLevels", "retrieve_actions" => "RetrieveActions", "retrieve_results" => "RetrieveResults", "reason" => "Reason", "hittype_id" => "HITTypeId", "status" => "Status", "auto_approval_delay_in_seconds" => "AutoApprovalDelayInSeconds", "keywords" => "Keywords", "qualification_requirements" => "QualificationRequirements", "assignment_statuses" => "AssignmentStatuses", "qualification_type_id" => "QualificationTypeId", "must_be_owned_by_caller" => "MustBeOwnedByCaller", "query" => "Query", "integer_value" => "IntegerValue", "unique_request_token" => "UniqueRequestToken", "active" => "Active", "notification" => "Notification", "revert" => "Revert", "assignment_review_policy" => "AssignmentReviewPolicy", "hitlayout_id" => "HITLayoutId", "hitlayout_parameters" => "HITLayoutParameters", "hitreview_policy" => "HITReviewPolicy", "max_assignments" => "MaxAssignments", "question" => "Question", "requester_annotation" => "RequesterAnnotation", "assignment_id" => "AssignmentId", "hitid" => "HITId", "answer_key" => "AnswerKey", "auto_granted" => "AutoGranted", "auto_granted_value" => "AutoGrantedValue", "retry_delay_in_seconds" => "RetryDelayInSeconds", "test" => "Test", "test_duration_in_seconds" => "TestDurationInSeconds", "description" => "Description", "qualification_type_status" => "QualificationTypeStatus", "send_notification" => "SendNotification", "override_rejection" => "OverrideRejection", "requester_feedback" => "RequesterFeedback")
 
 """
     accept_qualification_request(qualification_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ and an empty body.
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
 function accept_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -54,7 +54,7 @@ deleted.
   section of the web site.
 """
 function approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ RejectQualificationRequest operation.
   default.
 """
 function associate_qualification_with_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -116,7 +116,7 @@ AWS.MechanicalTurk.HITTooOldForExtension exception.
   request ID.
 """
 function create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -205,7 +205,7 @@ more information, see Amazon Mechanical Turk Pricing.
   made after the 24 hour limit could create duplicate HITs.
 """
 function create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ returned.
   structure.
 """
 function create_hittype(AssignmentDurationInSeconds, Description, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -306,7 +306,7 @@ an additional fee. For more information, see Amazon Mechanical Turk Pricing.
   made after the 24 hour limit could create duplicate HITs.
 """
 function create_hitwith_hittype(HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ represented by a QualificationType data structure.
   Qualification test, starting from the time the Worker requests the Qualification.
 """
 function create_qualification_type(Description, Name, QualificationTypeStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ For example, you can block a Worker who is producing poor quality work. You can 
 
 """
 function create_worker_block(Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -395,7 +395,7 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 
 """
 function delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -417,7 +417,7 @@ available for reuse with CreateQualificationType.
 
 """
 function delete_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,7 +438,7 @@ blocked, this operation returns successfully.
   not see this message.
 """
 function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -459,7 +459,7 @@ user who had the Qualification can see this message.
   had the Qualification sees this message.
 """
 function disassociate_qualification_from_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -474,7 +474,7 @@ balance can be viewed on the My Account page in the Requester console.
 
 """
 function get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetAccountBalance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ end
 
 """
 function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -513,7 +513,7 @@ HITs asking Workers to upload files to use Amazon S3.
 
 """
 function get_file_upload_url(AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -527,7 +527,7 @@ end
 
 """
 function get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,7 +546,7 @@ Qualification of that type.
 
 """
 function get_qualification_score(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,7 +561,7 @@ its ID.
 
 """
 function get_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -591,7 +591,7 @@ You can use the parameters of the operation to control sorting and pagination.
 - `next_token`: Pagination token
 """
 function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -612,7 +612,7 @@ for a given HIT or assignment.
 - `next_token`: Pagination token
 """
 function list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListBonusPayments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -628,7 +628,7 @@ have been auto-deleted.
 - `next_token`: Pagination token
 """
 function list_hits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -648,7 +648,7 @@ been auto-deleted.
 - `next_token`: Pagination Token
 """
 function list_hits_for_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ poll for pending requests, and accepts them using the AcceptQualification operat
 - `qualification_type_id`: The ID of the QualificationType.
 """
 function list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListQualificationRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -691,7 +691,7 @@ optional search term.
 - `query`:  A text query against all of the searchable attributes of Qualification types.
 """
 function list_qualification_types(MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -719,7 +719,7 @@ HIT-level review results.
   computed by the Review Policies.
 """
 function list_review_policy_results_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -737,7 +737,7 @@ Status equal to Reviewing that belong to the Requester calling the operation.
 - `status`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
 function list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListReviewableHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -752,7 +752,7 @@ your HITs.
 - `next_token`: Pagination token
 """
 function list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListWorkerBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +771,7 @@ associated with a given Qualification type.
 - `status`:  The status of the Qualifications to return. Can be Granted | Revoked.
 """
 function list_workers_with_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ email to a Worker only if you have previously approved or rejected work from the
 
 """
 function notify_workers(MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -814,7 +814,7 @@ reject an assignment for the HIT.
 
 """
 function reject_assignment(AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -834,7 +834,7 @@ the request can see this message.
   Worker who made the request.
 """
 function reject_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -868,7 +868,7 @@ the fees.
   request ID.
 """
 function send_bonus(AssignmentId, BonusAmount, Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -891,7 +891,7 @@ the service attempts to send the test notification immediately.
 
 """
 function send_test_event_notification(Notification, TestEventType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +907,7 @@ you update it to a time in the past, the HIT will be immediately expired.
 
 """
 function update_expiration_for_hit(ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -927,7 +927,7 @@ HIT back to the Reviewable status.
   only transition a HIT from Reviewing to Reviewable
 """
 function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -945,7 +945,7 @@ the old ones.
 
 """
 function update_hittype_of_hit(HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -972,7 +972,7 @@ same call to UpdateNotificationSettings.
 - `notification`:  The notification specification for the HIT type.
 """
 function update_notification_settings(HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1029,6 +1029,6 @@ AutoGranted and AutoGrantedValue attributes of the Qualification type.
   Qualification test, starting from the time the Worker requests the Qualification.
 """
 function update_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

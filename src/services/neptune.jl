@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("endpoint_type" => "EndpointType", "excluded_members" => "ExcludedMembers", "static_members" => "StaticMembers", "dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "feature_name" => "FeatureName", "source_type" => "SourceType", "tags" => "Tag", "availability_zones" => "AvailabilityZone", "copy_tags_to_snapshot" => "CopyTagsToSnapshot", "database_name" => "DatabaseName", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "enable_iamdatabase_authentication" => "EnableIAMDatabaseAuthentication", "kms_key_id" => "KmsKeyId", "option_group_name" => "OptionGroupName", "port" => "Port", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "dbparameter_group_name" => "DBParameterGroupName", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "character_set_name" => "CharacterSetName", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "replication_source_identifier" => "ReplicationSourceIdentifier", "storage_encrypted" => "StorageEncrypted", "dbcluster_endpoint_identifier" => "DBClusterEndpointIdentifier", "allow_major_version_upgrade" => "AllowMajorVersionUpgrade", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "dbinstance_parameter_group_name" => "DBInstanceParameterGroupName", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "restore_type" => "RestoreType", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "allocated_storage" => "AllocatedStorage", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "dbname" => "DBName", "dbsecurity_groups" => "DBSecurityGroupName", "domain" => "Domain", "domain_iamrole_name" => "DomainIAMRoleName", "enable_performance_insights" => "EnablePerformanceInsights", "iops" => "Iops", "monitoring_interval" => "MonitoringInterval", "monitoring_role_arn" => "MonitoringRoleArn", "multi_az" => "MultiAZ", "performance_insights_kmskey_id" => "PerformanceInsightsKMSKeyId", "promotion_tier" => "PromotionTier", "publicly_accessible" => "PubliclyAccessible", "storage_type" => "StorageType", "tde_credential_arn" => "TdeCredentialArn", "tde_credential_password" => "TdeCredentialPassword", "timezone" => "Timezone", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "dbport_number" => "DBPortNumber", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("endpoint_type" => "EndpointType", "excluded_members" => "ExcludedMembers", "static_members" => "StaticMembers", "dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "feature_name" => "FeatureName", "source_type" => "SourceType", "tags" => "Tag", "availability_zones" => "AvailabilityZone", "copy_tags_to_snapshot" => "CopyTagsToSnapshot", "database_name" => "DatabaseName", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "enable_iamdatabase_authentication" => "EnableIAMDatabaseAuthentication", "kms_key_id" => "KmsKeyId", "option_group_name" => "OptionGroupName", "port" => "Port", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "dbparameter_group_name" => "DBParameterGroupName", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "character_set_name" => "CharacterSetName", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "replication_source_identifier" => "ReplicationSourceIdentifier", "storage_encrypted" => "StorageEncrypted", "dbcluster_endpoint_identifier" => "DBClusterEndpointIdentifier", "allow_major_version_upgrade" => "AllowMajorVersionUpgrade", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "dbinstance_parameter_group_name" => "DBInstanceParameterGroupName", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "restore_type" => "RestoreType", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "allocated_storage" => "AllocatedStorage", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "dbname" => "DBName", "dbsecurity_groups" => "DBSecurityGroupName", "domain" => "Domain", "domain_iamrole_name" => "DomainIAMRoleName", "enable_performance_insights" => "EnablePerformanceInsights", "iops" => "Iops", "monitoring_interval" => "MonitoringInterval", "monitoring_role_arn" => "MonitoringRoleArn", "multi_az" => "MultiAZ", "performance_insights_kmskey_id" => "PerformanceInsightsKMSKeyId", "promotion_tier" => "PromotionTier", "publicly_accessible" => "PubliclyAccessible", "storage_type" => "StorageType", "tde_credential_arn" => "TdeCredentialArn", "tde_credential_password" => "TdeCredentialPassword", "timezone" => "Timezone", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "dbport_number" => "DBPortNumber", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
 
 """
     add_role_to_dbcluster(dbcluster_identifier, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ Associates an Identity and Access Management (IAM) role with an Neptune DB clust
   to be associated with. For the list of supported feature names, see DBEngineVersion.
 """
 function add_role_to_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ Adds a source identifier to an existing event notification subscription.
 
 """
 function add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ Condition statement in an IAM policy for Amazon Neptune.
 
 """
 function add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
 
 """
 function apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ Copies the specified DB cluster parameter group.
 - `tags`: The tags to be assigned to the copied DB cluster parameter group.
 """
 function copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ of the shared DB cluster snapshot.
 - `tags`: The tags to assign to the new DB cluster snapshot copy.
 """
 function copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ Copies the specified DB parameter group.
 - `tags`: The tags to be assigned to the copied DB parameter group.
 """
 function copy_dbparameter_group(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ DB cluster if its DeletionProtection field is set to false.
   cluster.
 """
 function create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -294,7 +294,7 @@ Creates a new custom endpoint and associates it with an Amazon Neptune DB cluste
 - `tags`: The tags to be assigned to the Amazon Neptune resource.
 """
 function create_dbcluster_endpoint(DBClusterEndpointIdentifier, DBClusterIdentifier, EndpointType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier, "DBClusterIdentifier"=>DBClusterIdentifier, "EndpointType"=>EndpointType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,7 +333,7 @@ that your DB cluster parameter group has been created or modified.
 - `tags`: The tags to be assigned to the new DB cluster parameter group.
 """
 function create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -355,7 +355,7 @@ Creates a snapshot of a DB cluster.
 - `tags`: The tags to be assigned to the DB cluster snapshot.
 """
 function create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -473,7 +473,7 @@ Creates a new DB instance.
   security group for the DB subnet group's VPC.
 """
 function create_dbinstance(DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -510,7 +510,7 @@ parameter group has been created or modified.
 - `tags`: The tags to be assigned to the new DB parameter group.
 """
 function create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ least two AZs in the Amazon Region.
 - `tags`: The tags to be assigned to the new DB subnet group.
 """
 function create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ sources belonging to your customer account.
 - `tags`: The tags to be applied to the new event subscription.
 """
 function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -612,7 +612,7 @@ set its DeletionProtection field to False.
   false
 """
 function delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +627,7 @@ Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
 
 """
 function delete_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,7 +644,7 @@ deleted can't be associated with any DB clusters.
 
 """
 function delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +660,7 @@ terminated.  The DB cluster snapshot must be in the available state to be delete
 
 """
 function delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -698,7 +698,7 @@ only instance in the DB cluster, or if it has deletion protection enabled.
   parameter must be specified if SkipFinalSnapshot is false.  Default: false
 """
 function delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -715,7 +715,7 @@ associated with any DB instances.
 
 """
 function delete_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -732,7 +732,7 @@ any DB instances.
 
 """
 function delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -746,7 +746,7 @@ Deletes an event notification subscription.
 
 """
 function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -778,7 +778,7 @@ also return information for Amazon RDS clusters and Amazon DocDB clusters.
   Minimum 20, maximum 100.
 """
 function describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusterEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +803,7 @@ cluster parameter group.
   Minimum 20, maximum 100.
 """
 function describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusterParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -830,7 +830,7 @@ Returns the detailed parameter list for a particular DB cluster parameter group.
   Parameter sources can be engine, service, or customer.
 """
 function describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -853,7 +853,7 @@ API action.
 
 """
 function describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -904,7 +904,7 @@ Returns information about DB cluster snapshots. This API action supports paginat
   SnapshotType is set to public.
 """
 function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusterSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -934,7 +934,7 @@ can also return information for Amazon RDS clusters and Amazon DocDB clusters.
   Minimum 20, maximum 100.
 """
 function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -966,7 +966,7 @@ Returns a list of the available DB engines.
   20, maximum 100.
 """
 function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -997,7 +997,7 @@ can also return information for Amazon RDS instances and Amazon DocDB instances.
   Minimum 20, maximum 100.
 """
 function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1021,7 +1021,7 @@ the list will contain only the description of the specified DB parameter group.
   Minimum 20, maximum 100.
 """
 function describe_dbparameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1047,7 +1047,7 @@ Returns the detailed parameter list for a particular DB parameter group.
   Values: user | system | engine-default
 """
 function describe_dbparameters(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1070,7 +1070,7 @@ ranges, go to the Wikipedia Tutorial.
   Minimum 20, maximum 100.
 """
 function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeDBSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1094,7 +1094,7 @@ Returns the default engine and system parameter information for the cluster data
   Minimum 20, maximum 100.
 """
 function describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1118,7 +1118,7 @@ engine.
   Minimum 20, maximum 100.
 """
 function describe_engine_default_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1134,7 +1134,7 @@ source type.
   db-instance | db-parameter-group | db-security-group | db-snapshot
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1158,7 +1158,7 @@ subscription.
 - `subscription_name`: The name of the event notification subscription you want to describe.
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1200,7 +1200,7 @@ parameter. By default, the past hour of events are returned.
   Example: 2009-07-08T18:00Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1231,7 +1231,7 @@ Returns a list of orderable DB instance options for the specified engine.
   non-VPC offerings.
 """
 function describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1258,7 +1258,7 @@ maintenance action.
 - `resource_identifier`: The ARN of a resource to return pending maintenance actions for.
 """
 function describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1273,7 +1273,7 @@ to your DB instance. You can use this information when you call ModifyDBInstance
 
 """
 function describe_valid_dbinstance_modifications(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1296,7 +1296,7 @@ endpoint addresses when the failover is complete.
   For example, mydbcluster-replica1.
 """
 function failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1314,7 +1314,7 @@ Lists all tags on an Amazon Neptune resource.
 - `filters`: This parameter is not currently supported.
 """
 function list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1391,7 +1391,7 @@ parameters by specifying these parameters and the new values in the request.
   to.
 """
 function modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1413,7 +1413,7 @@ Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
   group.
 """
 function modify_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1441,7 +1441,7 @@ parameter group has been created or modified.
 
 """
 function modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1483,7 +1483,7 @@ snapshot public or private, use the DescribeDBClusterSnapshotAttributes API acti
   added to the restore attribute can still copy or restore a manual DB cluster snapshot.
 """
 function modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1621,7 +1621,7 @@ before you call ModifyDBInstance.
   VpcSecurityGroupIds.
 """
 function modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1655,7 +1655,7 @@ to verify that your DB parameter group has been created or modified.
 
 """
 function modify_dbparameter_group(DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1675,7 +1675,7 @@ at least two AZs in the Amazon Region.
 - `dbsubnet_group_description`: The description for the DB subnet group.
 """
 function modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1704,7 +1704,7 @@ DescribeEventCategories action.
   db-instance | db-parameter-group | db-security-group | db-snapshot
 """
 function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1718,7 +1718,7 @@ Not supported.
 
 """
 function promote_read_replica_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1740,7 +1740,7 @@ momentary outage, during which the DB instance status is set to rebooting.
   Constraint: You can't specify true if the instance is not configured for MultiAZ.
 """
 function reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1759,7 +1759,7 @@ Disassociates an Identity and Access Management (IAM) role from a DB cluster.
   disassociated from. For the list of supported feature names, see DescribeDBEngineVersions.
 """
 function remove_role_from_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1776,7 +1776,7 @@ Removes a source identifier from an existing event notification subscription.
 
 """
 function remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1793,7 +1793,7 @@ Removes metadata tags from an Amazon Neptune resource.
 
 """
 function remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1820,7 +1820,7 @@ every DB instance in your DB cluster that you want the updated static parameter 
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
 function reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1847,7 +1847,7 @@ next DB instance restart or RebootDBInstance request.
   in the DB parameter group to default values. Default: true
 """
 function reset_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1911,7 +1911,7 @@ default security group.
   belong to.
 """
 function restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1984,7 +1984,7 @@ available.
   to.
 """
 function restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2000,7 +2000,7 @@ CLI stop-db-cluster command, or the StopDBCluster API.
 
 """
 function start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2017,6 +2017,6 @@ the transaction logs so you can do a point-in-time restore if necessary.
 
 """
 function stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return neptune("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

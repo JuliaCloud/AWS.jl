@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "application_sources" => "ApplicationSources", "scaling_plan_names" => "ScalingPlanNames", "scaling_plan_version" => "ScalingPlanVersion", "application_source" => "ApplicationSource", "scaling_instructions" => "ScalingInstructions")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "application_sources" => "ApplicationSources", "scaling_plan_names" => "ScalingPlanNames", "scaling_plan_version" => "ScalingPlanVersion", "application_source" => "ApplicationSource", "scaling_instructions" => "ScalingInstructions")
 
 """
     create_scaling_plan(application_source, scaling_instructions, scaling_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ Creates a scaling plan.
 
 """
 function create_scaling_plan(ApplicationSource, ScalingInstructions, ScalingPlanName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("CreateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ resources separately.
 
 """
 function delete_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ Describes the scalable resources in the specified scaling plan.
 - `next_token`: The token for the next set of results.
 """
 function describe_scaling_plan_resources(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Describes one or more of your scaling plans.
   name.
 """
 function describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("DescribeScalingPlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -123,7 +123,7 @@ specified CloudWatch load metric. Data points are available for up to 56 days.
 
 """
 function get_scaling_plan_resource_forecast_data(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,6 +145,6 @@ process of being created, updated, or deleted.
   ScalingInstruction in the AWS Auto Scaling API Reference.
 """
 function update_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

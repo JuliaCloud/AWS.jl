@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("attributes" => "Attribute", "expected" => "Expected", "attribute_names" => "AttributeName", "consistent_read" => "ConsistentRead", "max_number_of_domains" => "MaxNumberOfDomains", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("attributes" => "Attribute", "expected" => "Expected", "attribute_names" => "AttributeName", "consistent_read" => "ConsistentRead", "max_number_of_domains" => "MaxNumberOfDomains", "next_token" => "NextToken")
 
 """
     batch_delete_attributes(domain_name, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,7 +30,7 @@ request size 25 item limit per BatchDeleteAttributes operation
 
 """
 function batch_delete_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ user data storage per domain 25 item limit per BatchPutAttributes operation
 
 """
 function batch_put_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ additional domains, go to  http://aws.amazon.com/contact-us/simpledb-limit-reque
 
 """
 function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -122,7 +122,7 @@ PutAttributes operation (write) might not return updated item data.
   request to be processed and the attributes to be deleted.
 """
 function delete_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ multiple times using the same domain name will not result in an error response.
 
 """
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ items and attributes in the domain, and the size of the attribute names and valu
 
 """
 function domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,7 +180,7 @@ being passed any attribute names, all the attributes for the item are returned.
   that was written immediately before your read.
 """
 function get_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -200,7 +200,7 @@ each successive operation call.
   names.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ data storage per domain
   request to be processed and the attributes to be updated.
 """
 function put_attributes(Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,6 +269,6 @@ SimpleDB Queries in the Developer Guide.
   ItemNames.
 """
 function select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "description", "destination_config" => "destinationConfig", "tags" => "tags", "timeout_config" => "timeoutConfig", "max_results" => "maxResults", "next_token" => "nextToken", "thing_name" => "thingName", "delete" => "delete")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("description" => "description", "destination_config" => "destinationConfig", "tags" => "tags", "timeout_config" => "timeoutConfig", "max_results" => "maxResults", "next_token" => "nextToken", "thing_name" => "thingName", "delete" => "delete")
 
 """
     close_tunnel(tunnel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ transmitted.
 - `delete`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
 """
 function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -35,7 +35,7 @@ Gets information about a tunnel identified by the unique tunnel id.
 
 """
 function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -49,7 +49,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -65,7 +65,7 @@ order, newer tunnels will be listed before older tunnels.
 - `thing_name`: The name of the IoT thing associated with the destination device.
 """
 function list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("ListTunnels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -82,7 +82,7 @@ the AWS IoT Secure Tunneling proxy server.
 - `timeout_config`: Timeout configuration for a tunnel.
 """
 function open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -97,7 +97,7 @@ A resource tag.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -112,6 +112,6 @@ Removes a tag from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

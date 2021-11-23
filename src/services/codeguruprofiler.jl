@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("profile_token" => "profileToken", "accept" => "Accept", "end_time" => "endTime", "max_depth" => "maxDepth", "period" => "period", "start_time" => "startTime", "frame_metrics" => "frameMetrics", "target_resolution" => "targetResolution", "agent_orchestration_config" => "agentOrchestrationConfig", "compute_platform" => "computePlatform", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "order_by" => "orderBy", "include_description" => "includeDescription", "locale" => "locale", "revision_id" => "revisionId", "daily_reports_only" => "dailyReportsOnly", "fleet_instance_id" => "fleetInstanceId", "metadata" => "metadata", "comment" => "comment")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("profile_token" => "profileToken", "accept" => "Accept", "end_time" => "endTime", "max_depth" => "maxDepth", "period" => "period", "start_time" => "startTime", "frame_metrics" => "frameMetrics", "target_resolution" => "targetResolution", "agent_orchestration_config" => "agentOrchestrationConfig", "compute_platform" => "computePlatform", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "order_by" => "orderBy", "include_description" => "includeDescription", "locale" => "locale", "revision_id" => "revisionId", "daily_reports_only" => "dailyReportsOnly", "fleet_instance_id" => "fleetInstanceId", "metadata" => "metadata", "comment" => "comment")
 
 """
     add_notification_channels(channels, profiling_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ Add up to 2 anomaly notifications channels for a profiling group.
 
 """
 function add_notification_channels(channels, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channels"=>channels), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -52,7 +52,7 @@ end
   PT1H — 1 hour     PT5M — 5 minutes
 """
 function batch_get_frame_metric_data(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/frames/-/metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ and for how long to return profiling data.
   Lambda invocation.
 """
 function configure_agent(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ Creates a profiling group.
 - `tags`:  A list of tags to add to the created profiling group.
 """
 function create_profiling_group(clientToken, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/profilingGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "profilingGroupName"=>profilingGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ Deletes a profiling group.
 
 """
 function delete_profiling_group(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ profiling group.
 
 """
 function describe_profiling_group(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -165,7 +165,7 @@ profiling groups in your AWS account.
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 function get_findings_report_account_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/internal/findingsReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,7 +180,7 @@ Get the current configuration for anomaly notifications for a profiling group.
 
 """
 function get_notification_configuration(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -194,7 +194,7 @@ end
 
 """
 function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are retur
   &lt;/p&gt;
 """
 function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ anomalies detected in the profiling group for the same time period is also retur
   Chinese, Taiwan
 """
 function get_recommendations(endTime, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -331,7 +331,7 @@ List the available reports for a given profiling group and time range.
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 function list_findings_reports(endTime, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/findingsReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ aggregation period within the specified time range.
   listing profiles. Defaults to TIMESTAMP_DESCENDING.
 """
 function list_profile_times(endTime, period, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "period"=>period, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ ProfilingGroupDescription  objects.
   the next items in a list and not for other programmatic purposes.
 """
 function list_profiling_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/profilingGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -406,7 +406,7 @@ end
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ profile that is created with this profiling data, use  GetProfile .
   retries.
 """
 function post_agent_profile(Content_Type, agentProfile, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentProfile"=>agentProfile, "profile_token"=>string(uuid4()), "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -478,7 +478,7 @@ The response contains the profiling group's JSON-formatted resource policy. &lt;
   must specify the revisionId.
 """
 function put_permission(actionGroup, principals, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principals"=>principals), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -494,7 +494,7 @@ Remove one anomaly notifications channel for a profiling group.
 
 """
 function remove_notification_channel(channelId, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ ConfigureAgent , and  PostAgentProfile .
 
 """
 function remove_permission(actionGroup, profilingGroupName, revisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -538,7 +538,7 @@ useful or not.
 - `comment`: Optional feedback about this anomaly.
 """
 function submit_feedback(anomalyInstanceId, profilingGroupName, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ end
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -571,7 +571,7 @@ end
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -587,6 +587,6 @@ Updates a profiling group.
 
 """
 function update_profiling_group(agentOrchestrationConfig, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentOrchestrationConfig"=>agentOrchestrationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

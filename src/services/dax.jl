@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("availability_zones" => "AvailabilityZones", "cluster_endpoint_encryption_type" => "ClusterEndpointEncryptionType", "description" => "Description", "notification_topic_arn" => "NotificationTopicArn", "parameter_group_name" => "ParameterGroupName", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "ssespecification" => "SSESpecification", "subnet_group_name" => "SubnetGroupName", "tags" => "Tags", "max_results" => "MaxResults", "next_token" => "NextToken", "source" => "Source", "duration" => "Duration", "end_time" => "EndTime", "source_name" => "SourceName", "source_type" => "SourceType", "start_time" => "StartTime", "subnet_ids" => "SubnetIds", "notification_topic_status" => "NotificationTopicStatus", "node_ids_to_remove" => "NodeIdsToRemove", "parameter_group_names" => "ParameterGroupNames", "subnet_group_names" => "SubnetGroupNames", "cluster_names" => "ClusterNames")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("availability_zones" => "AvailabilityZones", "cluster_endpoint_encryption_type" => "ClusterEndpointEncryptionType", "description" => "Description", "notification_topic_arn" => "NotificationTopicArn", "parameter_group_name" => "ParameterGroupName", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "ssespecification" => "SSESpecification", "subnet_group_name" => "SubnetGroupName", "tags" => "Tags", "max_results" => "MaxResults", "next_token" => "NextToken", "source" => "Source", "duration" => "Duration", "end_time" => "EndTime", "source_name" => "SourceName", "source_type" => "SourceType", "start_time" => "StartTime", "subnet_ids" => "SubnetIds", "notification_topic_status" => "NotificationTopicStatus", "node_ids_to_remove" => "NodeIdsToRemove", "parameter_group_names" => "ParameterGroupNames", "subnet_group_names" => "SubnetGroupNames", "cluster_names" => "ClusterNames")
 
 """
     create_cluster(cluster_name, iam_role_arn, node_type, replication_factor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,7 +59,7 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
 - `tags`: A set of tags to associate with the DAX cluster.
 """
 function create_cluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -77,7 +77,7 @@ apply to all of the nodes in a DAX cluster.
 - `description`: A description of the parameter group.
 """
 function create_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ Creates a new subnet group.
 - `description`: A description for the subnet group
 """
 function create_subnet_group(SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -114,7 +114,7 @@ remove the last node in a DAX cluster. If you need to do this, use DeleteCluster
 - `node_ids_to_remove`: The unique identifiers of the nodes to be removed from the cluster.
 """
 function decrease_replication_factor(ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DecreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,7 +131,7 @@ action.
 
 """
 function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ associated with any DAX clusters.
 
 """
 function delete_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ clusters.
 
 """
 function delete_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ cluster, no endpoint information for the removed nodes is displayed.
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -206,7 +206,7 @@ Returns the default system parameter information for the DAX caching software.
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function describe_default_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeDefaultParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -236,7 +236,7 @@ retrieve up to 14 days' worth of events if necessary.
   8601 format.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -256,7 +256,7 @@ list will contain only the descriptions for that group.
 - `parameter_group_names`: The names of the parameter groups.
 """
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -279,7 +279,7 @@ Returns the detailed parameter list for a particular parameter group.
   parameter.
 """
 function describe_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -299,7 +299,7 @@ will contain only the description of that group.
 - `subnet_group_names`: The name of the subnet group.
 """
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("DescribeSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -318,7 +318,7 @@ Adds one or more nodes to a DAX cluster.
   this parameter if you want to distribute the nodes across multiple AZs.
 """
 function increase_replication_factor(ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("IncreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ per account.
   includes only results beyond the token.
 """
 function list_tags(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ engine process and does not remove the contents of the cache.
 
 """
 function reboot_node(ClusterName, NodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("RebootNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -370,7 +370,7 @@ second, per account.
 
 """
 function tag_resource(ResourceName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ times per second, per account.
 
 """
 function untag_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -415,7 +415,7 @@ cluster configuration parameters by specifying the parameters and the new values
   security group to each node.
 """
 function update_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ single request by submitting a list parameter name and value pairs.
 
 """
 function update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -451,6 +451,6 @@ Modifies an existing subnet group.
 - `subnet_ids`: A list of subnet IDs in the subnet group.
 """
 function update_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dax("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("execution_number" => "executionNumber", "expected_version" => "expectedVersion", "include_job_document" => "includeJobDocument", "include_job_execution_state" => "includeJobExecutionState", "status_details" => "statusDetails", "step_timeout_in_minutes" => "stepTimeoutInMinutes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("execution_number" => "executionNumber", "expected_version" => "expectedVersion", "include_job_document" => "includeJobDocument", "include_job_execution_state" => "includeJobExecutionState", "status_details" => "statusDetails", "step_timeout_in_minutes" => "stepTimeoutInMinutes")
 
 """
     describe_job_execution(job_id, thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ Gets details of a job execution.
   document. The default is false.
 """
 function describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -37,7 +37,7 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 
 """
 function get_pending_job_executions(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution fo
   job was created (CreateJob using field timeoutConfig).
 """
 function start_next_pending_job_execution(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -100,6 +100,6 @@ Updates the status of a job execution.
   the job was created (CreateJob using field timeoutConfig).
 """
 function update_job_execution(jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("instance_id" => "InstanceId", "ips" => "Ips", "stack_id" => "StackId", "raid_array_id" => "RaidArrayId", "volume_ids" => "VolumeIds", "allow_self_management" => "AllowSelfManagement", "ssh_public_key" => "SshPublicKey", "ssh_username" => "SshUsername", "layer_ids" => "LayerIds", "hostname" => "Hostname", "instance_identity" => "InstanceIdentity", "private_ip" => "PrivateIp", "public_ip" => "PublicIp", "rsa_public_key" => "RsaPublicKey", "rsa_public_key_fingerprint" => "RsaPublicKeyFingerprint", "iam_user_arn" => "IamUserArn", "stack_ids" => "StackIds", "agent_version" => "AgentVersion", "attributes" => "Attributes", "chef_configuration" => "ChefConfiguration", "clone_app_ids" => "CloneAppIds", "clone_permissions" => "ClonePermissions", "configuration_manager" => "ConfigurationManager", "custom_cookbooks_source" => "CustomCookbooksSource", "custom_json" => "CustomJson", "default_availability_zone" => "DefaultAvailabilityZone", "default_instance_profile_arn" => "DefaultInstanceProfileArn", "default_os" => "DefaultOs", "default_root_device_type" => "DefaultRootDeviceType", "default_ssh_key_name" => "DefaultSshKeyName", "default_subnet_id" => "DefaultSubnetId", "hostname_theme" => "HostnameTheme", "name" => "Name", "region" => "Region", "use_custom_cookbooks" => "UseCustomCookbooks", "use_opsworks_security_groups" => "UseOpsworksSecurityGroups", "vpc_id" => "VpcId", "auto_scaling_schedule" => "AutoScalingSchedule", "ami_id" => "AmiId", "architecture" => "Architecture", "auto_scaling_type" => "AutoScalingType", "availability_zone" => "AvailabilityZone", "block_device_mappings" => "BlockDeviceMappings", "ebs_optimized" => "EbsOptimized", "install_updates_on_boot" => "InstallUpdatesOnBoot", "os" => "Os", "root_device_type" => "RootDeviceType", "ssh_key_name" => "SshKeyName", "subnet_id" => "SubnetId", "tenancy" => "Tenancy", "virtualization_type" => "VirtualizationType", "app_id" => "AppId", "comment" => "Comment", "instance_ids" => "InstanceIds", "command_ids" => "CommandIds", "deployment_id" => "DeploymentId", "rds_db_instance_arns" => "RdsDbInstanceArns", "ecs_cluster_arns" => "EcsClusterArns", "max_results" => "MaxResults", "next_token" => "NextToken", "iam_user_arns" => "IamUserArns", "instance_type" => "InstanceType", "layer_id" => "LayerId", "service_error_ids" => "ServiceErrorIds", "app_source" => "AppSource", "data_sources" => "DataSources", "description" => "Description", "domains" => "Domains", "enable_ssl" => "EnableSsl", "environment" => "Environment", "ssl_configuration" => "SslConfiguration", "type" => "Type", "auto_assign_elastic_ips" => "AutoAssignElasticIps", "auto_assign_public_ips" => "AutoAssignPublicIps", "cloud_watch_logs_configuration" => "CloudWatchLogsConfiguration", "custom_instance_profile_arn" => "CustomInstanceProfileArn", "custom_recipes" => "CustomRecipes", "custom_security_group_ids" => "CustomSecurityGroupIds", "enable_auto_healing" => "EnableAutoHealing", "lifecycle_event_configuration" => "LifecycleEventConfiguration", "packages" => "Packages", "shortname" => "Shortname", "use_ebs_optimized_instances" => "UseEbsOptimizedInstances", "volume_configurations" => "VolumeConfigurations", "ec2_volume_id" => "Ec2VolumeId", "deployment_ids" => "DeploymentIds", "mount_point" => "MountPoint", "allow_ssh" => "AllowSsh", "allow_sudo" => "AllowSudo", "level" => "Level", "force" => "Force", "delete_elastic_ip" => "DeleteElasticIp", "delete_volumes" => "DeleteVolumes", "app_ids" => "AppIds", "valid_for_in_minutes" => "ValidForInMinutes", "db_password" => "DbPassword", "db_user" => "DbUser", "service_role_arn" => "ServiceRoleArn", "raid_array_ids" => "RaidArrayIds", "down_scaling" => "DownScaling", "enable" => "Enable", "up_scaling" => "UpScaling")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("instance_id" => "InstanceId", "ips" => "Ips", "stack_id" => "StackId", "raid_array_id" => "RaidArrayId", "volume_ids" => "VolumeIds", "allow_self_management" => "AllowSelfManagement", "ssh_public_key" => "SshPublicKey", "ssh_username" => "SshUsername", "layer_ids" => "LayerIds", "hostname" => "Hostname", "instance_identity" => "InstanceIdentity", "private_ip" => "PrivateIp", "public_ip" => "PublicIp", "rsa_public_key" => "RsaPublicKey", "rsa_public_key_fingerprint" => "RsaPublicKeyFingerprint", "iam_user_arn" => "IamUserArn", "stack_ids" => "StackIds", "agent_version" => "AgentVersion", "attributes" => "Attributes", "chef_configuration" => "ChefConfiguration", "clone_app_ids" => "CloneAppIds", "clone_permissions" => "ClonePermissions", "configuration_manager" => "ConfigurationManager", "custom_cookbooks_source" => "CustomCookbooksSource", "custom_json" => "CustomJson", "default_availability_zone" => "DefaultAvailabilityZone", "default_instance_profile_arn" => "DefaultInstanceProfileArn", "default_os" => "DefaultOs", "default_root_device_type" => "DefaultRootDeviceType", "default_ssh_key_name" => "DefaultSshKeyName", "default_subnet_id" => "DefaultSubnetId", "hostname_theme" => "HostnameTheme", "name" => "Name", "region" => "Region", "use_custom_cookbooks" => "UseCustomCookbooks", "use_opsworks_security_groups" => "UseOpsworksSecurityGroups", "vpc_id" => "VpcId", "auto_scaling_schedule" => "AutoScalingSchedule", "ami_id" => "AmiId", "architecture" => "Architecture", "auto_scaling_type" => "AutoScalingType", "availability_zone" => "AvailabilityZone", "block_device_mappings" => "BlockDeviceMappings", "ebs_optimized" => "EbsOptimized", "install_updates_on_boot" => "InstallUpdatesOnBoot", "os" => "Os", "root_device_type" => "RootDeviceType", "ssh_key_name" => "SshKeyName", "subnet_id" => "SubnetId", "tenancy" => "Tenancy", "virtualization_type" => "VirtualizationType", "app_id" => "AppId", "comment" => "Comment", "instance_ids" => "InstanceIds", "command_ids" => "CommandIds", "deployment_id" => "DeploymentId", "rds_db_instance_arns" => "RdsDbInstanceArns", "ecs_cluster_arns" => "EcsClusterArns", "max_results" => "MaxResults", "next_token" => "NextToken", "iam_user_arns" => "IamUserArns", "instance_type" => "InstanceType", "layer_id" => "LayerId", "service_error_ids" => "ServiceErrorIds", "app_source" => "AppSource", "data_sources" => "DataSources", "description" => "Description", "domains" => "Domains", "enable_ssl" => "EnableSsl", "environment" => "Environment", "ssl_configuration" => "SslConfiguration", "type" => "Type", "auto_assign_elastic_ips" => "AutoAssignElasticIps", "auto_assign_public_ips" => "AutoAssignPublicIps", "cloud_watch_logs_configuration" => "CloudWatchLogsConfiguration", "custom_instance_profile_arn" => "CustomInstanceProfileArn", "custom_recipes" => "CustomRecipes", "custom_security_group_ids" => "CustomSecurityGroupIds", "enable_auto_healing" => "EnableAutoHealing", "lifecycle_event_configuration" => "LifecycleEventConfiguration", "packages" => "Packages", "shortname" => "Shortname", "use_ebs_optimized_instances" => "UseEbsOptimizedInstances", "volume_configurations" => "VolumeConfigurations", "ec2_volume_id" => "Ec2VolumeId", "deployment_ids" => "DeploymentIds", "mount_point" => "MountPoint", "allow_ssh" => "AllowSsh", "allow_sudo" => "AllowSudo", "level" => "Level", "force" => "Force", "delete_elastic_ip" => "DeleteElasticIp", "delete_volumes" => "DeleteVolumes", "app_ids" => "AppIds", "valid_for_in_minutes" => "ValidForInMinutes", "db_password" => "DbPassword", "db_user" => "DbUser", "service_role_arn" => "ServiceRoleArn", "raid_array_ids" => "RaidArrayIds", "down_scaling" => "DownScaling", "enable" => "Enable", "up_scaling" => "UpScaling")
 
 """
     assign_instance(instance_id, layer_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ grants permissions. For more information on user permissions, see Managing User 
 
 """
 function assign_instance(InstanceId, LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -46,7 +46,7 @@ Managing User Permissions.
 - `instance_id`: The instance ID.
 """
 function assign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -67,7 +67,7 @@ Permissions.
 - `instance_id`: The instance ID.
 """
 function associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ user permissions, see Managing User Permissions.
 
 """
 function attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,7 +217,7 @@ permissions. For more information about user permissions, see Managing User Perm
   For more information about default VPC and EC2 Classic, see Supported Platforms.
 """
 function clone_stack(ServiceRoleArn, SourceStackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -260,7 +260,7 @@ user permissions, see Managing User Permissions.
 - `ssl_configuration`: An SslConfiguration object with the SSL configuration.
 """
 function create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 - `layer_ids`: The layer IDs for the deployment targets.
 """
 function create_deployment(Command, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ For more information on user permissions, see Managing User Permissions.
 - `virtualization_type`: The instance's virtualization type, paravirtual or hvm.
 """
 function create_instance(InstanceType, LayerIds, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ permissions. For more information on user permissions, see Managing User Permiss
   EBS volumes.
 """
 function create_layer(Name, Shortname, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -564,7 +564,7 @@ permissions. For more information about user permissions, see Managing User Perm
   default VPC and EC2-Classic, see Supported Platforms.
 """
 function create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +588,7 @@ permissions, see Managing User Permissions.
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
 function create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +604,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function delete_app(AppId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -625,7 +625,7 @@ information on user permissions, see Managing User Permissions.
 - `delete_volumes`: Whether to delete the instance's Amazon EBS volumes.
 """
 function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -643,7 +643,7 @@ user permissions, see Managing User Permissions.
 
 """
 function delete_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,7 +661,7 @@ user permissions, see Managing User Permissions.
 
 """
 function delete_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -677,7 +677,7 @@ permissions, see Managing User Permissions.
 
 """
 function delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -695,7 +695,7 @@ https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.ht
 
 """
 function deregister_ecs_cluster(EcsClusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -713,7 +713,7 @@ Managing User Permissions.
 
 """
 function deregister_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -732,7 +732,7 @@ Managing User Permissions.
 
 """
 function deregister_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -748,7 +748,7 @@ grants permissions. For more information on user permissions, see Managing User 
 
 """
 function deregister_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -768,7 +768,7 @@ Permissions.
 
 """
 function deregister_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -784,7 +784,7 @@ for the specified stack or configuration manager.
 - `stack_id`: The stack ID.
 """
 function describe_agent_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeAgentVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -805,7 +805,7 @@ Managing User Permissions.
   description of the apps in the specified stack.
 """
 function describe_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeApps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ Managing User Permissions.
   description of the commands associated with the specified instance.
 """
 function describe_commands(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -851,7 +851,7 @@ Managing User Permissions.
   description of the commands associated with the specified stack.
 """
 function describe_deployments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +881,7 @@ User Permissions. This call accepts only one resource-identifying parameter.
   registered with the stack.
 """
 function describe_ecs_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeEcsClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -903,7 +903,7 @@ For more information about user permissions, see Managing User Permissions.
   description of the Elastic IP addresses that are registered with the specified stack.
 """
 function describe_elastic_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeElasticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -922,7 +922,7 @@ Managing User Permissions.
 - `stack_id`: A stack ID. The action describes the stack's Elastic Load Balancing instances.
 """
 function describe_elastic_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeElasticLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -945,7 +945,7 @@ Managing User Permissions.
   of the instances associated with the specified stack.
 """
 function describe_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -964,7 +964,7 @@ Managing User Permissions.
 - `stack_id`: The stack ID.
 """
 function describe_layers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeLayers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -982,7 +982,7 @@ User Permissions.
 
 """
 function describe_load_based_auto_scaling(LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -995,7 +995,7 @@ For more information about user permissions, see Managing User Permissions.
 
 """
 function describe_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeMyUserProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1006,7 +1006,7 @@ Describes the operating systems that are supported by AWS OpsWorks Stacks.
 
 """
 function describe_operating_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeOperatingSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1024,7 +1024,7 @@ Permissions.
 - `stack_id`: The stack ID.
 """
 function describe_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribePermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1046,7 +1046,7 @@ Permissions.
 - `stack_id`: The stack ID.
 """
 function describe_raid_arrays(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeRaidArrays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1066,7 +1066,7 @@ User Permissions. This call accepts only one resource-identifying parameter.
 - `rds_db_instance_arns`: An array containing the ARNs of the instances to be described.
 """
 function describe_rds_db_instances(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1089,7 +1089,7 @@ parameter.
   descriptions of the errors associated with the specified stack.
 """
 function describe_service_errors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeServiceErrors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1106,7 +1106,7 @@ user permissions, see Managing User Permissions.
 
 """
 function describe_stack_provisioning_parameters(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1124,7 +1124,7 @@ permissions, see Managing User Permissions.
 
 """
 function describe_stack_summary(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1141,7 +1141,7 @@ permissions, see Managing User Permissions.
   this parameter, DescribeStacks returns a description of every stack.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1159,7 +1159,7 @@ Managing User Permissions.
 
 """
 function describe_time_based_auto_scaling(InstanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1175,7 +1175,7 @@ permissions, see Managing User Permissions.
   described.
 """
 function describe_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1198,7 +1198,7 @@ Managing User Permissions.
   descriptions of the specified volumes. Otherwise, it returns a description of every volume.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1216,7 +1216,7 @@ permissions, see Managing User Permissions.
 
 """
 function detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1234,7 +1234,7 @@ Managing User Permissions.
 
 """
 function disassociate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1251,7 +1251,7 @@ information on user permissions, see Managing User Permissions.
 
 """
 function get_hostname_suggestion(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1271,7 +1271,7 @@ for a specified time period.
   be logged out.
 """
 function grant_access(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1290,7 +1290,7 @@ Returns a list of tags that are applied to the specified stack or layer.
   to a ListTagsRequest call.
 """
 function list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1307,7 +1307,7 @@ For more information on user permissions, see Managing User Permissions.
 
 """
 function reboot_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1326,7 +1326,7 @@ permissions. For more information on user permissions, see  Managing User Permis
 
 """
 function register_ecs_cluster(EcsClusterArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1346,7 +1346,7 @@ user permissions, see Managing User Permissions.
 
 """
 function register_elastic_ip(ElasticIp, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1380,7 +1380,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 - `rsa_public_key_fingerprint`: The instances public RSA key fingerprint.
 """
 function register_instance(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1400,7 +1400,7 @@ Permissions.
 
 """
 function register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1421,7 +1421,7 @@ user permissions, see Managing User Permissions.
 - `ec2_volume_id`: The Amazon EBS volume ID.
 """
 function register_volume(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1450,7 +1450,7 @@ permissions, see Managing User Permissions.
   starts a specified number of instances.
 """
 function set_load_based_auto_scaling(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1475,7 +1475,7 @@ information on user permissions, see Managing User Permissions.
   Managing User Permissions.
 """
 function set_permission(IamUserArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1495,7 +1495,7 @@ user permissions, see Managing User Permissions.
 - `auto_scaling_schedule`: An AutoScalingSchedule with the instance schedule.
 """
 function set_time_based_auto_scaling(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1512,7 +1512,7 @@ For more information on user permissions, see Managing User Permissions.
 
 """
 function start_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1528,7 +1528,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function start_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1553,7 +1553,7 @@ information on user permissions, see Managing User Permissions.
   after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
 """
 function stop_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1569,7 +1569,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function stop_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1591,7 +1591,7 @@ information about how tagging works, see Tags in the AWS OpsWorks User Guide.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1610,7 +1610,7 @@ For more information about user permissions, see Managing User Permissions.
 
 """
 function unassign_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1628,7 +1628,7 @@ Permissions.
 
 """
 function unassign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1643,7 +1643,7 @@ Removes tags from a specified stack or layer.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1680,7 +1680,7 @@ grants permissions. For more information on user permissions, see Managing User 
 - `type`: The app type.
 """
 function update_app(AppId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1699,7 +1699,7 @@ For more information on user permissions, see Managing User Permissions.
 - `name`: The new name.
 """
 function update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1764,7 +1764,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 - `ssh_key_name`: The instance's Amazon EC2 key name.
 """
 function update_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1816,7 +1816,7 @@ permissions. For more information on user permissions, see Managing User Permiss
   EBS volumes.
 """
 function update_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1831,7 +1831,7 @@ For more information about user permissions, see Managing User Permissions.
 - `ssh_public_key`: The user's SSH public key.
 """
 function update_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateMyUserProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1850,7 +1850,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 - `db_user`: The master user name.
 """
 function update_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1951,7 +1951,7 @@ permissions. For more information on user permissions, see Managing User Permiss
   For more information, see Create a New Stack.
 """
 function update_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1975,7 +1975,7 @@ user permissions, see Managing User Permissions.
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
 function update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1995,6 +1995,6 @@ For more information on user permissions, see Managing User Permissions.
 - `name`: The new name.
 """
 function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

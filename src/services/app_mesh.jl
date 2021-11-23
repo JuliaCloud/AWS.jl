@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("limit" => "limit", "next_token" => "nextToken", "mesh_owner" => "meshOwner", "client_token" => "clientToken", "tags" => "tags", "spec" => "spec")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("limit" => "limit", "next_token" => "nextToken", "mesh_owner" => "meshOwner", "client_token" => "clientToken", "tags" => "tags", "spec" => "spec")
 
 """
     create_gateway_route(gateway_route_name, mesh_name, spec, virtual_gateway_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,7 +36,7 @@ routes.
   values can have a maximum length of 256 characters.
 """
 function create_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ service meshes, see Service meshes.
   values can have a maximum length of 256 characters.
 """
 function create_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("meshName"=>meshName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ virtual nodes. For more information about routes, see Routes.
   have a maximum length of 256 characters.
 """
 function create_route(meshName, routeName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -126,7 +126,7 @@ see Virtual gateways.
   values can have a maximum length of 256 characters.
 """
 function create_virtual_gateway(meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ aboutApp Mesh Envoy variables, see Envoy image in the AWS App Mesh User Guide.
   values can have a maximum length of 256 characters.
 """
 function create_virtual_node(meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ information about virtual routers, see Virtual routers.
   values can have a maximum length of 256 characters.
 """
 function create_virtual_router(meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ services.
   values can have a maximum length of 256 characters.
 """
 function create_virtual_service(meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ Deletes an existing gateway route.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_gateway_route(gatewayRouteName, meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ itself.
 
 """
 function delete_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,7 +289,7 @@ Deletes an existing route.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_route(meshName, routeName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,7 +309,7 @@ routes are associated to it.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_gateway(meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +329,7 @@ node as a service provider before you can delete the virtual node itself.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_node(meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -349,7 +349,7 @@ router before you can delete the router itself.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_router(meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -368,7 +368,7 @@ Deletes an existing virtual service.
   information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_service(meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ Describes an existing gateway route.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_gateway_route(gatewayRouteName, meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -407,7 +407,7 @@ Describes an existing service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -427,7 +427,7 @@ Describes an existing route.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_route(meshName, routeName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -446,7 +446,7 @@ Describes an existing virtual gateway.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_gateway(meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -465,7 +465,7 @@ Describes an existing virtual node.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_node(meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +484,7 @@ Describes an existing virtual router.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_router(meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -503,7 +503,7 @@ Describes an existing virtual service.
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_service(meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Returns a list of existing gateway routes that are associated to a virtual gatew
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_gateway_routes(meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ Returns a list of existing service meshes.
   items in a list and not for other programmatic purposes.
 """
 function list_meshes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ Returns a list of existing routes in a service mesh.
   continues from the end of the previous results that returned the nextToken value.
 """
 function list_routes(meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -607,7 +607,7 @@ List the tags for an App Mesh resource.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -634,7 +634,7 @@ Returns a list of existing virtual gateways in a service mesh.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,7 +661,7 @@ Returns a list of existing virtual nodes.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,7 +688,7 @@ Returns a list of existing virtual routers in a service mesh.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_virtual_routers(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -715,7 +715,7 @@ Returns a list of existing virtual services in a service mesh.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_virtual_services(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -734,7 +734,7 @@ resource is deleted, the tags associated with that resource are also deleted.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -749,7 +749,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -774,7 +774,7 @@ service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ Updates an existing service mesh.
 - `spec`: The service mesh specification to apply.
 """
 function update_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -815,7 +815,7 @@ Updates an existing route for a specified service mesh and virtual router.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_route(meshName, routeName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -837,7 +837,7 @@ Updates an existing virtual gateway in a specified service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_gateway(meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -859,7 +859,7 @@ Updates an existing virtual node in a specified service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_node(meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +881,7 @@ Updates an existing virtual router in a specified service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_router(meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -903,6 +903,6 @@ Updates an existing virtual service in a specified service mesh.
   information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_service(meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

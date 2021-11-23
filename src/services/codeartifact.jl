@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("domain_owner" => "domain-owner", "max_results" => "max-results", "namespace" => "namespace", "next_token" => "next-token", "description" => "description", "tags" => "tags", "upstreams" => "upstreams", "sort_by" => "sortBy", "status" => "status", "expected_status" => "expectedStatus", "version_revisions" => "versionRevisions", "policy_revision" => "policy-revision", "duration_seconds" => "duration", "administrator_account" => "administrator-account", "repository_prefix" => "repository-prefix", "allow_overwrite" => "allowOverwrite", "include_from_upstream" => "includeFromUpstream", "versions" => "versions", "package_version_revision" => "revision", "format" => "format", "package_prefix" => "package-prefix", "encryption_key" => "encryptionKey")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("domain_owner" => "domain-owner", "max_results" => "max-results", "namespace" => "namespace", "next_token" => "next-token", "description" => "description", "tags" => "tags", "upstreams" => "upstreams", "sort_by" => "sortBy", "status" => "status", "expected_status" => "expectedStatus", "version_revisions" => "versionRevisions", "policy_revision" => "policy-revision", "duration_seconds" => "duration", "administrator_account" => "administrator-account", "repository_prefix" => "repository-prefix", "allow_overwrite" => "allowOverwrite", "include_from_upstream" => "includeFromUpstream", "versions" => "versions", "package_version_revision" => "revision", "format" => "format", "package_prefix" => "package-prefix", "encryption_key" => "encryptionKey")
 
 """
     associate_external_connection(domain, external-connection, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,7 +29,7 @@ connection.
   does not include dashes or spaces.
 """
 function associate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ You must specify versions or versionRevisions. You cannot specify both.
   versionRevisions. You cannot specify both.
 """
 function copy_package_versions(destination_repository, domain, format, package, source_repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -107,7 +107,7 @@ production domain configuration.
 - `tags`: One or more tag key-value pairs for the domain.
 """
 function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,7 +131,7 @@ end
   upstream repositories.
 """
 function create_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -149,7 +149,7 @@ delete a domain with repositories, first delete its repositories.
   does not include dashes or spaces.
 """
 function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ end
   changes to the domain's resource policy.
 """
 function delete_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ ListackageVersions), but you can restore them using UpdatePackageVersionsStatus.
   contain a corresponding component, so Python packages do not have a namespace.
 """
 function delete_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ end
   does not include dashes or spaces.
 """
 function delete_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ deleted policy.
   overwriting your changes to the repository's resource policy.
 """
 function delete_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ end
   does not include dashes or spaces.
 """
 function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -292,7 +292,7 @@ package version.
   contain a corresponding component, so Python packages do not have a namespace.
 """
 function describe_package_version(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ requested repository.
   does not include dashes or spaces.
 """
 function describe_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,7 +333,7 @@ end
   does not include dashes or spaces.
 """
 function disassociate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -367,7 +367,7 @@ version, use DescribePackageVersion.
 - `version_revisions`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -401,7 +401,7 @@ information on controlling session duration.
   user's role's temporary credentials.
 """
 function get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ Management User Guide.
   does not include dashes or spaces.
 """
 function get_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ package version.
   requested asset.
 """
 function get_package_version_asset(asset, domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +484,7 @@ Markdown or reStructuredText.
   contain a corresponding component, so Python packages do not have a namespace.
 """
 function get_package_version_readme(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ endpoint for each package format:     npm     pypi     maven
   contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint(domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -525,7 +525,7 @@ end
   does not include dashes or spaces.
 """
 function get_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -541,7 +541,7 @@ makes this call. Each returned DomainSummary object contains information about a
   previous response in the next request to retrieve the next set of results.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -574,7 +574,7 @@ end
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_assets(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -609,7 +609,7 @@ listed in the configuration file are not returned.
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_dependencies(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -646,7 +646,7 @@ match the request parameters.
    Archived     Disposed
 """
 function list_package_versions(domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -679,7 +679,7 @@ request parameters.
   that start with packagePrefix are returned.
 """
 function list_packages(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -697,7 +697,7 @@ about a repository in the specified AWS account and that matches the input param
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/repositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -722,7 +722,7 @@ about a repository in the specified domain and that matches the input parameters
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories_in_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -737,7 +737,7 @@ CodeArtifact.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -762,7 +762,7 @@ of the domain, which would prevent them from being able to update the resource p
   domain's resource policy.
 """
 function put_domain_permissions_policy(domain, policyDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -790,7 +790,7 @@ resource policy.
   others from overwriting your changes to the repository's resource policy.
 """
 function put_repository_permissions_policy(domain, policyDocument, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -806,7 +806,7 @@ Adds or updates tags for a resource in AWS CodeArtifact.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -822,7 +822,7 @@ Removes tags from a resource in AWS CodeArtifact.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -858,7 +858,7 @@ end
   revision.
 """
 function update_package_versions_status(domain, format, package, repository, targetStatus, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,6 +881,6 @@ end
   upstream repositories.
 """
 function update_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

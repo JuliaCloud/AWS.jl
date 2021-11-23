@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "query_execution_context" => "QueryExecutionContext", "result_configuration" => "ResultConfiguration", "work_group" => "WorkGroup", "description" => "Description", "configuration_updates" => "ConfigurationUpdates", "state" => "State", "parameters" => "Parameters", "tags" => "Tags", "configuration" => "Configuration", "recursive_delete_option" => "RecursiveDeleteOption", "expression" => "Expression")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "query_execution_context" => "QueryExecutionContext", "result_configuration" => "ResultConfiguration", "work_group" => "WorkGroup", "description" => "Description", "configuration_updates" => "ConfigurationUpdates", "state" => "State", "parameters" => "Parameters", "tags" => "Tags", "configuration" => "Configuration", "recursive_delete_option" => "RecursiveDeleteOption", "expression" => "Expression")
 
 """
     batch_get_named_query(named_query_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ IDs.
 
 """
 function batch_get_named_query(NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("BatchGetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryIds"=>NamedQueryIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ BatchGetNamedQueryInput to get details about named queries.
 
 """
 function batch_get_query_execution(QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("BatchGetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -82,7 +82,7 @@ are visible to all users of the same Amazon Web Services account.
 - `tags`: A list of comma separated tags to add to the data catalog that is created.
 """
 function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("CreateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ Code Samples in the Amazon Athena User Guide.
 - `work_group`: The name of the workgroup in which the named query is being created.
 """
 function create_named_query(Database, Name, QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ Creates a prepared statement for use with SQL queries in Athena.
 - `description`: The description of the prepared statement.
 """
 function create_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("CreatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,7 +152,7 @@ Creates a workgroup with the specified name.
 - `tags`: A list of comma separated tags to add to the workgroup that is created.
 """
 function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("CreateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -166,7 +166,7 @@ Deletes a data catalog.
 
 """
 function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("DeleteDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ in the Amazon Athena User Guide.
 
 """
 function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Deletes the prepared statement with the specified name from the specified workgr
 
 """
 function delete_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("DeletePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -214,7 +214,7 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
   the workgroup contains any named queries or query executions.
 """
 function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ Returns the specified data catalog.
 
 """
 function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -243,7 +243,7 @@ Returns a database object for the specified database and data catalog.
 
 """
 function get_database(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -258,7 +258,7 @@ which the query was saved.
 
 """
 function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -273,7 +273,7 @@ Retrieves the prepared statement with the specified name from the specified work
 
 """
 function get_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetPreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,7 +289,7 @@ is saved with a unique ID.
 
 """
 function get_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -317,7 +317,7 @@ location are denied.
   the NextToken from the response object of the previous page call.
 """
 function get_query_results(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -334,7 +334,7 @@ Returns table metadata for the specified catalog, database, and table.
 
 """
 function get_table_metadata(CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +348,7 @@ Returns information about the workgroup with the specified name.
 
 """
 function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("GetWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ Lists the data catalogs in the current Amazon Web Services account.
   the NextToken from the response object of the previous page call.
 """
 function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -383,7 +383,7 @@ Lists the databases in the specified data catalog.
   the NextToken from the response object of the previous page call.
 """
 function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +400,7 @@ option.
   the NextToken from the response object of the previous page call.
 """
 function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ Services SDK for Java, see Examples and Code Samples in the Amazon Athena User G
   If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
 function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -440,7 +440,7 @@ Lists the prepared statements in the specfied workgroup.
   the NextToken from the response object of the previous page call.
 """
 function list_prepared_statements(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListPreparedStatements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -463,7 +463,7 @@ in the Amazon Athena User Guide.
   primary workgroup is returned.
 """
 function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListQueryExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -485,7 +485,7 @@ Lists the metadata for the tables in the specified data catalog database.
   the NextToken from the response object of the previous page call.
 """
 function list_table_metadata(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ Lists the tags associated with an Athena workgroup or data catalog resource.
   specified ARN.
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -521,7 +521,7 @@ Lists available workgroups for the account.
   the NextToken from the response object of the previous page call.
 """
 function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 - `work_group`: The name of the workgroup in which the query is being started.
 """
 function start_query_execution(QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("StartQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,7 +569,7 @@ Samples in the Amazon Athena User Guide.
 
 """
 function stop_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("StopQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -595,7 +595,7 @@ unique per resource. If you specify more than one tag, separate them by commas.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ Removes one or more tags from a data catalog or workgroup resource.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ Updates the data catalog that has the specified name.
   function=lambda_arn
 """
 function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +660,7 @@ Updates a prepared statement.
 - `description`: The description of the prepared statement.
 """
 function update_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("UpdatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -679,6 +679,6 @@ Updates the workgroup with the specified name. The workgroup's name cannot be ch
 - `state`: The workgroup state that will be updated for the given workgroup.
 """
 function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return athena("UpdateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "clientToken", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "data_sources" => "dataSources", "finding_publishing_frequency" => "findingPublishingFrequency", "finding_criteria" => "findingCriteria", "sort_criteria" => "sortCriteria", "destination_properties" => "destinationProperties", "only_associated" => "onlyAssociated", "finding_types" => "findingTypes", "unit" => "unit", "comments" => "comments", "activate" => "activate", "location" => "location", "name" => "name", "disable_email_notification" => "disableEmailNotification", "message" => "message", "action" => "action", "description" => "description", "rank" => "rank", "enable" => "enable")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "clientToken", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "data_sources" => "dataSources", "finding_publishing_frequency" => "findingPublishingFrequency", "finding_criteria" => "findingCriteria", "sort_criteria" => "sortCriteria", "destination_properties" => "destinationProperties", "only_associated" => "onlyAssociated", "finding_types" => "findingTypes", "unit" => "unit", "comments" => "comments", "activate" => "activate", "location" => "location", "name" => "name", "disable_email_notification" => "disableEmailNotification", "message" => "message", "action" => "action", "description" => "description", "rank" => "rank", "enable" => "enable")
 
 """
     accept_invitation(detector_id, invitation_id, master_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 
 """
 function accept_invitation(detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId, "masterId"=>masterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ archive findings from their accounts.
 
 """
 function archive_findings(detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/archive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ data sources are enabled in a new detector by default.
 - `tags`: The tags to be added to a new detector resource.
 """
 function create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enable"=>enable, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ Creates a filter using the specified finding criteria.
 - `tags`: The tags to be added to a new filter resource.
 """
 function create_filter(detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/filter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingCriteria"=>findingCriteria, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ are included in IPSets. Only users from the administrator account can use this o
 - `tags`: The tags to be added to a new IP set resource.
 """
 function create_ipset(activate, detectorId, format, location, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/ipset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,7 +181,7 @@ Invite Members .
 
 """
 function create_members(accountDetails, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountDetails"=>accountDetails), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ must exist before you use this operation.
 - `client_token`: The idempotency token for the request.
 """
 function create_publishing_destination(destinationProperties, destinationType, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/publishingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationProperties"=>destinationProperties, "destinationType"=>destinationType, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ types.
 - `finding_types`: The types of sample findings to generate.
 """
 function create_sample_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/create", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -248,7 +248,7 @@ account can use this operation.
 - `tags`: The tags to be added to a new threat list resource.
 """
 function create_threat_intel_set(activate, detectorId, format, location, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/threatintelset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ account IDs.
 
 """
 function decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/invitation/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,7 +278,7 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 
 """
 function delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/detector/$(detectorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ Deletes the filter specified by the filter name.
 
 """
 function delete_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/detector/$(detectorId)/filter/$(filterName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,7 +309,7 @@ account IDs.
 
 """
 function delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/invitation/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,7 +325,7 @@ console user interface.
 
 """
 function delete_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/detector/$(detectorId)/ipset/$(ipSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,7 +343,7 @@ specified by the account IDs.
 
 """
 function delete_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ Deletes the publishing definition with the specified destinationId.
 
 """
 function delete_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +374,7 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 """
 function delete_threat_intel_set(detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ Returns information about the account selected as the delegated administrator fo
 
 """
 function describe_organization_configuration(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -406,7 +406,7 @@ destinationId.
 
 """
 function describe_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ Disables an AWS account within the Organization as the GuardDuty delegated admin
 
 """
 function disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ Disassociates the current GuardDuty member account from its administrator accoun
 
 """
 function disassociate_from_master_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/master/disassociate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ specified by the account IDs.
 
 """
 function disassociate_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -468,7 +468,7 @@ Enables an AWS account within the organization as the GuardDuty delegated admini
 
 """
 function enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -482,7 +482,7 @@ Retrieves an Amazon GuardDuty detector specified by the detectorId.
 
 """
 function get_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -497,7 +497,7 @@ Returns the details of the filter specified by the filter name.
 
 """
 function get_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/filter/$(filterName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -515,7 +515,7 @@ Describes Amazon GuardDuty findings specified by finding IDs.
 - `sort_criteria`: Represents the criteria used for sorting findings.
 """
 function get_findings(detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -533,7 +533,7 @@ Lists Amazon GuardDuty findings statistics for the specified detector ID.
 - `finding_criteria`: Represents the criteria that is used for querying findings.
 """
 function get_findings_statistics(detectorId, findingStatisticTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingStatisticTypes"=>findingStatisticTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ member account except the currently accepted invitation.
 
 """
 function get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/invitation/count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +560,7 @@ Retrieves the IPSet specified by the ipSetId.
 
 """
 function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/ipset/$(ipSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ GuardDuty member account.
 
 """
 function get_master_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,7 +590,7 @@ Describes which data sources are enabled for the member account's detector.
 
 """
 function get_member_detectors(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/detector/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -608,7 +608,7 @@ specified by the account IDs.
 
 """
 function get_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -623,7 +623,7 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 
 """
 function get_threat_intel_set(detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -652,7 +652,7 @@ Understanding How Usage Costs are Calculated.
   values are USD.
 """
 function get_usage_statistics(detectorId, usageCriteria, usageStatisticsType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/usage/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("usageCriteria"=>usageCriteria, "usageStatisticsType"=>usageStatisticsType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -676,7 +676,7 @@ findings on their behalf as the GuardDuty administrator account.
   inviting to GuardDuty as members.
 """
 function invite_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -694,7 +694,7 @@ Lists detectorIds of all the existing Amazon GuardDuty detector resources.
   response to continue listing data.
 """
 function list_detectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -715,7 +715,7 @@ Returns a paginated list of the current filters.
   response to continue listing data.
 """
 function list_filters(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/filter", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -775,7 +775,7 @@ Lists Amazon GuardDuty findings for the specified detector ID.
 - `sort_criteria`: Represents the criteria used for sorting findings.
 """
 function list_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -793,7 +793,7 @@ Lists all GuardDuty membership invitations that were sent to the current AWS acc
   response to continue listing data.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/invitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -816,7 +816,7 @@ administrator account.
   response to continue listing data.
 """
 function list_ipsets(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/ipset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -839,7 +839,7 @@ Lists details about all member accounts for the current GuardDuty administrator 
   members (including members who haven't been invited yet or have been disassociated).
 """
 function list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/member", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -856,7 +856,7 @@ Lists the accounts configured as GuardDuty delegated administrators.
   listing results after the first page.
 """
 function list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -876,7 +876,7 @@ Returns a list of publishing destinations associated with the specified dectecto
   listing results after the first page.
 """
 function list_publishing_destinations(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/publishingDestination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -892,7 +892,7 @@ operation returns all assigned tags for a given resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -915,7 +915,7 @@ account are returned.
   response to continue listing data.
 """
 function list_threat_intel_sets(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("GET", "/detector/$(detectorId)/threatintelset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -933,7 +933,7 @@ operation.
 
 """
 function start_monitoring_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -950,7 +950,7 @@ StartMonitoringMembers operation to restart monitoring for those accounts.
 
 """
 function stop_monitoring_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -966,7 +966,7 @@ Adds tags to a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -981,7 +981,7 @@ Unarchives GuardDuty findings specified by the findingIds.
 
 """
 function unarchive_findings(detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/unarchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -996,7 +996,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1015,7 +1015,7 @@ Updates the Amazon GuardDuty detector specified by the detectorId.
   exported, such as to CloudWatch Events.
 """
 function update_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1039,7 +1039,7 @@ Updates the filter specified by the filter name.
   specifies the order in which this filter is applied to the findings.
 """
 function update_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1057,7 +1057,7 @@ Marks the specified GuardDuty findings as useful or not useful.
 - `comments`: Additional feedback about the GuardDuty findings.
 """
 function update_findings_feedback(detectorId, feedback, findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/findings/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("feedback"=>feedback, "findingIds"=>findingIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1078,7 +1078,7 @@ Updates the IPSet specified by the IPSet ID.
 - `name`: The unique ID that specifies the IPSet that you want to update.
 """
 function update_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1095,7 +1095,7 @@ Contains information on member accounts to be updated.
 - `data_sources`: Describes which data sources will be updated.
 """
 function update_member_detectors(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/member/detector/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1113,7 +1113,7 @@ Updates the delegated administrator account with the values provided.
 - `data_sources`: Describes which data sources will be updated.
 """
 function update_organization_configuration(autoEnable, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1132,7 +1132,7 @@ Updates information about the publishing destination specified by the destinatio
   and KmsKeyArn of the publishing destination.
 """
 function update_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1154,6 +1154,6 @@ Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
 - `name`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
 function update_threat_intel_set(detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return guardduty("POST", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("configuration_set_name" => "ConfigurationSetName", "destinations" => "Destinations", "from_arn" => "FromArn", "return_path_arn" => "ReturnPathArn", "source" => "Source", "source_arn" => "SourceArn", "tags" => "Tags", "max_items" => "MaxItems", "next_token" => "NextToken", "reply_to_addresses" => "ReplyToAddresses", "return_path" => "ReturnPath", "template_arn" => "TemplateArn", "rule_set_name" => "RuleSetName", "sns_topic" => "SnsTopic", "enabled" => "Enabled", "delivery_options" => "DeliveryOptions", "after" => "After", "behavior_on_mxfailure" => "BehaviorOnMXFailure", "mail_from_domain" => "MailFromDomain", "failure_redirection_url" => "FailureRedirectionURL", "from_email_address" => "FromEmailAddress", "success_redirection_url" => "SuccessRedirectionURL", "template_content" => "TemplateContent", "template_subject" => "TemplateSubject", "bounce_sender_arn" => "BounceSenderArn", "explanation" => "Explanation", "message_dsn" => "MessageDsn", "default_tags" => "DefaultTags", "default_template_data" => "DefaultTemplateData", "configuration_set_attribute_names" => "ConfigurationSetAttributeNames", "identity_type" => "IdentityType", "max_results" => "MaxResults")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("configuration_set_name" => "ConfigurationSetName", "destinations" => "Destinations", "from_arn" => "FromArn", "return_path_arn" => "ReturnPathArn", "source" => "Source", "source_arn" => "SourceArn", "tags" => "Tags", "max_items" => "MaxItems", "next_token" => "NextToken", "reply_to_addresses" => "ReplyToAddresses", "return_path" => "ReturnPath", "template_arn" => "TemplateArn", "rule_set_name" => "RuleSetName", "sns_topic" => "SnsTopic", "enabled" => "Enabled", "delivery_options" => "DeliveryOptions", "after" => "After", "behavior_on_mxfailure" => "BehaviorOnMXFailure", "mail_from_domain" => "MailFromDomain", "failure_redirection_url" => "FailureRedirectionURL", "from_email_address" => "FromEmailAddress", "success_redirection_url" => "SuccessRedirectionURL", "template_content" => "TemplateContent", "template_subject" => "TemplateSubject", "bounce_sender_arn" => "BounceSenderArn", "explanation" => "Explanation", "message_dsn" => "MessageDsn", "default_tags" => "DefaultTags", "default_template_data" => "DefaultTemplateData", "configuration_set_attribute_names" => "ConfigurationSetAttributeNames", "identity_type" => "IdentityType", "max_results" => "MaxResults")
 
 """
     clone_receipt_rule_set(original_rule_set_name, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ can execute this operation no more than once per second.
 
 """
 function clone_receipt_rule_set(OriginalRuleSetName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CloneReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginalRuleSetName"=>OriginalRuleSetName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ execute this operation no more than once per second.
 
 """
 function create_configuration_set(ConfigurationSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSet"=>ConfigurationSet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ second.
 
 """
 function create_configuration_set_event_destination(ConfigurationSetName, EventDestination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -82,7 +82,7 @@ Developer Guide.
 
 """
 function create_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function create_receipt_filter(Filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ Developer Guide. You can execute this operation no more than once per second.
   parameter is null, the new rule will be inserted at the beginning of the rule list.
 """
 function create_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function create_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function create_template(Template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("CreateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -194,7 +194,7 @@ execute this operation no more than once per second.
 
 """
 function delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ execute this operation no more than once per second.
 
 """
 function delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ SES-operated domains.
 
 """
 function delete_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function delete_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ identities. You can execute this operation no more than once per second.
 
 """
 function delete_identity(Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ than once per second.
 
 """
 function delete_identity_policy(Identity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ second.
 
 """
 function delete_receipt_filter(FilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FilterName"=>FilterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -324,7 +324,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function delete_receipt_rule(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -341,7 +341,7 @@ per second.
 
 """
 function delete_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -355,7 +355,7 @@ Deletes an email template. You can execute this operation no more than once per 
 
 """
 function delete_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -369,7 +369,7 @@ Deprecated. Use the DeleteIdentity operation to delete email addresses and domai
 
 """
 function delete_verified_email_address(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DeleteVerifiedEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ can execute this operation no more than once per second.
 
 """
 function describe_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DescribeActiveReceiptRuleSet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +400,7 @@ more than once per second.
 - `configuration_set_attribute_names`: A list of configuration set attributes to return.
 """
 function describe_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DescribeConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -417,7 +417,7 @@ per second.
 
 """
 function describe_receipt_rule(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DescribeReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ more than once per second.
 
 """
 function describe_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("DescribeReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ execute this operation no more than once per second.
 
 """
 function get_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetAccountSendingEnabled", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -463,7 +463,7 @@ once per second.
 
 """
 function get_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ Guide.
 
 """
 function get_identity_dkim_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetIdentityDkimAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ MAIL FROM attributes for up to 100 identities at a time.
 
 """
 function get_identity_mail_from_domain_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetIdentityMailFromDomainAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -525,7 +525,7 @@ Guide.
 
 """
 function get_identity_notification_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetIdentityNotificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -551,7 +551,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function get_identity_policies(Identity, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +579,7 @@ verification attributes for up to 100 identities at a time.
 
 """
 function get_identity_verification_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetIdentityVerificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -591,7 +591,7 @@ more than once per second.
 
 """
 function get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetSendQuota", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -605,7 +605,7 @@ than once per second.
 
 """
 function get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetSendStatistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -620,7 +620,7 @@ the template you specify. You can execute this operation no more than once per s
 
 """
 function get_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("GetTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ value of the NextToken element to retrieve additional results.
   the position of the configuration set in the configuration set list.
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListConfigurationSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -663,7 +663,7 @@ operation no more than once per second.
   your Amazon SES account.
 """
 function list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListCustomVerificationEmailTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ operation no more than once per second.
 - `next_token`: The token to use for pagination.
 """
 function list_identities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListIdentities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +706,7 @@ can execute this operation no more than once per second.
 
 """
 function list_identity_policies(Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -719,7 +719,7 @@ can execute this operation no more than once per second.
 
 """
 function list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListReceiptFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -737,7 +737,7 @@ can execute this operation no more than once per second.
   the position in the receipt rule set list.
 """
 function list_receipt_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListReceiptRuleSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -755,7 +755,7 @@ can execute this operation no more than once per second.
   position in the list of email templates.
 """
 function list_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -767,7 +767,7 @@ associated with your account.
 
 """
 function list_verified_email_addresses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ListVerifiedEmailAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -785,7 +785,7 @@ Adds or updates the delivery options for a configuration set.
   required to use Transport Layer Security (TLS).
 """
 function put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("PutConfigurationSetDeliveryOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -812,7 +812,7 @@ operation no more than once per second.
 
 """
 function put_identity_policy(Identity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("PutIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -832,7 +832,7 @@ more than once per second.
 
 """
 function reorder_receipt_rule_set(RuleNames, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("ReorderReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -864,7 +864,7 @@ You can execute this operation no more than once per second.
   values.
 """
 function send_bounce(BounceSender, BouncedRecipientInfoList, OriginalMessageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendBounce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BounceSender"=>BounceSender, "BouncedRecipientInfoList"=>BouncedRecipientInfoList, "OriginalMessageId"=>OriginalMessageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +947,7 @@ be limited by your account's maximum sending rate.
 - `template_arn`: The ARN of the template to use when sending this email.
 """
 function send_bulk_templated_email(Destinations, Source, Template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendBulkTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destinations"=>Destinations, "Source"=>Source, "Template"=>Template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -971,7 +971,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
   verification email.
 """
 function send_custom_verification_email(EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendCustomVerificationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1049,7 +1049,7 @@ Developer Guide.
   that you can publish email sending events.
 """
 function send_email(Destination, Message, Source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Message"=>Message, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1163,7 +1163,7 @@ SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Gui
   so that you can publish email sending events.
 """
 function send_raw_email(RawMessage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendRawEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RawMessage"=>RawMessage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1250,7 +1250,7 @@ Guide.
 - `template_arn`: The ARN of the template to use when sending this email.
 """
 function send_templated_email(Destination, Source, Template, TemplateData; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SendTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source, "Template"=>Template, "TemplateData"=>TemplateData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1267,7 +1267,7 @@ Guide. You can execute this operation no more than once per second.
   null disables all email receiving.
 """
 function set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetActiveReceiptRuleSet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1292,7 +1292,7 @@ Developer Guide.
 
 """
 function set_identity_dkim_enabled(DkimEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetIdentityDkimEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DkimEnabled"=>DkimEnabled, "Identity"=>Identity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1319,7 +1319,7 @@ Amazon SES, see the Amazon SES Developer Guide.
 
 """
 function set_identity_feedback_forwarding_enabled(ForwardingEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetIdentityFeedbackForwardingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForwardingEnabled"=>ForwardingEnabled, "Identity"=>Identity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1344,7 +1344,7 @@ information about using notifications with Amazon SES, see the Amazon SES Develo
 
 """
 function set_identity_headers_in_notifications_enabled(Enabled, Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetIdentityHeadersInNotificationsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Enabled"=>Enabled, "Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1377,7 +1377,7 @@ than once per second.
   to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
 """
 function set_identity_mail_from_domain(Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetIdentityMailFromDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1407,7 +1407,7 @@ more information about feedback notification, see the Amazon SES Developer Guide
   disabled.
 """
 function set_identity_notification_topic(Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetIdentityNotificationTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1427,7 +1427,7 @@ operation no more than once per second.
 - `after`: The name of the receipt rule after which to place the specified receipt rule.
 """
 function set_receipt_rule_position(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("SetReceiptRulePosition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1445,7 +1445,7 @@ of replacement data. You can execute this operation no more than once per second
 
 """
 function test_render_template(TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("TestRenderTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1463,7 +1463,7 @@ can execute this operation no more than once per second.
   account in the current AWS Region.
 """
 function update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateAccountSendingEnabled", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1487,7 +1487,7 @@ You can execute this operation no more than once per second.
 
 """
 function update_configuration_set_event_destination(ConfigurationSetName, EventDestination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1507,7 +1507,7 @@ this operation no more than once per second.
 
 """
 function update_configuration_set_reputation_metrics_enabled(ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateConfigurationSetReputationMetricsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1527,7 +1527,7 @@ You can execute this operation no more than once per second.
 
 """
 function update_configuration_set_sending_enabled(ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateConfigurationSetSendingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1547,7 +1547,7 @@ Developer Guide.
 
 """
 function update_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1575,7 +1575,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 - `template_subject`: The subject line of the custom verification email.
 """
 function update_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1591,7 +1591,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function update_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1607,7 +1607,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function update_template(Template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("UpdateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1636,7 +1636,7 @@ operation no more than once per second.
 
 """
 function verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("VerifyDomainDkim", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1653,7 +1653,7 @@ this operation no more than once per second.
 
 """
 function verify_domain_identity(Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("VerifyDomainIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1667,7 +1667,7 @@ Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
 """
 function verify_email_address(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("VerifyEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1684,6 +1684,6 @@ than once per second.
 
 """
 function verify_email_identity(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ses("VerifyEmailIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

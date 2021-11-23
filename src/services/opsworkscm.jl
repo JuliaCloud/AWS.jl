@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "server_name" => "ServerName", "associate_public_ip_address" => "AssociatePublicIpAddress", "backup_id" => "BackupId", "backup_retention_count" => "BackupRetentionCount", "custom_certificate" => "CustomCertificate", "custom_domain" => "CustomDomain", "custom_private_key" => "CustomPrivateKey", "disable_automated_backup" => "DisableAutomatedBackup", "engine_attributes" => "EngineAttributes", "engine_model" => "EngineModel", "engine_version" => "EngineVersion", "key_pair" => "KeyPair", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "subnet_ids" => "SubnetIds", "tags" => "Tags", "instance_type" => "InstanceType", "description" => "Description", "attribute_value" => "AttributeValue", "input_attributes" => "InputAttributes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "server_name" => "ServerName", "associate_public_ip_address" => "AssociatePublicIpAddress", "backup_id" => "BackupId", "backup_retention_count" => "BackupRetentionCount", "custom_certificate" => "CustomCertificate", "custom_domain" => "CustomDomain", "custom_private_key" => "CustomPrivateKey", "disable_automated_backup" => "DisableAutomatedBackup", "engine_attributes" => "EngineAttributes", "engine_model" => "EngineModel", "engine_version" => "EngineVersion", "key_pair" => "KeyPair", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "subnet_ids" => "SubnetIds", "tags" => "Tags", "instance_type" => "InstanceType", "description" => "Description", "attribute_value" => "AttributeValue", "input_attributes" => "InputAttributes")
 
 """
     associate_node(engine_attributes, node_name, server_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -37,7 +37,7 @@ Cloudformation templates, or the user data of a server's instance.
 
 """
 function associate_node(EngineAttributes, NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -67,7 +67,7 @@ not found. A ValidationException is thrown when parameters of the request are no
   of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
 """
 function create_backup(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ private key, specify values for CustomDomain, CustomCertificate, and CustomPriva
   AWS OpsWorks-CM server.
 """
 function create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ ValidationException is thrown when parameters of the request are not valid.
 
 """
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ ValidationException is raised when parameters of the request are not valid.
 
 """
 function delete_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +252,7 @@ end
 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ ValidationException is raised when parameters of the request are not valid.
 - `server_name`: Returns backups for the server with the specified ServerName.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ not valid.
   InvalidNextTokenException to occur.
 """
 function describe_events(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ is raised when parameters of the request are not valid.
 
 """
 function describe_node_association_status(NodeAssociationStatusToken, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -338,7 +338,7 @@ not valid.
 - `server_name`: Describes the server with the specified ServerName.
 """
 function describe_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DescribeServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ of the request are not valid.
   default only one organization named default can exist.
 """
 function disassociate_node(NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +398,7 @@ CREATING, TERMINATED, FAILED or DELETING.
   this parameter is ignored.
 """
 function export_server_engine_attribute(ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ AWS OpsWorks for Puppet Enterprise servers or backups.
   InvalidNextTokenException to occur.
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ is raised when parameters of the request are not valid.
   if the administrator no longer has the SSH key.
 """
 function restore_server(BackupId, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -487,7 +487,7 @@ not exist. A ValidationException is raised when parameters of the request are no
   for Chef Automate Server to Chef Automate 2.
 """
 function start_maintenance(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -512,7 +512,7 @@ server, or to server backups.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -530,7 +530,7 @@ Removes specified tags from an AWS OpsWorks-CM server or backup.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -550,7 +550,7 @@ end
 - `preferred_maintenance_window`:
 """
 function update_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,6 +573,6 @@ not exist. A ValidationException is raised when parameters of the request are no
 - `attribute_value`: The value to set for the attribute.
 """
 function update_server_engine_attributes(AttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

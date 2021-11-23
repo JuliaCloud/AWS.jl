@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("custom_suffix" => "CustomSuffix", "description" => "Description", "marker" => "Marker", "max_items" => "MaxItems", "path" => "Path", "permissions_boundary" => "PermissionsBoundary", "tags" => "Tags", "filter" => "Filter", "allow_users_to_change_password" => "AllowUsersToChangePassword", "hard_expiry" => "HardExpiry", "max_password_age" => "MaxPasswordAge", "minimum_password_length" => "MinimumPasswordLength", "password_reuse_prevention" => "PasswordReusePrevention", "require_lowercase_characters" => "RequireLowercaseCharacters", "require_numbers" => "RequireNumbers", "require_symbols" => "RequireSymbols", "require_uppercase_characters" => "RequireUppercaseCharacters", "set_as_default" => "SetAsDefault", "path_prefix" => "PathPrefix", "user_name" => "UserName", "password" => "Password", "password_reset_required" => "PasswordResetRequired", "assignment_status" => "AssignmentStatus", "new_path" => "NewPath", "new_server_certificate_name" => "NewServerCertificateName", "policy_input_list" => "PolicyInputList", "max_session_duration" => "MaxSessionDuration", "caller_arn" => "CallerArn", "context_entries" => "ContextEntries", "permissions_boundary_policy_input_list" => "PermissionsBoundaryPolicyInputList", "resource_arns" => "ResourceArns", "resource_handling_option" => "ResourceHandlingOption", "resource_owner" => "ResourceOwner", "resource_policy" => "ResourcePolicy", "certificate_chain" => "CertificateChain", "new_user_name" => "NewUserName", "client_idlist" => "ClientIDList", "service_name" => "ServiceName", "sort_key" => "SortKey", "granularity" => "Granularity", "only_attached" => "OnlyAttached", "policy_usage_filter" => "PolicyUsageFilter", "scope" => "Scope", "organizations_policy_id" => "OrganizationsPolicyId", "entity_filter" => "EntityFilter", "new_group_name" => "NewGroupName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("custom_suffix" => "CustomSuffix", "description" => "Description", "marker" => "Marker", "max_items" => "MaxItems", "path" => "Path", "permissions_boundary" => "PermissionsBoundary", "tags" => "Tags", "filter" => "Filter", "allow_users_to_change_password" => "AllowUsersToChangePassword", "hard_expiry" => "HardExpiry", "max_password_age" => "MaxPasswordAge", "minimum_password_length" => "MinimumPasswordLength", "password_reuse_prevention" => "PasswordReusePrevention", "require_lowercase_characters" => "RequireLowercaseCharacters", "require_numbers" => "RequireNumbers", "require_symbols" => "RequireSymbols", "require_uppercase_characters" => "RequireUppercaseCharacters", "set_as_default" => "SetAsDefault", "path_prefix" => "PathPrefix", "user_name" => "UserName", "password" => "Password", "password_reset_required" => "PasswordResetRequired", "assignment_status" => "AssignmentStatus", "new_path" => "NewPath", "new_server_certificate_name" => "NewServerCertificateName", "policy_input_list" => "PolicyInputList", "max_session_duration" => "MaxSessionDuration", "caller_arn" => "CallerArn", "context_entries" => "ContextEntries", "permissions_boundary_policy_input_list" => "PermissionsBoundaryPolicyInputList", "resource_arns" => "ResourceArns", "resource_handling_option" => "ResourceHandlingOption", "resource_owner" => "ResourceOwner", "resource_policy" => "ResourcePolicy", "certificate_chain" => "CertificateChain", "new_user_name" => "NewUserName", "client_idlist" => "ClientIDList", "service_name" => "ServiceName", "sort_key" => "SortKey", "granularity" => "Granularity", "only_attached" => "OnlyAttached", "policy_usage_filter" => "PolicyUsageFilter", "scope" => "Scope", "organizations_policy_id" => "OrganizationsPolicyId", "entity_filter" => "EntityFilter", "new_group_name" => "NewGroupName")
 
 """
     add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ provider.
 
 """
 function add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -52,7 +52,7 @@ profiles, see About instance profiles.
 
 """
 function add_role_to_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ Adds the specified user to the specified group.
 
 """
 function add_user_to_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ Managed policies and inline policies in the IAM User Guide.
 
 """
 function attach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -123,7 +123,7 @@ the IAM User Guide.
 
 """
 function attach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -147,7 +147,7 @@ and inline policies in the IAM User Guide.
 
 """
 function attach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ IAM User Guide.
 
 """
 function change_password(NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -202,7 +202,7 @@ user and then create new keys.
   characters: _+=,.@-
 """
 function create_access_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateAccessKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ ID in the IAM User Guide.
 
 """
 function create_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -246,7 +246,7 @@ and STS quotas in the IAM User Guide.
   lowercased letters.
 """
 function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -279,7 +279,7 @@ IAM object quotas in the IAM User Guide.
   and the resource is not created.
 """
 function create_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ information about managing passwords, see Managing passwords in the IAM User Gui
   on next sign-in.
 """
 function create_login_profile(Password, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -379,7 +379,7 @@ CreateOpenIDConnectProvider operation to highly privileged users.
   and the resource is not created.
 """
 function create_open_idconnect_provider(ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -430,7 +430,7 @@ in general, see Managed policies and inline policies in the IAM User Guide.
   and the resource is not created.
 """
 function create_policy(PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ versions, see Versioning for managed policies in the IAM User Guide.
   for managed policies in the IAM User Guide.
 """
 function create_policy_version(PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -525,7 +525,7 @@ create, see IAM and STS quotas in the IAM User Guide.
   created.
 """
 function create_role(AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -565,7 +565,7 @@ the IAM User Guide.
   is not created.
 """
 function create_samlprovider(Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -600,7 +600,7 @@ Web Services service that depends on this role.
 - `description`: The description of the role.
 """
 function create_service_linked_role(AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -629,7 +629,7 @@ keys in the IAM User Guide.
 
 """
 function create_service_specific_credential(ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,7 +661,7 @@ for the number of IAM users you can create, see IAM and STS quotas in the IAM Us
   created.
 """
 function create_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -699,7 +699,7 @@ ensure that the information is destroyed following secure procedures.
   is not created.
 """
 function create_virtual_mfadevice(VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -723,7 +723,7 @@ IAM User Guide.
 
 """
 function deactivate_mfadevice(SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -749,7 +749,7 @@ users.
   characters: _+=,.@-
 """
 function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -767,7 +767,7 @@ ID in the IAM User Guide.
 
 """
 function delete_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -778,7 +778,7 @@ Deletes the password policy for the Amazon Web Services account. There are no pa
 
 """
 function delete_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -795,7 +795,7 @@ policies.
 
 """
 function delete_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -819,7 +819,7 @@ inline policies in the IAM User Guide.
 
 """
 function delete_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -840,7 +840,7 @@ information about instance profiles, see About instance profiles.
 
 """
 function delete_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -865,7 +865,7 @@ making keys inactive or deleting them, see UpdateAccessKey and DeleteAccessKey.
 
 """
 function delete_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -885,7 +885,7 @@ operation for a provider that does not exist.
 
 """
 function delete_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -912,7 +912,7 @@ policies, see Managed policies and inline policies in the IAM User Guide.
 
 """
 function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -937,7 +937,7 @@ Versioning for managed policies in the IAM User Guide.
 
 """
 function delete_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -957,7 +957,7 @@ the instance.
 
 """
 function delete_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -974,7 +974,7 @@ assumes the role to perform all the actions granted in its permissions policies.
 
 """
 function delete_role_permissions_boundary(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -998,7 +998,7 @@ policies in the IAM User Guide.
 
 """
 function delete_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1015,7 +1015,7 @@ resource ARN fails.   This operation requires Signature Version 4.
 
 """
 function delete_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1041,7 +1041,7 @@ DeleteLoadBalancerListeners in the Elastic Load Balancing API Reference.
 
 """
 function delete_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1068,7 +1068,7 @@ terms and concepts: Amazon Web Services service-linked role in the IAM User Guid
 
 """
 function delete_service_linked_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1091,7 +1091,7 @@ Deletes the specified service-specific credential.
   can also include any of the following characters: _+=,.@-
 """
 function delete_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1117,7 +1117,7 @@ associated IAM users.
   characters: _+=,.@-
 """
 function delete_signing_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1140,7 +1140,7 @@ CodeCommit for SSH connections in the CodeCommit User Guide.
 
 """
 function delete_sshpublic_key(SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1164,7 +1164,7 @@ authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)   Inli
 
 """
 function delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1181,7 +1181,7 @@ actions granted in its permissions policies.
 
 """
 function delete_user_permissions_boundary(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1205,7 +1205,7 @@ policies in the IAM User Guide.
 
 """
 function delete_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1223,7 +1223,7 @@ can delete it. For information about deactivating MFA devices, see DeactivateMFA
 
 """
 function delete_virtual_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1245,7 +1245,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1267,7 +1267,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1289,7 +1289,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1324,7 +1324,7 @@ with the device.
 
 """
 function enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1336,7 +1336,7 @@ about the credential report, see Getting credential reports in the IAM User Guid
 
 """
 function generate_credential_report(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GenerateCredentialReport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1431,7 +1431,7 @@ viewing user activity in the IAM User Guide.
   service.
 """
 function generate_organizations_access_report(EntityPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1485,7 +1485,7 @@ User Guide.
   include this optional parameter, the operation generates service data.
 """
 function generate_service_last_accessed_details(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1503,7 +1503,7 @@ Region that were specified in the last request made with that key.
 
 """
 function get_access_key_last_used(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1538,7 +1538,7 @@ paginate the results using the MaxItems and Marker parameters.
   continue from.
 """
 function get_account_authorization_details(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetAccountAuthorizationDetails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1552,7 +1552,7 @@ policy.
 
 """
 function get_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1564,7 +1564,7 @@ account.  For information about IAM quotas, see IAM and STS quotas in the IAM Us
 
 """
 function get_account_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetAccountSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1593,7 +1593,7 @@ of a real HTML request.
 
 """
 function get_context_keys_for_custom_policy(PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1633,7 +1633,7 @@ key names and values you must supply when you call SimulatePrincipalPolicy.
   
 """
 function get_context_keys_for_principal_policy(PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1645,7 +1645,7 @@ about the credential report, see Getting credential reports in the IAM User Guid
 
 """
 function get_credential_report(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetCredentialReport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1673,7 +1673,7 @@ results using the MaxItems and Marker parameters.
   continue from.
 """
 function get_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1701,7 +1701,7 @@ and inline policies in the IAM User Guide.
 
 """
 function get_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1720,7 +1720,7 @@ About instance profiles in the IAM User Guide.
 
 """
 function get_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1745,7 +1745,7 @@ for the user to access the Amazon Web Services Management Console.
 
 """
 function get_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1763,7 +1763,7 @@ IAM.
 
 """
 function get_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1804,7 +1804,7 @@ failed. By default, the list is sorted by service namespace.
   sorted numerically by the date and time.
 """
 function get_organizations_access_report(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1828,7 +1828,7 @@ Managed policies and inline policies in the IAM User Guide.
 
 """
 function get_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1858,7 +1858,7 @@ managed policy versions, see Versioning for managed policies in the IAM User Gui
 
 """
 function get_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1881,7 +1881,7 @@ functionality.
 
 """
 function get_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1910,7 +1910,7 @@ roles, see Using roles to delegate permissions and federate identities.
 
 """
 function get_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1927,7 +1927,7 @@ resource object was created or updated.  This operation requires Signature Versi
 
 """
 function get_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1947,7 +1947,7 @@ the server certificates that you manage with IAM.
 
 """
 function get_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2000,7 +2000,7 @@ using service last accessed data in the IAM User Guide.
   continue from.
 """
 function get_service_last_accessed_details(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2044,7 +2044,7 @@ listed first.
   continue from.
 """
 function get_service_last_accessed_details_with_entities(JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2064,7 +2064,7 @@ information is returned by the service.
 
 """
 function get_service_linked_role_deletion_status(DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2091,7 +2091,7 @@ Guide.
 
 """
 function get_sshpublic_key(Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2111,7 +2111,7 @@ operation.
   characters: _+=,.@-
 """
 function get_user(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetUser", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2139,7 +2139,7 @@ and inline policies in the IAM User Guide.
 
 """
 function get_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2172,7 +2172,7 @@ Services account, the secret access key is accessible only during key and user c
   spaces. You can also include any of the following characters: _+=,.@-
 """
 function list_access_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListAccessKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2196,7 +2196,7 @@ alias for your Amazon Web Services account ID in the IAM User Guide.
   continue from.
 """
 function list_account_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListAccountAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2237,7 +2237,7 @@ empty list.
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2278,7 +2278,7 @@ empty list.
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2319,7 +2319,7 @@ empty list.
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2365,7 +2365,7 @@ MaxItems and Marker parameters.
   parameter is optional. If it is not included, all policies are returned.
 """
 function list_entities_for_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2397,7 +2397,7 @@ with the specified group, the operation returns an empty list.
   continue from.
 """
 function list_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2428,7 +2428,7 @@ using the MaxItems and Marker parameters.
   characters, digits, and upper and lowercased letters.
 """
 function list_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2456,7 +2456,7 @@ using the MaxItems and Marker parameters.
   continue from.
 """
 function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2486,7 +2486,7 @@ in the IAM User Guide.
   continue from.
 """
 function list_instance_profile_tags(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListInstanceProfileTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2522,7 +2522,7 @@ and Marker parameters.
   punctuation characters, digits, and upper and lowercased letters.
 """
 function list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListInstanceProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2553,7 +2553,7 @@ parameters.
   continue from.
 """
 function list_instance_profiles_for_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2584,7 +2584,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
   continue from.
 """
 function list_mfadevice_tags(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListMFADeviceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2614,7 +2614,7 @@ using the MaxItems and Marker parameters.
   characters: _+=,.@-
 """
 function list_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2645,7 +2645,7 @@ the IAM User Guide.
   continue from.
 """
 function list_open_idconnect_provider_tags(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListOpenIDConnectProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2660,7 +2660,7 @@ for an OIDC provider, see GetOpenIDConnectProvider.
 
 """
 function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListOpenIDConnectProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2710,7 +2710,7 @@ To view all of the information for a customer manged policy, see GetPolicy.
   included, or if it is set to All, all policies are returned.
 """
 function list_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2753,7 +2753,7 @@ set the permissions boundary for a user or role, use the GetUser or GetRole oper
   element in the response that you received to indicate where the next call should start.
 """
 function list_policies_granting_service_access(Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2783,7 +2783,7 @@ resources in the IAM User Guide.
   continue from.
 """
 function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListPolicyTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2812,7 +2812,7 @@ policies, see Managed policies and inline policies in the IAM User Guide.
   continue from.
 """
 function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2844,7 +2844,7 @@ specified role, the operation returns an empty list.
   continue from.
 """
 function list_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2874,7 +2874,7 @@ Guide.
   continue from.
 """
 function list_role_tags(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2909,7 +2909,7 @@ the results using the MaxItems and Marker parameters.
   characters, digits, and upper and lowercased letters.
 """
 function list_roles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListRoles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2940,7 +2940,7 @@ resources in the IAM User Guide.
   continue from.
 """
 function list_samlprovider_tags(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListSAMLProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2955,7 +2955,7 @@ This operation requires Signature Version 4.
 
 """
 function list_samlproviders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListSAMLProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2988,7 +2988,7 @@ server certificates, Working with server certificates in the IAM User Guide.
   continue from.
 """
 function list_server_certificate_tags(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListServerCertificateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3026,7 +3026,7 @@ servercertificate, see GetServerCertificate.
   characters, digits, and upper and lowercased letters.
 """
 function list_server_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListServerCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3051,7 +3051,7 @@ the CodeCommit User Guide.
   with no spaces. You can also include any of the following characters: _+=,.@-
 """
 function list_service_specific_credentials(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListServiceSpecificCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3084,7 +3084,7 @@ credentials even if the Amazon Web Services account has no associated users.
   following characters: _+=,.@-
 """
 function list_signing_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListSigningCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3117,7 +3117,7 @@ and Marker parameters.
   can also include any of the following characters: _+=,.@-
 """
 function list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListSSHPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3149,7 +3149,7 @@ user, the operation returns an empty list.
   continue from.
 """
 function list_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3179,7 +3179,7 @@ User Guide.
   continue from.
 """
 function list_user_tags(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3215,7 +3215,7 @@ parameters.
   characters, digits, and upper and lowercased letters.
 """
 function list_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3247,7 +3247,7 @@ parameters.
   continue from.
 """
 function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ListVirtualMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3282,7 +3282,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 function put_group_policy(GroupName, PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3306,7 +3306,7 @@ IAM JSON policy evaluation logic in the IAM User Guide.
 
 """
 function put_role_permissions_boundary(PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3346,7 +3346,7 @@ Guide.
 
 """
 function put_role_policy(PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3370,7 +3370,7 @@ Guide.
 
 """
 function put_user_permissions_boundary(PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3405,7 +3405,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 function put_user_policy(PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3427,7 +3427,7 @@ ID that does not exist.
 
 """
 function remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3452,7 +3452,7 @@ profiles, see About instance profiles.
 
 """
 function remove_role_from_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3471,7 +3471,7 @@ Removes the specified user from the specified group.
 
 """
 function remove_user_from_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3496,7 +3496,7 @@ user.
   can also include any of the following characters: _+=,.@-
 """
 function reset_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3523,7 +3523,7 @@ see Using a virtual MFA device in the IAM User Guide.
 
 """
 function resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3546,7 +3546,7 @@ inline policies in the IAM User Guide.
 
 """
 function set_default_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3579,7 +3579,7 @@ GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operat
 
 """
 function set_security_token_service_preferences(GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3703,7 +3703,7 @@ see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
 """
 function simulate_custom_policy(ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3839,7 +3839,7 @@ IAM User Guide.
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
 """
 function simulate_principal_policy(ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3872,7 +3872,7 @@ values in the string. However, you must interpret the value in your code.
 
 """
 function tag_instance_profile(InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3907,7 +3907,7 @@ in your code.
 
 """
 function tag_mfadevice(SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3941,7 +3941,7 @@ values in the string. However, you must interpret the value in your code.
 
 """
 function tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3974,7 +3974,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4011,7 +4011,7 @@ the IAM User Guide.
 
 """
 function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4045,7 +4045,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 function tag_samlprovider(SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4083,7 +4083,7 @@ you must interpret the value in your code.
 
 """
 function tag_server_certificate(ServerCertificateName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4119,7 +4119,7 @@ information about tagging, see Tagging IAM identities in the IAM User Guide.
 
 """
 function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4139,7 +4139,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
 
 """
 function untag_instance_profile(InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4160,7 +4160,7 @@ For more information about tagging, see Tagging IAM resources in the IAM User Gu
 
 """
 function untag_mfadevice(SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4182,7 +4182,7 @@ Guide.
 
 """
 function untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4202,7 +4202,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
 
 """
 function untag_policy(PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4222,7 +4222,7 @@ IAM resources in the IAM User Guide.
 
 """
 function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4244,7 +4244,7 @@ IAM User Guide.
 
 """
 function untag_samlprovider(SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4268,7 +4268,7 @@ IAM User Guide.
 
 """
 function untag_server_certificate(ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4288,7 +4288,7 @@ IAM resources in the IAM User Guide.
 
 """
 function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4319,7 +4319,7 @@ in the IAM User Guide.
   characters: _+=,.@-
 """
 function update_access_key(AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4374,7 +4374,7 @@ a password policy, see Managing an IAM password policy in the IAM User Guide.
   result is that passwords do not require at least one uppercase character.
 """
 function update_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4402,7 +4402,7 @@ to delegate permissions and federate identities.
 
 """
 function update_assume_role_policy(PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4437,7 +4437,7 @@ Access management.
   letters.
 """
 function update_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4469,7 +4469,7 @@ Managing passwords in the IAM User Guide.
   specified IAM user to set a new password on next sign-in.
 """
 function update_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4503,7 +4503,7 @@ privileged users.
 
 """
 function update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4530,7 +4530,7 @@ Updates the description or maximum session duration setting of a role.
   User Guide.
 """
 function update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4546,7 +4546,7 @@ the same function as the Description parameter in the UpdateRole operation.
 
 """
 function update_role_description(Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4568,7 +4568,7 @@ operation requires Signature Version 4.
 
 """
 function update_samlprovider(SAMLMetadataDocument, SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4608,7 +4608,7 @@ management in the IAM User Guide.
   can also include any of the following characters: _+=,.@-
 """
 function update_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4634,7 +4634,7 @@ credential rotation work flow.
   can also include any of the following characters: _+=,.@-
 """
 function update_service_specific_credential(ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4664,7 +4664,7 @@ credentials even if the Amazon Web Services account has no associated users.
   characters: _+=,.@-
 """
 function update_signing_certificate(CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4692,7 +4692,7 @@ repository, see Set up CodeCommit for SSH connections in the CodeCommit User Gui
 
 """
 function update_sshpublic_key(SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4726,7 +4726,7 @@ about permissions, see Permissions and policies.
   \"MyResource\" and \"myresource\".
 """
 function update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4794,7 +4794,7 @@ API with IAM, see Calling the API by making HTTP query requests in the IAM User 
   and the resource is not created.
 """
 function upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4831,7 +4831,7 @@ the Query API with IAM, see Making query requests in the IAM User Guide.
   characters: _+=,.@-
 """
 function upload_signing_certificate(CertificateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4860,6 +4860,6 @@ Guide.
 
 """
 function upload_sshpublic_key(SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

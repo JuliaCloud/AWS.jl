@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "resolution_id" => "resolutionId", "client_token" => "clientToken", "data_location_constraint" => "dataLocationConstraint", "policy_description" => "policyDescription", "tags" => "tags", "app_arn" => "appArn", "assessment_name" => "assessmentName", "assessment_status" => "assessmentStatus", "compliance_status" => "complianceStatus", "invoker" => "invoker", "reverse_order" => "reverseOrder", "force_delete" => "forceDelete", "name" => "name", "recommendation_template_arn" => "recommendationTemplateArn", "status" => "status", "policy" => "policy", "policy_name" => "policyName", "tier" => "tier", "app_registry_app_names" => "appRegistryAppNames", "logical_stack_names" => "logicalStackNames", "resource_group_names" => "resourceGroupNames", "resource_names" => "resourceNames", "clear_resiliency_policy_arn" => "clearResiliencyPolicyArn", "description" => "description", "policy_arn" => "policyArn", "bucket_name" => "bucketName", "format" => "format", "recommendation_ids" => "recommendationIds", "recommendation_types" => "recommendationTypes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "resolution_id" => "resolutionId", "client_token" => "clientToken", "data_location_constraint" => "dataLocationConstraint", "policy_description" => "policyDescription", "tags" => "tags", "app_arn" => "appArn", "assessment_name" => "assessmentName", "assessment_status" => "assessmentStatus", "compliance_status" => "complianceStatus", "invoker" => "invoker", "reverse_order" => "reverseOrder", "force_delete" => "forceDelete", "name" => "name", "recommendation_template_arn" => "recommendationTemplateArn", "status" => "status", "policy" => "policy", "policy_name" => "policyName", "tier" => "tier", "app_registry_app_names" => "appRegistryAppNames", "logical_stack_names" => "logicalStackNames", "resource_group_names" => "resourceGroupNames", "resource_names" => "resourceNames", "clear_resiliency_policy_arn" => "clearResiliencyPolicyArn", "description" => "description", "policy_arn" => "policyArn", "bucket_name" => "bucketName", "format" => "format", "recommendation_ids" => "recommendationIds", "recommendation_types" => "recommendationTypes")
 
 """
     add_draft_app_version_resource_mappings(app_arn, resource_mappings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Adds the resource mapping for the draft application version.
 
 """
 function add_draft_app_version_resource_mappings(appArn, resourceMappings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/add-draft-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "resourceMappings"=>resourceMappings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -56,7 +56,7 @@ time objective (RTO) and recovery point objective (RPO).&lt;/p&gt;
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/create-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ Creates a new recommendation template.
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_recommendation_template(assessmentArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/create-recommendation-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Creates a resiliency policy for an application.
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_resiliency_policy(policy, policyName, tier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/create-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "policyName"=>policyName, "tier"=>tier, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -137,7 +137,7 @@ undone.
 - `force_delete`: A boolean option to force the deletion of a Resilience Hub application.
 """
 function delete_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/delete-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -158,7 +158,7 @@ can't be undone.
   API requests.
 """
 function delete_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/delete-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -177,7 +177,7 @@ Deletes a recommendation template. This is a destructive action that can't be un
   API requests.
 """
 function delete_recommendation_template(recommendationTemplateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/delete-recommendation-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationTemplateArn"=>recommendationTemplateArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Deletes a resiliency policy. This is a destructive action that can't be undone.
   API requests.
 """
 function delete_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/delete-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ Describes an AWS Resilience Hub application.
 
 """
 function describe_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -229,7 +229,7 @@ Describes an assessment for an AWS Resilience Hub application.
 
 """
 function describe_app_assessment(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ version. If resolutionId is not specified, the current resolution status is retu
 - `resolution_id`: The identifier for a specific resolution.
 """
 function describe_app_version_resources_resolution_status(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-app-version-resources-resolution-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Describes details about an AWS Resilience Hub
 
 """
 function describe_app_version_template(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-app-version-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -282,7 +282,7 @@ Describes the status of importing resources to an application version.
 
 """
 function describe_draft_app_version_resources_import_status(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-draft-app-version-resources-import-status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ policy object includes creation time, data location constraints, the Amazon Reso
 
 """
 function describe_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/describe-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -318,7 +318,7 @@ application registry app to a draft application version.
 
 """
 function import_resources_to_draft_app_version(appArn, sourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/import-resources-to-draft-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "sourceArns"=>sourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ Lists the alarm recommendations for a AWS Resilience Hub application.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_alarm_recommendations(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-alarm-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -366,7 +366,7 @@ to refine the results for the response object.
   startTime, set reverseOrder to true.
 """
 function list_app_assessments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/list-app-assessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ Lists the compliances for an AWS Resilience Hub component.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_compliances(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-app-component-compliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -408,7 +408,7 @@ Lists the recommendations for an AWS Resilience Hub component.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_recommendations(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-app-component-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -432,7 +432,7 @@ registry app.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_resource_mappings(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -455,7 +455,7 @@ Lists all the resources in an application version.
 - `resolution_id`: The identifier for a specific resolution.
 """
 function list_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +476,7 @@ Lists the different versions for the Resilience Hub applications.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_versions(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-app-versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -496,7 +496,7 @@ Lists your Resilience Hub applications.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/list-apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -523,7 +523,7 @@ Lists the recommendation templates for the Resilience Hub applications.
 - `status`: The status of the action.
 """
 function list_recommendation_templates(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/list-recommendation-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -540,7 +540,7 @@ Lists the resiliency policies for the Resilience Hub applications.
 - `policy_name`: The name of the policy
 """
 function list_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/list-resiliency-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -562,7 +562,7 @@ applications.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_sop_recommendations(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-sop-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -578,7 +578,7 @@ Lists the suggested resiliency policies for the Resilience Hub applications.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_suggested_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/list-suggested-resiliency-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -593,7 +593,7 @@ Lists the tags for your resources in your Resilience Hub applications.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -614,7 +614,7 @@ Lists the test recommendations for the Resilience Hub application.
 - `next_token`: Null, or the token from a previous call to get the next set of results.
 """
 function list_test_recommendations(assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-test-recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentArn"=>assessmentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -639,7 +639,7 @@ supported by Resilience Hub.
 - `resolution_id`: The identifier for a specific resolution.
 """
 function list_unsupported_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/list-unsupported-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -655,7 +655,7 @@ Publishes a new version of a specific Resilience Hub application.
 
 """
 function publish_app_version(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/publish-app-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -672,7 +672,7 @@ Adds or updates the app template for a draft version of a Resilience Hub app.
 
 """
 function put_draft_app_version_template(appArn, appTemplateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/put-draft-app-version-template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appTemplateBody"=>appTemplateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -696,7 +696,7 @@ Removes resource mappings from a draft application version.
 - `resource_names`: The names of the resources to remove from the resource mappings.
 """
 function remove_draft_app_version_resource_mappings(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/remove-draft-app-version-resource-mappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -713,7 +713,7 @@ Resolves the resources for an application version.
 
 """
 function resolve_app_version_resources(appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/resolve-app-version-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -737,7 +737,7 @@ Creates a new application assessment for an application.
   Web Services resource. Each tag consists of a key/value pair.
 """
 function start_app_assessment(appArn, appVersion, assessmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/start-app-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "appVersion"=>appVersion, "assessmentName"=>assessmentName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -752,7 +752,7 @@ Applies one or more tags to a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -767,7 +767,7 @@ Removes one or more tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -789,7 +789,7 @@ Updates an application.
   information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 """
 function update_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/update-app", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -814,6 +814,6 @@ Updates a resiliency policy.
   (MissionCritical) to lowest (NonCritical).
 """
 function update_resiliency_policy(policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resiliencehub("POST", "/update-resiliency-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyArn"=>policyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("display_name" => "DisplayName", "max_results" => "MaxResults", "next_token" => "NextToken", "device_ca_certificate" => "DeviceCaCertificate", "audit_stream_arn" => "AuditStreamArn", "optimize_for_end_user_location" => "OptimizeForEndUserLocation", "domain_name" => "DomainName", "identity_provider_saml_metadata" => "IdentityProviderSamlMetadata", "tags" => "Tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("display_name" => "DisplayName", "max_results" => "MaxResults", "next_token" => "NextToken", "device_ca_certificate" => "DeviceCaCertificate", "audit_stream_arn" => "AuditStreamArn", "optimize_for_end_user_location" => "OptimizeForEndUserLocation", "domain_name" => "DomainName", "identity_provider_saml_metadata" => "IdentityProviderSamlMetadata", "tags" => "Tags")
 
 """
     associate_domain(acm_certificate_arn, domain_name, fleet_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ Specifies a domain to be associated to Amazon WorkLink.
 - `display_name`: The name to display.
 """
 function associate_domain(AcmCertificateArn, DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/associateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcmCertificateArn"=>AcmCertificateArn, "DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ authorize users against associated websites in the company network.
   SAML-based authorization providers.
 """
 function associate_website_authorization_provider(AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ certificates used by associated websites within the company network.
 - `display_name`: The certificate name to display.
 """
 function associate_website_certificate_authority(Certificate, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/associateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ associated websites to authorized users who download and set up the Amazon WorkL
 - `tags`:  The tags to add to the resource. A tag is a key-value pair.
 """
 function create_fleet(FleetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ Deletes a fleet. Prevents users from accessing previously associated websites.
 
 """
 function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ Describes the configuration for delivering audit streams to the customer account
 
 """
 function describe_audit_stream_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -123,7 +123,7 @@ specified fleet.
 
 """
 function describe_company_network_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ Provides information about a user's device.
 
 """
 function describe_device(DeviceId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,7 +152,7 @@ Describes the device policy configuration for the specified fleet.
 
 """
 function describe_device_policy_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -167,7 +167,7 @@ Provides information about the domain.
 
 """
 function describe_domain(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ networking, and device configuration details.
 
 """
 function describe_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ Describes the identity provider configuration of the specified fleet.
 
 """
 function describe_identity_provider_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -211,7 +211,7 @@ Provides information about the certificate authority.
 
 """
 function describe_website_certificate_authority(FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/describeWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ domain with Amazon WorkLink.
 
 """
 function disassociate_domain(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/disassociateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -244,7 +244,7 @@ provider.
 
 """
 function disassociate_website_authorization_provider(AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/disassociateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderId"=>AuthorizationProviderId, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -259,7 +259,7 @@ Removes a certificate authority (CA).
 
 """
 function disassociate_website_certificate_authority(FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/disassociateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -277,7 +277,7 @@ Retrieves a list of devices registered with the specified fleet.
   operation. If this value is null, it retrieves the first page.
 """
 function list_devices(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/listDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -295,7 +295,7 @@ Retrieves a list of domains associated to a specified fleet.
   operation. If this value is null, it retrieves the first page.
 """
 function list_domains(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/listDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -310,7 +310,7 @@ Retrieves a list of fleets for the current account and Region.
   operation. If this value is null, it retrieves the first page.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/listFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -324,7 +324,7 @@ Retrieves a list of tags for the specified resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -342,7 +342,7 @@ Retrieves a list of website authorization providers associated with a specified 
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_authorization_providers(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -360,7 +360,7 @@ Retrieves a list of certificate authorities added for the current account and Re
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_certificate_authorities(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -375,7 +375,7 @@ Moves a domain to ACTIVE status if it was in the INACTIVE status.
 
 """
 function restore_domain_access(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/restoreDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -390,7 +390,7 @@ Moves a domain to INACTIVE status if it was in the ACTIVE status.
 
 """
 function revoke_domain_access(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/revokeDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -406,7 +406,7 @@ credentials.
 
 """
 function sign_out_user(FleetArn, Username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/signOutUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "Username"=>Username), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -423,7 +423,7 @@ this operation updates its value.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,7 +438,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -455,7 +455,7 @@ Updates the audit stream configuration for the fleet.
   events.
 """
 function update_audit_stream_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -473,7 +473,7 @@ Updates the company network configuration for the fleet.
 
 """
 function update_company_network_configuration(FleetArn, SecurityGroupIds, SubnetIds, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/updateCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "SecurityGroupIds"=>SecurityGroupIds, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -490,7 +490,7 @@ Updates the device policy configuration for the fleet.
   the root certificate authority certificate used to issue device certificates.
 """
 function update_device_policy_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ Updates domain metadata, such as DisplayName.
 - `display_name`: The name to display.
 """
 function update_domain_metadata(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/updateDomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -527,7 +527,7 @@ Updates fleet metadata, such as DisplayName.
   Region.
 """
 function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,6 +546,6 @@ Updates the identity provider configuration for the fleet.
   is passed.
 """
 function update_identity_provider_configuration(FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

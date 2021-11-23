@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("limit" => "Limit", "sequence_number" => "SequenceNumber", "exclusive_start_stream_arn" => "ExclusiveStartStreamArn", "table_name" => "TableName", "exclusive_start_shard_id" => "ExclusiveStartShardId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("limit" => "Limit", "sequence_number" => "SequenceNumber", "exclusive_start_stream_arn" => "ExclusiveStartStreamArn", "table_name" => "TableName", "exclusive_start_shard_id" => "ExclusiveStartShardId")
 
 """
     describe_stream(stream_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ present, then that shard is closed and can no longer receive more data.
 - `limit`: The maximum number of shard objects to return. The upper limit is 100.
 """
 function describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb_streams("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ records, whichever comes first.
 - `limit`: The maximum number of records to return from the shard. The upper limit is 1000.
 """
 function get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb_streams("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -81,7 +81,7 @@ after it is returned to the requester.
   start reading.
 """
 function get_shard_iterator(ShardId, ShardIteratorType, StreamArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb_streams("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamArn"=>StreamArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,6 +101,6 @@ table.  You can call ListStreams at a maximum rate of 5 times per second.
   table name are returned.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb_streams("ListStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

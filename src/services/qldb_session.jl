@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("abort_transaction" => "AbortTransaction", "commit_transaction" => "CommitTransaction", "end_session" => "EndSession", "execute_statement" => "ExecuteStatement", "fetch_page" => "FetchPage", "session_token" => "SessionToken", "start_session" => "StartSession", "start_transaction" => "StartTransaction")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("abort_transaction" => "AbortTransaction", "commit_transaction" => "CommitTransaction", "end_session" => "EndSession", "execute_statement" => "ExecuteStatement", "fetch_page" => "FetchPage", "session_token" => "SessionToken", "start_session" => "StartSession", "start_transaction" => "StartTransaction")
 
 """
     send_command(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,6 +35,6 @@ Accessing Amazon QLDB using the QLDB shell.
 - `start_transaction`: Command to start a new transaction.
 """
 function send_command(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb_session("SendCommand", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

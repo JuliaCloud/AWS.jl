@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("connect_participant" => "ConnectParticipant", "contact_id" => "ContactId", "max_results" => "MaxResults", "next_token" => "NextToken", "scan_direction" => "ScanDirection", "sort_order" => "SortOrder", "start_position" => "StartPosition", "client_token" => "ClientToken", "content" => "Content")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("connect_participant" => "ConnectParticipant", "contact_id" => "ContactId", "max_results" => "MaxResults", "next_token" => "NextToken", "scan_direction" => "ScanDirection", "sort_order" => "SortOrder", "start_position" => "StartPosition", "client_token" => "ClientToken", "content" => "Content")
 
 """
     complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ use Signature Version 4 authentication.
 
 """
 function complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -56,7 +56,7 @@ Participant Service APIs do not use Signature Version 4 authentication.
   connected for message streaming.
 """
 function create_participant_connection(Type, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -75,7 +75,7 @@ Version 4 authentication.
   idempotency of the request.
 """
 function disconnect_participant(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -92,7 +92,7 @@ Signature Version 4 authentication.
 
 """
 function get_attachment(AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -117,7 +117,7 @@ Connect Participant Service APIs do not use Signature Version 4 authentication.
 - `start_position`: A filtering option for where to start.
 """
 function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +141,7 @@ ParticipantToken. The Amazon Connect Participant Service APIs do not use Signatu
   yet supported.
 """
 function send_event(ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "client_token"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ ParticipantToken. The Amazon Connect Participant Service APIs do not use Signatu
   idempotency of the request.
 """
 function send_message(Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "client_token"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,6 +182,6 @@ Amazon Connect Participant Service APIs do not use Signature Version 4 authentic
 
 """
 function start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

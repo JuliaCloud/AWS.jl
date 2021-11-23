@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "contents" => "contents", "name" => "name", "region" => "region", "snapshot_id" => "snapshotId", "platform" => "platform", "project_id" => "projectId", "sync_from_resources" => "syncFromResources")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "contents" => "contents", "name" => "name", "region" => "region", "snapshot_id" => "snapshotId", "platform" => "platform", "project_id" => "projectId", "sync_from_resources" => "syncFromResources")
 
 """
     create_project(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "ma
   snapshot identifier is included in the share URL when a project is exported.
 """
 function create_project(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("POST", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -36,7 +36,7 @@ end
 
 """
 function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("DELETE", "/projects/$(projectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -50,7 +50,7 @@ end
 
 """
 function describe_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("GET", "/bundles/$(bundleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -68,7 +68,7 @@ end
   project.
 """
 function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("GET", "/project", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -86,7 +86,7 @@ mobile web or mobile app clients with backend AWS resources.
 - `project_id`:  Unique project identifier.
 """
 function export_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("POST", "/bundles/$(bundleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ successfully within the same AWS account.
 
 """
 function export_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("POST", "/exports/$(projectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ end
   request to list more bundles.
 """
 function list_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("GET", "/bundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ end
   request to list more projects.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,6 +152,6 @@ end
   operation.
 """
 function update_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mobile("POST", "/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

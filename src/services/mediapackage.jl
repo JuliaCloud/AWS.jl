@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "include_channel_id" => "includeChannelId", "include_status" => "includeStatus", "description" => "description", "authorization" => "authorization", "cmaf_package" => "cmafPackage", "dash_package" => "dashPackage", "hls_package" => "hlsPackage", "manifest_name" => "manifestName", "mss_package" => "mssPackage", "origination" => "origination", "startover_window_seconds" => "startoverWindowSeconds", "time_delay_seconds" => "timeDelaySeconds", "whitelist" => "whitelist", "tags" => "tags", "egress_access_logs" => "egressAccessLogs", "ingress_access_logs" => "ingressAccessLogs", "channel_id" => "channelId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "include_channel_id" => "includeChannelId", "include_status" => "includeStatus", "description" => "description", "authorization" => "authorization", "cmaf_package" => "cmafPackage", "dash_package" => "dashPackage", "hls_package" => "hlsPackage", "manifest_name" => "manifestName", "mss_package" => "mssPackage", "origination" => "origination", "startover_window_seconds" => "startoverWindowSeconds", "time_delay_seconds" => "timeDelaySeconds", "whitelist" => "whitelist", "tags" => "tags", "egress_access_logs" => "egressAccessLogs", "ingress_access_logs" => "ingressAccessLogs", "channel_id" => "channelId")
 
 """
     configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ Changes the Channel's properities to configure log subscription
 - `ingress_access_logs`:
 """
 function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("PUT", "/channels/$(id)/configure_logs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ cannot be
 - `tags`:
 """
 function create_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ This cannot be changed after the HarvestJob is submitted.
 
 """
 function create_harvest_job(endTime, id, originEndpointId, s3Destination, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -104,7 +104,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 function create_origin_endpoint(channelId, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ Deletes an existing Channel.
 
 """
 function delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("DELETE", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ Deletes an existing OriginEndpoint.
 
 """
 function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("DELETE", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ Gets details about a Channel.
 
 """
 function describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -160,7 +160,7 @@ Gets details about an existing HarvestJob.
 
 """
 function describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/harvest_jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ Gets details about an existing OriginEndpoint.
 
 """
 function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ Returns a collection of Channels.
 - `next_token`: A token used to resume pagination from the end of a previous request.
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -206,7 +206,7 @@ Returns a collection of HarvestJob records.
 - `next_token`: A token used to resume pagination from the end of a previous request.
 """
 function list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -222,7 +222,7 @@ Returns a collection of OriginEndpoint records.
 - `next_token`: A token used to resume pagination from the end of a previous request.
 """
 function list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -236,7 +236,7 @@ end
 
 """
 function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("GET", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 
 """
 function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("PUT", "/channels/$(id)/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 
 """
 function rotate_ingest_endpoint_credentials(id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ end
 
 """
 function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ end
 
 """
 function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -312,7 +312,7 @@ Updates an existing Channel.
 - `description`: A short text description of the Channel.
 """
 function update_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("PUT", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -349,6 +349,6 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 function update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediapackage("PUT", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "webhook_name" => "webhookName", "configuration_properties" => "configurationProperties", "settings" => "settings", "tags" => "tags", "action_owner_filter" => "actionOwnerFilter", "region_filter" => "regionFilter", "version" => "version", "client_request_token" => "clientRequestToken", "continuation_token" => "continuationToken", "current_revision" => "currentRevision", "execution_details" => "executionDetails", "output_variables" => "outputVariables", "abandon" => "abandon", "reason" => "reason", "max_batch_size" => "maxBatchSize", "query_param" => "queryParam", "filter" => "filter")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "webhook_name" => "webhookName", "configuration_properties" => "configurationProperties", "settings" => "settings", "tags" => "tags", "action_owner_filter" => "actionOwnerFilter", "region_filter" => "regionFilter", "version" => "version", "client_request_token" => "clientRequestToken", "continuation_token" => "continuationToken", "current_revision" => "currentRevision", "execution_details" => "executionDetails", "output_variables" => "outputVariables", "abandon" => "abandon", "reason" => "reason", "max_batch_size" => "maxBatchSize", "query_param" => "queryParam", "filter" => "filter")
 
 """
     acknowledge_job(job_id, nonce; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ worker. Used for custom actions only.
 
 """
 function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("AcknowledgeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "nonce"=>nonce), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ Confirms a job worker has received the specified job. Used for partner actions o
 
 """
 function acknowledge_third_party_job(clientToken, jobId, nonce; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("AcknowledgeThirdPartyJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId, "nonce"=>nonce), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ account. Only used for custom actions.
 - `tags`: The tags for the custom action.
 """
 function create_custom_action_type(category, inputArtifactDetails, outputArtifactDetails, provider, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("CreateCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "inputArtifactDetails"=>inputArtifactDetails, "outputArtifactDetails"=>outputArtifactDetails, "provider"=>provider, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ action in your pipeline, you must use artifactStores.
 - `tags`: The tags for the pipeline.
 """
 function create_pipeline(pipeline; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ original string in the version field.
 
 """
 function delete_custom_action_type(category, provider, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("DeleteCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "provider"=>provider, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ Deletes the specified pipeline.
 
 """
 function delete_pipeline(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +141,7 @@ by calling PutWebhook with the same name, it will have a different URL.
 
 """
 function delete_webhook(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -156,7 +156,7 @@ an action type of GitHub.
 - `webhook_name`: The name of the webhook you want to deregister.
 """
 function deregister_webhook_with_third_party(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("DeregisterWebhookWithThirdParty", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -179,7 +179,7 @@ Prevents artifacts in a pipeline from transitioning to the next stage in the pip
 
 """
 function disable_stage_transition(pipelineName, reason, stageName, transitionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("DisableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "reason"=>reason, "stageName"=>stageName, "transitionType"=>transitionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +199,7 @@ Enables artifacts in a pipeline to transition to a stage in a pipeline.
 
 """
 function enable_stage_transition(pipelineName, stageName, transitionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("EnableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "stageName"=>stageName, "transitionType"=>transitionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ supported integration model.
 
 """
 function get_action_type(category, owner, provider, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "owner"=>owner, "provider"=>provider, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ artifacts. This API also returns any secret values defined for the action.
 
 """
 function get_job_details(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -258,7 +258,7 @@ update the pipeline structure with UpdatePipeline.
   to the current version.
 """
 function get_pipeline(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetPipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ the pipeline execution ID, and the name, version, and status of the pipeline.
 
 """
 function get_pipeline_execution(pipelineExecutionId, pipelineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ information, such as the commit ID, for the current state.
 
 """
 function get_pipeline_state(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetPipelineState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ action.
 
 """
 function get_third_party_job_details(clientToken, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("GetThirdPartyJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -335,7 +335,7 @@ Lists the action executions that have occurred in a pipeline.
   which can be used to return the next set of action executions in the list.
 """
 function list_action_executions(pipelineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListActionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -352,7 +352,7 @@ Gets a summary of all AWS CodePipeline action types associated with your account
 - `region_filter`: The Region to filter on for the list of action types.
 """
 function list_action_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListActionTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +374,7 @@ Gets a summary of the most recent executions for a pipeline.
   which can be used to return the next set of pipeline executions in the list.
 """
 function list_pipeline_executions(pipelineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListPipelineExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ Gets a summary of all of the pipelines associated with your account.
   can be used to return the next set of pipelines in the list.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -410,7 +410,7 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
   in one call and does not use pagination.
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -427,7 +427,7 @@ all webhooks and includes the webhook URL and ARN and the configuration for each
   be used to return the next set of webhooks in the list.
 """
 function list_webhooks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("ListWebhooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ action.
   configuration matches the mapped value are returned.
 """
 function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PollForJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -472,7 +472,7 @@ requires access to that S3 bucket for input or output artifacts.
 - `max_batch_size`: The maximum number of jobs to return in a poll for jobs call.
 """
 function poll_for_third_party_jobs(actionTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PollForThirdPartyJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -490,7 +490,7 @@ Provides information to AWS CodePipeline about new revisions to a source.
 
 """
 function put_action_revision(actionName, actionRevision, pipelineName, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutActionRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "actionRevision"=>actionRevision, "pipelineName"=>pipelineName, "stageName"=>stageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -511,7 +511,7 @@ include Approved and Rejected.
 
 """
 function put_approval_result(actionName, pipelineName, result, stageName, token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutApprovalResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "pipelineName"=>pipelineName, "result"=>result, "stageName"=>stageName, "token"=>token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +528,7 @@ custom actions only.
 
 """
 function put_job_failure_result(failureDetails, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("failureDetails"=>failureDetails, "jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -557,7 +557,7 @@ custom actions only.
   there is no continuation token on the request.
 """
 function put_job_success_result(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,7 +576,7 @@ Used for partner actions only.
 
 """
 function put_third_party_job_failure_result(clientToken, failureDetails, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutThirdPartyJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "failureDetails"=>failureDetails, "jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -603,7 +603,7 @@ Used for partner actions only.
   as it passes through stages in the pipeline.
 """
 function put_third_party_job_success_result(clientToken, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutThirdPartyJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -628,7 +628,7 @@ parties to call the generated webhook URL.
 - `tags`: The tags for the webhook.
 """
 function put_webhook(webhook; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("PutWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("webhook"=>webhook), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -643,7 +643,7 @@ events to be detected.
   a supported third party.
 """
 function register_webhook_with_third_party(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("RegisterWebhookWithThirdParty", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ actions that are still in progress continue working, and failed actions are trig
 
 """
 function retry_stage_execution(pipelineExecutionId, pipelineName, retryMode, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("RetryStageExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName, "retryMode"=>retryMode, "stageName"=>stageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -683,7 +683,7 @@ source location specified as part of the pipeline.
   execution request.
 """
 function start_pipeline_execution(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("StartPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -707,7 +707,7 @@ the pipeline execution is in a Stopped state.
 - `reason`: Use this option to enter comments, such as the reason the pipeline was stopped.
 """
 function stop_pipeline_execution(pipelineExecutionId, pipelineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("StopPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -723,7 +723,7 @@ manage a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -738,7 +738,7 @@ Removes tags from an AWS resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -754,7 +754,7 @@ the action definition and UpdateActionType to provide the full structure.
 
 """
 function update_action_type(actionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("UpdateActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionType"=>actionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -770,6 +770,6 @@ Updating the pipeline increases the version number of the pipeline by 1.
 
 """
 function update_pipeline(pipeline; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codepipeline("UpdatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

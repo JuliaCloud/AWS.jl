@@ -5,7 +5,36 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("account_ids" => "accountIds", "max_results" => "maxResults", "next_token" => "nextToken", "filters" => "filters", "job_ids" => "jobIds", "auto_scaling_group_arns" => "autoScalingGroupArns", "recommendation_preferences" => "recommendationPreferences", "instance_arns" => "instanceArns", "include_member_accounts" => "includeMemberAccounts", "fields_to_export" => "fieldsToExport", "file_format" => "fileFormat", "volume_arns" => "volumeArns", "function_arns" => "functionArns")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("account_ids" => "accountIds", "max_results" => "maxResults", "next_token" => "nextToken", "filters" => "filters", "job_ids" => "jobIds", "auto_scaling_group_arns" => "autoScalingGroupArns", "recommendation_preferences" => "recommendationPreferences", "instance_arns" => "instanceArns", "include_member_accounts" => "includeMemberAccounts", "enhanced_infrastructure_metrics" => "enhancedInfrastructureMetrics", "scope" => "scope", "fields_to_export" => "fieldsToExport", "file_format" => "fileFormat", "volume_arns" => "volumeArns", "function_arns" => "functionArns")
+
+"""
+    delete_recommendation_preferences(recommendation_preference_names, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a recommendation preference, such as enhanced infrastructure metrics. For more
+information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+Guide.
+
+# Arguments
+- `recommendation_preference_names`: The name of the recommendation preference to delete.
+  Enhanced infrastructure metrics (EnhancedInfrastructureMetrics) is the only feature that
+  can be activated through preferences. Therefore, it is also the only recommendation
+  preference that can be deleted.
+- `resource_type`: The target resource type of the recommendation preference to delete. The
+  Ec2Instance option encompasses standalone instances and instances that are part of Auto
+  Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an
+  Auto Scaling group.
+
+# Keyword Parameters
+- `scope`: An object that describes the scope of the recommendation preference to delete.
+  You can delete recommendation preferences that are created at the organization level (for
+  management accounts of an organization only), account level, and resource level. For more
+  information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+  Guide.
+"""
+function delete_recommendation_preferences(recommendationPreferenceNames, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return compute_optimizer("DeleteRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationPreferenceNames"=>recommendationPreferenceNames, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 
 """
     describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +56,7 @@ action to view your export jobs.
 - `next_token`: The token to advance to the next page of export jobs.
 """
 function describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("DescribeRecommendationExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -81,7 +110,7 @@ Services Region.
   group recommendations to export.
 """
 function export_auto_scaling_group_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -125,7 +154,7 @@ Services Region.
   the account IDs parameter, is omitted.
 """
 function export_ebsvolume_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("ExportEBSVolumeRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,11 +173,11 @@ Services Region.
   Service (Amazon S3) bucket name and key prefix for the export job. You must create the
   destination Amazon S3 bucket for your recommendations export before you create the export
   job. Compute Optimizer does not create the S3 bucket for you. After you create the S3
-  bucket, ensure that it has the required permissions policy policy to allow Compute
-  Optimizer to write the export file to it. If you plan to specify an object prefix when you
-  create the export job, you must include the object prefix in the that you add to the S3
-  bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the
-  Compute Optimizer User Guide.
+  bucket, ensure that it has the required permissions policy to allow Compute Optimizer to
+  write the export file to it. If you plan to specify an object prefix when you create the
+  export job, you must include the object prefix in the policy that you add to the S3 bucket.
+  For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute
+  Optimizer User Guide.
 
 # Keyword Parameters
 - `account_ids`: The IDs of the Amazon Web Services accounts for which to export instance
@@ -178,7 +207,7 @@ Services Region.
   instance recommendations to export.
 """
 function export_ec2_instance_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -222,7 +251,7 @@ Services Region.
   the account IDs parameter, is omitted.
 """
 function export_lambda_function_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("ExportLambdaFunctionRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +280,7 @@ Guide.
   group recommendations to return in the response.
 """
 function get_auto_scaling_group_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetAutoScalingGroupRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,7 +307,7 @@ User Guide.
   recommendations.
 """
 function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetEBSVolumeRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +336,7 @@ Compute Optimizer User Guide.
   instance recommendations to return in the response.
 """
 function get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetEC2InstanceRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,8 +362,28 @@ Utilization with the CloudWatch Agent.
   recommendation projected metrics to return in the response.
 """
 function get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_effective_recommendation_preferences(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the recommendation preferences that are in effect for a given resource, such as
+enhanced infrastructure metrics. Considers all applicable preferences that you might have
+set at the resource, account, and organization level. When you create a recommendation
+preference, you can set its status to Active or Inactive. Use this action to view the
+recommendation preferences that are in effect, or Active.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to confirm
+  effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are
+  currently supported.
+
+"""
+function get_effective_recommendation_preferences(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return compute_optimizer("GetEffectiveRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -348,7 +397,7 @@ enrollment status of member accounts of an organization.
 
 """
 function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetEnrollmentStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -368,7 +417,7 @@ standalone accounts, use the GetEnrollmentStatus action.
 - `next_token`: The token to advance to the next page of account enrollment statuses.
 """
 function get_enrollment_statuses_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetEnrollmentStatusesForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -399,8 +448,39 @@ resources and requirements in the Compute Optimizer User Guide.
 - `next_token`: The token to advance to the next page of function recommendations.
 """
 function get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetLambdaFunctionRecommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_recommendation_preferences(resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use
+the scope parameter to specify which preferences to return. You can specify to return
+preferences for an organization, a specific account ID, or a specific EC2 instance or Auto
+Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced
+infrastructure metrics in the Compute Optimizer User Guide.
+
+# Arguments
+- `resource_type`: The target resource type of the recommendation preference for which to
+  return preferences. The Ec2Instance option encompasses standalone instances and instances
+  that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only
+  instances that are part of an Auto Scaling group.
+
+# Keyword Parameters
+- `max_results`: The maximum number of recommendation preferences to return with a single
+  request. To retrieve the remaining results, make another request with the returned
+  nextToken value.
+- `next_token`: The token to advance to the next page of recommendation preferences.
+- `scope`: An object that describes the scope of the recommendation preference to return.
+  You can return recommendation preferences that are created at the organization level (for
+  management accounts of an organization only), account level, and resource level. For more
+  information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+  Guide.
+"""
+function get_recommendation_preferences(resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return compute_optimizer("GetRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -423,8 +503,41 @@ NotOptimized, or Optimized.
 - `next_token`: The token to advance to the next page of recommendation summaries.
 """
 function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("GetRecommendationSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    put_recommendation_preferences(resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a new recommendation preference or updates an existing recommendation preference,
+such as enhanced infrastructure metrics. For more information, see Activating enhanced
+infrastructure metrics in the Compute Optimizer User Guide.
+
+# Arguments
+- `resource_type`: The target resource type of the recommendation preference to create. The
+  Ec2Instance option encompasses standalone instances and instances that are part of Auto
+  Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an
+  Auto Scaling group.
+
+# Keyword Parameters
+- `enhanced_infrastructure_metrics`: The status of the enhanced infrastructure metrics
+  recommendation preference to create or update. A status of Active confirms that the
+  preference is applied in the latest recommendation refresh, and a status of Inactive
+  confirms that it's not yet applied.
+- `scope`: An object that describes the scope of the recommendation preference to create.
+  You can create recommendation preferences at the organization level (for management
+  accounts of an organization only), account level, and resource level. For more information,
+  see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You
+  cannot create recommendation preferences for Auto Scaling groups at the organization and
+  account levels. You can create recommendation preferences for Auto Scaling groups only at
+  the resource level by specifying a scope name of ResourceArn and a scope value of the Auto
+  Scaling group Amazon Resource Name (ARN). This will configure the preference for all
+  instances that are part of the specified the Auto Scaling group.
+"""
+function put_recommendation_preferences(resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return compute_optimizer("PutRecommendationPreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -456,6 +569,6 @@ User Guide.
   organization if the account is the management account of an organization.
 """
 function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

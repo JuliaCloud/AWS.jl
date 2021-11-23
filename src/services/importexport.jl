@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("apiversion" => "APIVersion", "marker" => "Marker", "max_jobs" => "MaxJobs", "city" => "city", "company" => "company", "country" => "country", "name" => "name", "phone_number" => "phoneNumber", "postal_code" => "postalCode", "state_or_province" => "stateOrProvince", "street1" => "street1", "street2" => "street2", "street3" => "street3", "manifest_addendum" => "ManifestAddendum")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("apiversion" => "APIVersion", "marker" => "Marker", "max_jobs" => "MaxJobs", "city" => "city", "company" => "company", "country" => "country", "name" => "name", "phone_number" => "phoneNumber", "postal_code" => "postalCode", "state_or_province" => "stateOrProvince", "street1" => "street1", "street2" => "street2", "street3" => "street3", "manifest_addendum" => "ManifestAddendum")
 
 """
     cancel_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ fails if the job has already started or is complete.
 - `apiversion`:
 """
 function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -43,7 +43,7 @@ device.
 - `manifest_addendum`:
 """
 function create_job(JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -70,7 +70,7 @@ device to AWS for processing.
 - `street3`:
 """
 function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("GetShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobIds"=>jobIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ job. You can only return information about jobs you own.
 - `apiversion`:
 """
 function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("GetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -106,7 +106,7 @@ Test2 followed by Test1.
 - `max_jobs`:
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,6 +128,6 @@ the data transfer starts and you can only use it on jobs you own.
 - `apiversion`:
 """
 function update_job(JobId, JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return importexport("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

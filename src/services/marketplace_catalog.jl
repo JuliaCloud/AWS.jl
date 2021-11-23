@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter_list" => "FilterList", "max_results" => "MaxResults", "next_token" => "NextToken", "sort" => "Sort", "change_set_name" => "ChangeSetName", "client_request_token" => "ClientRequestToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filter_list" => "FilterList", "max_results" => "MaxResults", "next_token" => "NextToken", "sort" => "Sort", "change_set_name" => "ChangeSetName", "client_request_token" => "ClientRequestToken")
 
 """
     cancel_change_set(catalog, change_set_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ change during the 60-day request history retention period for API calls.
 
 """
 function cancel_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -37,7 +37,7 @@ Provides information about a given change set.
 
 """
 function describe_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -52,7 +52,7 @@ Returns the metadata and content of the entity.
 
 """
 function describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ API calls.
 - `sort`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,7 +101,7 @@ Provides the list of entities of a given type.
 - `sort`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,6 +128,6 @@ working with change sets, see  Working with change sets.
 - `client_request_token`: A unique token to identify the request to ensure idempotency.
 """
 function start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

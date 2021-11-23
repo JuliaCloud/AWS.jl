@@ -61,7 +61,7 @@ function _generate_high_level_wrapper(
              using AWS.UUIDs
 
              # Julia syntax for service-level optional parameters to the AWS request syntax
-             const SERVICE_PARAMETER_MAP = $(aws_service_param_mapping)
+             const SERVICE_PARAMETER_MAP = AWS.$(aws_service_param_mapping)
              """,
             )
             join(f, operations, "\n")
@@ -179,35 +179,35 @@ function _generate_high_level_definition(
         if required_keys && (idempotent || headers)
             return """
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif !required_keys && (idempotent || headers)
             return """
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required_keys && !isempty(req_kv)
             return """
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required_keys
             return """
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         else
             return """
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
@@ -241,28 +241,28 @@ function _generate_high_level_definition(
         if required && idempotent
             return """
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required
             return """
                 function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif idempotent
             return """
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         else
             return """
                 function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-                    params = amazonify(MAPPING, kwargs)
+                    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
                     return $service_name(\"$function_name\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
@@ -307,8 +307,7 @@ function _generate_high_level_definition(
 
             for (optional_key, optional_value) in optional_parameters
                 operation_definition *= _wraplines(
-                    "- `$optional_key`: $(optional_value["documentation"])";
-                    delim="\n  ",
+                    "- `$optional_key`: $(optional_value["documentation"])"; delim="\n  "
                 )
                 operation_definition *= "\n"
             end

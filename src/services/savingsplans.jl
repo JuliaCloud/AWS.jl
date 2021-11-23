@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "clientToken", "purchase_time" => "purchaseTime", "tags" => "tags", "upfront_payment_amount" => "upfrontPaymentAmount", "currencies" => "currencies", "descriptions" => "descriptions", "durations" => "durations", "filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "offering_ids" => "offeringIds", "operations" => "operations", "payment_options" => "paymentOptions", "plan_types" => "planTypes", "product_type" => "productType", "service_codes" => "serviceCodes", "usage_types" => "usageTypes", "products" => "products", "savings_plan_offering_ids" => "savingsPlanOfferingIds", "savings_plan_payment_options" => "savingsPlanPaymentOptions", "savings_plan_types" => "savingsPlanTypes", "savings_plan_arns" => "savingsPlanArns", "savings_plan_ids" => "savingsPlanIds", "states" => "states")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "clientToken", "purchase_time" => "purchaseTime", "tags" => "tags", "upfront_payment_amount" => "upfrontPaymentAmount", "currencies" => "currencies", "descriptions" => "descriptions", "durations" => "durations", "filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "offering_ids" => "offeringIds", "operations" => "operations", "payment_options" => "paymentOptions", "plan_types" => "planTypes", "product_type" => "productType", "service_codes" => "serviceCodes", "usage_types" => "usageTypes", "products" => "products", "savings_plan_offering_ids" => "savingsPlanOfferingIds", "savings_plan_payment_options" => "savingsPlanPaymentOptions", "savings_plan_types" => "savingsPlanTypes", "savings_plan_arns" => "savingsPlanArns", "savings_plan_ids" => "savingsPlanIds", "states" => "states")
 
 """
     create_savings_plan(commitment, savings_plan_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ Creates a Savings Plan.
   the payment option is Partial Upfront.
 """
 function create_savings_plan(commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ Deletes the queued purchase for the specified Savings Plan.
 
 """
 function delete_queued_savings_plan(savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/DeleteQueuedSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ Describes the specified Savings Plans rates.
 - `next_token`: The token for the next page of results.
 """
 function describe_savings_plan_rates(savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ Describes the specified Savings Plans.
 - `states`: The states.
 """
 function describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/DescribeSavingsPlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Describes the specified Savings Plans offering rates.
 - `usage_types`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offering_rates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/DescribeSavingsPlansOfferingRates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ Describes the specified Savings Plans offerings.
 - `usage_types`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/DescribeSavingsPlansOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -159,7 +159,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,6 +174,6 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return savingsplans("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

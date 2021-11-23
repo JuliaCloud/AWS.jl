@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("next_token" => "NextToken", "custom_role_arn" => "CustomRoleArn", "logins" => "Logins", "role_mappings" => "RoleMappings", "identity_id" => "IdentityId", "principal_tags" => "PrincipalTags", "token_duration" => "TokenDuration", "use_defaults" => "UseDefaults", "developer_user_identifier" => "DeveloperUserIdentifier", "max_results" => "MaxResults", "allow_classic_flow" => "AllowClassicFlow", "cognito_identity_providers" => "CognitoIdentityProviders", "developer_provider_name" => "DeveloperProviderName", "identity_pool_tags" => "IdentityPoolTags", "open_id_connect_provider_arns" => "OpenIdConnectProviderARNs", "saml_provider_arns" => "SamlProviderARNs", "supported_login_providers" => "SupportedLoginProviders", "hide_disabled" => "HideDisabled", "account_id" => "AccountId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("next_token" => "NextToken", "custom_role_arn" => "CustomRoleArn", "logins" => "Logins", "role_mappings" => "RoleMappings", "identity_id" => "IdentityId", "principal_tags" => "PrincipalTags", "token_duration" => "TokenDuration", "use_defaults" => "UseDefaults", "developer_user_identifier" => "DeveloperUserIdentifier", "max_results" => "MaxResults", "allow_classic_flow" => "AllowClassicFlow", "cognito_identity_providers" => "CognitoIdentityProviders", "developer_provider_name" => "DeveloperProviderName", "identity_pool_tags" => "IdentityPoolTags", "open_id_connect_provider_arns" => "OpenIdConnectProviderARNs", "saml_provider_arns" => "SamlProviderARNs", "supported_login_providers" => "SupportedLoginProviders", "hide_disabled" => "HideDisabled", "account_id" => "AccountId")
 
 """
     create_identity_pool(allow_unauthenticated_identities, identity_pool_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,7 +42,7 @@ credentials to call this API.
   app IDs.
 """
 function create_identity_pool(AllowUnauthenticatedIdentities, IdentityPoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("CreateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolName"=>IdentityPoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ you want to delete. You must use AWS Developer credentials to call this API.
 
 """
 function delete_identities(IdentityIdsToDelete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("DeleteIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityIdsToDelete"=>IdentityIdsToDelete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ with the pool. You must use AWS Developer credentials to call this API.
 
 """
 function delete_identity_pool(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("DeleteIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ any associated linked logins. You must use AWS Developer credentials to call thi
 
 """
 function describe_identity(IdentityId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("DescribeIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ this API.
 
 """
 function describe_identity_pool(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("DescribeIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,7 +131,7 @@ token. This is a public API. You do not need any credentials to call this API.
   the External Identity Providers section of the Amazon Cognito Developer Guide.
 """
 function get_credentials_for_identity(IdentityId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetCredentialsForIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ linked account. This is a public API. You do not need any credentials to call th
   Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
 """
 function get_id(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ API.
 
 """
 function get_identity_pool_roles(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -191,7 +191,7 @@ You do not need any credentials to call this API.
   other OpenID Connect provider, always include the id_token.
 """
 function get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetOpenIdToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -235,7 +235,7 @@ AWS Developer credentials to call this API.
   period, usually no more than 5 minutes, to account for clock skew.
 """
 function get_open_id_token_for_developer_identity(IdentityPoolId, Logins; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +252,7 @@ attributes.
 
 """
 function get_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("GetPrincipalTagAttributeMap", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -273,7 +273,7 @@ this API.
 - `next_token`: A pagination token.
 """
 function list_identities(IdentityPoolId, MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("ListIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ Developer credentials to call this API.
 - `next_token`: A pagination token.
 """
 function list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("ListIdentityPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +308,7 @@ second, per account.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ operations for user authentication. You must use AWS Developer credentials to ca
   call the API again and get results starting from the 11th match.
 """
 function lookup_developer_identity(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("LookupDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ will be thrown. You must use AWS Developer credentials to call this API.
 
 """
 function merge_developer_identities(DestinationUserIdentifier, DeveloperProviderName, IdentityPoolId, SourceUserIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("MergeDeveloperIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationUserIdentifier"=>DestinationUserIdentifier, "DeveloperProviderName"=>DeveloperProviderName, "IdentityPoolId"=>IdentityPoolId, "SourceUserIdentifier"=>SourceUserIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -399,7 +399,7 @@ GetCredentialsForIdentity action. You must use AWS Developer credentials to call
   can be specified per identity provider.
 """
 function set_identity_pool_roles(IdentityPoolId, Roles; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("SetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ attribute mappings.
   attribute mappings.
 """
 function set_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("SetPrincipalTagAttributeMap", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ can have as many as 50 tags.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -466,7 +466,7 @@ identity becomes inaccessible. You must use AWS Developer credentials to call th
 
 """
 function unlink_developer_identity(DeveloperProviderName, DeveloperUserIdentifier, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("UnlinkDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeveloperProviderName"=>DeveloperProviderName, "DeveloperUserIdentifier"=>DeveloperUserIdentifier, "IdentityId"=>IdentityId, "IdentityPoolId"=>IdentityPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -485,7 +485,7 @@ API.
 
 """
 function unlink_identity(IdentityId, Logins, LoginsToRemove; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("UnlinkIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId, "Logins"=>Logins, "LoginsToRemove"=>LoginsToRemove), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,7 +501,7 @@ this action up to 5 times per second, per account
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -533,6 +533,6 @@ Updates an identity pool. You must use AWS Developer credentials to call this AP
   app IDs.
 """
 function update_identity_pool(AllowUnauthenticatedIdentities, IdentityPoolId, IdentityPoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cognito_identity("UpdateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolId"=>IdentityPoolId, "IdentityPoolName"=>IdentityPoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

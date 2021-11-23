@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("updater_request_id" => "UpdaterRequestId", "creator_request_id" => "CreatorRequestId", "description" => "Description", "properties" => "Properties", "tags" => "Tags", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "instances" => "Instances", "dns_config" => "DnsConfig", "health_check_config" => "HealthCheckConfig", "health_check_custom_config" => "HealthCheckCustomConfig", "namespace_id" => "NamespaceId", "type" => "Type", "health_status" => "HealthStatus", "optional_parameters" => "OptionalParameters", "query_parameters" => "QueryParameters")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("updater_request_id" => "UpdaterRequestId", "creator_request_id" => "CreatorRequestId", "description" => "Description", "properties" => "Properties", "tags" => "Tags", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "instances" => "Instances", "dns_config" => "DnsConfig", "health_check_config" => "HealthCheckConfig", "health_check_custom_config" => "HealthCheckCustomConfig", "namespace_id" => "NamespaceId", "type" => "Type", "health_status" => "HealthStatus", "optional_parameters" => "OptionalParameters", "query_parameters" => "QueryParameters")
 
 """
     create_http_namespace(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ Cloud Map quotas in the Cloud Map Developer Guide.
   be up to 256 characters in length.
 """
 function create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ quotas in the Cloud Map Developer Guide.
   be up to 256 characters in length.
 """
 function create_private_dns_namespace(Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ Guide.
   be up to 256 characters in length.
 """
 function create_public_dns_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,7 +145,7 @@ the same service, see Cloud Map quotas in the Cloud Map Developer Guide.
   The only valid value is HTTP.
 """
 function create_service(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -160,7 +160,7 @@ services, the request fails.
 
 """
 function delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("DeleteNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ instances, the request fails.
 
 """
 function delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -191,7 +191,7 @@ for the specified instance.
 
 """
 function deregister_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ DNS namespaces, you can also use DNS queries to discover instances.
   key-value pairs are returned.
 """
 function discover_instances(NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -243,7 +243,7 @@ Gets information about a specified instance.
 
 """
 function get_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ register an instance and when the health status for the instance is available.
   NextToken from the previous response in the next request.
 """
 function get_instances_health_status(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("GetInstancesHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +285,7 @@ Gets information about a namespace.
 
 """
 function get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("GetNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -301,7 +301,7 @@ ListOperations.
 
 """
 function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,7 +315,7 @@ Gets the settings for a specified service.
 
 """
 function get_service(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -338,7 +338,7 @@ service.
   response in the next request.
 """
 function list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -363,7 +363,7 @@ Lists summary information about the namespaces that were created by the current 
   match the criteria.
 """
 function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ Lists operations that match the criteria that you specify.
   match the criteria.
 """
 function list_operations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -415,7 +415,7 @@ specified namespaces.
   criteria.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -430,7 +430,7 @@ Lists tags for the specified resource.
 
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -518,7 +518,7 @@ Guide.
   CreatorRequestId can be any unique string (for example, a date/time stamp).
 """
 function register_instance(Attributes, InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -536,7 +536,7 @@ Adds one or more tags to the specified resource.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -552,7 +552,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -571,7 +571,7 @@ Updates an HTTP namespace.
   UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
 function update_http_namespace(Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UpdateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Namespace"=>Namespace, "updater_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -592,7 +592,7 @@ using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
 
 """
 function update_instance_custom_health_status(InstanceId, ServiceId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ Updates a private DNS namespace.
   twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
 function update_private_dns_namespace(Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UpdatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Namespace"=>Namespace, "updater_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -630,7 +630,7 @@ Updates a public DNS namespace.
   twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
 function update_public_dns_namespace(Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UpdatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Namespace"=>Namespace, "updater_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -654,6 +654,6 @@ by using the specified service.
 
 """
 function update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return servicediscovery("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

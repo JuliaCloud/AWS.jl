@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("next_token" => "NextToken", "group_arn" => "GroupARN", "group_name" => "GroupName", "tags" => "Tags", "key_id" => "KeyId", "ec2_instance_id" => "EC2InstanceId", "hostname" => "Hostname", "resource_arn" => "ResourceARN", "entity_selector_expression" => "EntitySelectorExpression", "forecast_statistics" => "ForecastStatistics", "period" => "Period", "max_results" => "MaxResults", "states" => "States", "filter_expression" => "FilterExpression", "insights_configuration" => "InsightsConfiguration", "rule_arn" => "RuleARN", "rule_name" => "RuleName", "sampling" => "Sampling", "sampling_strategy" => "SamplingStrategy", "time_range_type" => "TimeRangeType")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("next_token" => "NextToken", "group_arn" => "GroupARN", "group_name" => "GroupName", "tags" => "Tags", "key_id" => "KeyId", "ec2_instance_id" => "EC2InstanceId", "hostname" => "Hostname", "resource_arn" => "ResourceARN", "entity_selector_expression" => "EntitySelectorExpression", "forecast_statistics" => "ForecastStatistics", "period" => "Period", "max_results" => "MaxResults", "states" => "States", "filter_expression" => "FilterExpression", "insights_configuration" => "InsightsConfiguration", "rule_arn" => "RuleARN", "rule_name" => "RuleName", "sampling" => "Sampling", "sampling_strategy" => "SamplingStrategy", "time_range_type" => "TimeRangeType")
 
 """
     batch_get_traces(trace_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ that originates from a single request. Use GetTraceSummaries to get a list of tr
 - `next_token`: Pagination token.
 """
 function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/Traces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceIds"=>TraceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -50,7 +50,7 @@ Creates a group resource with a name and a filter expression.
   reserved for Amazon Web Services use.
 """
 function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ the service can use instead of borrowing from the reservoir.
   reserved for Amazon Web Services use.
 """
 function create_sampling_rule(SamplingRule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/CreateSamplingRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingRule"=>SamplingRule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -92,7 +92,7 @@ Deletes a group resource.
 - `group_name`: The case-sensitive name of the group.
 """
 function delete_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/DeleteGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ Deletes a sampling rule.
   both.
 """
 function delete_sampling_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/DeleteSamplingRule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ Retrieves the current encryption configuration for X-Ray data.
 
 """
 function get_encryption_config(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/EncryptionConfig", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -133,7 +133,7 @@ Retrieves group resource details.
 - `group_name`: The case-sensitive name of the group.
 """
 function get_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/GetGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ Retrieves all active group details.
 - `next_token`: Pagination token.
 """
 function get_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/Groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ start and end time of the insight.
 
 """
 function get_insight(InsightId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/Insight", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -184,7 +184,7 @@ on the Inspect page in the X-Ray console.
   next page of events.
 """
 function get_insight_events(InsightId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/InsightEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ GetServiceGraph API.
   next page of results.
 """
 function get_insight_impact_graph(EndTime, InsightId, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/InsightImpactGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "InsightId"=>InsightId, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ values.
 - `states`: The list of insight states.
 """
 function get_insight_summaries(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/InsightSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ Retrieves all sampling rules.
 - `next_token`: Pagination token.
 """
 function get_sampling_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/GetSamplingRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -260,7 +260,7 @@ Retrieves information about recent sampling results for all sampling rules.
 - `next_token`: Pagination token.
 """
 function get_sampling_statistic_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/SamplingStatisticSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ Requests a sampling quota for rules that the service is using to sample requests
 
 """
 function get_sampling_targets(SamplingStatisticsDocuments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/SamplingTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingStatisticsDocuments"=>SamplingStatisticsDocuments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -299,7 +299,7 @@ HTTP web APIs, or SQL databases.
 - `next_token`: Pagination token.
 """
 function get_service_graph(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/ServiceGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,7 +325,7 @@ Get an aggregation of service statistics defined by a specific time range.
 - `period`: Aggregation period in seconds.
 """
 function get_time_series_service_statistics(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TimeSeriesServiceStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -341,7 +341,7 @@ Retrieves a service graph for one or more specific trace IDs.
 - `next_token`: Pagination token.
 """
 function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TraceGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceIds"=>TraceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +374,7 @@ Developer Guide.
   Event time.
 """
 function get_trace_summaries(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TraceSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ sampling rule.
   get the next page of results.
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ Updates the encryption configuration for X-Ray data.
   NONE.
 """
 function put_encryption_config(Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/PutEncryptionConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ Used by the Amazon Web Services X-Ray daemon to upload telemetry.
 - `resource_arn`:
 """
 function put_telemetry_records(TelemetryRecords; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TelemetryRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TelemetryRecords"=>TelemetryRecords), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ trace, globally unique, in 24 hexadecimal digits.
 
 """
 function put_trace_segments(TraceSegmentDocuments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TraceSegments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceSegmentDocuments"=>TraceSegmentDocuments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -492,7 +492,7 @@ Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -509,7 +509,7 @@ delete system tags (those with an aws: prefix).
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -530,7 +530,7 @@ Updates a group resource.
   with InsightsEnabled set to true.
 """
 function update_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/UpdateGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -544,6 +544,6 @@ Modifies a sampling rule's configuration.
 
 """
 function update_sampling_rule(SamplingRuleUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return xray("POST", "/UpdateSamplingRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingRuleUpdate"=>SamplingRuleUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

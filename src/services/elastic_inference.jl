@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("accelerator_ids" => "acceleratorIds", "filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "accelerator_types" => "acceleratorTypes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("accelerator_ids" => "acceleratorIds", "filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "accelerator_types" => "acceleratorTypes")
 
 """
     describe_accelerator_offerings(location_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ given region.
 - `accelerator_types`:  The list of accelerator types to describe.
 """
 function describe_accelerator_offerings(locationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("locationType"=>locationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -36,7 +36,7 @@ characteristics, such as memory and throughput.
 
 """
 function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("GET", "/describe-accelerator-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ end
   previously truncated response.
 """
 function describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("POST", "/describe-accelerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ end
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ end
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,6 +103,6 @@ end
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

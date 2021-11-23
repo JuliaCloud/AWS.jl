@@ -5,25 +5,25 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("catalog_id" => "CatalogId", "max_results" => "MaxResults", "next_token" => "NextToken", "show_assigned_lftags" => "ShowAssignedLFTags", "resource_share_type" => "ResourceShareType", "principal" => "Principal", "resource" => "Resource", "resource_type" => "ResourceType", "role_arn" => "RoleArn", "use_service_linked_role" => "UseServiceLinkedRole", "permissions_with_grant_option" => "PermissionsWithGrantOption", "tag_values_to_add" => "TagValuesToAdd", "tag_values_to_delete" => "TagValuesToDelete", "filter_condition_list" => "FilterConditionList")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("catalog_id" => "CatalogId", "max_results" => "MaxResults", "next_token" => "NextToken", "show_assigned_lftags" => "ShowAssignedLFTags", "resource_share_type" => "ResourceShareType", "include_related" => "IncludeRelated", "principal" => "Principal", "resource" => "Resource", "resource_type" => "ResourceType", "role_arn" => "RoleArn", "use_service_linked_role" => "UseServiceLinkedRole", "table" => "Table", "transaction_type" => "TransactionType", "permissions_with_grant_option" => "PermissionsWithGrantOption", "transaction_id" => "TransactionId", "partition_predicate" => "PartitionPredicate", "query_as_of_time" => "QueryAsOfTime", "tag_values_to_add" => "TagValuesToAdd", "tag_values_to_delete" => "TagValuesToDelete", "status_filter" => "StatusFilter", "page_size" => "PageSize", "database_name" => "DatabaseName", "name" => "Name", "table_catalog_id" => "TableCatalogId", "table_name" => "TableName", "filter_condition_list" => "FilterConditionList", "storage_optimizer_type" => "StorageOptimizerType")
 
 """
     add_lftags_to_resource(lftags, resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Attaches one or more tags to an existing resource.
+Attaches one or more LF-tags to an existing resource.
 
 # Arguments
-- `lftags`: The tags to attach to the resource.
-- `resource`: The resource to which to attach a tag.
+- `lftags`: The LF-tags to attach to the resource.
+- `resource`: The database, table, or column resource to which to attach an LF-tag.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function add_lftags_to_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("AddLFTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/AddLFTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -38,11 +38,11 @@ Batch operation to grant permissions to the principal.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -57,52 +57,140 @@ Batch operation to revoke permissions from the principal.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function batch_revoke_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    cancel_transaction(transaction_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Attempts to cancel the specified transaction. Returns an exception if the transaction was
+previously committed.
+
+# Arguments
+- `transaction_id`: The transaction to cancel.
+
+"""
+function cancel_transaction(TransactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/CancelTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactionId"=>TransactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    commit_transaction(transaction_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Attempts to commit the specified transaction. Returns an exception if the transaction was
+previously aborted. This API action is idempotent if called multiple times for the same
+transaction.
+
+# Arguments
+- `transaction_id`: The transaction to commit.
+
+"""
+function commit_transaction(TransactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactionId"=>TransactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_data_cells_filter(table_data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a data cell filter to allow one to grant access to certain columns on certain rows.
+
+# Arguments
+- `table_data`: A DataCellsFilter structure containing information about the data cells
+  filter.
+
+"""
+function create_data_cells_filter(TableData; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/CreateDataCellsFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableData"=>TableData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_lftag(tag_key, tag_values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a tag with the specified name and values.
+Creates an LF-tag with the specified name and values.
 
 # Arguments
-- `tag_key`: The key-name for the tag.
+- `tag_key`: The key-name for the LF-tag.
 - `tag_values`: A list of possible values an attribute can take.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("CreateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey, "TagValues"=>TagValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/CreateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey, "TagValues"=>TagValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a data cell filter.
+
+# Keyword Parameters
+- `database_name`: A database in the Glue Data Catalog.
+- `name`: The name given by the user to the data filter cell.
+- `table_catalog_id`: The ID of the catalog to which the table belongs.
+- `table_name`: A table in the database.
+"""
+function delete_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DeleteDataCellsFilter", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_lftag(tag_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes the specified tag key name. If the attribute key does not exist or the tag does not
-exist, then the operation will not do anything. If the attribute key exists, then the
-operation checks if any resources are tagged with this attribute key, if yes, the API
-throws a 400 Exception with the message \"Delete not allowed\" as the tag key is still
-attached with resources. You can consider untagging resources with this tag key.
+Deletes the specified LF-tag key name. If the attribute key does not exist or the LF-tag
+does not exist, then the operation will not do anything. If the attribute key exists, then
+the operation checks if any resources are tagged with this attribute key, if yes, the API
+throws a 400 Exception with the message \"Delete not allowed\" as the LF-tag key is still
+attached with resources. You can consider untagging resources with this LF-tag key.
 
 # Arguments
-- `tag_key`: The key-name for the tag to delete.
+- `tag_key`: The key-name for the LF-tag to delete.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("DeleteLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DeleteLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_objects_on_cancel(database_name, objects, table_name, transaction_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+For a specific governed table, provides a list of Amazon S3 objects that will be written
+during the current transaction and that can be automatically deleted if the transaction is
+canceled. Without this call, no Amazon S3 objects are automatically deleted when a
+transaction cancels.   The Glue ETL library function write_dynamic_frame.from_catalog()
+includes an option to automatically call DeleteObjectsOnCancel before writes. For more
+information, see Rolling Back Amazon S3 Writes.
+
+# Arguments
+- `database_name`: The database that contains the governed table.
+- `objects`: A list of VirtualObject structures, which indicates the Amazon S3 objects to
+  be deleted if the transaction cancels.
+- `table_name`: The name of the governed table.
+- `transaction_id`: ID of the transaction that the writes occur in.
+
+# Keyword Parameters
+- `catalog_id`: The Glue data catalog that contains the governed table. Defaults to the
+  current account ID.
+"""
+function delete_objects_on_cancel(DatabaseName, Objects, TableName, TransactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DeleteObjectsOnCancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Objects"=>Objects, "TableName"=>TableName, "TransactionId"=>TransactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -117,23 +205,51 @@ Formation removes the path from the inline policy attached to your service-linke
 
 """
 function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves the current data access role for the given resource registered in AWS Lake
-Formation.
+Retrieves the current data access role for the given resource registered in Lake Formation.
 
 # Arguments
 - `resource_arn`: The resource ARN.
 
 """
 function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_transaction(transaction_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the details of a single transaction.
+
+# Arguments
+- `transaction_id`: The transaction for which to return status.
+
+"""
+function describe_transaction(TransactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/DescribeTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactionId"=>TransactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    extend_transaction(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Indicates to the service that the specified transaction is still active and should not be
+treated as idle and aborted. Write transactions that remain idle for a long period are
+automatically aborted unless explicitly extended.
+
+# Keyword Parameters
+- `transaction_id`: The transaction to extend.
+"""
+function extend_transaction(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ExtendTransaction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -144,11 +260,11 @@ Retrieves the list of the data lake administrators of a Lake Formation-managed d
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("GetDataLakeSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetDataLakeSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -165,50 +281,154 @@ if the catalog is encrypted.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `max_results`: The maximum number of results to return.
 - `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
 function get_effective_permissions_for_path(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_lftag(tag_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Returns a tag definition.
+Returns an LF-tag definition.
 
 # Arguments
-- `tag_key`: The key-name for the tag.
+- `tag_key`: The key-name for the LF-tag.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("GetLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_query_state(query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the state of a query previously submitted. Clients are expected to poll
+GetQueryState to monitor the current state of the planning before retrieving the work
+units. A query state is only visible to the principal that made the initial call to
+StartQueryPlanning.
+
+# Arguments
+- `query_id`: The ID of the plan query operation.
+
+"""
+function get_query_state(QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetQueryState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_query_statistics(query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieves statistics on the planning and execution of a query.
+
+# Arguments
+- `query_id`: The ID of the plan query operation.
+
+"""
+function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetQueryStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_resource_lftags(resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Returns the tags applied to a resource.
+Returns the LF-tags applied to a resource.
 
 # Arguments
-- `resource`: The resource for which you want to return tags.
+- `resource`: The database, table, or column resource for which you want to return LF-tags.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
-- `show_assigned_lftags`: Indicates whether to show the assigned tags.
+  definitions, and other control information to manage your Lake Formation environment.
+- `show_assigned_lftags`: Indicates whether to show the assigned LF-tags.
 """
 function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("GetResourceLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetResourceLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_table_objects(database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the set of Amazon S3 objects that make up the specified governed table. A
+transaction ID or timestamp can be specified for time-travel queries.
+
+# Arguments
+- `database_name`: The database containing the governed table.
+- `table_name`: The governed table for which to retrieve objects.
+
+# Keyword Parameters
+- `catalog_id`: The catalog containing the governed table. Defaults to the caller’s
+  account.
+- `max_results`: Specifies how many values to return in a page.
+- `next_token`: A continuation token if this is not the first call to retrieve these
+  objects.
+- `partition_predicate`: A predicate to filter the objects returned based on the partition
+  keys defined in the governed table.   The comparison operators supported are: =, &gt;,
+  &lt;, &gt;=, &lt;=   The logical operators supported are: AND   The data types supported
+  are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd
+  HH:mm:ss\"), string and decimal.
+- `query_as_of_time`: The time as of when to read the governed table contents. If not set,
+  the most recent transaction commit time is used. Cannot be specified along with
+  TransactionId.
+- `transaction_id`: The transaction ID at which to read the governed table contents. If
+  this transaction has aborted, an error is returned. If not set, defaults to the most recent
+  committed transaction. Cannot be specified along with QueryAsOfTime.
+"""
+function get_table_objects(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetTableObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_work_unit_results(query_id, work_unit_id, work_unit_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the work units resulting from the query. Work units can be executed in any order
+and in parallel.
+
+# Arguments
+- `query_id`: The ID of the plan query operation for which to get results.
+- `work_unit_id`: The work unit ID for which to get results. Value generated by enumerating
+  WorkUnitIdMin to WorkUnitIdMax (inclusive) from the WorkUnitRange in the output of
+  GetWorkUnits.
+- `work_unit_token`: A work token used to query the execution service. Token output from
+  GetWorkUnits.
+
+"""
+function get_work_unit_results(QueryId, WorkUnitId, WorkUnitToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetWorkUnitResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId, "WorkUnitId"=>WorkUnitId, "WorkUnitToken"=>WorkUnitToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_work_units(query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieves the work units generated by the StartQueryPlanning operation.
+
+# Arguments
+- `query_id`: The ID of the plan query operation.
+
+# Keyword Parameters
+- `next_token`: A continuation token, if this is a continuation call.
+- `page_size`: The size of each page to get in the Amazon Web Services service call. This
+  does not affect the number of items returned in the command's output. Setting a smaller
+  page size results in more calls to the Amazon Web Services service, retrieving fewer items
+  in each call. This can help prevent the Amazon Web Services service calls from timing out.
+"""
+function get_work_units(QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GetWorkUnits", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -219,51 +439,65 @@ organized in underlying data storage such as Amazon S3. For information about pe
 see Security and Access Control to Metadata and Data.
 
 # Arguments
-- `permissions`: The permissions granted to the principal on the resource. AWS Lake
-  Formation defines privileges to grant and revoke access to metadata in the Data Catalog and
-  data organized in underlying data storage such as Amazon S3. AWS Lake Formation requires
-  that each principal be authorized to perform a specific task on AWS Lake Formation
-  resources.
+- `permissions`: The permissions granted to the principal on the resource. Lake Formation
+  defines privileges to grant and revoke access to metadata in the Data Catalog and data
+  organized in underlying data storage such as Amazon S3. Lake Formation requires that each
+  principal be authorized to perform a specific task on Lake Formation resources.
 - `principal`: The principal to be granted the permissions on the resource. Supported
   principals are IAM users or IAM roles, and they are defined by their principal type and
   their ARN. Note that if you define a resource with a particular ARN, then later delete, and
   recreate a resource with that same ARN, the resource maintains the permissions already
   granted.
-- `resource`: The resource to which permissions are to be granted. Resources in AWS Lake
+- `resource`: The resource to which permissions are to be granted. Resources in Lake
   Formation are the Data Catalog, databases, and tables.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `permissions_with_grant_option`: Indicates a list of the granted permissions that the
   principal may pass to other users. These permissions may only be a subset of the
   permissions granted in the Privileges.
 """
 function grant_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists all the data cell filters on a table.
+
+# Keyword Parameters
+- `max_results`: The maximum size of the response.
+- `next_token`: A continuation token, if this is a continuation call.
+- `table`: A table in the Glue Data Catalog.
+"""
+function list_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListDataCellsFilter", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_lftags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Lists tags that the requester has permission to view.
+Lists LF-tags that the requester has permission to view.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `max_results`: The maximum number of results to return.
 - `next_token`: A continuation token, if this is not the first call to retrieve this list.
-- `resource_share_type`: If resource share type is ALL, returns both in-account tags and
-  shared tags that the requester has permission to view. If resource share type is FOREIGN,
-  returns all share tags that the requester can view. If no resource share type is passed,
-  lists tags in the given catalog ID that the requester has permission to view.
+- `resource_share_type`: If resource share type is ALL, returns both in-account LF-tags and
+  shared LF-tags that the requester has permission to view. If resource share type is
+  FOREIGN, returns all share LF-tags that the requester can view. If no resource share type
+  is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
 """
 function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("ListLFTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListLFTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -278,7 +512,8 @@ Control to Metadata and Data.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
+- `include_related`: Indicates that related permissions should be included in the results.
 - `max_results`: The maximum number of results to return.
 - `next_token`: A continuation token, if this is not the first call to retrieve this list.
 - `principal`: Specifies a principal to filter the permissions returned.
@@ -288,8 +523,8 @@ Control to Metadata and Data.
 - `resource_type`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("ListPermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListPermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -305,8 +540,50 @@ Lists the resources registered to be managed by the Data Catalog.
   resources.
 """
 function list_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("ListResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_table_storage_optimizers(database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the configuration of all storage optimizers associated with a specified table.
+
+# Arguments
+- `database_name`: Name of the database where the table is present.
+- `table_name`: Name of the table.
+
+# Keyword Parameters
+- `catalog_id`: The Catalog ID of the table.
+- `max_results`: The number of storage optimizers to return on each call.
+- `next_token`: A continuation token, if this is a continuation call.
+- `storage_optimizer_type`: The specific type of storage optimizers to list. The supported
+  value is compaction.
+"""
+function list_table_storage_optimizers(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListTableStorageOptimizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_transactions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns metadata about transactions and their status. To prevent the response from growing
+indefinitely, only uncommitted transactions and those available for time-travel queries are
+returned. This operation can help you identify uncommitted transactions or to get
+information about transactions.
+
+# Keyword Parameters
+- `catalog_id`: The catalog for which to list transactions. Defaults to the account ID of
+  the caller.
+- `max_results`: The maximum number of transactions to return in a single call.
+- `next_token`: A continuation token if this is not the first call to retrieve transactions.
+- `status_filter`:  A filter indicating the status of transactions to return. Options are
+  ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
+"""
+function list_transactions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/ListTransactions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -319,17 +596,17 @@ list being passed. To add an admin, fetch the current list and add the new admin
 list and pass that list in this API.
 
 # Arguments
-- `data_lake_settings`: A structure representing a list of AWS Lake Formation principals
+- `data_lake_settings`: A structure representing a list of Lake Formation principals
   designated as data lake administrators.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function put_data_lake_settings(DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -342,8 +619,8 @@ service-linked role. When you register the first Amazon S3 path, the service-lin
 and a new inline policy are created on your behalf. Lake Formation adds the first path to
 the inline policy and attaches it to the service-linked role. When you register subsequent
 paths, Lake Formation adds the path to the existing policy. The following request registers
-a new location and gives AWS Lake Formation permission to use the service-linked role to
-access that location.  ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true  If
+a new location and gives Lake Formation permission to use the service-linked role to access
+that location.  ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true  If
 UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:
 arn:aws:iam::12345:role/my-data-access-role
 
@@ -352,35 +629,35 @@ arn:aws:iam::12345:role/my-data-access-role
 
 # Keyword Parameters
 - `role_arn`: The identifier for the role that registers the resource.
-- `use_service_linked_role`: Designates an AWS Identity and Access Management (IAM)
+- `use_service_linked_role`: Designates an Identity and Access Management (IAM)
   service-linked role by registering this role with the Data Catalog. A service-linked role
   is a unique type of IAM role that is linked directly to Lake Formation. For more
   information, see Using Service-Linked Roles for Lake Formation.
 """
 function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     remove_lftags_from_resource(lftags, resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Removes a tag from the resource. Only database, table, or tableWithColumns resource are
+Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are
 allowed. To tag columns, use the column inclusion list in tableWithColumns to specify
 column input.
 
 # Arguments
-- `lftags`: The tags to be removed from the resource.
-- `resource`: The resource where you want to remove a tag.
+- `lftags`: The LF-tags to be removed from the resource.
+- `resource`: The database, table, or column resource where you want to remove an LF-tag.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 """
 function remove_lftags_from_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("RemoveLFTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/RemoveLFTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -398,13 +675,13 @@ organized in underlying data storage such as Amazon S3.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `permissions_with_grant_option`: Indicates a list of permissions for which to revoke the
   grant option allowing the principal to pass permissions to other principals.
 """
 function revoke_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -421,20 +698,20 @@ TagConditions are valid to verify whether the returned resources can be shared.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `max_results`: The maximum number of results to return.
 - `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_databases_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("SearchDatabasesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/SearchDatabasesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     search_tables_by_lftags(expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation allows a search on TABLE resources by LFTags. This will be used by admins
-who want to grant user permissions on certain LFTags. Before making a grant, the admin can
+who want to grant user permissions on certain LF-tags. Before making a grant, the admin can
 use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify
 whether the returned resources can be shared.
 
@@ -444,51 +721,123 @@ whether the returned resources can be shared.
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
+  definitions, and other control information to manage your Lake Formation environment.
 - `max_results`: The maximum number of results to return.
 - `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_tables_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("SearchTablesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/SearchTablesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    start_query_planning(query_planning_context, query_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Submits a request to process a query statement. This operation generates work units that
+can be retrieved with the GetWorkUnits operation as soon as the query state is
+WORKUNITS_AVAILABLE or FINISHED.
+
+# Arguments
+- `query_planning_context`: A structure containing information about the query plan.
+- `query_string`: A PartiQL query statement used as an input to the planner service.
+
+"""
+function start_query_planning(QueryPlanningContext, QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/StartQueryPlanning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryPlanningContext"=>QueryPlanningContext, "QueryString"=>QueryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    start_transaction(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects
+that you can use to identify a transaction.
+
+# Keyword Parameters
+- `transaction_type`: Indicates whether this transaction should be read only or read and
+  write. Writes made using a read-only transaction ID will be rejected. Read-only
+  transactions do not need to be committed.
+"""
+function start_transaction(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/StartTransaction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     update_lftag(tag_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Updates the list of possible values for the specified tag key. If the tag does not exist,
-the operation throws an EntityNotFoundException. The values in the delete key values will
-be deleted from list of possible values. If any value in the delete key values is attached
-to a resource, then API errors out with a 400 Exception - \"Update not allowed\". Untag the
-attribute before deleting the tag key's value.
+Updates the list of possible values for the specified LF-tag key. If the LF-tag does not
+exist, the operation throws an EntityNotFoundException. The values in the delete key values
+will be deleted from list of possible values. If any value in the delete key values is
+attached to a resource, then API errors out with a 400 Exception - \"Update not allowed\".
+Untag the attribute before deleting the LF-tag key's value.
 
 # Arguments
-- `tag_key`: The key-name for the tag for which to add or delete values.
+- `tag_key`: The key-name for the LF-tag for which to add or delete values.
 
 # Keyword Parameters
 - `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, and other control information to manage your AWS Lake Formation environment.
-- `tag_values_to_add`: A list of tag values to add from the tag.
-- `tag_values_to_delete`: A list of tag values to delete from the tag.
+  definitions, and other control information to manage your Lake Formation environment.
+- `tag_values_to_add`: A list of LF-tag values to add from the LF-tag.
+- `tag_values_to_delete`: A list of LF-tag values to delete from the LF-tag.
 """
 function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("UpdateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/UpdateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     update_resource(resource_arn, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the data access role used for vending access to the given (registered) resource in
-AWS Lake Formation.
+Lake Formation.
 
 # Arguments
 - `resource_arn`: The resource ARN.
-- `role_arn`: The new role to use for the given resource registered in AWS Lake Formation.
+- `role_arn`: The new role to use for the given resource registered in Lake Formation.
 
 """
 function update_resource(ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_table_objects(database_name, table_name, transaction_id, write_operations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the manifest of Amazon S3 objects that make up the specified governed table.
+
+# Arguments
+- `database_name`: The database containing the governed table to update.
+- `table_name`: The governed table to update.
+- `transaction_id`: The transaction at which to do the write.
+- `write_operations`: A list of WriteOperation objects that define an object to add to or
+  delete from the manifest for a governed table.
+
+# Keyword Parameters
+- `catalog_id`: The catalog containing the governed table to update. Defaults to the
+  caller’s account ID.
+"""
+function update_table_objects(DatabaseName, TableName, TransactionId, WriteOperations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/UpdateTableObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "TransactionId"=>TransactionId, "WriteOperations"=>WriteOperations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_table_storage_optimizer(database_name, storage_optimizer_config, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the configuration of the storage optimizers for a table.
+
+# Arguments
+- `database_name`: Name of the database where the table is present.
+- `storage_optimizer_config`: Name of the table for which to enable the storage optimizer.
+- `table_name`: Name of the table for which to enable the storage optimizer.
+
+# Keyword Parameters
+- `catalog_id`: The Catalog ID of the table.
+"""
+function update_table_storage_optimizer(DatabaseName, StorageOptimizerConfig, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return lakeformation("POST", "/UpdateTableStorageOptimizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "StorageOptimizerConfig"=>StorageOptimizerConfig, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

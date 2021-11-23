@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("log_publishing_configuration" => "LogPublishingConfiguration", "description" => "Description", "framework_configuration" => "FrameworkConfiguration", "tags" => "Tags", "member_id" => "MemberId", "max_results" => "maxResults", "next_token" => "nextToken", "status" => "status", "is_owned" => "isOwned", "name" => "name", "framework" => "framework")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("log_publishing_configuration" => "LogPublishingConfiguration", "description" => "Description", "framework_configuration" => "FrameworkConfiguration", "tags" => "Tags", "member_id" => "MemberId", "max_results" => "maxResults", "next_token" => "nextToken", "status" => "status", "is_owned" => "isOwned", "name" => "name", "framework" => "framework")
 
 """
     create_member(client_request_token, invitation_id, member_configuration, network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Creates a member within a Managed Blockchain network. Applies only to Hyperledge
 
 """
 function create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -58,7 +58,7 @@ Hyperledger Fabric.
   Guide.
 """
 function create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ Ethereum.
   Guide.
 """
 function create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -125,7 +125,7 @@ proposal. Applies only to Hyperledger Fabric.
   Developer Guide.
 """
 function create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,7 +145,7 @@ account, the network is deleted also. Applies only to Hyperledger Fabric.
 
 """
 function delete_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -166,7 +166,7 @@ recovered. Applies to Hyperledger Fabric and Ethereum.
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,7 +181,7 @@ Returns detailed information about a member. Applies only to Hyperledger Fabric.
 
 """
 function get_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -195,7 +195,7 @@ Returns detailed information about a network. Applies to Hyperledger Fabric and 
 
 """
 function get_network(networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ Returns detailed information about a node. Applies to Hyperledger Fabric and Eth
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ Returns detailed information about a proposal. Applies only to Hyperledger Fabri
 
 """
 function get_proposal(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -243,7 +243,7 @@ Fabric.
 - `next_token`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/invitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ only to Hyperledger Fabric.
   status are listed.
 """
 function list_members(networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -287,7 +287,7 @@ Applies to Hyperledger Fabric and Ethereum.
   status are listed. Applies only to Hyperledger Fabric.
 """
 function list_networks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,7 +309,7 @@ Ethereum.
   are listed.
 """
 function list_nodes(networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,7 +328,7 @@ the unique identifier of the member that cast the vote. Applies only to Hyperled
 - `next_token`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_proposal_votes(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -345,7 +345,7 @@ Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
 - `next_token`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_proposals(networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/networks/$(networkId)/proposals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -363,7 +363,7 @@ Hyperledger Fabric Developer Guide.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -379,7 +379,7 @@ to Hyperledger Fabric.
 
 """
 function reject_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("DELETE", "/invitations/$(invitationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -403,7 +403,7 @@ Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -422,7 +422,7 @@ Developer Guide.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -441,7 +441,7 @@ Updates a member configuration with new parameters. Applies only to Hyperledger 
   CloudWatch Logs.
 """
 function update_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ Updates a node configuration with new parameters. Applies only to Hyperledger Fa
   Hyperledger Fabric.
 """
 function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -480,6 +480,6 @@ action. Applies only to Hyperledger Fabric.
 
 """
 function vote_on_proposal(Vote, VoterMemberId, networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

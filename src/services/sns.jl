@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("attribute_value" => "AttributeValue", "next_token" => "NextToken", "language_code" => "LanguageCode", "max_results" => "MaxResults", "attributes" => "Attributes", "custom_user_data" => "CustomUserData", "endpoint" => "Endpoint", "return_subscription_arn" => "ReturnSubscriptionArn", "tags" => "Tags", "authenticate_on_unsubscribe" => "AuthenticateOnUnsubscribe", "message_attributes" => "MessageAttributes", "message_deduplication_id" => "MessageDeduplicationId", "message_group_id" => "MessageGroupId", "message_structure" => "MessageStructure", "phone_number" => "PhoneNumber", "subject" => "Subject", "target_arn" => "TargetArn", "topic_arn" => "TopicArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("attribute_value" => "AttributeValue", "next_token" => "NextToken", "language_code" => "LanguageCode", "max_results" => "MaxResults", "attributes" => "Attributes", "custom_user_data" => "CustomUserData", "endpoint" => "Endpoint", "return_subscription_arn" => "ReturnSubscriptionArn", "tags" => "Tags", "authenticate_on_unsubscribe" => "AuthenticateOnUnsubscribe", "message_attributes" => "MessageAttributes", "message_deduplication_id" => "MessageDeduplicationId", "message_group_id" => "MessageGroupId", "message_structure" => "MessageStructure", "phone_number" => "PhoneNumber", "subject" => "Subject", "target_arn" => "TargetArn", "topic_arn" => "TopicArn")
 
 """
     add_permission(awsaccount_id, action_name, label, topic_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Amazon Web Services accounts to the specified actions.
 
 """
 function add_permission(AWSAccountId, ActionName, Label, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ the OptInPhoneNumber action.
 
 """
 function check_if_phone_number_is_opted_out(phoneNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("CheckIfPhoneNumberIsOptedOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ signature only when the AuthenticateOnUnsubscribe flag is set to \"true\".
   the endpoint. The unsubscribe action requires Amazon Web Services authentication.
 """
 function confirm_subscription(Token, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ConfirmSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint a
 
 """
 function create_platform_application(Attributes, Name, Platform; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("CreatePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "Name"=>Name, "Platform"=>Platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
   not use this data. The data must be in UTF-8 format and less than 2KB.
 """
 function create_platform_endpoint(PlatformApplicationArn, Token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("CreatePlatformEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ Guide.
 - `language_code`: The language to use for sending the OTP. The default value is en-US.
 """
 function create_smssandbox_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("CreateSMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ a new topic.
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
 function create_topic(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("CreateTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ endpoint from the topic.
 
 """
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -230,7 +230,7 @@ Mobile Push Notifications.
 
 """
 function delete_platform_application(PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("DeletePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 """
 function delete_smssandbox_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("DeleteSMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ idempotent, so deleting a topic that does not exist does not result in an error.
 
 """
 function delete_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("DeleteTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ Amazon SNS Mobile Push Notifications.
 
 """
 function get_endpoint_attributes(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ information, see Using Amazon SNS Mobile Push Notifications.
 
 """
 function get_platform_application_attributes(PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -316,7 +316,7 @@ settings are set with the SetSMSAttributes action.
   parameter, Amazon SNS returns all SMS attributes.
 """
 function get_smsattributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetSMSAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -334,7 +334,7 @@ messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide
 
 """
 function get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetSMSSandboxAccountStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +348,7 @@ Returns all of the properties of a subscription.
 
 """
 function get_subscription_attributes(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -363,7 +363,7 @@ the authorization of the user.
 
 """
 function get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("GetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ information, see Using Amazon SNS Mobile Push Notifications.  This action is thr
   action to retrieve additional records that are available after the first page results.
 """
 function list_endpoints_by_platform_application(PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListEndpointsByPlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -405,7 +405,7 @@ Amazon SNS Developer Guide.
 - `next_token`: Token that the previous ListOriginationNumbers request returns.
 """
 function list_origination_numbers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListOriginationNumbers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -424,7 +424,7 @@ When there are no more records to return, NextToken will be null.
   action to retrieve additional records that are available after the first page of results.
 """
 function list_phone_numbers_opted_out(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListPhoneNumbersOptedOut", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ is throttled at 15 transactions per second (TPS).
   retrieve additional records that are available after the first page results.
 """
 function list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListPlatformApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -466,7 +466,7 @@ messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide
 - `next_token`: Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
 """
 function list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListSMSSandboxPhoneNumbers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -482,7 +482,7 @@ action is throttled at 30 transactions per second (TPS).
 - `next_token`: Token returned by the previous ListSubscriptions request.
 """
 function list_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,7 +501,7 @@ This action is throttled at 30 transactions per second (TPS).
 - `next_token`: Token returned by the previous ListSubscriptionsByTopic request.
 """
 function list_subscriptions_by_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListSubscriptionsByTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -516,7 +516,7 @@ in the Amazon Simple Notification Service Developer Guide.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -532,7 +532,7 @@ per second (TPS).
 - `next_token`: Token returned by the previous ListTopics request.
 """
 function list_topics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("ListTopics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -547,7 +547,7 @@ sending SMS messages to the number. You can opt in a phone number only once ever
 
 """
 function opt_in_phone_number(phoneNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("OptInPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -628,7 +628,7 @@ Services Region.
   TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
 """
 function publish(Message; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("Publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Message"=>Message), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -658,7 +658,7 @@ saved and Amazon SNS immediately delivers the message to subscribers.
 
 """
 function publish_batch(PublishBatchRequestEntries, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("PublishBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublishBatchRequestEntries"=>PublishBatchRequestEntries, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -673,7 +673,7 @@ Removes a statement from a topic's access control policy.
 
 """
 function remove_permission(Label, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -698,7 +698,7 @@ Amazon SNS Mobile Push Notifications.
 
 """
 function set_endpoint_attributes(Attributes, EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("SetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -738,7 +738,7 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
 
 """
 function set_platform_application_attributes(Attributes, PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("SetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ the s3:ListBucket action.
 
 """
 function set_smsattributes(attributes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("SetSMSAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -826,7 +826,7 @@ Allows a subscription owner to set an attribute of the subscription to a new val
 - `attribute_value`: The new value for the attribute in JSON format.
 """
 function set_subscription_attributes(AttributeName, SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("SetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -859,7 +859,7 @@ Allows a topic owner to set an attribute of the topic to a new value.
 - `attribute_value`: The new value for the attribute.
 """
 function set_topic_attributes(AttributeName, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("SetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -922,7 +922,7 @@ tokens are valid for three days. This action is throttled at 100 transactions pe
   with a confirmation token.  The default value is false.
 """
 function subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("Subscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Protocol"=>Protocol, "TopicArn"=>TopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -945,7 +945,7 @@ request.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -964,7 +964,7 @@ request was unintended. This action is throttled at 100 transactions per second 
 
 """
 function unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("Unsubscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -980,7 +980,7 @@ the Amazon SNS Developer Guide.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1003,6 +1003,6 @@ restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 """
 function verify_smssandbox_phone_number(OneTimePassword, PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sns("VerifySMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OneTimePassword"=>OneTimePassword, "PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

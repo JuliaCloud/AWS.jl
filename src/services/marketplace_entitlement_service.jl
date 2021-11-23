@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     get_entitlements(product_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,6 +27,6 @@ filtered based on customer identifier or product dimensions.
   previous GetEntitlementsResult.
 """
 function get_entitlements(ProductCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_entitlement_service("GetEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

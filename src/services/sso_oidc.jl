@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("code" => "code", "redirect_uri" => "redirectUri", "refresh_token" => "refreshToken", "scope" => "scope", "scopes" => "scopes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("code" => "code", "redirect_uri" => "redirectUri", "refresh_token" => "refreshToken", "scope" => "scope", "scopes" => "scopes")
 
 """
     create_token(client_id, client_secret, device_code, grant_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,7 +35,7 @@ be used to fetch short-term credentials for the assigned roles in the AWS accoun
   is used to restrict permissions when granting an access token.
 """
 function create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ output should be persisted for reuse through many authentication requests.
   list is used to restrict permissions when granting an access token.
 """
 function register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -75,6 +75,6 @@ authorization service.
 
 """
 function start_device_authorization(clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

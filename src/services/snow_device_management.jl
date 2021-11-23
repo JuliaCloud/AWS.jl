@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("job_id" => "jobId", "max_results" => "maxResults", "next_token" => "nextToken", "state" => "state", "client_token" => "clientToken", "description" => "description", "tags" => "tags", "type" => "type")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("job_id" => "jobId", "max_results" => "maxResults", "next_token" => "nextToken", "state" => "state", "client_token" => "clientToken", "description" => "description", "tags" => "tags", "type" => "type")
 
 """
     cancel_task(task_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ it's processed from the queue before the CancelTask operation changes the task's
 
 """
 function cancel_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/task/$(taskId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ Instructs one or more devices to start a task, such as unlocking or rebooting.
   resource in different ways, such as by purpose, owner, or environment.
 """
 function create_task(command, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "targets"=>targets, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -56,7 +56,7 @@ addresses, and lock status.
 
 """
 function describe_device(managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/managed-device/$(managedDeviceId)/describe", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ Services Cloud and include a subset of the available fields.
 
 """
 function describe_device_ec2_instances(instanceIds, managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/managed-device/$(managedDeviceId)/resources/ec2/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceIds"=>instanceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ Checks the status of a remote task running on one or more target devices.
 
 """
 function describe_execution(managedDeviceId, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/task/$(taskId)/execution/$(managedDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ Checks the metadata for a given task on a device.
 
 """
 function describe_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/task/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -121,7 +121,7 @@ Amazon EC2 instances are the only supported resource type.
 - `type`: A structure used to filter the results by type of resource.
 """
 function list_device_resources(managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("GET", "/managed-device/$(managedDeviceId)/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ is run.
 - `next_token`: A pagination token to continue to the next page of results.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("GET", "/managed-devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -156,7 +156,7 @@ Returns the status of tasks for one or more target devices.
 - `state`: A structure used to filter the tasks by their current state.
 """
 function list_executions(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("GET", "/executions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ Returns a list of tags for a managed device or task.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -185,7 +185,7 @@ Returns a list of tasks that can be filtered by state.
 - `state`: A structure used to filter the list of tasks.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("GET", "/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ Adds or replaces tags on a device or task.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,6 +217,6 @@ Removes a tag from a device or task.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return snow_device_management("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

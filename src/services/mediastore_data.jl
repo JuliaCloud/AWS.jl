@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "path" => "Path", "cache_control" => "Cache-Control", "content_type" => "Content-Type", "storage_class" => "x-amz-storage-class", "upload_availability" => "x-amz-upload-availability", "range" => "Range")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "path" => "Path", "cache_control" => "Cache-Control", "content_type" => "Content-Type", "storage_class" => "x-amz-storage-class", "upload_availability" => "x-amz-upload-availability", "range" => "Range")
 
 """
     delete_object(path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ Deletes an object at the specified path.
 
 """
 function delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -33,7 +33,7 @@ Gets the headers for an object at the specified path.
 
 """
 function describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -66,7 +66,7 @@ object.
   availability.
 """
 function get_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediastore_data("GET", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -91,7 +91,7 @@ Provides a list of metadata entries about folders and objects in the specified f
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
 function list_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediastore_data("GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,6 +134,6 @@ upload availability and 10 MB for streaming upload availability.
   Transfer-Encoding header to chunked.
 """
 function put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

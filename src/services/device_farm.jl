@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("default_job_timeout_minutes" => "defaultJobTimeoutMinutes", "name" => "name", "description" => "description", "max_devices" => "maxDevices", "next_token" => "nextToken", "type" => "type", "labels" => "labels", "profile_arn" => "profileArn", "clear_max_devices" => "clearMaxDevices", "rules" => "rules", "max_results" => "maxResults", "content_type" => "contentType", "vpc_config" => "vpcConfig", "exclude_app_packages_from_cleanup" => "excludeAppPackagesFromCleanup", "package_cleanup" => "packageCleanup", "reboot_after_use" => "rebootAfterUse", "arn" => "arn", "filters" => "filters", "downlink_bandwidth_bits" => "downlinkBandwidthBits", "downlink_delay_ms" => "downlinkDelayMs", "downlink_jitter_ms" => "downlinkJitterMs", "downlink_loss_percent" => "downlinkLossPercent", "uplink_bandwidth_bits" => "uplinkBandwidthBits", "uplink_delay_ms" => "uplinkDelayMs", "uplink_jitter_ms" => "uplinkJitterMs", "uplink_loss_percent" => "uplinkLossPercent", "max_result" => "maxResult", "vpce_configuration_description" => "vpceConfigurationDescription", "offering_promotion_id" => "offeringPromotionId", "app_arn" => "appArn", "configuration" => "configuration", "test" => "test", "test_type" => "testType", "edit_content" => "editContent", "device_pool_arn" => "devicePoolArn", "device_selection_configuration" => "deviceSelectionConfiguration", "execution_configuration" => "executionConfiguration", "creation_time_after" => "creationTimeAfter", "creation_time_before" => "creationTimeBefore", "end_time_after" => "endTimeAfter", "end_time_before" => "endTimeBefore", "status" => "status", "client_id" => "clientId", "instance_arn" => "instanceArn", "interaction_mode" => "interactionMode", "remote_debug_enabled" => "remoteDebugEnabled", "remote_record_app_arn" => "remoteRecordAppArn", "remote_record_enabled" => "remoteRecordEnabled", "skip_app_resign" => "skipAppResign", "ssh_public_key" => "sshPublicKey", "project_arn" => "projectArn", "session_arn" => "sessionArn", "session_id" => "sessionId", "service_dns_name" => "serviceDnsName", "vpce_configuration_name" => "vpceConfigurationName", "vpce_service_name" => "vpceServiceName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("default_job_timeout_minutes" => "defaultJobTimeoutMinutes", "name" => "name", "description" => "description", "max_devices" => "maxDevices", "next_token" => "nextToken", "type" => "type", "labels" => "labels", "profile_arn" => "profileArn", "clear_max_devices" => "clearMaxDevices", "rules" => "rules", "max_results" => "maxResults", "content_type" => "contentType", "vpc_config" => "vpcConfig", "exclude_app_packages_from_cleanup" => "excludeAppPackagesFromCleanup", "package_cleanup" => "packageCleanup", "reboot_after_use" => "rebootAfterUse", "arn" => "arn", "filters" => "filters", "downlink_bandwidth_bits" => "downlinkBandwidthBits", "downlink_delay_ms" => "downlinkDelayMs", "downlink_jitter_ms" => "downlinkJitterMs", "downlink_loss_percent" => "downlinkLossPercent", "uplink_bandwidth_bits" => "uplinkBandwidthBits", "uplink_delay_ms" => "uplinkDelayMs", "uplink_jitter_ms" => "uplinkJitterMs", "uplink_loss_percent" => "uplinkLossPercent", "max_result" => "maxResult", "vpce_configuration_description" => "vpceConfigurationDescription", "offering_promotion_id" => "offeringPromotionId", "app_arn" => "appArn", "configuration" => "configuration", "test" => "test", "test_type" => "testType", "edit_content" => "editContent", "device_pool_arn" => "devicePoolArn", "device_selection_configuration" => "deviceSelectionConfiguration", "execution_configuration" => "executionConfiguration", "creation_time_after" => "creationTimeAfter", "creation_time_before" => "creationTimeBefore", "end_time_after" => "endTimeAfter", "end_time_before" => "endTimeBefore", "status" => "status", "client_id" => "clientId", "instance_arn" => "instanceArn", "interaction_mode" => "interactionMode", "remote_debug_enabled" => "remoteDebugEnabled", "remote_record_app_arn" => "remoteRecordAppArn", "remote_record_enabled" => "remoteRecordEnabled", "skip_app_resign" => "skipAppResign", "ssh_public_key" => "sshPublicKey", "project_arn" => "projectArn", "session_arn" => "sessionArn", "session_id" => "sessionId", "service_dns_name" => "serviceDnsName", "vpce_configuration_name" => "vpceConfigurationName", "vpce_service_name" => "vpceServiceName")
 
 """
     create_device_pool(name, project_arn, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,7 +26,7 @@ Creates a device pool.
   of devices, you can control the costs that you incur by running tests.
 """
 function create_device_pool(name, projectArn, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "rules"=>rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -49,7 +49,7 @@ Creates a profile that can be applied to one or more private fleet device instan
   The default value is true.
 """
 function create_instance_profile(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Creates a network profile.
   100 percent.
 """
 function create_network_profile(name, projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ Creates a project.
   overridden when scheduling a run.
 """
 function create_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -147,7 +147,7 @@ Specifies and starts a remote access session.
   remoteDebugEnabled is set to true. Remote debugging is no longer supported.
 """
 function create_remote_access_session(deviceArn, projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceArn"=>deviceArn, "projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ Creates a Selenium testing project. Projects are used to track TestGridSession i
 - `vpc_config`: The VPC security groups and subnets that are attached to a project.
 """
 function create_test_grid_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,7 +181,7 @@ constructor.
 
 """
 function create_test_grid_url(expiresInSeconds, projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateTestGridUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expiresInSeconds"=>expiresInSeconds, "projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -214,7 +214,7 @@ Uploads an app or test scripts.
 - `content_type`: The upload's content type (for example, application/octet-stream).
 """
 function create_upload(name, projectArn, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -237,7 +237,7 @@ endpoint.
   your VPC endpoint configuration.
 """
 function create_vpceconfiguration(serviceDnsName, vpceConfigurationName, vpceServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("CreateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceDnsName"=>serviceDnsName, "vpceConfigurationName"=>vpceConfigurationName, "vpceServiceName"=>vpceServiceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +252,7 @@ the system.
 
 """
 function delete_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ Deletes a profile that can be applied to one or more private device instances.
 
 """
 function delete_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ Deletes a network profile.
 
 """
 function delete_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ stop an in-progress run.
 
 """
 function delete_project(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ Deletes a completed remote access session and its results.
 
 """
 function delete_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +326,7 @@ run.
 
 """
 function delete_run(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -342,7 +342,7 @@ this operation.   You cannot delete a project if it has active sessions.
 
 """
 function delete_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -356,7 +356,7 @@ Deletes an upload given the upload ARN.
 
 """
 function delete_upload(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -371,7 +371,7 @@ Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 """
 function delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("DeleteVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -383,7 +383,7 @@ by the account.
 
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -397,7 +397,7 @@ Gets information about a unique device type.
 
 """
 function get_device(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -411,7 +411,7 @@ Returns information about a device instance that belongs to a private device fle
 
 """
 function get_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -425,7 +425,7 @@ Gets information about a device pool.
 
 """
 function get_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -450,7 +450,7 @@ Gets information about compatibility with a device pool.
   XCTEST_UI.
 """
 function get_device_pool_compatibility(devicePoolArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetDevicePoolCompatibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("devicePoolArn"=>devicePoolArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -464,7 +464,7 @@ Returns information about the specified instance profile.
 
 """
 function get_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -478,7 +478,7 @@ Gets information about a job.
 
 """
 function get_job(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -492,7 +492,7 @@ Returns information about a network profile.
 
 """
 function get_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -510,7 +510,7 @@ aws-devicefarm-support@amazon.com.
   which can be used to return the next set of items in the list.
 """
 function get_offering_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetOfferingStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -524,7 +524,7 @@ Gets information about a project.
 
 """
 function get_project(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +539,7 @@ Returns a link to a currently running remote access session.
 
 """
 function get_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ Gets information about a run.
 
 """
 function get_run(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -567,7 +567,7 @@ Gets information about a suite.
 
 """
 function get_suite(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetSuite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -581,7 +581,7 @@ Gets information about a test.
 
 """
 function get_test(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,7 +596,7 @@ Retrieves information about a Selenium testing project.
 
 """
 function get_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -615,7 +615,7 @@ ARN (GetTestGridSessionRequestsessionArn).   The project ARN and a session ID
 - `session_id`: An ID associated with this session.
 """
 function get_test_grid_session(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetTestGridSession", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -629,7 +629,7 @@ Gets information about an upload.
 
 """
 function get_upload(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -645,7 +645,7 @@ Returns information about the configuration settings for your Amazon Virtual Pri
 
 """
 function get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("GetVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -662,7 +662,7 @@ the file must be in .apk format. For iOS applications, the file must be in .ipa 
 
 """
 function install_to_remote_access_session(appArn, remoteAccessSessionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("InstallToRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "remoteAccessSessionArn"=>remoteAccessSessionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -680,7 +680,7 @@ Gets information about artifacts.
   which can be used to return the next set of items in the list.
 """
 function list_artifacts(arn, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -697,7 +697,7 @@ accounts.
   which can be used to return the next set of items in the list.
 """
 function list_device_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListDeviceInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -717,7 +717,7 @@ Gets information about device pools.
   managed by the device pool developer.
 """
 function list_device_pools(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListDevicePools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ Gets information about unique device types.
   which can be used to return the next set of items in the list.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -773,7 +773,7 @@ Returns information about all the instance profiles in an AWS account.
   which can be used to return the next set of items in the list.
 """
 function list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListInstanceProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -790,7 +790,7 @@ Gets information about jobs for a given test run.
   which can be used to return the next set of items in the list.
 """
 function list_jobs(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -810,7 +810,7 @@ Returns the list of available network profiles.
   here.
 """
 function list_network_profiles(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListNetworkProfiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -827,7 +827,7 @@ able to invoke this operation.
   which can be used to return the next set of items in the list.
 """
 function list_offering_promotions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListOfferingPromotions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -845,7 +845,7 @@ aws-devicefarm-support@amazon.com.
   which can be used to return the next set of items in the list.
 """
 function list_offering_transactions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListOfferingTransactions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -862,7 +862,7 @@ If you must be able to invoke this operation, contact aws-devicefarm-support@ama
   which can be used to return the next set of items in the list.
 """
 function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -878,7 +878,7 @@ Gets information about projects.
   which can be used to return the next set of items in the list.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -896,7 +896,7 @@ Returns a list of all currently running remote access sessions.
   which can be used to return the next set of items in the list.
 """
 function list_remote_access_sessions(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListRemoteAccessSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -913,7 +913,7 @@ Gets information about runs, given an AWS Device Farm project ARN.
   which can be used to return the next set of items in the list.
 """
 function list_runs(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -930,7 +930,7 @@ Gets information about samples, given an AWS Device Farm job ARN.
   which can be used to return the next set of items in the list.
 """
 function list_samples(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListSamples", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +947,7 @@ Gets information about test suites for a given job.
   which can be used to return the next set of items in the list.
 """
 function list_suites(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListSuites", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -964,7 +964,7 @@ List the tags for an AWS Device Farm resource.
 
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +978,7 @@ Gets a list of all Selenium testing projects in your account.
 - `next_token`: From a response, used to continue a paginated listing.
 """
 function list_test_grid_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTestGridProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -995,7 +995,7 @@ Returns a list of the actions taken in a TestGridSession.
 - `next_token`: Pagination token.
 """
 function list_test_grid_session_actions(sessionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTestGridSessionActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1013,7 +1013,7 @@ Retrieves a list of artifacts created during the session.
 - `type`: Limit results to a specified type of artifact.
 """
 function list_test_grid_session_artifacts(sessionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTestGridSessionArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1035,7 +1035,7 @@ Retrieves a list of sessions for a TestGridProject.
 - `status`: Return only sessions in this state.
 """
 function list_test_grid_sessions(projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTestGridSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1052,7 +1052,7 @@ Gets information about tests in a given test suite.
   which can be used to return the next set of items in the list.
 """
 function list_tests(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1073,7 +1073,7 @@ entries for that exception.
   which can be used to return the next set of items in the list.
 """
 function list_unique_problems(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListUniqueProblems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1102,7 +1102,7 @@ Gets information about uploads, given an AWS Device Farm project ARN.
   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC
 """
 function list_uploads(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListUploads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1119,7 +1119,7 @@ the AWS account.
   which can be used to return the next set of items in the list.
 """
 function list_vpceconfigurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ListVPCEConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1139,7 +1139,7 @@ to invoke this operation, contact aws-devicefarm-support@amazon.com.
 - `offering_promotion_id`: The ID of the offering promotion to be applied to the purchase.
 """
 function purchase_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("PurchaseOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1157,7 +1157,7 @@ aws-devicefarm-support@amazon.com.
 
 """
 function renew_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("RenewOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1183,7 +1183,7 @@ Schedules a run.
 - `name`: The name for the run to be scheduled.
 """
 function schedule_run(projectArn, test; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("ScheduleRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "test"=>test), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1201,7 +1201,7 @@ completed.
 
 """
 function stop_job(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("StopJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1215,7 +1215,7 @@ Ends a specified remote access session.
 
 """
 function stop_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("StopRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1233,7 +1233,7 @@ progress or already completed.
 
 """
 function stop_run(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("StopRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1255,7 +1255,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1273,7 +1273,7 @@ Deletes the specified tags from a resource.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1290,7 +1290,7 @@ Updates information about a private device instance.
 - `profile_arn`: The ARN of the profile that you want to associate with the device instance.
 """
 function update_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1324,7 +1324,7 @@ not at all).
   If you update rules for your request, the update replaces the existing rules.
 """
 function update_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1348,7 +1348,7 @@ Updates information about an existing private device instance profile.
   use. The default value is true.
 """
 function update_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1385,7 +1385,7 @@ Updates the network profile.
   100 percent.
 """
 function update_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1403,7 +1403,7 @@ Modifies the specified project name, given the project ARN and a new name.
 - `name`: A string that represents the new name of the project that you are updating.
 """
 function update_project(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1421,7 +1421,7 @@ Change details of a project.
 - `vpc_config`: The VPC security groups and subnets that are attached to a project.
 """
 function update_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1441,7 +1441,7 @@ Updates an uploaded test spec.
   (/). The test spec file name must end with the .yaml or .yml file extension.
 """
 function update_upload(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1465,6 +1465,6 @@ Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configu
   that you want Device Farm to test.
 """
 function update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return device_farm("UpdateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

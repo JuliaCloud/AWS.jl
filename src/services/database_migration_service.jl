@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("marker" => "Marker", "max_records" => "MaxRecords", "migration_type" => "MigrationType", "replication_instance_arn" => "ReplicationInstanceArn", "replication_task_arn" => "ReplicationTaskArn", "source_engine_name" => "SourceEngineName", "target_engine_name" => "TargetEngineName", "certificate_arn" => "CertificateArn", "database_name" => "DatabaseName", "dms_transfer_settings" => "DmsTransferSettings", "doc_db_settings" => "DocDbSettings", "dynamo_db_settings" => "DynamoDbSettings", "elasticsearch_settings" => "ElasticsearchSettings", "external_table_definition" => "ExternalTableDefinition", "extra_connection_attributes" => "ExtraConnectionAttributes", "gcp_my_sqlsettings" => "GcpMySQLSettings", "ibmdb2_settings" => "IBMDb2Settings", "kafka_settings" => "KafkaSettings", "kinesis_settings" => "KinesisSettings", "kms_key_id" => "KmsKeyId", "microsoft_sqlserver_settings" => "MicrosoftSQLServerSettings", "mongo_db_settings" => "MongoDbSettings", "my_sqlsettings" => "MySQLSettings", "neptune_settings" => "NeptuneSettings", "oracle_settings" => "OracleSettings", "password" => "Password", "port" => "Port", "postgre_sqlsettings" => "PostgreSQLSettings", "redis_settings" => "RedisSettings", "redshift_settings" => "RedshiftSettings", "resource_identifier" => "ResourceIdentifier", "s3_settings" => "S3Settings", "server_name" => "ServerName", "service_access_role_arn" => "ServiceAccessRoleArn", "ssl_mode" => "SslMode", "sybase_settings" => "SybaseSettings", "tags" => "Tags", "username" => "Username", "cdc_start_position" => "CdcStartPosition", "cdc_start_time" => "CdcStartTime", "cdc_stop_position" => "CdcStopPosition", "replication_task_settings" => "ReplicationTaskSettings", "task_data" => "TaskData", "filters" => "Filters", "source_type" => "SourceType", "enabled" => "Enabled", "event_categories" => "EventCategories", "sns_topic_arn" => "SnsTopicArn", "allocated_storage" => "AllocatedStorage", "allow_major_version_upgrade" => "AllowMajorVersionUpgrade", "apply_immediately" => "ApplyImmediately", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "engine_version" => "EngineVersion", "multi_az" => "MultiAZ", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "replication_instance_class" => "ReplicationInstanceClass", "replication_instance_identifier" => "ReplicationInstanceIdentifier", "vpc_security_group_ids" => "VpcSecurityGroupIds", "replication_task_identifier" => "ReplicationTaskIdentifier", "table_mappings" => "TableMappings", "source_ids" => "SourceIds", "availability_zone" => "AvailabilityZone", "dns_name_servers" => "DnsNameServers", "publicly_accessible" => "PubliclyAccessible", "replication_subnet_group_identifier" => "ReplicationSubnetGroupIdentifier", "resource_arn" => "ResourceArn", "resource_arn_list" => "ResourceArnList", "endpoint_identifier" => "EndpointIdentifier", "endpoint_type" => "EndpointType", "engine_name" => "EngineName", "exact_settings" => "ExactSettings", "reload_option" => "ReloadOption", "certificate_pem" => "CertificatePem", "certificate_wallet" => "CertificateWallet", "force_failover" => "ForceFailover", "force_planned_failover" => "ForcePlannedFailover", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "replication_subnet_group_description" => "ReplicationSubnetGroupDescription", "without_settings" => "WithoutSettings", "exclude" => "Exclude", "include_only" => "IncludeOnly", "result_encryption_mode" => "ResultEncryptionMode", "result_kms_key_arn" => "ResultKmsKeyArn", "result_location_folder" => "ResultLocationFolder")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("marker" => "Marker", "max_records" => "MaxRecords", "migration_type" => "MigrationType", "replication_instance_arn" => "ReplicationInstanceArn", "replication_task_arn" => "ReplicationTaskArn", "source_engine_name" => "SourceEngineName", "target_engine_name" => "TargetEngineName", "certificate_arn" => "CertificateArn", "database_name" => "DatabaseName", "dms_transfer_settings" => "DmsTransferSettings", "doc_db_settings" => "DocDbSettings", "dynamo_db_settings" => "DynamoDbSettings", "elasticsearch_settings" => "ElasticsearchSettings", "external_table_definition" => "ExternalTableDefinition", "extra_connection_attributes" => "ExtraConnectionAttributes", "gcp_my_sqlsettings" => "GcpMySQLSettings", "ibmdb2_settings" => "IBMDb2Settings", "kafka_settings" => "KafkaSettings", "kinesis_settings" => "KinesisSettings", "kms_key_id" => "KmsKeyId", "microsoft_sqlserver_settings" => "MicrosoftSQLServerSettings", "mongo_db_settings" => "MongoDbSettings", "my_sqlsettings" => "MySQLSettings", "neptune_settings" => "NeptuneSettings", "oracle_settings" => "OracleSettings", "password" => "Password", "port" => "Port", "postgre_sqlsettings" => "PostgreSQLSettings", "redis_settings" => "RedisSettings", "redshift_settings" => "RedshiftSettings", "resource_identifier" => "ResourceIdentifier", "s3_settings" => "S3Settings", "server_name" => "ServerName", "service_access_role_arn" => "ServiceAccessRoleArn", "ssl_mode" => "SslMode", "sybase_settings" => "SybaseSettings", "tags" => "Tags", "username" => "Username", "cdc_start_position" => "CdcStartPosition", "cdc_start_time" => "CdcStartTime", "cdc_stop_position" => "CdcStopPosition", "replication_task_settings" => "ReplicationTaskSettings", "task_data" => "TaskData", "filters" => "Filters", "source_type" => "SourceType", "enabled" => "Enabled", "event_categories" => "EventCategories", "sns_topic_arn" => "SnsTopicArn", "allocated_storage" => "AllocatedStorage", "allow_major_version_upgrade" => "AllowMajorVersionUpgrade", "apply_immediately" => "ApplyImmediately", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "engine_version" => "EngineVersion", "multi_az" => "MultiAZ", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "replication_instance_class" => "ReplicationInstanceClass", "replication_instance_identifier" => "ReplicationInstanceIdentifier", "vpc_security_group_ids" => "VpcSecurityGroupIds", "replication_task_identifier" => "ReplicationTaskIdentifier", "table_mappings" => "TableMappings", "source_ids" => "SourceIds", "availability_zone" => "AvailabilityZone", "dns_name_servers" => "DnsNameServers", "publicly_accessible" => "PubliclyAccessible", "replication_subnet_group_identifier" => "ReplicationSubnetGroupIdentifier", "resource_arn" => "ResourceArn", "resource_arn_list" => "ResourceArnList", "endpoint_identifier" => "EndpointIdentifier", "endpoint_type" => "EndpointType", "engine_name" => "EngineName", "exact_settings" => "ExactSettings", "reload_option" => "ReloadOption", "certificate_pem" => "CertificatePem", "certificate_wallet" => "CertificateWallet", "force_failover" => "ForceFailover", "force_planned_failover" => "ForcePlannedFailover", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "replication_subnet_group_description" => "ReplicationSubnetGroupDescription", "without_settings" => "WithoutSettings", "exclude" => "Exclude", "include_only" => "IncludeOnly", "result_encryption_mode" => "ResultEncryptionMode", "result_kms_key_arn" => "ResultKmsKeyArn", "result_location_folder" => "ResultLocationFolder")
 
 """
     add_tags_to_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ for DMS. For more information, see  Tag  data type description.
 
 """
 function add_tags_to_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -45,7 +45,7 @@ Applies a pending maintenance action to a resource (for example, to a replicatio
 
 """
 function apply_pending_maintenance_action(ApplyAction, OptInType, ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ individual assessments that are currently running.
 
 """
 function cancel_replication_task_assessment_run(ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ the database only when you specify the schema in the table-mapping rules of the 
 - `username`: The user name to be used to log in to the endpoint database.
 """
 function create_endpoint(EndpointIdentifier, EndpointType, EngineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ and Notifications in the Database Migration Service User Guide.
 - `tags`: One or more tags to be assigned to the event subscription.
 """
 function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ Use DMS.
   replication instance.
 """
 function create_replication_instance(ReplicationInstanceClass, ReplicationInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CreateReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -317,7 +317,7 @@ exception.
 - `tags`: One or more tags to be assigned to the subnet group.
 """
 function create_replication_subnet_group(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -378,7 +378,7 @@ Creates a replication task using the specified parameters.
   for Task Settings in the Database Migration Service User Guide.
 """
 function create_replication_task(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("CreateReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +392,7 @@ Deletes the specified certificate.
 
 """
 function delete_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -408,7 +408,7 @@ Deletes the connection between a replication instance and an endpoint.
 
 """
 function delete_connection(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -424,7 +424,7 @@ before you can delete the endpoint.
 
 """
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,7 +438,7 @@ end
 
 """
 function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -454,7 +454,7 @@ associated with the replication instance before you can delete it.
 
 """
 function delete_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -468,7 +468,7 @@ Deletes a subnet group.
 
 """
 function delete_replication_subnet_group(ReplicationSubnetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -483,7 +483,7 @@ Deletes the specified replication task.
 
 """
 function delete_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -500,7 +500,7 @@ untouched all information about this assessment run that is stored in your Amazo
 
 """
 function delete_replication_task_assessment_run(ReplicationTaskAssessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ not take any parameters.
 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -559,7 +559,7 @@ task.
   supports as a target.
 """
 function describe_applicable_individual_assessments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeApplicableIndividualAssessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +579,7 @@ Provides a description of the certificate.
   in the response so that the remaining results can be retrieved.  Default: 10
 """
 function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -601,7 +601,7 @@ instance and an endpoint. Connections are created when you test an endpoint.
   Minimum 20, maximum 100.
 """
 function describe_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -623,7 +623,7 @@ endpoint for a specific database engine.
   in the response so that the remaining results can be retrieved.
 """
 function describe_endpoint_settings(EngineName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEndpointSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,7 +644,7 @@ Returns information about the type of endpoints available.
   Minimum 20, maximum 100.
 """
 function describe_endpoint_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEndpointTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ Returns information about the endpoints for your account in the current region.
   Minimum 20, maximum 100.
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ Notifications in the Database Migration Service User Guide.
   replication-instance | replication-task
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -707,7 +707,7 @@ subscription.
 - `subscription_name`: The name of the DMS event subscription to be described.
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +736,7 @@ in the Database Migration Service User Guide.
 - `start_time`: The start time for the events to be listed.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -756,7 +756,7 @@ specified region.
   Minimum 20, maximum 100.
 """
 function describe_orderable_replication_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeOrderableReplicationInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -777,7 +777,7 @@ For internal use only
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance.
 """
 function describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ Returns the status of the RefreshSchemas operation.
 
 """
 function describe_refresh_schemas_status(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -814,7 +814,7 @@ Returns information about the task logs for the specified task.
   Minimum 20, maximum 100.
 """
 function describe_replication_instance_task_logs(ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -836,7 +836,7 @@ Returns information about replication instances for your account in the current 
   Minimum 20, maximum 100.
 """
 function describe_replication_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -857,7 +857,7 @@ Returns information about the replication subnet groups.
   Minimum 20, maximum 100.
 """
 function describe_replication_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -882,7 +882,7 @@ Database Migration Service User Guide.
   ignore the values of the MaxRecords and Marker parameters.
 """
 function describe_replication_task_assessment_results(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationTaskAssessmentResults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +907,7 @@ DescribeReplicationTaskIndividualAssessments operation.
   in the response so that the remaining results can be retrieved.
 """
 function describe_replication_task_assessment_runs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationTaskAssessmentRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -930,7 +930,7 @@ assessment status values.
   in the response so that the remaining results can be retrieved.
 """
 function describe_replication_task_individual_assessments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationTaskIndividualAssessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -954,7 +954,7 @@ Returns information about replication tasks for your account in the current regi
   true; otherwise, choose false (the default).
 """
 function describe_replication_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeReplicationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -977,7 +977,7 @@ Returns information about the schema for the specified endpoint.
   Minimum 20, maximum 100.
 """
 function describe_schemas(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1005,7 +1005,7 @@ table. It does not indicate the time of the last update to the table.
   Minimum 20, maximum 500.
 """
 function describe_table_statistics(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("DescribeTableStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1027,7 +1027,7 @@ Uploads the specified certificate.
 - `tags`: The tags associated with the certificate.
 """
 function import_certificate(CertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1048,7 +1048,7 @@ description.
   which each listed tag is created.
 """
 function list_tags_for_resource(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ListTagsForResource", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1164,7 +1164,7 @@ specify the schema in the table-mapping rules of the DMS task.
 - `username`: The user name to be used to login to the endpoint database.
 """
 function modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ModifyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1187,7 +1187,7 @@ Modifies an existing DMS event notification subscription.
   to.  Valid values: replication-instance | replication-task
 """
 function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1241,7 +1241,7 @@ are applied during the maintenance window.
   replication instance.
 """
 function modify_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ModifyReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1259,7 +1259,7 @@ Modifies the settings for the specified replication subnet group.
   group.
 """
 function modify_replication_subnet_group(ReplicationSubnetGroupIdentifier, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1309,7 +1309,7 @@ with Migration Tasks in the Database Migration Service User Guide.
   for Task Settings in the Database Migration Service User Guide.
 """
 function modify_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1327,7 +1327,7 @@ be created with the same or later DMS version as the current replication instanc
 
 """
 function move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("MoveReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1350,7 +1350,7 @@ replication instance becomes available again.
   ( --force-planned-failover and --force-failover can't both be set to true.)
 """
 function reboot_replication_instance(ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("RebootReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1368,7 +1368,7 @@ DescribeRefreshSchemasStatus operation.
 
 """
 function refresh_schemas(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("RefreshSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1390,7 +1390,7 @@ InvalidResourceStateFault exception.
   data-reload, validate-only Default value is data-reload.
 """
 function reload_tables(ReplicationTaskArn, TablesToReload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("ReloadTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1407,7 +1407,7 @@ security group, and migration task. For more information, see  Tag  data type de
 
 """
 function remove_tags_from_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1450,7 +1450,7 @@ Migration Tasks  in the Database Migration Service User Guide.
   --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
 """
 function start_replication_task(ReplicationTaskArn, StartReplicationTaskType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("StartReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1458,13 +1458,18 @@ end
     start_replication_task_assessment(replication_task_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Starts the replication task assessment for unsupported data types in the source database.
+You can only use this operation for a task if the following conditions are true:   The task
+must be in the stopped state.   The task must have successful connections to the source and
+target.   If either of these conditions are not met, an InvalidResourceStateFault error
+will result.  For information about DMS task assessments, see Creating a task assessment
+report in the Database Migration Service User Guide.
 
 # Arguments
 - `replication_task_arn`:  The Amazon Resource Name (ARN) of the replication task.
 
 """
 function start_replication_task_assessment(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1515,7 +1520,7 @@ after the assessment run and its individual assessments complete.
   the results of this assessment run.
 """
 function start_replication_task_assessment_run(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1530,7 +1535,7 @@ Stops the replication task.
 
 """
 function stop_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("StopReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1546,6 +1551,6 @@ Tests the connection between the replication instance and the endpoint.
 
 """
 function test_connection(EndpointArn, ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return database_migration_service("TestConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

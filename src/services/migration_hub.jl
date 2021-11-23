@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dry_run" => "DryRun", "update_date_time" => "UpdateDateTime", "max_results" => "MaxResults", "next_token" => "NextToken", "application_ids" => "ApplicationIds", "resource_name" => "ResourceName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("dry_run" => "DryRun", "update_date_time" => "UpdateDateTime", "max_results" => "MaxResults", "next_token" => "NextToken", "application_ids" => "ApplicationIds", "resource_name" => "ResourceName")
 
 """
     associate_created_artifact(created_artifact, migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,7 +30,7 @@ resource behind the created artifact are, AMI's, EC2 instance, or DMS endpoint, 
   to test if the caller has permission to make the call.
 """
 function associate_created_artifact(CreatedArtifact, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("AssociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifact"=>CreatedArtifact, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ task.
   to test if the caller has permission to make the call.
 """
 function associate_discovered_resource(DiscoveredResource, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("AssociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiscoveredResource"=>DiscoveredResource, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ account.
   to test if the caller has permission to make the call.
 """
 function create_progress_update_stream(ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("CreateProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ the old stream).
   to test if the caller has permission to make the call.
 """
 function delete_progress_update_stream(ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("DeleteProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ Gets the migration status of an application.
 
 """
 function describe_application_state(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("DescribeApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ Retrieves a list of all attributes associated with a specific migration task.
 
 """
 function describe_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("DescribeMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ resource behind the created artifact are, AMI's, EC2 instance, or RDS instance, 
   to test if the caller has permission to make the call.
 """
 function disassociate_created_artifact(CreatedArtifactName, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("DisassociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifactName"=>CreatedArtifactName, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ Disassociate an Application Discovery Service discovered resource from a migrati
   to test if the caller has permission to make the call.
 """
 function disassociate_discovered_resource(ConfigurationId, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("DisassociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationId"=>ConfigurationId, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ API as the migration tool must first register the migration task with Migration 
   to test if the caller has permission to make the call.
 """
 function import_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ImportMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -223,7 +223,7 @@ returned.
   token in NextToken.
 """
 function list_application_states(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ListApplicationStates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ the AssociateCreatedArtifact API.    Lists created artifacts in a paginated inte
   token in NextToken.
 """
 function list_created_artifacts(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ListCreatedArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ Lists discovered resources associated with the given MigrationTask.
   token in NextToken.
 """
 function list_discovered_resources(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -288,7 +288,7 @@ given discovered resource.   Lists migration tasks in a paginated interface.
 - `resource_name`: Filter migration tasks by discovered resource name.
 """
 function list_migration_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ListMigrationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -304,7 +304,7 @@ Lists progress update streams associated with the user account making this call.
   token in NextToken.
 """
 function list_progress_update_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("ListProgressUpdateStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +326,7 @@ Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
 - `update_date_time`: The timestamp when the application state changed.
 """
 function notify_application_state(ApplicationId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("NotifyApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ access control and to provide a namespace for each migration tool.
   to test if the caller has permission to make the call.
 """
 function notify_migration_task_state(MigrationTaskName, NextUpdateSeconds, ProgressUpdateStream, Task, UpdateDateTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("NotifyMigrationTaskState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "NextUpdateSeconds"=>NextUpdateSeconds, "ProgressUpdateStream"=>ProgressUpdateStream, "Task"=>Task, "UpdateDateTime"=>UpdateDateTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,6 +396,6 @@ ListDiscoveredResources.
   to test if the caller has permission to make the call.
 """
 function put_resource_attributes(MigrationTaskName, ProgressUpdateStream, ResourceAttributeList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migration_hub("PutResourceAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream, "ResourceAttributeList"=>ResourceAttributeList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

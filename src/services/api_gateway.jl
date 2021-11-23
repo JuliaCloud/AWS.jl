@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("cache_cluster_enabled" => "cacheClusterEnabled", "cache_cluster_size" => "cacheClusterSize", "canary_settings" => "canarySettings", "description" => "description", "documentation_version" => "documentationVersion", "tags" => "tags", "tracing_enabled" => "tracingEnabled", "variables" => "variables", "api_key_required" => "apiKeyRequired", "authorization_scopes" => "authorizationScopes", "authorizer_id" => "authorizerId", "operation_name" => "operationName", "request_models" => "requestModels", "request_parameters" => "requestParameters", "request_validator_id" => "requestValidatorId", "patch_operations" => "patchOperations", "fail_on_warnings" => "failonwarnings", "api_key_source" => "apiKeySource", "binary_media_types" => "binaryMediaTypes", "clone_from" => "cloneFrom", "disable_execute_api_endpoint" => "disableExecuteApiEndpoint", "endpoint_configuration" => "endpointConfiguration", "minimum_compression_size" => "minimumCompressionSize", "policy" => "policy", "version" => "version", "certificate_arn" => "certificateArn", "certificate_body" => "certificateBody", "certificate_chain" => "certificateChain", "certificate_name" => "certificateName", "certificate_private_key" => "certificatePrivateKey", "mutual_tls_authentication" => "mutualTlsAuthentication", "ownership_verification_certificate_arn" => "ownershipVerificationCertificateArn", "regional_certificate_arn" => "regionalCertificateArn", "regional_certificate_name" => "regionalCertificateName", "security_policy" => "securityPolicy", "flatten" => "flatten", "limit" => "limit", "position" => "position", "response_models" => "responseModels", "response_parameters" => "responseParameters", "location_status" => "locationStatus", "name_query" => "name", "path" => "path", "type" => "type", "response_templates" => "responseTemplates", "status_code" => "statusCode", "embed" => "embed", "stage_description" => "stageDescription", "stage_name" => "stageName", "key_id" => "keyId", "schema" => "schema", "parameters" => "parameters", "api_stages" => "apiStages", "quota" => "quota", "throttle" => "throttle", "accepts" => "Accept", "additional_context" => "additionalContext", "body" => "body", "headers" => "headers", "multi_value_headers" => "multiValueHeaders", "path_with_query_string" => "pathWithQueryString", "stage_variables" => "stageVariables", "name" => "name", "validate_request_body" => "validateRequestBody", "validate_request_parameters" => "validateRequestParameters", "deployment_id" => "deploymentId", "customer_id" => "customerId", "include_values" => "includeValues", "auth_type" => "authType", "authorizer_credentials" => "authorizerCredentials", "authorizer_result_ttl_in_seconds" => "authorizerResultTtlInSeconds", "authorizer_uri" => "authorizerUri", "identity_source" => "identitySource", "identity_validation_expression" => "identityValidationExpression", "provider_arns" => "providerARNs", "include_value" => "includeValue", "mode" => "mode", "enabled" => "enabled", "generate_distinct_id" => "generateDistinctId", "stage_keys" => "stageKeys", "value" => "value", "client_certificate_id" => "clientCertificateId", "cache_key_parameters" => "cacheKeyParameters", "cache_namespace" => "cacheNamespace", "connection_id" => "connectionId", "connection_type" => "connectionType", "content_handling" => "contentHandling", "credentials" => "credentials", "integration_http_method" => "httpMethod", "passthrough_behavior" => "passthroughBehavior", "request_templates" => "requestTemplates", "timeout_in_millis" => "timeoutInMillis", "tls_config" => "tlsConfig", "uri" => "uri", "selection_pattern" => "selectionPattern", "base_path" => "basePath", "stage" => "stage")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("cache_cluster_enabled" => "cacheClusterEnabled", "cache_cluster_size" => "cacheClusterSize", "canary_settings" => "canarySettings", "description" => "description", "documentation_version" => "documentationVersion", "tags" => "tags", "tracing_enabled" => "tracingEnabled", "variables" => "variables", "api_key_required" => "apiKeyRequired", "authorization_scopes" => "authorizationScopes", "authorizer_id" => "authorizerId", "operation_name" => "operationName", "request_models" => "requestModels", "request_parameters" => "requestParameters", "request_validator_id" => "requestValidatorId", "patch_operations" => "patchOperations", "fail_on_warnings" => "failonwarnings", "api_key_source" => "apiKeySource", "binary_media_types" => "binaryMediaTypes", "clone_from" => "cloneFrom", "disable_execute_api_endpoint" => "disableExecuteApiEndpoint", "endpoint_configuration" => "endpointConfiguration", "minimum_compression_size" => "minimumCompressionSize", "policy" => "policy", "version" => "version", "certificate_arn" => "certificateArn", "certificate_body" => "certificateBody", "certificate_chain" => "certificateChain", "certificate_name" => "certificateName", "certificate_private_key" => "certificatePrivateKey", "mutual_tls_authentication" => "mutualTlsAuthentication", "ownership_verification_certificate_arn" => "ownershipVerificationCertificateArn", "regional_certificate_arn" => "regionalCertificateArn", "regional_certificate_name" => "regionalCertificateName", "security_policy" => "securityPolicy", "flatten" => "flatten", "limit" => "limit", "position" => "position", "response_models" => "responseModels", "response_parameters" => "responseParameters", "location_status" => "locationStatus", "name_query" => "name", "path" => "path", "type" => "type", "response_templates" => "responseTemplates", "status_code" => "statusCode", "embed" => "embed", "stage_description" => "stageDescription", "stage_name" => "stageName", "key_id" => "keyId", "schema" => "schema", "parameters" => "parameters", "api_stages" => "apiStages", "quota" => "quota", "throttle" => "throttle", "accepts" => "Accept", "additional_context" => "additionalContext", "body" => "body", "headers" => "headers", "multi_value_headers" => "multiValueHeaders", "path_with_query_string" => "pathWithQueryString", "stage_variables" => "stageVariables", "name" => "name", "validate_request_body" => "validateRequestBody", "validate_request_parameters" => "validateRequestParameters", "deployment_id" => "deploymentId", "customer_id" => "customerId", "include_values" => "includeValues", "auth_type" => "authType", "authorizer_credentials" => "authorizerCredentials", "authorizer_result_ttl_in_seconds" => "authorizerResultTtlInSeconds", "authorizer_uri" => "authorizerUri", "identity_source" => "identitySource", "identity_validation_expression" => "identityValidationExpression", "provider_arns" => "providerARNs", "include_value" => "includeValue", "mode" => "mode", "enabled" => "enabled", "generate_distinct_id" => "generateDistinctId", "stage_keys" => "stageKeys", "value" => "value", "client_certificate_id" => "clientCertificateId", "cache_key_parameters" => "cacheKeyParameters", "cache_namespace" => "cacheNamespace", "connection_id" => "connectionId", "connection_type" => "connectionType", "content_handling" => "contentHandling", "credentials" => "credentials", "integration_http_method" => "httpMethod", "passthrough_behavior" => "passthroughBehavior", "request_templates" => "requestTemplates", "timeout_in_millis" => "timeoutInMillis", "tls_config" => "tlsConfig", "uri" => "uri", "selection_pattern" => "selectionPattern", "base_path" => "basePath", "stage" => "stage")
 
 """
     create_api_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ Create an ApiKey resource.  AWS CLI
 - `value`: Specifies a value of the API key.
 """
 function create_api_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/apikeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
   authorizer, this is not defined.
 """
 function create_authorizer(name, restapi_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Creates a new BasePathMapping resource.
   '(none)' if you want callers to explicitly specify the stage name after any base path name.
 """
 function create_base_path_mapping(domain_name, restApiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("restApiId"=>restApiId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ Creates a Deployment resource, which makes a specified RestApi callable over the
   characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
 function create_deployment(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ end
 
 """
 function create_documentation_part(location, properties, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("location"=>location, "properties"=>properties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,7 +181,7 @@ end
 - `stage_name`: The stage name to be associated with the new documentation snapshot.
 """
 function create_documentation_version(documentationVersion, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documentationVersion"=>documentationVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ Creates a new domain name.
   256 characters.
 """
 function create_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ Adds a new Model resource to an existing RestApi resource.
   schema draft 4 model.
 """
 function create_model(contentType, name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentType"=>contentType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ Creates a ReqeustValidator of a given RestApi.
   parameters, true, or not false.
 """
 function create_request_validator(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ Creates a Resource resource.
 
 """
 function create_resource(parent_id, pathPart, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pathPart"=>pathPart), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ Creates a new RestApi resource.
 - `version`: A version identifier for the API.
 """
 function create_rest_api(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -353,7 +353,7 @@ Creates a new Stage resource that references a pre-existing Deployment for the A
   [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
 function create_stage(deploymentId, restapi_id, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "stageName"=>stageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ stages, specified in the payload.
 - `throttle`: The throttling limits of the usage plan.
 """
 function create_usage_plan(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/usageplans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ Creates a usage plan key for adding an existing API key to a usage plan.
 
 """
 function create_usage_plan_key(keyId, keyType, usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/usageplans/$(usageplanId)/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyId"=>keyId, "keyType"=>keyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ must have permissions to create and update VPC Endpoint services.
   256 characters.
 """
 function create_vpc_link(name, targetArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "targetArns"=>targetArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -430,7 +430,7 @@ Deletes the ApiKey resource.
 
 """
 function delete_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/apikeys/$(api_Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ Deletes an existing Authorizer resource. AWS CLI
 
 """
 function delete_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ Deletes the BasePathMapping resource.
 
 """
 function delete_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +476,7 @@ Deletes the ClientCertificate resource.
 
 """
 function delete_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -492,7 +492,7 @@ Stage resources associated with it.
 
 """
 function delete_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ end
 
 """
 function delete_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -523,7 +523,7 @@ end
 
 """
 function delete_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -537,7 +537,7 @@ Deletes the DomainName resource.
 
 """
 function delete_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/domainnames/$(domain_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ RestApi and resets it with the default settings.
 
 """
 function delete_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,7 +569,7 @@ Represents a delete integration.
 
 """
 function delete_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -587,7 +587,7 @@ Represents a delete integration response.
 
 """
 function delete_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -603,7 +603,7 @@ Deletes an existing Method resource.
 
 """
 function delete_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -620,7 +620,7 @@ Deletes an existing MethodResponse resource.
 
 """
 function delete_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -635,7 +635,7 @@ Deletes a model.
 
 """
 function delete_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +650,7 @@ Deletes a RequestValidator of a given RestApi.
 
 """
 function delete_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ Deletes a Resource resource.
 
 """
 function delete_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -679,7 +679,7 @@ Deletes the specified API.
 
 """
 function delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -694,7 +694,7 @@ Deletes a Stage resource.
 
 """
 function delete_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -708,7 +708,7 @@ Deletes a usage plan of a given plan Id.
 
 """
 function delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/usageplans/$(usageplanId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ Deletes a usage plan key and remove the underlying API key from the associated u
 
 """
 function delete_usage_plan_key(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -739,7 +739,7 @@ Deletes an existing VpcLink of a specified identifier.
 
 """
 function delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -754,7 +754,7 @@ Flushes all authorizer cache entries on a stage.
 
 """
 function flush_stage_authorizers_cache(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -769,7 +769,7 @@ Flushes a stage's cache.
 
 """
 function flush_stage_cache(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -785,7 +785,7 @@ Generates a ClientCertificate resource.
   256 characters.
 """
 function generate_client_certificate(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/clientcertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -796,7 +796,7 @@ Gets information about the current Account resource.
 
 """
 function get_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/account", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -813,7 +813,7 @@ Gets information about the current ApiKey resource.
   contains the key value.
 """
 function get_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/apikeys/$(api_Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -833,7 +833,7 @@ Gets information about the current ApiKeys resource.
 - `position`: The current pagination position in the paged result set.
 """
 function get_api_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/apikeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -848,7 +848,7 @@ Describe an existing Authorizer resource. AWS CLI
 
 """
 function get_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +866,7 @@ Describe an existing Authorizers resource. AWS CLI
 - `position`: The current pagination position in the paged result set.
 """
 function get_authorizers(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/authorizers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -884,7 +884,7 @@ Describe a BasePathMapping resource.
 
 """
 function get_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -902,7 +902,7 @@ Represents a collection of BasePathMapping resources.
 - `position`: The current pagination position in the paged result set.
 """
 function get_base_path_mappings(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -917,7 +917,7 @@ Gets information about the current ClientCertificate resource.
 
 """
 function get_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +932,7 @@ Gets a collection of ClientCertificate resources.
 - `position`: The current pagination position in the paged result set.
 """
 function get_client_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/clientcertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -957,7 +957,7 @@ Gets information about a Deployment resource.
   GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
 """
 function get_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -975,7 +975,7 @@ Gets information about a Deployments collection.
 - `position`: The current pagination position in the paged result set.
 """
 function get_deployments(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -990,7 +990,7 @@ end
 
 """
 function get_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1014,7 +1014,7 @@ end
 - `type`: The type of API entities of the to-be-retrieved documentation parts.
 """
 function get_documentation_parts(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1030,7 +1030,7 @@ end
 
 """
 function get_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1048,7 +1048,7 @@ end
 - `position`: The current pagination position in the paged result set.
 """
 function get_documentation_versions(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1063,7 +1063,7 @@ called.
 
 """
 function get_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/domainnames/$(domain_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1078,7 +1078,7 @@ Represents a collection of DomainName resources.
 - `position`: The current pagination position in the paged result set.
 """
 function get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/domainnames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1106,7 +1106,7 @@ Exports a deployed version of a RestApi in a specified format.
   extensions, allowing for import to the Postman tool
 """
 function get_export(export_type, restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1121,7 +1121,7 @@ Gets a GatewayResponse of a specified response type on the given RestApi.
 
 """
 function get_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1143,7 +1143,7 @@ default GatewayResponses collection for the supported response types.
   collection does not support pagination and the position does not apply here.
 """
 function get_gateway_responses(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1159,7 +1159,7 @@ Get the integration settings.
 
 """
 function get_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1177,7 +1177,7 @@ Represents a get integration response.
 
 """
 function get_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1193,7 +1193,7 @@ Describe an existing Method resource.
 
 """
 function get_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1210,7 +1210,7 @@ Describes a MethodResponse resource.
 
 """
 function get_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1228,7 +1228,7 @@ Describes an existing model defined for a RestApi resource.
   references and returns a flattened model schema or not (false) The default is false.
 """
 function get_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1244,7 +1244,7 @@ structure of a model.
 
 """
 function get_model_template(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1262,7 +1262,7 @@ Describes existing Models defined for a RestApi resource.
 - `position`: The current pagination position in the paged result set.
 """
 function get_models(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1277,7 +1277,7 @@ Gets a RequestValidator of a given RestApi.
 
 """
 function get_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1295,7 +1295,7 @@ Gets the RequestValidators collection of a given RestApi.
 - `position`: The current pagination position in the paged result set.
 """
 function get_request_validators(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1317,7 +1317,7 @@ Lists information about a resource.
   /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
 """
 function get_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1341,7 +1341,7 @@ Lists information about a collection of Resource resources.
 - `position`: The current pagination position in the paged result set.
 """
 function get_resources(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1355,7 +1355,7 @@ Lists the RestApi resource in the collection.
 
 """
 function get_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1370,7 +1370,7 @@ Lists the RestApis resources for your collection.
 - `position`: The current pagination position in the paged result set.
 """
 function get_rest_apis(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1393,7 +1393,7 @@ Generates a client SDK for a RestApi and Stage.
   javaPackageName are required.
 """
 function get_sdk(restapi_id, sdk_type, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1407,7 +1407,7 @@ end
 
 """
 function get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/sdktypes/$(sdktype_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1422,7 +1422,7 @@ end
 - `position`: The current pagination position in the paged result set.
 """
 function get_sdk_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/sdktypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1437,7 +1437,7 @@ Gets information about a Stage resource.
 
 """
 function get_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1453,7 +1453,7 @@ Gets information about one or more Stage resources.
 - `deployment_id`: The stages' deployment identifiers.
 """
 function get_stages(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/restapis/$(restapi_id)/stages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1472,7 +1472,7 @@ Gets the Tags collection for a given resource.
   set.
 """
 function get_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/tags/$(resource_arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1493,7 +1493,7 @@ Gets the usage data of a usage plan in a specified time interval.
 - `position`: The current pagination position in the paged result set.
 """
 function get_usage(endDate, startDate, usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/usageplans/$(usageplanId)/usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endDate"=>endDate, "startDate"=>startDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1507,7 +1507,7 @@ Gets a usage plan of a given plan identifier.
 
 """
 function get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/usageplans/$(usageplanId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1524,7 +1524,7 @@ Gets a usage plan key of a given key identifier.
 
 """
 function get_usage_plan_key(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1544,7 +1544,7 @@ Gets all the usage plan keys representing the API keys added to a specified usag
 - `position`: The current pagination position in the paged result set.
 """
 function get_usage_plan_keys(usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/usageplans/$(usageplanId)/keys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1560,7 +1560,7 @@ Gets all the usage plans of the caller's account.
 - `position`: The current pagination position in the paged result set.
 """
 function get_usage_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/usageplans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1575,7 +1575,7 @@ Gets a specified VPC link under the caller's account in a region.
 
 """
 function get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1590,7 +1590,7 @@ Gets the VpcLinks collection under the caller's account in a selected region.
 - `position`: The current pagination position in the paged result set.
 """
 function get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("GET", "/vpclinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1610,7 +1610,7 @@ Import API keys from an external source, such as a CSV-formatted file.
   (true) or not (false) when error is encountered.
 """
 function import_api_keys(body, format; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/apikeys?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body, "format"=>format), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1632,7 +1632,7 @@ end
   The default value is MERGE.
 """
 function import_documentation_parts(body, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1664,7 +1664,7 @@ definition file.
   endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
 """
 function import_rest_api(body; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1686,7 +1686,7 @@ on the given RestApi.
 - `status_code`: The HTTP status code of the GatewayResponse.
 """
 function put_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1766,7 +1766,7 @@ Sets up a method's integration.
   arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
 """
 function put_integration(http_method, resource_id, restapi_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1803,7 +1803,7 @@ Represents a put integration.
 - `selection_pattern`: Specifies the selection pattern of a put integration response.
 """
 function put_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1848,7 +1848,7 @@ Add a method to an existing Resource resource.
   request.
 """
 function put_method(authorizationType, http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizationType"=>authorizationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1880,7 +1880,7 @@ Adds a MethodResponse to an existing Method resource.
   expression without the  prefix.)
 """
 function put_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1908,7 +1908,7 @@ into the existing API or overwriting the existing API.
   --body 'file:///path/to/imported-api-body.json'.
 """
 function put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/restapis/$(restapi_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1925,7 +1925,7 @@ Adds or updates a tag on a given resource.
 
 """
 function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PUT", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1956,7 +1956,7 @@ Authorizer
   deployed Stage.
 """
 function test_invoke_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1985,7 +1985,7 @@ incoming request body.
   deployed Stage.
 """
 function test_invoke_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2000,7 +2000,7 @@ Removes a tag from a given resource.
 
 """
 function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("DELETE", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2014,7 +2014,7 @@ Changes information about the current Account resource.
   and in the order specified in this list.
 """
 function update_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/account", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2031,7 +2031,7 @@ Changes information about an ApiKey resource.
   and in the order specified in this list.
 """
 function update_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/apikeys/$(api_Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2049,7 +2049,7 @@ Updates an existing Authorizer resource. AWS CLI
   and in the order specified in this list.
 """
 function update_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2068,7 +2068,7 @@ Changes information about the BasePathMapping resource.
   and in the order specified in this list.
 """
 function update_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2086,7 +2086,7 @@ Changes information about an ClientCertificate resource.
   and in the order specified in this list.
 """
 function update_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2105,7 +2105,7 @@ Changes information about a Deployment resource.
   and in the order specified in this list.
 """
 function update_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2123,7 +2123,7 @@ end
   and in the order specified in this list.
 """
 function update_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2142,7 +2142,7 @@ end
   and in the order specified in this list.
 """
 function update_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2159,7 +2159,7 @@ Changes information about the DomainName resource.
   and in the order specified in this list.
 """
 function update_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/domainnames/$(domain_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2177,7 +2177,7 @@ Updates a GatewayResponse of a specified response type on the given RestApi.
   and in the order specified in this list.
 """
 function update_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2196,7 +2196,7 @@ Represents an update integration.
   and in the order specified in this list.
 """
 function update_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2217,7 +2217,7 @@ Represents an update integration response.
   and in the order specified in this list.
 """
 function update_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2236,7 +2236,7 @@ Updates an existing Method resource.
   and in the order specified in this list.
 """
 function update_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2256,7 +2256,7 @@ Updates an existing MethodResponse resource.
   and in the order specified in this list.
 """
 function update_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2274,7 +2274,7 @@ Changes information about a model.
   and in the order specified in this list.
 """
 function update_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2292,7 +2292,7 @@ Updates a RequestValidator of a given RestApi.
   and in the order specified in this list.
 """
 function update_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2310,7 +2310,7 @@ Changes information about a Resource resource.
   and in the order specified in this list.
 """
 function update_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2327,7 +2327,7 @@ Changes information about the specified API.
   and in the order specified in this list.
 """
 function update_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2345,7 +2345,7 @@ Changes information about a Stage resource.
   and in the order specified in this list.
 """
 function update_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2365,7 +2365,7 @@ specified API key.
   and in the order specified in this list.
 """
 function update_usage(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2382,7 +2382,7 @@ Updates a usage plan of a given plan Id.
   and in the order specified in this list.
 """
 function update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/usageplans/$(usageplanId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2400,6 +2400,6 @@ Updates an existing VpcLink of a specified identifier.
   and in the order specified in this list.
 """
 function update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return api_gateway("PATCH", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

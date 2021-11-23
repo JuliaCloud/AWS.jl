@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("firewall_policy_arn" => "FirewallPolicyArn", "firewall_policy_name" => "FirewallPolicyName", "max_results" => "MaxResults", "next_token" => "NextToken", "rule_group_arn" => "RuleGroupArn", "rule_group_name" => "RuleGroupName", "type" => "Type", "vpc_ids" => "VpcIds", "description" => "Description", "firewall_arn" => "FirewallArn", "firewall_name" => "FirewallName", "update_token" => "UpdateToken", "delete_protection" => "DeleteProtection", "firewall_policy_change_protection" => "FirewallPolicyChangeProtection", "subnet_change_protection" => "SubnetChangeProtection", "tags" => "Tags", "dry_run" => "DryRun", "rule_group" => "RuleGroup", "rules" => "Rules", "logging_configuration" => "LoggingConfiguration")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("firewall_policy_arn" => "FirewallPolicyArn", "firewall_policy_name" => "FirewallPolicyName", "max_results" => "MaxResults", "next_token" => "NextToken", "rule_group_arn" => "RuleGroupArn", "rule_group_name" => "RuleGroupName", "type" => "Type", "vpc_ids" => "VpcIds", "description" => "Description", "firewall_arn" => "FirewallArn", "firewall_name" => "FirewallName", "update_token" => "UpdateToken", "delete_protection" => "DeleteProtection", "firewall_policy_change_protection" => "FirewallPolicyChangeProtection", "subnet_change_protection" => "SubnetChangeProtection", "tags" => "Tags", "dry_run" => "DryRun", "rule_group" => "RuleGroup", "rules" => "Rules", "logging_configuration" => "LoggingConfiguration")
 
 """
     associate_firewall_policy(firewall_policy_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -37,7 +37,7 @@ firewall policy for multiple firewalls.
   the new token.
 """
 function associate_firewall_policy(FirewallPolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("AssociateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ firewall endpoint.
   the new token.
 """
 function associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("AssociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetMappings"=>SubnetMappings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ retrieve information about firewalls, use ListFirewalls and DescribeFirewall.
 - `tags`: The key:value pairs to associate with the resource.
 """
 function create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("CreateFirewall", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -149,7 +149,7 @@ multiple firewalls.
 - `tags`: The key:value pairs to associate with the resource.
 """
 function create_firewall_policy(FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("CreateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ specification in your request using either RuleGroup or Rules.
 - `tags`: The key:value pairs to associate with the resource.
 """
 function create_rule_group(Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewa
   both.
 """
 function delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DeleteFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ Deletes the specified FirewallPolicy.
   you can specify both.
 """
 function delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Deletes a resource policy that you created in a PutResourcePolicy request.
 
 """
 function delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -286,7 +286,7 @@ Deletes the specified RuleGroup.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 function delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DeleteRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -303,7 +303,7 @@ Returns the data objects for the specified firewall.
   both.
 """
 function describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DescribeFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ Returns the data objects for the specified firewall policy.
   you can specify both.
 """
 function describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ Returns the logging configuration for the specified firewall.
   both.
 """
 function describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -352,7 +352,7 @@ Retrieves a resource policy that you created in a PutResourcePolicy request.
 
 """
 function describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ Returns the data objects for the specified rule group.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 function describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DescribeRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -405,7 +405,7 @@ were providing.
   the new token.
 """
 function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("DisassociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -426,7 +426,7 @@ the full list.
   objects, use the token returned from the prior request in your next request.
 """
 function list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("ListFirewallPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -450,7 +450,7 @@ the full list.
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
 function list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("ListFirewalls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -471,7 +471,7 @@ list.
   objects, use the token returned from the prior request in your next request.
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -498,7 +498,7 @@ firewalls, firewall policies, and rule groups.
   objects, use the token returned from the prior request in your next request.
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -535,7 +535,7 @@ resource sharing using RAM, see AWS Resource Access Manager User Guide.
 
 """
 function put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -555,7 +555,7 @@ policies, and rule groups.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ Firewall: firewalls, firewall policies, and rule groups.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ setting helps protect against accidentally deleting a firewall that's in use.
   the new token.
 """
 function update_firewall_delete_protection(DeleteProtection; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteProtection"=>DeleteProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ identify the firewall when you're working with it.
   the new token.
 """
 function update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateFirewallDescription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -679,7 +679,7 @@ Updates the properties of the specified firewall policy.
   you can specify both.
 """
 function update_firewall_policy(FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -713,7 +713,7 @@ end
   the new token.
 """
 function update_firewall_policy_change_protection(FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -743,7 +743,7 @@ separate calls to this update operation.
   you omit this setting, Network Firewall disables logging for the firewall.
 """
 function update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -794,7 +794,7 @@ updated object to this call.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,6 +828,6 @@ end
   the new token.
 """
 function update_subnet_change_protection(SubnetChangeProtection; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

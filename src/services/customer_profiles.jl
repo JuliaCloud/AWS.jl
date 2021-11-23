@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "max-results", "next_token" => "next-token", "dead_letter_queue_url" => "DeadLetterQueueUrl", "default_encryption_key" => "DefaultEncryptionKey", "default_expiration_days" => "DefaultExpirationDays", "matching" => "Matching", "tags" => "Tags", "allow_profile_creation" => "AllowProfileCreation", "encryption_key" => "EncryptionKey", "expiration_days" => "ExpirationDays", "fields" => "Fields", "keys" => "Keys", "template_id" => "TemplateId", "flow_definition" => "FlowDefinition", "uri" => "Uri", "account_number" => "AccountNumber", "additional_information" => "AdditionalInformation", "address" => "Address", "attributes" => "Attributes", "billing_address" => "BillingAddress", "birth_date" => "BirthDate", "business_email_address" => "BusinessEmailAddress", "business_name" => "BusinessName", "business_phone_number" => "BusinessPhoneNumber", "email_address" => "EmailAddress", "first_name" => "FirstName", "gender" => "Gender", "home_phone_number" => "HomePhoneNumber", "last_name" => "LastName", "mailing_address" => "MailingAddress", "middle_name" => "MiddleName", "mobile_phone_number" => "MobilePhoneNumber", "party_type" => "PartyType", "personal_email_address" => "PersonalEmailAddress", "phone_number" => "PhoneNumber", "shipping_address" => "ShippingAddress", "field_source_profile_ids" => "FieldSourceProfileIds", "object_filter" => "ObjectFilter")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "max-results", "next_token" => "next-token", "dead_letter_queue_url" => "DeadLetterQueueUrl", "default_encryption_key" => "DefaultEncryptionKey", "default_expiration_days" => "DefaultExpirationDays", "matching" => "Matching", "tags" => "Tags", "allow_profile_creation" => "AllowProfileCreation", "encryption_key" => "EncryptionKey", "expiration_days" => "ExpirationDays", "fields" => "Fields", "keys" => "Keys", "source_last_updated_timestamp_format" => "SourceLastUpdatedTimestampFormat", "template_id" => "TemplateId", "flow_definition" => "FlowDefinition", "uri" => "Uri", "account_number" => "AccountNumber", "additional_information" => "AdditionalInformation", "address" => "Address", "attributes" => "Attributes", "billing_address" => "BillingAddress", "birth_date" => "BirthDate", "business_email_address" => "BusinessEmailAddress", "business_name" => "BusinessName", "business_phone_number" => "BusinessPhoneNumber", "email_address" => "EmailAddress", "first_name" => "FirstName", "gender" => "Gender", "home_phone_number" => "HomePhoneNumber", "last_name" => "LastName", "mailing_address" => "MailingAddress", "middle_name" => "MiddleName", "mobile_phone_number" => "MobilePhoneNumber", "party_type" => "PartyType", "personal_email_address" => "PersonalEmailAddress", "phone_number" => "PhoneNumber", "shipping_address" => "ShippingAddress", "field_source_profile_ids" => "FieldSourceProfileIds", "object_filter" => "ObjectFilter")
 
 """
     add_profile_key(domain_name, key_name, profile_id, values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ that can be used to identify the profile that it belongs to.
 
 """
 function add_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,8 @@ attributes, object types, profile keys, and encryption keys. You can create mult
 domains, and each domain can have multiple third-party integrations. Each Amazon Connect
 instance can be associated with only one domain. Multiple Amazon Connect instances can be
 associated with one domain. Use this API or UpdateDomain to enable identity resolution: set
-Matching to true.
+Matching to true.  To prevent cross-service impersonation when you call this API, see
+Cross-service confused deputy prevention for sample policies that you should apply.
 
 # Arguments
 - `default_expiration_days`: The default number of days until the data within the domain
@@ -50,13 +51,16 @@ Matching to true.
   used when no specific type of encryption key is specified. It is used to encrypt all data
   before it is placed in permanent or semi-permanent storage.
 - `matching`: The process of matching duplicate profiles. If Matching = true, Amazon
-  Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to
-  detect duplicate profiles in your domains. After that batch process completes, use the
-  GetMatches API to return and review the results.
+  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If
+  you do not specify a date and time for Identity Resolution Job to run, by default it runs
+  every Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the
+  Identity Resolution Job completes, use the GetMatches API to return and review the results.
+  Or, if you have configured ExportingConfig in the MatchingRequest, you can download the
+  results from S3.
 - `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +100,7 @@ customer profile in a domain.
 - `shipping_address`: The customer’s shipping address.
 """
 function create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -111,7 +115,7 @@ and their related objects.
 
 """
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("DELETE", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -126,7 +130,7 @@ Removes an integration from a specific domain.
 
 """
 function delete_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +145,7 @@ Deletes the standard customer profile and all data pertaining to the profile.
 
 """
 function delete_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -158,7 +162,7 @@ Removes a searchable key from a customer profile.
 
 """
 function delete_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -176,7 +180,7 @@ Removes an object associated with a profile of a given ProfileObjectType.
 
 """
 function delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -194,8 +198,34 @@ were populated from this ProfileObjectType.
 
 """
 function delete_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_auto_merging_preview(conflict_resolution, consolidation, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Tests the auto-merging settings of your Identity Resolution Job without merging your data.
+It randomly selects a sample of matching groups from the existing matching results, and
+applies the automerging settings that you provided. You can then view the number of
+profiles in the sample, the number of matches, and the number of profiles identified to be
+merged. This enables you to evaluate the accuracy of the attributes in your matching list.
+You can't view which profiles are matched and would be merged.  We strongly recommend you
+use this API to do a dry run of the automerging process before running the Identity
+Resolution Job. Include at least two matching attributes. If your matching list includes
+too few attributes (such as only FirstName or only LastName), there may be a large number
+of matches. This increases the chances of erroneous merges.
+
+# Arguments
+- `conflict_resolution`: How the auto-merging process should resolve conflicts between
+  different profiles.
+- `consolidation`: A list of matching attributes that represent matching criteria.
+- `domain_name`: The unique name of the domain.
+
+"""
+function get_auto_merging_preview(ConflictResolution, Consolidation, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return customer_profiles("POST", "/domains/$(DomainName)/identity-resolution-jobs/auto-merging-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConflictResolution"=>ConflictResolution, "Consolidation"=>Consolidation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -208,8 +238,25 @@ Returns information about a specific domain.
 
 """
 function get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_identity_resolution_job(domain_name, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about an Identity Resolution Job in a specific domain.  Identity
+Resolution Jobs are set up using the Amazon Connect admin console. For more information,
+see Use Identity Resolution to consolidate similar profiles.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `job_id`: The unique identifier of the Identity Resolution Job.
+
+"""
+function get_identity_resolution_job(DomainName, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -223,7 +270,7 @@ Returns an integration for a domain.
 
 """
 function get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,12 +280,16 @@ end
 This API is in preview release for Amazon Connect and subject to change. Before calling
 this API, use CreateDomain or UpdateDomain to enable identity resolution: set Matching to
 true. GetMatches returns potentially matching profiles, based on the results of the latest
-run of a machine learning process.   Amazon Connect starts a batch process every Saturday
-at 12AM UTC to identify matching profiles. The results are returned up to seven days after
-the Saturday run.  Amazon Connect uses the following profile attributes to identify
-matches:   PhoneNumber   HomePhoneNumber   BusinessPhoneNumber   MobilePhoneNumber
-EmailAddress   PersonalEmailAddress   BusinessEmailAddress   FullName   BusinessName   For
-example, two or more profiles—with spelling mistakes such as John Doe and Jhn Doe, or
+run of a machine learning process.   The process of matching duplicate profiles. If
+Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called
+Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job
+to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your
+domains.  After the Identity Resolution Job completes, use the GetMatches API to return and
+review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you
+can download the results from S3.  Amazon Connect uses the following profile attributes to
+identify matches:   PhoneNumber   HomePhoneNumber   BusinessPhoneNumber   MobilePhoneNumber
+  EmailAddress   PersonalEmailAddress   BusinessEmailAddress   FullName   BusinessName
+For example, two or more profiles—with spelling mistakes such as John Doe and Jhn Doe, or
 different casing email addresses such as JOHN_DOE@ANYCOMPANY.COM and
 johndoe@anycompany.com, or different phone number formats such as 555-010-0000 and
 +1-555-010-0000—can be detected as belonging to the same customer John Doe and merged
@@ -253,7 +304,7 @@ into a unified profile.
   previous response in the next request to retrieve the next set of results.
 """
 function get_matches(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains/$(DomainName)/matches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +319,7 @@ Returns the object types for a specific domain.
 
 """
 function get_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +336,7 @@ matches one of the TemplateIds, it uses the mappings from the template.
 
 """
 function get_profile_object_type_template(TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/templates/$(TemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +353,7 @@ Lists all of the integrations associated to a specific URI in the AWS account.
 - `next_token`: The pagination token from the previous ListAccountIntegrations API call.
 """
 function list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -316,8 +367,27 @@ Returns a list of all the domains for an AWS account that have been created.
 - `next_token`: The pagination token from the previous ListDomain API call.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_identity_resolution_jobs(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by
+JobStartTime.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per page.
+- `next_token`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_identity_resolution_jobs(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return customer_profiles("GET", "/domains/$(DomainName)/identity-resolution-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -333,7 +403,7 @@ Lists all of the integrations in your domain.
 - `next_token`: The pagination token from the previous ListIntegrations API call.
 """
 function list_integrations(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains/$(DomainName)/integrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +417,7 @@ Lists all of the template information for object types.
 - `next_token`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
 function list_profile_object_type_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +434,7 @@ Lists all of the templates available within the service.
 - `next_token`: Identifies the next page of results to return.
 """
 function list_profile_object_types(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/domains/$(DomainName)/object-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -385,7 +455,7 @@ Returns a list of objects associated with a profile of a given ProfileObjectType
   specified index values. This filter is only supported for ObjectTypeName _asset and _case.
 """
 function list_profile_objects(DomainName, ObjectTypeName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +470,7 @@ Customer Profiles, domains, profile object types, and integrations can be tagged
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -432,7 +502,7 @@ merged, they cannot be separated (unmerged).
   Profile1.
 """
 function merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +523,7 @@ AppFlow and Amazon Connect. An integration can belong to only one domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 """
 function put_integration(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +546,7 @@ ObjectType, which can be created using PutProfileObjectType.
 
 """
 function put_profile_object(DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,11 +571,13 @@ Defines a ProfileObjectType.
 - `expiration_days`: The number of days until the data in the object expires.
 - `fields`: A map of the name and ObjectType field.
 - `keys`: A list of unique keys that can be used to map data to the profile.
+- `source_last_updated_timestamp_format`: The format of your sourceLastUpdatedTimestamp
+  that was previously set up.
 - `tags`: The tags used to organize, track, or control access for this resource.
 - `template_id`: A unique identifier for the object template.
 """
 function put_profile_object_type(Description, DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +600,7 @@ address, account number, or a custom defined index.
 - `next_token`: The pagination token from the previous SearchProfiles API call.
 """
 function search_profiles(DomainName, KeyName, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -552,7 +624,7 @@ value for that tag. You can associate as many as 50 tags with a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -568,7 +640,7 @@ Connect Customer Profiles, domains, profile object types, and integrations can b
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -577,7 +649,9 @@ end
 
 Updates the properties of a domain, including creating or selecting a dead letter queue or
 an encryption key. After a domain is created, the name can’t be changed. Use this API or
-CreateDomain to enable identity resolution: set Matching to true.
+CreateDomain to enable identity resolution: set Matching to true.  To prevent cross-service
+impersonation when you call this API, see Cross-service confused deputy prevention for
+sample policies that you should apply.
 
 # Arguments
 - `domain_name`: The unique name of the domain.
@@ -595,13 +669,16 @@ CreateDomain to enable identity resolution: set Matching to true.
 - `default_expiration_days`: The default number of days until the data within the domain
   expires.
 - `matching`: The process of matching duplicate profiles. If Matching = true, Amazon
-  Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to
-  detect duplicate profiles in your domains. After that batch process completes, use the
-  GetMatches API to return and review the results.
+  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If
+  you do not specify a date and time for Identity Resolution Job to run, by default it runs
+  every Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the
+  Identity Resolution Job completes, use the GetMatches API to return and review the results.
+  Or, if you have configured ExportingConfig in the MatchingRequest, you can download the
+  results from S3.
 - `tags`: The tags used to organize, track, or control access for this resource.
 """
 function update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("PUT", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,6 +721,6 @@ already there will be kept.
 - `shipping_address`: The customer’s shipping address.
 """
 function update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

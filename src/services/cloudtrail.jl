@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("cloud_watch_logs_log_group_arn" => "CloudWatchLogsLogGroupArn", "cloud_watch_logs_role_arn" => "CloudWatchLogsRoleArn", "enable_log_file_validation" => "EnableLogFileValidation", "include_global_service_events" => "IncludeGlobalServiceEvents", "is_multi_region_trail" => "IsMultiRegionTrail", "is_organization_trail" => "IsOrganizationTrail", "kms_key_id" => "KmsKeyId", "s3_key_prefix" => "S3KeyPrefix", "sns_topic_name" => "SnsTopicName", "tags_list" => "TagsList", "include_shadow_trails" => "includeShadowTrails", "trail_name_list" => "trailNameList", "s3_bucket_name" => "S3BucketName", "end_time" => "EndTime", "next_token" => "NextToken", "start_time" => "StartTime", "event_category" => "EventCategory", "lookup_attributes" => "LookupAttributes", "max_results" => "MaxResults", "advanced_event_selectors" => "AdvancedEventSelectors", "event_selectors" => "EventSelectors")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("cloud_watch_logs_log_group_arn" => "CloudWatchLogsLogGroupArn", "cloud_watch_logs_role_arn" => "CloudWatchLogsRoleArn", "enable_log_file_validation" => "EnableLogFileValidation", "include_global_service_events" => "IncludeGlobalServiceEvents", "is_multi_region_trail" => "IsMultiRegionTrail", "is_organization_trail" => "IsOrganizationTrail", "kms_key_id" => "KmsKeyId", "s3_key_prefix" => "S3KeyPrefix", "sns_topic_name" => "SnsTopicName", "tags_list" => "TagsList", "include_shadow_trails" => "includeShadowTrails", "trail_name_list" => "trailNameList", "s3_bucket_name" => "S3BucketName", "end_time" => "EndTime", "next_token" => "NextToken", "start_time" => "StartTime", "event_category" => "EventCategory", "lookup_attributes" => "LookupAttributes", "max_results" => "MaxResults", "advanced_event_selectors" => "AdvancedEventSelectors", "event_selectors" => "EventSelectors")
 
 """
     add_tags(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,7 +25,7 @@ which the trail was created (also known as its home region).
 - `tags_list`: Contains a list of tags, up to a limit of 50
 """
 function add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ bucket.
 - `tags_list`:
 """
 function create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ regions) of a trail that is enabled in all regions.
 
 """
 function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,7 +131,7 @@ account.
   trail ARN.
 """
 function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ CloudTrail User Guide.
 
 """
 function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ for Trails  in the CloudTrail User Guide.
 
 """
 function get_insight_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("GetInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Returns settings information for a specified trail.
 
 """
 function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,7 +217,7 @@ trail status from all regions, you must call the operation on each region.
 
 """
 function get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -240,7 +240,7 @@ corresponding public key.
   current public key is returned.
 """
 function list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -258,7 +258,7 @@ Lists the tags for the trail in the current region.
 - `next_token`: Reserved for future use.
 """
 function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -274,7 +274,7 @@ Lists trails that are in the current account.
   with a value of 'root', the call with NextToken should include those same parameters.
 """
 function list_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -310,7 +310,7 @@ account, per region. If this limit is exceeded, a throttling error occurs.
   returned. If the specified start time is after the specified end time, an error is returned.
 """
 function lookup_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,7 +362,7 @@ CloudTrail User Guide.
   EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
 """
 function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ release is ApiCallRateInsight.
 
 """
 function put_insight_selectors(InsightSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -399,7 +399,7 @@ Removes the specified tags from a trail.
 - `tags_list`: Specifies a list of tags to be removed.
 """
 function remove_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -418,7 +418,7 @@ in which the trail was created. This operation cannot be called on the shadow tr
 
 """
 function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -440,7 +440,7 @@ all regions.
 
 """
 function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -510,6 +510,6 @@ InvalidHomeRegionException is thrown.
   log file delivery. The maximum length is 256 characters.
 """
 function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

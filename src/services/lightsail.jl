@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("page_token" => "pageToken", "protocols" => "protocols", "access_log_config" => "accessLogConfig", "access_rules" => "accessRules", "readonly_access_accounts" => "readonlyAccessAccounts", "versioning" => "versioning", "end_time" => "endTime", "start_from_head" => "startFromHead", "start_time" => "startTime", "resource_arn" => "resourceArn", "force" => "force", "add_ons" => "addOns", "attached_disk_mapping" => "attachedDiskMapping", "instance_snapshot_name" => "instanceSnapshotName", "ip_address_type" => "ipAddressType", "key_pair_name" => "keyPairName", "restore_date" => "restoreDate", "source_instance_name" => "sourceInstanceName", "tags" => "tags", "use_latest_restorable_auto_snapshot" => "useLatestRestorableAutoSnapshot", "user_data" => "userData", "apply_immediately" => "applyImmediately", "ca_certificate_identifier" => "caCertificateIdentifier", "disable_backup_retention" => "disableBackupRetention", "enable_backup_retention" => "enableBackupRetention", "master_user_password" => "masterUserPassword", "preferred_backup_window" => "preferredBackupWindow", "preferred_maintenance_window" => "preferredMaintenanceWindow", "publicly_accessible" => "publiclyAccessible", "rotate_master_user_password" => "rotateMasterUserPassword", "cache_behavior_settings" => "cacheBehaviorSettings", "cache_behaviors" => "cacheBehaviors", "availability_zone" => "availabilityZone", "relational_database_bundle_id" => "relationalDatabaseBundleId", "relational_database_snapshot_name" => "relationalDatabaseSnapshotName", "restore_time" => "restoreTime", "source_relational_database_name" => "sourceRelationalDatabaseName", "use_latest_restorable_time" => "useLatestRestorableTime", "certificate_alternative_names" => "certificateAlternativeNames", "bucket_name" => "bucketName", "include_connected_resources" => "includeConnectedResources", "distribution_name" => "distributionName", "certificate_name" => "certificateName", "certificate_statuses" => "certificateStatuses", "include_certificate_details" => "includeCertificateDetails", "password_version" => "passwordVersion", "force_delete_add_ons" => "forceDeleteAddOns", "certificate_domain_name" => "certificateDomainName", "health_check_path" => "healthCheckPath", "subject_alternative_names" => "subjectAlternativeNames", "include_inactive" => "includeInactive", "include_availability_zones" => "includeAvailabilityZones", "include_relational_database_availability_zones" => "includeRelationalDatabaseAvailabilityZones", "service_name" => "serviceName", "alarm_name" => "alarmName", "monitored_resource_name" => "monitoredResourceName", "filter_pattern" => "filterPattern", "duration_in_minutes" => "durationInMinutes", "enable_object_versioning" => "enableObjectVersioning", "deployment" => "deployment", "public_domain_names" => "publicDomainNames", "final_relational_database_snapshot_name" => "finalRelationalDatabaseSnapshotName", "skip_final_snapshot" => "skipFinalSnapshot", "custom_image_name" => "customImageName", "bundle_id" => "bundleId", "containers" => "containers", "public_endpoint" => "publicEndpoint", "force_delete" => "forceDelete", "source_resource_name" => "sourceResourceName", "source_snapshot_name" => "sourceSnapshotName", "disk_snapshot_name" => "diskSnapshotName", "source_disk_name" => "sourceDiskName", "is_disabled" => "isDisabled", "power" => "power", "scale" => "scale", "protocol" => "protocol", "default_cache_behavior" => "defaultCacheBehavior", "is_enabled" => "isEnabled", "origin" => "origin", "contact_protocols" => "contactProtocols", "datapoints_to_alarm" => "datapointsToAlarm", "notification_enabled" => "notificationEnabled", "notification_triggers" => "notificationTriggers", "treat_missing_data" => "treatMissingData", "disk_name" => "diskName", "instance_name" => "instanceName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("page_token" => "pageToken", "protocols" => "protocols", "access_log_config" => "accessLogConfig", "access_rules" => "accessRules", "readonly_access_accounts" => "readonlyAccessAccounts", "versioning" => "versioning", "end_time" => "endTime", "start_from_head" => "startFromHead", "start_time" => "startTime", "resource_arn" => "resourceArn", "force" => "force", "add_ons" => "addOns", "attached_disk_mapping" => "attachedDiskMapping", "instance_snapshot_name" => "instanceSnapshotName", "ip_address_type" => "ipAddressType", "key_pair_name" => "keyPairName", "restore_date" => "restoreDate", "source_instance_name" => "sourceInstanceName", "tags" => "tags", "use_latest_restorable_auto_snapshot" => "useLatestRestorableAutoSnapshot", "user_data" => "userData", "apply_immediately" => "applyImmediately", "ca_certificate_identifier" => "caCertificateIdentifier", "disable_backup_retention" => "disableBackupRetention", "enable_backup_retention" => "enableBackupRetention", "master_user_password" => "masterUserPassword", "preferred_backup_window" => "preferredBackupWindow", "preferred_maintenance_window" => "preferredMaintenanceWindow", "publicly_accessible" => "publiclyAccessible", "rotate_master_user_password" => "rotateMasterUserPassword", "cache_behavior_settings" => "cacheBehaviorSettings", "cache_behaviors" => "cacheBehaviors", "availability_zone" => "availabilityZone", "relational_database_bundle_id" => "relationalDatabaseBundleId", "relational_database_snapshot_name" => "relationalDatabaseSnapshotName", "restore_time" => "restoreTime", "source_relational_database_name" => "sourceRelationalDatabaseName", "use_latest_restorable_time" => "useLatestRestorableTime", "certificate_alternative_names" => "certificateAlternativeNames", "bucket_name" => "bucketName", "include_connected_resources" => "includeConnectedResources", "distribution_name" => "distributionName", "certificate_name" => "certificateName", "certificate_statuses" => "certificateStatuses", "include_certificate_details" => "includeCertificateDetails", "password_version" => "passwordVersion", "force_delete_add_ons" => "forceDeleteAddOns", "certificate_domain_name" => "certificateDomainName", "health_check_path" => "healthCheckPath", "subject_alternative_names" => "subjectAlternativeNames", "include_inactive" => "includeInactive", "include_availability_zones" => "includeAvailabilityZones", "include_relational_database_availability_zones" => "includeRelationalDatabaseAvailabilityZones", "service_name" => "serviceName", "alarm_name" => "alarmName", "monitored_resource_name" => "monitoredResourceName", "filter_pattern" => "filterPattern", "duration_in_minutes" => "durationInMinutes", "enable_object_versioning" => "enableObjectVersioning", "deployment" => "deployment", "public_domain_names" => "publicDomainNames", "final_relational_database_snapshot_name" => "finalRelationalDatabaseSnapshotName", "skip_final_snapshot" => "skipFinalSnapshot", "custom_image_name" => "customImageName", "bundle_id" => "bundleId", "containers" => "containers", "public_endpoint" => "publicEndpoint", "force_delete" => "forceDelete", "source_resource_name" => "sourceResourceName", "source_snapshot_name" => "sourceSnapshotName", "disk_snapshot_name" => "diskSnapshotName", "source_disk_name" => "sourceDiskName", "is_disabled" => "isDisabled", "power" => "power", "scale" => "scale", "protocol" => "protocol", "default_cache_behavior" => "defaultCacheBehavior", "is_enabled" => "isEnabled", "origin" => "origin", "contact_protocols" => "contactProtocols", "datapoints_to_alarm" => "datapointsToAlarm", "notification_enabled" => "notificationEnabled", "notification_triggers" => "notificationTriggers", "treat_missing_data" => "treatMissingData", "disk_name" => "diskName", "instance_name" => "instanceName")
 
 """
     allocate_static_ip(static_ip_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Allocates a static IP address.
 
 """
 function allocate_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AllocateStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -47,7 +47,7 @@ Region.
 
 """
 function attach_certificate_to_distribution(certificateName, distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AttachCertificateToDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -67,7 +67,7 @@ information, see the Amazon Lightsail Developer Guide.
 
 """
 function attach_disk(diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AttachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName, "diskPath"=>diskPath, "instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ Lightsail Developer Guide.
 
 """
 function attach_instances_to_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AttachInstancesToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function attach_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AttachLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ Attaches a static IP address to a specific Amazon Lightsail instance.
 
 """
 function attach_static_ip(instanceName, staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("AttachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,7 +145,7 @@ instanceName. For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function close_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CloseInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ parameters.
   information, see the Amazon Lightsail Developer Guide.
 """
 function copy_snapshot(sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ in the Amazon Lightsail Developer Guide.
   TagResource action to tag the bucket after it's created.
 """
 function create_bucket(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ access key later. If you lose the secret access key, you must create a new acces
 
 """
 function create_bucket_access_key(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ However, all distributions are located in the us-east-1 Region.
   TagResource action to tag a resource after it's created.
 """
 function create_certificate(certificateName, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,7 +289,7 @@ stack operation again with the same export snapshot record.
 
 """
 function create_cloud_formation_stack(instances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateCloudFormationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instances"=>instances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ countries/regions. For more information, see Notifications in Amazon Lightsail.
 
 """
 function create_contact_method(contactEndpoint, protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contactEndpoint"=>contactEndpoint, "protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -378,7 +378,7 @@ in Amazon Lightsail in the Lightsail Dev Guide.
   tags in Lightsail, see the Amazon Lightsail Developer Guide.
 """
 function create_container_service(power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -405,7 +405,7 @@ Developer Guide.
   container service.
 """
 function create_container_service_deployment(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateContainerServiceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
 
 """
 function create_container_service_registry_login(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateContainerServiceRegistryLogin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -455,7 +455,7 @@ Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_disk(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -504,7 +504,7 @@ For more information, see the Amazon Lightsail Developer Guide.
   Developer Guide.
 """
 function create_disk_from_snapshot(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDiskFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -547,7 +547,7 @@ Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ Content delivery networks in Amazon Lightsail.
   the TagResource action to tag a resource after it's created.
 """
 function create_distribution(bundleId, defaultCacheBehavior, distributionName, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bundleId"=>bundleId, "defaultCacheBehavior"=>defaultCacheBehavior, "distributionName"=>distributionName, "origin"=>origin), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +604,7 @@ Amazon Lightsail Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -625,7 +625,7 @@ name. For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function create_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -646,7 +646,7 @@ information, see the Amazon Lightsail Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_instance_snapshot(instanceName, instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +690,7 @@ Developer Guide.
   Amazon Lightsail Developer Guide.
 """
 function create_instances(availabilityZone, blueprintId, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -750,7 +750,7 @@ information, see the Amazon Lightsail Developer Guide.
   Developer Guide.
 """
 function create_instances_from_snapshot(availabilityZone, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateInstancesFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -768,7 +768,7 @@ via request tags. For more information, see the Amazon Lightsail Developer Guide
   TagResource action to tag a resource after it's created.
 """
 function create_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -806,7 +806,7 @@ Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_load_balancer(instancePort, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instancePort"=>instancePort, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -838,7 +838,7 @@ the Amazon Lightsail Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_load_balancer_tls_certificate(certificateDomainName, certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateDomainName"=>certificateDomainName, "certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -914,7 +914,7 @@ Lightsail Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_relational_database(masterDatabaseName, masterUsername, relationalDatabaseBlueprintId, relationalDatabaseBundleId, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("masterDatabaseName"=>masterDatabaseName, "masterUsername"=>masterUsername, "relationalDatabaseBlueprintId"=>relationalDatabaseBlueprintId, "relationalDatabaseBundleId"=>relationalDatabaseBundleId, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -962,7 +962,7 @@ Guide.
   Constraints: Cannot be specified if the restore time parameter is provided.
 """
 function create_relational_database_from_snapshot(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateRelationalDatabaseFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -985,7 +985,7 @@ For more information, see the Amazon Lightsail Developer Guide.
   TagResource action to tag a resource after it's created.
 """
 function create_relational_database_snapshot(relationalDatabaseName, relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("CreateRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName, "relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1002,7 +1002,7 @@ Amazon Lightsail.
 
 """
 function delete_alarm(alarmName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1020,7 +1020,7 @@ Lightsail Developer Guide.
 
 """
 function delete_auto_snapshot(date, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteAutoSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("date"=>date, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1043,7 +1043,7 @@ released and can be reused for a new bucket in your account or another AWS accou
   as instances, distributions, or software that use the issued access keys.
 """
 function delete_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1062,7 +1062,7 @@ Lightsail Developer Guide.
 
 """
 function delete_bucket_access_key(accessKeyId, bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessKeyId"=>accessKeyId, "bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1080,7 +1080,7 @@ distribution.
 
 """
 function delete_certificate(certificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1100,7 +1100,7 @@ information, see Notifications in Amazon Lightsail.
 
 """
 function delete_contact_method(protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1121,7 +1121,7 @@ Deletes a container image that is registered to your Amazon Lightsail container 
 
 """
 function delete_container_image(image, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("image"=>image, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1135,7 +1135,7 @@ Deletes your Amazon Lightsail container service.
 
 """
 function delete_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1156,7 +1156,7 @@ Lightsail Developer Guide.
   for the disk.
 """
 function delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1178,7 +1178,7 @@ the Amazon Lightsail Developer Guide.
 
 """
 function delete_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1192,7 +1192,7 @@ Deletes your Amazon Lightsail content delivery network (CDN) distribution.
   action to get a list of distribution names that you can specify.
 """
 function delete_distribution(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteDistribution", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1208,7 +1208,7 @@ identified by domain name. For more information, see the Amazon Lightsail Develo
 
 """
 function delete_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1226,7 +1226,7 @@ more information, see the Amazon Lightsail Developer Guide.
 
 """
 function delete_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1245,7 +1245,7 @@ more information, see the Amazon Lightsail Developer Guide.
   for the disk.
 """
 function delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1262,7 +1262,7 @@ Lightsail Developer Guide.
 
 """
 function delete_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1278,7 +1278,7 @@ information, see the Amazon Lightsail Developer Guide.
 
 """
 function delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1299,7 +1299,7 @@ client.
 
 """
 function delete_known_host_keys(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteKnownHostKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1317,7 +1317,7 @@ balancer name. For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function delete_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1340,7 +1340,7 @@ the Amazon Lightsail Developer Guide.
   attached to the load balancer.
 """
 function delete_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1367,7 +1367,7 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
   parameter is false. Default: false
 """
 function delete_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1385,7 +1385,7 @@ Developer Guide.
 
 """
 function delete_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DeleteRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1402,7 +1402,7 @@ for all of the domains that are associated with the certificate.
 
 """
 function detach_certificate_from_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DetachCertificateFromDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1421,7 +1421,7 @@ the Amazon Lightsail Developer Guide.
 
 """
 function detach_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DetachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1441,7 +1441,7 @@ information, see the Amazon Lightsail Developer Guide.
 
 """
 function detach_instances_from_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DetachInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1455,7 +1455,7 @@ Detaches a static IP from the Amazon Lightsail instance to which it is attached.
 
 """
 function detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DetachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1471,7 +1471,7 @@ Lightsail Developer Guide.
 
 """
 function disable_add_on(addOnType, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DisableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnType"=>addOnType, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1482,7 +1482,7 @@ Downloads the default SSH key pair from the user's account.
 
 """
 function download_default_key_pair(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("DownloadDefaultKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1498,7 +1498,7 @@ the Amazon Lightsail Developer Guide.
 
 """
 function enable_add_on(addOnRequest, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("EnableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnRequest"=>addOnRequest, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1523,7 +1523,7 @@ list of snapshots that you can export to Amazon EC2.
 
 """
 function export_snapshot(sourceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("ExportSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceSnapshotName"=>sourceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1539,7 +1539,7 @@ Returns the names of all active (not deleted) resources.
   subsequent request.
 """
 function get_active_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetActiveNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1565,7 +1565,7 @@ more information, see Alarms in Amazon Lightsail.
   subsequent request.
 """
 function get_alarms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1581,7 +1581,7 @@ see the Amazon Lightsail Developer Guide.
 
 """
 function get_auto_snapshots(resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetAutoSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1605,7 +1605,7 @@ due to operating system updates or new application releases.
   subsequent request.
 """
 function get_blueprints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1622,7 +1622,7 @@ lose the secret access key, you must create a new access key.
 
 """
 function get_bucket_access_keys(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBucketAccessKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1638,7 +1638,7 @@ UpdateBucketBundle action to update the bundle for a bucket.
   (unavailable) bundles in the response.
 """
 function get_bucket_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBucketBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1684,7 +1684,7 @@ those objects.
 
 """
 function get_bucket_metric_data(bucketName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBucketMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1706,7 +1706,7 @@ buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide
   subsequent request.
 """
 function get_buckets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBuckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1725,7 +1725,7 @@ for your virtual private server (or instance).
   subsequent request.
 """
 function get_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1750,7 +1750,7 @@ name, and tags.
   names, Amazon Resource Names (ARNs), domain names, and tags.
 """
 function get_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1768,7 +1768,7 @@ from an exported Lightsail snapshot.
   token in a subsequent request.
 """
 function get_cloud_formation_stack_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetCloudFormationStackRecords", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1788,7 +1788,7 @@ countries/regions. For more information, see Notifications in Amazon Lightsail.
   contact method protocol.
 """
 function get_contact_methods(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContactMethods", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1800,7 +1800,7 @@ Lightsail Control (lightsailctl) plugin.
 
 """
 function get_container_apimetadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerAPIMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1818,7 +1818,7 @@ part of this action. Those images are not registered to your Lightsail container
 
 """
 function get_container_images(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1861,7 +1861,7 @@ information, see Amazon Lightsail endpoints and quotas in the AWS General Refere
   using a converter like Epoch converter.
 """
 function get_container_log(containerName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerLog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1880,7 +1880,7 @@ endpoints and quotas in the AWS General Reference.
 
 """
 function get_container_service_deployments(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerServiceDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1922,7 +1922,7 @@ to maintain the reliability, availability, and performance of your resources.
 
 """
 function get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerServiceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1935,7 +1935,7 @@ of the container service.
 
 """
 function get_container_service_powers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerServicePowers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1950,7 +1950,7 @@ Returns information about one or more of your Amazon Lightsail container service
   request is made.
 """
 function get_container_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetContainerServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1964,7 +1964,7 @@ Returns information about a specific block storage disk.
 
 """
 function get_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1978,7 +1978,7 @@ Returns information about a specific block storage disk snapshot.
 
 """
 function get_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1994,7 +1994,7 @@ Returns information about all block storage disk snapshots in your AWS account a
   subsequent request.
 """
 function get_disk_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDiskSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2010,7 +2010,7 @@ Returns information about all block storage disks in your AWS account and region
   subsequent request.
 """
 function get_disks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDisks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2023,7 +2023,7 @@ monthly cost of your dsitribution.
 
 """
 function get_distribution_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDistributionBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2040,7 +2040,7 @@ content delivery network (CDN) distribution.
   of all your distributions.
 """
 function get_distribution_latest_cache_reset(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDistributionLatestCacheReset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2103,7 +2103,7 @@ reliability, availability, and performance of your resources.
 
 """
 function get_distribution_metric_data(distributionName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDistributionMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2123,7 +2123,7 @@ Returns information about one or more of your Amazon Lightsail content delivery 
   subsequent request.
 """
 function get_distributions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDistributions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2137,7 +2137,7 @@ Returns information about a specific domain recordset.
 
 """
 function get_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2153,7 +2153,7 @@ Returns a list of all domains in the user's account.
   subsequent request.
 """
 function get_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2171,7 +2171,7 @@ resources with the CreateCloudFormationStack action.
   token in a subsequent request.
 """
 function get_export_snapshot_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetExportSnapshotRecords", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2186,7 +2186,7 @@ server.
 
 """
 function get_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2205,7 +2205,7 @@ see the Amazon Lightsail Developer Guide.
 - `protocol`: The protocol to use to connect to your instance. Defaults to ssh.
 """
 function get_instance_access_details(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstanceAccessDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2285,7 +2285,7 @@ availability, and performance of your resources.
 
 """
 function get_instance_metric_data(endTime, instanceName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstanceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceName"=>instanceName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2300,7 +2300,7 @@ allowed to connect to the instance through the ports, and the protocol.
 
 """
 function get_instance_port_states(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstancePortStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2315,7 +2315,7 @@ Returns information about a specific instance snapshot.
 
 """
 function get_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2331,7 +2331,7 @@ Returns all instance snapshots for the user's account.
   token in a subsequent request.
 """
 function get_instance_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstanceSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2345,7 +2345,7 @@ Returns the state of a specific instance. Works on one instance at a time.
 
 """
 function get_instance_state(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstanceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2361,7 +2361,7 @@ Returns information about all Amazon Lightsail virtual private servers, or insta
   subsequent request.
 """
 function get_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2375,7 +2375,7 @@ Returns information about a specific key pair.
 
 """
 function get_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2391,7 +2391,7 @@ Returns information about all key pairs in the user's account.
   subsequent request.
 """
 function get_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2405,7 +2405,7 @@ Returns information about the specified Lightsail load balancer.
 
 """
 function get_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2483,7 +2483,7 @@ your resources.
 
 """
 function get_load_balancer_metric_data(endTime, loadBalancerName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetLoadBalancerMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "loadBalancerName"=>loadBalancerName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2501,7 +2501,7 @@ One is active and the other is inactive.
 
 """
 function get_load_balancer_tls_certificates(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetLoadBalancerTlsCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2517,7 +2517,7 @@ Returns information about all load balancers in an account.
   subsequent request.
 """
 function get_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2532,7 +2532,7 @@ create an instance, allocate a static IP, attach a static IP, and so on.
 
 """
 function get_operation(operationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationId"=>operationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2550,7 +2550,7 @@ the maximum (last) statusChangedAt value from the previous request.
   subsequent request.
 """
 function get_operations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2569,7 +2569,7 @@ Gets operations for a specific resource (e.g., an instance or a static IP).
   token in a subsequent request.
 """
 function get_operations_for_resource(resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetOperationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2588,7 +2588,7 @@ zones parameter to also return the Availability Zones in a region.
   Zones are indicated with a letter (e.g., us-east-2a).
 """
 function get_regions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2602,7 +2602,7 @@ Returns information about a specific database in Amazon Lightsail.
 
 """
 function get_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2620,7 +2620,7 @@ that runs a specific database engine.
   token in a subsequent request.
 """
 function get_relational_database_blueprints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2638,7 +2638,7 @@ with explicit performance specifications.
   token in a subsequent request.
 """
 function get_relational_database_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2660,7 +2660,7 @@ Returns a list of events for a specific database in Amazon Lightsail.
   token in a subsequent request.
 """
 function get_relational_database_events(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2693,7 +2693,7 @@ Returns a list of log events for a database in Amazon Lightsail.
   1538424000 as the start time.
 """
 function get_relational_database_log_events(logStreamName, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logStreamName"=>logStreamName, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2707,7 +2707,7 @@ Returns a list of available log streams for a specific database in Amazon Lights
 
 """
 function get_relational_database_log_streams(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2730,7 +2730,7 @@ relationalDatabaseName.
   rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT
 """
 function get_relational_database_master_user_password(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseMasterUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2788,7 +2788,7 @@ performance of your resources.
 
 """
 function get_relational_database_metric_data(endTime, metricName, period, relationalDatabaseName, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "relationalDatabaseName"=>relationalDatabaseName, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2811,7 +2811,7 @@ values, and the data types.
   token in a subsequent request.
 """
 function get_relational_database_parameters(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2826,7 +2826,7 @@ Returns information about a specific database snapshot in Amazon Lightsail.
 
 """
 function get_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2842,7 +2842,7 @@ Returns information about all of your database snapshots in Amazon Lightsail.
   token in a subsequent request.
 """
 function get_relational_database_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabaseSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2858,7 +2858,7 @@ Returns information about all of your databases in Amazon Lightsail.
   token in a subsequent request.
 """
 function get_relational_databases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetRelationalDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2872,7 +2872,7 @@ Returns information about an Amazon Lightsail static IP.
 
 """
 function get_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2888,7 +2888,7 @@ Returns information about all static IPs in the user's account.
   subsequent request.
 """
 function get_static_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("GetStaticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2903,7 +2903,7 @@ Imports a public SSH key from a specific key pair.
 
 """
 function import_key_pair(keyPairName, publicKeyBase64; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName, "publicKeyBase64"=>publicKeyBase64), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2914,7 +2914,7 @@ Returns a Boolean value indicating whether your Lightsail VPC is peered.
 
 """
 function is_vpc_peered(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("IsVpcPeered", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2933,7 +2933,7 @@ Developer Guide.
 
 """
 function open_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("OpenInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2944,7 +2944,7 @@ Peers the Lightsail VPC with the user's default VPC.
 
 """
 function peer_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("PeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3025,7 +3025,7 @@ then evaluated with the updated configuration.
   default behavior of missing is used.
 """
 function put_alarm(alarmName, comparisonOperator, evaluationPeriods, metricName, monitoredResourceName, threshold; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("PutAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "metricName"=>metricName, "monitoredResourceName"=>monitoredResourceName, "threshold"=>threshold), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3048,7 +3048,7 @@ Developer Guide.
 
 """
 function put_instance_public_ports(instanceName, portInfos; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("PutInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfos"=>portInfos), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3064,7 +3064,7 @@ information, see the Amazon Lightsail Developer Guide.
 
 """
 function reboot_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3080,7 +3080,7 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
 
 """
 function reboot_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("RebootRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3111,7 +3111,7 @@ Lightsail Developer Guide.
 
 """
 function register_container_image(digest, label, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("RegisterContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3125,7 +3125,7 @@ Deletes a specific static IP from your account.
 
 """
 function release_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("ReleaseStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3141,7 +3141,7 @@ distribution pulls, serves, and caches it from the origin.
   GetDistributions action to get a list of distribution names that you can specify.
 """
 function reset_distribution_cache(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("ResetDistributionCache", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3164,7 +3164,7 @@ verified, and confirmed as valid.
 
 """
 function send_contact_method_verification(protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("SendContactMethodVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3186,7 +3186,7 @@ Alternately, you can use this action to disable dual-stack, and enable IPv4 only
 
 """
 function set_ip_address_type(ipAddressType, resourceName, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3208,7 +3208,7 @@ Region.
 
 """
 function set_resource_access_for_bucket(access, bucketName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("SetResourceAccessForBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("access"=>access, "bucketName"=>bucketName, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3228,7 +3228,7 @@ instance name. For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function start_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3245,7 +3245,7 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
 
 """
 function start_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("StartRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3270,7 +3270,7 @@ Developer Guide.
   API request.
 """
 function stop_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3290,7 +3290,7 @@ Lightsail Developer Guide.
   before stopping your database.
 """
 function stop_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("StopRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3313,7 +3313,7 @@ see the Amazon Lightsail Developer Guide.
   tag.
 """
 function tag_resource(resourceName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3337,7 +3337,7 @@ Lightsail console. For more information, see Alarms in Amazon Lightsail.
 
 """
 function test_alarm(alarmName, state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("TestAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "state"=>state), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3348,7 +3348,7 @@ Unpeers the Lightsail VPC from the user's default VPC.
 
 """
 function unpeer_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UnpeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3369,7 +3369,7 @@ information, see the Amazon Lightsail Developer Guide.
   remove a tag.
 """
 function untag_resource(resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3395,7 +3395,7 @@ access the bucket.
   Existing object versions are retained.
 """
 function update_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3422,7 +3422,7 @@ come.
 
 """
 function update_bucket_bundle(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateBucketBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3458,7 +3458,7 @@ scale, and public domain names.
   base price of the power with the scale (the number of nodes) of the service.
 """
 function update_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3486,7 +3486,7 @@ action to update the configuration of your existing distribution.
   from the origin.
 """
 function update_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3509,7 +3509,7 @@ your distribution's bundle.
   GetDistributions action to get a list of distribution names that you can specify.
 """
 function update_distribution_bundle(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateDistributionBundle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3526,7 +3526,7 @@ name. For more information, see the Amazon Lightsail Developer Guide.
 
 """
 function update_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3546,7 +3546,7 @@ information, see the Amazon Lightsail Developer Guide.
 
 """
 function update_load_balancer_attribute(attributeName, attributeValue, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateLoadBalancerAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributeName"=>attributeName, "attributeValue"=>attributeValue, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3599,7 +3599,7 @@ Developer Guide.
   password operation to get the new password.
 """
 function update_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3622,6 +3622,6 @@ Lightsail Developer Guide.
 
 """
 function update_relational_database_parameters(parameters, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lightsail("UpdateRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("parameters"=>parameters, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

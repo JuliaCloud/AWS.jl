@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("active_contexts" => "activeContexts", "request_attributes" => "x-amz-lex-request-attributes", "session_attributes" => "sessionAttributes", "checkpoint_label_filter" => "checkpointLabelFilter", "accept" => "Accept", "dialog_action" => "dialogAction", "recent_intent_summary_view" => "recentIntentSummaryView")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("active_contexts" => "activeContexts", "request_attributes" => "x-amz-lex-request-attributes", "session_attributes" => "sessionAttributes", "checkpoint_label_filter" => "checkpointLabelFilter", "accept" => "Accept", "dialog_action" => "dialogAction", "recent_intent_summary_view" => "recentIntentSummaryView")
 
 """
     delete_session(bot_alias, bot_name, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ Removes session information for a specified bot, alias, and user ID.
 
 """
 function delete_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ Returns session information for a specified bot, alias, and user ID.
   checkpointLabel field set to that string are returned.
 """
 function get_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ Managing Conversation Context.
   limited to 12 KB. For more information, see Setting Session Attributes.
 """
 function post_content(Content_Type, botAlias, botName, inputStream, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Context.
   client application. For more information, see Setting Session Attributes.
 """
 function post_text(botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputText"=>inputText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,6 +245,6 @@ Managing Sessions.
   application.
 """
 function put_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

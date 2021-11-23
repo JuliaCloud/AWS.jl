@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "description" => "Description", "on_exception_steps" => "OnExceptionSteps", "tags" => "Tags", "certificate" => "Certificate", "domain" => "Domain", "endpoint_details" => "EndpointDetails", "endpoint_type" => "EndpointType", "host_key" => "HostKey", "identity_provider_details" => "IdentityProviderDetails", "identity_provider_type" => "IdentityProviderType", "logging_role" => "LoggingRole", "protocols" => "Protocols", "security_policy_name" => "SecurityPolicyName", "workflow_details" => "WorkflowDetails", "home_directory" => "HomeDirectory", "home_directory_mappings" => "HomeDirectoryMappings", "home_directory_type" => "HomeDirectoryType", "policy" => "Policy", "posix_profile" => "PosixProfile", "ssh_public_key_body" => "SshPublicKeyBody", "protocol_details" => "ProtocolDetails", "role" => "Role", "server_protocol" => "ServerProtocol", "source_ip" => "SourceIp", "user_password" => "UserPassword")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "description" => "Description", "on_exception_steps" => "OnExceptionSteps", "tags" => "Tags", "certificate" => "Certificate", "domain" => "Domain", "endpoint_details" => "EndpointDetails", "endpoint_type" => "EndpointType", "host_key" => "HostKey", "identity_provider_details" => "IdentityProviderDetails", "identity_provider_type" => "IdentityProviderType", "logging_role" => "LoggingRole", "protocols" => "Protocols", "security_policy_name" => "SecurityPolicyName", "workflow_details" => "WorkflowDetails", "home_directory" => "HomeDirectory", "home_directory_mappings" => "HomeDirectoryMappings", "home_directory_type" => "HomeDirectoryType", "policy" => "Policy", "posix_profile" => "PosixProfile", "ssh_public_key_body" => "SshPublicKeyBody", "protocol_details" => "ProtocolDetails", "role" => "Role", "server_protocol" => "ServerProtocol", "source_ip" => "SourceIp", "user_password" => "UserPassword")
 
 """
     create_access(external_id, role, server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -74,7 +74,7 @@ CreateAccess to limit the access to the correct set of users who need this abili
 - `posix_profile`:
 """
 function create_access(ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("CreateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -166,7 +166,7 @@ the newly created server.
   execution role used for executing the workflow.
 """
 function create_server(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("CreateServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ and assign metadata with tags that can be used to group and search for users.
   attached to users for any purpose.
 """
 function create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ and UpdateServer operations.
   metadata attached to workflows for any purpose.
 """
 function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -294,7 +294,7 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 
 """
 function delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DeleteAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,7 +309,7 @@ from this operation.
 
 """
 function delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +326,7 @@ Deletes a user's Secure Shell (SSH) public key.
 
 """
 function delete_ssh_public_key(ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DeleteSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ information is lost.
 
 """
 function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -358,7 +358,7 @@ Deletes the specified workflow.
 
 """
 function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -385,7 +385,7 @@ was specified.
 
 """
 function describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -401,7 +401,7 @@ workflow.
 
 """
 function describe_execution(ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionId"=>ExecutionId, "WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -418,7 +418,7 @@ information about security policies, see Working with security policies.
 
 """
 function describe_security_policy(SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeSecurityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 
 """
 function describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ the user associated with the ServerId value that was specified.
 
 """
 function describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -467,7 +467,7 @@ Describes the specified workflow.
 
 """
 function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("DescribeWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -485,7 +485,7 @@ response returns the UserName value, the ServerId value, and the name of the Ssh
 
 """
 function import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ Lists the details for all the accesses you have on your server.
   NextToken parameter to continue listing additional accesses.
 """
 function list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListAccesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Lists all executions for the specified workflow.
   the call until the details for all 100 executions have been returned.
 """
 function list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -549,7 +549,7 @@ servers.
   in a subsequent command to continue listing additional security policies.
 """
 function list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListSecurityPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -567,7 +567,7 @@ Services account.
   a subsequent command to continue listing additional servers.
 """
 function list_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,7 +590,7 @@ resource can be a user, server, or role.
   to the NextToken parameter to continue listing additional tags.
 """
 function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -612,7 +612,7 @@ ServerId parameter.
   NextToken parameter to continue listing additional users.
 """
 function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -628,7 +628,7 @@ Lists all of your workflows.
   workflows.
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -648,7 +648,7 @@ include those with their callback as well as providing a status.
 
 """
 function send_workflow_step_state(ExecutionId, Status, Token, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("SendWorkflowStepState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionId"=>ExecutionId, "Status"=>Status, "Token"=>Token, "WorkflowId"=>WorkflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -666,7 +666,7 @@ indicate an error condition. No response is returned from this call.
 
 """
 function start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("StartServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -687,7 +687,7 @@ this call.
 
 """
 function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("StopServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +706,7 @@ this call.
 
 """
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -742,7 +742,7 @@ Unknown server
 - `user_password`: The password of the user account to be tested.
 """
 function test_identity_provider(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("TestIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -762,7 +762,7 @@ call.
 
 """
 function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -829,7 +829,7 @@ parameters.
   your users' transfer requests.
 """
 function update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("UpdateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +907,7 @@ created. The UpdateServer call returns the ServerId of the server you updated.
   execution role used for executing the workflow.
 """
 function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -976,6 +976,6 @@ response returns the ServerId and the UserName for the updated user.
   your users' transfer requests.
 """
 function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "names" => "Name", "next_token" => "NextToken", "owners" => "Owner", "provider_types" => "ProviderTypes", "states" => "States", "client_request_token" => "ClientRequestToken", "kmskey_details" => "KMSKeyDetails", "tags" => "Tags", "repository_names" => "RepositoryNames", "user_id" => "UserId", "recommendation_ids" => "RecommendationIds", "user_ids" => "UserIds")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "names" => "Name", "next_token" => "NextToken", "owners" => "Owner", "provider_types" => "ProviderTypes", "states" => "States", "client_request_token" => "ClientRequestToken", "kmskey_details" => "KMSKeyDetails", "tags" => "Tags", "repository_names" => "RepositoryNames", "user_id" => "UserId", "recommendation_ids" => "RecommendationIds", "user_ids" => "UserIds")
 
 """
     associate_repository(repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,7 +42,7 @@ with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
   as using an empty string. Like tag keys, tag values are case sensitive.
 """
 function associate_repository(Repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("POST", "/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Repository"=>Repository, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -68,7 +68,7 @@ PullRequest code reviews are automatically triggered by a pull request.
   accidental creation of duplicate code reviews if there are failures and retries.
 """
 function create_code_review(Name, RepositoryAssociationArn, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("POST", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RepositoryAssociationArn"=>RepositoryAssociationArn, "Type"=>Type, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -82,7 +82,7 @@ end
 
 """
 function describe_code_review(CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -104,7 +104,7 @@ end
   Access Management User Guide.
 """
 function describe_recommendation_feedback(CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecommendationId"=>RecommendationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -120,7 +120,7 @@ repository association.
 
 """
 function describe_repository_association(AssociationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/associations/$(AssociationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -135,7 +135,7 @@ Removes the association between Amazon CodeGuru Reviewer and a repository.
 
 """
 function disassociate_repository(AssociationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("DELETE", "/associations/$(AssociationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ end
   Deleting: The code review is being deleted.
 """
 function list_code_reviews(Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -192,7 +192,7 @@ recommendation feedback for all CodeGuru Reviewer users.
   Services Identity and Access Management User Guide.
 """
 function list_recommendation_feedback(CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -210,7 +210,7 @@ end
 - `next_token`:  Pagination token.
 """
 function list_recommendations(CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -257,7 +257,7 @@ about a repository association. You can filter the returned list by  ProviderTyp
   to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
 """
 function list_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -272,7 +272,7 @@ Returns the list of tags associated with an associated repository resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ again with different reactions the previous feedback is overwritten.
 
 """
 function put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("PUT", "/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ Adds one or more tags to an associated repository.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,6 +328,6 @@ Removes a tag from an associated repository.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codeguru_reviewer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

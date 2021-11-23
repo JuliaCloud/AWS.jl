@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("stream_arn" => "StreamARN", "stream_name" => "StreamName", "fragment_selector" => "FragmentSelector", "max_results" => "MaxResults", "next_token" => "NextToken", "dashfragment_selector" => "DASHFragmentSelector", "display_fragment_number" => "DisplayFragmentNumber", "display_fragment_timestamp" => "DisplayFragmentTimestamp", "expires" => "Expires", "max_manifest_fragment_results" => "MaxManifestFragmentResults", "playback_mode" => "PlaybackMode", "container_format" => "ContainerFormat", "discontinuity_mode" => "DiscontinuityMode", "hlsfragment_selector" => "HLSFragmentSelector", "max_media_playlist_fragment_results" => "MaxMediaPlaylistFragmentResults")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("stream_arn" => "StreamARN", "stream_name" => "StreamName", "fragment_selector" => "FragmentSelector", "max_results" => "MaxResults", "next_token" => "NextToken", "dashfragment_selector" => "DASHFragmentSelector", "display_fragment_number" => "DisplayFragmentNumber", "display_fragment_timestamp" => "DisplayFragmentTimestamp", "expires" => "Expires", "max_manifest_fragment_results" => "MaxManifestFragmentResults", "playback_mode" => "PlaybackMode", "container_format" => "ContainerFormat", "discontinuity_mode" => "DiscontinuityMode", "hlsfragment_selector" => "HLSFragmentSelector", "max_media_playlist_fragment_results" => "MaxMediaPlaylistFragmentResults")
 
 """
     get_clip(clip_fragment_selector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -41,7 +41,7 @@ Pricing and AWS Pricing. Charges for outgoing AWS data apply.
   specify either the StreamName or the StreamARN.
 """
 function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ information, see the Errors section at the bottom of this topic, as well as Comm
   You must specify either the StreamName or the StreamARN.
 """
 function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -373,7 +373,7 @@ of this topic, as well as Common Errors.
   You must specify either the StreamName or the StreamARN.
 """
 function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -406,7 +406,7 @@ topic, as well as Common Errors.
   either this parameter or the StreamARN parameter.
 """
 function get_media_for_fragment_list(Fragments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Fragments"=>Fragments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,6 +445,6 @@ the bottom of this topic, as well as Common Errors.
   either this parameter or the StreamARN parameter.
 """
 function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_archived_media("POST", "/listFragments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

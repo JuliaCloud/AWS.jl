@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("name" => "Name", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "tags", "amzn_client_token" => "X-Amzn-Client-Token", "initial_version" => "InitialVersion", "deployment_id" => "DeploymentId", "group_version_id" => "GroupVersionId", "loggers" => "Loggers", "resources" => "Resources", "connector_definition_version_arn" => "ConnectorDefinitionVersionArn", "core_definition_version_arn" => "CoreDefinitionVersionArn", "device_definition_version_arn" => "DeviceDefinitionVersionArn", "function_definition_version_arn" => "FunctionDefinitionVersionArn", "logger_definition_version_arn" => "LoggerDefinitionVersionArn", "resource_definition_version_arn" => "ResourceDefinitionVersionArn", "subscription_definition_version_arn" => "SubscriptionDefinitionVersionArn", "subscriptions" => "Subscriptions", "telemetry_configuration" => "TelemetryConfiguration", "connectivity_info" => "ConnectivityInfo", "force" => "Force", "cores" => "Cores", "default_config" => "DefaultConfig", "functions" => "Functions", "devices" => "Devices", "certificate_expiry_in_milliseconds" => "CertificateExpiryInMilliseconds", "update_agent_log_level" => "UpdateAgentLogLevel", "connectors" => "Connectors")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("name" => "Name", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "tags", "amzn_client_token" => "X-Amzn-Client-Token", "initial_version" => "InitialVersion", "deployment_id" => "DeploymentId", "group_version_id" => "GroupVersionId", "loggers" => "Loggers", "resources" => "Resources", "connector_definition_version_arn" => "ConnectorDefinitionVersionArn", "core_definition_version_arn" => "CoreDefinitionVersionArn", "device_definition_version_arn" => "DeviceDefinitionVersionArn", "function_definition_version_arn" => "FunctionDefinitionVersionArn", "logger_definition_version_arn" => "LoggerDefinitionVersionArn", "resource_definition_version_arn" => "ResourceDefinitionVersionArn", "subscription_definition_version_arn" => "SubscriptionDefinitionVersionArn", "subscriptions" => "Subscriptions", "telemetry_configuration" => "TelemetryConfiguration", "connectivity_info" => "ConnectivityInfo", "force" => "Force", "cores" => "Cores", "default_config" => "DefaultConfig", "functions" => "Functions", "devices" => "Devices", "certificate_expiry_in_milliseconds" => "CertificateExpiryInMilliseconds", "update_agent_log_level" => "UpdateAgentLogLevel", "connectors" => "Connectors")
 
 """
     associate_role_to_group(group_id, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ actions against the cloud.
 
 """
 function associate_role_to_group(GroupId, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/groups/$(GroupId)/role", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -38,7 +38,7 @@ role must have at least minimum permissions in the policy
 
 """
 function associate_service_role_to_account(RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/servicerole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_connector_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ Creates a version of a connector definition which has already been defined.
   corresponding configuration settings.
 """
 function create_connector_definition_version(ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -91,7 +91,7 @@ exactly one Greengrass core.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_core_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/cores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -109,7 +109,7 @@ must each contain exactly one Greengrass core.
 - `cores`: A list of cores in the core definition version.
 """
 function create_core_definition_version(CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ Creates a deployment. ''CreateDeployment'' requests are idempotent with respect 
 - `group_version_id`: The ID of the group version to be deployed.
 """
 function create_deployment(DeploymentType, GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentType"=>DeploymentType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -147,7 +147,7 @@ now or use ''CreateDeviceDefinitionVersion'' at a later time.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_device_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ Creates a version of a device definition that has already been defined.
 - `devices`: A list of devices in the definition version.
 """
 function create_device_definition_version(DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ by providing a list of Lambda functions and their configurations now, or use
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_function_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/functions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -202,7 +202,7 @@ Creates a version of a Lambda function definition that has already been defined.
 - `functions`: A list of Lambda functions in this function definition version.
 """
 function create_function_definition_version(FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -223,7 +223,7 @@ application to create and deploy Greengrass groups.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ Creates a CA for the group. If a CA already exists, it will rotate the existing 
 - `amzn_client_token`: A client token used to correlate requests and responses.
 """
 function create_group_certificate_authority(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Creates a version of a group which has already been defined.
   this group.
 """
 function create_group_version(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/groups/$(GroupId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ now or use ''CreateLoggerDefinitionVersion'' at a later time.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_logger_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/loggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ Creates a version of a logger definition that has already been defined.
 - `loggers`: A list of loggers.
 """
 function create_logger_definition_version(LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -318,7 +318,7 @@ use ''CreateResourceDefinitionVersion'' later.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_resource_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -335,7 +335,7 @@ Creates a version of a resource definition that has already been defined.
 - `resources`: A list of resources.
 """
 function create_resource_definition_version(ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ software update job.
 - `update_agent_log_level`:
 """
 function create_software_update_job(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3UrlSignerRole"=>S3UrlSignerRole, "SoftwareToUpdate"=>SoftwareToUpdate, "UpdateTargets"=>UpdateTargets, "UpdateTargetsArchitecture"=>UpdateTargetsArchitecture, "UpdateTargetsOperatingSystem"=>UpdateTargetsOperatingSystem), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
 - `tags`: Tag(s) to add to the new resource.
 """
 function create_subscription_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/subscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ Creates a version of a subscription definition which has already been defined.
 - `subscriptions`: A list of subscriptions.
 """
 function create_subscription_definition_version(SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -407,7 +407,7 @@ Deletes a connector definition.
 
 """
 function delete_connector_definition(ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ Deletes a core definition.
 
 """
 function delete_core_definition(CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ Deletes a device definition.
 
 """
 function delete_device_definition(DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -449,7 +449,7 @@ Deletes a Lambda function definition.
 
 """
 function delete_function_definition(FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -463,7 +463,7 @@ Deletes a group.
 
 """
 function delete_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/groups/$(GroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -477,7 +477,7 @@ Deletes a logger definition.
 
 """
 function delete_logger_definition(LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -491,7 +491,7 @@ Deletes a resource definition.
 
 """
 function delete_resource_definition(ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ Deletes a subscription definition.
 
 """
 function delete_subscription_definition(SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -519,7 +519,7 @@ Disassociates the role from a group.
 
 """
 function disassociate_role_from_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/groups/$(GroupId)/role", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ not work.
 
 """
 function disassociate_service_role_from_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/greengrass/servicerole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ Retrieves the role associated with a particular group.
 
 """
 function get_associated_role(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/role", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -559,7 +559,7 @@ Returns the status of a bulk deployment.
 
 """
 function get_bulk_deployment_status(BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,7 +573,7 @@ Retrieves the connectivity information for a core.
 
 """
 function get_connectivity_info(ThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -587,7 +587,7 @@ Retrieves information about a connector definition.
 
 """
 function get_connector_definition(ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ infrastructure, device protocols, AWS, and other cloud services.
   additional results.
 """
 function get_connector_definition_version(ConnectorDefinitionId, ConnectorDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -625,7 +625,7 @@ Retrieves information about a core definition version.
 
 """
 function get_core_definition(CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,7 +644,7 @@ Retrieves information about a core definition version.
 
 """
 function get_core_definition_version(CoreDefinitionId, CoreDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -659,7 +659,7 @@ Returns the status of a deployment.
 
 """
 function get_deployment_status(DeploymentId, GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -673,7 +673,7 @@ Retrieves information about a device definition.
 
 """
 function get_device_definition(DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -695,7 +695,7 @@ Retrieves information about a device definition version.
   additional results.
 """
 function get_device_definition_version(DeviceDefinitionId, DeviceDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -710,7 +710,7 @@ latest version.
 
 """
 function get_function_definition(FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -733,7 +733,7 @@ functions are included in the version and their configurations.
   additional results.
 """
 function get_function_definition_version(FunctionDefinitionId, FunctionDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -747,7 +747,7 @@ Retrieves information about a group.
 
 """
 function get_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -762,7 +762,7 @@ Retreives the CA associated with a group. Returns the public key of the CA.
 
 """
 function get_group_certificate_authority(CertificateAuthorityId, GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -776,7 +776,7 @@ Retrieves the current configuration for the CA used by the group.
 
 """
 function get_group_certificate_configuration(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -795,7 +795,7 @@ Retrieves information about a group version.
 
 """
 function get_group_version(GroupId, GroupVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -809,7 +809,7 @@ Retrieves information about a logger definition.
 
 """
 function get_logger_definition(LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -831,7 +831,7 @@ Retrieves information about a logger definition version.
   additional results.
 """
 function get_logger_definition_version(LoggerDefinitionId, LoggerDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -846,7 +846,7 @@ version.
 
 """
 function get_resource_definition(ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +866,7 @@ included in the version.
 
 """
 function get_resource_definition_version(ResourceDefinitionId, ResourceDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -877,7 +877,7 @@ Retrieves the service role that is attached to your account.
 
 """
 function get_service_role_for_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/servicerole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -891,7 +891,7 @@ Retrieves information about a subscription definition.
 
 """
 function get_subscription_definition(SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -913,7 +913,7 @@ Retrieves information about a subscription definition version.
   additional results.
 """
 function get_subscription_definition_version(SubscriptionDefinitionId, SubscriptionDefinitionVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -927,7 +927,7 @@ Get the runtime configuration of a thing.
 
 """
 function get_thing_runtime_configuration(ThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/things/$(ThingName)/runtimeconfig", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -946,7 +946,7 @@ operation, and their current deployment status.
   additional results.
 """
 function list_bulk_deployment_detailed_reports(BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -961,7 +961,7 @@ Returns a list of bulk deployments.
   additional results.
 """
 function list_bulk_deployments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/bulk/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -981,7 +981,7 @@ infrastructure, device protocols, AWS, and other cloud services.
   additional results.
 """
 function list_connector_definition_versions(ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -996,7 +996,7 @@ Retrieves a list of connector definitions.
   additional results.
 """
 function list_connector_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1014,7 +1014,7 @@ Lists the versions of a core definition.
   additional results.
 """
 function list_core_definition_versions(CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1029,7 +1029,7 @@ Retrieves a list of core definitions.
   additional results.
 """
 function list_core_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/cores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1047,7 +1047,7 @@ Returns a history of deployments for the group.
   additional results.
 """
 function list_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1065,7 +1065,7 @@ Lists the versions of a device definition.
   additional results.
 """
 function list_device_definition_versions(DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1080,7 +1080,7 @@ Retrieves a list of device definitions.
   additional results.
 """
 function list_device_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1098,7 +1098,7 @@ Lists the versions of a Lambda function definition.
   additional results.
 """
 function list_function_definition_versions(FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1113,7 +1113,7 @@ Retrieves a list of Lambda function definitions.
   additional results.
 """
 function list_function_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/functions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1127,7 +1127,7 @@ Retrieves the current CAs for a group.
 
 """
 function list_group_certificate_authorities(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1145,7 +1145,7 @@ Lists the versions of a group.
   additional results.
 """
 function list_group_versions(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups/$(GroupId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1160,7 +1160,7 @@ Retrieves a list of groups.
   additional results.
 """
 function list_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1178,7 +1178,7 @@ Lists the versions of a logger definition.
   additional results.
 """
 function list_logger_definition_versions(LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1193,7 +1193,7 @@ Retrieves a list of logger definitions.
   additional results.
 """
 function list_logger_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/loggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1211,7 +1211,7 @@ Lists the versions of a resource definition.
   additional results.
 """
 function list_resource_definition_versions(ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1226,7 +1226,7 @@ Retrieves a list of resource definitions.
   additional results.
 """
 function list_resource_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1244,7 +1244,7 @@ Lists the versions of a subscription definition.
   additional results.
 """
 function list_subscription_definition_versions(SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1259,7 +1259,7 @@ Retrieves a list of subscription definitions.
   additional results.
 """
 function list_subscription_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/greengrass/definition/subscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1273,7 +1273,7 @@ Retrieves a list of resource tags for a resource arn.
 
 """
 function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("GET", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1290,7 +1290,7 @@ Resets a group's deployments.
 - `force`: If true, performs a best-effort only core reset.
 """
 function reset_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1319,7 +1319,7 @@ idempotent with respect to the token and the request parameters.
 - `tags`: Tag(s) to add to the new resource.
 """
 function start_bulk_deployment(ExecutionRoleArn, InputFileUri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/greengrass/bulk/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "InputFileUri"=>InputFileUri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1336,7 +1336,7 @@ or cancel pending deployments.
 
 """
 function stop_bulk_deployment(BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1354,7 +1354,7 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 - `tags`:
 """
 function tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("POST", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1369,7 +1369,7 @@ Remove resource tags from a Greengrass Resource.
 
 """
 function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1387,7 +1387,7 @@ and connect to it.
 - `connectivity_info`: A list of connectivity info.
 """
 function update_connectivity_info(ThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1403,7 +1403,7 @@ Updates a connector definition.
 - `name`: The name of the definition.
 """
 function update_connector_definition(ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1419,7 +1419,7 @@ Updates a core definition.
 - `name`: The name of the definition.
 """
 function update_core_definition(CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1435,7 +1435,7 @@ Updates a device definition.
 - `name`: The name of the definition.
 """
 function update_device_definition(DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1451,7 +1451,7 @@ Updates a Lambda function definition.
 - `name`: The name of the definition.
 """
 function update_function_definition(FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1467,7 +1467,7 @@ Updates a group.
 - `name`: The name of the definition.
 """
 function update_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/groups/$(GroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1484,7 +1484,7 @@ Updates the Certificate expiry time for a group.
   expires, in milliseconds.
 """
 function update_group_certificate_configuration(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1500,7 +1500,7 @@ Updates a logger definition.
 - `name`: The name of the definition.
 """
 function update_logger_definition(LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1516,7 +1516,7 @@ Updates a resource definition.
 - `name`: The name of the definition.
 """
 function update_resource_definition(ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1532,7 +1532,7 @@ Updates a subscription definition.
 - `name`: The name of the definition.
 """
 function update_subscription_definition(SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1548,6 +1548,6 @@ Updates the runtime configuration of a thing.
 - `telemetry_configuration`: Configuration for telemetry service.
 """
 function update_thing_runtime_configuration(ThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return greengrass("PUT", "/greengrass/things/$(ThingName)/runtimeconfig", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

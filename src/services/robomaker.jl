@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "current_revision_id" => "currentRevisionId", "image_digest" => "imageDigest", "s3_etags" => "s3Etags", "client_request_token" => "clientRequestToken", "tags" => "tags", "application_version" => "applicationVersion", "version_qualifier" => "versionQualifier", "batch_policy" => "batchPolicy", "environment" => "environment", "sources" => "sources", "deployment_config" => "deploymentConfig", "compute" => "compute", "data_sources" => "dataSources", "failure_behavior" => "failureBehavior", "logging_config" => "loggingConfig", "output_location" => "outputLocation", "robot_applications" => "robotApplications", "simulation_applications" => "simulationApplications", "vpc_config" => "vpcConfig", "rendering_engine" => "renderingEngine", "generation_job" => "generationJob", "template" => "template", "name" => "name", "template_body" => "templateBody", "template_location" => "templateLocation", "world_tags" => "worldTags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "filters", "max_results" => "maxResults", "next_token" => "nextToken", "current_revision_id" => "currentRevisionId", "image_digest" => "imageDigest", "s3_etags" => "s3Etags", "client_request_token" => "clientRequestToken", "tags" => "tags", "application_version" => "applicationVersion", "version_qualifier" => "versionQualifier", "batch_policy" => "batchPolicy", "environment" => "environment", "sources" => "sources", "deployment_config" => "deploymentConfig", "compute" => "compute", "data_sources" => "dataSources", "failure_behavior" => "failureBehavior", "logging_config" => "loggingConfig", "output_location" => "outputLocation", "robot_applications" => "robotApplications", "simulation_applications" => "simulationApplications", "vpc_config" => "vpcConfig", "rendering_engine" => "renderingEngine", "generation_job" => "generationJob", "template" => "template", "name" => "name", "template_body" => "templateBody", "template_location" => "templateLocation", "world_tags" => "worldTags")
 
 """
     batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Deletes one or more worlds in a batch operation.
 
 """
 function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("worlds"=>worlds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -31,7 +31,7 @@ Describes one or more simulation jobs.
 
 """
 function batch_describe_simulation_job(jobs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -45,7 +45,7 @@ Cancels the specified deployment job.
 
 """
 function cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ Cancels the specified simulation job.
 
 """
 function cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ cancelling all of the active simulation jobs created as part of the batch.
 
 """
 function cancel_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ Cancels the specified export job.
 
 """
 function cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ Cancels the specified world generator job.
 
 """
 function cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -127,7 +127,7 @@ accessible.
   job.
 """
 function create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ Creates a fleet, a logical group of robots running the same robot application.
 - `tags`: A map that contains tag keys and tag values that are attached to the fleet.
 """
 function create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ Creates a robot.
 - `tags`: A map that contains tag keys and tag values that are attached to the robot.
 """
 function create_robot(architecture, greengrassGroupId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ Creates a robot application.
   application.
 """
 function create_robot_application(name, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ Creates a version of a robot application.
   application.
 """
 function create_robot_application_version(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -229,7 +229,7 @@ Creates a simulation application.
   application.
 """
 function create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ Creates a simulation application with a specific revision id.
   the simulation application.
 """
 function create_simulation_application_version(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ will no longer be accessible.
   the same VPC. You must provide at least one security group and one subnet ID.
 """
 function create_simulation_job(iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -312,7 +312,7 @@ Creates a world export job.
   job.
 """
 function create_world_export_job(iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -335,7 +335,7 @@ Creates worlds using the specified template.
   generated worlds.
 """
 function create_world_generation_job(template, worldCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ Creates a world template.
 - `template_location`: The location of the world template.
 """
 function create_world_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/createWorldTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -368,7 +368,7 @@ Deletes a fleet.
 
 """
 function delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ Deletes a robot.
 
 """
 function delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +398,7 @@ Deletes a robot application.
 - `application_version`: The version of the robot application to delete.
 """
 function delete_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +414,7 @@ Deletes a simulation application.
 - `application_version`: The version of the simulation application to delete.
 """
 function delete_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -428,7 +428,7 @@ Deletes a world template.
 
 """
 function delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -443,7 +443,7 @@ Deregisters a robot.
 
 """
 function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -457,7 +457,7 @@ Describes a deployment job.
 
 """
 function describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -471,7 +471,7 @@ Describes a fleet.
 
 """
 function describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -485,7 +485,7 @@ Describes a robot.
 
 """
 function describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,7 +501,7 @@ Describes a robot application.
 - `application_version`: The version of the robot application to describe.
 """
 function describe_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ Describes a simulation application.
 - `application_version`: The version of the simulation application to describe.
 """
 function describe_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Describes a simulation job.
 
 """
 function describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ Describes a simulation job batch.
 
 """
 function describe_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -559,7 +559,7 @@ Describes a world.
 
 """
 function describe_world(world; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeWorld", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("world"=>world), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,7 +573,7 @@ Describes a world export job.
 
 """
 function describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -587,7 +587,7 @@ Describes a world generation job.
 
 """
 function describe_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -601,7 +601,7 @@ Describes a world template.
 
 """
 function describe_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/describeWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -615,7 +615,7 @@ Gets the world template body.
 - `template`: The Amazon Resource Name (arn) of the world template.
 """
 function get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/getWorldTemplateBody", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -643,7 +643,7 @@ retrieve specific deployment jobs.
   object's NextToken parameter is set to null.
 """
 function list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listDeploymentJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -670,7 +670,7 @@ Returns a list of fleets. You can optionally provide filters to retrieve specifi
   purposes.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -698,7 +698,7 @@ specific robot applications.
 - `version_qualifier`: The version qualifier of the robot application.
 """
 function list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listRobotApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ Returns a list of robots. You can optionally provide filters to retrieve specifi
   NextToken parameter is set to null.
 """
 function list_robots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listRobots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -752,7 +752,7 @@ specific simulation applications.
 - `version_qualifier`: The version qualifier of the simulation application.
 """
 function list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listSimulationApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -775,7 +775,7 @@ specific simulation batch jobs.
   response object's NextToken parameter is set to null.
 """
 function list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listSimulationJobBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -804,7 +804,7 @@ simulation jobs.
   object's NextToken parameter is set to null.
 """
 function list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listSimulationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -818,7 +818,7 @@ Lists all tags on a AWS RoboMaker resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -842,7 +842,7 @@ Lists world export jobs.
   object's NextToken parameter is set to null.
 """
 function list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listWorldExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +866,7 @@ Lists world generator jobs.
   response object's NextToken parameter is set to null.
 """
 function list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listWorldGenerationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -889,7 +889,7 @@ Lists world templates.
   object's NextToken parameter is set to null.
 """
 function list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listWorldTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -912,7 +912,7 @@ Lists worlds.
   NextToken parameter is set to null.
 """
 function list_worlds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/listWorlds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -927,7 +927,7 @@ Registers a robot with a fleet.
 
 """
 function register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -941,7 +941,7 @@ Restarts a running simulation job.
 
 """
 function restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -963,7 +963,7 @@ SimulationJobRequest objects.
   job batch.
 """
 function start_simulation_job_batch(createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -980,7 +980,7 @@ added after a deployment.
 
 """
 function sync_deployment_job(clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -999,7 +999,7 @@ Restrictions in the AWS Billing and Cost Management User Guide.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1017,7 +1017,7 @@ specify the tag key. To change the tag value of an existing tag key, use  TagRes
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1037,7 +1037,7 @@ Updates a robot application.
 - `sources`: The sources of the robot application.
 """
 function update_robot_application(application, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1060,7 +1060,7 @@ Updates a simulation application.
 - `sources`: The sources of the simulation application.
 """
 function update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1078,6 +1078,6 @@ Updates a world template.
 - `template_location`: The location of the world template.
 """
 function update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return robomaker("POST", "/updateWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

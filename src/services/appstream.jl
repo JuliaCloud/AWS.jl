@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("directory_names" => "DirectoryNames", "max_results" => "MaxResults", "next_token" => "NextToken", "destination_image_description" => "DestinationImageDescription", "attributes_to_delete" => "AttributesToDelete", "compute_capacity" => "ComputeCapacity", "delete_vpc_config" => "DeleteVpcConfig", "description" => "Description", "disconnect_timeout_in_seconds" => "DisconnectTimeoutInSeconds", "display_name" => "DisplayName", "domain_join_info" => "DomainJoinInfo", "enable_default_internet_access" => "EnableDefaultInternetAccess", "iam_role_arn" => "IamRoleArn", "idle_disconnect_timeout_in_seconds" => "IdleDisconnectTimeoutInSeconds", "image_arn" => "ImageArn", "image_name" => "ImageName", "instance_type" => "InstanceType", "max_concurrent_sessions" => "MaxConcurrentSessions", "max_user_duration_in_seconds" => "MaxUserDurationInSeconds", "name" => "Name", "platform" => "Platform", "stream_view" => "StreamView", "usb_device_filter_strings" => "UsbDeviceFilterStrings", "vpc_config" => "VpcConfig", "first_name" => "FirstName", "last_name" => "LastName", "message_action" => "MessageAction", "validity" => "Validity", "launch_parameters" => "LaunchParameters", "tags" => "Tags", "working_directory" => "WorkingDirectory", "authentication_type" => "AuthenticationType", "limit" => "Limit", "user_id" => "UserId", "names" => "Names", "organizational_unit_distinguished_names" => "OrganizationalUnitDistinguishedNames", "service_account_credentials" => "ServiceAccountCredentials", "arns" => "Arns", "fleet_type" => "FleetType", "access_endpoints" => "AccessEndpoints", "appstream_agent_version" => "AppstreamAgentVersion", "app_block_arn" => "AppBlockArn", "icon_s3_location" => "IconS3Location", "launch_path" => "LaunchPath", "shared_aws_account_ids" => "SharedAwsAccountIds", "stack_name" => "StackName", "user_name" => "UserName", "type" => "Type", "dry_run" => "dryRun", "new_image_description" => "newImageDescription", "new_image_display_name" => "newImageDisplayName", "new_image_tags" => "newImageTags", "application_settings" => "ApplicationSettings", "embed_host_domains" => "EmbedHostDomains", "feedback_url" => "FeedbackURL", "redirect_url" => "RedirectURL", "storage_connectors" => "StorageConnectors", "user_settings" => "UserSettings", "application_id" => "ApplicationId", "session_context" => "SessionContext", "delete_storage_connectors" => "DeleteStorageConnectors", "application_arn" => "ApplicationArn", "fleet_name" => "FleetName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("directory_names" => "DirectoryNames", "max_results" => "MaxResults", "next_token" => "NextToken", "destination_image_description" => "DestinationImageDescription", "attributes_to_delete" => "AttributesToDelete", "compute_capacity" => "ComputeCapacity", "delete_vpc_config" => "DeleteVpcConfig", "description" => "Description", "disconnect_timeout_in_seconds" => "DisconnectTimeoutInSeconds", "display_name" => "DisplayName", "domain_join_info" => "DomainJoinInfo", "enable_default_internet_access" => "EnableDefaultInternetAccess", "iam_role_arn" => "IamRoleArn", "idle_disconnect_timeout_in_seconds" => "IdleDisconnectTimeoutInSeconds", "image_arn" => "ImageArn", "image_name" => "ImageName", "instance_type" => "InstanceType", "max_concurrent_sessions" => "MaxConcurrentSessions", "max_user_duration_in_seconds" => "MaxUserDurationInSeconds", "name" => "Name", "platform" => "Platform", "stream_view" => "StreamView", "usb_device_filter_strings" => "UsbDeviceFilterStrings", "vpc_config" => "VpcConfig", "first_name" => "FirstName", "last_name" => "LastName", "message_action" => "MessageAction", "validity" => "Validity", "launch_parameters" => "LaunchParameters", "tags" => "Tags", "working_directory" => "WorkingDirectory", "authentication_type" => "AuthenticationType", "limit" => "Limit", "user_id" => "UserId", "names" => "Names", "organizational_unit_distinguished_names" => "OrganizationalUnitDistinguishedNames", "service_account_credentials" => "ServiceAccountCredentials", "arns" => "Arns", "fleet_type" => "FleetType", "access_endpoints" => "AccessEndpoints", "appstream_agent_version" => "AppstreamAgentVersion", "app_block_arn" => "AppBlockArn", "icon_s3_location" => "IconS3Location", "launch_path" => "LaunchPath", "shared_aws_account_ids" => "SharedAwsAccountIds", "stack_name" => "StackName", "user_name" => "UserName", "type" => "Type", "dry_run" => "dryRun", "new_image_description" => "newImageDescription", "new_image_display_name" => "newImageDisplayName", "new_image_tags" => "newImageTags", "application_settings" => "ApplicationSettings", "embed_host_domains" => "EmbedHostDomains", "feedback_url" => "FeedbackURL", "redirect_url" => "RedirectURL", "storage_connectors" => "StorageConnectors", "user_settings" => "UserSettings", "application_id" => "ApplicationId", "session_context" => "SessionContext", "delete_storage_connectors" => "DeleteStorageConnectors", "application_arn" => "ApplicationArn", "fleet_name" => "FleetName")
 
 """
     associate_application_fleet(application_arn, fleet_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ Elastic fleets.
 
 """
 function associate_application_fleet(ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("AssociateApplicationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,7 @@ Associates the specified fleet with the specified stack.
 
 """
 function associate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("AssociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -49,7 +49,7 @@ assigned to stacks with fleets that are joined to an Active Directory domain.
 
 """
 function batch_associate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("BatchAssociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ Disassociates the specified users from the specified stacks.
 
 """
 function batch_disassociate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("BatchDisassociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ Note that any tags you added to the image will not be copied.
   copied to the destination.
 """
 function copy_image(DestinationImageName, DestinationRegion, SourceImageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ fleets.
 - `tags`: The tags assigned to the app block.
 """
 function create_app_block(Name, SetupScriptDetails, SourceS3Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SetupScriptDetails"=>SetupScriptDetails, "SourceS3Location"=>SourceS3Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ only supported for Elastic fleets.
 - `working_directory`: The working directory of the application.
 """
 function create_application(AppBlockArn, IconS3Location, InstanceFamilies, LaunchPath, Name, Platforms; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppBlockArn"=>AppBlockArn, "IconS3Location"=>IconS3Location, "InstanceFamilies"=>InstanceFamilies, "LaunchPath"=>LaunchPath, "Name"=>Name, "Platforms"=>Platforms), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -166,7 +166,7 @@ domains.
   or image builder to connect to the directory.
 """
 function create_directory_config(DirectoryName, OrganizationalUnitDistinguishedNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ using Always-On or On-Demand.
   two subnets in different availability zones.
 """
 function create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ image. The initial state of the builder is PENDING. When it is ready, the state 
   subnet.
 """
 function create_image_builder(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ Creates a URL to start an image builder streaming session.
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
 function create_image_builder_streaming_url(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateImageBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -377,7 +377,7 @@ fleet, user access policies, and storage configurations.
   streaming sessions. By default, these actions are enabled.
 """
 function create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -403,7 +403,7 @@ A streaming URL enables application streaming to be tested without user setup.
   between 1 and 604800 seconds. The default is 60 seconds.
 """
 function create_streaming_url(FleetName, StackName, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -436,7 +436,7 @@ the Amazon AppStream 2.0 Administration Guide.
   Your Resources in the Amazon AppStream 2.0 Administration Guide.
 """
 function create_updated_image(existingImageName, newImageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateUpdatedImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +447,7 @@ Creates a usage report subscription. Usage reports are generated daily.
 
 """
 function create_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateUsageReportSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -474,7 +474,7 @@ Creates a new user in the user pool.
   email.
 """
 function create_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ Deletes an app block.
 
 """
 function delete_app_block(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteAppBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -502,7 +502,7 @@ Deletes an application.
 
 """
 function delete_application(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ information required to join streaming instances to an Active Directory domain.
 
 """
 function delete_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Deletes the specified fleet.
 
 """
 function delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,7 +546,7 @@ an image, you cannot provision new capacity using the image.
 
 """
 function delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +560,7 @@ Deletes the specified image builder and releases the capacity.
 
 """
 function delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -578,7 +578,7 @@ image.
 
 """
 function delete_image_permissions(Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -594,7 +594,7 @@ made for application streaming sessions for the stack are released.
 
 """
 function delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -605,7 +605,7 @@ Disables usage report generation.
 
 """
 function delete_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteUsageReportSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -620,7 +620,7 @@ Deletes a user from the user pool.
 
 """
 function delete_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -636,7 +636,7 @@ Retrieves a list that describes one or more app blocks.
   operation.
 """
 function describe_app_blocks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeAppBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -654,7 +654,7 @@ ApplicationArn or FleetName must be specified.
   operation.
 """
 function describe_application_fleet_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeApplicationFleetAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -670,7 +670,7 @@ Retrieves a list that describes one or more applications.
   operation.
 """
 function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -691,7 +691,7 @@ returned in the actual response.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeDirectoryConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -707,7 +707,7 @@ provided. Otherwise, all fleets in the account are described.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ names are provided. Otherwise, all image builders in the account are described.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeImageBuilders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -746,7 +746,7 @@ image that you own.
   the image is shared.
 """
 function describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -765,7 +765,7 @@ ARNs are provided. Otherwise, all images in the account are described.
 - `type`: The type of image (public, private, or shared) to describe.
 """
 function describe_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -793,7 +793,7 @@ using a streaming URL.
   authentication type.
 """
 function describe_sessions(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -809,7 +809,7 @@ provided. Otherwise, all stacks in the account are described.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -824,7 +824,7 @@ Retrieves a list that describes one or more usage report subscriptions.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_usage_report_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeUsageReportSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -846,7 +846,7 @@ associated with the stack) and the authentication type for the user
   email addresses are case-sensitive.
 """
 function describe_user_stack_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeUserStackAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -865,7 +865,7 @@ Retrieves a list that describes one or more specified users in the user pool.
   operation. If this value is null, it retrieves the first page.
 """
 function describe_users(AuthenticationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DescribeUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +881,7 @@ they are re-enabled. This action does not delete the user.
 
 """
 function disable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -896,7 +896,7 @@ Disassociates the specified application from the fleet.
 
 """
 function disassociate_application_fleet(ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DisassociateApplicationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationArn"=>ApplicationArn, "FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -911,7 +911,7 @@ Disassociates the specified fleet from the specified stack.
 
 """
 function disassociate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("DisassociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -930,7 +930,7 @@ and open applications from the stacks to which they are assigned.
 
 """
 function enable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("EnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -944,7 +944,7 @@ Immediately stops the specified streaming session.
 
 """
 function expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("ExpireSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -961,7 +961,7 @@ Retrieves the name of the fleet that is associated with the specified stack.
   operation. If this value is null, it retrieves the first page.
 """
 function list_associated_fleets(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("ListAssociatedFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +978,7 @@ Retrieves the name of the stack with which the specified fleet is associated.
   operation. If this value is null, it retrieves the first page.
 """
 function list_associated_stacks(FleetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("ListAssociatedStacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -994,7 +994,7 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1008,7 +1008,7 @@ Starts the specified fleet.
 
 """
 function start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("StartFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1025,7 +1025,7 @@ Starts the specified image builder.
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
 """
 function start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("StartImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1039,7 +1039,7 @@ Stops the specified fleet.
 
 """
 function stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("StopFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1053,7 +1053,7 @@ Stops the specified image builder.
 
 """
 function stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("StopImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1077,7 +1077,7 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1094,7 +1094,7 @@ tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guid
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1119,7 +1119,7 @@ Updates the specified application.
 - `working_directory`: The working directory of the application.
 """
 function update_application(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1140,7 +1140,7 @@ Directory domains.
   or image builder to connect to the directory.
 """
 function update_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UpdateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1234,7 +1234,7 @@ can't update it.
   two subnets in different availability zones.
 """
 function update_fleet(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UpdateFleet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1251,7 +1251,7 @@ Adds or updates permissions for the specified private image.
 
 """
 function update_image_permissions(ImagePermissions, Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UpdateImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1285,6 +1285,6 @@ Updates the specified fields for the specified stack.
   streaming sessions. By default, these actions are enabled.
 """
 function update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appstream("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

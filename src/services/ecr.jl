@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("encryption_configuration" => "encryptionConfiguration", "image_scanning_configuration" => "imageScanningConfiguration", "image_tag_mutability" => "imageTagMutability", "registry_id" => "registryId", "tags" => "tags", "registry_ids" => "registryIds", "lifecycle_policy_text" => "lifecyclePolicyText", "force" => "force", "max_results" => "maxResults", "next_token" => "nextToken", "repository_names" => "repositoryNames", "filter" => "filter", "image_ids" => "imageIds", "image_digest" => "imageDigest", "image_manifest_media_type" => "imageManifestMediaType", "image_tag" => "imageTag", "accepted_media_types" => "acceptedMediaTypes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("encryption_configuration" => "encryptionConfiguration", "image_scanning_configuration" => "imageScanningConfiguration", "image_tag_mutability" => "imageTagMutability", "registry_id" => "registryId", "tags" => "tags", "ecr_repository_prefixes" => "ecrRepositoryPrefixes", "max_results" => "maxResults", "next_token" => "nextToken", "registry_ids" => "registryIds", "lifecycle_policy_text" => "lifecyclePolicyText", "force" => "force", "repository_names" => "repositoryNames", "filter" => "filter", "image_ids" => "imageIds", "image_digest" => "imageDigest", "image_manifest_media_type" => "imageManifestMediaType", "image_tag" => "imageTag", "accepted_media_types" => "acceptedMediaTypes", "rules" => "rules", "scan_type" => "scanType")
 
 """
     batch_check_layer_availability(layer_digests, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ images. In most cases, you should use the docker CLI to pull, tag, and push imag
   is assumed.
 """
 function batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ image's digest in your request.
   assumed.
 """
 function batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -77,8 +77,22 @@ image manifest.
   assumed.
 """
 function batch_get_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("BatchGetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    batch_get_repository_scanning_configuration(repository_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the scanning configuration for one or more repositories.
+
+# Arguments
+- `repository_names`: One or more repository names to get the scanning configuration for.
+
+"""
+function batch_get_repository_scanning_configuration(repositoryNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("BatchGetRepositoryScanningConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryNames"=>repositoryNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -103,8 +117,30 @@ push images.
   to upload layers. If you do not specify a registry, the default registry is assumed.
 """
 function complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_pull_through_cache_rule(ecr_repository_prefix, upstream_registry_url; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a pull through cache rule. A pull through cache rule provides a way to cache images
+from an external public registry in your Amazon ECR private registry.
+
+# Arguments
+- `ecr_repository_prefix`: The repository name prefix to use when caching images from the
+  source registry.
+- `upstream_registry_url`: The registry URL of the upstream public registry to use as the
+  source for the pull through cache rule.
+
+# Keyword Parameters
+- `registry_id`: The Amazon Web Services account ID associated with the registry to create
+  the pull through cache rule for. If you do not specify a registry, the default registry is
+  assumed.
+"""
+function create_pull_through_cache_rule(ecrRepositoryPrefix, upstreamRegistryUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("CreatePullThroughCacheRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ecrRepositoryPrefix"=>ecrRepositoryPrefix, "upstreamRegistryUrl"=>upstreamRegistryUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -128,15 +164,15 @@ Elastic Container Registry User Guide.
   is omitted, the default setting of MUTABLE will be used which will allow image tags to be
   overwritten. If IMMUTABLE is specified, all image tags within the repository will be
   immutable which will prevent them from being overwritten.
-- `registry_id`: The AWS account ID associated with the registry to create the repository.
-  If you do not specify a registry, the default registry is assumed.
+- `registry_id`: The Amazon Web Services account ID associated with the registry to create
+  the repository. If you do not specify a registry, the default registry is assumed.
 - `tags`: The metadata that you apply to the repository to help you categorize and organize
   them. Each tag consists of a key and an optional value, both of which you define. Tag keys
   can have a maximum character length of 128 characters, and tag values can have a maximum
   length of 256 characters.
 """
 function create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,8 +189,27 @@ Deletes the lifecycle policy associated with the specified repository.
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function delete_lifecycle_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_pull_through_cache_rule(ecr_repository_prefix; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a pull through cache rule.
+
+# Arguments
+- `ecr_repository_prefix`: The Amazon ECR repository prefix associated with the pull
+  through cache rule to delete.
+
+# Keyword Parameters
+- `registry_id`: The Amazon Web Services account ID associated with the registry that
+  contains the pull through cache rule. If you do not specify a registry, the default
+  registry is assumed.
+"""
+function delete_pull_through_cache_rule(ecrRepositoryPrefix; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("DeletePullThroughCacheRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ecrRepositoryPrefix"=>ecrRepositoryPrefix), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -164,7 +219,7 @@ Deletes the registry permissions policy.
 
 """
 function delete_registry_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DeleteRegistryPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -184,7 +239,7 @@ in the repository or use the force option to delete the repository.
   is assumed.
 """
 function delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +258,7 @@ Deletes the repository policy associated with the specified repository.
   registry is assumed.
 """
 function delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +276,7 @@ Returns the replication status for a specified image.
   not specify a registry, the default registry is assumed.
 """
 function describe_image_replication_status(imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DescribeImageReplicationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +306,7 @@ Returns the scan findings for the specified image.
   specify a registry, the default registry is assumed.
 """
 function describe_image_scan_findings(imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DescribeImageScanFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -286,8 +341,39 @@ larger image size than the image sizes returned by DescribeImages.
   default registry is assumed.
 """
 function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_pull_through_cache_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the pull through cache rules for a registry.
+
+# Keyword Parameters
+- `ecr_repository_prefixes`: The Amazon ECR repository prefixes associated with the pull
+  through cache rules to return. If no repository prefix value is specified, all pull through
+  cache rules are returned.
+- `max_results`: The maximum number of pull through cache rules returned by
+  DescribePullThroughCacheRulesRequest in paginated output. When this parameter is used,
+  DescribePullThroughCacheRulesRequest only returns maxResults results in a single page along
+  with a nextToken response element. The remaining results of the initial request can be seen
+  by sending another DescribePullThroughCacheRulesRequest request with the returned nextToken
+  value. This value can be between 1 and 1000. If this parameter is not used, then
+  DescribePullThroughCacheRulesRequest returns up to 100 results and a nextToken value, if
+  applicable.
+- `next_token`: The nextToken value returned from a previous paginated
+  DescribePullThroughCacheRulesRequest request where maxResults was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the nextToken value. This value is null when there are no more
+  results to return.
+- `registry_id`: The Amazon Web Services account ID associated with the registry to return
+  the pull through cache rules for. If you do not specify a registry, the default registry is
+  assumed.
+"""
+function describe_pull_through_cache_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("DescribePullThroughCacheRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,7 +384,7 @@ be created or updated with the PutReplicationConfiguration API action.
 
 """
 function describe_registry(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DescribeRegistry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +415,7 @@ Describes image repositories in a registry.
   then all repositories in a registry are described.
 """
 function describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("DescribeRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -350,7 +436,7 @@ Container Registry User Guide.
   the default registry is assumed.
 """
 function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetAuthorizationToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -375,7 +461,7 @@ push images.
   registry is assumed.
 """
 function get_download_url_for_layer(layerDigest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetDownloadUrlForLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigest"=>layerDigest, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +478,7 @@ Retrieves the lifecycle policy for the specified repository.
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_lifecycle_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -427,7 +513,7 @@ Retrieves the results of the lifecycle policy preview request for the specified 
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_lifecycle_policy_preview(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,8 +524,19 @@ Retrieves the permissions policy for a registry.
 
 """
 function get_registry_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetRegistryPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_registry_scanning_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieves the scanning configuration for a registry.
+
+"""
+function get_registry_scanning_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("GetRegistryScanningConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,7 +552,7 @@ Retrieves the repository policy for the specified repository.
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -478,7 +575,7 @@ should use the docker CLI to pull, tag, and push images.
   assumed.
 """
 function initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -513,7 +610,7 @@ filter your results to return only TAGGED images to list all of the tags in your
   default registry is assumed.
 """
 function list_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("ListImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +625,7 @@ List the tags for an Amazon ECR resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -557,7 +654,7 @@ pushing images. In most cases, you should use the docker CLI to pull, tag, and p
   default registry is assumed.
 """
 function put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +676,7 @@ Updates the image scanning configuration for the specified repository.
   do not specify a registry, the default registry is assumed.
 """
 function put_image_scanning_configuration(imageScanningConfiguration, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutImageScanningConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageScanningConfiguration"=>imageScanningConfiguration, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -602,7 +699,7 @@ information, see Image tag mutability in the Amazon Elastic Container Registry U
   specify a registry, the default registry is assumed.
 """
 function put_image_tag_mutability(imageTagMutability, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutImageTagMutability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageTagMutability"=>imageTagMutability, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -622,7 +719,7 @@ see Lifecycle policy template.
   assumed.
 """
 function put_lifecycle_policy(lifecyclePolicyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -641,8 +738,28 @@ Elastic Container Registry User Guide.
 
 """
 function put_registry_policy(policyText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutRegistryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    put_registry_scanning_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates or updates the scanning configuration for your private registry.
+
+# Keyword Parameters
+- `rules`: The scanning rules to use for the registry. A scanning rule is used to determine
+  which repository filters are used and at what frequency scanning will occur.
+- `scan_type`: The scanning type to set for the registry. By default, the BASIC scan type
+  is used. When basic scanning is set, you may specify filters to determine which individual
+  repositories, or all repositories, are scanned when new images are pushed. Alternatively,
+  you can do manual scans of images with basic scanning. When the ENHANCED scan type is set,
+  Amazon Inspector provides automated, continuous scanning of all repositories in your
+  registry.
+"""
+function put_registry_scanning_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ecr("PutRegistryScanningConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -663,7 +780,7 @@ policy. For more information, see PutRegistryPolicy.
 
 """
 function put_replication_configuration(replicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("PutReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfiguration"=>replicationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,7 +805,7 @@ Registry User Guide.
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -709,7 +826,7 @@ information, see Image scanning in the Amazon Elastic Container Registry User Gu
   registry, the default registry is assumed.
 """
 function start_image_scan(imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("StartImageScan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -729,7 +846,7 @@ the results before associating the lifecycle policy with the repository.
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function start_lifecycle_policy_preview(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("StartLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -748,7 +865,7 @@ not changed if they are not specified in the request parameters.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -764,7 +881,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -794,6 +911,6 @@ push images.
   assumed.
 """
 function upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecr("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

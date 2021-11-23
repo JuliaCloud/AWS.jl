@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("auto_scaling_configuration_arn" => "AutoScalingConfigurationArn", "health_check_configuration" => "HealthCheckConfiguration", "instance_configuration" => "InstanceConfiguration", "source_configuration" => "SourceConfiguration", "auto_scaling_configuration_name" => "AutoScalingConfigurationName", "latest_only" => "LatestOnly", "max_results" => "MaxResults", "next_token" => "NextToken", "enable_wwwsubdomain" => "EnableWWWSubdomain", "connection_name" => "ConnectionName", "encryption_configuration" => "EncryptionConfiguration", "tags" => "Tags", "max_concurrency" => "MaxConcurrency", "max_size" => "MaxSize", "min_size" => "MinSize")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("auto_scaling_configuration_arn" => "AutoScalingConfigurationArn", "health_check_configuration" => "HealthCheckConfiguration", "instance_configuration" => "InstanceConfiguration", "source_configuration" => "SourceConfiguration", "auto_scaling_configuration_name" => "AutoScalingConfigurationName", "latest_only" => "LatestOnly", "max_results" => "MaxResults", "next_token" => "NextToken", "enable_wwwsubdomain" => "EnableWWWSubdomain", "connection_name" => "ConnectionName", "encryption_configuration" => "EncryptionConfiguration", "tags" => "Tags", "max_concurrency" => "MaxConcurrency", "max_size" => "MaxSize", "min_size" => "MinSize")
 
 """
     associate_custom_domain(domain_name, service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,7 +30,7 @@ Runner tracks domain validity in a certificate stored in AWS Certificate Manager
   App Runner service in addition to the base domain. Default: true
 """
 function associate_custom_domain(DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("AssociateCustomDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ during peak demand.
   configuration resource. A tag is a key-value pair.
 """
 function create_auto_scaling_configuration(AutoScalingConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("CreateAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationName"=>AutoScalingConfigurationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ through the App Runner console before you can use the connection.
   tag is a key-value pair.
 """
 function create_connection(ConnectionName, ProviderType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName, "ProviderType"=>ProviderType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -127,7 +127,7 @@ the returned OperationId and the ListOperations call to track the operation's pr
   resource. A tag is a key-value pair.
 """
 function create_service(ServiceName, SourceConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "SourceConfiguration"=>SourceConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ or more App Runner services.
 
 """
 function delete_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DeleteAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ services that use this connection. If there are any, the DeleteConnection action
 
 """
 function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -179,7 +179,7 @@ progress.
 
 """
 function delete_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ Return a full description of an App Runner automatic scaling configuration resou
 
 """
 function describe_auto_scaling_configuration(AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DescribeAutoScalingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingConfigurationArn"=>AutoScalingConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ Return a description of custom domain names that are associated with an App Runn
   retrieves the first result page.
 """
 function describe_custom_domains(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DescribeCustomDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ Return a full description of an App Runner service.
 
 """
 function describe_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DescribeService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ certificate deletion for 30 days after a domain is disassociated from your servi
 
 """
 function disassociate_custom_domain(DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("DisassociateCustomDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ each requested name.
   retrieves the first result page.
 """
 function list_auto_scaling_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ListAutoScalingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -303,7 +303,7 @@ account.
   retrieves the first result page.
 """
 function list_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,7 +328,7 @@ list represents the last started operation.
   retrieves the first result page.
 """
 function list_operations(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ListOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ Returns a list of running App Runner services in your Amazon Web Services accoun
   retrieves the first result page.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -363,7 +363,7 @@ of tag key-value pairs.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -381,7 +381,7 @@ ListOperations call to track the operation's progress.
 
 """
 function pause_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("PauseService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +398,7 @@ OperationId and the ListOperations call to track the operation's progress.
 
 """
 function resume_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("ResumeService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ ListOperations call to track the operation's progress.
 
 """
 function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("StartDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ Add tags to, or update the tag values of, an App Runner resource. A tag is a key
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ Remove tags from an App Runner resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,6 +488,6 @@ returned OperationId and the ListOperations call to track the operation's progre
   structure that you include.
 """
 function update_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apprunner("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceArn"=>ServiceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

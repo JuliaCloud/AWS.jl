@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("profile_owner" => "profileOwner", "next_token" => "nextToken", "job_owner" => "jobOwner", "category" => "category", "max_results" => "maxResults", "partner" => "partner", "target" => "target", "profile_version" => "profileVersion", "revision_id" => "revisionId", "is_revoked" => "isRevoked", "job_invoker" => "jobInvoker", "platform_id" => "platformId", "requested_by" => "requestedBy", "signature_expires_after" => "signatureExpiresAfter", "signature_expires_before" => "signatureExpiresBefore", "status" => "status", "include_canceled" => "includeCanceled", "statuses" => "statuses", "overrides" => "overrides", "signature_validity_period" => "signatureValidityPeriod", "signing_material" => "signingMaterial", "signing_parameters" => "signingParameters", "tags" => "tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("profile_owner" => "profileOwner", "next_token" => "nextToken", "job_owner" => "jobOwner", "category" => "category", "max_results" => "maxResults", "partner" => "partner", "target" => "target", "profile_version" => "profileVersion", "revision_id" => "revisionId", "is_revoked" => "isRevoked", "job_invoker" => "jobInvoker", "platform_id" => "platformId", "requested_by" => "requestedBy", "signature_expires_after" => "signatureExpiresAfter", "signature_expires_before" => "signatureExpiresBefore", "status" => "status", "include_canceled" => "includeCanceled", "statuses" => "statuses", "overrides" => "overrides", "signature_validity_period" => "signatureValidityPeriod", "signing_material" => "signingMaterial", "signing_parameters" => "signingParameters", "tags" => "tags")
 
 """
     add_profile_permission(action, principal, profile_name, statement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Adds cross-account permissions to a signing profile.
 - `revision_id`: A unique identifier for the current profile revision.
 """
 function add_profile_permission(action, principal, profileName, statementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ and is deleted two years after cancelation.
 
 """
 function cancel_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("DELETE", "/signing-profiles/$(profileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ jobId value that is returned by the StartSigningJob operation.
 
 """
 function describe_signing_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ Returns information on a specific signing platform.
 
 """
 function get_signing_platform(platformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-platforms/$(platformId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ Returns information on a specific signing profile.
 - `profile_owner`: The AWS account ID of the profile owner.
 """
 function get_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-profiles/$(profileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,7 +101,7 @@ Lists the cross-account permissions associated with a signing profile.
 - `next_token`: String for specifying the next set of paginated results.
 """
 function list_profile_permissions(profileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-profiles/$(profileName)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ nextToken parameter until all of your signing jobs have been returned.
 - `status`: A status value with which to filter your results.
 """
 function list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -160,7 +160,7 @@ returned.
 - `target`: The validation template that is used by the target signing platform.
 """
 function list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-platforms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -186,7 +186,7 @@ returns in the nextToken parameter until all of your signing jobs have been retu
   list.
 """
 function list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/signing-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -200,7 +200,7 @@ Returns a list of the tags associated with a signing profile resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html
 - `tags`: Tags to be associated with the signing profile that is being created.
 """
 function put_signing_profile(platformId, profileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,7 +245,7 @@ Removes cross-account permissions from a signing profile.
 
 """
 function remove_profile_permission(profileName, revisionId, statementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -263,7 +263,7 @@ longer valid.
 - `job_owner`: AWS account ID of the job owner.
 """
 function revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ using the signing profile after an effective start date are no longer valid.
 
 """
 function revoke_signing_profile(effectiveTime, profileName, profileVersion, reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,7 +315,7 @@ http://docs.aws.amazon.com/acm/latest/userguide/
 - `profile_owner`: The AWS account ID of the signing profile owner.
 """
 function start_signing_job(clientRequestToken, destination, profileName, source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,7 +333,7 @@ key-value pair.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -349,6 +349,6 @@ keys.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dry_run" => "DryRun", "control_id" => "ControlId", "home_region" => "HomeRegion", "max_results" => "MaxResults", "next_token" => "NextToken", "target" => "Target")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("dry_run" => "DryRun", "control_id" => "ControlId", "home_region" => "HomeRegion", "max_results" => "MaxResults", "next_token" => "NextToken", "target" => "Target")
 
 """
     create_home_region_control(home_region, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ This API sets up the home region for the calling account only.
   tests whether the caller has permission to make the call.
 """
 function create_home_region_control(HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -43,7 +43,7 @@ This API permits filtering on the ControlId and HomeRegion fields.
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
 function describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -58,6 +58,6 @@ Hub home region.
 
 """
 function get_home_region(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhub_config("GetHomeRegion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

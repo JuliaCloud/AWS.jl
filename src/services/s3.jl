@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("content_md5" => "Content-MD5", "expected_bucket_owner" => "x-amz-expected-bucket-owner", "request_payer" => "x-amz-request-payer", "version_id" => "x-amz-fwd-header-x-amz-version-id", "multipart_upload" => "CompleteMultipartUpload", "continuation_token" => "continuation-token", "bypass_governance_retention" => "x-amz-bypass-governance-retention", "mfa" => "x-amz-mfa", "confirm_remove_self_bucket_access" => "x-amz-confirm-remove-self-bucket-access", "legal_hold" => "LegalHold", "restore_request" => "RestoreRequest", "acl" => "x-amz-acl", "body" => "body", "bucket_key_enabled" => "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled", "cache_control" => "x-amz-fwd-header-Cache-Control", "content_disposition" => "x-amz-fwd-header-Content-Disposition", "content_encoding" => "x-amz-fwd-header-Content-Encoding", "content_language" => "x-amz-fwd-header-Content-Language", "content_length" => "Content-Length", "content_type" => "x-amz-fwd-header-Content-Type", "expires" => "x-amz-fwd-header-Expires", "grant_full_control" => "x-amz-grant-full-control", "grant_read" => "x-amz-grant-read", "grant_read_acp" => "x-amz-grant-read-acp", "grant_write_acp" => "x-amz-grant-write-acp", "metadata" => "x-amz-meta-", "object_lock_legal_hold_status" => "x-amz-fwd-header-x-amz-object-lock-legal-hold", "object_lock_mode" => "x-amz-fwd-header-x-amz-object-lock-mode", "object_lock_retain_until_date" => "x-amz-fwd-header-x-amz-object-lock-retain-until-date", "server_side_encryption" => "x-amz-fwd-header-x-amz-server-side-encryption", "ssecustomer_algorithm" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm", "ssecustomer_key" => "x-amz-server-side-encryption-customer-key", "ssecustomer_key_md5" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5", "ssekmsencryption_context" => "x-amz-server-side-encryption-context", "ssekmskey_id" => "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id", "storage_class" => "x-amz-fwd-header-x-amz-storage-class", "tagging" => "x-amz-tagging", "website_redirect_location" => "x-amz-website-redirect-location", "copy_source_if_match" => "x-amz-copy-source-if-match", "copy_source_if_modified_since" => "x-amz-copy-source-if-modified-since", "copy_source_if_none_match" => "x-amz-copy-source-if-none-match", "copy_source_if_unmodified_since" => "x-amz-copy-source-if-unmodified-since", "copy_source_range" => "x-amz-copy-source-range", "copy_source_ssecustomer_algorithm" => "x-amz-copy-source-server-side-encryption-customer-algorithm", "copy_source_ssecustomer_key" => "x-amz-copy-source-server-side-encryption-customer-key", "copy_source_ssecustomer_key_md5" => "x-amz-copy-source-server-side-encryption-customer-key-MD5", "expected_source_bucket_owner" => "x-amz-source-expected-bucket-owner", "token" => "x-amz-bucket-object-lock-token", "if_match" => "If-Match", "if_modified_since" => "If-Modified-Since", "if_none_match" => "If-None-Match", "if_unmodified_since" => "If-Unmodified-Since", "part_number" => "partNumber", "range" => "Range", "response_cache_control" => "response-cache-control", "response_content_disposition" => "response-content-disposition", "response_content_encoding" => "response-content-encoding", "response_content_language" => "response-content-language", "response_content_type" => "response-content-type", "response_expires" => "response-expires", "object_lock_configuration" => "ObjectLockConfiguration", "max_parts" => "max-parts", "part_number_marker" => "part-number-marker", "request_progress" => "RequestProgress", "scan_range" => "ScanRange", "access_control_policy" => "AccessControlPolicy", "grant_write" => "x-amz-grant-write", "create_bucket_configuration" => "CreateBucketConfiguration", "object_lock_enabled_for_bucket" => "x-amz-bucket-object-lock-enabled", "delimiter" => "delimiter", "encoding_type" => "encoding-type", "key_marker" => "key-marker", "max_uploads" => "max-uploads", "prefix" => "prefix", "upload_id_marker" => "upload-id-marker", "marker" => "marker", "max_keys" => "max-keys", "version_id_marker" => "version-id-marker", "lifecycle_configuration" => "LifecycleConfiguration", "metadata_directive" => "x-amz-metadata-directive", "tagging_directive" => "x-amz-tagging-directive", "fetch_owner" => "fetch-owner", "start_after" => "start-after", "retention" => "Retention", "accept_ranges" => "x-amz-fwd-header-accept-ranges", "content_range" => "x-amz-fwd-header-Content-Range", "delete_marker" => "x-amz-fwd-header-x-amz-delete-marker", "error_code" => "x-amz-fwd-error-code", "error_message" => "x-amz-fwd-error-message", "etag" => "x-amz-fwd-header-ETag", "expiration" => "x-amz-fwd-header-x-amz-expiration", "last_modified" => "x-amz-fwd-header-Last-Modified", "missing_meta" => "x-amz-fwd-header-x-amz-missing-meta", "parts_count" => "x-amz-fwd-header-x-amz-mp-parts-count", "replication_status" => "x-amz-fwd-header-x-amz-replication-status", "request_charged" => "x-amz-fwd-header-x-amz-request-charged", "restore" => "x-amz-fwd-header-x-amz-restore", "status_code" => "x-amz-fwd-status", "tag_count" => "x-amz-fwd-header-x-amz-tagging-count")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("content_md5" => "Content-MD5", "expected_bucket_owner" => "x-amz-expected-bucket-owner", "request_payer" => "x-amz-request-payer", "version_id" => "x-amz-fwd-header-x-amz-version-id", "multipart_upload" => "CompleteMultipartUpload", "continuation_token" => "continuation-token", "bypass_governance_retention" => "x-amz-bypass-governance-retention", "mfa" => "x-amz-mfa", "confirm_remove_self_bucket_access" => "x-amz-confirm-remove-self-bucket-access", "legal_hold" => "LegalHold", "restore_request" => "RestoreRequest", "acl" => "x-amz-acl", "body" => "body", "bucket_key_enabled" => "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled", "cache_control" => "x-amz-fwd-header-Cache-Control", "content_disposition" => "x-amz-fwd-header-Content-Disposition", "content_encoding" => "x-amz-fwd-header-Content-Encoding", "content_language" => "x-amz-fwd-header-Content-Language", "content_length" => "Content-Length", "content_type" => "x-amz-fwd-header-Content-Type", "expires" => "x-amz-fwd-header-Expires", "grant_full_control" => "x-amz-grant-full-control", "grant_read" => "x-amz-grant-read", "grant_read_acp" => "x-amz-grant-read-acp", "grant_write_acp" => "x-amz-grant-write-acp", "metadata" => "x-amz-meta-", "object_lock_legal_hold_status" => "x-amz-fwd-header-x-amz-object-lock-legal-hold", "object_lock_mode" => "x-amz-fwd-header-x-amz-object-lock-mode", "object_lock_retain_until_date" => "x-amz-fwd-header-x-amz-object-lock-retain-until-date", "server_side_encryption" => "x-amz-fwd-header-x-amz-server-side-encryption", "ssecustomer_algorithm" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm", "ssecustomer_key" => "x-amz-server-side-encryption-customer-key", "ssecustomer_key_md5" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5", "ssekmsencryption_context" => "x-amz-server-side-encryption-context", "ssekmskey_id" => "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id", "storage_class" => "x-amz-fwd-header-x-amz-storage-class", "tagging" => "x-amz-tagging", "website_redirect_location" => "x-amz-website-redirect-location", "copy_source_if_match" => "x-amz-copy-source-if-match", "copy_source_if_modified_since" => "x-amz-copy-source-if-modified-since", "copy_source_if_none_match" => "x-amz-copy-source-if-none-match", "copy_source_if_unmodified_since" => "x-amz-copy-source-if-unmodified-since", "copy_source_range" => "x-amz-copy-source-range", "copy_source_ssecustomer_algorithm" => "x-amz-copy-source-server-side-encryption-customer-algorithm", "copy_source_ssecustomer_key" => "x-amz-copy-source-server-side-encryption-customer-key", "copy_source_ssecustomer_key_md5" => "x-amz-copy-source-server-side-encryption-customer-key-MD5", "expected_source_bucket_owner" => "x-amz-source-expected-bucket-owner", "token" => "x-amz-bucket-object-lock-token", "if_match" => "If-Match", "if_modified_since" => "If-Modified-Since", "if_none_match" => "If-None-Match", "if_unmodified_since" => "If-Unmodified-Since", "part_number" => "partNumber", "range" => "Range", "response_cache_control" => "response-cache-control", "response_content_disposition" => "response-content-disposition", "response_content_encoding" => "response-content-encoding", "response_content_language" => "response-content-language", "response_content_type" => "response-content-type", "response_expires" => "response-expires", "object_lock_configuration" => "ObjectLockConfiguration", "max_parts" => "max-parts", "part_number_marker" => "part-number-marker", "request_progress" => "RequestProgress", "scan_range" => "ScanRange", "access_control_policy" => "AccessControlPolicy", "grant_write" => "x-amz-grant-write", "create_bucket_configuration" => "CreateBucketConfiguration", "object_lock_enabled_for_bucket" => "x-amz-bucket-object-lock-enabled", "object_ownership" => "x-amz-object-ownership", "delimiter" => "delimiter", "encoding_type" => "encoding-type", "key_marker" => "key-marker", "max_uploads" => "max-uploads", "prefix" => "prefix", "upload_id_marker" => "upload-id-marker", "marker" => "marker", "max_keys" => "max-keys", "version_id_marker" => "version-id-marker", "lifecycle_configuration" => "LifecycleConfiguration", "skip_destination_validation" => "x-amz-skip-destination-validation", "metadata_directive" => "x-amz-metadata-directive", "tagging_directive" => "x-amz-tagging-directive", "fetch_owner" => "fetch-owner", "start_after" => "start-after", "retention" => "Retention", "accept_ranges" => "x-amz-fwd-header-accept-ranges", "content_range" => "x-amz-fwd-header-Content-Range", "delete_marker" => "x-amz-fwd-header-x-amz-delete-marker", "error_code" => "x-amz-fwd-error-code", "error_message" => "x-amz-fwd-error-message", "etag" => "x-amz-fwd-header-ETag", "expiration" => "x-amz-fwd-header-x-amz-expiration", "last_modified" => "x-amz-fwd-header-Last-Modified", "missing_meta" => "x-amz-fwd-header-x-amz-missing-meta", "parts_count" => "x-amz-fwd-header-x-amz-mp-parts-count", "replication_status" => "x-amz-fwd-header-x-amz-replication-status", "request_charged" => "x-amz-fwd-header-x-amz-request-charged", "restore" => "x-amz-fwd-header-x-amz-restore", "status_code" => "x-amz-fwd-status", "tag_count" => "x-amz-fwd-header-x-amz-tagging-count")
 
 """
     abort_multipart_upload(bucket, key, upload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -44,7 +44,7 @@ ListMultipartUploads
 - `request_payer`:
 """
 function abort_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -66,17 +66,19 @@ white space characters to keep the connection from timing out. Because a request
 after the initial 200 OK response has been sent, it is important that you check the
 response body to determine whether the request succeeded. Note that if
 CompleteMultipartUpload fails, applications should be prepared to retry the failed
-requests. For more information, see Amazon S3 Error Best Practices. For more information
-about multipart uploads, see Uploading Objects Using Multipart Upload. For information
-about permissions required to use the multipart upload API, see Multipart Upload and
-Permissions.  CompleteMultipartUpload has the following special errors:   Error code:
-EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed
-object size. Each part must be at least 5 MB in size, except the last part.   400 Bad
-Request     Error code: InvalidPart    Description: One or more of the specified parts
-could not be found. The part might not have been uploaded, or the specified entity tag
-might not have matched the part's entity tag.   400 Bad Request     Error code:
-InvalidPartOrder    Description: The list of parts was not in ascending order. The parts
-list must be specified in order by part number.   400 Bad Request     Error code:
+requests. For more information, see Amazon S3 Error Best Practices.  You cannot use
+Content-Type: application/x-www-form-urlencoded with Complete Multipart Upload requests.
+Also, if you do not provide a Content-Type header, CompleteMultipartUpload returns a 200 OK
+response.  For more information about multipart uploads, see Uploading Objects Using
+Multipart Upload. For information about permissions required to use the multipart upload
+API, see Multipart Upload and Permissions.  CompleteMultipartUpload has the following
+special errors:   Error code: EntityTooSmall    Description: Your proposed upload is
+smaller than the minimum allowed object size. Each part must be at least 5 MB in size,
+except the last part.   400 Bad Request     Error code: InvalidPart    Description: One or
+more of the specified parts could not be found. The part might not have been uploaded, or
+the specified entity tag might not have matched the part's entity tag.   400 Bad Request
+ Error code: InvalidPartOrder    Description: The list of parts was not in ascending order.
+The parts list must be specified in order by part number.   400 Bad Request     Error code:
 NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID
 might be invalid, or the multipart upload might have been aborted or completed.   404 Not
 Found     The following operations are related to CompleteMultipartUpload:
@@ -106,7 +108,7 @@ ListMultipartUploads
 - `request_payer`:
 """
 function complete_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,21 +172,28 @@ default, all objects are private. Only the owner has full access control. When a
 object, you can grant permissions to individual Amazon Web Services accounts or to
 predefined groups defined by Amazon S3. These permissions are then added to the ACL on the
 object. For more information, see Access Control List (ACL) Overview and Managing ACLs
-Using the REST API.   Storage Class Options  You can use the CopyObject action to change
-the storage class of an object that is already stored in Amazon S3 using the StorageClass
-parameter. For more information, see Storage Classes in the Amazon S3 User Guide.
-Versioning  By default, x-amz-copy-source identifies the current version of an object to
-copy. If the current version is a delete marker, Amazon S3 behaves as if the object was
-deleted. To copy a different version, use the versionId subresource. If you enable
-versioning on the target bucket, Amazon S3 generates a unique version ID for the object
-being copied. This version ID is different from the version ID of the source object. Amazon
-S3 returns the version ID of the copied object in the x-amz-version-id response header in
-the response. If you do not enable versioning or suspend it on the target bucket, the
-version ID that Amazon S3 generates is always null. If the source object's storage class is
-GLACIER, you must restore a copy of this object before you can use it as a source object
-for the copy operation. For more information, see RestoreObject. The following operations
-are related to CopyObject:    PutObject     GetObject    For more information, see Copying
-Objects.
+Using the REST API.  If the bucket that you're copying objects to uses the bucket owner
+enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
+permissions. Buckets that use this setting only accept PUT requests that don't specify an
+ACL or PUT requests that specify bucket owner full control ACLs, such as the
+bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML
+format. For more information, see  Controlling ownership of objects and disabling ACLs in
+the Amazon S3 User Guide.  If your bucket uses the bucket owner enforced setting for Object
+Ownership, all objects written to the bucket by any account will be owned by the bucket
+owner.   Storage Class Options  You can use the CopyObject action to change the storage
+class of an object that is already stored in Amazon S3 using the StorageClass parameter.
+For more information, see Storage Classes in the Amazon S3 User Guide.  Versioning  By
+default, x-amz-copy-source identifies the current version of an object to copy. If the
+current version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy
+a different version, use the versionId subresource. If you enable versioning on the target
+bucket, Amazon S3 generates a unique version ID for the object being copied. This version
+ID is different from the version ID of the source object. Amazon S3 returns the version ID
+of the copied object in the x-amz-version-id response header in the response. If you do not
+enable versioning or suspend it on the target bucket, the version ID that Amazon S3
+generates is always null. If the source object's storage class is GLACIER, you must restore
+a copy of this object before you can use it as a source object for the copy operation. For
+more information, see RestoreObject. The following operations are related to CopyObject:
+PutObject     GetObject    For more information, see Copying Objects.
 
 # Arguments
 - `bucket`: The name of the destination bucket. When using this action with an access
@@ -312,7 +321,7 @@ Objects.
   stores the value of this header in the object metadata.
 """
 function copy_object(Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -334,35 +343,44 @@ Region. Accordingly, the signature calculations in Signature Version 4 must use 
 as the Region, even if the location constraint in the request specifies another Region
 where the bucket is to be created. If you create a bucket in a Region other than US East
 (N. Virginia), your application must be able to handle 307 redirect. For more information,
-see Virtual hosting of buckets.  When creating a bucket using this operation, you can
-optionally specify the accounts or groups that should be granted specific permissions on
-the bucket. There are two ways to grant the appropriate permissions using the request
-headers.   Specify a canned ACL using the x-amz-acl request header. Amazon S3 supports a
-set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of
-grantees and permissions. For more information, see Canned ACL.   Specify access
-permissions explicitly using the x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp,
-x-amz-grant-write-acp, and x-amz-grant-full-control headers. These headers map to the set
-of permissions Amazon S3 supports in an ACL. For more information, see Access control list
-(ACL) overview. You specify each grantee as a type=value pair, where the type is one of the
-following:    id – if the value specified is the canonical user ID of an Amazon Web
-Services account    uri – if you are granting permissions to a predefined group
-emailAddress – if the value specified is the email address of an Amazon Web Services
-account  Using email addresses to specify a grantee is only supported in the following
-Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)    US West
-(Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)
-Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported
-Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General
-Reference.    For example, the following x-amz-grant-read header grants the Amazon Web
-Services accounts identified by account IDs permissions to read object data and its
-metadata:  x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use
-either a canned ACL or specify access permissions explicitly. You cannot do both.
-Permissions  If your CreateBucket request specifies ACL permissions and the ACL is
-public-read, public-read-write, authenticated-read, or if you specify access permissions
-explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl permissions are
-needed. If the ACL the CreateBucket request is private, only s3:CreateBucket permission is
-needed.  If ObjectLockEnabledForBucket is set to true in your CreateBucket request,
+see Virtual hosting of buckets.   Access control lists (ACLs)  When creating a bucket using
+this operation, you can optionally configure the bucket ACL to specify the accounts or
+groups that should be granted specific permissions on the bucket.  If your CreateBucket
+request includes the BucketOwnerEnforced value for the x-amz-object-ownership header, your
+request can either not specify an ACL or specify bucket owner full control ACLs, such as
+the bucket-owner-full-control canned ACL or an equivalent ACL expressed in the XML format.
+For more information, see Controlling object ownership in the Amazon S3 User Guide.  There
+are two ways to grant the appropriate permissions using the request headers.   Specify a
+canned ACL using the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
+known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For
+more information, see Canned ACL.   Specify access permissions explicitly using the
+x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp, and
+x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3
+supports in an ACL. For more information, see Access control list (ACL) overview. You
+specify each grantee as a type=value pair, where the type is one of the following:    id
+– if the value specified is the canonical user ID of an Amazon Web Services account
+uri – if you are granting permissions to a predefined group    emailAddress – if the
+value specified is the email address of an Amazon Web Services account  Using email
+addresses to specify a grantee is only supported in the following Amazon Web Services
+Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
+Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
+South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
+endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
+example, the following x-amz-grant-read header grants the Amazon Web Services accounts
+identified by account IDs permissions to read object data and its metadata:
+x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use either a canned
+ACL or specify access permissions explicitly. You cannot do both.   Permissions  In
+addition to s3:CreateBucket, the following permissions are required when your CreateBucket
+includes specific headers:    ACLs - If your CreateBucket request specifies ACL permissions
+and the ACL is public-read, public-read-write, authenticated-read, or if you specify access
+permissions explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl
+permissions are needed. If the ACL the CreateBucket request is private or doesn't specify
+any ACLs, only s3:CreateBucket permission is needed.     Object Lock - If
+ObjectLockEnabledForBucket is set to true in your CreateBucket request,
 s3:PutBucketObjectLockConfiguration and s3:PutBucketVersioning permissions are required.
-The following operations are related to CreateBucket:    PutObject     DeleteBucket
+S3 Object Ownership - If your CreateBucket request includes the the x-amz-object-ownership
+header, s3:PutBucketOwnershipControls permission is required.   The following operations
+are related to CreateBucket:    PutObject     DeleteBucket
 
 # Arguments
 - `bucket`: The name of the bucket to create.
@@ -379,9 +397,10 @@ The following operations are related to CreateBucket:    PutObject     DeleteBuc
 - `grant_write_acp`: Allows grantee to write the ACL for the applicable bucket.
 - `object_lock_enabled_for_bucket`: Specifies whether you want S3 Object Lock to be enabled
   for the new bucket.
+- `object_ownership`:
 """
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +579,7 @@ ListMultipartUploads
   stores the value of this header in the object metadata.
 """
 function create_multipart_upload(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/$(Bucket)/$(Key)?uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +598,7 @@ CreateBucket     DeleteObject
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -605,7 +624,7 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -626,7 +645,7 @@ see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide.  Related
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?cors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -651,7 +670,7 @@ PutBucketEncryption     GetBucketEncryption
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,18 +680,18 @@ end
 Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to DeleteBucketIntelligentTieringConfiguration include:
-GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
-ListBucketIntelligentTieringConfigurations
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to DeleteBucketIntelligentTieringConfiguration
+include:     GetBucketIntelligentTieringConfiguration
+PutBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -681,7 +700,7 @@ ListBucketIntelligentTieringConfigurations
 
 """
 function delete_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +725,7 @@ related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryCon
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -732,7 +751,7 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -760,7 +779,7 @@ with Amazon CloudWatch
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -782,7 +801,7 @@ DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwners
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?ownershipControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -810,7 +829,7 @@ operations are related to DeleteBucketPolicy     CreateBucket     DeleteObject
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -834,7 +853,7 @@ related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplica
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?replication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -854,7 +873,7 @@ DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +900,7 @@ PutBucketWebsite
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?website", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +951,7 @@ following action is related to DeleteObject:    PutObject
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -967,7 +986,7 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
 - `version_id`: The versionId of the object that the tag-set will be removed from.
 """
 function delete_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1024,7 +1043,7 @@ ListParts     AbortMultipartUpload
 - `request_payer`:
 """
 function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1046,7 +1065,7 @@ DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAcc
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("DELETE", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1076,7 +1095,7 @@ Resources     PutBucketAccelerateConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_accelerate_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?accelerate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1086,8 +1105,11 @@ end
 This implementation of the GET action uses the acl subresource to return the access control
 list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have READ_ACP
 access to the bucket. If READ_ACP permission is granted to the anonymous user, you can
-return the ACL of the bucket without using an authorization header.  Related Resources
-ListObjects
+return the ACL of the bucket without using an authorization header.  If your bucket uses
+the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still
+supported and return the bucket-owner-full-control ACL with the owner being the account
+that created the bucket. For more information, see  Controlling object ownership and
+disabling ACLs in the Amazon S3 User Guide.   Related Resources     ListObjects
 
 # Arguments
 - `bucket`: Specifies the S3 bucket whose ACL is being requested.
@@ -1097,7 +1119,7 @@ ListObjects
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1124,7 +1146,7 @@ PutBucketAnalyticsConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1145,7 +1167,7 @@ GetBucketCors:    PutBucketCors     DeleteBucketCors
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?cors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1172,7 +1194,7 @@ DeleteBucketEncryption
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1182,18 +1204,18 @@ end
 Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to GetBucketIntelligentTieringConfiguration include:
-DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
- ListBucketIntelligentTieringConfigurations
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to GetBucketIntelligentTieringConfiguration include:
+  DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
+   ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -1202,7 +1224,7 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
 
 """
 function get_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1228,7 +1250,7 @@ PutBucketInventoryConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1257,7 +1279,7 @@ GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1289,7 +1311,7 @@ following operations are related to GetBucketLifecycleConfiguration:    GetBucke
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1311,7 +1333,7 @@ CreateBucket
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?location", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1330,7 +1352,7 @@ to GetBucketLogging:    CreateBucket     PutBucketLogging
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1357,7 +1379,7 @@ Metrics with Amazon CloudWatch
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1374,7 +1396,7 @@ end
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1398,7 +1420,7 @@ following action is related to GetBucketNotification:    PutBucketNotification
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_notification_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1407,7 +1429,7 @@ end
 
 Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have
 the s3:GetBucketOwnershipControls permission. For more information about Amazon S3
-permissions, see Specifying Permissions in a Policy.  For information about Amazon S3
+permissions, see Specifying permissions in a policy.  For information about Amazon S3
 Object Ownership, see Using Object Ownership.  The following operations are related to
 GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwnershipControls
 
@@ -1420,7 +1442,7 @@ GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwners
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?ownershipControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1447,7 +1469,7 @@ following action is related to GetBucketPolicy:    GetObject
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1470,7 +1492,7 @@ DeletePublicAccessBlock
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?policyStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1497,7 +1519,7 @@ DeleteBucketReplication
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?replication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1516,7 +1538,7 @@ The following operations are related to GetBucketRequestPayment:    ListObjects
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_request_payment(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?requestPayment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1538,7 +1560,7 @@ associated with the bucket.     The following operations are related to GetBucke
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1560,7 +1582,7 @@ operations are related to GetBucketVersioning:    GetObject     PutObject     De
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?versioning", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1584,7 +1606,7 @@ PutBucketWebsite
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?website", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1630,14 +1652,15 @@ have the s3:ListBucket permission on the bucket, Amazon S3 will return an HTTP s
 404 (\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
 will return an HTTP status code 403 (\"access denied\") error.    Versioning  By default,
 the GET action returns the current version of an object. To return a different version, use
-the versionId subresource.    You need the s3:GetObjectVersion permission to access a
-specific version of an object.    If the current version of the object is a delete marker,
-Amazon S3 behaves as if the object was deleted and includes x-amz-delete-marker: true in
-the response.    For more information about versioning, see PutBucketVersioning.
-Overriding Response Header Values  There are times when you want to override certain
-response header values in a GET response. For example, you might override the
-Content-Disposition response header value in your GET request. You can override values for
-a set of response headers using the following query parameters. These response header
+the versionId subresource.     If you supply a versionId, you need the s3:GetObjectVersion
+permission to access a specific version of an object. If you request a specific version,
+you do not need to have the s3:GetObject permission.    If the current version of the
+object is a delete marker, Amazon S3 behaves as if the object was deleted and includes
+x-amz-delete-marker: true in the response.    For more information about versioning, see
+PutBucketVersioning.   Overriding Response Header Values  There are times when you want to
+override certain response header values in a GET response. For example, you might override
+the Content-Disposition response header value in your GET request. You can override values
+for a set of response headers using the following query parameters. These response header
 values are sent only on a successful request, that is, when status code 200 OK is returned.
 The set of headers you can override using these parameters is a subset of the headers that
 Amazon S3 accepts when you create an object. The response headers that you can override for
@@ -1710,7 +1733,7 @@ ListBuckets     GetObjectAcl
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1720,9 +1743,12 @@ end
 Returns the access control list (ACL) of an object. To use this operation, you must have
 READ_ACP access to the object. This action is not supported by Amazon S3 on Outposts.
 Versioning  By default, GET returns ACL information about the current version of an object.
-To return ACL information about a different version, use the versionId subresource. The
-following operations are related to GetObjectAcl:    GetObject     DeleteObject
-PutObject
+To return ACL information about a different version, use the versionId subresource.  If
+your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to
+read ACLs are still supported and return the bucket-owner-full-control ACL with the owner
+being the account that created the bucket. For more information, see  Controlling object
+ownership and disabling ACLs in the Amazon S3 User Guide.  The following operations are
+related to GetObjectAcl:    GetObject     DeleteObject     PutObject
 
 # Arguments
 - `bucket`: The bucket name that contains the object for which to get the ACL information.
@@ -1741,7 +1767,7 @@ PutObject
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1768,7 +1794,7 @@ action is not supported by Amazon S3 on Outposts.
 - `version_id`: The version ID of the object whose Legal Hold status you want to retrieve.
 """
 function get_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1793,7 +1819,7 @@ bucket. For more information, see Locking Objects.
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?object-lock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1820,7 +1846,7 @@ action is not supported by Amazon S3 on Outposts.
 - `version_id`: The version ID for the object whose retention settings you want to retrieve.
 """
 function get_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1859,7 +1885,7 @@ to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
 - `version_id`: The versionId of the object for which to get the tagging information.
 """
 function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1883,7 +1909,7 @@ on Outposts. The following action is related to GetObjectTorrent:    GetObject
 - `request_payer`:
 """
 function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)?torrent", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1911,7 +1937,7 @@ PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1952,7 +1978,7 @@ Using access points.
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2037,7 +2063,7 @@ error.   The following action is related to HeadObject:    GetObject
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("HEAD", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2070,7 +2096,7 @@ DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function list_bucket_analytics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?analytics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2080,18 +2106,18 @@ end
 Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to ListBucketIntelligentTieringConfigurations include:
-DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
- GetBucketIntelligentTieringConfiguration
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to ListBucketIntelligentTieringConfigurations include:
+    DeleteBucketIntelligentTieringConfiguration
+PutBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -2102,7 +2128,7 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
   request should begin.
 """
 function list_bucket_intelligent_tiering_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?intelligent-tiering", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2137,7 +2163,7 @@ PutBucketInventoryConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function list_bucket_inventory_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?inventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2173,7 +2199,7 @@ GetBucketMetricsConfiguration     DeleteBucketMetricsConfiguration
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function list_bucket_metrics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2184,7 +2210,7 @@ Returns a list of all buckets owned by the authenticated sender of the request.
 
 """
 function list_buckets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2250,7 +2276,7 @@ UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
   specified upload-id-marker.
 """
 function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2293,7 +2319,7 @@ operations are related to ListObjectVersions:    ListObjectsV2     GetObject    
 - `version_id_marker`: Specifies the object version you want to start listing from.
 """
 function list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2338,7 +2364,7 @@ CreateBucket     ListBuckets
   list objects request. Bucket owners need not specify this parameter in their requests.
 """
 function list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2395,7 +2421,7 @@ operations are related to ListObjectsV2:    GetObject     PutObject     CreateBu
   starts listing after this specified key. StartAfter can be any key in the bucket.
 """
 function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)?list-type=2", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2441,7 +2467,7 @@ The following operations are related to ListParts:    CreateMultipartUpload     
 - `request_payer`:
 """
 function list_parts(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2474,7 +2500,7 @@ GetBucketAccelerateConfiguration     CreateBucket
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2488,35 +2514,41 @@ Specify the ACL in the request body   Specify permissions using request headers 
 cannot specify access permission using both the body and the request headers.  Depending on
 your application needs, you may choose to set the ACL on a bucket using either the request
 body or the headers. For example, if you have an existing application that updates a bucket
-ACL using the request body, then you can continue to use that approach.  Access Permissions
- You can set access permissions using one of the following methods:   Specify a canned ACL
-with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as
-canned ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the
-canned ACL name as the value of x-amz-acl. If you use this header, you cannot use other
-access control-specific headers in your request. For more information, see Canned ACL.
-Specify access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
-x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you
-specify explicit access permissions and grantees (Amazon Web Services accounts or Amazon S3
-groups) who will receive the permission. If you use these ACL-specific headers, you cannot
-use the x-amz-acl header to set a canned ACL. These parameters map to the set of
-permissions that Amazon S3 supports in an ACL. For more information, see Access Control
-List (ACL) Overview. You specify each grantee as a type=value pair, where the type is one
-of the following:    id – if the value specified is the canonical user ID of an Amazon
-Web Services account    uri – if you are granting permissions to a predefined group
-emailAddress – if the value specified is the email address of an Amazon Web Services
-account  Using email addresses to specify a grantee is only supported in the following
-Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)    US West
-(Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)
-Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported
-Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General
-Reference.    For example, the following x-amz-grant-write header grants create, overwrite,
-and delete objects permission to LogDelivery group predefined by Amazon S3 and two Amazon
-Web Services accounts identified by their email addresses.  x-amz-grant-write:
-uri=\"http://acs.amazonaws.com/groups/s3/LogDelivery\", id=\"111122223333\",
-id=\"555566667777\"     You can use either a canned ACL or specify access permissions
-explicitly. You cannot do both.  Grantee Values  You can specify the person (grantee) to
-whom you're assigning access rights (using request elements) in the following ways:   By
-the person's ID:  &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+ACL using the request body, then you can continue to use that approach.  If your bucket
+uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no
+longer affect permissions. You must use policies to grant access to your bucket and the
+objects in it. Requests to set ACLs or update ACLs fail and return the
+AccessControlListNotSupported error code. Requests to read ACLs are still supported. For
+more information, see Controlling object ownership in the Amazon S3 User Guide.   Access
+Permissions  You can set access permissions using one of the following methods:   Specify a
+canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
+known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions.
+Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot
+use other access control-specific headers in your request. For more information, see Canned
+ACL.   Specify access permissions explicitly with the x-amz-grant-read,
+x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control headers. When
+using these headers, you specify explicit access permissions and grantees (Amazon Web
+Services accounts or Amazon S3 groups) who will receive the permission. If you use these
+ACL-specific headers, you cannot use the x-amz-acl header to set a canned ACL. These
+parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
+information, see Access Control List (ACL) Overview. You specify each grantee as a
+type=value pair, where the type is one of the following:    id – if the value specified
+is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+permissions to a predefined group    emailAddress – if the value specified is the email
+address of an Amazon Web Services account  Using email addresses to specify a grantee is
+only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
+West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific
+(Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a
+list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the
+Amazon Web Services General Reference.    For example, the following x-amz-grant-write
+header grants create, overwrite, and delete objects permission to LogDelivery group
+predefined by Amazon S3 and two Amazon Web Services accounts identified by their email
+addresses.  x-amz-grant-write: uri=\"http://acs.amazonaws.com/groups/s3/LogDelivery\",
+id=\"111122223333\", id=\"555566667777\"     You can use either a canned ACL or specify
+access permissions explicitly. You cannot do both.  Grantee Values  You can specify the
+person (grantee) to whom you're assigning access rights (using request elements) in the
+following ways:   By the person's ID:  &lt;Grantee
+xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
 and ignored in the request   By URI:  &lt;Grantee
@@ -2557,7 +2589,7 @@ Related Resources     CreateBucket     DeleteBucket     GetObjectAcl
 - `grant_write_acp`: Allows grantee to write the ACL for the applicable bucket.
 """
 function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2599,7 +2631,7 @@ DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2643,7 +2675,7 @@ GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_cors(Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2680,7 +2712,7 @@ GetBucketEncryption     DeleteBucketEncryption
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2691,16 +2723,16 @@ Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can hav
 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage
 class is designed to optimize storage costs by automatically moving data to the most
 cost-effective storage access tier, without performance impact or operational overhead. S3
-Intelligent-Tiering delivers automatic cost savings in two low latency and high throughput
-access tiers. For data that can be accessed asynchronously, you can choose to activate
-automatic archiving capabilities within the S3 Intelligent-Tiering storage class. The S3
+Intelligent-Tiering delivers automatic cost savings in three low latency and high
+throughput access tiers. To get the lowest storage cost on data that can be accessed in
+minutes to hours, you can choose to activate additional archiving capabilities. The S3
 Intelligent-Tiering storage class is the ideal storage class for data with unknown,
 changing, or unpredictable access patterns, independent of object size or retention period.
-If the size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-objects can be stored, but they are always charged at the Frequent Access tier rates in the
-S3 Intelligent-Tiering storage class. For more information, see Storage class for
-automatically optimizing frequently and infrequently accessed objects. Operations related
-to PutBucketIntelligentTieringConfiguration include:
+If the size of an object is less than 128 KB, it is not monitored and not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
+Storage class for automatically optimizing frequently and infrequently accessed objects.
+Operations related to PutBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
  ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering
 enabled on a bucket if you want to automatically move objects stored in the S3
@@ -2720,7 +2752,7 @@ bucket permission to set the configuration on the bucket.
 
 """
 function put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2763,7 +2795,7 @@ configuration on the bucket.       Related Resources     GetBucketInventoryConfi
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2805,7 +2837,7 @@ Managing Access Permissions to your Amazon S3 Resources
 - `lifecycle_configuration`:
 """
 function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2852,7 +2884,7 @@ GetBucketLifecycleConfiguration     DeleteBucketLifecycle
   rules.
 """
 function put_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2864,10 +2896,13 @@ modify the logging parameters. All logs are saved to buckets in the same Amazon 
 Services Region as the source bucket. To set the logging status of a bucket, you must be
 the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You
 use the Grantee request element to grant access to other people. The Permissions request
-element specifies the kind of access the grantee has to the logs.  Grantee Values  You can
-specify the person (grantee) to whom you're assigning access rights (using request
-elements) in the following ways:   By the person's ID:  &lt;Grantee
-xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+element specifies the kind of access the grantee has to the logs.  If the target bucket for
+log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use
+the Grantee request element to grant access to others. Permissions can only be granted
+using policies. For more information, see Permissions for server access log delivery in the
+Amazon S3 User Guide.   Grantee Values  You can specify the person (grantee) to whom you're
+assigning access rights (using request elements) in the following ways:   By the person's
+ID:  &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
 and ignored in the request.   By Email address:   &lt;Grantee
@@ -2880,11 +2915,11 @@ xsi:type=\"Group\"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/
 dUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;    To enable logging, you use LoggingEnabled and
 its children request elements. To disable logging, you use an empty BucketLoggingStatus
 request element:  &lt;BucketLoggingStatus xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\"
-/&gt;  For more information about server access logging, see Server Access Logging.  For
-more information about creating a bucket, see CreateBucket. For more information about
-returning the logging status of a bucket, see GetBucketLogging. The following operations
-are related to PutBucketLogging:    PutObject     DeleteBucket     CreateBucket
-GetBucketLogging
+/&gt;  For more information about server access logging, see Server Access Logging in the
+Amazon S3 User Guide.  For more information about creating a bucket, see CreateBucket. For
+more information about returning the logging status of a bucket, see GetBucketLogging. The
+following operations are related to PutBucketLogging:    PutObject     DeleteBucket
+CreateBucket     GetBucketLogging
 
 # Arguments
 - `bucket`: The name of the bucket for which to set the logging parameters.
@@ -2898,7 +2933,7 @@ GetBucketLogging
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_logging(Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2931,7 +2966,7 @@ HTTP 400 Bad Request
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2952,7 +2987,7 @@ end
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_notification(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2995,9 +3030,11 @@ GetBucketNotificationConfiguration
 # Keyword Parameters
 - `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+- `skip_destination_validation`: Skips validation of Amazon SQS, Amazon SNS, and Lambda
+  destinations. True or false value.
 """
 function put_bucket_notification_configuration(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3006,15 +3043,15 @@ end
 
 Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you
 must have the s3:PutBucketOwnershipControls permission. For more information about Amazon
-S3 permissions, see Specifying Permissions in a Policy.  For information about Amazon S3
-Object Ownership, see Using Object Ownership.  The following operations are related to
+S3 permissions, see Specifying permissions in a policy.  For information about Amazon S3
+Object Ownership, see Using object ownership.  The following operations are related to
 PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwnershipControls
 
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to set.
-- `ownership_controls`: The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that
-  you want to apply to this Amazon S3 bucket.
+- `ownership_controls`: The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred,
+  or ObjectWriter) that you want to apply to this Amazon S3 bucket.
 
 # Keyword Parameters
 - `content_md5`: The MD5 hash of the OwnershipControls request body.  For requests made
@@ -3024,7 +3061,7 @@ PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwners
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_ownership_controls(Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3057,7 +3094,7 @@ related to PutBucketPolicy:    CreateBucket     DeleteBucket
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_policy(Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3110,7 +3147,7 @@ DeleteBucketReplication
 - `token`: A token to allow Object Lock to be enabled for an existing bucket.
 """
 function put_bucket_replication(Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3137,7 +3174,7 @@ PutBucketRequestPayment:    CreateBucket     GetBucketRequestPayment
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_request_payment(Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3182,7 +3219,7 @@ bucket.     The following operations are related to PutBucketTagging:    GetBuck
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_tagging(Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3222,7 +3259,7 @@ Resources     CreateBucket     DeleteBucket     GetBucketVersioning
   value that is displayed on your authentication device.
 """
 function put_bucket_versioning(Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3265,7 +3302,7 @@ Redirect in the Amazon S3 User Guide.
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_bucket_website(Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3299,18 +3336,28 @@ can use headers to grant ACL- based permissions. By default, all objects are pri
 the owner has full access control. When adding a new object, you can grant permissions to
 individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These
 permissions are then added to the ACL on the object. For more information, see Access
-Control List (ACL) Overview and Managing ACLs Using the REST API.   Storage Class Options
-By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
-STANDARD storage class provides high durability and high availability. Depending on
-performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only
-uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3
-User Guide.  Versioning  If you enable versioning for a bucket, Amazon S3 automatically
-generates a unique version ID for the object being stored. Amazon S3 returns this ID in the
-response. When you enable versioning for a bucket, if Amazon S3 receives multiple write
-requests for the same object simultaneously, it stores all of the objects. For more
-information about versioning, see Adding Objects to Versioning Enabled Buckets. For
-information about returning the versioning state of a bucket, see GetBucketVersioning.
-Related Resources     CopyObject     DeleteObject
+Control List (ACL) Overview and Managing ACLs Using the REST API.  If the bucket that
+you're uploading objects to uses the bucket owner enforced setting for S3 Object Ownership,
+ACLs are disabled and no longer affect permissions. Buckets that use this setting only
+accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner
+full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form
+of this ACL expressed in the XML format. PUT requests that contain other ACLs (for example,
+custom grants to certain Amazon Web Services accounts) fail and return a 400 error with the
+error code AccessControlListNotSupported. For more information, see  Controlling ownership
+of objects and disabling ACLs in the Amazon S3 User Guide.  If your bucket uses the bucket
+owner enforced setting for Object Ownership, all objects written to the bucket by any
+account will be owned by the bucket owner.   Storage Class Options  By default, Amazon S3
+uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class
+provides high durability and high availability. Depending on performance needs, you can
+specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage
+Class. For more information, see Storage Classes in the Amazon S3 User Guide.  Versioning
+If you enable versioning for a bucket, Amazon S3 automatically generates a unique version
+ID for the object being stored. Amazon S3 returns this ID in the response. When you enable
+versioning for a bucket, if Amazon S3 receives multiple write requests for the same object
+simultaneously, it stores all of the objects. For more information about versioning, see
+Adding Objects to Versioning Enabled Buckets. For information about returning the
+versioning state of a bucket, see GetBucketVersioning.   Related Resources     CopyObject
+  DeleteObject
 
 # Arguments
 - `bucket`: The bucket name to which the PUT action was initiated.  When using this action
@@ -3412,7 +3459,7 @@ Related Resources     CopyObject     DeleteObject
   Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
 """
 function put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3426,11 +3473,16 @@ Guide. This action is not supported by Amazon S3 on Outposts. Depending on your 
 needs, you can choose to set the ACL on an object using either the request body or the
 headers. For example, if you have an existing application that updates a bucket ACL using
 the request body, you can continue to use that approach. For more information, see Access
-Control List (ACL) Overview in the Amazon S3 User Guide.  Access Permissions  You can set
-access permissions using one of the following methods:   Specify a canned ACL with the
-x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
-ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned
-ACL name as the value of x-amz-acl. If you use this header, you cannot use other access
+Control List (ACL) Overview in the Amazon S3 User Guide.  If your bucket uses the bucket
+owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
+permissions. You must use policies to grant access to your bucket and the objects in it.
+Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error
+code. Requests to read ACLs are still supported. For more information, see Controlling
+object ownership in the Amazon S3 User Guide.   Access Permissions  You can set access
+permissions using one of the following methods:   Specify a canned ACL with the x-amz-acl
+request header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each
+canned ACL has a predefined set of grantees and permissions. Specify the canned ACL name as
+the value of x-amz-acl. If you use this header, you cannot use other access
 control-specific headers in your request. For more information, see Canned ACL.   Specify
 access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
 x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you
@@ -3519,7 +3571,7 @@ versionId subresource.  Related Resources     CopyObject     GetObject
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3551,7 +3603,7 @@ Locking Objects. This action is not supported by Amazon S3 on Outposts.
 - `version_id`: The version ID of the object that you want to place a Legal Hold on.
 """
 function put_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3581,7 +3633,7 @@ existing bucket, contact Amazon Web Services Support.
 - `token`: A token to allow Object Lock to be enabled for an existing bucket.
 """
 function put_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?object-lock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3622,7 +3674,7 @@ permissions are required.
   configuration to.
 """
 function put_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3673,7 +3725,7 @@ InternalError     Cause: The service was unable to apply the provided tag to the
 - `version_id`: The versionId of the object that the tag-set will be added to.
 """
 function put_object_tagging(Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3708,7 +3760,7 @@ GetBucketPolicyStatus     Using Amazon S3 Block Public Access
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function put_public_access_block(Bucket, PublicAccessBlockConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3843,7 +3895,7 @@ Select  in the Amazon S3 User Guide
 - `version_id`: VersionId used to reference a specific version of the object.
 """
 function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/$(Bucket)/$(Key)?restore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3923,7 +3975,7 @@ GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
   Encryption (Using Customer-Provided Encryption Keys.
 """
 function select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4015,7 +4067,7 @@ Found      SOAP Fault Code Prefix: Client       Related Resources     CreateMult
   encryption key was transmitted without error.
 """
 function upload_part(Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4147,7 +4199,7 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   encryption key was transmitted without error.
 """
 function upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4258,6 +4310,6 @@ Lambda functions in the Amazon S3 User Guide.
 - `version_id`: An ID used to reference a specific version of the object.
 """
 function write_get_object_response(x_amz_request_route, x_amz_request_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return s3("POST", "/WriteGetObjectResponse", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-request-route"=>x_amz_request_route, "x-amz-request-token"=>x_amz_request_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

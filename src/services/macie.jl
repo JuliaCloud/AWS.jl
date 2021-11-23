@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("member_account_id" => "memberAccountId", "max_results" => "maxResults", "next_token" => "nextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("member_account_id" => "memberAccountId", "max_results" => "maxResults", "next_token" => "nextToken")
 
 """
     associate_member_account(member_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ Associates a specified AWS account with Amazon Macie Classic as a member account
 
 """
 function associate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("AssociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ Classic for the specified member account.
   you want to associate with Macie Classic.
 """
 function associate_s3_resources(s3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("AssociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3Resources"=>s3Resources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ Removes the specified member account from Amazon Macie Classic.
 
 """
 function disassociate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("DisassociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -77,7 +77,7 @@ member account.
   you want to remove from being monitored by Macie Classic.
 """
 function disassociate_s3_resources(associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("DisassociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associatedS3Resources"=>associatedS3Resources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +96,7 @@ account.
   continue listing data.
 """
 function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ S3 resources associated with Macie Classic for the specified member account.
   data.
 """
 function list_s3_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("ListS3Resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -140,6 +140,6 @@ resources associated with Macie Classic for the specified member account.
   resources' classification types you want to update.
 """
 function update_s3_resources(s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return macie("UpdateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3ResourcesUpdate"=>s3ResourcesUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

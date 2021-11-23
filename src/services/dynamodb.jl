@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("exclusive_start_table_name" => "ExclusiveStartTableName", "limit" => "Limit", "billing_mode" => "BillingMode", "global_secondary_indexes" => "GlobalSecondaryIndexes", "local_secondary_indexes" => "LocalSecondaryIndexes", "provisioned_throughput" => "ProvisionedThroughput", "ssespecification" => "SSESpecification", "stream_specification" => "StreamSpecification", "tags" => "Tags", "client_request_token" => "ClientRequestToken", "return_consumed_capacity" => "ReturnConsumedCapacity", "return_item_collection_metrics" => "ReturnItemCollectionMetrics", "next_token" => "NextToken", "max_results" => "MaxResults", "table_arn" => "TableArn", "billing_mode_override" => "BillingModeOverride", "global_secondary_index_override" => "GlobalSecondaryIndexOverride", "local_secondary_index_override" => "LocalSecondaryIndexOverride", "provisioned_throughput_override" => "ProvisionedThroughputOverride", "ssespecification_override" => "SSESpecificationOverride", "attribute_updates" => "AttributeUpdates", "condition_expression" => "ConditionExpression", "conditional_operator" => "ConditionalOperator", "expected" => "Expected", "expression_attribute_names" => "ExpressionAttributeNames", "expression_attribute_values" => "ExpressionAttributeValues", "return_values" => "ReturnValues", "update_expression" => "UpdateExpression", "global_table_billing_mode" => "GlobalTableBillingMode", "global_table_global_secondary_index_settings_update" => "GlobalTableGlobalSecondaryIndexSettingsUpdate", "global_table_provisioned_write_capacity_auto_scaling_settings_update" => "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate", "global_table_provisioned_write_capacity_units" => "GlobalTableProvisionedWriteCapacityUnits", "replica_settings_update" => "ReplicaSettingsUpdate", "index_name" => "IndexName", "client_token" => "ClientToken", "export_format" => "ExportFormat", "export_time" => "ExportTime", "s3_bucket_owner" => "S3BucketOwner", "s3_prefix" => "S3Prefix", "s3_sse_algorithm" => "S3SseAlgorithm", "s3_sse_kms_key_id" => "S3SseKmsKeyId", "attributes_to_get" => "AttributesToGet", "consistent_read" => "ConsistentRead", "exclusive_start_key" => "ExclusiveStartKey", "filter_expression" => "FilterExpression", "projection_expression" => "ProjectionExpression", "scan_filter" => "ScanFilter", "segment" => "Segment", "select" => "Select", "total_segments" => "TotalSegments", "exclusive_start_global_table_name" => "ExclusiveStartGlobalTableName", "region_name" => "RegionName", "attribute_definitions" => "AttributeDefinitions", "global_secondary_index_updates" => "GlobalSecondaryIndexUpdates", "replica_updates" => "ReplicaUpdates", "provisioned_write_capacity_auto_scaling_update" => "ProvisionedWriteCapacityAutoScalingUpdate", "table_name" => "TableName", "parameters" => "Parameters", "restore_date_time" => "RestoreDateTime", "source_table_arn" => "SourceTableArn", "source_table_name" => "SourceTableName", "use_latest_restorable_time" => "UseLatestRestorableTime", "key_condition_expression" => "KeyConditionExpression", "key_conditions" => "KeyConditions", "query_filter" => "QueryFilter", "scan_index_forward" => "ScanIndexForward", "backup_type" => "BackupType", "exclusive_start_backup_arn" => "ExclusiveStartBackupArn", "time_range_lower_bound" => "TimeRangeLowerBound", "time_range_upper_bound" => "TimeRangeUpperBound")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("exclusive_start_table_name" => "ExclusiveStartTableName", "limit" => "Limit", "billing_mode" => "BillingMode", "global_secondary_indexes" => "GlobalSecondaryIndexes", "local_secondary_indexes" => "LocalSecondaryIndexes", "provisioned_throughput" => "ProvisionedThroughput", "ssespecification" => "SSESpecification", "stream_specification" => "StreamSpecification", "table_class" => "TableClass", "tags" => "Tags", "client_request_token" => "ClientRequestToken", "return_consumed_capacity" => "ReturnConsumedCapacity", "return_item_collection_metrics" => "ReturnItemCollectionMetrics", "next_token" => "NextToken", "max_results" => "MaxResults", "table_arn" => "TableArn", "billing_mode_override" => "BillingModeOverride", "global_secondary_index_override" => "GlobalSecondaryIndexOverride", "local_secondary_index_override" => "LocalSecondaryIndexOverride", "provisioned_throughput_override" => "ProvisionedThroughputOverride", "ssespecification_override" => "SSESpecificationOverride", "attribute_updates" => "AttributeUpdates", "condition_expression" => "ConditionExpression", "conditional_operator" => "ConditionalOperator", "expected" => "Expected", "expression_attribute_names" => "ExpressionAttributeNames", "expression_attribute_values" => "ExpressionAttributeValues", "return_values" => "ReturnValues", "update_expression" => "UpdateExpression", "global_table_billing_mode" => "GlobalTableBillingMode", "global_table_global_secondary_index_settings_update" => "GlobalTableGlobalSecondaryIndexSettingsUpdate", "global_table_provisioned_write_capacity_auto_scaling_settings_update" => "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate", "global_table_provisioned_write_capacity_units" => "GlobalTableProvisionedWriteCapacityUnits", "replica_settings_update" => "ReplicaSettingsUpdate", "index_name" => "IndexName", "client_token" => "ClientToken", "export_format" => "ExportFormat", "export_time" => "ExportTime", "s3_bucket_owner" => "S3BucketOwner", "s3_prefix" => "S3Prefix", "s3_sse_algorithm" => "S3SseAlgorithm", "s3_sse_kms_key_id" => "S3SseKmsKeyId", "attributes_to_get" => "AttributesToGet", "consistent_read" => "ConsistentRead", "exclusive_start_key" => "ExclusiveStartKey", "filter_expression" => "FilterExpression", "projection_expression" => "ProjectionExpression", "scan_filter" => "ScanFilter", "segment" => "Segment", "select" => "Select", "total_segments" => "TotalSegments", "exclusive_start_global_table_name" => "ExclusiveStartGlobalTableName", "region_name" => "RegionName", "attribute_definitions" => "AttributeDefinitions", "global_secondary_index_updates" => "GlobalSecondaryIndexUpdates", "replica_updates" => "ReplicaUpdates", "provisioned_write_capacity_auto_scaling_update" => "ProvisionedWriteCapacityAutoScalingUpdate", "table_name" => "TableName", "parameters" => "Parameters", "restore_date_time" => "RestoreDateTime", "source_table_arn" => "SourceTableArn", "source_table_name" => "SourceTableName", "use_latest_restorable_time" => "UseLatestRestorableTime", "key_condition_expression" => "KeyConditionExpression", "key_conditions" => "KeyConditions", "query_filter" => "QueryFilter", "scan_index_forward" => "ScanIndexForward", "backup_type" => "BackupType", "exclusive_start_backup_arn" => "ExclusiveStartBackupArn", "time_range_lower_bound" => "TimeRangeLowerBound", "time_range_upper_bound" => "TimeRangeUpperBound")
 
 """
     batch_execute_statement(statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,9 +17,11 @@ statements, you cannot mix both in one batch.
 # Arguments
 - `statements`: The list of PartiQL statements representing the batch to run.
 
+# Keyword Parameters
+- `return_consumed_capacity`:
 """
 function batch_execute_statement(Statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +97,7 @@ Working with Tables in the Amazon DynamoDB Developer Guide.
 - `return_consumed_capacity`:
 """
 function batch_get_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("BatchGetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +173,7 @@ size exceeds 16 MB.
   default), no statistics are returned.
 """
 function batch_write_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("BatchWriteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +201,7 @@ write capacity
 
 """
 function create_backup(BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupName"=>BackupName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -232,7 +234,7 @@ write capacity units to matching secondary indexes across your global table.
 
 """
 function create_global_table(GlobalTableName, ReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("CreateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicationGroup"=>ReplicationGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,11 +331,13 @@ status.
   is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was
   modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item
   images of the item are written to the stream.
+- `table_class`: The table class of the new table. Valid values are STANDARD and
+  STANDARD_INFREQUENT_ACCESS.
 - `tags`: A list of key-value pairs to label the table. For more information, see Tagging
   for DynamoDB.
 """
 function create_table(AttributeDefinitions, KeySchema, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeDefinitions"=>AttributeDefinitions, "KeySchema"=>KeySchema, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +352,7 @@ times per second.
 
 """
 function delete_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +425,7 @@ Otherwise, the item is not deleted.
   recognize any values other than NONE or ALL_OLD.
 """
 function delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DeleteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +449,7 @@ on that table goes into the DISABLED state, and the stream is automatically dele
 
 """
 function delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -460,7 +464,7 @@ Describes an existing backup of a table. You can call DescribeBackup at a maximu
 
 """
 function describe_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -482,7 +486,7 @@ time during the last 35 days.  You can call DescribeContinuousBackups at a maxim
 
 """
 function describe_continuous_backups(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -498,7 +502,7 @@ Returns information about contributor insights, for a given table or global seco
 - `index_name`: The name of the global secondary index to describe, if applicable.
 """
 function describe_contributor_insights(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -509,7 +513,7 @@ Returns the regional endpoint information.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -523,7 +527,7 @@ Describes an existing table export.
 
 """
 function describe_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportArn"=>ExportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +543,7 @@ can use DescribeTable instead.
 
 """
 function describe_global_table(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +558,7 @@ Version 2017.11.29 of global tables.
 
 """
 function describe_global_table_settings(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -568,7 +572,7 @@ Returns information about the status of Kinesis streaming.
 
 """
 function describe_kinesis_streaming_destination(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -608,7 +612,7 @@ The DescribeLimits Request element has no content.
 
 """
 function describe_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +631,7 @@ few seconds, and then try the DescribeTable request again.
 
 """
 function describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +646,7 @@ operation only applies to Version 2019.11.21 of global tables.
 
 """
 function describe_table_replica_auto_scaling(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -656,7 +660,7 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 
 """
 function describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -672,7 +676,7 @@ deleting either of the resources.
 
 """
 function disable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +694,7 @@ ACTIVE.
 
 """
 function enable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -709,9 +713,10 @@ using PartiQL.
 - `next_token`: Set this value to get remaining results, if NextToken was returned in the
   statement response.
 - `parameters`: The parameters for the PartiQL statement, if any.
+- `return_consumed_capacity`:
 """
 function execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statement"=>Statement), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -730,9 +735,12 @@ similar manner to ConditionCheck in the TransactWriteItems API.
 # Keyword Parameters
 - `client_request_token`: Set this value to get remaining results, if NextToken was
   returned in the statement response.
+- `return_consumed_capacity`: Determines the level of detail about either provisioned or
+  on-demand throughput consumption that is returned in the response. For more information,
+  see TransactGetItems and TransactWriteItems.
 """
 function execute_transaction(TransactStatements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ExecuteTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactStatements"=>TransactStatements, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -770,7 +778,7 @@ you can export data from any time within the point in time recovery window.
   export data will be stored (if applicable).
 """
 function export_table_to_point_in_time(S3Bucket, TableArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ExportTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -822,7 +830,7 @@ always returns the last updated value.
 - `return_consumed_capacity`:
 """
 function get_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("GetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -853,7 +861,7 @@ ListBackups a maximum of five times per second.
   TimeRangeUpperBound is exclusive.
 """
 function list_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -869,7 +877,7 @@ indexes.
 - `table_name`: The name of the table.
 """
 function list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListContributorInsights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -886,7 +894,7 @@ Lists completed exports within the past 90 days.
 - `table_arn`: The Amazon Resource Name (ARN) associated with the exported table.
 """
 function list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +915,7 @@ applies to Version 2017.11.29 of global tables.
 - `region_name`: Lists the global tables in a specific Region.
 """
 function list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListGlobalTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -925,7 +933,7 @@ output from ListTables is paginated, with each page returning a maximum of 100 t
   the limit is 100.
 """
 function list_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -946,7 +954,7 @@ for DynamoDB in the Amazon DynamoDB Developer Guide.
   page of results.
 """
 function list_tags_of_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("ListTagsOfResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1040,7 +1048,7 @@ Guide.
   operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
 """
 function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("PutItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Item"=>Item, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1219,7 +1227,7 @@ ConsistentRead when querying a global secondary index.
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
 """
 function query(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1249,7 +1257,7 @@ CloudWatch metrics and alarms   Tags   Stream settings   Time to Live (TTL) sett
   table.
 """
 function restore_table_from_backup(BackupArn, TargetTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("RestoreTableFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn, "TargetTableName"=>TargetTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1291,7 +1299,7 @@ settings   Time to Live (TTL) settings   Point in time recovery settings
   LatestRestorableDateTime is typically 5 minutes before the current time.
 """
 function restore_table_to_point_in_time(TargetTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("RestoreTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetTableName"=>TargetTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1433,7 +1441,7 @@ ConsistentRead parameter to true.
   also specify Segment.
 """
 function scan(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("Scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1453,7 +1461,7 @@ DynamoDB Developer Guide.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1482,7 +1490,7 @@ transaction cannot exceed 4 MB.
   is valid.
 """
 function transact_get_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("TransactGetItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1548,7 +1556,7 @@ is a user error, such as an invalid data format.
   (the default), no statistics are returned.
 """
 function transact_write_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("TransactWriteItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1567,7 +1575,7 @@ DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Gu
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1590,7 +1598,7 @@ your table to any point in time during the last 35 days.
 
 """
 function update_continuous_backups(PointInTimeRecoverySpecification, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PointInTimeRecoverySpecification"=>PointInTimeRecoverySpecification, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1612,7 +1620,7 @@ CloudWatch Contributor Insights for DynamoDB for this table.
 - `index_name`: The global secondary index name, if applicable.
 """
 function update_contributor_insights(ContributorInsightsAction, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContributorInsightsAction"=>ContributorInsightsAction, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1637,7 +1645,7 @@ provisioned and maximum write capacity units.
 
 """
 function update_global_table(GlobalTableName, ReplicaUpdates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicaUpdates"=>ReplicaUpdates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1666,7 +1674,7 @@ Updates settings for a global table.
   will be modified.
 """
 function update_global_table_settings(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1784,7 +1792,7 @@ ReturnValues parameter.
   DynamoDB Developer Guide.
 """
 function update_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1831,9 +1839,11 @@ the UpdateTable operation is complete.
 - `stream_specification`: Represents the DynamoDB Streams configuration for the table.  You
   receive a ResourceInUseException if you try to enable a stream on a table that already has
   a stream, or if you try to disable a stream on a table that doesn't have a stream.
+- `table_class`: The table class of the table to be updated. Valid values are STANDARD and
+  STANDARD_INFREQUENT_ACCESS.
 """
 function update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1854,7 +1864,7 @@ to Version 2019.11.21 of global tables.
   will be modified.
 """
 function update_table_replica_auto_scaling(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1885,6 +1895,6 @@ Guide.
 
 """
 function update_time_to_live(TableName, TimeToLiveSpecification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dynamodb("UpdateTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName, "TimeToLiveSpecification"=>TimeToLiveSpecification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "max_results", "next_token" => "next_token", "exclusive_end_time" => "ExclusiveEndTime", "tags" => "Tags", "deletion_protection" => "DeletionProtection", "kms_key" => "KmsKey", "digest_tip_address" => "DigestTipAddress")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "max_results", "next_token" => "next_token", "exclusive_end_time" => "ExclusiveEndTime", "tags" => "Tags", "deletion_protection" => "DeletionProtection", "kms_key" => "KmsKey", "digest_tip_address" => "DigestTipAddress")
 
 """
     cancel_journal_kinesis_stream(name, stream_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ this limit expires.
 
 """
 function cancel_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -75,7 +75,7 @@ Creates a new ledger in your account in the current Region.
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
 function create_ledger(Name, PermissionsMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -91,7 +91,7 @@ disable it by calling the UpdateLedger operation to set the flag to false.
 
 """
 function delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("DELETE", "/ledgers/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -111,7 +111,7 @@ QLDB Developer Guide.
 
 """
 function describe_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ doesn't exist, then throws ResourceNotFoundException.
 
 """
 function describe_journal_s3_export(exportId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -147,7 +147,7 @@ rest settings, and when it was created.
 
 """
 function describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ LimitExceededException.
 
 """
 function export_journal_to_s3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ throws InvalidParameterException.
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
 function get_block(BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -224,7 +224,7 @@ includes a 256-bit hash value and a block address.
 
 """
 function get_digest(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers/$(name)/digest", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -248,7 +248,7 @@ a proof of the specified revision for verification if DigestTipAddress is provid
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
 function get_revision(BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -274,7 +274,7 @@ all the items by calling ListJournalKinesisStreamsForLedger multiple times.
   ListJournalKinesisStreamsForLedger call, you should use that value as input here.
 """
 function list_journal_kinesis_streams_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers/$(name)/journal-kinesis-streams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -295,7 +295,7 @@ see Export job expiration in the Amazon QLDB Developer Guide.
   ListJournalS3Exports call, then you should use that value as input here.
 """
 function list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/journal-s3-exports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ Developer Guide.
   ListJournalS3ExportsForLedger call, then you should use that value as input here.
 """
 function list_journal_s3_exports_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers/$(name)/journal-s3-exports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ retrieve all the items by calling ListLedgers multiple times.
   call, then you should use that value as input here.
 """
 function list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/ledgers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ Returns all tags for a specified Amazon QLDB resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +392,7 @@ Amazon Kinesis Data Streams resource.
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
 function stream_journal_to_kinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -412,7 +412,7 @@ an error.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ tag keys to remove.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -464,7 +464,7 @@ Updates properties on a ledger.
   Guide.
 """
 function update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -495,6 +495,6 @@ QLDB Developer Guide.
 
 """
 function update_ledger_permissions_mode(PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return qldb("PATCH", "/ledgers/$(name)/permissions-mode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsMode"=>PermissionsMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

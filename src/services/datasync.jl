@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "subdirectory" => "Subdirectory", "tags" => "Tags", "mount_options" => "MountOptions", "on_prem_config" => "OnPremConfig", "name" => "Name", "cloud_watch_log_group_arn" => "CloudWatchLogGroupArn", "excludes" => "Excludes", "includes" => "Includes", "options" => "Options", "schedule" => "Schedule", "agent_name" => "AgentName", "security_group_arns" => "SecurityGroupArns", "subnet_arns" => "SubnetArns", "vpc_endpoint_id" => "VpcEndpointId", "domain" => "Domain", "block_size" => "BlockSize", "kerberos_keytab" => "KerberosKeytab", "kerberos_krb5_conf" => "KerberosKrb5Conf", "kerberos_principal" => "KerberosPrincipal", "kms_key_provider_uri" => "KmsKeyProviderUri", "qop_configuration" => "QopConfiguration", "replication_factor" => "ReplicationFactor", "simple_user" => "SimpleUser", "access_key" => "AccessKey", "secret_key" => "SecretKey", "server_port" => "ServerPort", "server_protocol" => "ServerProtocol", "agent_arns" => "AgentArns", "s3_storage_class" => "S3StorageClass", "authentication_type" => "AuthenticationType", "name_nodes" => "NameNodes", "task_arn" => "TaskArn", "password" => "Password", "user" => "User", "override_options" => "OverrideOptions")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "subdirectory" => "Subdirectory", "tags" => "Tags", "mount_options" => "MountOptions", "on_prem_config" => "OnPremConfig", "name" => "Name", "cloud_watch_log_group_arn" => "CloudWatchLogGroupArn", "excludes" => "Excludes", "includes" => "Includes", "options" => "Options", "schedule" => "Schedule", "agent_name" => "AgentName", "security_group_arns" => "SecurityGroupArns", "subnet_arns" => "SubnetArns", "vpc_endpoint_id" => "VpcEndpointId", "domain" => "Domain", "block_size" => "BlockSize", "kerberos_keytab" => "KerberosKeytab", "kerberos_krb5_conf" => "KerberosKrb5Conf", "kerberos_principal" => "KerberosPrincipal", "kms_key_provider_uri" => "KmsKeyProviderUri", "qop_configuration" => "QopConfiguration", "replication_factor" => "ReplicationFactor", "simple_user" => "SimpleUser", "access_key" => "AccessKey", "secret_key" => "SecretKey", "server_port" => "ServerPort", "server_protocol" => "ServerProtocol", "agent_arns" => "AgentArns", "s3_storage_class" => "S3StorageClass", "authentication_type" => "AuthenticationType", "name_nodes" => "NameNodes", "task_arn" => "TaskArn", "password" => "Password", "user" => "User", "override_options" => "OverrideOptions")
 
 """
     cancel_task_execution(task_execution_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ transfer when you start the next task execution.
 
 """
 function cancel_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CancelTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ interruption to your tasks.
   Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
 """
 function create_agent(ActivationKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ Creates an endpoint for an Amazon EFS file system.
   resources. We recommend that you create a name tag for your location.
 """
 function create_location_efs(Ec2Config, EfsFilesystemArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ Creates an endpoint for an Amazon FSx for Windows File Server file system.
   resources. We recommend that you create a name tag for your location.
 """
 function create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -191,7 +191,7 @@ Creates an endpoint for a Hadoop Distributed File System (HDFS).
   The value can be an empty string. We recommend using tags to name your resources.
 """
 function create_location_hdfs(AgentArns, AuthenticationType, NameNodes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "AuthenticationType"=>AuthenticationType, "NameNodes"=>NameNodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -232,7 +232,7 @@ written to.
   The value can be an empty string. We recommend using tags to name your resources.
 """
 function create_location_nfs(OnPremConfig, ServerHostname, Subdirectory; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ self-managed object storage locations, see Creating a location for object storag
   The value can be an empty string. We recommend using tags to name your resources.
 """
 function create_location_object_storage(AgentArns, BucketName, ServerHostname; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -304,7 +304,7 @@ location in the DataSync User Guide.
   The value can be an empty string. We recommend using tags to name your resources.
 """
 function create_location_s3(S3BucketArn, S3Config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -346,7 +346,7 @@ written to.
   The value can be an empty string. We recommend using tags to name your resources.
 """
 function create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,7 +396,7 @@ your destination Region. For more information, see Data Transfer pricing.
   The value can be an empty string.
 """
 function create_task(DestinationLocationArn, SourceLocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("CreateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +414,7 @@ on-premises environment.
 
 """
 function delete_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DeleteAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -428,7 +428,7 @@ Deletes the configuration of a location used by DataSync.
 
 """
 function delete_location(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DeleteLocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -442,7 +442,7 @@ Deletes a task.
 
 """
 function delete_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DeleteTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +458,7 @@ Amazon Resource Name (ARN) of the agent in your request.
 
 """
 function describe_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -472,7 +472,7 @@ Returns metadata, such as the path information about an Amazon EFS location.
 
 """
 function describe_location_efs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ location.
 
 """
 function describe_location_fsx_windows(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -503,7 +503,7 @@ System (HDFS) location.
 
 """
 function describe_location_hdfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ Returns metadata, such as the path information, about an NFS location.
 
 """
 function describe_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -533,7 +533,7 @@ about self-managed object storage locations, see Creating a location for object 
 
 """
 function describe_location_object_storage(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -548,7 +548,7 @@ Returns metadata, such as bucket name, about an Amazon S3 bucket location.
 
 """
 function describe_location_s3(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -562,7 +562,7 @@ Returns metadata, such as the path and user information about an SMB location.
 
 """
 function describe_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,7 +576,7 @@ Returns metadata about a task.
 
 """
 function describe_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,7 +590,7 @@ Returns detailed metadata about a task that is being executed.
 
 """
 function describe_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("DescribeTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ specify in your next request to fetch the next page of agents.
   list of agents.
 """
 function list_agents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("ListAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -632,7 +632,7 @@ the next page of locations.
   list of locations.
 """
 function list_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +650,7 @@ Returns all the tags associated with a specified resource.
   list of locations.
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -666,7 +666,7 @@ Returns a list of executed tasks.
 - `task_arn`: The Amazon Resource Name (ARN) of the task whose tasks you want to list.
 """
 function list_task_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("ListTaskExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -684,7 +684,7 @@ Returns a list of all the tasks.
   list of tasks.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -711,7 +711,7 @@ Components and Terminology topic in the DataSync User Guide.
 - `override_options`:
 """
 function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("StartTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -726,7 +726,7 @@ Applies a key-value pair to an Amazon Web Services resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -741,7 +741,7 @@ Removes a tag from an Amazon Web Services resource.
 
 """
 function untag_resource(Keys, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ Updates the name of an agent.
 - `name`: The name that you want to use to configure the agent.
 """
 function update_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -800,7 +800,7 @@ System cluster.
   data from or write data to the HDFS cluster.
 """
 function update_location_hdfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -834,7 +834,7 @@ NFS.
   Configuration File in the Red Hat Enterprise Linux documentation.
 """
 function update_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -869,7 +869,7 @@ location, see Creating a location for object storage.
   to read data from.
 """
 function update_location_object_storage(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -906,7 +906,7 @@ location for SMB.
   in the SMB share.
 """
 function update_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -935,7 +935,7 @@ Updates the metadata associated with a task.
   execute. The time you specify is UTC time. For more information, see Scheduling your task.
 """
 function update_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -954,6 +954,6 @@ Execution.  The only Option that can be modified by UpdateTaskExecution is  Byte
 
 """
 function update_task_execution(Options, TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return datasync("UpdateTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

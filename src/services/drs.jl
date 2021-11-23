@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "associate_default_security_group" => "associateDefaultSecurityGroup", "bandwidth_throttling" => "bandwidthThrottling", "create_public_ip" => "createPublicIP", "data_plane_routing" => "dataPlaneRouting", "default_large_staging_disk_type" => "defaultLargeStagingDiskType", "ebs_encryption" => "ebsEncryption", "ebs_encryption_key_arn" => "ebsEncryptionKeyArn", "name" => "name", "pit_policy" => "pitPolicy", "replicated_disks" => "replicatedDisks", "replication_server_instance_type" => "replicationServerInstanceType", "replication_servers_security_groups_ids" => "replicationServersSecurityGroupsIDs", "staging_area_subnet_id" => "stagingAreaSubnetId", "staging_area_tags" => "stagingAreaTags", "use_dedicated_replication_server" => "useDedicatedReplicationServer", "tags" => "tags", "filters" => "filters", "order" => "order", "copy_private_ip" => "copyPrivateIp", "copy_tags" => "copyTags", "launch_disposition" => "launchDisposition", "licensing" => "licensing", "target_instance_type_right_sizing_method" => "targetInstanceTypeRightSizingMethod", "arn" => "arn", "is_drill" => "isDrill", "use_private_ip" => "usePrivateIP")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "associate_default_security_group" => "associateDefaultSecurityGroup", "bandwidth_throttling" => "bandwidthThrottling", "create_public_ip" => "createPublicIP", "data_plane_routing" => "dataPlaneRouting", "default_large_staging_disk_type" => "defaultLargeStagingDiskType", "ebs_encryption" => "ebsEncryption", "ebs_encryption_key_arn" => "ebsEncryptionKeyArn", "name" => "name", "pit_policy" => "pitPolicy", "replicated_disks" => "replicatedDisks", "replication_server_instance_type" => "replicationServerInstanceType", "replication_servers_security_groups_ids" => "replicationServersSecurityGroupsIDs", "staging_area_subnet_id" => "stagingAreaSubnetId", "staging_area_tags" => "stagingAreaTags", "use_dedicated_replication_server" => "useDedicatedReplicationServer", "tags" => "tags", "filters" => "filters", "order" => "order", "copy_private_ip" => "copyPrivateIp", "copy_tags" => "copyTags", "launch_disposition" => "launchDisposition", "licensing" => "licensing", "target_instance_type_right_sizing_method" => "targetInstanceTypeRightSizingMethod", "arn" => "arn", "is_drill" => "isDrill", "use_private_ip" => "usePrivateIP")
 
 """
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, pit_policy, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,7 +39,7 @@ Creates a new ReplicationConfigurationTemplate.
   resource.
 """
 function create_replication_configuration_template(associateDefaultSecurityGroup, bandwidthThrottling, createPublicIP, dataPlaneRouting, defaultLargeStagingDiskType, ebsEncryption, pitPolicy, replicationServerInstanceType, replicationServersSecurityGroupsIDs, stagingAreaSubnetId, stagingAreaTags, useDedicatedReplicationServer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/CreateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associateDefaultSecurityGroup"=>associateDefaultSecurityGroup, "bandwidthThrottling"=>bandwidthThrottling, "createPublicIP"=>createPublicIP, "dataPlaneRouting"=>dataPlaneRouting, "defaultLargeStagingDiskType"=>defaultLargeStagingDiskType, "ebsEncryption"=>ebsEncryption, "pitPolicy"=>pitPolicy, "replicationServerInstanceType"=>replicationServerInstanceType, "replicationServersSecurityGroupsIDs"=>replicationServersSecurityGroupsIDs, "stagingAreaSubnetId"=>stagingAreaSubnetId, "stagingAreaTags"=>stagingAreaTags, "useDedicatedReplicationServer"=>useDedicatedReplicationServer), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -53,7 +53,7 @@ Deletes a single Job by ID.
 
 """
 function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ delete it.
 
 """
 function delete_recovery_instance(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DeleteRecoveryInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceID"=>recoveryInstanceID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Deletes a single Replication Configuration Template by ID
 
 """
 function delete_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DeleteReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -98,7 +98,7 @@ Deletes a single Source Server by ID. The Source Server must be disconnected fir
 
 """
 function delete_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DeleteSourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Retrieves a detailed Job log with pagination.
 - `next_token`: The token of the next Job log items to retrieve.
 """
 function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeJobLogItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ available only to *Support* and only used in response to relevant support ticket
 - `next_token`: The token of the next Job to retrieve.
 """
 function describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ Lists all Recovery Instances or multiple Recovery Instances by ID.
 - `next_token`: The token of the next Recovery Instance to retrieve.
 """
 function describe_recovery_instances(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeRecoveryInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ Lists all Recovery Snapshots for a single Source Server.
 - `order`: The sorted ordering by which to return Recovery Snapshots.
 """
 function describe_recovery_snapshots(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeRecoverySnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 - `next_token`: The token of the next Replication Configuration Template to retrieve.
 """
 function describe_replication_configuration_templates(replicationConfigurationTemplateIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeReplicationConfigurationTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateIDs"=>replicationConfigurationTemplateIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -207,7 +207,7 @@ Lists all Source Servers or multiple Source Servers filtered by ID.
 - `next_token`: The token of the next Source Server to retrieve.
 """
 function describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DescribeSourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -230,7 +230,7 @@ nullified.
 
 """
 function disconnect_recovery_instance(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DisconnectRecoveryInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceID"=>recoveryInstanceID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be null
 
 """
 function disconnect_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/DisconnectSourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
 
 """
 function get_failback_replication_configuration(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/GetFailbackReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceID"=>recoveryInstanceID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ Gets a LaunchConfiguration, filtered by Source Server IDs.
 
 """
 function get_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/GetLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -297,7 +297,7 @@ Gets a ReplicationConfiguration, filtered by Source Server ID.
 
 """
 function get_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/GetReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +308,7 @@ Initialize Elastic Disaster Recovery.
 
 """
 function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/InitializeService", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ List all tags for your Elastic Disaster Recovery resources.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ STOPPED state.
 
 """
 function retry_data_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/RetryDataReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -358,7 +358,7 @@ machine, thus completing the failback process.
 - `tags`: The tags to be associated with the failback launch Job.
 """
 function start_failback_launch(recoveryInstanceIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/StartFailbackLaunch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceIDs"=>recoveryInstanceIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ may choose a point in time snapshot to launch from, or use an on demand snapshot
 - `tags`: The tags to be associated with the Recovery Job.
 """
 function start_recovery(sourceServers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/StartRecovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServers"=>sourceServers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ State of the Recovery Instance back to FAILBACK_NOT_STARTED.
 
 """
 function stop_failback(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/StopFailback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceID"=>recoveryInstanceID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -409,7 +409,7 @@ optional value.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -425,7 +425,7 @@ service.
 
 """
 function terminate_recovery_instances(recoveryInstanceIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/TerminateRecoveryInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceIDs"=>recoveryInstanceIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -441,7 +441,7 @@ resources.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ Allows you to update the failback replication configuration of a Recovery Instan
   Instance.
 """
 function update_failback_replication_configuration(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/UpdateFailbackReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recoveryInstanceID"=>recoveryInstanceID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ Updates a LaunchConfiguration by Source Server ID.
   Source Server.
 """
 function update_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/UpdateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -525,7 +525,7 @@ Allows you to update a ReplicationConfiguration by Source Server ID.
   replication staging area.
 """
 function update_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/UpdateReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,6 +561,6 @@ Updates a ReplicationConfigurationTemplate by ID.
   replication staging area.
 """
 function update_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return drs("POST", "/UpdateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

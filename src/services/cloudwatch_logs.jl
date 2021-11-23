@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("policy_name" => "policyName", "sequence_token" => "sequenceToken", "distribution" => "distribution", "role_arn" => "roleArn", "kms_key_id" => "kmsKeyId", "tags" => "tags", "log_group_names" => "logGroupNames", "query_definition_id" => "queryDefinitionId", "policy_document" => "policyDocument", "filter_name_prefix" => "filterNamePrefix", "limit" => "limit", "next_token" => "nextToken", "max_results" => "maxResults", "query_definition_name_prefix" => "queryDefinitionNamePrefix", "destination_prefix" => "destinationPrefix", "log_stream_name_prefix" => "logStreamNamePrefix", "task_name" => "taskName", "destination_name_prefix" => "DestinationNamePrefix", "log_group_name" => "logGroupName", "status" => "status", "end_time" => "endTime", "filter_pattern" => "filterPattern", "interleaved" => "interleaved", "log_stream_names" => "logStreamNames", "start_time" => "startTime", "descending" => "descending", "order_by" => "orderBy", "metric_name" => "metricName", "metric_namespace" => "metricNamespace", "status_code" => "statusCode", "task_id" => "taskId", "time" => "time", "start_from_head" => "startFromHead", "log_group_name_prefix" => "logGroupNamePrefix")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("policy_name" => "policyName", "sequence_token" => "sequenceToken", "distribution" => "distribution", "role_arn" => "roleArn", "kms_key_id" => "kmsKeyId", "tags" => "tags", "log_group_names" => "logGroupNames", "query_definition_id" => "queryDefinitionId", "policy_document" => "policyDocument", "filter_name_prefix" => "filterNamePrefix", "limit" => "limit", "next_token" => "nextToken", "max_results" => "maxResults", "query_definition_name_prefix" => "queryDefinitionNamePrefix", "destination_prefix" => "destinationPrefix", "log_stream_name_prefix" => "logStreamNamePrefix", "task_name" => "taskName", "destination_name_prefix" => "DestinationNamePrefix", "log_group_name" => "logGroupName", "status" => "status", "end_time" => "endTime", "filter_pattern" => "filterPattern", "interleaved" => "interleaved", "log_stream_names" => "logStreamNames", "start_time" => "startTime", "descending" => "descending", "order_by" => "orderBy", "metric_name" => "metricName", "metric_namespace" => "metricNamespace", "status_code" => "statusCode", "task_id" => "taskId", "time" => "time", "start_from_head" => "startFromHead", "log_group_name_prefix" => "logGroupNamePrefix")
 
 """
     associate_kms_key(kms_key_id, log_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,7 +30,7 @@ InvalidParameterException error.
 
 """
 function associate_kms_key(kmsKeyId, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("AssociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("kmsKeyId"=>kmsKeyId, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -44,7 +44,7 @@ Cancels the specified export task. The task must be in the PENDING or RUNNING st
 
 """
 function cancel_export_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,7 +83,7 @@ SSE-KMS is not supported.
 - `task_name`: The name of the export task.
 """
 function create_export_task(destination, from, logGroupName, to; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("CreateExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "from"=>from, "logGroupName"=>logGroupName, "to"=>to), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ information, see Using Symmetric and Asymmetric Keys.
   to control access, see Controlling access to Amazon Web Services resources using tags.
 """
 function create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("CreateLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ and 512 characters long.   The ':' (colon) and '*' (asterisk) characters are not
 
 """
 function create_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("CreateLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -155,7 +155,7 @@ the destination.
 
 """
 function delete_destination(destinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ associated with the log group.
 
 """
 function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -186,7 +186,7 @@ associated with the log stream.
 
 """
 function delete_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ Deletes the specified metric filter.
 
 """
 function delete_metric_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ be able to perform this operation.
 
 """
 function delete_query_definition(queryDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryDefinitionId"=>queryDefinitionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ that policy to put log events to this account.
 - `policy_name`: The name of the policy to be revoked. This parameter is required.
 """
 function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -248,7 +248,7 @@ groups without a retention policy.
 
 """
 function delete_retention_policy(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -263,7 +263,7 @@ Deletes the specified subscription filter.
 
 """
 function delete_subscription_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DeleteSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ Lists all your destinations. The results are ASCII-sorted by destination name.
   from a previous call.)
 """
 function describe_destinations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeDestinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +302,7 @@ based on task ID or task status.
   one export tasks.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeExportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,7 +325,7 @@ using tags.
   from a previous call.)
 """
 function describe_log_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeLogGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ throttled.
   situations might take longer.
 """
 function describe_log_streams(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -385,7 +385,7 @@ by filter name.
   from a previous call.)
 """
 function describe_metric_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeMetricFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -404,7 +404,7 @@ of a specific log group or queries with a certain status.
   values are Cancelled, Complete, Failed, Running, and Scheduled.
 """
 function describe_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -422,7 +422,7 @@ only the query definitions that have names that start with a certain string.
   query definitions that have names that start with the prefix you specify.
 """
 function describe_query_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeQueryDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ Lists the resource policies in this account.
 - `next_token`:
 """
 function describe_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeResourcePolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -460,7 +460,7 @@ filter name.
   from a previous call.)
 """
 function describe_subscription_filters(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DescribeSubscriptionFilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -479,7 +479,7 @@ take effect.
 
 """
 function disassociate_kms_key(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("DisassociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ CloudWatch Logs, and the ID of the PutLogEvents request.
   Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
 """
 function filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("FilterLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,7 +561,7 @@ while there are more log events available through the token.
   time are included. Events with a timestamp earlier than this time are not included.
 """
 function get_log_events(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("GetLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -586,7 +586,7 @@ with the highest percentage.
   since January 1, 1970, 00:00:00 UTC.
 """
 function get_log_group_fields(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("GetLogGroupFields", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ returned within @message.
 
 """
 function get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("GetLogRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logRecordPointer"=>logRecordPointer), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -626,7 +626,7 @@ see the final results.
 
 """
 function get_query_results(queryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -640,7 +640,7 @@ Lists the tags for the specified log group.
 
 """
 function list_tags_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("ListTagsLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ also have the iam:PassRole permission.
 
 """
 function put_destination(destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName, "roleArn"=>roleArn, "targetArn"=>targetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -686,7 +686,7 @@ aws:PrincipalOrgId global key.
 
 """
 function put_destination_policy(accessPolicy, destinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutDestinationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicy"=>accessPolicy, "destinationName"=>destinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -727,7 +727,7 @@ access key ID or secret key.
   calls might be successful or one might be rejected.
 """
 function put_log_events(logEvents, logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logEvents"=>logEvents, "logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ Monitor Your Estimated Amazon Web Services Charges.
 
 """
 function put_metric_filter(filterName, filterPattern, logGroupName, metricTransformations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName, "metricTransformations"=>metricTransformations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ the logs:PutQueryDefinition permission to be able to perform this operation.
   ID for the new query definition and include it in the response to this operation.
 """
 function put_query_definition(name, queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -821,7 +821,7 @@ policies per Amazon Web Services Region.
 - `policy_name`: Name of the new policy. This parameter is required.
 """
 function put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -837,7 +837,7 @@ the number of days for which to retain log events in the specified log group.
 
 """
 function put_retention_policy(logGroupName, retentionInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "retentionInDays"=>retentionInDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -885,7 +885,7 @@ PutSubscriptionFilter operation, you must also have the iam:PassRole permission.
   are working with a logical destination for cross-account delivery.
 """
 function put_subscription_filter(destinationArn, filterName, filterPattern, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("PutSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationArn"=>destinationArn, "filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -919,7 +919,7 @@ of queries.
   but not both.
 """
 function start_query(endTime, queryString, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("StartQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "queryString"=>queryString, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -935,7 +935,7 @@ the operation returns an error indicating that the specified query is not runnin
 
 """
 function stop_query(queryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("StopQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -956,7 +956,7 @@ Amazon Web Services resources using tags.
 
 """
 function tag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("TagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -972,7 +972,7 @@ use this operation to validate the correctness of a metric filter pattern.
 
 """
 function test_metric_filter(filterPattern, logEventMessages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("TestMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterPattern"=>filterPattern, "logEventMessages"=>logEventMessages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -990,6 +990,6 @@ aws:Resource/key-name  or aws:TagKeys condition keys.
 
 """
 function untag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch_logs("UntagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

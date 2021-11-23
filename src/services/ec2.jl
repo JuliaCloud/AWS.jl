@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("auto_placement" => "autoPlacement", "host_recovery" => "HostRecovery", "instance_family" => "InstanceFamily", "instance_type" => "InstanceType", "architecture" => "Architecture", "billing_products" => "BillingProduct", "block_device_mappings" => "BlockDeviceMapping", "boot_mode" => "BootMode", "description" => "Description", "dry_run" => "DryRun", "ena_support" => "enaSupport", "image_location" => "ImageLocation", "kernel_id" => "KernelId", "ramdisk_id" => "RamdiskId", "root_device_name" => "rootDeviceName", "sriov_net_support" => "sriovNetSupport", "virtualization_type" => "virtualizationType", "key_type" => "KeyType", "tag_specifications" => "TagSpecification", "blackhole" => "Blackhole", "transit_gateway_attachment_id" => "TransitGatewayAttachmentId", "filters" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken", "traffic_mirror_filter_ids" => "TrafficMirrorFilterId", "cidr_block" => "CidrBlock", "icmp_type_code" => "Icmp", "ipv6_cidr_block" => "Ipv6CidrBlock", "port_range" => "portRange", "network_insights_path_ids" => "NetworkInsightsPathId", "resource" => "resource", "vpc_ids" => "VpcId", "certificate_arn" => "CertificateArn", "device_name" => "DeviceName", "public_ip" => "PublicIp", "http_endpoint" => "HttpEndpoint", "http_protocol_ipv6" => "HttpProtocolIpv6", "http_put_response_hop_limit" => "HttpPutResponseHopLimit", "http_tokens" => "HttpTokens", "latest" => "Latest", "client_token" => "ClientToken", "deliver_logs_permission_arn" => "DeliverLogsPermissionArn", "destination_options" => "DestinationOptions", "log_destination" => "LogDestination", "log_destination_type" => "LogDestinationType", "log_format" => "LogFormat", "log_group_name" => "LogGroupName", "max_aggregation_interval" => "MaxAggregationInterval", "launch_template_ids" => "LaunchTemplateId", "launch_template_names" => "LaunchTemplateName", "device" => "Device", "force" => "force", "instance_id" => "instanceId", "elastic_gpu_ids" => "ElasticGpuId", "service_id" => "ServiceId", "vpc_endpoint_id" => "VpcEndpointId", "subnet_ids" => "item", "transit_gateway_multicast_domain_id" => "TransitGatewayMulticastDomainId", "transit_gateway_attachment_ids" => "TransitGatewayAttachmentIds", "client_connect_options" => "ClientConnectOptions", "dns_servers" => "DnsServers", "security_group_ids" => "SecurityGroupId", "self_service_portal" => "SelfServicePortal", "split_tunnel" => "SplitTunnel", "transport_protocol" => "TransportProtocol", "vpc_id" => "VpcId", "vpn_port" => "VpnPort", "association_ids" => "AssociationId", "connection_notification_id" => "ConnectionNotificationId", "context" => "Context", "excess_capacity_termination_policy" => "ExcessCapacityTerminationPolicy", "launch_template_configs" => "LaunchTemplateConfig", "target_capacity_specification" => "TargetCapacitySpecification", "key_name" => "KeyName", "key_pair_id" => "KeyPairId", "allocation_strategy" => "AllocationStrategy", "end_date" => "EndDate", "instance_match_criteria" => "InstanceMatchCriteria", "tenancy" => "tenancy", "filter" => "filter", "nat_gateway_ids" => "NatGatewayId", "bgp_options" => "BgpOptions", "transit_gateway_address" => "TransitGatewayAddress", "destination_outpost_arn" => "DestinationOutpostArn", "encrypted" => "encrypted", "kms_key_id" => "kmsKeyId", "internet_gateway_ids" => "internetGatewayId", "export_image_task_ids" => "ExportImageTaskId", "replace_root_volume_task_ids" => "ReplaceRootVolumeTaskId", "wake_up" => "WakeUp", "allocation_ids" => "AllocationId", "public_ips" => "publicIp", "ipv4_prefixes" => "Ipv4Prefix", "private_ip_addresses" => "privateIpAddress", "launch_template_id" => "LaunchTemplateId", "launch_template_name" => "LaunchTemplateName", "scheduled_instance_ids" => "ScheduledInstanceId", "slot_start_time_range" => "SlotStartTimeRange", "options" => "Options", "target_configurations" => "TargetConfiguration", "version_description" => "VersionDescription", "instance_tag_attribute" => "InstanceTagAttribute", "on_demand_target_capacity" => "OnDemandTargetCapacity", "target_capacity" => "targetCapacity", "gre_key" => "GreKey", "vlan_id" => "VlanId", "add_network_services" => "AddNetworkService", "remove_network_services" => "RemoveNetworkService", "carrier_gateway_id" => "CarrierGatewayId", "core_network_arn" => "CoreNetworkArn", "destination_cidr_block" => "destinationCidrBlock", "destination_ipv6_cidr_block" => "destinationIpv6CidrBlock", "destination_prefix_list_id" => "DestinationPrefixListId", "egress_only_internet_gateway_id" => "egressOnlyInternetGatewayId", "gateway_id" => "GatewayId", "local_gateway_id" => "LocalGatewayId", "nat_gateway_id" => "natGatewayId", "network_interface_id" => "networkInterfaceId", "transit_gateway_id" => "TransitGatewayId", "vpc_peering_connection_id" => "vpcPeeringConnectionId", "service_ids" => "ServiceId", "capacity_reservation_fleet_ids" => "CapacityReservationFleetId", "availability_zone" => "availabilityZone", "include_marketplace" => "IncludeMarketplace", "instance_tenancy" => "instanceTenancy", "max_duration" => "MaxDuration", "max_instance_count" => "MaxInstanceCount", "min_duration" => "MinDuration", "offering_class" => "OfferingClass", "offering_type" => "offeringType", "product_description" => "ProductDescription", "reserved_instances_offering_ids" => "ReservedInstancesOfferingId", "logs_storage_location" => "LogsStorageLocation", "name" => "Name", "offering_id" => "OfferingId", "limit_price" => "LimitPrice", "purchase_time" => "PurchaseTime", "local_gateway_virtual_interface_group_ids" => "LocalGatewayVirtualInterfaceGroupId", "traffic_mirror_target_ids" => "TrafficMirrorTargetId", "network_load_balancer_arn" => "NetworkLoadBalancerArn", "carrier_gateway_ids" => "CarrierGatewayId", "executable_users" => "ExecutableBy", "image_ids" => "ImageId", "include_deprecated" => "IncludeDeprecated", "owners" => "Owner", "bundle_ids" => "BundleId", "ipv6_addresses" => "Ipv6Address", "ipv6_prefixes" => "Ipv6Prefix", "availability_zone_group" => "availabilityZoneGroup", "block_duration_minutes" => "blockDurationMinutes", "instance_count" => "InstanceCount", "instance_interruption_behavior" => "InstanceInterruptionBehavior", "launch_group" => "launchGroup", "launch_specification" => "launchSpecification", "spot_price" => "spotPrice", "type" => "Type", "valid_from" => "ValidFrom", "valid_until" => "ValidUntil", "copy_tags_from_source" => "CopyTagsFromSource", "outpost_arn" => "OutpostArn", "traffic_mirror_session_ids" => "TrafficMirrorSessionId", "volume_ids" => "VolumeId", "add_route_table_ids" => "AddRouteTableId", "add_security_group_ids" => "AddSecurityGroupId", "add_subnet_ids" => "item", "policy_document" => "PolicyDocument", "private_dns_enabled" => "PrivateDnsEnabled", "remove_route_table_ids" => "RemoveRouteTableId", "remove_security_group_ids" => "RemoveSecurityGroupId", "remove_subnet_ids" => "item", "reset_policy" => "ResetPolicy", "acceptance_required" => "AcceptanceRequired", "gateway_load_balancer_arns" => "GatewayLoadBalancerArn", "network_load_balancer_arns" => "NetworkLoadBalancerArn", "private_dns_name" => "PrivateDnsName", "flow_log_ids" => "FlowLogId", "default_version" => "SetDefaultVersion", "security_group_rule_ids" => "SecurityGroupRuleId", "end_time" => "endTime", "start_time" => "startTime", "local_gateway_ids" => "LocalGatewayId", "egress_only_internet_gateway_ids" => "EgressOnlyInternetGatewayId", "role_arn" => "RoleArn", "fpga_image_ids" => "FpgaImageId", "availability_zone_id" => "AvailabilityZoneId", "prefix_list_ids" => "PrefixListId", "add_entries" => "AddEntry", "current_version" => "CurrentVersion", "max_entries" => "MaxEntries", "prefix_list_name" => "PrefixListName", "remove_entries" => "RemoveEntry", "local_ipv4_network_cidr" => "LocalIpv4NetworkCidr", "local_ipv6_network_cidr" => "LocalIpv6NetworkCidr", "remote_ipv4_network_cidr" => "RemoteIpv4NetworkCidr", "remote_ipv6_network_cidr" => "RemoteIpv6NetworkCidr", "target_version" => "TargetVersion", "transit_gateway_route_table_ids" => "item", "auto_enable_io" => "AutoEnableIO", "import_task_ids" => "ImportTaskId", "analysis_end_time" => "AnalysisEndTime", "analysis_start_time" => "AnalysisStartTime", "network_insights_analysis_ids" => "NetworkInsightsAnalysisId", "network_insights_path_id" => "NetworkInsightsPathId", "cidr_ip" => "CidrIp", "from_port" => "FromPort", "ip_permissions" => "item", "ip_protocol" => "IpProtocol", "source_security_group_name" => "SourceSecurityGroupName", "source_security_group_owner_id" => "SourceSecurityGroupOwnerId", "to_port" => "ToPort", "source_version" => "SourceVersion", "host_reservation_id_set" => "item", "reserved_instances_id" => "reservedInstancesId", "reserved_instances_listing_id" => "reservedInstancesListingId", "vpn_connection_ids" => "VpnConnectionId", "key_names" => "KeyName", "key_pair_ids" => "KeyPairId", "event_type" => "EventType", "network_acl_ids" => "NetworkAclId", "network_interface_permission_ids" => "NetworkInterfacePermissionId", "pool_ids" => "PoolId", "dhcp_options_ids" => "DhcpOptionsId", "s3_object_tags" => "S3ObjectTag", "force_delete" => "ForceDelete", "currency_code" => "CurrencyCode", "group_ip_address" => "GroupIpAddress", "network_interface_ids" => "item", "cidr_authorization_context" => "CidrAuthorizationContext", "multi_region" => "MultiRegion", "pool_tag_specifications" => "PoolTagSpecification", "publicly_advertisable" => "PubliclyAdvertisable", "attribute" => "Attribute", "launch_permission" => "LaunchPermission", "operation_type" => "OperationType", "organization_arns" => "OrganizationArn", "organizational_unit_arns" => "OrganizationalUnitArn", "product_codes" => "ProductCode", "user_groups" => "UserGroup", "user_ids" => "UserId", "value" => "value", "disk_images" => "diskImage", "group_id" => "GroupId", "group_name" => "GroupName", "security_group_rule_descriptions" => "SecurityGroupRuleDescription", "fleet_ids" => "FleetId", "no_reboot" => "noReboot", "amazon_provided_ipv6_cidr_block" => "amazonProvidedIpv6CidrBlock", "ipv6_cidr_block_network_border_group" => "Ipv6CidrBlockNetworkBorderGroup", "ipv6_pool" => "Ipv6Pool", "resources" => "Resource", "partition_count" => "PartitionCount", "strategy" => "strategy", "attribute_names" => "attributeName", "route_table_ids" => "RouteTableId", "group_ids" => "GroupId", "group_names" => "GroupName", "connection_log_options" => "ConnectionLogOptions", "server_certificate_arn" => "ServerCertificateArn", "instance_ids" => "InstanceId", "transit_gateway_ids" => "item", "vpn_gateway_id" => "VpnGatewayId", "destination_port_range" => "DestinationPortRange", "protocol" => "Protocol", "remove_fields" => "RemoveField", "rule_action" => "RuleAction", "rule_number" => "RuleNumber", "source_cidr_block" => "SourceCidrBlock", "source_port_range" => "SourcePortRange", "traffic_direction" => "TrafficDirection", "allocation_id" => "AllocationId", "connectivity_type" => "ConnectivityType", "customer_gateway_id" => "CustomerGatewayId", "instance_types" => "InstanceType", "disable_api_termination" => "disableApiTermination", "ebs_optimized" => "ebsOptimized", "groups" => "SecurityGroupId", "instance_initiated_shutdown_behavior" => "instanceInitiatedShutdownBehavior", "kernel" => "kernel", "ramdisk" => "ramdisk", "source_dest_check" => "sourceDestCheck", "user_data" => "UserData", "client_data" => "ClientData", "disk_container" => "DiskContainer", "role_name" => "RoleName", "location_type" => "LocationType", "include_all_instances" => "includeAllInstances", "iops" => "Iops", "multi_attach_enabled" => "MultiAttachEnabled", "size" => "Size", "snapshot_id" => "SnapshotId", "throughput" => "Throughput", "volume_type" => "VolumeType", "attachment" => "attachment", "entries" => "Entry", "allow_reassociation" => "allowReassociation", "private_ip_address" => "privateIpAddress", "interface_type" => "InterfaceType", "ipv4_prefix_count" => "Ipv4PrefixCount", "ipv6_address_count" => "Ipv6AddressCount", "ipv6_prefix_count" => "Ipv6PrefixCount", "secondary_private_ip_address_count" => "secondaryPrivateIpAddressCount", "local_gateway_route_table_virtual_interface_group_association_ids" => "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId", "reserved_instances_ids" => "ReservedInstancesId", "peer_owner_id" => "peerOwnerId", "peer_region" => "PeerRegion", "peer_vpc_id" => "peerVpcId", "local_gateway_virtual_interface_ids" => "LocalGatewayVirtualInterfaceId", "host_ids" => "hostId", "capacity_reservation_ids" => "CapacityReservationId", "access_group_id" => "AccessGroupId", "revoke_all_groups" => "RevokeAllGroups", "association_id" => "AssociationId", "filter_in_arns" => "FilterInArn", "create_volume_permission" => "CreateVolumePermission", "vpc_endpoint_ids" => "VpcEndpointId", "connection_id" => "ConnectionId", "username" => "Username", "cancel_reason" => "CancelReason", "import_task_id" => "ImportTaskId", "destination_ip" => "DestinationIp", "destination_port" => "DestinationPort", "source_ip" => "SourceIp", "spot_instance_request_ids" => "SpotInstanceRequestId", "cron_expression" => "CronExpression", "time_ranges" => "TimeRange", "domain_name" => "DomainName", "reason_message" => "reasonMessage", "local_gateway_route_table_vpc_association_ids" => "LocalGatewayRouteTableVpcAssociationId", "enable_dns_hostnames" => "EnableDnsHostnames", "enable_dns_support" => "EnableDnsSupport", "load_permission" => "LoadPermission", "vpc_peering_connection_ids" => "VpcPeeringConnectionId", "packet_length" => "PacketLength", "session_number" => "SessionNumber", "traffic_mirror_filter_id" => "TrafficMirrorFilterId", "traffic_mirror_target_id" => "TrafficMirrorTargetId", "virtual_network_id" => "VirtualNetworkId", "additional_info" => "AdditionalInfo", "local_target" => "LocalTarget", "internet_key_exchange_version" => "InternetKeyExchangeVersion", "prefix" => "prefix", "add_allowed_principals" => "item", "remove_allowed_principals" => "item", "owner_ids" => "Owner", "restorable_by_user_ids" => "RestorableBy", "snapshot_ids" => "SnapshotId", "transit_gateway_multicast_domain_ids" => "item", "instance_event_window_ids" => "InstanceEventWindowId", "customer_gateway_ids" => "CustomerGatewayId", "conversion_task_ids" => "conversionTaskId", "spot_fleet_request_ids" => "spotFleetRequestId", "on_demand_options" => "OnDemandOptions", "replace_unhealthy_instances" => "ReplaceUnhealthyInstances", "spot_options" => "SpotOptions", "terminate_instances_with_expiration" => "TerminateInstancesWithExpiration", "vpc_endpoint_type" => "VpcEndpointType", "subnet_id" => "SubnetId", "add_gateway_load_balancer_arns" => "AddGatewayLoadBalancerArn", "add_network_load_balancer_arns" => "AddNetworkLoadBalancerArn", "remove_gateway_load_balancer_arns" => "RemoveGatewayLoadBalancerArn", "remove_network_load_balancer_arns" => "RemoveNetworkLoadBalancerArn", "remove_private_dns_name" => "RemovePrivateDnsName", "accepter_peering_connection_options" => "AccepterPeeringConnectionOptions", "requester_peering_connection_options" => "RequesterPeeringConnectionOptions", "disk_containers" => "DiskContainer", "hypervisor" => "Hypervisor", "license_specifications" => "LicenseSpecification", "license_type" => "LicenseType", "platform" => "Platform", "usage_operation" => "UsageOperation", "vpn_gateway_ids" => "VpnGatewayId", "address" => "Address", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool", "domain" => "Domain", "network_border_group" => "NetworkBorderGroup", "public_ipv4_pool" => "PublicIpv4Pool", "max_version" => "MaxVersion", "min_version" => "MinVersion", "versions" => "LaunchTemplateVersion", "all_regions" => "AllRegions", "region_names" => "RegionName", "authorize_all_groups" => "AuthorizeAllGroups", "assign_ipv6_address_on_creation" => "AssignIpv6AddressOnCreation", "enable_dns64" => "EnableDns64", "map_customer_owned_ip_on_launch" => "MapCustomerOwnedIpOnLaunch", "map_public_ip_on_launch" => "MapPublicIpOnLaunch", "service_names" => "ServiceName", "target_vpc_subnet_id" => "TargetVpcSubnetId", "all_availability_zones" => "AllAvailabilityZones", "zone_ids" => "ZoneId", "zone_names" => "ZoneName", "amazon_side_asn" => "AmazonSideAsn", "end_date_type" => "EndDateType", "ephemeral_storage" => "EphemeralStorage", "transit_gateway_connect_peer_ids" => "item", "affinity" => "affinity", "host_id" => "hostId", "host_resource_group_arn" => "HostResourceGroupArn", "partition_number" => "PartitionNumber", "hibernate" => "Hibernate", "network_card_index" => "NetworkCardIndex", "reserved_instances_modification_ids" => "ReservedInstancesModificationId", "connection_events" => "item", "connection_notification_arn" => "ConnectionNotificationArn", "local_gateway_route_table_ids" => "LocalGatewayRouteTableId", "capacity_reservation_specification" => "CapacityReservationSpecification", "cpu_options" => "CpuOptions", "credit_specification" => "CreditSpecification", "elastic_gpu_specification" => "item", "elastic_inference_accelerators" => "ElasticInferenceAccelerator", "enclave_options" => "EnclaveOptions", "hibernation_options" => "HibernationOptions", "iam_instance_profile" => "iamInstanceProfile", "image_id" => "ImageId", "instance_market_options" => "InstanceMarketOptions", "launch_template" => "LaunchTemplate", "metadata_options" => "MetadataOptions", "monitoring" => "Monitoring", "network_interfaces" => "networkInterface", "placement" => "Placement", "security_groups" => "SecurityGroup", "accept" => "Accept", "allow_reassignment" => "allowReassignment", "product_descriptions" => "ProductDescription", "export_task_ids" => "exportTaskId", "instance_requirements_with_metadata" => "InstanceRequirementsWithMetadata", "single_availability_zone" => "SingleAvailabilityZone", "target_capacity_unit_type" => "TargetCapacityUnitType", "tags" => "tag", "remove_end_date" => "RemoveEndDate", "total_target_capacity" => "TotalTargetCapacity", "client_vpn_endpoint_ids" => "ClientVpnEndpointId", "aws_account_id" => "AwsAccountId", "aws_service" => "AwsService", "destination_region" => "destinationRegion", "presigned_url" => "presignedUrl", "max_slot_duration_in_hours" => "MaxSlotDurationInHours", "min_slot_duration_in_hours" => "MinSlotDurationInHours")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("auto_placement" => "autoPlacement", "host_recovery" => "HostRecovery", "instance_family" => "InstanceFamily", "instance_type" => "InstanceType", "dry_run" => "DryRun", "architecture" => "Architecture", "billing_products" => "BillingProduct", "block_device_mappings" => "BlockDeviceMapping", "boot_mode" => "BootMode", "description" => "Description", "ena_support" => "enaSupport", "image_location" => "ImageLocation", "kernel_id" => "KernelId", "ramdisk_id" => "RamdiskId", "root_device_name" => "rootDeviceName", "sriov_net_support" => "sriovNetSupport", "virtualization_type" => "virtualizationType", "key_type" => "KeyType", "tag_specifications" => "TagSpecification", "blackhole" => "Blackhole", "transit_gateway_attachment_id" => "TransitGatewayAttachmentId", "filters" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken", "traffic_mirror_filter_ids" => "TrafficMirrorFilterId", "cidr_block" => "CidrBlock", "icmp_type_code" => "Icmp", "ipv6_cidr_block" => "Ipv6CidrBlock", "port_range" => "portRange", "network_insights_path_ids" => "NetworkInsightsPathId", "resource" => "resource", "cidr" => "Cidr", "client_token" => "ClientToken", "disallowed_cidrs" => "DisallowedCidr", "netmask_length" => "NetmaskLength", "preview_next_cidr" => "PreviewNextCidr", "vpc_ids" => "VpcId", "certificate_arn" => "CertificateArn", "device_name" => "DeviceName", "public_ip" => "PublicIp", "operating_regions" => "OperatingRegion", "http_endpoint" => "HttpEndpoint", "http_protocol_ipv6" => "HttpProtocolIpv6", "http_put_response_hop_limit" => "HttpPutResponseHopLimit", "http_tokens" => "HttpTokens", "latest" => "Latest", "deliver_logs_permission_arn" => "DeliverLogsPermissionArn", "destination_options" => "DestinationOptions", "log_destination" => "LogDestination", "log_destination_type" => "LogDestinationType", "log_format" => "LogFormat", "log_group_name" => "LogGroupName", "max_aggregation_interval" => "MaxAggregationInterval", "launch_template_ids" => "LaunchTemplateId", "launch_template_names" => "LaunchTemplateName", "device" => "Device", "force" => "force", "instance_id" => "InstanceId", "elastic_gpu_ids" => "ElasticGpuId", "service_id" => "ServiceId", "vpc_endpoint_id" => "VpcEndpointId", "subnet_ids" => "item", "transit_gateway_multicast_domain_id" => "TransitGatewayMulticastDomainId", "transit_gateway_attachment_ids" => "TransitGatewayAttachmentIds", "client_connect_options" => "ClientConnectOptions", "dns_servers" => "DnsServers", "security_group_ids" => "SecurityGroupId", "self_service_portal" => "SelfServicePortal", "split_tunnel" => "SplitTunnel", "transport_protocol" => "TransportProtocol", "vpc_id" => "VpcId", "vpn_port" => "VpnPort", "association_ids" => "AssociationId", "connection_notification_id" => "ConnectionNotificationId", "context" => "Context", "excess_capacity_termination_policy" => "ExcessCapacityTerminationPolicy", "launch_template_configs" => "LaunchTemplateConfig", "target_capacity_specification" => "TargetCapacitySpecification", "key_name" => "KeyName", "key_pair_id" => "KeyPairId", "allocation_strategy" => "AllocationStrategy", "end_date" => "EndDate", "instance_match_criteria" => "InstanceMatchCriteria", "tenancy" => "tenancy", "filter" => "filter", "nat_gateway_ids" => "NatGatewayId", "bgp_options" => "BgpOptions", "transit_gateway_address" => "TransitGatewayAddress", "destination_outpost_arn" => "DestinationOutpostArn", "encrypted" => "encrypted", "kms_key_id" => "kmsKeyId", "internet_gateway_ids" => "internetGatewayId", "export_image_task_ids" => "ExportImageTaskId", "replace_root_volume_task_ids" => "ReplaceRootVolumeTaskId", "wake_up" => "WakeUp", "allocation_ids" => "AllocationId", "public_ips" => "publicIp", "ipv4_prefixes" => "Ipv4Prefix", "private_ip_addresses" => "privateIpAddress", "launch_template_id" => "LaunchTemplateId", "launch_template_name" => "LaunchTemplateName", "scheduled_instance_ids" => "ScheduledInstanceId", "slot_start_time_range" => "SlotStartTimeRange", "options" => "Options", "target_configurations" => "TargetConfiguration", "version_description" => "VersionDescription", "instance_tag_attribute" => "InstanceTagAttribute", "storage_tier" => "StorageTier", "on_demand_target_capacity" => "OnDemandTargetCapacity", "target_capacity" => "targetCapacity", "gre_key" => "GreKey", "vlan_id" => "VlanId", "add_network_services" => "AddNetworkService", "remove_network_services" => "RemoveNetworkService", "carrier_gateway_id" => "CarrierGatewayId", "core_network_arn" => "CoreNetworkArn", "destination_cidr_block" => "destinationCidrBlock", "destination_ipv6_cidr_block" => "destinationIpv6CidrBlock", "destination_prefix_list_id" => "DestinationPrefixListId", "egress_only_internet_gateway_id" => "egressOnlyInternetGatewayId", "gateway_id" => "GatewayId", "local_gateway_id" => "LocalGatewayId", "nat_gateway_id" => "natGatewayId", "network_interface_id" => "networkInterfaceId", "transit_gateway_id" => "TransitGatewayId", "vpc_peering_connection_id" => "vpcPeeringConnectionId", "service_ids" => "ServiceId", "capacity_reservation_fleet_ids" => "CapacityReservationFleetId", "availability_zone" => "availabilityZone", "include_marketplace" => "IncludeMarketplace", "instance_tenancy" => "instanceTenancy", "max_duration" => "MaxDuration", "max_instance_count" => "MaxInstanceCount", "min_duration" => "MinDuration", "offering_class" => "OfferingClass", "offering_type" => "offeringType", "product_description" => "ProductDescription", "reserved_instances_offering_ids" => "ReservedInstancesOfferingId", "logs_storage_location" => "LogsStorageLocation", "name" => "Name", "offering_id" => "OfferingId", "limit_price" => "LimitPrice", "purchase_time" => "PurchaseTime", "local_gateway_virtual_interface_group_ids" => "LocalGatewayVirtualInterfaceGroupId", "traffic_mirror_target_ids" => "TrafficMirrorTargetId", "network_load_balancer_arn" => "NetworkLoadBalancerArn", "carrier_gateway_ids" => "CarrierGatewayId", "executable_users" => "ExecutableBy", "image_ids" => "ImageId", "include_deprecated" => "IncludeDeprecated", "owners" => "Owner", "address_family" => "AddressFamily", "allocation_default_netmask_length" => "AllocationDefaultNetmaskLength", "allocation_max_netmask_length" => "AllocationMaxNetmaskLength", "allocation_min_netmask_length" => "AllocationMinNetmaskLength", "allocation_resource_tags" => "AllocationResourceTag", "auto_import" => "AutoImport", "aws_service" => "AwsService", "locale" => "Locale", "publicly_advertisable" => "PubliclyAdvertisable", "source_ipam_pool_id" => "SourceIpamPoolId", "bundle_ids" => "BundleId", "ipv6_addresses" => "Ipv6Address", "ipv6_prefixes" => "Ipv6Prefix", "availability_zone_group" => "availabilityZoneGroup", "block_duration_minutes" => "blockDurationMinutes", "instance_count" => "InstanceCount", "instance_interruption_behavior" => "InstanceInterruptionBehavior", "launch_group" => "launchGroup", "launch_specification" => "launchSpecification", "spot_price" => "spotPrice", "type" => "Type", "valid_from" => "ValidFrom", "valid_until" => "ValidUntil", "copy_tags_from_source" => "CopyTagsFromSource", "outpost_arn" => "OutpostArn", "traffic_mirror_session_ids" => "TrafficMirrorSessionId", "add_allocation_resource_tags" => "AddAllocationResourceTag", "clear_allocation_default_netmask_length" => "ClearAllocationDefaultNetmaskLength", "remove_allocation_resource_tags" => "RemoveAllocationResourceTag", "volume_ids" => "VolumeId", "add_route_table_ids" => "AddRouteTableId", "add_security_group_ids" => "AddSecurityGroupId", "add_subnet_ids" => "item", "policy_document" => "PolicyDocument", "private_dns_enabled" => "PrivateDnsEnabled", "remove_route_table_ids" => "RemoveRouteTableId", "remove_security_group_ids" => "RemoveSecurityGroupId", "remove_subnet_ids" => "item", "reset_policy" => "ResetPolicy", "acceptance_required" => "AcceptanceRequired", "gateway_load_balancer_arns" => "GatewayLoadBalancerArn", "network_load_balancer_arns" => "NetworkLoadBalancerArn", "private_dns_name" => "PrivateDnsName", "flow_log_ids" => "FlowLogId", "default_version" => "SetDefaultVersion", "security_group_rule_ids" => "SecurityGroupRuleId", "end_time" => "endTime", "start_time" => "startTime", "local_gateway_ids" => "LocalGatewayId", "egress_only_internet_gateway_ids" => "EgressOnlyInternetGatewayId", "role_arn" => "RoleArn", "fpga_image_ids" => "FpgaImageId", "availability_zone_id" => "AvailabilityZoneId", "ipv6_native" => "Ipv6Native", "prefix_list_ids" => "PrefixListId", "add_entries" => "AddEntry", "current_version" => "CurrentVersion", "max_entries" => "MaxEntries", "prefix_list_name" => "PrefixListName", "remove_entries" => "RemoveEntry", "local_ipv4_network_cidr" => "LocalIpv4NetworkCidr", "local_ipv6_network_cidr" => "LocalIpv6NetworkCidr", "remote_ipv4_network_cidr" => "RemoteIpv4NetworkCidr", "remote_ipv6_network_cidr" => "RemoteIpv6NetworkCidr", "target_version" => "TargetVersion", "transit_gateway_route_table_ids" => "item", "auto_enable_io" => "AutoEnableIO", "import_task_ids" => "ImportTaskId", "analysis_end_time" => "AnalysisEndTime", "analysis_start_time" => "AnalysisStartTime", "network_insights_analysis_ids" => "NetworkInsightsAnalysisId", "network_insights_path_id" => "NetworkInsightsPathId", "cidr_ip" => "CidrIp", "from_port" => "FromPort", "ip_permissions" => "item", "ip_protocol" => "IpProtocol", "source_security_group_name" => "SourceSecurityGroupName", "source_security_group_owner_id" => "SourceSecurityGroupOwnerId", "to_port" => "ToPort", "source_version" => "SourceVersion", "host_reservation_id_set" => "item", "reserved_instances_id" => "reservedInstancesId", "reserved_instances_listing_id" => "reservedInstancesListingId", "vpn_connection_ids" => "VpnConnectionId", "key_names" => "KeyName", "key_pair_ids" => "KeyPairId", "event_type" => "EventType", "network_acl_ids" => "NetworkAclId", "network_interface_permission_ids" => "NetworkInterfacePermissionId", "pool_ids" => "PoolId", "dhcp_options_ids" => "DhcpOptionsId", "destination_ipam_scope_id" => "DestinationIpamScopeId", "s3_object_tags" => "S3ObjectTag", "force_delete" => "ForceDelete", "currency_code" => "CurrencyCode", "group_ip_address" => "GroupIpAddress", "network_interface_ids" => "item", "cidr_authorization_context" => "CidrAuthorizationContext", "multi_region" => "MultiRegion", "pool_tag_specifications" => "PoolTagSpecification", "attribute" => "Attribute", "launch_permission" => "LaunchPermission", "operation_type" => "OperationType", "organization_arns" => "OrganizationArn", "organizational_unit_arns" => "OrganizationalUnitArn", "product_codes" => "ProductCode", "user_groups" => "UserGroup", "user_ids" => "UserId", "value" => "value", "disk_images" => "diskImage", "group_id" => "GroupId", "group_name" => "GroupName", "security_group_rule_descriptions" => "SecurityGroupRuleDescription", "fleet_ids" => "FleetId", "no_reboot" => "noReboot", "amazon_provided_ipv6_cidr_block" => "amazonProvidedIpv6CidrBlock", "ipv4_ipam_pool_id" => "Ipv4IpamPoolId", "ipv4_netmask_length" => "Ipv4NetmaskLength", "ipv6_cidr_block_network_border_group" => "Ipv6CidrBlockNetworkBorderGroup", "ipv6_ipam_pool_id" => "Ipv6IpamPoolId", "ipv6_netmask_length" => "Ipv6NetmaskLength", "ipv6_pool" => "Ipv6Pool", "resources" => "Resource", "partition_count" => "PartitionCount", "strategy" => "strategy", "attribute_names" => "attributeName", "route_table_ids" => "RouteTableId", "group_ids" => "GroupId", "group_names" => "GroupName", "connection_log_options" => "ConnectionLogOptions", "server_certificate_arn" => "ServerCertificateArn", "instance_ids" => "InstanceId", "transit_gateway_ids" => "item", "vpn_gateway_id" => "VpnGatewayId", "destination_port_range" => "DestinationPortRange", "protocol" => "Protocol", "remove_fields" => "RemoveField", "rule_action" => "RuleAction", "rule_number" => "RuleNumber", "source_cidr_block" => "SourceCidrBlock", "source_port_range" => "SourcePortRange", "traffic_direction" => "TrafficDirection", "allocation_id" => "AllocationId", "connectivity_type" => "ConnectivityType", "customer_gateway_id" => "CustomerGatewayId", "ipam_ids" => "IpamId", "instance_types" => "InstanceType", "analysis_start_time_begin" => "AnalysisStartTimeBegin", "analysis_start_time_end" => "AnalysisStartTimeEnd", "network_insights_access_scope_analysis_ids" => "NetworkInsightsAccessScopeAnalysisId", "network_insights_access_scope_id" => "NetworkInsightsAccessScopeId", "disable_api_termination" => "disableApiTermination", "ebs_optimized" => "ebsOptimized", "groups" => "SecurityGroupId", "instance_initiated_shutdown_behavior" => "instanceInitiatedShutdownBehavior", "kernel" => "kernel", "ramdisk" => "ramdisk", "source_dest_check" => "sourceDestCheck", "user_data" => "UserData", "client_data" => "ClientData", "disk_container" => "DiskContainer", "role_name" => "RoleName", "location_type" => "LocationType", "include_all_instances" => "includeAllInstances", "iops" => "Iops", "multi_attach_enabled" => "MultiAttachEnabled", "size" => "Size", "snapshot_id" => "SnapshotId", "throughput" => "Throughput", "volume_type" => "VolumeType", "attachment" => "attachment", "entries" => "Entry", "allow_reassociation" => "allowReassociation", "private_ip_address" => "privateIpAddress", "interface_type" => "InterfaceType", "ipv4_prefix_count" => "Ipv4PrefixCount", "ipv6_address_count" => "Ipv6AddressCount", "ipv6_prefix_count" => "Ipv6PrefixCount", "secondary_private_ip_address_count" => "secondaryPrivateIpAddressCount", "local_gateway_route_table_virtual_interface_group_association_ids" => "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId", "reserved_instances_ids" => "ReservedInstancesId", "peer_owner_id" => "peerOwnerId", "peer_region" => "PeerRegion", "peer_vpc_id" => "peerVpcId", "local_gateway_virtual_interface_ids" => "LocalGatewayVirtualInterfaceId", "host_ids" => "hostId", "capacity_reservation_ids" => "CapacityReservationId", "access_group_id" => "AccessGroupId", "revoke_all_groups" => "RevokeAllGroups", "association_id" => "AssociationId", "filter_in_arns" => "FilterInArn", "create_volume_permission" => "CreateVolumePermission", "vpc_endpoint_ids" => "VpcEndpointId", "connection_id" => "ConnectionId", "username" => "Username", "cancel_reason" => "CancelReason", "import_task_id" => "ImportTaskId", "destination_ip" => "DestinationIp", "destination_port" => "DestinationPort", "source_ip" => "SourceIp", "spot_instance_request_ids" => "SpotInstanceRequestId", "cron_expression" => "CronExpression", "time_ranges" => "TimeRange", "domain_name" => "DomainName", "reason_message" => "reasonMessage", "local_gateway_route_table_vpc_association_ids" => "LocalGatewayRouteTableVpcAssociationId", "enable_dns_hostnames" => "EnableDnsHostnames", "enable_dns_support" => "EnableDnsSupport", "load_permission" => "LoadPermission", "vpc_peering_connection_ids" => "VpcPeeringConnectionId", "packet_length" => "PacketLength", "session_number" => "SessionNumber", "traffic_mirror_filter_id" => "TrafficMirrorFilterId", "traffic_mirror_target_id" => "TrafficMirrorTargetId", "virtual_network_id" => "VirtualNetworkId", "permanent_restore" => "PermanentRestore", "temporary_restore_days" => "TemporaryRestoreDays", "additional_info" => "AdditionalInfo", "local_target" => "LocalTarget", "internet_key_exchange_version" => "InternetKeyExchangeVersion", "prefix" => "prefix", "add_allowed_principals" => "item", "remove_allowed_principals" => "item", "owner_ids" => "Owner", "restorable_by_user_ids" => "RestorableBy", "snapshot_ids" => "SnapshotId", "ipam_pool_id" => "IpamPoolId", "resource_id" => "ResourceId", "resource_owner" => "ResourceOwner", "resource_tag" => "ResourceTag", "resource_type" => "ResourceType", "ipam_pool_ids" => "IpamPoolId", "ipam_pool_owner" => "IpamPoolOwner", "transit_gateway_multicast_domain_ids" => "item", "instance_event_window_ids" => "InstanceEventWindowId", "network_insights_access_scope_ids" => "NetworkInsightsAccessScopeId", "customer_gateway_ids" => "CustomerGatewayId", "conversion_task_ids" => "conversionTaskId", "spot_fleet_request_ids" => "spotFleetRequestId", "add_operating_regions" => "AddOperatingRegion", "remove_operating_regions" => "RemoveOperatingRegion", "on_demand_options" => "OnDemandOptions", "replace_unhealthy_instances" => "ReplaceUnhealthyInstances", "spot_options" => "SpotOptions", "terminate_instances_with_expiration" => "TerminateInstancesWithExpiration", "vpc_endpoint_type" => "VpcEndpointType", "subnet_id" => "SubnetId", "add_gateway_load_balancer_arns" => "AddGatewayLoadBalancerArn", "add_network_load_balancer_arns" => "AddNetworkLoadBalancerArn", "remove_gateway_load_balancer_arns" => "RemoveGatewayLoadBalancerArn", "remove_network_load_balancer_arns" => "RemoveNetworkLoadBalancerArn", "remove_private_dns_name" => "RemovePrivateDnsName", "accepter_peering_connection_options" => "AccepterPeeringConnectionOptions", "requester_peering_connection_options" => "RequesterPeeringConnectionOptions", "disk_containers" => "DiskContainer", "hypervisor" => "Hypervisor", "license_specifications" => "LicenseSpecification", "license_type" => "LicenseType", "platform" => "Platform", "usage_operation" => "UsageOperation", "vpn_gateway_ids" => "VpnGatewayId", "ipam_pool_allocation_id" => "IpamPoolAllocationId", "address" => "Address", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool", "domain" => "Domain", "network_border_group" => "NetworkBorderGroup", "public_ipv4_pool" => "PublicIpv4Pool", "max_version" => "MaxVersion", "min_version" => "MinVersion", "versions" => "LaunchTemplateVersion", "all_regions" => "AllRegions", "region_names" => "RegionName", "authorize_all_groups" => "AuthorizeAllGroups", "assign_ipv6_address_on_creation" => "AssignIpv6AddressOnCreation", "disable_lni_at_device_index" => "DisableLniAtDeviceIndex", "enable_dns64" => "EnableDns64", "enable_lni_at_device_index" => "EnableLniAtDeviceIndex", "enable_resource_name_dns_aaaarecord_on_launch" => "EnableResourceNameDnsAAAARecordOnLaunch", "enable_resource_name_dns_arecord_on_launch" => "EnableResourceNameDnsARecordOnLaunch", "map_customer_owned_ip_on_launch" => "MapCustomerOwnedIpOnLaunch", "map_public_ip_on_launch" => "MapPublicIpOnLaunch", "private_dns_hostname_type_on_launch" => "PrivateDnsHostnameTypeOnLaunch", "service_names" => "ServiceName", "target_vpc_subnet_id" => "TargetVpcSubnetId", "all_availability_zones" => "AllAvailabilityZones", "zone_ids" => "ZoneId", "zone_names" => "ZoneName", "amazon_side_asn" => "AmazonSideAsn", "end_date_type" => "EndDateType", "ephemeral_storage" => "EphemeralStorage", "transit_gateway_connect_peer_ids" => "item", "exclude_paths" => "ExcludePath", "match_paths" => "MatchPath", "affinity" => "affinity", "host_id" => "hostId", "host_resource_group_arn" => "HostResourceGroupArn", "partition_number" => "PartitionNumber", "hibernate" => "Hibernate", "network_card_index" => "NetworkCardIndex", "reserved_instances_modification_ids" => "ReservedInstancesModificationId", "connection_events" => "item", "connection_notification_arn" => "ConnectionNotificationArn", "local_gateway_route_table_ids" => "LocalGatewayRouteTableId", "capacity_reservation_specification" => "CapacityReservationSpecification", "cpu_options" => "CpuOptions", "credit_specification" => "CreditSpecification", "elastic_gpu_specification" => "item", "elastic_inference_accelerators" => "ElasticInferenceAccelerator", "enclave_options" => "EnclaveOptions", "hibernation_options" => "HibernationOptions", "iam_instance_profile" => "iamInstanceProfile", "image_id" => "ImageId", "instance_market_options" => "InstanceMarketOptions", "launch_template" => "LaunchTemplate", "metadata_options" => "MetadataOptions", "monitoring" => "Monitoring", "network_interfaces" => "networkInterface", "placement" => "Placement", "private_dns_name_options" => "PrivateDnsNameOptions", "security_groups" => "SecurityGroup", "accept" => "Accept", "enable_resource_name_dns_aaaarecord" => "EnableResourceNameDnsAAAARecord", "enable_resource_name_dns_arecord" => "EnableResourceNameDnsARecord", "private_dns_hostname_type" => "PrivateDnsHostnameType", "allow_reassignment" => "allowReassignment", "product_descriptions" => "ProductDescription", "export_task_ids" => "exportTaskId", "instance_requirements_with_metadata" => "InstanceRequirementsWithMetadata", "single_availability_zone" => "SingleAvailabilityZone", "target_capacity_unit_type" => "TargetCapacityUnitType", "tags" => "tag", "remove_end_date" => "RemoveEndDate", "total_target_capacity" => "TotalTargetCapacity", "client_vpn_endpoint_ids" => "ClientVpnEndpointId", "ipam_scope_ids" => "IpamScopeId", "aws_account_id" => "AwsAccountId", "destination_region" => "destinationRegion", "presigned_url" => "presignedUrl", "max_slot_duration_in_hours" => "MaxSlotDurationInHours", "min_slot_duration_in_hours" => "MinSlotDurationInHours")
 
 """
     accept_reserved_instances_exchange_quote(reserved_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,7 +25,7 @@ GetReservedInstancesExchangeQuote call.
   exchange for your current Convertible Reserved Instances.
 """
 function accept_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -44,7 +44,7 @@ Accepts a request to associate subnets with a transit gateway multicast domain.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function accept_transit_gateway_multicast_domain_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptTransitGatewayMulticastDomainAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ pendingAcceptance state.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ request.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Accepts one or more interface VPC endpoint connection requests to your VPC endpo
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ in the Region of the accepter VPC.
   parameter in the request.
 """
 function accept_vpc_peering_connection(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AcceptVpcPeeringConnection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,7 +152,7 @@ advertising the BYOIP CIDR, use WithdrawByoipCidr.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -202,7 +202,7 @@ in a Wavelength Zone (for example an EC2 instance).
 - `tag_specifications`: The tags to assign to the Elastic IP address.
 """
 function allocate_address(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AllocateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,8 +241,44 @@ number of hosts to allocate.
 - `tag_specifications`: The tags to apply to the Dedicated Host during creation.
 """
 function allocate_hosts(availabilityZone, quantity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AllocateHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "quantity"=>quantity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    allocate_ipam_pool_cidr(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM
+pool to another resource or IPAM pool. For more information, see Allocate CIDRs in the
+Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool from which you would like to allocate a CIDR.
+
+# Keyword Parameters
+- `cidr`: The CIDR you would like to allocate from the IPAM pool. Note the following:   If
+  there is no DefaultNetmaskLength allocation rule set on the pool, you must specify either
+  the NetmaskLength or the CIDR.   If the DefaultNetmaskLength allocation rule is set on the
+  pool, you can specify either the NetmaskLength or the CIDR and the DefaultNetmaskLength
+  allocation rule will be ignored.   Possible values: Any available IPv4 or IPv6 CIDR.
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `description`: A description for the allocation.
+- `disallowed_cidrs`: Exclude a particular CIDR range from being returned by the pool.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `netmask_length`: The netmask length of the CIDR you would like to allocate from the IPAM
+  pool. Note the following:   If there is no DefaultNetmaskLength allocation rule set on the
+  pool, you must specify either the NetmaskLength or the CIDR.   If the DefaultNetmaskLength
+  allocation rule is set on the pool, you can specify either the NetmaskLength or the CIDR
+  and the DefaultNetmaskLength allocation rule will be ignored.   Possible netmask lengths
+  for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.
+- `preview_next_cidr`: A preview of the next available CIDR in a pool.
+"""
+function allocate_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("AllocateIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -264,7 +300,7 @@ groups.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function apply_security_groups_to_client_vpn_target_network(ClientVpnEndpointId, SecurityGroupId, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +336,7 @@ Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
   use this option if you use the Ipv6PrefixCount option.
 """
 function assign_ipv6_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -345,7 +381,7 @@ Elastic Compute Cloud User Guide.
   addresses.
 """
 function assign_private_ip_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +434,7 @@ see the Elastic IP Addresses section of Amazon EC2 Pricing.
   required for EC2-Classic.
 """
 function associate_address(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -426,7 +462,7 @@ associated with it.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_client_vpn_target_network(ClientVpnEndpointId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -452,7 +488,7 @@ information, see DHCP options sets in the Amazon Virtual Private Cloud User Guid
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_dhcp_options(DhcpOptionsId, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -482,7 +518,7 @@ the Amazon Web Services Nitro Enclaves User Guide.
   associate up to 16 IAM roles with an ACM certificate.
 """
 function associate_enclave_certificate_iam_role(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateEnclaveCertificateIamRole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -498,7 +534,7 @@ more than one IAM instance profile with an instance.
 
 """
 function associate_iam_instance_profile(IamInstanceProfile, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -519,7 +555,7 @@ see Define event windows for scheduled events in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -544,7 +580,7 @@ the Amazon Virtual Private Cloud User Guide.
 - `subnet_id`: The ID of the subnet.
 """
 function associate_route_table(routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,7 +597,7 @@ with your subnet. An IPv6 CIDR block must have a prefix length of /64.
 
 """
 function associate_subnet_cidr_block(ipv6CidrBlock, subnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6CidrBlock"=>ipv6CidrBlock, "subnetId"=>subnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -584,7 +620,7 @@ the attachment.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function associate_transit_gateway_multicast_domain(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateTransitGatewayMulticastDomain", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +640,7 @@ associate only one route table with an attachment.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -631,7 +667,7 @@ each branch network interface that you want to associate with the trunk network 
 - `vlan_id`: The ID of the VLAN. This applies to the VLAN protocol.
 """
 function associate_trunk_interface(BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BranchInterfaceId"=>BranchInterfaceId, "TrunkInterfaceId"=>TrunkInterfaceId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -654,6 +690,12 @@ Virtual Private Cloud User Guide.
   prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of
   the CIDR block.
 - `cidr_block`: An IPv4 CIDR block to associate with the VPC.
+- `ipv4_ipam_pool_id`: Associate a CIDR allocated from an IPv4 IPAM pool to a VPC. For more
+  information about Amazon VPC IP Address Manager (IPAM), see What is IPAM? in the Amazon VPC
+  IPAM User Guide.
+- `ipv4_netmask_length`: The netmask length of the IPv4 CIDR you would like to associate
+  from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `ipv6_cidr_block`: An IPv6 CIDR block from the IPv6 address pool. You must also specify
   Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this
   parameter.
@@ -661,10 +703,16 @@ Virtual Private Cloud User Guide.
   the IPV6 CIDR block. Use this parameter to limit the CIDR block to this location.  You must
   set AmazonProvidedIpv6CidrBlock to true to use this parameter.  You can have one IPv6 CIDR
   block association per network border group.
+- `ipv6_ipam_pool_id`: Associates a CIDR allocated from an IPv6 IPAM pool to a VPC. For
+  more information about Amazon VPC IP Address Manager (IPAM), see What is IPAM? in the
+  Amazon VPC IPAM User Guide.
+- `ipv6_netmask_length`: The netmask length of the IPv6 CIDR you would like to associate
+  from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `ipv6_pool`: The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
 """
 function associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AssociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -692,7 +740,7 @@ your instance.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_classic_link_vpc(SecurityGroupId, instanceId, vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AttachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -713,7 +761,7 @@ see the Amazon Virtual Private Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_internet_gateway(internetGatewayId, vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AttachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +784,7 @@ Attaches a network interface to an instance.
   default is network card index 0.
 """
 function attach_network_interface(deviceIndex, instanceId, networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AttachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -768,7 +816,7 @@ Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_volume(Device, InstanceId, VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -789,7 +837,7 @@ Amazon Web Services Site-to-Site VPN User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AttachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -821,7 +869,7 @@ on-premises networks.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AuthorizeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -830,13 +878,13 @@ end
 
 [VPC only] Adds the specified outbound (egress) rules to a security group for use with a
 VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
-address ranges, or to the instances that are associated with the specified destination
-security groups. You specify a protocol for each rule (for example, TCP). For the TCP and
-UDP protocols, you must also specify the destination port or port range. For the ICMP
-protocol, you must also specify the ICMP type and code. You can use -1 for the type or code
-to mean all types or all codes. Rule changes are propagated to affected instances as
-quickly as possible. However, a small delay might occur. For information about VPC security
-group quotas, see Amazon VPC quotas.
+address ranges, or to the instances that are associated with the specified source security
+groups. You specify a protocol for each rule (for example, TCP). For the TCP and UDP
+protocols, you must also specify the destination port or port range. For the ICMP protocol,
+you must also specify the ICMP type and code. You can use -1 for the type or code to mean
+all types or all codes. Rule changes are propagated to affected instances as quickly as
+possible. However, a small delay might occur. For information about VPC security group
+quotas, see Amazon VPC quotas.
 
 # Arguments
 - `group_id`: The ID of the security group.
@@ -859,7 +907,7 @@ group quotas, see Amazon VPC quotas.
 - `to_port`: Not supported. Use a set of IP permissions to specify the port.
 """
 function authorize_security_group_egress(groupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -917,7 +965,7 @@ occur. For more information about VPC security group quotas, see Amazon VPC quot
   rules and a description for the rule.
 """
 function authorize_security_group_ingress(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("AuthorizeSecurityGroupIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -941,7 +989,7 @@ Amazon EBS.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function bundle_instance(InstanceId, Storage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("BundleInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -959,7 +1007,7 @@ Cancels a bundling operation for an instance store-backed Windows instance.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelBundleTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -982,7 +1030,7 @@ Reservation that has matching attributes and sufficient capacity.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1004,7 +1052,7 @@ shared capacity.   The Fleet stops creating new Capacity Reservations.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_capacity_reservation_fleets(CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelCapacityReservationFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1027,7 +1075,7 @@ Virtual Machine Using the Amazon EC2 CLI.
 - `reason_message`: The reason for canceling the conversion task.
 """
 function cancel_conversion_task(conversionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelConversionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("conversionTaskId"=>conversionTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1044,7 +1092,7 @@ process of transferring the final disk image, the command fails and returns an e
 
 """
 function cancel_export_task(exportTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportTaskId"=>exportTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1061,7 +1109,7 @@ Cancels an in-process import virtual machine or import snapshot task.
 - `import_task_id`: The ID of the import image or import snapshot task to be canceled.
 """
 function cancel_import_task(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelImportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1076,7 +1124,7 @@ more information, see Reserved Instance Marketplace in the Amazon EC2 User Guide
 
 """
 function cancel_reserved_instances_listing(reservedInstancesListingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1101,7 +1149,7 @@ terminate them manually.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_spot_fleet_requests(spotFleetRequestId, terminateInstances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelSpotFleetRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1120,7 +1168,7 @@ terminate running Spot Instances associated with the request.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_spot_instance_requests(SpotInstanceRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CancelSpotInstanceRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1141,7 +1189,7 @@ whether another user's instance is eligible for support.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function confirm_product_instance(InstanceId, ProductCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ConfirmProductInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1164,7 +1212,7 @@ Copies the specified Amazon FPGA Image (AFI) to the current Region.
 - `name`: The name for the new AFI. The default is the name of the source AFI.
 """
 function copy_fpga_image(SourceFpgaImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CopyFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1224,7 +1272,7 @@ Compute Cloud User Guide.
   must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
 """
 function copy_image(Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1298,7 +1346,7 @@ Copy an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
 - `tag_specifications`: The tags to apply to the new snapshot.
 """
 function copy_snapshot(SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1377,7 +1425,7 @@ EC2 Service Quotas in the Amazon EC2 User Guide.
   Amazon Web Services account.
 """
 function create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1427,7 +1475,7 @@ Reservation Fleet in the Amazon EC2 User Guide.
   Amazon Web Services account.
 """
 function create_capacity_reservation_fleet(InstanceTypeSpecification, TotalTargetCapacity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateCapacityReservationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTypeSpecification"=>InstanceTypeSpecification, "TotalTargetCapacity"=>TotalTargetCapacity, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1449,7 +1497,7 @@ gateways in the Amazon Web Services Wavelength Developer Guide.
 - `tag_specifications`: The tags to associate with the carrier gateway.
 """
 function create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1504,7 +1552,7 @@ all client VPN sessions are terminated.
   Valid Values: 443 | 1194  Default Value: 443
 """
 function create_client_vpn_endpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1535,7 +1583,7 @@ table specifies the path for traﬃc to speciﬁc resources or networks.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1575,7 +1623,7 @@ customer gateway and do not create new customer gateways.
 - `tag_specifications`: The tags to apply to the customer gateway.
 """
 function create_customer_gateway(BgpAsn, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BgpAsn"=>BgpAsn, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1593,9 +1641,12 @@ information, see Creating a default subnet in the Amazon Virtual Private Cloud U
 - `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `ipv6_native`: Indicates whether to create an IPv6 only subnet. If you already have a
+  default subnet for this Availability Zone, you must delete it before you can create an IPv6
+  only subnet.
 """
 function create_default_subnet(AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateDefaultSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1618,7 +1669,7 @@ possible?\" in the Default VPCs FAQ.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_default_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateDefaultVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1661,7 +1712,7 @@ information, see DHCP options sets in the Amazon Virtual Private Cloud User Guid
 - `tag_specifications`: The tags to assign to the DHCP option.
 """
 function create_dhcp_options(dhcpConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1685,7 +1736,7 @@ with your instance.
 - `tag_specifications`: The tags to assign to the egress-only internet gateway.
 """
 function create_egress_only_internet_gateway(VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1739,7 +1790,7 @@ information, see Launching an EC2 Fleet in the Amazon EC2 User Guide.
   fulfill the request. If no value is specified, the request remains until you cancel it.
 """
 function create_fleet(TargetCapacitySpecification, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1808,7 +1859,7 @@ information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to apply to the flow logs.
 """
 function create_flow_logs(ResourceId, ResourceType, TrafficType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TrafficType"=>TrafficType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1837,7 +1888,7 @@ Web Services FPGA Hardware Development Kit.
 - `tag_specifications`: The tags to apply to the FPGA image during creation.
 """
 function create_fpga_image(InputStorageLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputStorageLocation"=>InputStorageLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1879,7 +1930,7 @@ Amazon EBS-Backed Linux AMIs in the Amazon Elastic Compute Cloud User Guide.
   see CreateTags.
 """
 function create_image(instanceId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1917,7 +1968,7 @@ for scheduled events in the Amazon EC2 User Guide.
   can't specify a cron expression.
 """
 function create_instance_event_window(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateInstanceEventWindow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1940,7 +1991,7 @@ VM Import/Export User Guide.
 - `tag_specifications`: The tags to apply to the export instance task during creation.
 """
 function create_instance_export_task(exportToS3, instanceId, targetEnvironment; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateInstanceExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportToS3"=>exportToS3, "instanceId"=>instanceId, "targetEnvironment"=>targetEnvironment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1958,8 +2009,138 @@ internet gateway, see the Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to assign to the internet gateway.
 """
 function create_internet_gateway(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateInternetGateway", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_ipam(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Create an IPAM. Amazon VCP IP Address Manager (IPAM) is a VPC feature that you can use to
+automate your IP address management workflows including assigning, tracking,
+troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts
+throughout your Amazon Web Services Organization. For more information, see Create an IPAM
+in the Amazon VPC IPAM User Guide.
+
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `description`: A description for the IPAM.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `operating_regions`: The operating Regions for the IPAM. Operating Regions are Amazon Web
+  Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers
+  and monitors resources in the Amazon Web Services Regions you select as operating Regions.
+  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM
+  User Guide.
+- `tag_specifications`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_ipam_pool(ipam_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a
+collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses
+according to your routing and security needs. For example, if you have separate routing and
+security needs for development and production applications, you can create a pool for each.
+For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope in which you would like to create the IPAM pool.
+
+# Keyword Parameters
+- `address_family`: The IP protocol assigned to this IPAM pool. You must choose either IPv4
+  or IPv6 protocol for a pool.
+- `allocation_default_netmask_length`: The default netmask length for allocations added to
+  this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  here, new allocations will default to 10.0.0.0/16.
+- `allocation_max_netmask_length`: The maximum netmask length possible for CIDR allocations
+  in this IPAM pool to be compliant. The maximum netmask length must be greater than the
+  minimum netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible
+  netmask lengths for IPv6 addresses are 0 - 128.
+- `allocation_min_netmask_length`: The minimum netmask length required for CIDR allocations
+  in this IPAM pool to be compliant. The minimum netmask length must be less than the maximum
+  netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask
+  lengths for IPv6 addresses are 0 - 128.
+- `allocation_resource_tags`: Tags that are required for resources that use CIDRs from this
+  IPAM pool. Resources that do not have these tags will not be allowed to allocate space from
+  the pool. If the resources have their tags changed after they have allocated space or if
+  the allocation tagging requirements are changed on the pool, the resource may be marked as
+  noncompliant.
+- `auto_import`: If selected, IPAM will continuously look for resources within the CIDR
+  range of this pool and automatically import them as allocations into your IPAM. The CIDRs
+  that will be allocated for these resources must not already be allocated to other resources
+  in order for the import to succeed. IPAM will import a CIDR regardless of its compliance
+  with the pool's allocation rules, so a resource might be imported and subsequently marked
+  as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the
+  largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly
+  import one of them only.  A locale must be set on the pool for this feature to work.
+- `aws_service`: Limits which service in Amazon Web Services that the pool can be used in.
+  \"ec2\", for example, allows users to use space for Elastic IP addresses and VPCs.
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `description`: A description for the IPAM pool.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `locale`: In IPAM, the locale is the Amazon Web Services Region where you want to make an
+  IPAM pool available for allocations. Only resources in the same Region as the locale of the
+  pool can get IP address allocations from the pool. You can only allocate a CIDR for a VPC,
+  for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that once
+  you choose a Locale for a pool, you cannot modify it. If you do not choose a locale,
+  resources in Regions others than the IPAM's home region cannot use CIDRs from this pool.
+  Possible values: Any Amazon Web Services Region, such as us-east-1.
+- `publicly_advertisable`: Determines if the pool is publicly advertisable. This option is
+  not available for pools with AddressFamily set to ipv4.
+- `source_ipam_pool_id`: The ID of the source IPAM pool. Use this option to create a pool
+  within an existing pool. Note that the CIDR you provision for the pool within the source
+  pool must be available in the source pool's CIDR range.
+- `tag_specifications`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam_pool(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_ipam_scope(ipam_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM
+contains two default scopes. Each scope represents the IP space for a single network. The
+private scope is intended for all private IP address space. The public scope is intended
+for all public IP address space. Scopes enable you to reuse IP addresses across multiple
+unconnected networks without causing IP address overlap or conflict. For more information,
+see Add a scope in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM for which you're creating this scope.
+
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `description`: A description for the scope you're creating.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `tag_specifications`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1986,7 +2167,7 @@ see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
 - `tag_specifications`: The tags to apply to the new key pair.
 """
 function create_key_pair(KeyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2013,7 +2194,7 @@ instance from a launch template in the Amazon Elastic Compute Cloud User Guide.
 - `version_description`: A description for the first version of the launch template.
 """
 function create_launch_template(LaunchTemplateData, LaunchTemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateLaunchTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2048,7 +2229,7 @@ Amazon Elastic Compute Cloud User Guide.
 - `version_description`: A description for the version of the launch template.
 """
 function create_launch_template_version(LaunchTemplateData; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateLaunchTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2069,7 +2250,7 @@ Creates a static route for the specified local gateway route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2089,7 +2270,7 @@ Associates the specified VPC with the specified local gateway route table.
 - `tag_specifications`: The tags to assign to the local gateway route table VPC association.
 """
 function create_local_gateway_route_table_vpc_association(LocalGatewayRouteTableId, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2116,7 +2297,7 @@ Each entry consists of a CIDR block and an optional description.
 - `tag_specifications`: The tags to apply to the prefix list during creation.
 """
 function create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2153,7 +2334,7 @@ Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to assign to the NAT gateway.
 """
 function create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2174,7 +2355,7 @@ Network ACLs in the Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to assign to the network ACL.
 """
 function create_network_acl(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2223,8 +2404,33 @@ Virtual Private Cloud User Guide.
   specifying protocol 6 (TCP) or 17 (UDP).
 """
 function create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_network_insights_access_scope(client_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud
+networking and cloud operations teams to verify that their networks on Amazon Web Services
+conform to their network security and governance objectives. For more information, see the
+Amazon Web Services Network Access Analyzer Guide.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to ensure idempotency.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `exclude_paths`: The paths to exclude.
+- `match_paths`: The paths to match.
+- `tag_specifications`: The tags to apply.
+"""
+function create_network_insights_access_scope(ClientToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateNetworkInsightsAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2253,7 +2459,7 @@ For more information, see What is Reachability Analyzer.
 - `tag_specifications`: The tags to add to the path.
 """
 function create_network_insights_path(ClientToken, Destination, Protocol, Source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Destination"=>Destination, "Protocol"=>Protocol, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2311,7 +2517,7 @@ interfaces, see Elastic Network Interfaces in the Amazon Virtual Private Cloud U
 - `tag_specifications`: The tags to apply to the new network interface.
 """
 function create_network_interface(subnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2334,7 +2540,7 @@ Services account only, and only one account at a time.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_network_interface_permission(NetworkInterfaceId, Permission; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2361,8 +2567,30 @@ Guide.
 - `tag_specifications`: The tags to apply to the new placement group.
 """
 function create_placement_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreatePlacementGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_public_ipv4_pool(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required
+for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with
+IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To
+monitor the status of pool creation, use DescribePublicIpv4Pools.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `tag_specifications`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_public_ipv4_pool(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreatePublicIpv4Pool", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2388,7 +2616,7 @@ Cloud User Guide.
 - `tag_specifications`: The tags to apply to the root volume replacement task.
 """
 function create_replace_root_volume_task(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateReplaceRootVolumeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2424,7 +2652,7 @@ more information, see Reserved Instance Marketplace in the Amazon EC2 User Guide
 
 """
 function create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2454,7 +2682,7 @@ using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
   applied to all of the snapshots that are created.
 """
 function create_restore_image_task(Bucket, ObjectKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateRestoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ObjectKey"=>ObjectKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2479,7 +2707,7 @@ Guide.
 # Keyword Parameters
 - `carrier_gateway_id`: The ID of the carrier gateway. You can only use this option when
   the VPC contains a subnet which is associated with a Wavelength Zone.
-- `core_network_arn`:
+- `core_network_arn`: The Amazon Resource Name (ARN) of the core network.
 - `destination_cidr_block`: The IPv4 CIDR address block used for the destination match.
   Routing decisions are based on the most specific match. We modify the specified CIDR block
   to its canonical form; for example, if you specify 100.68.0.18/18, we modify it to
@@ -2505,7 +2733,7 @@ Guide.
 - `vpc_peering_connection_id`: The ID of a VPC peering connection.
 """
 function create_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2526,7 +2754,7 @@ Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to assign to the route table.
 """
 function create_route_table(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2565,7 +2793,7 @@ Amazon VPC Limits.
 - `vpc_id`: [EC2-VPC] The ID of the VPC. Required for EC2-VPC.
 """
 function create_security_group(GroupDescription, GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2615,7 +2843,7 @@ the Amazon Elastic Compute Cloud User Guide.
 - `tag_specifications`: The tags to apply to the snapshot during creation.
 """
 function create_snapshot(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2654,7 +2882,7 @@ or in the Region for that Outpost.
 - `tag_specifications`: Tags to apply to every snapshot specified by the instance.
 """
 function create_snapshots(InstanceSpecification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceSpecification"=>InstanceSpecification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2677,7 +2905,7 @@ Instance data feed in the Amazon EC2 User Guide for Linux Instances.
 - `prefix`: The prefix for the data feed file names.
 """
 function create_spot_datafeed_subscription(bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateSpotDatafeedSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucket"=>bucket), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2703,12 +2931,12 @@ Store and restore an AMI using Amazon S3 in the Amazon Elastic Compute Cloud Use
   S3 bucket.
 """
 function create_store_image_task(Bucket, ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateStoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    create_subnet(cidr_block, vpc_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    create_subnet(vpc_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet.
 After you create a subnet, you can't change its CIDR block. The allowed block size is
@@ -2724,9 +2952,6 @@ but no remaining IP addresses available. For more information about subnets, see
 and subnets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
-- `cidr_block`: The IPv4 network range for the subnet, in CIDR notation. For example,
-  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
-  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
 - `vpc_id`: The ID of the VPC.
 
 # Keyword Parameters
@@ -2738,18 +2963,23 @@ and subnets in the Amazon Virtual Private Cloud User Guide.
   Cloud User Guide. To create a subnet in an Outpost, set this value to the Availability Zone
   for the Outpost and specify the Outpost ARN.
 - `availability_zone_id`: The AZ ID or the Local Zone ID of the subnet.
+- `cidr_block`: The IPv4 network range for the subnet, in CIDR notation. For example,
+  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
+  specify 100.68.0.18/18, we modify it to 100.68.0.0/18. This parameter is not supported for
+  an IPv6 only subnet.
 - `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `ipv6_cidr_block`: The IPv6 network range for the subnet, in CIDR notation. The subnet
-  size must use a /64 prefix length.
+  size must use a /64 prefix length. This parameter is required for an IPv6 only subnet.
+- `ipv6_native`: Indicates whether to create an IPv6 only subnet.
 - `outpost_arn`: The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost
   ARN, you must also specify the Availability Zone of the Outpost subnet.
 - `tag_specifications`: The tags to assign to the subnet.
 """
-function create_subnet(CidrBlock, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_subnet(VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2776,7 +3006,7 @@ Subnet CIDR reservations in the Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to assign to the subnet CIDR reservation.
 """
 function create_subnet_cidr_reservation(Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "ReservationType"=>ReservationType, "SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2804,7 +3034,7 @@ User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2827,7 +3057,7 @@ ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
 - `tag_specifications`: The tags to assign to a Traffic Mirror filter.
 """
 function create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2861,7 +3091,7 @@ source traffic to mirror. You need the Traffic Mirror filter ID when you create 
 - `source_port_range`: The source port range.
 """
 function create_traffic_mirror_filter_rule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2903,7 +3133,7 @@ specify the traffic to mirror.
   account-wide unique id is chosen at random.
 """
 function create_traffic_mirror_session(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2930,7 +3160,7 @@ CreateTrafficMirrorSession.
 - `tag_specifications`: The tags to assign to the Traffic Mirror target.
 """
 function create_traffic_mirror_target(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2961,7 +3191,7 @@ attachment with a transit gateway route table.
 - `tag_specifications`: The tags to apply to the transit gateway.
 """
 function create_transit_gateway(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGateway", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2985,7 +3215,7 @@ Amazon Web Services Direct Connect attachment as the underlying transport mechan
 - `tag_specifications`: The tags to apply to the Connect attachment.
 """
 function create_transit_gateway_connect(Options, TransportTransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TransportTransitGatewayAttachmentId"=>TransportTransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3018,7 +3248,7 @@ Gateways Guide.
   the transit gateway CIDR block.
 """
 function create_transit_gateway_connect_peer(PeerAddress, TransitGatewayAttachmentId, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAddress"=>PeerAddress, "TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3040,7 +3270,7 @@ state of transit gateway.
 - `tag_specifications`: The tags for the transit gateway multicast domain.
 """
 function create_transit_gateway_multicast_domain(TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3068,7 +3298,7 @@ transit gateway must accept the attachment request.
 - `tag_specifications`: The tags to apply to the transit gateway peering attachment.
 """
 function create_transit_gateway_peering_attachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3089,7 +3319,7 @@ Creates a reference (route) to a prefix list in a specified transit gateway rout
 - `transit_gateway_attachment_id`: The ID of the attachment to which traffic is routed.
 """
 function create_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3111,7 +3341,7 @@ Creates a static route for the specified transit gateway route table.
 - `transit_gateway_attachment_id`: The ID of the attachment.
 """
 function create_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3130,7 +3360,7 @@ Creates a route table for the specified transit gateway.
 - `tag_specifications`: The tags to apply to the transit gateway route table.
 """
 function create_transit_gateway_route_table(TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3156,7 +3386,7 @@ attached transit gateway, add a route to the VPC route table using CreateRoute.
 - `options`: The VPC attachment options.
 """
 function create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3231,12 +3461,12 @@ Cloud User Guide.
   volume types in the Amazon Elastic Compute Cloud User Guide. Default: gp2
 """
 function create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    create_vpc(cidr_block; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    create_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a
 /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
@@ -3251,15 +3481,13 @@ Private Cloud User Guide. You can specify the instance tenancy value for the VPC
 create it. You can't change this value for the VPC after you create it. For more
 information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
 
-# Arguments
-- `cidr_block`: The IPv4 network range for the VPC, in CIDR notation. For example,
-  10.0.0.0/16. We modify the specified CIDR block to its canonical form; for example, if you
-  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
-
 # Keyword Parameters
 - `amazon_provided_ipv6_cidr_block`: Requests an Amazon-provided IPv6 CIDR block with a /56
   prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the
   CIDR block.
+- `cidr_block`: The IPv4 network range for the VPC, in CIDR notation. For example,
+  10.0.0.0/16. We modify the specified CIDR block to its canonical form; for example, if you
+  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
 - `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3269,18 +3497,31 @@ information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Gu
   tenancy instances by default. You can only launch instances with a tenancy of dedicated or
   host into a dedicated tenancy VPC.   Important: The host value cannot be used with this
   parameter. Use the default or dedicated values only. Default: default
+- `ipv4_ipam_pool_id`: The ID of an IPv4 IPAM pool you want to use for allocating this
+  VPC's CIDR. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+- `ipv4_netmask_length`: The netmask length of the IPv4 CIDR you want to allocate to this
+  VPC from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `ipv6_cidr_block`: The IPv6 CIDR block from the IPv6 address pool. You must also specify
   Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this
   parameter.
 - `ipv6_cidr_block_network_border_group`: The name of the location from which we advertise
   the IPV6 CIDR block. Use this parameter to limit the address to this location.  You must
   set AmazonProvidedIpv6CidrBlock to true to use this parameter.
+- `ipv6_ipam_pool_id`: The ID of an IPv6 IPAM pool which will be used to allocate this VPC
+  an IPv6 CIDR. IPAM is a VPC feature that you can use to automate your IP address management
+  workflows including assigning, tracking, troubleshooting, and auditing IP addresses across
+  Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization.
+  For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+- `ipv6_netmask_length`: The netmask length of the IPv6 CIDR you want to allocate to this
+  VPC from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `ipv6_pool`: The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
 - `tag_specifications`: The tags to assign to the VPC.
 """
-function create_vpc(CidrBlock; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return ec2("CreateVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("CreateVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3335,7 +3576,7 @@ to get a list of supported services.
 - `vpc_endpoint_type`: The type of endpoint. Default: Gateway
 """
 function create_vpc_endpoint(ServiceName, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3363,7 +3604,7 @@ interface endpoints only.
 - `vpc_endpoint_id`: The ID of the endpoint.
 """
 function create_vpc_endpoint_connection_notification(ConnectionNotificationArn, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3398,7 +3639,7 @@ Verification in the Amazon Virtual Private Cloud User Guide.
 - `tag_specifications`: The tags to associate with the service.
 """
 function create_vpc_endpoint_service_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpcEndpointServiceConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3431,7 +3672,7 @@ of failed.
 - `vpc_id`: The ID of the requester VPC. You must specify this parameter in the request.
 """
 function create_vpc_peering_connection(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpcPeeringConnection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3465,7 +3706,7 @@ Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide
   gateway, you cannot specify a transit gateway.
 """
 function create_vpn_connection(CustomerGatewayId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3484,7 +3725,7 @@ Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide
 
 """
 function create_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3510,7 +3751,7 @@ Web Services Site-to-Site VPN User Guide.
 - `tag_specifications`: The tags to apply to the virtual private gateway.
 """
 function create_vpn_gateway(Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("CreateVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3530,7 +3771,7 @@ a route, see DeleteRoute.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_carrier_gateway(CarrierGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3549,7 +3790,7 @@ you can delete a Client VPN endpoint.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3574,7 +3815,7 @@ automatically added, disassociate the target subnet from the Client VPN endpoint
 - `target_vpc_subnet_id`: The ID of the target subnet used by the route.
 """
 function delete_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3593,7 +3834,7 @@ delete the customer gateway.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_customer_gateway(CustomerGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3613,7 +3854,7 @@ either a new set of options or the default set of options with the VPC.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_dhcp_options(DhcpOptionsId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3631,7 +3872,7 @@ Deletes an egress-only internet gateway.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_egress_only_internet_gateway(EgressOnlyInternetGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3665,7 +3906,7 @@ information, see Deleting an EC2 Fleet in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_fleets(FleetId, TerminateInstances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3683,7 +3924,7 @@ Deletes one or more flow logs.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowLogId"=>FlowLogId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3701,7 +3942,7 @@ Deletes the specified Amazon FPGA Image (AFI).
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3722,7 +3963,7 @@ scheduled events in the Amazon EC2 User Guide.
   parameter if the event window is currently associated with targets.
 """
 function delete_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3741,8 +3982,71 @@ before you can delete it.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_internet_gateway(internetGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_ipam(ipam_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM
+including the historical data for CIDRs.  You cannot delete an IPAM if there are CIDRs
+provisioned to pools or if there are allocations in the pools within the IPAM. To
+deprovision pool CIDRs, see DeprovisionIpamPoolCidr. To release allocations, see
+ReleaseIpamPoolAllocation.   For more information, see Delete an IPAM in the Amazon VPC
+IPAM User Guide.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM to delete.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeleteIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_ipam_pool(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Delete an IPAM pool.  You cannot delete an IPAM pool if there are allocations in it or
+CIDRs provisioned to it. To release allocations, see ReleaseIpamPoolAllocation. To
+deprovision pool CIDRs, see DeprovisionIpamPoolCidr.  For more information, see Delete a
+pool in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the pool to delete.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeleteIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_ipam_scope(ipam_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Delete the scope for an IPAM. You cannot delete the default scopes. For more information,
+see Delete a scope in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope to delete.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeleteIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3758,7 +4062,7 @@ Deletes the specified key pair, by removing the public key from Amazon EC2.
 - `key_pair_id`: The ID of the key pair.
 """
 function delete_key_pair(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3777,7 +4081,7 @@ Deletes a launch template. Deleting a launch template deletes all of its version
   launch template ID or launch template name in the request.
 """
 function delete_launch_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteLaunchTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3803,7 +4107,7 @@ template using DeleteLaunchTemplate.
   launch template ID or launch template name in the request.
 """
 function delete_launch_template_versions(LaunchTemplateVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteLaunchTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3823,7 +4127,7 @@ Deletes the specified route from the specified local gateway route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3841,7 +4145,7 @@ Deletes the specified association between a VPC and local gateway route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_local_gateway_route_table_vpc_association(LocalGatewayRouteTableVpcAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3860,7 +4164,7 @@ prefix list in your resources.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_managed_prefix_list(PrefixListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3880,7 +4184,7 @@ not delete any NAT gateway routes in your route tables.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_nat_gateway(NatGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3899,7 +4203,7 @@ subnets. You can't delete the default network ACL.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_acl(networkAclId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkAclId"=>networkAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3919,8 +4223,44 @@ Deletes the specified ingress or egress entry (rule) from the specified network 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_acl_entry(egress, networkAclId, ruleNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_network_insights_access_scope(network_insights_access_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes the specified Network Access Scope.
+
+# Arguments
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_network_insights_access_scope(NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeleteNetworkInsightsAccessScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_network_insights_access_scope_analysis(network_insights_access_scope_analysis_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes the specified Network Access Scope analysis.
+
+# Arguments
+- `network_insights_access_scope_analysis_id`: The ID of the Network Access Scope analysis.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_network_insights_access_scope_analysis(NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeleteNetworkInsightsAccessScopeAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3937,7 +4277,7 @@ Deletes the specified network insights analysis.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_analysis(NetworkInsightsAnalysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAnalysisId"=>NetworkInsightsAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3955,7 +4295,7 @@ Deletes the specified path.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_path(NetworkInsightsPathId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsPathId"=>NetworkInsightsPathId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3974,7 +4314,7 @@ can delete it.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_interface(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3996,7 +4336,7 @@ to an instance. However, you can force delete the permission, regardless of any 
   to an instance.
 """
 function delete_network_interface_permission(NetworkInterfacePermissionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4016,8 +4356,28 @@ in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_placement_group(groupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeletePlacementGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupName"=>groupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_public_ipv4_pool(pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the
+public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6
+addresses you bring to Amazon Web Services, however, use IPAM pools only.
+
+# Arguments
+- `pool_id`: The ID of the public IPv4 pool you want to delete.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeletePublicIpv4Pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4034,7 +4394,7 @@ Deletes the queued purchases for the specified Reserved Instances.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_queued_reserved_instances(ReservedInstancesId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteQueuedReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4057,7 +4417,7 @@ Deletes the specified route from the specified route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4076,7 +4436,7 @@ before you can delete it. You can't delete the main route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_route_table(routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4096,7 +4456,7 @@ InvalidGroup.InUse in EC2-Classic or DependencyViolation in EC2-VPC.
   either the security group name or the security group ID.
 """
 function delete_security_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteSecurityGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4122,7 +4482,7 @@ User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4137,7 +4497,7 @@ Deletes the data feed for Spot Instances.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteSpotDatafeedSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4156,7 +4516,7 @@ you can delete the subnet.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_subnet(SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4174,7 +4534,7 @@ Deletes a subnet CIDR reservation.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_subnet_cidr_reservation(SubnetCidrReservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetCidrReservationId"=>SubnetCidrReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4198,10 +4558,10 @@ Amazon Elastic Compute Cloud User Guide.
   key regardless of its value. If you specify a tag key with an empty string as the tag
   value, we delete the tag only if its value is an empty string. If you omit this parameter,
   we delete all user-defined tags for the specified resources. We do not delete Amazon Web
-  Services-generated tags (tags that have the aws: prefix).
+  Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
 """
 function delete_tags(resourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4220,7 +4580,7 @@ is in use by a Traffic Mirror session.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_filter(TrafficMirrorFilterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4238,7 +4598,7 @@ Deletes the specified Traffic Mirror rule.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4256,7 +4616,7 @@ Deletes the specified Traffic Mirror session.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4275,7 +4635,7 @@ is in use by a Traffic Mirror session.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_target(TrafficMirrorTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4293,7 +4653,7 @@ Deletes the specified transit gateway.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway(TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4312,7 +4672,7 @@ attachment.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_connect(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4330,7 +4690,7 @@ Deletes the specified Connect peer.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_connect_peer(TransitGatewayConnectPeerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayConnectPeerId"=>TransitGatewayConnectPeerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4348,7 +4708,7 @@ Deletes the specified transit gateway multicast domain.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_multicast_domain(TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4366,7 +4726,7 @@ Deletes a transit gateway peering attachment.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4385,7 +4745,7 @@ Deletes a reference (route) to a prefix list in a specified transit gateway rout
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4405,7 +4765,7 @@ Deletes the specified route from the specified transit gateway route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4424,7 +4784,7 @@ from any transit gateway route tables before you can delete it.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_route_table(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4442,7 +4802,7 @@ Deletes the specified VPC attachment.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4462,7 +4822,7 @@ information, see Delete an Amazon EBS volume in the Amazon Elastic Compute Cloud
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4484,7 +4844,7 @@ and so on.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc(VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4502,7 +4862,7 @@ Deletes one or more VPC endpoint connection notifications.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoint_connection_notifications(ConnectionNotificationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4522,7 +4882,7 @@ interface endpoint connections that are attached to the service.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoint_service_configurations(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4547,7 +4907,7 @@ we delete the endpoint network interfaces.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoints(VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpcEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4568,7 +4928,7 @@ You cannot delete a VPC peering connection that's in the failed state.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4595,7 +4955,7 @@ connection before deleting the VPN connection.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4613,7 +4973,7 @@ routed from the virtual private gateway to the VPN customer gateway.
 
 """
 function delete_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4633,7 +4993,7 @@ plan to delete and recreate the VPN connection between your VPC and your network
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpn_gateway(VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeleteVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4656,8 +5016,48 @@ from its address range.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    deprovision_ipam_pool_cidr(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool
+that has a source pool, the CIDR is recycled back into the source pool. For more
+information, see Deprovision pool CIDRs in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the pool that has the CIDR you want to deprovision.
+
+# Keyword Parameters
+- `cidr`: The CIDR which you want to deprovision from the pool.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function deprovision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeprovisionIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    deprovision_public_ipv4_pool_cidr(cidr, pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deprovision a CIDR from a public IPv4 pool.
+
+# Arguments
+- `cidr`: The CIDR you want to deprovision from the pool.
+- `pool_id`: The ID of the pool that you want to deprovision the CIDR from.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function deprovision_public_ipv4_pool_cidr(Cidr, PoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DeprovisionPublicIpv4PoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4680,7 +5080,7 @@ Amazon S3 when you created the AMI.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deregister_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeregisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4697,7 +5097,7 @@ in scheduled event notifications for resources in the Region.
 - `instance_tag_attribute`: Information about the tag keys to deregister.
 """
 function deregister_instance_event_notification_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeregisterInstanceEventNotificationAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4716,7 +5116,7 @@ group.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function deregister_transit_gateway_multicast_group_members(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeregisterTransitGatewayMulticastGroupMembers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4735,7 +5135,7 @@ group.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function deregister_transit_gateway_multicast_group_sources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DeregisterTransitGatewayMulticastGroupSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4760,7 +5160,7 @@ maximum number of Elastic IP addresses that you can allocate for use with EC2-VP
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4796,7 +5196,7 @@ information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User G
   addresses.
 """
 function describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4817,7 +5217,7 @@ reverse DNS for email applications.
 - `next_token`: The token for the next page of results.
 """
 function describe_addresses_attribute(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeAddressesAttribute", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4842,7 +5242,7 @@ vpc-peering-connection | vpn-connection | vpn-gateway.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_aggregate_id_format(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeAggregateIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4883,7 +5283,7 @@ Guide.
 - `zone_names`: The names of the Availability Zones, Local Zones, and Wavelength Zones.
 """
 function describe_availability_zones(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeAvailabilityZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4910,7 +5310,7 @@ image manifest name you provided to the bundle task.
   update-time - The time of the most recent update for the task.
 """
 function describe_bundle_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeBundleTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4932,7 +5332,7 @@ DescribePublicIpv4Pools or DescribeIpv6Pools.
 - `next_token`: The token for the next page of results.
 """
 function describe_byoip_cidrs(MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeByoipCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -4959,7 +5359,7 @@ Describes one or more Capacity Reservation Fleets.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function describe_capacity_reservation_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeCapacityReservationFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5017,7 +5417,7 @@ Reservations in the Amazon Web Services Region that you're currently using.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function describe_capacity_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeCapacityReservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5046,7 +5446,7 @@ Describes one or more of your carrier gateways.
 - `next_token`: The token for the next page of results.
 """
 function describe_carrier_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeCarrierGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5078,7 +5478,7 @@ this request to return information about other instances.
 - `next_token`: The token for the next page of results.
 """
 function describe_classic_link_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClassicLinkInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5103,7 +5503,7 @@ Describes the authorization rules for a specified Client VPN endpoint.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_authorization_rules(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5128,7 +5528,7 @@ last 60 minutes for the specified Client VPN endpoint.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_connections(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5150,7 +5550,7 @@ Describes one or more Client VPN endpoints in the account.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClientVpnEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5175,7 +5575,7 @@ Describes the routes for the specified Client VPN endpoint.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_routes(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClientVpnRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5201,7 +5601,7 @@ Describes the target networks associated with the specified Client VPN endpoint.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_target_networks(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5223,7 +5623,7 @@ pools.
 - `pool_ids`: The IDs of the address pools.
 """
 function describe_coip_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeCoipPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5241,7 +5641,7 @@ referenced by this API action, see VM Import Manifest.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_conversion_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeConversionTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5270,7 +5670,7 @@ Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide
   assigned a tag with a specific key, regardless of the tag value.
 """
 function describe_customer_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeCustomerGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5300,7 +5700,7 @@ sets in the Amazon Virtual Private Cloud User Guide.
 - `next_token`: The token for the next page of results.
 """
 function describe_dhcp_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeDhcpOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5325,7 +5725,7 @@ Describes one or more of your egress-only internet gateways.
 - `next_token`: The token for the next page of results.
 """
 function describe_egress_only_internet_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeEgressOnlyInternetGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5352,7 +5752,7 @@ information about Elastic Graphics, see Amazon Elastic Graphics.
 - `next_token`: The token to request the next page of results.
 """
 function describe_elastic_gpus(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeElasticGpus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5372,7 +5772,7 @@ Describes the specified export image tasks or all of your export image tasks.
 - `next_token`: A token that indicates the next page of results.
 """
 function describe_export_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeExportImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5386,7 +5786,7 @@ Describes the specified export instance tasks or all of your export instance tas
 - `filters`: the filters for the export tasks.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeExportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5409,7 +5809,7 @@ Describes the state of fast snapshot restores for your snapshots.
 - `next_token`: The token for the next page of results.
 """
 function describe_fast_snapshot_restores(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFastSnapshotRestores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5438,7 +5838,7 @@ EventBridge in the Amazon EC2 User Guide.
 - `next_token`: The token for the next set of results.
 """
 function describe_fleet_history(FleetId, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFleetHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5462,7 +5862,7 @@ Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
 - `next_token`: The token for the next set of results.
 """
 function describe_fleet_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5491,7 +5891,7 @@ Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
 - `next_token`: The token for the next set of results.
 """
 function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5523,7 +5923,7 @@ Logs API.
 - `next_token`: The token for the next page of results.
 """
 function describe_flow_logs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFlowLogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5542,7 +5942,7 @@ Describes the specified attribute of the specified Amazon FPGA Image (AFI).
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_fpga_image_attribute(Attribute, FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5577,7 +5977,7 @@ you have load permissions.
   are amazon | aws-marketplace).
 """
 function describe_fpga_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeFpgaImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5611,7 +6011,7 @@ instance types, see Dedicated Hosts in the Amazon EC2 User Guide.
 - `offering_id`: The ID of the reservation offering.
 """
 function describe_host_reservation_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeHostReservationOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5638,7 +6038,7 @@ Describes reservations that are associated with Dedicated Hosts in your account.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function describe_host_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeHostReservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5670,7 +6070,7 @@ listed with the state released.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function describe_hosts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5688,7 +6088,7 @@ Describes your IAM instance profile associations.
 - `next_token`: The token to request the next page of results.
 """
 function describe_iam_instance_profile_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeIamInstanceProfileAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5722,7 +6122,7 @@ permission to use the relevant Describe command for the resource type.
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
 function describe_id_format(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5758,7 +6158,7 @@ request.
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
 function describe_identity_id_format(principalArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5780,7 +6180,7 @@ at a time.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_image_attribute(Attribute, ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5852,7 +6252,7 @@ error indicating that the AMI ID cannot be found.
   regardless of ownership.
 """
 function describe_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5873,7 +6273,7 @@ created.
 - `next_token`: A token that indicates the next page of results.
 """
 function describe_import_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeImportImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5893,7 +6293,7 @@ Describes your import snapshot tasks.
 - `next_token`: A token that indicates the next page of results.
 """
 function describe_import_snapshot_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeImportSnapshotTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5917,7 +6317,7 @@ sriovNetSupport
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_instance_attribute(attribute, instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5953,7 +6353,7 @@ performance instances in the Amazon EC2 User Guide.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_instance_credit_specifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceCreditSpecifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -5969,7 +6369,7 @@ resources in the current Region.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_instance_event_notification_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceEventNotificationAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6010,7 +6410,7 @@ information, see Define event windows for scheduled events in the Amazon EC2 Use
 - `next_token`: The token to request the next page of results.
 """
 function describe_instance_event_windows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceEventWindows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6021,7 +6421,7 @@ Describes the status of the specified instances or all of your instances. By def
 running instances are described, unless you specifically indicate to return the status of
 all instances. Instance status includes the following components:    Status checks - Amazon
 EC2 performs status checks on running EC2 instances to identify hardware and software
-issues. For more information, see Status checks for your instances and Troubleshooting
+issues. For more information, see Status checks for your instances and Troubleshoot
 instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events -
 Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances
 related to hardware issues, software updates, or system maintenance. For more information,
@@ -6064,7 +6464,7 @@ For more information, see Instance lifecycle in the Amazon EC2 User Guide.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_instance_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6089,7 +6489,7 @@ the current Region are returned.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_instance_type_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceTypeOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6168,7 +6568,7 @@ be filtered by the attributes of the instance types.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_instance_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstanceTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6316,7 +6716,7 @@ works normally.
 - `next_token`: The token to request the next page of results.
 """
 function describe_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6346,8 +6746,69 @@ Describes one or more of your internet gateways.
 - `next_token`: The token for the next page of results.
 """
 function describe_internet_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeInternetGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_ipam_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get information about your IPAM pools.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `ipam_pool_ids`: The IDs of the IPAM pools you would like information on.
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: The token for the next page of results.
+"""
+function describe_ipam_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeIpamPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_ipam_scopes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get information about your IPAM scopes.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `ipam_scope_ids`: The IDs of the scopes you want information on.
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: The token for the next page of results.
+"""
+function describe_ipam_scopes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeIpamScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_ipams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get information about your IPAM pools. For more information, see What is IPAM? in the
+Amazon VPC IPAM User Guide.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `ipam_ids`: The IDs of the IPAMs you want information on.
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: The token for the next page of results.
+"""
+function describe_ipams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeIpams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6371,7 +6832,7 @@ Describes your IPv6 address pools.
 - `pool_ids`: The IDs of the IPv6 address pools.
 """
 function describe_ipv6_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeIpv6Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6397,7 +6858,7 @@ pairs, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
 - `key_pair_ids`: The IDs of the key pairs.
 """
 function describe_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6441,7 +6902,7 @@ versions or all the default versions of all the launch templates in your account
   can specify Latest and Default in the same call. You cannot specify numbers.
 """
 function describe_launch_template_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLaunchTemplateVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6470,7 +6931,7 @@ Describes one or more launch templates.
 - `next_token`: The token to request the next page of results.
 """
 function describe_launch_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLaunchTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6495,7 +6956,7 @@ Describes the associations between virtual interface groups and local gateway ro
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateway_route_table_virtual_interface_group_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6518,7 +6979,7 @@ Describes the specified associations between VPCs and local gateway route tables
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateway_route_table_vpc_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGatewayRouteTableVpcAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6542,7 +7003,7 @@ tables are described. Alternatively, you can filter the results.
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateway_route_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGatewayRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6564,7 +7025,7 @@ Describes the specified local gateway virtual interface groups.
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateway_virtual_interface_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGatewayVirtualInterfaceGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6584,7 +7045,7 @@ Describes the specified local gateway virtual interfaces.
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateway_virtual_interfaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGatewayVirtualInterfaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6610,7 +7071,7 @@ Alternatively, you can filter the results.
 - `next_token`: The token for the next page of results.
 """
 function describe_local_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeLocalGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6633,7 +7094,7 @@ view the entries for your prefix list, use GetManagedPrefixListEntries.
 - `prefix_list_ids`: One or more prefix list IDs.
 """
 function describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeManagedPrefixLists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6659,7 +7120,7 @@ about any other Elastic IP addresses in your account.
 - `public_ips`: One or more Elastic IP addresses.
 """
 function describe_moving_addresses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeMovingAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6687,7 +7148,7 @@ Describes one or more of your NAT gateways.
 - `next_token`: The token for the next page of results.
 """
 function describe_nat_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNatGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6726,8 +7187,54 @@ Amazon Virtual Private Cloud User Guide.
 - `next_token`: The token for the next page of results.
 """
 function describe_network_acls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkAcls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_network_insights_access_scope_analyses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes the specified Network Access Scope analyses.
+
+# Keyword Parameters
+- `analysis_start_time_begin`: Filters the results based on the start time. The analysis
+  must have started on or after this time.
+- `analysis_start_time_end`: Filters the results based on the start time. The analysis must
+  have started on or before this time.
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: There are no supported filters.
+- `max_results`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `network_insights_access_scope_analysis_ids`: The IDs of the Network Access Scope
+  analyses.
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+- `next_token`: The token for the next page of results.
+"""
+function describe_network_insights_access_scope_analyses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeNetworkInsightsAccessScopeAnalyses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_network_insights_access_scopes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes the specified Network Access Scopes.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: There are no supported filters.
+- `max_results`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `network_insights_access_scope_ids`: The IDs of the Network Access Scopes.
+- `next_token`: The token for the next page of results.
+"""
+function describe_network_insights_access_scopes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeNetworkInsightsAccessScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6753,7 +7260,7 @@ Describes one or more of your network insights analyses.
 - `next_token`: The token for the next page of results.
 """
 function describe_network_insights_analyses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkInsightsAnalyses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6775,7 +7282,7 @@ Describes one or more of your paths.
 - `next_token`: The token for the next page of results.
 """
 function describe_network_insights_paths(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkInsightsPaths", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6794,7 +7301,7 @@ Describes a network interface attribute. You can specify only one attribute at a
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6818,7 +7325,7 @@ Describes the permissions for your network interfaces.
 - `next_token`: The token to request the next page of results.
 """
 function describe_network_interface_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkInterfacePermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6885,7 +7392,7 @@ Describes one or more of your network interfaces.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_network_interfaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeNetworkInterfaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6912,7 +7419,7 @@ information, see Placement groups in the Amazon EC2 User Guide.
   groups, or only those otherwise specified.
 """
 function describe_placement_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribePlacementGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6935,7 +7442,7 @@ service. We recommend that you use DescribeManagedPrefixLists instead.
 - `prefix_list_ids`: One or more prefix list IDs.
 """
 function describe_prefix_lists(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribePrefixLists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6971,7 +7478,7 @@ vpc-peering-connection | vpn-connection | vpn-gateway.
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
 function describe_principal_id_format(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribePrincipalIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -6993,7 +7500,7 @@ Describes the specified IPv4 address pools.
 - `pool_ids`: The IDs of the address pools.
 """
 function describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribePublicIpv4Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7019,7 +7526,7 @@ Web Services Regions in the Amazon Web Services General Reference.
   enabled and disabled for your account.
 """
 function describe_regions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7041,7 +7548,7 @@ in the Amazon Elastic Compute Cloud User Guide.
 - `replace_root_volume_task_ids`: The ID of the root volume replacement task to view.
 """
 function describe_replace_root_volume_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeReplaceRootVolumeTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7087,7 +7594,7 @@ about Reserved Instances, see Reserved Instances in the Amazon EC2 User Guide.
   Reserved Instances, or only those otherwise specified.
 """
 function describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeReservedInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7117,7 +7624,7 @@ Marketplace in the Amazon EC2 User Guide.
 - `reserved_instances_listing_id`: One or more Reserved Instance listing IDs.
 """
 function describe_reserved_instances_listings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeReservedInstancesListings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7150,7 +7657,7 @@ For more information, see Modifying Reserved Instances in the Amazon EC2 User Gu
 - `reserved_instances_modification_ids`: IDs for the submitted modification request.
 """
 function describe_reserved_instances_modifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeReservedInstancesModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7216,7 +7723,7 @@ EC2 User Guide.
 - `reserved_instances_offering_ids`: One or more Reserved Instances offering IDs.
 """
 function describe_reserved_instances_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeReservedInstancesOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7268,7 +7775,7 @@ Private Cloud User Guide.
 - `route_table_ids`: One or more route table IDs. Default: Describes all your route tables.
 """
 function describe_route_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7306,7 +7813,7 @@ Instances with that schedule.
 - `next_token`: The token for the next set of results.
 """
 function describe_scheduled_instance_availability(FirstSlotStartTimeRange, Recurrence; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7331,7 +7838,7 @@ Describes the specified Scheduled Instances or all your Scheduled Instances.
 - `slot_start_time_range`: The time period for the first schedule to start.
 """
 function describe_scheduled_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeScheduledInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7350,7 +7857,7 @@ referencing the security groups you've specified in this request.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_security_group_references(item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7376,7 +7883,7 @@ Describes one or more of your security group rules.
 - `security_group_rule_ids`: The IDs of the security group rules.
 """
 function describe_security_group_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSecurityGroupRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7440,7 +7947,7 @@ and Security groups for your VPC in the Amazon Virtual Private Cloud User Guide.
 - `next_token`: The token to request the next page of results.
 """
 function describe_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7461,8 +7968,30 @@ the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_snapshot_attribute(Attribute, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes the storage tier status of one or more Amazon EBS snapshots.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: The filters.    snapshot-id - The snapshot ID.    volume-id - The ID of the
+  volume the snapshot is for.    last-tiering-operation - The state of the last archive or
+  restore action. (archiving | archival_error | archival_complete | restoring | restore_error
+  | restore_complete)
+- `max_results`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `next_token`: The token for the next page of results.
+"""
+function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DescribeSnapshotTierStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7511,14 +8040,14 @@ Guide.
   owner. We recommend that you use the related parameter instead of this filter.    progress
   - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The
   snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status -
-  The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The
-  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
-  and the tag value as the filter value. For example, to find all resources that have a tag
-  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
-  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
-  to find all resources assigned a tag with a specific key, regardless of the tag value.
-  volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the
-  volume, in GiB.
+  The status of the snapshot (pending | completed | error).    storage-tier - The storage
+  tier of the snapshot (archive | standard).    tag:&lt;key&gt; - The key/value combination
+  of a tag assigned to the resource. Use the tag key in the filter name and the tag value as
+  the filter value. For example, to find all resources that have a tag with the key Owner and
+  the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of
+  the volume the snapshot is for.    volume-size - The size of the volume, in GiB.
 - `max_results`: The maximum number of snapshot results returned by DescribeSnapshots in
   paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults
   results in a single page along with a NextToken response element. The remaining results of
@@ -7539,7 +8068,7 @@ Guide.
   create volume permissions.
 """
 function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7555,7 +8084,7 @@ feed in the Amazon EC2 User Guide for Linux Instances.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_spot_datafeed_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotDatafeedSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7577,7 +8106,7 @@ Describes the running instances for the specified Spot Fleet.
 - `next_token`: The token for the next set of results.
 """
 function describe_spot_fleet_instances(spotFleetRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7606,7 +8135,7 @@ Amazon EventBridge in the Amazon EC2 User Guide for Linux Instances.
 - `next_token`: The token for the next set of results.
 """
 function describe_spot_fleet_request_history(spotFleetRequestId, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7627,7 +8156,7 @@ canceled and their instances are terminated.
 - `spot_fleet_request_ids`: The IDs of the Spot Fleet requests.
 """
 function describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotFleetRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7702,7 +8231,7 @@ are canceled and their instances are terminated.
 - `spot_instance_request_ids`: One or more Spot Instance request IDs.
 """
 function describe_spot_instance_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotInstanceRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7741,7 +8270,7 @@ start time.
   the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
 """
 function describe_spot_price_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSpotPriceHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7765,7 +8294,7 @@ group in a peer VPC for which the VPC peering connection has been deleted.
   from a prior call.)
 """
 function describe_stale_security_groups(VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeStaleSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7798,7 +8327,7 @@ using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
 - `next_token`: The token for the next page of results.
 """
 function describe_store_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeStoreImageTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7819,28 +8348,29 @@ the Amazon Virtual Private Cloud User Guide.
   that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you
   specify must exactly match the subnet's CIDR block for information to be returned for the
   subnet. You can also use cidr or cidrBlock as the filter names.    default-for-az -
-  Indicates whether this is the default subnet for the Availability Zone. You can also use
-  defaultForAz as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6
-  CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An
-  association ID for an IPv6 CIDR block associated with the subnet.
-  ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
-  subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
-  ID of the Amazon Web Services account that owns the subnet.    state - The state of the
-  subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.
-     subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a
-  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
-  VPC for the subnet.
+  Indicates whether this is the default subnet for the Availability Zone (true | false). You
+  can also use defaultForAz as the filter name.
+  ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the
+  subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR
+  block associated with the subnet.    ipv6-cidr-block-association.state - The state of an
+  IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an
+  IPv6 only subnet (true | false).    outpost-arn - The Amazon Resource Name (ARN) of the
+  Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.
+  state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource
+  Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  vpc-id - The ID of the VPC for the subnet.
 - `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `next_token`: The token for the next page of results.
 - `subnet_ids`: One or more subnet IDs. Default: Describes all your subnets.
 """
 function describe_subnets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeSubnets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7869,7 +8399,7 @@ Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7891,7 +8421,7 @@ Describes one or more Traffic Mirror filters.
 - `traffic_mirror_filter_ids`: The ID of the Traffic Mirror filter.
 """
 function describe_traffic_mirror_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTrafficMirrorFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7919,7 +8449,7 @@ described. Alternatively, you can filter the results.
 - `traffic_mirror_session_ids`: The ID of the Traffic Mirror session.
 """
 function describe_traffic_mirror_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTrafficMirrorSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7944,7 +8474,7 @@ Information about one or more Traffic Mirror targets.
 - `traffic_mirror_target_ids`: The ID of the Traffic Mirror targets.
 """
 function describe_traffic_mirror_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTrafficMirrorTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7976,7 +8506,7 @@ attachment state, resource ID, or resource owner.
 - `transit_gateway_attachment_ids`: The IDs of the attachments.
 """
 function describe_transit_gateway_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -7998,7 +8528,7 @@ Describes one or more Connect peers.
 - `transit_gateway_connect_peer_ids`: The IDs of the Connect peers.
 """
 function describe_transit_gateway_connect_peers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayConnectPeers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8024,7 +8554,7 @@ Describes one or more Connect attachments.
 - `transit_gateway_attachment_ids`: The IDs of the attachments.
 """
 function describe_transit_gateway_connects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayConnects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8047,7 +8577,7 @@ Describes one or more transit gateway multicast domains.
 - `transit_gateway_multicast_domain_ids`: The ID of the transit gateway multicast domain.
 """
 function describe_transit_gateway_multicast_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayMulticastDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8080,7 +8610,7 @@ Describes your transit gateway peering attachments.
   attachments.
 """
 function describe_transit_gateway_peering_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayPeeringAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8107,7 +8637,7 @@ tables are described. Alternatively, you can filter the results.
 - `transit_gateway_route_table_ids`: The IDs of the transit gateway route tables.
 """
 function describe_transit_gateway_route_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayRouteTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8132,7 +8662,7 @@ Alternatively, you can filter the results.
 - `transit_gateway_attachment_ids`: The IDs of the attachments.
 """
 function describe_transit_gateway_vpc_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGatewayVpcAttachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8167,7 +8697,7 @@ Alternatively, you can filter the results.
 - `transit_gateway_ids`: The IDs of the transit gateways.
 """
 function describe_transit_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTransitGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8190,7 +8720,7 @@ associations.
 - `next_token`: The token for the next page of results.
 """
 function describe_trunk_interface_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeTrunkInterfaceAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8211,7 +8741,7 @@ Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_volume_attribute(Attribute, VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8275,7 +8805,7 @@ incapable of accepting I/O.)
 - `volume_ids`: The IDs of the volumes. Default: Describes all your volumes.
 """
 function describe_volume_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVolumeStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8329,7 +8859,7 @@ volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
 - `volume_ids`: The volume IDs.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8364,7 +8894,7 @@ Elastic Compute Cloud User Guide.
 - `volume_ids`: The IDs of the volumes.
 """
 function describe_volumes_modifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVolumesModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8384,7 +8914,7 @@ at a time.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_vpc_attribute(Attribute, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8407,7 +8937,7 @@ Describes the ClassicLink status of one or more VPCs.
 - `vpc_ids`: One or more VPCs for which you want to describe the ClassicLink status.
 """
 function describe_vpc_classic_link(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcClassicLink", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8428,7 +8958,7 @@ Cloud User Guide.
 - `vpc_ids`: One or more VPC IDs.
 """
 function describe_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8452,7 +8982,7 @@ Describes the connection notifications for VPC endpoints and VPC endpoint servic
 - `next_token`: The token to request the next page of results.
 """
 function describe_vpc_endpoint_connection_notifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpointConnectionNotifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8477,7 +9007,7 @@ endpoints that are pending your acceptance.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_vpc_endpoint_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpointConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8506,7 +9036,7 @@ Describes the VPC endpoint service configurations in your account (your services
 - `service_ids`: The IDs of one or more services.
 """
 function describe_vpc_endpoint_service_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpointServiceConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8533,7 +9063,7 @@ endpoint service.
 - `next_token`: The token to retrieve the next page of results.
 """
 function describe_vpc_endpoint_service_permissions(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8566,7 +9096,7 @@ endpoint services in the common Availability Zone, us-east-1a.
 - `service_names`: One or more service names.
 """
 function describe_vpc_endpoint_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpointServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8597,7 +9127,7 @@ Describes one or more of your VPC endpoints.
 - `vpc_endpoint_ids`: One or more endpoint IDs.
 """
 function describe_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8634,7 +9164,7 @@ Describes one or more of your VPC peering connections.
   all your VPC peering connections.
 """
 function describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcPeeringConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8673,7 +9203,7 @@ Describes one or more of your VPCs.
 - `vpc_ids`: One or more VPC IDs. Default: Describes all your VPCs.
 """
 function describe_vpcs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpcs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8708,7 +9238,7 @@ Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide
   connections.
 """
 function describe_vpn_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpnConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8739,7 +9269,7 @@ Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User G
   virtual private gateways.
 """
 function describe_vpn_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DescribeVpnGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8760,7 +9290,7 @@ automatically unlinked from a VPC when it's stopped.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_classic_link_vpc(instanceId, vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DetachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8781,7 +9311,7 @@ IPv4 addresses.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_internet_gateway(internetGatewayId, vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DetachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8807,7 +9337,7 @@ Detaches a network interface from an instance.
   start the instance.
 """
 function detach_network_interface(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DetachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8843,7 +9373,7 @@ Guide.
   volume, you must specify an instance ID.
 """
 function detach_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8867,7 +9397,7 @@ virtual private gateway.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DetachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8886,7 +9416,7 @@ in the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8907,7 +9437,7 @@ Zones.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8926,8 +9456,28 @@ the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_image_deprecation(ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    disable_ipam_organization_admin_account(delegated_admin_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Disable the IPAM account. For more information, see Enable integration with Organizations
+in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `delegated_admin_account_id`: The Organizations member account ID that you want to
+  disable as IPAM account.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function disable_ipam_organization_admin_account(DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("DisableIpamOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -8943,7 +9493,7 @@ Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableSerialConsoleAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8963,7 +9513,7 @@ propagation route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -8983,7 +9533,7 @@ of a VPC.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9002,7 +9552,7 @@ EC2-Classic instances linked to it.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9018,7 +9568,7 @@ Cloud User Guide. You must specify a VPC ID in the request.
 - `vpc_id`: The ID of the VPC.
 """
 function disable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisableVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9039,7 +9589,7 @@ doesn't return an error.
 - `public_ip`: [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
 """
 function disassociate_address(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9063,7 +9613,7 @@ changes to pending-associate
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9084,7 +9634,7 @@ This effectively revokes the role's permission to use the certificate.
 - `role_arn`: The ARN of the IAM role to disassociate.
 """
 function disassociate_enclave_certificate_iam_role(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateEnclaveCertificateIamRole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9099,7 +9649,7 @@ DescribeIamInstanceProfileAssociations to get the association ID.
 
 """
 function disassociate_iam_instance_profile(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9119,7 +9669,7 @@ event windows for scheduled events in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9141,7 +9691,7 @@ Amazon Virtual Private Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_route_table(associationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9157,7 +9707,7 @@ the CIDR block before you can disassociate it.
 
 """
 function disassociate_subnet_cidr_block(associationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9175,7 +9725,7 @@ Disassociates the specified subnets from the transit gateway multicast domain.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function disassociate_transit_gateway_multicast_domain(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateTransitGatewayMulticastDomain", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9194,7 +9744,7 @@ Disassociates a resource attachment from a transit gateway route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9216,7 +9766,7 @@ interface with a trunk network interface.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_trunk_interface(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9234,7 +9784,7 @@ the VPC (the primary CIDR block).
 
 """
 function disassociate_vpc_cidr_block(associationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("DisassociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9257,7 +9807,7 @@ encryption. For more information, see Supported instance types.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9283,7 +9833,7 @@ the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9306,8 +9856,29 @@ information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_image_deprecation(DeprecateAt, ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeprecateAt"=>DeprecateAt, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    enable_ipam_organization_admin_account(delegated_admin_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Enable an Organizations member account as the IPAM admin account. You cannot select the
+Organizations management account as the IPAM admin account. For more information, see
+Enable integration with Organizations in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `delegated_admin_account_id`: The Organizations member account ID that you want to enable
+  as the IPAM account.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function enable_ipam_organization_admin_account(DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("EnableIpamOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DelegatedAdminAccountId"=>DelegatedAdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -9323,7 +9894,7 @@ Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableSerialConsoleAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9343,7 +9914,7 @@ table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9366,7 +9937,7 @@ a VPC.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9385,7 +9956,7 @@ the volume was potentially inconsistent.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_volume_io(volumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableVolumeIO", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("volumeId"=>volumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9408,7 +9979,7 @@ Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9426,7 +9997,7 @@ Cloud User Guide. You must specify a VPC ID in the request.
 - `vpc_id`: The ID of the VPC.
 """
 function enable_vpc_classic_link_dns_support(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("EnableVpcClassicLinkDnsSupport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9444,7 +10015,7 @@ Downloads the client certificate revocation list for the specified Client VPN en
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function export_client_vpn_client_certificate_revocation_list(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9465,7 +10036,7 @@ VPN endpoint.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function export_client_vpn_client_configuration(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ExportClientVpnClientConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9495,7 +10066,7 @@ VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guid
 - `tag_specifications`: The tags to apply to the export image task during creation.
 """
 function export_image(DiskImageFormat, ImageId, S3ExportLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ExportImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9529,7 +10100,7 @@ Route Tables to Amazon S3 in Transit Gateways.
   (propagated | static).
 """
 function export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ExportTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9549,7 +10120,7 @@ the KMS key that's used to encrypt the private key.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_associated_enclave_certificate_iam_roles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetAssociatedEnclaveCertificateIamRoles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9570,7 +10141,7 @@ Gets information about the IPv6 CIDR block associations for a specified IPv6 add
 - `next_token`: The token for the next page of results.
 """
 function get_associated_ipv6_pool_cidrs(PoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9596,7 +10167,7 @@ shared, it shows only the Capacity Reservation owner's usage.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function get_capacity_reservation_usage(CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetCapacityReservationUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9620,7 +10191,7 @@ Describes the allocations from the specified customer-owned address pool.
 - `next_token`: The token for the next page of results.
 """
 function get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetCoipPoolUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9649,7 +10220,7 @@ more information, see Instance console output in the Amazon EC2 User Guide.
   disabled (false)
 """
 function get_console_output(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetConsoleOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9670,7 +10241,7 @@ returned content is Base64-encoded.
   standby or \"sleep\" mode.
 """
 function get_console_screenshot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetConsoleScreenshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9690,7 +10261,7 @@ Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_default_credit_specification(InstanceFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceFamily"=>InstanceFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9708,7 +10279,7 @@ encryption in the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetEbsDefaultKmsKeyId", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9725,7 +10296,7 @@ User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetEbsEncryptionByDefault", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9752,7 +10323,7 @@ past   Create a set of named queries in Athena that you can use to get started q
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_flow_logs_integration_template(ConfigDeliveryS3DestinationArn, FlowLogId, IntegrateService; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetFlowLogsIntegrationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigDeliveryS3DestinationArn"=>ConfigDeliveryS3DestinationArn, "FlowLogId"=>FlowLogId, "IntegrateService"=>IntegrateService), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9775,7 +10346,7 @@ Lists the resource groups to which a Capacity Reservation has been added.
 - `next_token`: The token to use to retrieve the next page of results.
 """
 function get_groups_for_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetGroupsForCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9793,7 +10364,7 @@ being purchased.
 
 """
 function get_host_reservation_purchase_preview(OfferingId, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetHostReservationPurchasePreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9825,8 +10396,110 @@ attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guid
 - `next_token`: The token for the next set of results.
 """
 function get_instance_types_from_instance_requirements(ArchitectureType, InstanceRequirements, VirtualizationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetInstanceTypesFromInstanceRequirements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchitectureType"=>ArchitectureType, "InstanceRequirements"=>InstanceRequirements, "VirtualizationType"=>VirtualizationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_ipam_address_history(cidr, ipam_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieve historical information about a CIDR within an IPAM scope. For more information,
+see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `cidr`: The CIDR you want the history of. The CIDR can be an IPv4 or IPv6 IP address
+  range. If you enter a /16 IPv4 CIDR, you will get records that match it exactly. You will
+  not get records for any subnets within the /16 CIDR.
+- `ipam_scope_id`: The ID of the IPAM scope that the CIDR is in.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `end_time`: The end of the time period for which you are looking for history. If you omit
+  this option, it will default to the current time.
+- `max_results`: The maximum number of historical results you would like returned per page.
+  Defaults to 100.
+- `next_token`: The token for the next page of results.
+- `start_time`: The start of the time period for which you are looking for history. If you
+  omit this option, it will default to the value of EndTime.
+- `vpc_id`: The ID of the VPC you want your history records filtered by.
+"""
+function get_ipam_address_history(Cidr, IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetIpamAddressHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_ipam_pool_allocations(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get a list of all the CIDR allocations in an IPAM pool.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want to see the allocations for.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `ipam_pool_allocation_id`: The ID of the allocation.
+- `max_results`: The maximum number of results you would like returned per page.
+- `next_token`: The token for the next page of results.
+"""
+function get_ipam_pool_allocations(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetIpamPoolAllocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_ipam_pool_cidrs(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get the CIDRs provisioned to an IPAM pool.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want the CIDR for.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: The token for the next page of results.
+"""
+function get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetIpamPoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_ipam_resource_cidrs(ipam_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Get information about the resources in a scope.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope that the resource is in.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `filters`: One or more filters for the request. For more information about filtering, see
+  Filtering CLI output.
+- `ipam_pool_id`: The ID of the IPAM pool that the resource is in.
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: The token for the next page of results.
+- `resource_id`: The ID of the resource.
+- `resource_owner`: The ID of the Amazon Web Services account that owns the resource.
+- `resource_tag`:
+- `resource_type`: The resource type.
+"""
+function get_ipam_resource_cidrs(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetIpamResourceCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -9848,7 +10521,7 @@ DescribeElasticGpus. Or, you can allow describe* depending on your instance requ
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_launch_template_data(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetLaunchTemplateData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9870,7 +10543,7 @@ list.
 - `next_token`: The token for the next page of results.
 """
 function get_managed_prefix_list_associations(PrefixListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetManagedPrefixListAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9893,8 +10566,47 @@ Gets information about the entries for a specified managed prefix list.
   default is the current version.
 """
 function get_managed_prefix_list_entries(PrefixListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetManagedPrefixListEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_network_insights_access_scope_analysis_findings(network_insights_access_scope_analysis_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the findings for the specified Network Access Scope analysis.
+
+# Arguments
+- `network_insights_access_scope_analysis_id`: The ID of the Network Access Scope analysis.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `max_results`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `next_token`: The token for the next page of results.
+"""
+function get_network_insights_access_scope_analysis_findings(NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetNetworkInsightsAccessScopeAnalysisFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeAnalysisId"=>NetworkInsightsAccessScopeAnalysisId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_network_insights_access_scope_content(network_insights_access_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the content for the specified Network Access Scope.
+
+# Arguments
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function get_network_insights_access_scope_content(NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("GetNetworkInsightsAccessScopeContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -9921,7 +10633,7 @@ generated password.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_password_data(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetPasswordData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9944,7 +10656,7 @@ to perform the exchange.
   exchange for your current Convertible Reserved Instances.
 """
 function get_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -9962,7 +10674,7 @@ Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_serial_console_access_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetSerialConsoleAccessStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10005,7 +10717,7 @@ EC2 User Guide.
   to number of instances)
 """
 function get_spot_placement_scores(TargetCapacity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetSpotPlacementScores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacity"=>TargetCapacity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10033,7 +10745,7 @@ Gets information about the subnet CIDR reservations.
 - `next_token`: The token for the next page of results.
 """
 function get_subnet_cidr_reservations(SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetSubnetCidrReservations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10056,7 +10768,7 @@ Lists the route tables to which the specified resource attachment propagates rou
 - `next_token`: The token for the next page of results.
 """
 function get_transit_gateway_attachment_propagations(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10080,7 +10792,7 @@ Gets information about the associations for the transit gateway multicast domain
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function get_transit_gateway_multicast_domain_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetTransitGatewayMulticastDomainAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10109,7 +10821,7 @@ table.
 - `next_token`: The token for the next page of results.
 """
 function get_transit_gateway_prefix_list_references(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetTransitGatewayPrefixListReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10134,7 +10846,7 @@ Gets information about the associations for the specified transit gateway route 
 - `next_token`: The token for the next page of results.
 """
 function get_transit_gateway_route_table_associations(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10160,7 +10872,7 @@ table.
 - `next_token`: The token for the next page of results.
 """
 function get_transit_gateway_route_table_propagations(TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10185,7 +10897,7 @@ customer gateway device specified for your Site-to-Site VPN connection.
   or ikev2.
 """
 function get_vpn_connection_device_sample_configuration(VpnConnectionDeviceTypeId, VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetVpnConnectionDeviceSampleConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionDeviceTypeId"=>VpnConnectionDeviceTypeId, "VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10213,7 +10925,7 @@ Amazon Web Services Site-to-Site VPN User Guide.
   returned the NextToken value. This value is null when there are no more results to return.
 """
 function get_vpn_connection_device_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("GetVpnConnectionDeviceTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10238,7 +10950,7 @@ connections.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10298,7 +11010,7 @@ VM Import/Export User Guide.
   in the VM Import/Export User Guide.
 """
 function import_image(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportImage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10324,7 +11036,7 @@ manifest referenced by this API action, see VM Import Manifest.
 - `launch_specification`: The launch specification.
 """
 function import_instance(platform; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platform"=>platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10351,7 +11063,7 @@ User Guide.
 - `tag_specifications`: The tags to apply to the imported key pair.
 """
 function import_key_pair(keyName, publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10395,7 +11107,7 @@ snapshot using VM Import/Export in the VM Import/Export User Guide.
 - `tag_specifications`: The tags to apply to the import snapshot task during creation.
 """
 function import_snapshot(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10422,8 +11134,28 @@ Manifest.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function import_volume(availabilityZone, image, volume; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ImportVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists one or more snapshots that are currently in the Recycle Bin.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `max_results`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `next_token`: The token for the next page of results.
+- `snapshot_ids`: The IDs of the snapshots to list. Omit this parameter to list all of the
+  snapshots that are in the Recycle Bin.
+"""
+function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ListSnapshotsInRecycleBin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10442,7 +11174,7 @@ reverse DNS for email applications.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_address_attribute(AllocationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyAddressAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10465,7 +11197,7 @@ Changes the opt-in status of the Local Zone and Wavelength Zone group for your a
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_availability_zone_group(GroupName, OptInStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10503,7 +11235,7 @@ and then create a new one with the required attributes.
   instances can't be increased or decreased by more than 1000 in a single request.
 """
 function modify_capacity_reservation(CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10540,7 +11272,7 @@ individual Capacity Reservations in the Fleet are updated accordingly.
   workload. For more information, see Total target capacity in the Amazon EC2 User Guide.
 """
 function modify_capacity_reservation_fleet(CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyCapacityReservationFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationFleetId"=>CapacityReservationFleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10581,7 +11313,7 @@ connections.
   Valid Values: 443 | 1194  Default Value: 443
 """
 function modify_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10610,7 +11342,7 @@ more information, see Burstable performance instances in the Amazon EC2 User Gui
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_default_credit_specification(CpuCredits, InstanceFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10646,7 +11378,7 @@ Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_ebs_default_kms_key_id(KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10689,7 +11421,7 @@ can set the target capacity to 0.
 - `target_capacity_specification`: The size of the EC2 Fleet.
 """
 function modify_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10718,7 +11450,7 @@ Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
   modifying the loadPermission attribute.
 """
 function modify_fpga_image_attribute(FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10753,7 +11485,7 @@ instance type only.
   InstanceType and InstanceFamily in the same request.
 """
 function modify_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10791,7 +11523,7 @@ have permission to use the relevant Describe command for the resource type.
 
 """
 function modify_id_format(Resource, UseLongIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10831,7 +11563,7 @@ for the resource type.
 
 """
 function modify_identity_id_format(principalArn, resource, useLongIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10871,7 +11603,7 @@ from the instance.
   the Attribute parameter is description.
 """
 function modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10884,8 +11616,7 @@ an elastic network interface (ENI) attached to an instance in a VPC can result i
 if the instance has more than one ENI. To change the security groups associated with an ENI
 attached to an instance that has multiple ENIs, we recommend that you use the
 ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be
-stopped. For more information, see Modifying attributes of a stopped instance in the Amazon
-EC2 User Guide.
+stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -10896,7 +11627,7 @@ EC2 User Guide.
   currently attached. The volume must be owned by the caller. If no value is specified for
   DeleteOnTermination, the default is true and the volume is deleted when the instance is
   terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add
-  them when you launch the instance. For more information, see Updating the block device
+  them when you launch the instance. For more information, see Update the block device
   mapping when launching an instance in the Amazon EC2 User Guide.
 - `disable_api_termination`: If the value is true, you can't terminate the instance using
   the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for
@@ -10941,7 +11672,7 @@ EC2 User Guide.
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
 function modify_instance_attribute(instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10963,7 +11694,7 @@ Reservation with matching attributes, or run On-Demand Instance capacity.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_instance_capacity_reservation_attributes(CapacityReservationSpecification, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -10985,7 +11716,7 @@ Burstable performance instances in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_instance_credit_specification(InstanceCreditSpecification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11005,7 +11736,7 @@ Modifies the start time for a scheduled Amazon EC2 instance event.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceEventStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11038,7 +11769,7 @@ information, see Define event windows for scheduled events in the Amazon EC2 Use
 - `time_ranges`: The time ranges of the event window.
 """
 function modify_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11060,11 +11791,11 @@ the Amazon EC2 User Guide.
 - `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `http_endpoint`: This parameter enables or disables the HTTP metadata endpoint on your
-  instances. If the parameter is not specified, the existing state is maintained.  If you
-  specify a value of disabled, you will not be able to access your instance metadata.
+- `http_endpoint`: Enables or disables the HTTP metadata endpoint on your instances. If the
+  parameter is not specified, the existing state is maintained. If you specify a value of
+  disabled, you cannot access your instance metadata.
 - `http_protocol_ipv6`: Enables or disables the IPv6 endpoint for the instance metadata
-  service.
+  service. This setting applies only if you have enabled the HTTP metadata endpoint.
 - `http_put_response_hop_limit`: The desired HTTP PUT response hop limit for instance
   metadata requests. The larger the number, the further instance metadata requests can
   travel. If no parameter is specified, the existing state is maintained. Possible values:
@@ -11080,7 +11811,7 @@ the Amazon EC2 User Guide.
   credentials; the version 1.0 credentials are not available.
 """
 function modify_instance_metadata_options(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstanceMetadataOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11110,14 +11841,133 @@ partition for an instance, the instance must be in the stopped state.
 - `host_id`: The ID of the Dedicated Host with which to associate the instance.
 - `host_resource_group_arn`: The ARN of the host resource group in which to place the
   instance.
-- `partition_number`: Reserved for future use.
+- `partition_number`: The number of the partition in which to place the instance. Valid
+  only if the placement group strategy is set to partition.
 - `tenancy`: The tenancy for the instance.  For T3 instances, you can't change the tenancy
   from dedicated to host, or from host to dedicated. Attempting to make one of these
   unsupported tenancy changes results in the InvalidTenancy error code.
 """
 function modify_instance_placement(instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyInstancePlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_ipam(ipam_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Modify the configurations of an IPAM.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM you want to modify.
+
+# Keyword Parameters
+- `add_operating_regions`: Choose the operating Regions for the IPAM. Operating Regions are
+  Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only
+  discovers and monitors resources in the Amazon Web Services Regions you select as operating
+  Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC
+  IPAM User Guide.
+- `description`: The description of the IPAM you want to modify.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `remove_operating_regions`: The operating Regions to remove.
+"""
+function modify_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifyIpam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamId"=>IpamId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_ipam_pool(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Modify the configurations of an IPAM pool. For more information, see Modify a pool in the
+Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want to modify.
+
+# Keyword Parameters
+- `add_allocation_resource_tags`: Add tag allocation rules to a pool. For more information
+  about allocation rules, see Create a top-level pool in the Amazon VPC IPAM User Guide.
+- `allocation_default_netmask_length`: The default netmask length for allocations added to
+  this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  here, new allocations will default to 10.0.0.0/16.
+- `allocation_max_netmask_length`: The maximum netmask length possible for CIDR allocations
+  in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  Possible netmask lengths for IPv6 addresses are 0 - 128.The maximum netmask length must be
+  greater than the minimum netmask length.
+- `allocation_min_netmask_length`: The minimum netmask length required for CIDR allocations
+  in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  Possible netmask lengths for IPv6 addresses are 0 - 128. The minimum netmask length must be
+  less than the maximum netmask length.
+- `auto_import`: If true, IPAM will continuously look for resources within the CIDR range
+  of this pool and automatically import them as allocations into your IPAM. The CIDRs that
+  will be allocated for these resources must not already be allocated to other resources in
+  order for the import to succeed. IPAM will import a CIDR regardless of its compliance with
+  the pool's allocation rules, so a resource might be imported and subsequently marked as
+  noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest
+  CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly import
+  one of them only.  A locale must be set on the pool for this feature to work.
+- `clear_allocation_default_netmask_length`: Clear the default netmask length allocation
+  rule for this pool.
+- `description`: The description of the IPAM pool you want to modify.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `remove_allocation_resource_tags`: Remove tag allocation rules from a pool.
+"""
+function modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifyIpamPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_ipam_resource_cidr(current_ipam_scope_id, monitored, resource_cidr, resource_id, resource_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes
+and ignore resource CIDRs that you do not want to manage. If set to false, the resource
+will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be
+removed from any pool it has an allocation in. For more information, see Move resource
+CIDRs between scopes and Change the monitoring state of resource CIDRs in the Amazon VPC
+IPAM User Guide.
+
+# Arguments
+- `current_ipam_scope_id`: The ID of the current scope that the resource CIDR is in.
+- `monitored`: Determines if the resource is monitored by IPAM. If a resource is monitored,
+  the resource is discovered by IPAM and you can view details about the resource’s CIDR.
+- `resource_cidr`: The CIDR of the resource you want to modify.
+- `resource_id`: The ID of the resource you want to modify.
+- `resource_region`: The Amazon Web Services Region of the resource you want to modify.
+
+# Keyword Parameters
+- `destination_ipam_scope_id`: The ID of the scope you want to transfer the resource CIDR
+  to.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function modify_ipam_resource_cidr(CurrentIpamScopeId, Monitored, ResourceCidr, ResourceId, ResourceRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifyIpamResourceCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentIpamScopeId"=>CurrentIpamScopeId, "Monitored"=>Monitored, "ResourceCidr"=>ResourceCidr, "ResourceId"=>ResourceId, "ResourceRegion"=>ResourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_ipam_scope(ipam_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Modify an IPAM scope.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope you want to modify.
+
+# Keyword Parameters
+- `description`: The description of the scope you want to modify.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifyIpamScope", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamScopeId"=>IpamScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11142,7 +11992,7 @@ template version is not specified.
   launch template ID or launch template name in the request.
 """
 function modify_launch_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyLaunchTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11172,7 +12022,7 @@ current version number, the request fails.
 - `remove_entries`: One or more entries to remove from the prefix list.
 """
 function modify_managed_prefix_list(PrefixListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11204,8 +12054,32 @@ instance.
   services such as network address translation, routing, or firewalls.
 """
 function modify_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_private_dns_name_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Modifies the options for instance hostnames for the specified instance.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `enable_resource_name_dns_aaaarecord`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS AAAA records.
+- `enable_resource_name_dns_arecord`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS A records.
+- `instance_id`: The ID of the instance.
+- `private_dns_hostname_type`: The type of hostname for EC2 instances. For IPv4 only
+  subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only
+  subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you
+  can specify whether DNS names use the instance IPv4 address or the instance ID.
+"""
+function modify_private_dns_name_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifyPrivateDnsNameOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11226,7 +12100,7 @@ more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
   modification request. For more information, see Ensuring Idempotency.
 """
 function modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11245,7 +12119,7 @@ Modifies the rules of a security group.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_security_group_rules(GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifySecurityGroupRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11277,8 +12151,31 @@ User Guide.
 - `user_ids`: The account ID to modify for the snapshot.
 """
 function modify_snapshot_attribute(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifySnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_snapshot_tier(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full
+snapshot that includes all of the blocks of data that were written to the volume at the
+time the snapshot was created, and moved from the standard tier to the archive tier. For
+more information, see Archive Amazon EBS snapshots in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `storage_tier`: The name of the storage tier. You must specify archive.
+"""
+function modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ModifySnapshotTier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11321,14 +12218,19 @@ you can set the target capacity to 0.
 - `target_capacity`: The size of the fleet.
 """
 function modify_spot_fleet_request(spotFleetRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifySpotFleetRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     modify_subnet_attribute(subnet_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Modifies a subnet attribute. You can only modify one attribute at a time.
+Modifies a subnet attribute. You can only modify one attribute at a time. Use this action
+to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack,
+set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as
+a single attribute.   To modify a subnet on an Outpost server, set either
+EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.   For more information about Amazon Web
+Services Outposts, see the following:    Outpost servers     Outpost racks
 
 # Arguments
 - `subnet_id`: The ID of the subnet.
@@ -11342,17 +12244,32 @@ Modifies a subnet attribute. You can only modify one attribute at a time.
   2016-11-15 or later of the Amazon EC2 API.
 - `customer_owned_ipv4_pool`: The customer-owned IPv4 address pool associated with the
   subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
+- `disable_lni_at_device_index`:  Specify true to indicate that local network interfaces at
+  the current position should be disabled.
 - `enable_dns64`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver in
   this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
+- `enable_lni_at_device_index`:  Indicates the device position for local network interfaces
+  in this subnet. For example, 1 indicates local network interfaces in this subnet are the
+  secondary network interface (eth1). A local network interface cannot be the primary network
+  interface (eth0).
+- `enable_resource_name_dns_aaaarecord_on_launch`: Indicates whether to respond to DNS
+  queries for instance hostnames with DNS AAAA records.
+- `enable_resource_name_dns_arecord_on_launch`: Indicates whether to respond to DNS queries
+  for instance hostnames with DNS A records.
 - `map_customer_owned_ip_on_launch`: Specify true to indicate that network interfaces
   attached to instances created in the specified subnet should be assigned a customer-owned
   IPv4 address. When this value is true, you must specify the customer-owned IP pool using
   CustomerOwnedIpv4Pool.
 - `map_public_ip_on_launch`: Specify true to indicate that network interfaces attached to
   instances created in the specified subnet should be assigned a public IPv4 address.
+- `private_dns_hostname_type_on_launch`: The type of hostnames to assign to instances in
+  the subnet at launch. For IPv4 only subnets, an instance DNS name must be based on the
+  instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the
+  instance ID. For dual-stack subnets, you can specify whether DNS names use the instance
+  IPv4 address or the instance ID.
 """
 function modify_subnet_attribute(subnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifySubnetAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11379,7 +12296,7 @@ Mirror filter.
   longer want to mirror.
 """
 function modify_traffic_mirror_filter_network_services(TrafficMirrorFilterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11413,7 +12330,7 @@ both be an IPv4 range or an IPv6 range.
 - `traffic_direction`: The type of traffic to assign to the rule.
 """
 function modify_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11447,7 +12364,7 @@ Modifies a Traffic Mirror session.
 - `virtual_network_id`: The virtual network ID of the Traffic Mirror session.
 """
 function modify_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11469,7 +12386,7 @@ attachments are not modified.
 - `options`: The options to modify.
 """
 function modify_transit_gateway(TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11490,7 +12407,7 @@ Modifies a reference (route) to a prefix list in a specified transit gateway rou
 - `transit_gateway_attachment_id`: The ID of the attachment to which traffic is routed.
 """
 function modify_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11512,7 +12429,7 @@ Modifies the specified VPC attachment.
 - `remove_subnet_ids`: The IDs of one or more subnets to remove.
 """
 function modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11565,7 +12482,7 @@ further modifications to the affected EBS volume.
   is retained.
 """
 function modify_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11589,7 +12506,7 @@ boot volumes or for volumes that are stateless or disposable.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_volume_attribute(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11615,7 +12532,7 @@ Modifies the specified attribute of the specified VPC.
   attributes in the same request. Use separate requests for each attribute.
 """
 function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11654,7 +12571,7 @@ information, see VPC Endpoints in the Amazon Virtual Private Cloud User Guide.
   default policy. The default policy allows full access to the service.
 """
 function modify_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11676,7 +12593,7 @@ the SNS topic for the notification, or the events for which to be notified.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpc_endpoint_connection_notification(ConnectionNotificationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11713,7 +12630,7 @@ Name Verification in the Amazon Virtual Private Cloud User Guide.
   name of the endpoint service.
 """
 function modify_vpc_endpoint_service_configuration(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11741,7 +12658,7 @@ approved.
   Permissions are revoked for principals in this list.
 """
 function modify_vpc_endpoint_service_permissions(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11778,7 +12695,7 @@ requester for a VPC peering connection, use the DescribeVpcPeeringConnections co
   requester VPC.
 """
 function modify_vpc_peering_connection_options(VpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11802,7 +12719,7 @@ Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpc_tenancy(InstanceTenancy, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpcTenancy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11844,7 +12761,7 @@ while we provision the new endpoints.
   of the VPN connection.
 """
 function modify_vpn_connection(VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11873,7 +12790,7 @@ unavailable for a brief period while the VPN connection is updated.
   connection. Default: ::/0
 """
 function modify_vpn_connection_options(VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpnConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11892,7 +12809,7 @@ Modifies the VPN tunnel endpoint certificate.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpn_tunnel_certificate(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpnTunnelCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11915,7 +12832,7 @@ for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpn_tunnel_options(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ModifyVpnTunnelOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11923,7 +12840,7 @@ end
     monitor_instances(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled.
-For more information, see Monitoring your instances and volumes in the Amazon EC2 User
+For more information, see Monitor your instances using CloudWatch in the Amazon EC2 User
 Guide. To disable detailed monitoring, see .
 
 # Arguments
@@ -11935,7 +12852,7 @@ Guide. To disable detailed monitoring, see .
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function monitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("MonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -11958,8 +12875,26 @@ allocated for use in the EC2-VPC platform to the EC2-Classic platform.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("MoveAddressToVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    move_byoip_cidr_to_ipam(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool.
+
+# Keyword Parameters
+- `cidr`: The BYOIP CIDR.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `ipam_pool_id`: The IPAM pool ID.
+- `ipam_pool_owner`: The Amazon Web Services account ID of the owner of the IPAM pool.
+"""
+function move_byoip_cidr_to_ipam(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("MoveByoipCidrToIpam", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11998,8 +12933,54 @@ address pool.
   advertised to the internet. Default: true
 """
 function provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    provision_ipam_pool_cidr(ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Provision a CIDR to an IPAM pool. You can use thsi action to provision new CIDRs to a
+top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more
+information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool to which you want to assign a CIDR.
+
+# Keyword Parameters
+- `cidr`: The CIDR you want to assign to the IPAM pool.
+- `cidr_authorization_context`: A signed document that proves that you are authorized to
+  bring a specified IP address range to Amazon using BYOIP. This option applies to public
+  pools only.
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function provision_ipam_pool_cidr(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ProvisionIpamPoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    provision_public_ipv4_pool_cidr(ipam_pool_id, netmask_length, pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Provision a CIDR to a public IPv4 pool. For more information about IPAM, see What is IPAM?
+in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you would like to use to allocate this CIDR.
+- `netmask_length`: The netmask length of the CIDR you would like to allocate to the public
+  IPv4 pool.
+- `pool_id`: The ID of the public IPv4 pool you would like to use for this CIDR.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function provision_public_ipv4_pool_cidr(IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ProvisionPublicIpv4PoolCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpamPoolId"=>IpamPoolId, "NetmaskLength"=>NetmaskLength, "PoolId"=>PoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12027,7 +13008,7 @@ action results in the specified reservation being purchased and charged to your 
 - `tag_specifications`: The tags to apply to the Dedicated Host Reservation during purchase.
 """
 function purchase_host_reservation(OfferingId, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("PurchaseHostReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12057,7 +13038,7 @@ Marketplace in the Amazon EC2 User Guide.
   example, YYYY-MM-DDTHH:MM:SSZ).
 """
 function purchase_reserved_instances_offering(InstanceCount, ReservedInstancesOfferingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("PurchaseReservedInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12082,7 +13063,7 @@ purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function purchase_scheduled_instances(PurchaseRequest; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("PurchaseScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12093,8 +13074,8 @@ Requests a reboot of the specified instances. This operation is asynchronous; it
 queues a request to reboot the specified instances. The operation succeeds if the instances
 are valid and belong to you. Requests to reboot terminated instances are ignored. If an
 instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard
-reboot. For more information about troubleshooting, see Getting console output and
-rebooting instances in the Amazon EC2 User Guide.
+reboot. For more information about troubleshooting, see Troubleshoot an unreachable
+instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The instance IDs.
@@ -12105,7 +13086,7 @@ rebooting instances in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reboot_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RebootInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12183,7 +13164,7 @@ Understanding AMI billing in the Amazon Elastic Compute Cloud User Guide.
   paravirtual
 """
 function register_image(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RegisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12200,7 +13181,7 @@ Registers a set of tag keys to include in scheduled event notifications for your
 - `instance_tag_attribute`: Information about the tag keys to register.
 """
 function register_instance_event_notification_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RegisterInstanceEventNotificationAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12223,7 +13204,7 @@ verify that the members were added to the transit gateway multicast group.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function register_transit_gateway_multicast_group_members(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RegisterTransitGatewayMulticastGroupMembers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12247,7 +13228,7 @@ group.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function register_transit_gateway_multicast_group_sources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RegisterTransitGatewayMulticastGroupSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12267,7 +13248,7 @@ domain.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function reject_transit_gateway_multicast_domain_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RejectTransitGatewayMulticastDomainAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12285,7 +13266,7 @@ Rejects a transit gateway peering attachment request.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12306,7 +13287,7 @@ request.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12325,7 +13306,7 @@ Rejects one or more VPC endpoint connection requests to your VPC endpoint servic
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RejectVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12347,7 +13328,7 @@ DeleteVpcPeeringConnection.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RejectVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12379,7 +13360,7 @@ able to recover it. For more information, see AllocateAddress.
 - `public_ip`: [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
 """
 function release_address(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReleaseAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12400,8 +13381,31 @@ DescribeHosts response.
 
 """
 function release_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReleaseHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    release_ipam_pool_allocation(cidr, ipam_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Release an allocation within an IPAM pool. You can only use this action to release manual
+allocations. To remove an allocation for a resource without deleting the resource, set its
+monitored state to false using ModifyIpamResourceCidr. For more information, see Release an
+allocation in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `cidr`: The CIDR of the allocation you want to release.
+- `ipam_pool_id`: The ID of the IPAM pool which contains the allocation you want to release.
+
+# Keyword Parameters
+- `dry_run`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `ipam_pool_allocation_id`: The ID of the allocation.
+"""
+function release_ipam_pool_allocation(Cidr, IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("ReleaseIpamPoolAllocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "IpamPoolId"=>IpamPoolId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12418,7 +13422,7 @@ DescribeIamInstanceProfileAssociations to get the association ID.
 
 """
 function replace_iam_instance_profile_association(AssociationId, IamInstanceProfile; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12441,7 +13445,7 @@ operation.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function replace_network_acl_association(associationId, networkAclId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceNetworkAclAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12478,7 +13482,7 @@ Amazon Virtual Private Cloud User Guide.
   specifying protocol 6 (TCP) or 17 (UDP).
 """
 function replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12495,7 +13499,7 @@ For more information, see Route tables in the Amazon Virtual Private Cloud User 
 
 # Keyword Parameters
 - `carrier_gateway_id`: [IPv4 traffic only] The ID of a carrier gateway.
-- `core_network_arn`:
+- `core_network_arn`: The Amazon Resource Name (ARN) of the core network.
 - `destination_cidr_block`: The IPv4 CIDR address block used for the destination match. The
   value that you provide must match the CIDR of an existing route in the table.
 - `destination_ipv6_cidr_block`: The IPv6 CIDR address block used for the destination
@@ -12518,7 +13522,7 @@ For more information, see Route tables in the Amazon Virtual Private Cloud User 
 - `vpc_peering_connection_id`: The ID of a VPC peering connection.
 """
 function replace_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12542,7 +13546,7 @@ ID and the route table ID of the new main route table.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function replace_route_table_association(associationId, routeTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceRouteTableAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12564,7 +13568,7 @@ Replaces the specified route in the specified transit gateway route table.
 - `transit_gateway_attachment_id`: The ID of the attachment.
 """
 function replace_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReplaceTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12600,7 +13604,7 @@ Use of this action does not change the value returned by DescribeInstanceStatus.
 - `start_time`: The time at which the reported instance health state began.
 """
 function report_instance_status(instanceId, reasonCode, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ReportInstanceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12631,7 +13635,7 @@ information, see Spot Fleet requests in the Amazon EC2 User Guide for Linux Inst
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function request_spot_fleet(spotFleetRequestConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RequestSpotFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12690,7 +13694,7 @@ Amazon EC2 User Guide for Linux Instances.
   the date the request was created.
 """
 function request_spot_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RequestSpotInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12710,7 +13714,7 @@ for email applications.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_address_attribute(AllocationId, Attribute; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetAddressAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "Attribute"=>Attribute), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12729,7 +13733,7 @@ in the Amazon Elastic Compute Cloud User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetEbsDefaultKmsKeyId", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12749,7 +13753,7 @@ value. You can only reset the load permission attribute.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_fpga_image_attribute(FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12769,7 +13773,7 @@ Resets an attribute of an AMI to its default value.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_image_attribute(Attribute, ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12794,7 +13798,7 @@ see NAT Instances in the Amazon VPC User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_instance_attribute(attribute, instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12813,7 +13817,7 @@ Resets a network interface attribute. You can specify only one attribute at a ti
 - `source_dest_check`: The source/destination checking attribute. Resets the value to true.
 """
 function reset_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12834,7 +13838,7 @@ snapshot permissions, see Share a snapshot in the Amazon Elastic Compute Cloud U
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_snapshot_attribute(Attribute, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("ResetSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12855,7 +13859,7 @@ instance or network interface.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function restore_address_to_classic(publicIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RestoreAddressToClassic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12876,8 +13880,56 @@ the prefix list.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function restore_managed_prefix_list_version(CurrentVersion, PrefixListId, PreviousVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RestoreManagedPrefixListVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    restore_snapshot_from_recycle_bin(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Restores a snapshot from the Recycle Bin. For more information, see Restore snapshots from
+the Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function restore_snapshot_from_recycle_bin(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("RestoreSnapshotFromRecycleBin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    restore_snapshot_tier(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies
+the restore period or restore type for a snapshot that was previously temporarily restored.
+For more information see  Restore an archived snapshot and  modify the restore period or
+restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `permanent_restore`: Indicates whether to permanently restore an archived snapshot. To
+  permanently restore an archived snapshot, specify true and omit the
+  RestoreSnapshotTierRequestTemporaryRestoreDays parameter.
+- `temporary_restore_days`: Specifies the number of days for which to temporarily restore
+  an archived snapshot. Required for temporary restores only. The snapshot will be
+  automatically re-archived after this period. To temporarily restore an archived snapshot,
+  specify the number of days and omit the PermanentRestore parameter or set it to false.
+"""
+function restore_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("RestoreSnapshotTier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12899,7 +13951,7 @@ Removes an ingress authorization rule from a Client VPN endpoint.
 - `revoke_all_groups`: Indicates whether access should be revoked for all clients.
 """
 function revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RevokeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12941,7 +13993,7 @@ group as quickly as possible. However, a small delay might occur.
 - `to_port`: Not supported. Use a set of IP permissions to specify the port.
 """
 function revoke_security_group_egress(groupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RevokeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -12994,7 +14046,7 @@ security group as quickly as possible. However, a small delay might occur.
   For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
 """
 function revoke_security_group_ingress(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RevokeSecurityGroupIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13054,7 +14106,7 @@ your instance.
   of the request. If you do not specify a client token, a randomly generated token is used
   for the request to ensure idempotency. For more information, see Ensuring Idempotency.
   Constraints: Maximum 64 ASCII characters
-- `cpu_options`: The CPU options for the instance. For more information, see Optimizing CPU
+- `cpu_options`: The CPU options for the instance. For more information, see Optimize CPU
   options in the Amazon EC2 User Guide.
 - `credit_specification`: The credit option for CPU usage of the burstable performance
   instance. Valid values are standard and unlimited. To change this attribute after launch,
@@ -13127,6 +14179,8 @@ your instance.
   specify a network interface, you must specify any security groups and subnets as part of
   the network interface.
 - `placement`: The placement for the instance.
+- `private_dns_name_options`: The options for the instance hostname. The default values are
+  inherited from the subnet.
 - `private_ip_address`: [EC2-VPC] The primary IPv4 address. You must specify a value from
   the IPv4 address range of the subnet. Only one private IP address can be designated as
   primary. You can't specify this option if you've specified the option to designate a
@@ -13151,13 +14205,13 @@ your instance.
   instances and volumes on launch. The specified tags are applied to all instances or volumes
   that are created during launch. To tag a resource after it has been created, see CreateTags.
 - `user_data`: The user data to make available to the instance. For more information, see
-  Running commands on your Linux instance at launch (Linux) and Adding User Data (Windows).
-  If you are using a command line tool, base64-encoding is performed for you, and you can
-  load the text from a file. Otherwise, you must provide base64-encoded text. User data is
-  limited to 16 KB.
+  Run commands on your Linux instance at launch and Run commands on your Windows instance at
+  launch. If you are using a command line tool, base64-encoding is performed for you, and you
+  can load the text from a file. Otherwise, you must provide base64-encoded text. User data
+  is limited to 16 KB.
 """
 function run_instances(MaxCount, MinCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RunInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13185,7 +14239,7 @@ more information, see Scheduled Instances in the Amazon EC2 User Guide.
 - `instance_count`: The number of instances. Default: 1
 """
 function run_scheduled_instances(LaunchSpecification, ScheduledInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("RunScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13207,7 +14261,7 @@ Searches for routes in the specified local gateway route table.
 - `next_token`: The token for the next page of results.
 """
 function search_local_gateway_routes(LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("SearchLocalGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13235,7 +14289,7 @@ information.
 - `transit_gateway_multicast_domain_id`: The ID of the transit gateway multicast domain.
 """
 function search_transit_gateway_multicast_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("SearchTransitGatewayMulticastGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13267,7 +14321,7 @@ Searches for routes in the specified transit gateway route table.
 - `max_results`: The maximum number of routes to return.
 """
 function search_transit_gateway_routes(Filter, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("SearchTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13283,8 +14337,8 @@ tasks, such as generating a memory dump file, loading a secondary kernel, or obt
 call trace. Before sending a diagnostic interrupt to your instance, ensure that its
 operating system is configured to perform the required diagnostic tasks. For more
 information about configuring your operating system to generate a crash dump when a kernel
-panic or stop error occurs, see Send a diagnostic interrupt (Linux instances) or Send a
-Diagnostic Interrupt (Windows instances).
+panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux
+instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -13295,7 +14349,7 @@ Diagnostic Interrupt (Windows instances).
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function send_diagnostic_interrupt(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("SendDiagnosticInterrupt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13315,7 +14369,7 @@ instance store as its root device returns an error. If you attempt to start a T3
 with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU
 credit option is not supported on Dedicated Hosts. Before you start the instance, either
 change its CPU credit option to standard, or change its tenancy to default or dedicated.
-For more information, see Stopping instances in the Amazon EC2 User Guide.
+For more information, see Stop and start your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -13327,8 +14381,29 @@ For more information, see Stopping instances in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function start_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("StartInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    start_network_insights_access_scope_analysis(client_token, network_insights_access_scope_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Starts analyzing the specified Network Access Scope.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to ensure idempotency.
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `tag_specifications`: The tags to apply.
+"""
+function start_network_insights_access_scope_analysis(ClientToken, NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return ec2("StartNetworkInsightsAccessScopeAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsAccessScopeId"=>NetworkInsightsAccessScopeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13351,7 +14426,7 @@ shortest feasible path.
 - `tag_specifications`: The tags to apply.
 """
 function start_network_insights_analysis(ClientToken, NetworkInsightsPathId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("StartNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsPathId"=>NetworkInsightsPathId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13373,7 +14448,7 @@ see Adding a TXT Record to Your Domain's DNS Server  in the Amazon VPC User Guid
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function start_vpc_endpoint_service_private_dns_verification(ServiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13403,7 +14478,7 @@ differences between rebooting, stopping, hibernating, and terminating instances,
 Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to
 shut it down forcibly after a short while. If your instance appears stuck in the stopping
 state after a period of time, there may be an issue with the underlying host computer. For
-more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
+more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -13421,7 +14496,7 @@ more information, see Troubleshooting stopping your instance in the Amazon EC2 U
   information, see Hibernate your instance in the Amazon EC2 User Guide.  Default: false
 """
 function stop_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("StopInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13445,7 +14520,7 @@ specific client connection, or up to five connections established by a specific 
   the user has established up to five connections.
 """
 function terminate_client_vpn_connections(ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("TerminateClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13490,7 +14565,7 @@ instance in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function terminate_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("TerminateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13508,7 +14583,7 @@ interface.
 - `ipv6_prefixes`: One or more IPv6 prefixes to unassign from the network interface.
 """
 function unassign_ipv6_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13527,7 +14602,7 @@ from a network interface.
   interface. You can specify this option multiple times to unassign more than one IP address.
 """
 function unassign_private_ip_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13546,7 +14621,7 @@ your instances and volumes in the Amazon EC2 User Guide.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13573,7 +14648,7 @@ description parameter in the request.
   You must specify either the description or the IP permissions.
 """
 function update_security_group_rule_descriptions_egress(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("UpdateSecurityGroupRuleDescriptionsEgress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13600,7 +14675,7 @@ the request.
   group rules. You must specify either a description or IP permissions.
 """
 function update_security_group_rule_descriptions_ingress(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("UpdateSecurityGroupRuleDescriptionsIngress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -13621,6 +14696,6 @@ routing to Amazon Web Services because of BGP propagation delays.
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

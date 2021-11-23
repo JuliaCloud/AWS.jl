@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "name_contains" => "nameContains", "next_token" => "nextToken", "migration_status_equals" => "migrationStatusEquals", "sort_by_attribute" => "sortByAttribute", "sort_by_order" => "sortByOrder", "v1_bot_name_contains" => "v1BotNameContains", "abort_statement" => "abortStatement", "checksum" => "checksum", "clarification_prompt" => "clarificationPrompt", "create_version" => "createVersion", "description" => "description", "detect_sentiment" => "detectSentiment", "enable_model_improvements" => "enableModelImprovements", "idle_session_ttlin_seconds" => "idleSessionTTLInSeconds", "intents" => "intents", "nlu_intent_confidence_threshold" => "nluIntentConfidenceThreshold", "process_behavior" => "processBehavior", "tags" => "tags", "voice_id" => "voiceId", "enumeration_values" => "enumerationValues", "parent_slot_type_signature" => "parentSlotTypeSignature", "slot_type_configurations" => "slotTypeConfigurations", "value_selection_strategy" => "valueSelectionStrategy", "conclusion_statement" => "conclusionStatement", "confirmation_prompt" => "confirmationPrompt", "dialog_code_hook" => "dialogCodeHook", "follow_up_prompt" => "followUpPrompt", "fulfillment_activity" => "fulfillmentActivity", "input_contexts" => "inputContexts", "kendra_configuration" => "kendraConfiguration", "output_contexts" => "outputContexts", "parent_intent_signature" => "parentIntentSignature", "rejection_statement" => "rejectionStatement", "sample_utterances" => "sampleUtterances", "slots" => "slots", "conversation_logs" => "conversationLogs", "locale" => "locale", "signature_contains" => "signatureContains")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "name_contains" => "nameContains", "next_token" => "nextToken", "migration_status_equals" => "migrationStatusEquals", "sort_by_attribute" => "sortByAttribute", "sort_by_order" => "sortByOrder", "v1_bot_name_contains" => "v1BotNameContains", "abort_statement" => "abortStatement", "checksum" => "checksum", "clarification_prompt" => "clarificationPrompt", "create_version" => "createVersion", "description" => "description", "detect_sentiment" => "detectSentiment", "enable_model_improvements" => "enableModelImprovements", "idle_session_ttlin_seconds" => "idleSessionTTLInSeconds", "intents" => "intents", "nlu_intent_confidence_threshold" => "nluIntentConfidenceThreshold", "process_behavior" => "processBehavior", "tags" => "tags", "voice_id" => "voiceId", "enumeration_values" => "enumerationValues", "parent_slot_type_signature" => "parentSlotTypeSignature", "slot_type_configurations" => "slotTypeConfigurations", "value_selection_strategy" => "valueSelectionStrategy", "conclusion_statement" => "conclusionStatement", "confirmation_prompt" => "confirmationPrompt", "dialog_code_hook" => "dialogCodeHook", "follow_up_prompt" => "followUpPrompt", "fulfillment_activity" => "fulfillmentActivity", "input_contexts" => "inputContexts", "kendra_configuration" => "kendraConfiguration", "output_contexts" => "outputContexts", "parent_intent_signature" => "parentIntentSignature", "rejection_statement" => "rejectionStatement", "sample_utterances" => "sampleUtterances", "slots" => "slots", "conversation_logs" => "conversationLogs", "locale" => "locale", "signature_contains" => "signatureContains")
 
 """
     create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,7 +29,7 @@ operation requires permission for the lex:CreateBotVersion action.
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 function create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/bots/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ lex:CreateIntentVersion action.
   version.
 """
 function create_intent_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/intents/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ permissions for the lex:CreateSlotTypeVersion action.
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 function create_slot_type_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/slottypes/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ lex:DeleteBot action.
 
 """
 function delete_bot(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/bots/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ again, delete the referring association until the DeleteBotAlias operation is su
 
 """
 function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ requires permission for the lex:DeleteBotChannelAssociation action.
 
 """
 function delete_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ operation.  This operation requires permissions for the lex:DeleteBotVersion act
 
 """
 function delete_bot_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -185,7 +185,7 @@ This operation requires permission for the lex:DeleteIntent action.
 
 """
 function delete_intent(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/intents/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ lex:DeleteIntentVersion action.
 
 """
 function delete_intent_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ lex:DeleteSlotType action.
 
 """
 function delete_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/slottypes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -244,7 +244,7 @@ lex:DeleteSlotTypeVersion action.
 
 """
 function delete_slot_type_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ permissions for the lex:DeleteUtterances action.
 
 """
 function delete_utterances(botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ version or alias.   This operation requires permissions for the lex:GetBot actio
 
 """
 function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ versioning-aliases. This operation requires permissions for the lex:GetBotAlias 
 
 """
 function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -324,7 +324,7 @@ permissions for the lex:GetBotAliases action.
   the next page of aliases, specify the pagination token in the next request.
 """
 function get_bot_aliases(botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(botName)/aliases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,7 +343,7 @@ platform. This operation requires permissions for the lex:GetBotChannelAssociati
 
 """
 function get_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -371,7 +371,7 @@ lex:GetBotChannelAssociations action.
   To fetch the next page of associations, specify the pagination token in the next request.
 """
 function get_bot_channel_associations(aliasName, botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,7 +396,7 @@ permissions for the lex:GetBotVersions action.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
 function get_bot_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ lex:GetBots action.
   next page of bots, specify the pagination token in the next request.
 """
 function get_bots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ lex:GetBuiltinIntent action.
 
 """
 function get_builtin_intent(signature; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/builtins/intents/$(signature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -457,7 +457,7 @@ permission for the lex:GetBuiltinIntents action.
   Intents in the Alexa Skills Kit.
 """
 function get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -481,7 +481,7 @@ permission for the lex:GetBuiltInSlotTypes action.
   matches both \"xyzabc\" and \"abcxyz.\"
 """
 function get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -498,7 +498,7 @@ Exports the contents of a Amazon Lex resource in a specified format.
 
 """
 function get_export(exportType, name, resourceType, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -512,7 +512,7 @@ Gets information about an import job started with the StartImport operation.
 
 """
 function get_import(importId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/imports/$(importId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +528,7 @@ intent version.   This operation requires permissions to perform the lex:GetInte
 
 """
 function get_intent(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ operation requires permissions for the lex:GetIntentVersions action.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
 function get_intent_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/intents/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ intents.     The operation requires permission for the lex:GetIntents action.
   fetch the next page of intents, specify the pagination token in the next request.
 """
 function get_intents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -592,7 +592,7 @@ the migration.
 
 """
 function get_migration(migrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/migrations/$(migrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -616,7 +616,7 @@ Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
   specified string. The string is matched anywhere in bot name.
 """
 function get_migrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -633,7 +633,7 @@ for the lex:GetSlotType action.
 
 """
 function get_slot_type(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -658,7 +658,7 @@ LATEST version. This operation requires permissions for the lex:GetSlotTypeVersi
   To fetch the next page of versions, specify the pagination token in the next request.
 """
 function get_slot_type_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/slottypes/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ types.     The operation requires permission for the lex:GetSlotTypes action.
   request.
 """
 function get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -715,7 +715,7 @@ the lex:GetUtterancesView action.
 
 """
 function get_utterances_view(bot_versions, botname, status_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -730,7 +730,7 @@ channels can have tags associated with them.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -865,7 +865,7 @@ for the lex:PutBot action. For more information, see security-iam.
   Guide.
 """
 function put_bot(childDirected, locale, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -896,7 +896,7 @@ permissions for the lex:PutBotAlias action.
   tags, use the TagResource operation.
 """
 function put_bot_alias(botName, botVersion, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersion"=>botVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -998,7 +998,7 @@ This operation requires permissions for the lex:PutIntent action.
   from the user using prompts defined in the slots. For more information, see how-it-works.
 """
 function put_intent(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1057,7 +1057,7 @@ NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
   ORIGINAL_VALUE.
 """
 function put_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1086,7 +1086,7 @@ Starts a job to import a resource to Amazon Lex.
   a bot, you can't add tags to an intent or slot type.
 """
 function start_import(mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1114,7 +1114,7 @@ a bot in the Amazon Lex developer guide.
 
 """
 function start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/migrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1132,7 +1132,7 @@ existing value is replaced with the new value.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1148,6 +1148,6 @@ Removes tags from a bot, bot alias or bot channel.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

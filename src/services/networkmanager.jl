@@ -5,7 +5,43 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "Description", "tags" => "Tags", "location" => "Location", "link_ids" => "linkIds", "max_results" => "maxResults", "next_token" => "nextToken", "provider" => "Provider", "site_id" => "siteId", "type" => "Type", "connected_link_id" => "ConnectedLinkId", "link_id" => "LinkId", "site_ids" => "siteIds", "transit_gateway_connect_peer_arns" => "transitGatewayConnectPeerArns", "bandwidth" => "Bandwidth", "account_id" => "accountId", "aws_region" => "awsRegion", "registered_gateway_arn" => "registeredGatewayArn", "resource_arn" => "resourceArn", "resource_type" => "resourceType", "destination_filters" => "DestinationFilters", "exact_cidr_matches" => "ExactCidrMatches", "longest_prefix_matches" => "LongestPrefixMatches", "prefix_list_ids" => "PrefixListIds", "states" => "States", "subnet_of_matches" => "SubnetOfMatches", "supernet_of_matches" => "SupernetOfMatches", "types" => "Types", "include_return_path" => "IncludeReturnPath", "use_middleboxes" => "UseMiddleboxes", "connection_ids" => "connectionIds", "device_id" => "deviceId", "awslocation" => "AWSLocation", "model" => "Model", "serial_number" => "SerialNumber", "vendor" => "Vendor", "customer_gateway_arns" => "customerGatewayArns", "device_ids" => "deviceIds", "transit_gateway_arns" => "transitGatewayArns", "global_network_ids" => "globalNetworkIds")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "attachment_type" => "attachmentType", "core_network_id" => "coreNetworkId", "edge_location" => "edgeLocation", "state" => "state", "description" => "Description", "tags" => "Tags", "location" => "Location", "connect_attachment_id" => "connectAttachmentId", "link_ids" => "linkIds", "provider" => "Provider", "site_id" => "siteId", "type" => "Type", "connected_link_id" => "ConnectedLinkId", "link_id" => "LinkId", "site_ids" => "siteIds", "connect_peer_ids" => "connectPeerIds", "transit_gateway_connect_peer_arns" => "transitGatewayConnectPeerArns", "bandwidth" => "Bandwidth", "account_id" => "accountId", "aws_region" => "awsRegion", "registered_gateway_arn" => "registeredGatewayArn", "resource_arn" => "resourceArn", "resource_type" => "resourceType", "add_subnet_arns" => "AddSubnetArns", "options" => "Options", "remove_subnet_arns" => "RemoveSubnetArns", "destination_filters" => "DestinationFilters", "exact_cidr_matches" => "ExactCidrMatches", "longest_prefix_matches" => "LongestPrefixMatches", "prefix_list_ids" => "PrefixListIds", "states" => "States", "subnet_of_matches" => "SubnetOfMatches", "supernet_of_matches" => "SupernetOfMatches", "types" => "Types", "include_return_path" => "IncludeReturnPath", "use_middleboxes" => "UseMiddleboxes", "bgp_options" => "BgpOptions", "client_token" => "ClientToken", "core_network_address" => "CoreNetworkAddress", "connection_ids" => "connectionIds", "device_id" => "deviceId", "awslocation" => "AWSLocation", "model" => "Model", "serial_number" => "SerialNumber", "vendor" => "Vendor", "customer_gateway_arns" => "customerGatewayArns", "device_ids" => "deviceIds", "latest_version_id" => "LatestVersionId", "transit_gateway_arns" => "transitGatewayArns", "global_network_ids" => "globalNetworkIds", "policy_document" => "PolicyDocument", "alias" => "alias", "policy_version_id" => "policyVersionId")
+
+"""
+    accept_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Accepts a core network attachment request.  Once the attachment request is accepted by a
+core network owner, the attachment is created and connected to a core network.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function accept_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/attachments/$(attachmentId)/accept", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    associate_connect_peer(connect_peer_id, device_id, global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Associates a core network Connect peer with a device and optionally, with a link.  If you
+specify a link, it must be associated with the specified device. You can only associate
+core network Connect peers that have been created on a core network Connect attachment on a
+core network.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer.
+- `device_id`: The ID of the device.
+- `global_network_id`: The ID of your global network.
+
+# Keyword Parameters
+- `link_id`: The ID of the link.
+"""
+function associate_connect_peer(ConnectPeerId, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/connect-peer-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectPeerId"=>ConnectPeerId, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 
 """
     associate_customer_gateway(customer_gateway_arn, device_id, global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +64,7 @@ customer gateway with more than one device and link.
 - `link_id`: The ID of the link.
 """
 function associate_customer_gateway(CustomerGatewayArn, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -46,7 +82,7 @@ and the same site.
 
 """
 function associate_link(DeviceId, LinkId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -68,8 +104,54 @@ more than one device and link.
 - `link_id`: The ID of the link.
 """
 function associate_transit_gateway_connect_peer(DeviceId, TransitGatewayConnectPeerArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "TransitGatewayConnectPeerArn"=>TransitGatewayConnectPeerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_connect_attachment(core_network_id, edge_location, options, transport_attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a core network Connect attachment from a specified core network attachment.  A core
+network Connect attachment is a GRE-based tunnel attachment that you can use to establish a
+connection between a core network and an appliance. A core network Connect attachment uses
+an existing VPC attachment as the underlying transport mechanism.
+
+# Arguments
+- `core_network_id`: The ID of a core network where you want to create the attachment.
+- `edge_location`: The Region where the edge is located.
+- `options`: Options for creating an attachment.
+- `transport_attachment_id`: The ID of the attachment between the two connections.
+
+# Keyword Parameters
+- `client_token`: The client token associated with the request.
+- `tags`: The list of key-value tags associated with the request.
+"""
+function create_connect_attachment(CoreNetworkId, EdgeLocation, Options, TransportAttachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/connect-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "EdgeLocation"=>EdgeLocation, "Options"=>Options, "TransportAttachmentId"=>TransportAttachmentId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a core network connect peer for a specified core network connect attachment between
+a core network and an appliance. The peer address and transit gateway address must be the
+same IP address family (IPv4 or IPv6).
+
+# Arguments
+- `connect_attachment_id`: The ID of the connection attachment.
+- `inside_cidr_blocks`: The inside IP addresses used for BGP peering.
+- `peer_address`: The Connect peer address.
+
+# Keyword Parameters
+- `bgp_options`: The Connect peer BGP options.
+- `client_token`: The client token associated with the request.
+- `core_network_address`: A Connect peer core network address.
+- `tags`: The tags associated with the peer request.
+"""
+function create_connect_peer(ConnectAttachmentId, InsideCidrBlocks, PeerAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/connect-peers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectAttachmentId"=>ConnectAttachmentId, "InsideCidrBlocks"=>InsideCidrBlocks, "PeerAddress"=>PeerAddress, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -92,8 +174,28 @@ connects to another physical appliance in an on-premises network.
 - `tags`: The tags to apply to the resource during creation.
 """
 function create_connection(ConnectedDeviceId, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/connections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectedDeviceId"=>ConnectedDeviceId, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_core_network(global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a core network as part of your global network, and optionally, with a core network
+policy.
+
+# Arguments
+- `global_network_id`: The ID of the global network that a core network will be a part of.
+
+# Keyword Parameters
+- `client_token`: The client token associated with a core network request.
+- `description`: The description of a core network.
+- `policy_document`: The policy document for creating a core network.
+- `tags`: Key-value tags associated with a core network request.
+"""
+function create_core_network(GlobalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/core-networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalNetworkId"=>GlobalNetworkId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,7 +221,7 @@ location of the site is used for visualization in the Network Manager console.
 - `vendor`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function create_device(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +236,7 @@ Creates a new, empty global network.
 - `tags`: The tags to apply to the resource during creation.
 """
 function create_global_network(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +259,7 @@ Creates a new link for a specified site.
   include the following characters: |  ^
 """
 function create_link(Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,8 +280,75 @@ Creates a new site in a global network.
 - `tags`: The tags to apply to the resource during creation.
 """
 function create_site(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a site-to-site VPN attachment on an edge location of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network where you're creating a site-to-site VPN
+  attachment.
+- `vpn_connection_arn`: The ARN identifying the VPN attachment.
+
+# Keyword Parameters
+- `client_token`: The client token associated with the request.
+- `tags`: The tags associated with the request.
+"""
+function create_site_to_site_vpn_attachment(CoreNetworkId, VpnConnectionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/site-to-site-vpn-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "VpnConnectionArn"=>VpnConnectionArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_vpc_attachment(core_network_id, subnet_arns, vpc_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a VPC attachment on an edge location of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network for the VPC attachment.
+- `subnet_arns`: The subnet ARN of the VPC attachment.
+- `vpc_arn`: The ARN of the VPC.
+
+# Keyword Parameters
+- `client_token`: The client token associated with the request.
+- `options`: Options for the VPC attachment.
+- `tags`: The key-value tags associated with the request.
+"""
+function create_vpc_attachment(CoreNetworkId, SubnetArns, VpcArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/vpc-attachments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CoreNetworkId"=>CoreNetworkId, "SubnetArns"=>SubnetArns, "VpcArn"=>VpcArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes an attachment. Supports all attachment types.
+
+# Arguments
+- `attachment_id`: The ID of the attachment to delete.
+
+"""
+function delete_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_connect_peer(connect_peer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a Connect peer.
+
+# Arguments
+- `connect_peer_id`: The ID of the deleted Connect peer.
+
+"""
+function delete_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/connect-peers/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -193,8 +362,38 @@ Deletes the specified connection in your global network.
 
 """
 function delete_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_core_network(core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a core network along with all core network policies. This can only be done if there
+are no attachments on a core network.
+
+# Arguments
+- `core_network_id`: The network ID of the deleted core network.
+
+"""
+function delete_core_network(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_core_network_policy_version(core_network_id, policy_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a policy version from a core network. You can't delete the current LIVE policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network for the deleted policy.
+- `policy_version_id`: The version ID of the deleted policy.
+
+"""
+function delete_core_network_policy_version(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,7 +408,7 @@ customer gateways.
 
 """
 function delete_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -224,7 +423,7 @@ Deletes an existing global network. You must first delete all global network obj
 
 """
 function delete_global_network(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -240,8 +439,23 @@ customer gateways.
 
 """
 function delete_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_resource_policy(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a resource policy for the specified resource. This revokes the access of the
+principals specified in the resource policy.
+
+# Arguments
+- `resource_arn`: The ARN of the policy to delete.
+
+"""
+function delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/resource-policy/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -255,7 +469,7 @@ Deletes an existing site. The site cannot be associated with any device or link.
 
 """
 function delete_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -272,7 +486,7 @@ associations.
 
 """
 function deregister_transit_gateway(globalNetworkId, transitGatewayArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,8 +504,23 @@ GetTransitGatewayRegistrations.
 - `next_token`: The token for the next page of results.
 """
 function describe_global_networks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    disassociate_connect_peer(connect_peer_id, global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Disassociates a core network Connect peer from a device and a link.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer to disassociate from a device.
+- `global_network_id`: The ID of the global network.
+
+"""
+function disassociate_connect_peer(connectPeerId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -305,7 +534,7 @@ Disassociates a customer gateway from a device and a link.
 
 """
 function disassociate_customer_gateway(customerGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +551,7 @@ gateways that are associated with the link.
 
 """
 function disassociate_link(deviceId, globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -338,8 +567,70 @@ Disassociates a transit gateway Connect peer from a device and link.
 
 """
 function disassociate_transit_gateway_connect_peer(globalNetworkId, transitGatewayConnectPeerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    execute_core_network_change_set(core_network_id, policy_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Executes a change set on your core network. Deploys changes globally based on the policy
+submitted..
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version.
+
+"""
+function execute_core_network_change_set(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_connect_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a core network Connect attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_connect_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/connect-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_connect_peer(connect_peer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a core network Connect peer.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer.
+
+"""
+function get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/connect-peers/$(connectPeerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_connect_peer_associations(global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a core network Connect peer associations.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Keyword Parameters
+- `connect_peer_ids`: The IDs of the Connect peers.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+"""
+function get_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/connect-peer-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -357,8 +648,58 @@ Gets information about one or more of your connections in a global network.
 - `next_token`: The token for the next page of results.
 """
 function get_connections(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/connections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_core_network(core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a core network. By default it returns the LIVE policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+"""
+function get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_core_network_change_set(core_network_id, policy_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a change set between the LIVE core network policy and a submitted policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version.
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+"""
+function get_core_network_change_set(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_core_network_policy(core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets details about a core network policy. You can get details about your current live
+policy or any previous policy version.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Keyword Parameters
+- `alias`: The alias of a core network policy
+- `policy_version_id`: The ID of a core network policy version.
+"""
+function get_core_network_policy(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -377,7 +718,7 @@ links in your global network.
 - `next_token`: The token for the next page of results.
 """
 function get_customer_gateway_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,7 +737,7 @@ Gets information about one or more of your devices in a global network.
 - `site_id`: The ID of the site.
 """
 function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +757,7 @@ be specified.
 - `next_token`: The token for the next page of results.
 """
 function get_link_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -439,7 +780,7 @@ type and provider in the same request.
 - `type`: The link type.
 """
 function get_links(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/links", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -462,7 +803,7 @@ Gets the count of network resources, by resource type, for the specified global 
   transit-gateway-route-table     vpn-connection
 """
 function get_network_resource_counts(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -477,6 +818,7 @@ Gets the network resource relationships for the specified global network.
 # Keyword Parameters
 - `account_id`: The Amazon Web Services account ID.
 - `aws_region`: The Amazon Web Services Region.
+- `core_network_id`: The ID of a core network.
 - `max_results`: The maximum number of results to return.
 - `next_token`: The token for the next page of results.
 - `registered_gateway_arn`: The ARN of the registered gateway.
@@ -489,7 +831,7 @@ Gets the network resource relationships for the specified global network.
   transit-gateway-route-table     vpn-connection
 """
 function get_network_resource_relationships(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-relationships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,6 +848,7 @@ information such as pre-shared keys.
 # Keyword Parameters
 - `account_id`: The Amazon Web Services account ID.
 - `aws_region`: The Amazon Web Services Region.
+- `core_network_id`: The ID of a core network.
 - `max_results`: The maximum number of results to return.
 - `next_token`: The token for the next page of results.
 - `registered_gateway_arn`: The ARN of the gateway.
@@ -524,7 +867,7 @@ information such as pre-shared keys.
   TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
 """
 function get_network_resources(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -551,7 +894,7 @@ Gets the network routes of the specified global network.
 - `types`: The route types.
 """
 function get_network_routes(RouteTableIdentifier, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/network-routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RouteTableIdentifier"=>RouteTableIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -566,6 +909,7 @@ Gets the network telemetry of the specified global network.
 # Keyword Parameters
 - `account_id`: The Amazon Web Services account ID.
 - `aws_region`: The Amazon Web Services Region.
+- `core_network_id`: The ID of a core network.
 - `max_results`: The maximum number of results to return.
 - `next_token`: The token for the next page of results.
 - `registered_gateway_arn`: The ARN of the gateway.
@@ -578,8 +922,22 @@ Gets the network telemetry of the specified global network.
   transit-gateway-route-table     vpn-connection
 """
 function get_network_telemetry(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-telemetry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_resource_policy(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a resource policy.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+
+"""
+function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/resource-policy/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -593,8 +951,22 @@ Gets information about the specified route analysis.
 
 """
 function get_route_analysis(globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_site_to_site_vpn_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a site-to-site VPN attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_site_to_site_vpn_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/site-to-site-vpn-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -611,7 +983,7 @@ Gets information about one or more of your sites in a global network.
 - `site_ids`: One or more site IDs. The maximum is 10.
 """
 function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -631,7 +1003,7 @@ global network.
   Resource Names (ARNs).
 """
 function get_transit_gateway_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,8 +1022,87 @@ Gets information about the transit gateway registrations in a specified global n
   The maximum is 10.
 """
 function get_transit_gateway_registrations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_vpc_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns information about a VPC attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/vpc-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of core network attachments.
+
+# Keyword Parameters
+- `attachment_type`: The type of attachment.
+- `core_network_id`: The ID of a core network.
+- `edge_location`: The Region where the edge is located.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `state`: The state of the attachment.
+"""
+function list_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/attachments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_connect_peers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of core network Connect peers.
+
+# Keyword Parameters
+- `connect_attachment_id`: The ID of the attachment.
+- `core_network_id`: The ID of a core network.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+"""
+function list_connect_peers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/connect-peers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_core_network_policy_versions(core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of core network policy versions.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+"""
+function list_core_network_policy_versions(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/core-networks/$(coreNetworkId)/core-network-policy-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_core_networks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of owned and shared core networks.
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+"""
+function list_core_networks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("GET", "/core-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -664,8 +1115,43 @@ Lists the tags for a specified resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    put_core_network_policy(policy_document, core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a new, immutable version of a core network policy. A subsequent change set is
+created showing the differences between the LIVE policy and the submitted policy.
+
+# Arguments
+- `policy_document`: The policy document.
+- `core_network_id`: The ID of a core network.
+
+# Keyword Parameters
+- `client_token`: The client token associated with the request.
+- `description`: a core network policy description.
+- `latest_version_id`: The ID of a core network policy.
+"""
+function put_core_network_policy(PolicyDocument, coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    put_resource_policy(policy_document, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates or updates a resource policy.
+
+# Arguments
+- `policy_document`: The JSON resource policy document.
+- `resource_arn`: The ARN of the resource policy.
+
+"""
+function put_resource_policy(PolicyDocument, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/resource-policy/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -682,8 +1168,39 @@ network.
 
 """
 function register_transit_gateway(TransitGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    reject_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Rejects a core network attachment request.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function reject_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/attachments/$(attachmentId)/reject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    restore_core_network_policy_version(core_network_id, policy_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Restores a previous policy version as a new, immutable version of a core network policy. A
+subsequent change set is created showing the differences between the LIVE policy and
+restored policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version to restore.
+
+"""
+function restore_core_network_policy_version(coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("POST", "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -703,7 +1220,7 @@ information, see Route Analyzer.
   the route analysis. The default is false.
 """
 function start_route_analysis(Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/global-networks/$(globalNetworkId)/route-analyses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -718,7 +1235,7 @@ Tags a specified resource.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -733,7 +1250,7 @@ Removes tags from a specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -754,8 +1271,24 @@ parameters, specify an empty string.
 - `link_id`: The ID of the link for the first device in the connection.
 """
 function update_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_core_network(core_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the description of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Keyword Parameters
+- `description`: The description of the update.
+"""
+function update_core_network(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("PATCH", "/core-networks/$(coreNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -781,7 +1314,7 @@ parameters, specify an empty string.
 - `vendor`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function update_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -799,7 +1332,7 @@ specify an empty string.
   characters.
 """
 function update_global_network(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -820,7 +1353,7 @@ specify an empty string.
 - `type`: The type of the link. Constraints: Maximum length of 128 characters.
 """
 function update_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -836,7 +1369,7 @@ Updates the resource metadata for the specified global network.
 
 """
 function update_network_resource_metadata(Metadata, globalNetworkId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -856,6 +1389,24 @@ parameters, specify an empty string.
   The latitude of the site.     Longitude: The longitude of the site.
 """
 function update_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_vpc_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates a VPC attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+# Keyword Parameters
+- `add_subnet_arns`: Adds a subnet ARN to the VPC attachment.
+- `options`: Additional options for updating the VPC attachment.
+- `remove_subnet_arns`: Removes a subnet ARN from the attachment.
+"""
+function update_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return networkmanager("PATCH", "/vpc-attachments/$(attachmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

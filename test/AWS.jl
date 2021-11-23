@@ -604,9 +604,7 @@ end
         finally
             AWSServices.secrets_manager(
                 "DeleteSecret",
-                LittleDict(
-                    "SecretId" => secret_name, "ForceDeleteWithoutRecovery" => true
-                ),
+                LittleDict("SecretId" => secret_name, "ForceDeleteWithoutRecovery" => true),
             )
         end
 

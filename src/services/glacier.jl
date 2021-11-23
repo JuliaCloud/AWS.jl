@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("vault_notification_config" => "vaultNotificationConfig", "archive_description" => "x-amz-archive-description", "part_size" => "x-amz-part-size", "limit" => "limit", "marker" => "marker", "archive_size" => "x-amz-archive-size", "checksum" => "x-amz-sha256-tree-hash", "tag_keys" => "TagKeys", "policy" => "policy", "body" => "body", "range" => "Range", "tags" => "Tags", "completed" => "completed", "statuscode" => "statuscode", "job_parameters" => "jobParameters")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("vault_notification_config" => "vaultNotificationConfig", "archive_description" => "x-amz-archive-description", "part_size" => "x-amz-part-size", "limit" => "limit", "marker" => "marker", "archive_size" => "x-amz-archive-size", "checksum" => "x-amz-sha256-tree-hash", "tag_keys" => "TagKeys", "policy" => "policy", "body" => "body", "range" => "Range", "tags" => "Tags", "completed" => "completed", "statuscode" => "statuscode", "job_parameters" => "jobParameters")
 
 """
     abort_multipart_upload(account_id, upload_id, vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -33,7 +33,7 @@ Developer Guide.
 
 """
 function abort_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ associated with the vault.
 
 """
 function abort_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ overwritten. For more information about tags, see Tagging Amazon S3 Glacier Reso
   value can be an empty string.
 """
 function add_tags_to_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +141,7 @@ Multipart Upload in the Amazon Glacier Developer Guide.
   (Glacier), Glacier returns an error and the request fails.
 """
 function complete_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ lock is in the InProgress state, the operation throws an InvalidParameter error.
 
 """
 function complete_vault_lock(accountId, lockId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +199,7 @@ Glacier and Create Vault  in the Amazon Glacier Developer Guide.
 
 """
 function create_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("PUT", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -231,7 +231,7 @@ Developer Guide.
 
 """
 function delete_archive(accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -261,7 +261,7 @@ Glacier and Delete Vault  in the Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +285,7 @@ Access Policies.
 
 """
 function delete_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -312,7 +312,7 @@ Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,7 +343,7 @@ Describe Job in the Amazon Glacier Developer Guide.
 
 """
 function describe_job(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +374,7 @@ Glacier Developer Guide.
 
 """
 function describe_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -394,7 +394,7 @@ Amazon Glacier Data Retrieval Policies.
 
 """
 function get_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +458,7 @@ Get Job Output
   ensure you have downloaded the entire archive content with no errors.
 """
 function get_job_output(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -480,7 +480,7 @@ Vault Access Policies.
 
 """
 function get_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ about vault lock policies, Amazon Glacier Access Control with Vault Lock Policie
 
 """
 function get_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -535,7 +535,7 @@ Configuration  in the Amazon Glacier Developer Guide.
 
 """
 function get_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -557,7 +557,7 @@ documentation for the underlying REST API Initiate a Job.
 - `job_parameters`: Provides options for specifying job information.
 """
 function initiate_job(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -602,7 +602,7 @@ Initiate Multipart Upload in the Amazon Glacier Developer Guide.
   smaller than this part size.
 """
 function initiate_multipart_upload(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -638,7 +638,7 @@ state you must call AbortVaultLock before you can initiate a new vault lock poli
 - `policy`: The vault lock policy as a JSON string, which uses \"\" as an escape character.
 """
 function initiate_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +690,7 @@ documentation for the underlying REST API List Jobs.
   InProgress, Succeeded, or Failed.
 """
 function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -733,7 +733,7 @@ Amazon S3 Glacier and List Multipart Uploads  in the Amazon Glacier Developer Gu
   started in a previous List Uploads request.
 """
 function list_multipart_uploads(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -775,7 +775,7 @@ Developer Guide.
   of results started in a previous List Parts request.
 """
 function list_parts(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ This operation lists the provisioned capacity units for the specified AWS accoun
 
 """
 function list_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -812,7 +812,7 @@ Resources.
 
 """
 function list_tags_for_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -848,7 +848,7 @@ Metadata in Amazon S3 Glacier and List Vaults  in the Amazon Glacier Developer G
   the listing of vaults should begin.
 """
 function list_vaults(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("GET", "/$(accountId)/vaults", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -865,7 +865,7 @@ This operation purchases a provisioned capacity unit for an AWS account.
 
 """
 function purchase_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -888,7 +888,7 @@ vault.
 - `tag_keys`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
 function remove_tags_from_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -912,7 +912,7 @@ information about data retrieval policies, see Amazon Glacier Data Retrieval Pol
 - `policy`: The data retrieval policy in JSON format.
 """
 function set_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("PUT", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -937,7 +937,7 @@ Control with Vault Access Policies.
 - `policy`: The vault access policy as a JSON string.
 """
 function set_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -976,7 +976,7 @@ Glacier Developer Guide.
 - `vault_notification_config`: Provides options for specifying notification configuration.
 """
 function set_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1020,7 +1020,7 @@ Amazon Glacier Developer Guide.
 - `checksum`: The SHA256 tree hash of the data being uploaded.
 """
 function upload_archive(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1071,6 +1071,6 @@ Guide.
   Content-Range:bytes 0-4194303/*.
 """
 function upload_multipart_part(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

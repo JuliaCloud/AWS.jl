@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("stream_arn" => "StreamARN", "stream_name" => "StreamName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("stream_arn" => "StreamARN", "stream_name" => "StreamName")
 
 """
     get_media(start_selector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,6 +42,6 @@ topic, as well as Common Errors.
   content. If you don't specify the streamName, you must specify the streamARN.
 """
 function get_media(StartSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

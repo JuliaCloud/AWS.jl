@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("name" => "Name", "resolver_endpoint_id" => "ResolverEndpointId", "tags" => "Tags", "target_ips" => "TargetIps", "block_override_dns_type" => "BlockOverrideDnsType", "block_override_domain" => "BlockOverrideDomain", "block_override_ttl" => "BlockOverrideTtl", "block_response" => "BlockResponse", "mutation_protection" => "MutationProtection", "action" => "Action", "priority" => "Priority", "max_results" => "MaxResults", "next_token" => "NextToken", "filters" => "Filters", "firewall_rule_group_id" => "FirewallRuleGroupId", "status" => "Status", "vpc_id" => "VpcId", "sort_by" => "SortBy", "sort_order" => "SortOrder")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("name" => "Name", "resolver_endpoint_id" => "ResolverEndpointId", "tags" => "Tags", "target_ips" => "TargetIps", "block_override_dns_type" => "BlockOverrideDnsType", "block_override_domain" => "BlockOverrideDomain", "block_override_ttl" => "BlockOverrideTtl", "block_response" => "BlockResponse", "mutation_protection" => "MutationProtection", "action" => "Action", "priority" => "Priority", "max_results" => "MaxResults", "next_token" => "NextToken", "filters" => "Filters", "firewall_rule_group_id" => "FirewallRuleGroupId", "status" => "Status", "vpc_id" => "VpcId", "sort_by" => "SortBy", "sort_order" => "SortOrder")
 
 """
     associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,7 +36,7 @@ Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
   association.
 """
 function associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ DisassociateResolverEndpointIpAddress.
 
 """
 function associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ DisassociateResolverQueryLogConfig.
 
 """
 function associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("AssociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,7 +101,7 @@ that are specified in the rule. For more information about rules, see CreateReso
 - `name`: A name for the association that you're creating between a Resolver rule and a VPC.
 """
 function associate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -123,7 +123,7 @@ using UpdateFirewallDomains.
   list.
 """
 function create_firewall_domain_list(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ list.
   setting is required if the rule action setting is BLOCK.
 """
 function create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -192,7 +192,7 @@ can add rules to the new rule group by calling CreateFirewallRule.
 - `tags`: A list of the tag keys and values that you want to associate with the rule group.
 """
 function create_firewall_rule_group(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ service for a VPC to your network.
 - `tags`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 function create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -263,7 +263,7 @@ associated with the configuration.
   logging configuration.
 """
 function create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +302,7 @@ addresses of the DNS resolvers in your network.
   the value of Rule type is FORWARD.
 """
 function create_resolver_rule(CreatorRequestId, DomainName, RuleType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -316,7 +316,7 @@ Deletes the specified domain list.
 
 """
 function delete_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -332,7 +332,7 @@ Deletes the specified firewall rule.
 
 """
 function delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ Deletes the specified firewall rule group.
 
 """
 function delete_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ from a VPC are no longer routed to your network.
 
 """
 function delete_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -389,7 +389,7 @@ configuration, those VPCs are automatically disassociated from the configuration
 
 """
 function delete_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -405,7 +405,7 @@ DisassociateResolverRule.
 
 """
 function delete_resolver_rule(ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the V
 
 """
 function disassociate_firewall_rule_group(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,7 +438,7 @@ AssociateResolverEndpointIpAddress.
 
 """
 function disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -460,7 +460,7 @@ configuration.   You can stop sharing the configuration.
 
 """
 function disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DisassociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -478,7 +478,7 @@ domain name that you specified in the Resolver rule.
 
 """
 function disassociate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -493,7 +493,7 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 """
 function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ Retrieves the specified firewall domain list.
 
 """
 function get_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -521,7 +521,7 @@ Retrieves the specified firewall rule group.
 
 """
 function get_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -537,7 +537,7 @@ can be associated with more than one VPC.
 
 """
 function get_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ Manager (RAM).
 
 """
 function get_firewall_rule_group_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -568,7 +568,7 @@ Amazon Virtual Private Cloud.
 
 """
 function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ Gets DNSSEC validation information for a specified resource.
 
 """
 function get_resolver_dnssec_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -598,7 +598,7 @@ outbound Resolver endpoint, and the current status of the endpoint.
 
 """
 function get_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -615,7 +615,7 @@ to.
 
 """
 function get_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -632,7 +632,7 @@ configuration, Resolver logs DNS queries that originate in that VPC.
 
 """
 function get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverQueryLogConfigAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigAssociationId"=>ResolverQueryLogConfigAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -649,7 +649,7 @@ Services account to be able to use.
 
 """
 function get_resolver_query_log_config_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ associated with.
 
 """
 function get_resolver_rule(ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -681,7 +681,7 @@ associate a Resolver rule and a VPC using AssociateResolverRule.
 
 """
 function get_resolver_rule_association(ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverRuleAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -698,7 +698,7 @@ to use.
 
 """
 function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ must be from 1-255 characters in length.
 
 """
 function import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ImportFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -747,7 +747,7 @@ a partial list of the configurations. For information, see MaxResults.
   prior request in your next request.
 """
 function list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +771,7 @@ For information, see MaxResults.
   prior request in your next request.
 """
 function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallDomainLists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -797,7 +797,7 @@ MaxResults.
   prior request in your next request.
 """
 function list_firewall_domains(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -831,7 +831,7 @@ partial list of the associations. For information, see MaxResults.
   for. Leave this blank to retrieve associations for any VPC.
 """
 function list_firewall_rule_group_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallRuleGroupAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -854,7 +854,7 @@ MaxResults.
   prior request in your next request.
 """
 function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -889,7 +889,7 @@ single call might return only a partial list of the rules. For information, see 
   rules in a rule group by order of priority, starting from the lowest setting.
 """
 function list_firewall_rules(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListFirewallRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -910,7 +910,7 @@ configurations to manage DNS resolution behavior for your VPCs.
   value for NextToken in the request.
 """
 function list_resolver_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +932,7 @@ Web Services account.
   that value for NextToken in the request.
 """
 function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverDnssecConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -955,7 +955,7 @@ Gets the IP addresses for a specified Resolver endpoint.
   the next request, specify the value of NextToken from the previous response.
 """
 function list_resolver_endpoint_ip_addresses(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -979,7 +979,7 @@ account.
   of NextToken from the previous response.
 """
 function list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1026,7 +1026,7 @@ Lists information about associations between Amazon VPCs and query logging confi
   parameter, you must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_config_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverQueryLogConfigAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1076,7 +1076,7 @@ to log queries for.
   must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverQueryLogConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1100,7 +1100,7 @@ Amazon Web Services account.
   request, specify the value of NextToken from the previous response.
 """
 function list_resolver_rule_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverRuleAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1123,7 +1123,7 @@ Lists the Resolver rules that were created using the current Amazon Web Services
   previous response.
 """
 function list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListResolverRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1146,7 +1146,7 @@ Lists the tags that you associated with the specified resource.
   from the previous response.
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1164,7 +1164,7 @@ rule group. You can use the policy to share the rule group using Resource Access
 
 """
 function put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1190,7 +1190,7 @@ operations that you want the account to be able to perform on the configuration.
 
 """
 function put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("PutResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverQueryLogConfigPolicy"=>ResolverQueryLogConfigPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1215,7 +1215,7 @@ to be able to perform on the rule.
 
 """
 function put_resolver_rule_policy(Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("PutResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1233,7 +1233,7 @@ Adds one or more tags to a specified resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1251,7 +1251,7 @@ Removes one or more tags from a specified resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1274,7 +1274,7 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 """
 function update_firewall_config(FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1297,7 +1297,7 @@ Updates the firewall domain list from an array of domain specifications.
 
 """
 function update_firewall_domains(Domains, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1337,7 +1337,7 @@ Updates the specified firewall rule.
   any time.
 """
 function update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1363,7 +1363,7 @@ filtering for the VPC.
   create it.
 """
 function update_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1383,7 +1383,7 @@ Amazon Virtual Private Cloud.
 
 """
 function update_resolver_config(AutodefinedReverseFlag, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateResolverConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutodefinedReverseFlag"=>AutodefinedReverseFlag, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1402,7 +1402,7 @@ validation configuration, one is created.
 
 """
 function update_resolver_dnssec_config(ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1418,7 +1418,7 @@ Updates the name of an inbound or an outbound Resolver endpoint.
 - `name`: The name of the Resolver endpoint that you want to update.
 """
 function update_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1434,6 +1434,6 @@ parameters are optional. If you don't specify a parameter, it retains its curren
 
 """
 function update_resolver_rule(Config, ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53resolver("UpdateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "variables" => "variables", "client_request_token" => "clientRequestToken", "row_id" => "rowId", "row_ids" => "rowIds")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "variables" => "variables", "client_request_token" => "clientRequestToken", "row_id" => "rowId", "row_ids" => "rowIds")
 
 """
     batch_create_table_rows(rows_to_create, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,7 +39,7 @@ row of the table, then that column will be left blank for the new rows.
   requests spanning hours or days.
 """
 function batch_create_table_rows(rowsToCreate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToCreate"=>rowsToCreate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -68,7 +68,7 @@ workbook. You need to specify the ids of the rows that you want to delete from t
   hours or days.
 """
 function batch_delete_table_rows(rowIds, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowIds"=>rowIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ need to set the value as an empty string (\"\").
   hours or days.
 """
 function batch_update_table_rows(rowsToUpdate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpdate"=>rowsToUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ in a specific cell, you need to set the value as an empty string (\"\").
   hours or days.
 """
 function batch_upsert_table_rows(rowsToUpsert, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpsert"=>rowsToUpsert), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ table data import job.
 
 """
 function describe_table_data_import_job(jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -192,7 +192,7 @@ be displayed on the screen.
   property, rawValue, which holds the value of the variable to be passed to the screen.
 """
 function get_screen_data(appId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ update or delete data in the workbook.
   defined in a screen are required to be passed in the call.
 """
 function invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ workbook.
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function list_table_columns(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,7 +276,7 @@ workbook.
   specified here, then all the rows in the table are returned.
 """
 function list_table_rows(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ end
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("GET", "/workbooks/$(workbookId)/tables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -321,7 +321,7 @@ table.
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function query_table_rows(filterFormula, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterFormula"=>filterFormula), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -353,6 +353,6 @@ request, you need to call the DescribeTableDataImportJob API.
 
 """
 function start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

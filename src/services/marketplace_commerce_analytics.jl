@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("customer_defined_values" => "customerDefinedValues", "destination_s3_prefix" => "destinationS3Prefix")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("customer_defined_values" => "customerDefinedValues", "destination_s3_prefix" => "destinationS3Prefix")
 
 """
     generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -84,7 +84,7 @@ sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   be published to the S3 bucket root.
 """
 function generate_data_set(dataSetPublicationDate, dataSetType, destinationS3BucketName, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_commerce_analytics("GenerateDataSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetPublicationDate"=>dataSetPublicationDate, "dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,6 +132,6 @@ s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   be published to the S3 bucket root.
 """
 function start_support_data_export(dataSetType, destinationS3BucketName, fromDate, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_commerce_analytics("StartSupportDataExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "fromDate"=>fromDate, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

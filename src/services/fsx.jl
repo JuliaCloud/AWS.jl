@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "file_system_type_version" => "FileSystemTypeVersion", "kms_key_id" => "KmsKeyId", "lustre_configuration" => "LustreConfiguration", "security_group_ids" => "SecurityGroupIds", "storage_type" => "StorageType", "tags" => "Tags", "windows_configuration" => "WindowsConfiguration", "ontap_configuration" => "OntapConfiguration", "storage_capacity" => "StorageCapacity", "backup_ids" => "BackupIds", "filters" => "Filters", "copy_tags" => "CopyTags", "source_region" => "SourceRegion", "volume_ids" => "VolumeIds", "file_system_id" => "FileSystemId", "volume_id" => "VolumeId", "storage_virtual_machine_ids" => "StorageVirtualMachineIds", "active_directory_configuration" => "ActiveDirectoryConfiguration", "svm_admin_password" => "SvmAdminPassword", "paths" => "Paths", "file_system_ids" => "FileSystemIds", "task_ids" => "TaskIds", "root_volume_security_style" => "RootVolumeSecurityStyle")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "file_system_type_version" => "FileSystemTypeVersion", "kms_key_id" => "KmsKeyId", "lustre_configuration" => "LustreConfiguration", "open_zfsconfiguration" => "OpenZFSConfiguration", "security_group_ids" => "SecurityGroupIds", "storage_type" => "StorageType", "tags" => "Tags", "windows_configuration" => "WindowsConfiguration", "ontap_configuration" => "OntapConfiguration", "storage_capacity" => "StorageCapacity", "backup_ids" => "BackupIds", "filters" => "Filters", "copy_tags" => "CopyTags", "source_region" => "SourceRegion", "snapshot_ids" => "SnapshotIds", "volume_ids" => "VolumeIds", "file_system_id" => "FileSystemId", "volume_id" => "VolumeId", "batch_import_meta_data_on_create" => "BatchImportMetaDataOnCreate", "imported_file_chunk_size" => "ImportedFileChunkSize", "s3" => "S3", "storage_virtual_machine_ids" => "StorageVirtualMachineIds", "options" => "Options", "active_directory_configuration" => "ActiveDirectoryConfiguration", "svm_admin_password" => "SvmAdminPassword", "paths" => "Paths", "association_ids" => "AssociationIds", "task_ids" => "TaskIds", "file_system_ids" => "FileSystemIds", "name" => "Name", "root_volume_security_style" => "RootVolumeSecurityStyle")
 
 """
     associate_file_system_aliases(aliases, file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,7 +36,7 @@ of the aliases Amazon FSx is associating with the file system.
 - `client_request_token`:
 """
 function associate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -54,7 +54,7 @@ any files that have not yet been exported.
 
 """
 function cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,27 +64,30 @@ end
 Copies an existing backup within the same Amazon Web Services account to another Amazon Web
 Services Region (cross-Region copy) or within the same Amazon Web Services Region
 (in-Region copy). You can have up to five backup copy requests in progress to a single
-destination Region per account. You can use cross-Region backup copies for cross-region
-disaster recovery. You periodically take backups and copy them to another Region so that in
-the event of a disaster in the primary Region, you can restore from backup and recover
-availability quickly in the other Region. You can make cross-Region copies only within your
-Amazon Web Services partition.  You can also use backup copies to clone your file data set
-to another Region or within the same Region. You can use the SourceRegion parameter to
-specify the Amazon Web Services Region from which the backup will be copied. For example,
-if you make the call from the us-west-1 Region and want to copy a backup from the us-east-2
-Region, you specify us-east-2 in the SourceRegion parameter to make a cross-Region copy. If
-you don't specify a Region, the backup copy is created in the same Region where the request
-is sent from (in-Region copy). For more information on creating backup copies, see  Copying
-backups in the Amazon FSx for Windows User Guide and Copying backups in the Amazon FSx for
-Lustre User Guide.
+destination Region per account. You can use cross-Region backup copies for cross-Region
+disaster recovery. You can periodically take backups and copy them to another Region so
+that in the event of a disaster in the primary Region, you can restore from backup and
+recover availability quickly in the other Region. You can make cross-Region copies only
+within your Amazon Web Services partition. A partition is a grouping of Regions. Amazon Web
+Services currently has three partitions: aws (Standard Regions), aws-cn (China Regions),
+and aws-us-gov (Amazon Web Services GovCloud [US] Regions). You can also use backup copies
+to clone your file dataset to another Region or within the same Region. You can use the
+SourceRegion parameter to specify the Amazon Web Services Region from which the backup will
+be copied. For example, if you make the call from the us-west-1 Region and want to copy a
+backup from the us-east-2 Region, you specify us-east-2 in the SourceRegion parameter to
+make a cross-Region copy. If you don't specify a Region, the backup copy is created in the
+same Region where the request is sent from (in-Region copy). For more information about
+creating backup copies, see  Copying backups in the Amazon FSx for Windows User Guide,
+Copying backups in the Amazon FSx for Lustre User Guide, and Copying backups in the Amazon
+FSx for OpenZFS User Guide.
 
 # Arguments
-- `source_backup_id`: The ID of the source backup. Specifies the ID of the backup that is
+- `source_backup_id`: The ID of the source backup. Specifies the ID of the backup that's
   being copied.
 
 # Keyword Parameters
 - `client_request_token`:
-- `copy_tags`: A boolean flag indicating whether tags from the source backup should be
+- `copy_tags`: A Boolean flag indicating whether tags from the source backup should be
   copied to the backup copy. This value defaults to false. If you set CopyTags to true and
   the source backup has existing tags, you can use the Tags parameter to create new tags,
   provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both
@@ -94,39 +97,42 @@ Lustre User Guide.
 - `source_region`: The source Amazon Web Services Region of the backup. Specifies the
   Amazon Web Services Region from which the backup is being copied. The source and
   destination Regions must be in the same Amazon Web Services partition. If you don't specify
-  a Region, it defaults to the Region where the request is sent from (in-Region copy).
+  a Region, SourceRegion defaults to the Region where the request is sent from (in-Region
+  copy).
 - `tags`:
 """
 function copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CopyBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceBackupId"=>SourceBackupId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_backup(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a backup of an existing Amazon FSx for Windows File Server or Amazon FSx for Lustre
-file system, or of an Amazon FSx for NetApp ONTAP volume. Creating regular backups is a
-best practice, enabling you to restore a file system or volume from a backup if an issue
-arises with the original file system or volume. For Amazon FSx for Lustre file systems, you
-can create a backup only for file systems with the following configuration:   a Persistent
-deployment type   is not linked to a data repository.   For more information about backups,
-see the following:   For Amazon FSx for Lustre, see Working with FSx for Lustre backups.
-For Amazon FSx for Windows, see Working with FSx for Windows backups.   For Amazon FSx for
-NetApp ONTAP, see Working with FSx for NetApp ONTAP backups.   If a backup with the
-specified client request token exists, and the parameters match, this operation returns the
-description of the existing backup. If a backup specified client request token exists, and
-the parameters don't match, this operation returns IncompatibleParameterError. If a backup
-with the specified client request token doesn't exist, CreateBackup does the following:
-Creates a new Amazon FSx backup with an assigned ID, and an initial lifecycle state of
-CREATING.   Returns the description of the backup.   By using the idempotent operation, you
-can retry a CreateBackup operation without the risk of creating an extra backup. This
-approach can be useful when an initial call fails in a way that makes it unclear whether a
-backup was created. If you use the same client request token and the initial call created a
-backup, the operation returns a successful result because all the parameters are the same.
-The CreateBackup operation returns while the backup's lifecycle state is still CREATING.
-You can check the backup creation status by calling the DescribeBackups operation, which
-returns the backup state along with other information.
+Creates a backup of an existing Amazon FSx for Windows File Server file system, Amazon FSx
+for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file
+system. We recommend creating regular backups so that you can restore a file system or
+volume from a backup if an issue arises with the original file system or volume. For Amazon
+FSx for Lustre file systems, you can create a backup only for file systems that have the
+following configuration:   A Persistent deployment type   Are not linked to a data
+repository   For more information about backups, see the following:   For Amazon FSx for
+Lustre, see Working with FSx for Lustre backups.   For Amazon FSx for Windows, see Working
+with FSx for Windows backups.   For Amazon FSx for NetApp ONTAP, see Working with FSx for
+NetApp ONTAP backups.   For Amazon FSx for OpenZFS, see Working with FSx for OpenZFS
+backups.   If a backup with the specified client request token exists and the parameters
+match, this operation returns the description of the existing backup. If a backup with the
+specified client request token exists and the parameters don't match, this operation
+returns IncompatibleParameterError. If a backup with the specified client request token
+doesn't exist, CreateBackup does the following:    Creates a new Amazon FSx backup with an
+assigned ID, and an initial lifecycle state of CREATING.   Returns the description of the
+backup.   By using the idempotent operation, you can retry a CreateBackup operation without
+the risk of creating an extra backup. This approach can be useful when an initial call
+fails in a way that makes it unclear whether a backup was created. If you use the same
+client request token and the initial call created a backup, the operation returns a
+successful result because all the parameters are the same. The CreateBackup operation
+returns while the backup's lifecycle state is still CREATING. You can check the backup
+creation status by calling the DescribeBackups operation, which returns the backup state
+along with other information.
 
 # Keyword Parameters
 - `client_request_token`: (Optional) A string of up to 64 ASCII characters that Amazon FSx
@@ -135,26 +141,77 @@ returns the backup state along with other information.
 - `file_system_id`: The ID of the file system to back up.
 - `tags`: (Optional) The tags to apply to the backup at backup creation. The key value of
   the Name tag appears in the console as the backup name. If you have set CopyTagsToBackups
-  to true, and you specify one or more tags using the CreateBackup action, no existing file
-  system tags are copied from the file system to the backup.
-- `volume_id`: The ID of he FSx for NetApp ONTAP volume to back up.
+  to true, and you specify one or more tags using the CreateBackup operation, no existing
+  file system tags are copied from the file system to the backup.
+- `volume_id`: (Optional) The ID of the FSx for ONTAP volume to back up.
 """
 function create_backup(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_data_repository_association(data_repository_path, file_system_id, file_system_path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates an Amazon FSx for Lustre data repository association (DRA). A data repository
+association is a link between a directory on the file system and an Amazon S3 bucket or
+prefix. You can have a maximum of 8 data repository associations on a file system. Data
+repository associations are supported only for file systems with the Persistent_2
+deployment type. Each data repository association must have a unique Amazon FSx file system
+directory and a unique S3 bucket or prefix associated with it. You can configure a data
+repository association for automatic import only, for automatic export only, or for both.
+To learn more about linking a data repository to your file system, see Linking your file
+system to an S3 bucket.
+
+# Arguments
+- `data_repository_path`: The path to the Amazon S3 data repository that will be linked to
+  the file system. The path can be an S3 bucket or prefix in the format
+  s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be
+  imported from or exported to.
+- `file_system_id`:
+- `file_system_path`: A path on the file system that points to a high-level directory (such
+  as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with
+  DataRepositoryPath. The leading forward slash in the name is required. Two data repository
+  associations cannot have overlapping file system paths. For example, if a data repository
+  is associated with file system path /ns1/, then you cannot link another data repository
+  with file system path /ns1/ns2. This path specifies where in your file system files will be
+  exported from or imported to. This file system directory can be linked to only one Amazon
+  S3 bucket, and no other S3 bucket can be linked to the directory.
+
+# Keyword Parameters
+- `batch_import_meta_data_on_create`: Set to true to run an import data repository task to
+  import metadata from the data repository to the file system after the data repository
+  association is created. Default is false.
+- `client_request_token`:
+- `imported_file_chunk_size`: For files imported from a data repository, this value
+  determines the stripe count and maximum amount of data per file (in MiB) stored on a single
+  physical disk. The maximum number of disks that a single file can be striped across is
+  limited by the total number of disks that make up the file system. The default chunk size
+  is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a
+  maximum size of 5 TB.
+- `s3`: The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre
+  file system with a data repository association. The configuration defines which file events
+  (new, changed, or deleted files or directories) are automatically imported from the linked
+  data repository to the file system or automatically exported from the file system to the
+  data repository.
+- `tags`:
+"""
+function create_data_repository_association(DataRepositoryPath, FileSystemId, FileSystemPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("CreateDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataRepositoryPath"=>DataRepositoryPath, "FileSystemId"=>FileSystemId, "FileSystemPath"=>FileSystemPath, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_data_repository_task(file_system_id, report, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon FSx for Lustre data repository task. You use data repository tasks to
-perform bulk operations between your Amazon FSx file system and its linked data repository.
-An example of a data repository task is exporting any data and metadata changes, including
-POSIX metadata, to files, directories, and symbolic links (symlinks) from your FSx file
-system to its linked data repository. A CreateDataRepositoryTask operation will fail if a
-data repository is not linked to the FSx file system. To learn more about data repository
-tasks, see Data Repository Tasks. To learn more about linking a data repository to your
-file system, see Linking your file system to an S3 bucket.
+perform bulk operations between your Amazon FSx file system and its linked data
+repositories. An example of a data repository task is exporting any data and metadata
+changes, including POSIX metadata, to files, directories, and symbolic links (symlinks)
+from your FSx file system to a linked data repository. A CreateDataRepositoryTask operation
+will fail if a data repository is not linked to the FSx file system. To learn more about
+data repository tasks, see Data Repository Tasks. To learn more about linking a data
+repository to your file system, see Linking your file system to an S3 bucket.
 
 # Arguments
 - `file_system_id`:
@@ -175,108 +232,130 @@ file system, see Linking your file system to an S3 bucket.
 - `tags`:
 """
 function create_data_repository_task(FileSystemId, Report, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_file_system(file_system_type, storage_capacity, subnet_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a new, empty Amazon FSx file system. If a file system with the specified client
-request token exists and the parameters match, CreateFileSystem returns the description of
-the existing file system. If a file system specified client request token exists and the
-parameters don't match, this call returns IncompatibleParameterError. If a file system with
-the specified client request token doesn't exist, CreateFileSystem does the following:
-Creates a new, empty Amazon FSx file system with an assigned ID, and an initial lifecycle
-state of CREATING.   Returns the description of the file system.   This operation requires
-a client request token in the request that Amazon FSx uses to ensure idempotent creation.
+Creates a new, empty Amazon FSx file system. You can create the following supported Amazon
+FSx file systems using the CreateFileSystem API operation:   Amazon FSx for Lustre   Amazon
+FSx for NetApp ONTAP   Amazon FSx for Windows File Server   This operation requires a
+client request token in the request that Amazon FSx uses to ensure idempotent creation.
 This means that calling the operation multiple times with the same client request token has
 no effect. By using the idempotent operation, you can retry a CreateFileSystem operation
 without the risk of creating an extra file system. This approach can be useful when an
 initial call fails in a way that makes it unclear whether a file system was created.
 Examples are if a transport level timeout occurred, or your connection was reset. If you
 use the same client request token and the initial call created a file system, the client
-receives success as long as the parameters are the same.  The CreateFileSystem call returns
-while the file system's lifecycle state is still CREATING. You can check the file-system
-creation status by calling the DescribeFileSystems operation, which returns the file system
-state along with other information.
+receives success as long as the parameters are the same. If a file system with the
+specified client request token exists and the parameters match, CreateFileSystem returns
+the description of the existing file system. If a file system with the specified client
+request token exists and the parameters don't match, this call returns
+IncompatibleParameterError. If a file system with the specified client request token
+doesn't exist, CreateFileSystem does the following:    Creates a new, empty Amazon FSx file
+system with an assigned ID, and an initial lifecycle state of CREATING.   Returns the
+description of the file system.   This operation requires a client request token in the
+request that Amazon FSx uses to ensure idempotent creation. This means that calling the
+operation multiple times with the same client request token has no effect. By using the
+idempotent operation, you can retry a CreateFileSystem operation without the risk of
+creating an extra file system. This approach can be useful when an initial call fails in a
+way that makes it unclear whether a file system was created. Examples are if a
+transport-level timeout occurred, or your connection was reset. If you use the same client
+request token and the initial call created a file system, the client receives a success
+message as long as the parameters are the same.  The CreateFileSystem call returns while
+the file system's lifecycle state is still CREATING. You can check the file-system creation
+status by calling the DescribeFileSystems operation, which returns the file system state
+along with other information.
 
 # Arguments
 - `file_system_type`: The type of Amazon FSx file system to create. Valid values are
-  WINDOWS, LUSTRE, and ONTAP.
-- `storage_capacity`: Sets the storage capacity of the file system that you're creating.
-  For Lustre file systems:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid
-  values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT HDD file
-  systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and
-  increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid
-  values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.   For Windows file systems:   If
-  StorageType=SSD, valid values are 32 GiB - 65,536 GiB (64 TiB).   If StorageType=HDD, valid
-  values are 2000 GiB - 65,536 GiB (64 TiB).   For ONTAP file systems:   Valid values are
-  1024 GiB - 196,608 GiB (192 TiB).
+  WINDOWS, LUSTRE, ONTAP, and OPENZFS.
+- `storage_capacity`: Sets the storage capacity of the file system that you're creating, in
+  gibibytes (GiB).  FSx for Lustre file systems - The amount of storage capacity that you can
+  configure depends on the value that you set for StorageType and the Lustre DeploymentType,
+  as follows:   For SCRATCH_2, PERSISTENT_2 and PERSISTENT_1 deployment types using SSD
+  storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For
+  PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file
+  systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment
+  type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.    FSx for ONTAP
+  file systems - The amount of storage capacity that you can configure is from 1024 GiB up to
+  196,608 GiB (192 TiB).  FSx for OpenZFS file systems - The amount of storage capacity that
+  you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for Windows File Server
+  file systems - The amount of storage capacity that you can configure depends on the value
+  that you set for StorageType as follows:   For SSD storage, valid values are 32 GiB-65,536
+  GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
 - `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
-  from. For Windows and ONTAP MULTI_AZ_1 file system deployment types, provide exactly two
-  subnet IDs, one for the preferred file server and one for the standby file server. You
-  specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt;
-  PreferredSubnetID or OntapConfiguration &gt; PreferredSubnetID properties. For more
-  information, see  Availability and durability: Single-AZ and Multi-AZ file systems in the
-  Amazon FSx for Windows User Guide and  Availability and durability in the Amazon FSx for
-  ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and
-  Lustre file systems, provide exactly one subnet ID. The file server is launched in that
+  from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one
+  for the preferred file server and one for the standby file server. You specify one of these
+  subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID or
+  OntapConfiguration &gt; PreferredSubnetID properties. For more information about Multi-AZ
+  file system configuration, see  Availability and durability: Single-AZ and Multi-AZ file
+  systems in the Amazon FSx for Windows User Guide and  Availability and durability in the
+  Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre
+  deployment types, provide exactly one subnet ID. The file server is launched in that
   subnet's Availability Zone.
 
 # Keyword Parameters
 - `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `file_system_type_version`: Sets the version of the Amazon FSx for Lustre file system
-  you're creating. Valid values are 2.10 and 2.12.   Set the value to 2.10 to create a Lustre
-  2.10 file system.   Set the value to 2.12 to create a Lustre 2.12 file system.   Default
-  value is 2.10.
+- `file_system_type_version`: (Optional) For FSx for Lustre file systems, sets the Lustre
+  version for the file system that you're creating. Valid values are 2.10 and 2.12:   2.10 is
+  supported by the Scratch and Persistent_1 Lustre deployment types.   2.12 is supported by
+  all Lustre deployment types. 2.12 is required when setting FSx for Lustre DeploymentType to
+  PERSISTENT_2.   Default value = 2.10, except when DeploymentType is set to PERSISTENT_2,
+  then the default is 2.12.  If you set FileSystemTypeVersion to 2.10 for a PERSISTENT_2
+  Lustre deployment type, the CreateFileSystem operation fails.
 - `kms_key_id`:
 - `lustre_configuration`:
 - `ontap_configuration`:
+- `open_zfsconfiguration`: The OpenZFS configuration for the file system that's being
+  created.
 - `security_group_ids`: A list of IDs specifying the security groups to apply to all
   network interfaces created for file system access. This list isn't returned in later
   requests to describe the file system.
-- `storage_type`: Sets the storage type for the file system you're creating. Valid values
-  are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all
-  Windows, Lustre, and ONTAP deployment types.   Set to HDD to use hard disk drive storage.
-  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on
-  PERSISTENT Lustre file system deployment types.     Default value is SSD. For more
-  information, see  Storage Type Options in the Amazon FSx for Windows User Guide and
-  Multiple Storage Options in the Amazon FSx for Lustre User Guide.
-- `tags`: The tags to apply to the file system being created. The key value of the Name tag
-  appears in the console as the file system name.
-- `windows_configuration`: The Microsoft Windows configuration for the file system being
-  created.
+- `storage_type`: Sets the storage type for the file system that you're creating. Valid
+  values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on
+  all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk
+  drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system
+  deployment types, and on PERSISTENT Lustre file system deployment types.    Default value
+  is SSD. For more information, see  Storage type options in the FSx for Windows File Server
+  User Guide and Multiple storage options in the FSx for Lustre User Guide.
+- `tags`: The tags to apply to the file system that's being created. The key value of the
+  Name tag appears in the console as the file system name.
+- `windows_configuration`: The Microsoft Windows configuration for the file system that's
+  being created.
 """
 function create_file_system(FileSystemType, StorageCapacity, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_file_system_from_backup(backup_id, subnet_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a new Amazon FSx for Lustre or Amazon FSx for Windows File Server file system from
-an existing Amazon FSx backup. If a file system with the specified client request token
-exists and the parameters match, this operation returns the description of the file system.
-If a client request token specified by the file system exists and the parameters don't
-match, this call returns IncompatibleParameterError. If a file system with the specified
-client request token doesn't exist, this operation does the following:   Creates a new
-Amazon FSx file system from backup with an assigned ID, and an initial lifecycle state of
-CREATING.   Returns the description of the file system.   Parameters like Active Directory,
-default share name, automatic backup, and backup settings default to the parameters of the
-file system that was backed up, unless overridden. You can explicitly supply other
-settings. By using the idempotent operation, you can retry a CreateFileSystemFromBackup
-call without the risk of creating an extra file system. This approach can be useful when an
-initial call fails in a way that makes it unclear whether a file system was created.
-Examples are if a transport level timeout occurred, or your connection was reset. If you
-use the same client request token and the initial call created a file system, the client
-receives success as long as the parameters are the same.  The CreateFileSystemFromBackup
-call returns while the file system's lifecycle state is still CREATING. You can check the
-file-system creation status by calling the DescribeFileSystems operation, which returns the
-file system state along with other information.
+Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File Server, or Amazon FSx for
+OpenZFS file system from an existing Amazon FSx backup. If a file system with the specified
+client request token exists and the parameters match, this operation returns the
+description of the file system. If a client request token with the specified by the file
+system exists and the parameters don't match, this call returns IncompatibleParameterError.
+If a file system with the specified client request token doesn't exist, this operation does
+the following:   Creates a new Amazon FSx file system from backup with an assigned ID, and
+an initial lifecycle state of CREATING.   Returns the description of the file system.
+Parameters like the Active Directory, default share name, automatic backup, and backup
+settings default to the parameters of the file system that was backed up, unless
+overridden. You can explicitly supply other settings. By using the idempotent operation,
+you can retry a CreateFileSystemFromBackup call without the risk of creating an extra file
+system. This approach can be useful when an initial call fails in a way that makes it
+unclear whether a file system was created. Examples are if a transport level timeout
+occurred, or your connection was reset. If you use the same client request token and the
+initial call created a file system, the client receives a success message as long as the
+parameters are the same.  The CreateFileSystemFromBackup call returns while the file
+system's lifecycle state is still CREATING. You can check the file-system creation status
+by calling the  DescribeFileSystems operation, which returns the file system state along
+with other information.
 
 # Arguments
 - `backup_id`:
@@ -284,40 +363,75 @@ file system state along with other information.
   from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs,
   one for the preferred file server and one for the standby file server. You specify one of
   these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID
-  property. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 deployment types and Lustre file systems,
-  provide exactly one subnet ID. The file server is launched in that subnet's Availability
-  Zone.
+  property. Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types, Lustre file
+  systems, and OpenZFS file systems provide exactly one subnet ID. The file server is
+  launched in that subnet's Availability Zone.
 
 # Keyword Parameters
 - `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `file_system_type_version`: Sets the version for the Amazon FSx for Lustre file system
-  you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify
-  FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion
-  setting. If you choose to specify FileSystemTypeVersion when creating from backup, the
-  value must match the backup's FileSystemTypeVersion setting.
+  that you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to
+  specify FileSystemTypeVersion because it will be applied using the backup's
+  FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating
+  from backup, the value must match the backup's FileSystemTypeVersion setting.
 - `kms_key_id`:
 - `lustre_configuration`:
+- `open_zfsconfiguration`: The OpenZFS configuration for the file system that's being
+  created.
 - `security_group_ids`: A list of IDs for the security groups that apply to the specified
   network interfaces created for file system access. These security groups apply to all
   network interfaces. This value isn't returned in later DescribeFileSystem requests.
-- `storage_type`: Sets the storage type for the Windows file system you're creating from a
-  backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage.
-  Supported on all Windows deployment types.   Set to HDD to use hard disk drive storage.
-  Supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types.     Default
-  value is SSD.   HDD and SSD storage types have different minimum storage capacity
-  requirements. A restored file system's storage capacity is tied to the file system that was
-  backed up. You can create a file system that uses HDD storage from a backup of a file
-  system that used SSD storage only if the original SSD file system had a storage capacity of
-  at least 2000 GiB.
+- `storage_type`: Sets the storage type for the Windows or OpenZFS file system that you're
+  creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive
+  storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use
+  hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows
+  File Server file system deployment types.    The default value is SSD.   HDD and SSD
+  storage types have different minimum storage capacity requirements. A restored file
+  system's storage capacity is tied to the file system that was backed up. You can create a
+  file system that uses HDD storage from a backup of a file system that used SSD storage if
+  the original SSD file system had a storage capacity of at least 2000 GiB.
 - `tags`: The tags to be applied to the file system at file system creation. The key value
   of the Name tag appears in the console as the file system name.
 - `windows_configuration`: The configuration for this Microsoft Windows file system.
 """
 function create_file_system_from_backup(BackupId, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_snapshot(name, volume_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a snapshot of an existing Amazon FSx for OpenZFS file system. With snapshots, you
+can easily undo file changes and compare file versions by restoring the volume to a
+previous version. If a snapshot with the specified client request token exists, and the
+parameters match, this operation returns the description of the existing snapshot. If a
+snapshot with the specified client request token exists, and the parameters don't match,
+this operation returns IncompatibleParameterError. If a snapshot with the specified client
+request token doesn't exist, CreateSnapshot does the following:    Creates a new OpenZFS
+snapshot with an assigned ID, and an initial lifecycle state of CREATING.   Returns the
+description of the snapshot.   By using the idempotent operation, you can retry a
+CreateSnapshot operation without the risk of creating an extra snapshot. This approach can
+be useful when an initial call fails in a way that makes it unclear whether a snapshot was
+created. If you use the same client request token and the initial call created a snapshot,
+the operation returns a successful result because all the parameters are the same. The
+CreateSnapshot operation returns while the snapshot's lifecycle state is still CREATING.
+You can check the snapshot creation status by calling the DescribeSnapshots operation,
+which returns the snapshot state along with other information.
+
+# Arguments
+- `name`: The name of the snapshot.
+- `volume_id`: The ID of the volume that you are taking a snapshot of.
+
+# Keyword Parameters
+- `client_request_token`:
+- `tags`:
+"""
+function create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -348,27 +462,29 @@ Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
 - `tags`:
 """
 function create_storage_virtual_machine(FileSystemId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_volume(name, volume_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates an Amazon FSx for NetApp ONTAP storage volume.
+Creates an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS storage volume.
 
 # Arguments
-- `name`: Specifies the name of the volume you're creating.
-- `volume_type`: Specifies the type of volume to create; ONTAP is the only valid volume
-  type.
+- `name`: Specifies the name of the volume that you're creating.
+- `volume_type`: Specifies the type of volume to create; ONTAP and OPENZFS are the only
+  valid volume types.
 
 # Keyword Parameters
 - `client_request_token`:
-- `ontap_configuration`: Specifies the ONTAP configuration to use in creating the volume.
+- `ontap_configuration`: Specifies the configuration to use when creating the ONTAP volume.
+- `open_zfsconfiguration`: Specifies the configuration to use when creating the OpenZFS
+  volume.
 - `tags`:
 """
 function create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VolumeType"=>VolumeType, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -388,61 +504,105 @@ Creates a new Amazon FSx for NetApp ONTAP volume from an existing Amazon FSx vol
 - `tags`:
 """
 function create_volume_from_backup(BackupId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("CreateVolumeFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_backup(backup_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes an Amazon FSx backup, deleting its contents. After deletion, the backup no longer
-exists, and its data is gone. The DeleteBackup call returns instantly. The backup will not
-show up in later DescribeBackups calls.  The data in a deleted backup is also deleted and
-can't be recovered by any means.
+Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and its data is
+gone. The DeleteBackup call returns instantly. The backup won't show up in later
+DescribeBackups calls.  The data in a deleted backup is also deleted and can't be recovered
+by any means.
 
 # Arguments
-- `backup_id`: The ID of the backup you want to delete.
+- `backup_id`: The ID of the backup that you want to delete.
 
 # Keyword Parameters
 - `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
-  ensure idempotent deletion. This is automatically filled on your behalf when using the CLI
-  or SDK.
+  ensure idempotent deletion. This parameter is automatically filled on your behalf when
+  using the CLI or SDK.
 """
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_data_repository_association(association_id, delete_data_in_file_system; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the
+data repository association unlinks the file system from the Amazon S3 bucket. When
+deleting a data repository association, you have the option of deleting the data in the
+file system that corresponds to the data repository association. Data repository
+associations are supported only for file systems with the Persistent_2 deployment type.
+
+# Arguments
+- `association_id`: The ID of the data repository association that you want to delete.
+- `delete_data_in_file_system`: Set to true to delete the data in the file system that
+  corresponds to the data repository association.
+
+# Keyword Parameters
+- `client_request_token`:
+"""
+function delete_data_repository_association(AssociationId, DeleteDataInFileSystem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("DeleteDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "DeleteDataInFileSystem"=>DeleteDataInFileSystem, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_file_system(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes a file system, deleting its contents. After deletion, the file system no longer
-exists, and its data is gone. Any existing automatic backups will also be deleted. To
-delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and SVMs on
-the file system. Then provide a FileSystemId value to the DeleFileSystem operation. By
-default, when you delete an Amazon FSx for Windows File Server file system, a final backup
-is created upon deletion. This final backup is not subject to the file system's retention
-policy, and must be manually deleted. The DeleteFileSystem action returns while the file
-system has the DELETING status. You can check the file system deletion status by calling
-the DescribeFileSystems action, which returns a list of file systems in your account. If
-you pass the file system ID for a deleted file system, the DescribeFileSystems returns a
-FileSystemNotFound error.  Deleting an Amazon FSx for Lustre file system will fail with a
-400 BadRequest if a data repository task is in a PENDING or EXECUTING state.   The data in
-a deleted file system is also deleted and can't be recovered by any means.
+Deletes a file system. After deletion, the file system no longer exists, and its data is
+gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon
+FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines
+(SVMs) on the file system. Then provide a FileSystemId value to the DeleFileSystem
+operation. By default, when you delete an Amazon FSx for Windows File Server file system, a
+final backup is created upon deletion. This final backup isn't subject to the file system's
+retention policy, and must be manually deleted. The DeleteFileSystem operation returns
+while the file system has the DELETING status. You can check the file system deletion
+status by calling the DescribeFileSystems operation, which returns a list of file systems
+in your account. If you pass the file system ID for a deleted file system, the
+DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository
+task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will
+fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is
+also deleted and can't be recovered by any means.
 
 # Arguments
-- `file_system_id`: The ID of the file system you want to delete.
+- `file_system_id`: The ID of the file system that you want to delete.
 
 # Keyword Parameters
 - `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
-  ensure idempotent deletion. This is automatically filled on your behalf when using the
-  Command Line Interface (CLI) or an Amazon Web Services SDK.
+  ensure idempotent deletion. This token is automatically filled on your behalf when using
+  the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `lustre_configuration`:
+- `open_zfsconfiguration`: The configuration object for the OpenZFS file system used in the
+  DeleteFileSystem operation.
 - `windows_configuration`:
 """
 function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_snapshot(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes the Amazon FSx snapshot. After deletion, the snapshot no longer exists, and its
+data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup.
+The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle
+status of DELETING until the deletion is complete.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot that you want to delete.
+
+# Keyword Parameters
+- `client_request_token`:
+"""
+function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -458,65 +618,97 @@ an SVM, you must delete all non-root volumes in the SVM, otherwise the operation
 - `client_request_token`:
 """
 function delete_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DeleteStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_volume(volume_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes an Amazon FSx for NetApp ONTAP volume. When deleting a volume, you have the option
-of creating a final backup. If you create a final backup, you have the option to apply Tags
-to the backup. You need to have fsx:TagResource permission in order to apply tags to the
-backup.
+Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
 
 # Arguments
-- `volume_id`: The ID of the volume you are deleting.
+- `volume_id`: The ID of the volume that you are deleting.
 
 # Keyword Parameters
 - `client_request_token`:
 - `ontap_configuration`: For Amazon FSx for ONTAP volumes, specify whether to take a final
-  backup of the volume, and apply tags to the backup.
+  backup of the volume and apply tags to the backup. To apply tags to the backup, you must
+  have the fsx:TagResource permission.
+- `open_zfsconfiguration`: For Amazon FSx for OpenZFS volumes, specify whether to delete
+  all child volumes and snapshots.
 """
 function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Returns the description of specific Amazon FSx backups, if a BackupIds value is provided
+Returns the description of a specific Amazon FSx backup, if a BackupIds value is provided
 for that backup. Otherwise, it returns all backups owned by your Amazon Web Services
 account in the Amazon Web Services Region of the endpoint that you're calling. When
 retrieving all backups, you can optionally specify the MaxResults parameter to limit the
 number of backups in a response. If more backups remain, Amazon FSx returns a NextToken
 value in the response. In this case, send a later request with the NextToken request
-parameter set to the value of NextToken from the last response. This action is used in an
-iterative process to retrieve a list of your backups. DescribeBackups is called first
-without a NextTokenvalue. Then the action continues to be called with the NextToken
-parameter set to the value of the last NextToken value until a response has no NextToken.
-When using this action, keep the following in mind:   The implementation might return fewer
-than MaxResults backup descriptions while still including a NextToken value.   The order of
-backups returned in the response of one DescribeBackups call and the order of backups
-returned across the responses of a multi-call iteration is unspecified.
+parameter set to the value of the NextToken value from the last response. This operation is
+used in an iterative process to retrieve a list of your backups. DescribeBackups is called
+first without a NextToken value. Then the operation continues to be called with the
+NextToken parameter set to the value of the last NextToken value until a response has no
+NextToken value. When using this operation, keep the following in mind:   The operation
+might return fewer than the MaxResults value of backup descriptions while still including a
+NextToken value.   The order of the backups returned in the response of one DescribeBackups
+call and the order of the backups returned across the responses of a multi-call iteration
+is unspecified.
 
 # Keyword Parameters
-- `backup_ids`: IDs of the backups you want to retrieve (String). This overrides any
-  filters. If any IDs are not found, BackupNotFound will be thrown.
-- `filters`: Filters structure. Supported names are file-system-id, backup-type,
+- `backup_ids`: The IDs of the backups that you want to retrieve. This parameter value
+  overrides any filters. If any IDs aren't found, a BackupNotFound error occurs.
+- `filters`: The filters structure. The supported names are file-system-id, backup-type,
   file-system-type, and volume-id.
-- `max_results`: Maximum number of backups to return in the response (integer). This
-  parameter value must be greater than 0. The number of items that Amazon FSx returns is the
-  minimum of the MaxResults parameter specified in the request and the service's internal
-  maximum number of items per page.
-- `next_token`: Opaque pagination token returned from a previous DescribeBackups operation
-  (String). If a token present, the action continues the list from where the returning call
-  left off.
+- `max_results`: Maximum number of backups to return in the response. This parameter value
+  must be greater than 0. The number of items that Amazon FSx returns is the minimum of the
+  MaxResults parameter specified in the request and the service's internal maximum number of
+  items per page.
+- `next_token`: An opaque pagination token returned from a previous DescribeBackups
+  operation. If a token is present, the operation continues the list from where the returning
+  call left off.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_data_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the description of specific Amazon FSx for Lustre data repository associations, if
+one or more AssociationIds values are provided in the request, or if filters are used in
+the request. Data repository associations are supported only for file systems with the
+Persistent_2 deployment type. You can use filters to narrow the response to include just
+data repository associations for specific file systems (use the file-system-id filter with
+the ID of the file system) or data repository associations for a specific repository type
+(use the data-repository-type filter with a value of S3). If you don't use filters, the
+response returns all data repository associations owned by your Amazon Web Services account
+in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all
+data repository associations, you can paginate the response by using the optional
+MaxResults parameter to limit the number of data repository associations returned in a
+response. If more data repository associations remain, Amazon FSx returns a NextToken value
+in the response. In this case, send a later request with the NextToken request parameter
+set to the value of NextToken from the last response.
+
+# Keyword Parameters
+- `association_ids`: IDs of the data repository associations whose descriptions you want to
+  retrieve (String).
+- `filters`:
+- `max_results`: The maximum number of resources to return in the response. This value must
+  be an integer greater than zero.
+- `next_token`:
+"""
+function describe_data_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("DescribeDataRepositoryAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -542,7 +734,7 @@ last response.
 - `task_ids`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
 function describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeDataRepositoryTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,7 +761,7 @@ provided in the DescribeFileSystems operation response.
   from where the previous returning call left off.
 """
 function describe_file_system_aliases(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -583,14 +775,15 @@ you're calling. When retrieving all file system descriptions, you can optionally
 the MaxResults parameter to limit the number of descriptions in a response. If more file
 system descriptions remain, Amazon FSx returns a NextToken value in the response. In this
 case, send a later request with the NextToken request parameter set to the value of
-NextToken from the last response. This action is used in an iterative process to retrieve a
-list of your file system descriptions. DescribeFileSystems is called first without a
-NextTokenvalue. Then the action continues to be called with the NextToken parameter set to
-the value of the last NextToken value until a response has no NextToken. When using this
-action, keep the following in mind:   The implementation might return fewer than MaxResults
-file system descriptions while still including a NextToken value.   The order of file
-systems returned in the response of one DescribeFileSystems call and the order of file
-systems returned across the responses of a multicall iteration is unspecified.
+NextToken from the last response. This operation is used in an iterative process to
+retrieve a list of your file system descriptions. DescribeFileSystems is called first
+without a NextTokenvalue. Then the operation continues to be called with the NextToken
+parameter set to the value of the last NextToken value until a response has no NextToken.
+When using this operation, keep the following in mind:   The implementation might return
+fewer than MaxResults file system descriptions while still including a NextToken value.
+The order of file systems returned in the response of one DescribeFileSystems call and the
+order of file systems returned across the responses of a multicall iteration is
+unspecified.
 
 # Keyword Parameters
 - `file_system_ids`: IDs of the file systems whose descriptions you want to retrieve
@@ -600,12 +793,43 @@ systems returned across the responses of a multicall iteration is unspecified.
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
 - `next_token`: Opaque pagination token returned from a previous DescribeFileSystems
-  operation (String). If a token present, the action continues the list from where the
+  operation (String). If a token present, the operation continues the list from where the
   returning call left off.
 """
 function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeFileSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns the description of specific Amazon FSx snapshots, if a SnapshotIds value is
+provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services
+account in the Amazon Web Services Region of the endpoint that you're calling. When
+retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the
+number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken
+value in the response. In this case, send a later request with the NextToken request
+parameter set to the value of NextToken from the last response.  Use this operation in an
+iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first
+without a NextToken value. Then the operation continues to be called with the NextToken
+parameter set to the value of the last NextToken value until a response has no NextToken
+value. When using this operation, keep the following in mind:   The operation might return
+fewer than the MaxResults value of snapshot descriptions while still including a NextToken
+value.   The order of snapshots returned in the response of one DescribeSnapshots call and
+the order of backups returned across the responses of a multi-call iteration is
+unspecified.
+
+# Keyword Parameters
+- `filters`: The filters structure. The supported names are file-system-id or volume-id.
+- `max_results`:
+- `next_token`:
+- `snapshot_ids`: The IDs of the snapshots that you want to retrieve. This parameter value
+  overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
+"""
+function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -620,23 +844,23 @@ Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs
 - `storage_virtual_machine_ids`: Enter the ID of one or more SVMs that you want to view.
 """
 function describe_storage_virtual_machines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeStorageVirtualMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Describes one or more Amazon FSx for NetApp ONTAP volumes.
+Describes one or more Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volumes.
 
 # Keyword Parameters
-- `filters`: Enter a filter name:value pair to view a select set of volumes.
+- `filters`: Enter a filter Name and Values pair to view a select set of volumes.
 - `max_results`:
 - `next_token`:
-- `volume_ids`: IDs of the volumes whose descriptions you want to retrieve.
+- `volume_ids`: The IDs of the volumes whose descriptions you want to retrieve.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +884,7 @@ with the file system.
 - `client_request_token`:
 """
 function disassociate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -693,8 +917,48 @@ tags returned across the responses of a multi-call iteration is unspecified.
   returning call left off.
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    release_file_system_nfs_v3_locks(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Releases the file system lock from an Amazon FSx for OpenZFS file system.
+
+# Arguments
+- `file_system_id`:
+
+# Keyword Parameters
+- `client_request_token`:
+"""
+function release_file_system_nfs_v3_locks(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("ReleaseFileSystemNfsV3Locks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    restore_volume_from_snapshot(snapshot_id, volume_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns an Amazon FSx for OpenZFS volume to the state saved by the specified snapshot.
+
+# Arguments
+- `snapshot_id`: The ID of the source snapshot. Specifies the snapshot that you are
+  restoring from.
+- `volume_id`: The ID of the volume that you are restoring.
+
+# Keyword Parameters
+- `client_request_token`:
+- `options`: The settings used when restoring the specified volume from snapshot.
+  DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the
+  specified snapshot. If there are intermediate snapshots and this option isn't used,
+  RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any volumes cloned from
+  this volume. If there are any cloned volumes and this option isn't used,
+  RestoreVolumeFromSnapshot fails.
+"""
+function restore_volume_from_snapshot(SnapshotId, VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("RestoreVolumeFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId, "VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -710,7 +974,7 @@ Tags an Amazon FSx resource.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -726,8 +990,37 @@ This action removes a tag from an Amazon FSx resource.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_data_repository_association(association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the configuration of an existing data repository association on an Amazon FSx for
+Lustre file system. Data repository associations are supported only for file systems with
+the Persistent_2 deployment type.
+
+# Arguments
+- `association_id`: The ID of the data repository association that you are updating.
+
+# Keyword Parameters
+- `client_request_token`:
+- `imported_file_chunk_size`: For files imported from a data repository, this value
+  determines the stripe count and maximum amount of data per file (in MiB) stored on a single
+  physical disk. The maximum number of disks that a single file can be striped across is
+  limited by the total number of disks that make up the file system. The default chunk size
+  is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a
+  maximum size of 5 TB.
+- `s3`: The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre
+  file system with a data repository association. The configuration defines which file events
+  (new, changed, or deleted files or directories) are automatically imported from the linked
+  data repository to the file system or automatically exported from the file system to the
+  data repository.
+"""
+function update_data_repository_association(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("UpdateDataRepositoryAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -735,18 +1028,21 @@ end
 
 Use this operation to update the configuration of an existing Amazon FSx file system. You
 can update multiple properties in a single request. For Amazon FSx for Windows File Server
-file systems, you can update the following properties:   AuditLogConfiguration
-AutomaticBackupRetentionDays   DailyAutomaticBackupStartTime
-SelfManagedActiveDirectoryConfiguration   StorageCapacity   ThroughputCapacity
-WeeklyMaintenanceStartTime   For Amazon FSx for Lustre file systems, you can update the
-following properties:   AutoImportPolicy   AutomaticBackupRetentionDays
-DailyAutomaticBackupStartTime   DataCompressionType   StorageCapacity
-WeeklyMaintenanceStartTime   For Amazon FSx for NetApp ONTAP file systems, you can update
-the following properties:   AutomaticBackupRetentionDays   DailyAutomaticBackupStartTime
-FsxAdminPassword   WeeklyMaintenanceStartTime
+file systems, you can update the following properties:    AuditLogConfiguration
+AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
+SelfManagedActiveDirectoryConfiguration     StorageCapacity     ThroughputCapacity
+WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following
+properties:    AutoImportPolicy     AutomaticBackupRetentionDays
+DailyAutomaticBackupStartTime     DataCompressionType     StorageCapacity
+WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following
+properties:    AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
+FsxAdminPassword     WeeklyMaintenanceStartTime    For the Amazon FSx for OpenZFS file
+systems, you can update the following properties:    AutomaticBackupRetentionDays
+CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime
+DiskIopsConfiguration     ThroughputCapacity     WeeklyMaintenanceStartTime
 
 # Arguments
-- `file_system_id`: Identifies the file system that you are updating.
+- `file_system_id`: The ID of the file system that you are updating.
 
 # Keyword Parameters
 - `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
@@ -754,28 +1050,52 @@ FsxAdminPassword   WeeklyMaintenanceStartTime
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `lustre_configuration`:
 - `ontap_configuration`:
+- `open_zfsconfiguration`: The configuration updates for an Amazon FSx for OpenZFS file
+  system.
 - `storage_capacity`: Use this parameter to increase the storage capacity of an Amazon FSx
   for Windows File Server or Amazon FSx for Lustre file system. Specifies the storage
-  capacity target value, GiB, to increase the storage capacity for the file system that
-  you're updating. You cannot make a storage capacity increase request if there is an
-  existing storage capacity increase request in progress. For Windows file systems, the
-  storage capacity target value must be at least 10 percent (%) greater than the current
-  storage capacity value. In order to increase storage capacity, the file system must have at
-  least 16 MB/s of throughput capacity. For Lustre file systems, the storage capacity target
-  value can be the following:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid
-  values are in multiples of 2400 GiB. The value must be greater than the current storage
-  capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12
-  MB/s/TiB file systems and multiples of 1800 GiB for 40 MB/s/TiB file systems. The values
-  must be greater than the current storage capacity.   For SCRATCH_1 file systems, you cannot
-  increase the storage capacity.   For more information, see Managing storage capacity in the
-  Amazon FSx for Windows File Server User Guide and Managing storage and throughput capacity
-  in the Amazon FSx for Lustre User Guide.
+  capacity target value, in GiB, to increase the storage capacity for the file system that
+  you're updating.   You can't make a storage capacity increase request if there is an
+  existing storage capacity increase request in progress.  For Windows file systems, the
+  storage capacity target value must be at least 10 percent greater than the current storage
+  capacity value. To increase storage capacity, the file system must have at least 16 MBps of
+  throughput capacity. For Lustre file systems, the storage capacity target value can be the
+  following:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid values are in
+  multiples of 2400 GiB. The value must be greater than the current storage capacity.   For
+  PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput
+  per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems.
+  The values must be greater than the current storage capacity.   For SCRATCH_1 file systems,
+  you can't increase the storage capacity.   For OpenZFS file systems, the input/output
+  operations per second (IOPS) automatically scale with increases to the storage capacity if
+  IOPS is configured for automatic scaling. If the storage capacity increase would result in
+  less than 3 IOPS per GiB of storage, this operation returns an error.  For more
+  information, see Managing storage capacity in the Amazon FSx for Windows File Server User
+  Guide, Managing storage and throughput capacity in the Amazon FSx for Lustre User Guide,
+  and Managing storage capacity in the Amazon FSx for OpenZFS User Guide.
 - `windows_configuration`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
 function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_snapshot(name, snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the name of a snapshot.
+
+# Arguments
+- `name`: The name of the snapshot to update.
+- `snapshot_id`: The ID of the snapshot that you want to update, in the format
+  fsvolsnap-0123456789abcdef0.
+
+# Keyword Parameters
+- `client_request_token`:
+"""
+function update_snapshot(Name, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return fsx("UpdateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SnapshotId"=>SnapshotId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -794,24 +1114,29 @@ Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
 - `svm_admin_password`: Enter a new SvmAdminPassword if you are updating it.
 """
 function update_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("UpdateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     update_volume(volume_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Updates an Amazon FSx for NetApp ONTAP volume's configuration.
+Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS
+volume.
 
 # Arguments
-- `volume_id`: Specifies the volume that you want to update, formatted
+- `volume_id`: The ID of the volume that you want to update, in the format
   fsvol-0123456789abcdef0.
 
 # Keyword Parameters
 - `client_request_token`:
-- `ontap_configuration`: The ONTAP configuration of the volume you are updating.
+- `name`: The name of the OpenZFS volume. OpenZFS root volumes are automatically named FSX.
+  Child volume names must be unique among their parent volume's children. The name of the
+  volume is part of the mount string for the OpenZFS volume.
+- `ontap_configuration`: The configuration of the ONTAP volume that you are updating.
+- `open_zfsconfiguration`: The configuration of the OpenZFS volume that you are updating.
 """
 function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return fsx("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

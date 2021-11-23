@@ -5,123 +5,181 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("association_status" => "associationStatus", "max_results" => "maxResults", "next_token" => "nextToken", "principal" => "principal", "resource_arn" => "resourceArn", "resource_share_arns" => "resourceShareArns", "permission_version" => "permissionVersion", "principals" => "principals", "resource_type" => "resourceType", "resource_share_invitation_arns" => "resourceShareInvitationArns", "allow_external_principals" => "allowExternalPrincipals", "client_token" => "clientToken", "name" => "name", "permission_arns" => "permissionArns", "resource_arns" => "resourceArns", "tags" => "tags", "permission_arn" => "permissionArn", "resource_share_status" => "resourceShareStatus", "tag_filters" => "tagFilters", "replace" => "replace")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("association_status" => "associationStatus", "max_results" => "maxResults", "next_token" => "nextToken", "principal" => "principal", "resource_arn" => "resourceArn", "resource_share_arns" => "resourceShareArns", "permission_version" => "permissionVersion", "principals" => "principals", "resource_type" => "resourceType", "resource_share_invitation_arns" => "resourceShareInvitationArns", "allow_external_principals" => "allowExternalPrincipals", "client_token" => "clientToken", "name" => "name", "resource_region_scope" => "resourceRegionScope", "permission_arns" => "permissionArns", "resource_arns" => "resourceArns", "tags" => "tags", "permission_arn" => "permissionArn", "resource_share_status" => "resourceShareStatus", "tag_filters" => "tagFilters", "replace" => "replace")
 
 """
     accept_resource_share_invitation(resource_share_invitation_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Accepts an invitation to a resource share from another Amazon Web Services account.
+Accepts an invitation to a resource share from another Amazon Web Services account. After
+you accept the invitation, the resources included in the resource share are available to
+interact with in the relevant Amazon Web Services Management Consoles and tools.
 
 # Arguments
-- `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
+- `resource_share_invitation_arn`: The Amazon Resoure Name (ARN) of the invitation that you
+  want to accept.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
 """
 function accept_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     associate_resource_share(resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Associates the specified resource share with the specified principals and resources.
+Adds the specified list of principals and list of resources to a resource share. Principals
+that already have access to this resource share immediately receive access to the added
+resources. Newly added principals immediately receive access to the resources shared in
+this resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+  you want to add principals or resources to.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `principals`: The principals to associate with the resource share. The possible values
-  are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
-  in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
-  IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
-  IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
+- `principals`: Specifies a list of principals to whom you want to the resource share. This
+  can be null if you want to add only resources. What the principals can do with the
+  resources in the share is determined by the RAM permissions that you associate with the
+  resource share. See AssociateResourceSharePermission. You can include the following values:
+    An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name
+  (ARN) of an organization in Organizations, for example:
+  organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit
+  (OU) in Organizations, for example:
+  organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
+  an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for
+  example: iam::123456789012user/username     Not all resource types can be shared with IAM
+  roles and users. For more information, see Sharing with IAM roles and users in the Resource
   Access Manager User Guide.
-- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
+- `resource_arns`: Specifies a list of Amazon Resource Names (ARNs) of the resources that
+  you want to share. This can be null if you want to add only principals.
 """
 function associate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/associateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     associate_resource_share_permission(permission_arn, resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Associates a permission with a resource share.
+Adds or replaces the RAM permission for a resource type included in a resource share. You
+can have exactly one permission associated with each resource type in the resource share.
+You can add a new RAM permission only if there are currently no resources of that resource
+type currently in the resource share.
 
 # Arguments
-- `permission_arn`: The Amazon Resource Name (ARN) of the RAM permission to associate with
-  the resource share.
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `permission_arn`: Specifies the Amazon Resoure Name (ARN) of the RAM permission to
+  associate with the resource share. To find the ARN for a permission, use either the
+  ListPermissions operation or go to the Permissions library page in the RAM console and then
+  choose the name of the permission. The ARN is displayed on the detail page.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+  which you want to add or replace permissions.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `permission_version`: The version of the RAM permissions to associate with the resource
-  share.
-- `replace`: Indicates whether the permission should replace the permissions that are
-  currently associated with the resource share. Use true to replace the current permissions.
-  Use false to add the permission to the current permission.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
+- `permission_version`: Specifies the version of the RAM permission to associate with the
+  resource share. If you don't specify this parameter, the operation uses the version
+  designated as the default.
+- `replace`: Specifies whether the specified permission should replace or add to the
+  existing permission associated with the resource share. Use true to replace the current
+  permissions. Use false to add the permission to the current permission. The default value
+  is false.  A resource share can have only one permission per resource type. If a resource
+  share already has a permission for the specified resource type and you don't set replace to
+  true then the operation returns an error. This helps prevent accidental overwriting of a
+  permission.
 """
 function associate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a resource share. You must provide a list of the Amazon Resource Names (ARNs) for
-the resources you want to share. You must also specify who you want to share the resources
-with, and the permissions that you grant them.  Sharing a resource makes it available for
-use by principals outside of the Amazon Web Services account that created the resource.
+Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for
+the resources that you want to share, a list of principals you want to share the resources
+with, and the permissions to grant those principals.  Sharing a resource makes it available
+for use by principals outside of the Amazon Web Services account that created the resource.
 Sharing doesn't change any permissions or quotas that apply to the resource in the account
 that created it.
 
 # Arguments
-- `name`: The name of the resource share.
+- `name`: Specifies the name of the resource share.
 
 # Keyword Parameters
-- `allow_external_principals`: Indicates whether principals outside your organization in
-  Organizations can be associated with a resource share.
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `permission_arns`: The Amazon Resource Names (ARNs) of the permissions to associate with
-  the resource share. If you do not specify an ARN for the permission, RAM automatically
-  attaches the default version of the permission for each resource type. Only one permission
-  can be associated with each resource type in a resource share.
-- `principals`: The principals to associate with the resource share. The possible values
-  are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
-  in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
-  IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
-  IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
+- `allow_external_principals`: Specifies whether principals outside your organization in
+  Organizations can be associated with a resource share. A value of true lets you share with
+  individual Amazon Web Services accounts that are not in your organization. A value of false
+  only has meaning if your account is a member of an Amazon Web Services Organization. The
+  default value is true.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
+- `permission_arns`: Specifies the Amazon Resource Names (ARNs) of the RAM permission to
+  associate with the resource share. If you do not specify an ARN for the permission, RAM
+  automatically attaches the default version of the permission for each resource type. You
+  can associate only one permission with each resource type included in the resource share.
+- `principals`: Specifies a list of one or more principals to associate with the resource
+  share. You can include the following values:   An Amazon Web Services account ID, for
+  example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations,
+  for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an
+  organizational unit (OU) in Organizations, for example:
+  organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
+  an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for
+  example: iam::123456789012user/username     Not all resource types can be shared with IAM
+  roles and users. For more information, see Sharing with IAM roles and users in the Resource
   Access Manager User Guide.
-- `resource_arns`: The ARNs of the resources to associate with the resource share.
-- `tags`: One or more tags.
+- `resource_arns`: Specifies a list of one or more ARNs of the resources to associate with
+  the resource share.
+- `tags`: Specifies one or more tags to attach to the resource share itself. It doesn't
+  attach the tags to the resources associated with the resource share.
 """
 function create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/createresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_resource_share(resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes the specified resource share.
+Deletes the specified resource share. This doesn't delete any of the resources that were
+associated with the resource share; it only stops the sharing of those resources outside of
+the Amazon Web Services account that created them.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+  delete.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
 """
 function delete_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,47 +189,78 @@ end
 Disassociates the specified principals or resources from the specified resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `resource_share_arn`: Specifies Amazon Resoure Name (ARN) of the resource share that you
+  want to remove resources from.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `principals`: The principals.
-- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
+- `principals`: Specifies a list of one or more principals that no longer are to have
+  access to the resources in this resource share. You can include the following values:   An
+  Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN)
+  of an organization in Organizations, for example:
+  organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit
+  (OU) in Organizations, for example:
+  organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
+  an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for
+  example: iam::123456789012user/username     Not all resource types can be shared with IAM
+  roles and users. For more information, see Sharing with IAM roles and users in the Resource
+  Access Manager User Guide.
+- `resource_arns`: Specifies a list of Amazon Resource Names (ARNs) for one or more
+  resources that you want to remove from the resource share. After the operation runs, these
+  resources are no longer shared with principals outside of the Amazon Web Services account
+  that created the resources.
 """
 function disassociate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/disassociateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     disassociate_resource_share_permission(permission_arn, resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Disassociates an RAM permission from a resource share.
+Disassociates an RAM permission from a resource share. Permission changes take effect
+immediately. You can remove a RAM permission from a resource share only if there are
+currently no resources of the relevant resource type currently attached to the resource
+share.
 
 # Arguments
-- `permission_arn`: The Amazon Resource Name (ARN) of the permission to disassociate from
-  the resource share.
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `permission_arn`: The Amazon Resoure Name (ARN) of the permission to disassociate from
+  the resource share. Changes to permissions take effect immediately.
+- `resource_share_arn`: The Amazon Resoure Name (ARN) of the resource share from which you
+  want to disassociate a permission.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
 """
 function disassociate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Enables resource sharing within your organization in Organizations. The caller must be the
-master account for the organization.
+Enables resource sharing within your organization in Organizations. Calling this operation
+enables RAM to retrieve information about the organization and its structure. This lets you
+share resources with all of the accounts in an organization by specifying the
+organization's ID, or all of the accounts in an organizational unit (OU) by specifying the
+OU's ID. Until you enable sharing within the organization, you can specify only individual
+Amazon Web Services accounts, or for supported resource types, IAM users and roles. You
+must call this operation from an IAM user or role in the organization's management account.
 
 """
 function enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,167 +270,264 @@ end
 Gets the contents of an RAM permission in JSON format.
 
 # Arguments
-- `permission_arn`: The Amazon Resource Name (ARN) of the permission.
+- `permission_arn`: Specifies the Amazon Resoure Name (ARN) of the permission whose
+  contents you want to retrieve. To find the ARN for a permission, use either the
+  ListPermissions operation or go to the Permissions library page in the RAM console and then
+  choose the name of the permission. The ARN is displayed on the detail page.
 
 # Keyword Parameters
-- `permission_version`: The identifier for the version of the permission.
+- `permission_version`: Specifies identifier for the version of the RAM permission to
+  retrieve. If you don't specify this parameter, the operation retrieves the default version.
 """
 function get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/getpermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_resource_policies(resource_arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Gets the policies for the specified resources that you own and have shared.
+Retrieves the resource policies for the specified resources that you own and have shared.
 
 # Arguments
-- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
+- `resource_arns`: Specifies the Amazon Resource Names (ARNs) of the resources whose
+  policies you want to retrieve.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `principal`: The principal.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `principal`: Specifies the principal.
 """
 function get_resource_policies(resourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/getresourcepolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_resource_share_associations(association_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Gets the resources or principals for the resource shares that you own.
+Retrieves the resource and principal associations for resource shares that you own.
 
 # Arguments
-- `association_type`: The association type. Specify PRINCIPAL to list the principals that
-  are associated with the specified resource share. Specify RESOURCE to list the resources
-  that are associated with the specified resource share.
+- `association_type`: Specifies whether you want to retrieve the associations that involve
+  a specified resource or principal.    PRINCIPAL – list the principals that are associated
+  with the specified resource share.    RESOURCE – list the resources that are associated
+  with the specified resource share.
 
 # Keyword Parameters
-- `association_status`: The association status.
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `principal`: The principal. You cannot specify this parameter if the association type is
-  RESOURCE.
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. You cannot specify this
-  parameter if the association type is PRINCIPAL.
-- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
+- `association_status`: Specifies that you want to retrieve only associations with this
+  status.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `principal`: Specifies the ID of the principal whose resource shares you want to
+  retrieve. This can be an Amazon Web Services account ID, an organization ID, an
+  organizational unit ID, or the Amazon Resoure Name (ARN) of an individual IAM user or role.
+  You cannot specify this parameter if the association type is RESOURCE.
+- `resource_arn`: Specifies the Amazon Resoure Name (ARN) of the resource whose resource
+  shares you want to retrieve. You cannot specify this parameter if the association type is
+  PRINCIPAL.
+- `resource_share_arns`: Specifies a list of Amazon Resource Names (ARNs) of the resource
+  share whose associations you want to retrieve.
 """
 function get_resource_share_associations(associationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/getresourceshareassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationType"=>associationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Gets the invitations that you have received for resource shares.
+Retrieves details about invitations that you have received for resource shares.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
-- `resource_share_invitation_arns`: The Amazon Resource Names (ARN) of the invitations.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `resource_share_arns`: Specifies that you want details about invitations only for the
+  resource shares described by this list of Amazon Resource Names (ARNs)
+- `resource_share_invitation_arns`: Specifies the Amazon Resource Names (ARNs) of the
+  resource share invitations you want information about.
 """
 function get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_resource_shares(resource_owner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Gets the resource shares that you own or the resource shares that are shared with you.
+Retrieves details about the resource shares that you own or that are shared with you.
 
 # Arguments
-- `resource_owner`: The type of owner.
+- `resource_owner`: Specifies that you want to retrieve details of only those resource
+  shares that match the following:     SELF  – resources that you are sharing
+  OTHER-ACCOUNTS  – resources that other accounts share with you
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `name`: The name of the resource share.
-- `next_token`: The token for the next page of results.
-- `permission_arn`: The Amazon Resource Name (ARN) of the RAM permission that is associated
-  with the resource share.
-- `resource_share_arns`: The Amazon Resource Names (ARNs) of the resource shares.
-- `resource_share_status`: The status of the resource share.
-- `tag_filters`: One or more tag filters.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `name`: Specifies the name of an individual resource share that you want to retrieve
+  details about.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `permission_arn`: Specifies that you want to retrieve details of only those resource
+  shares that use the RAM permission with this Amazon Resoure Name (ARN).
+- `resource_share_arns`: Specifies the Amazon Resource Names (ARNs) of individual resource
+  shares that you want information about.
+- `resource_share_status`: Specifies that you want to retrieve details of only those
+  resource shares that have this status.
+- `tag_filters`: Specifies that you want to retrieve details of only those resource shares
+  that match the specified tag keys and values.
 """
 function get_resource_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/getresourceshares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_pending_invitation_resources(resource_share_invitation_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Lists the resources in a resource share that is shared with you but that the invitation is
-still pending for.
+Lists the resources in a resource share that is shared with you but for which the
+invitation is still PENDING. That means that you haven't accepted or rejected the
+invitation and the invitation hasn't expired.
 
 # Arguments
-- `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
+- `resource_share_invitation_arn`: Specifies the Amazon Resoure Name (ARN) of the
+  invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `resource_region_scope`: Specifies that you want the results to include only resources
+  that have the specified scope.    ALL – the results include both global and regional
+  resources or resource types.    GLOBAL – the results include only global resources or
+  resource types.    REGIONAL – the results include only regional resources or resource
+  types.   The default value is ALL.
 """
 function list_pending_invitation_resources(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listpendinginvitationresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Lists the RAM permissions.
+Retrieves a list of available RAM permissions that you can use for the supported resource
+types.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `resource_type`: Specifies the resource type for which to list permissions. For example,
-  to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `resource_type`: Specifies that you want to list permissions for only the specified
+  resource type. For example, to list only permissions that apply to EC2 subnets, specify
+  ec2:Subnet. You can use the ListResourceTypes operation to get the specific string required.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listpermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_principals(resource_owner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Lists the principals that you have shared resources with or that have shared resources with
+Lists the principals that you are sharing resources with or that are sharing resources with
 you.
 
 # Arguments
-- `resource_owner`: The type of owner.
+- `resource_owner`: Specifies that you want to list information for only resource shares
+  that match the following:     SELF  – resources that you are sharing     OTHER-ACCOUNTS
+  – resources that other accounts share with you
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `principals`: The principals.
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
-- `resource_type`: The resource type. Valid values: acm-pca:CertificateAuthority |
-  appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
-  ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
-  ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
-  | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
-  glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
-  network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
-  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
-  s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `principals`: Specifies that you want to list information for only the listed principals.
+  You can include the following values:   An Amazon Web Services account ID, for example:
+  123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations, for
+  example: organizations::123456789012:organization/o-exampleorgid    An ARN of an
+  organizational unit (OU) in Organizations, for example:
+  organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
+  an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for
+  example: iam::123456789012user/username     Not all resource types can be shared with IAM
+  roles and users. For more information, see Sharing with IAM roles and users in the Resource
+  Access Manager User Guide.
+- `resource_arn`: Specifies that you want to list principal information for the resource
+  share with the specified Amazon Resoure Name (ARN).
+- `resource_share_arns`: Specifies that you want to list information for only principals
+  associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
+- `resource_type`: Specifies that you want to list information for only principals
+  associated with resource shares that include the specified resource type. For a list of
+  valid values, query the ListResourceTypes operation.
 """
 function list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -351,30 +537,54 @@ end
 Lists the RAM permissions that are associated with a resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share for
+  which you want to retrieve the associated permissions.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
 """
 function list_resource_share_permissions(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listresourcesharepermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Lists the shareable resource types supported by RAM.
+Lists the resource types that can be shared by RAM.
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `resource_region_scope`: Specifies that you want the results to include only resources
+  that have the specified scope.    ALL – the results include both global and regional
+  resources or resource types.    GLOBAL – the results include only global resources or
+  resource types.    REGIONAL – the results include only regional resources or resource
+  types.   The default value is ALL.
 """
 function list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listresourcetypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -385,45 +595,60 @@ Lists the resources that you added to a resource shares or the resources that ar
 with you.
 
 # Arguments
-- `resource_owner`: The type of owner.
+- `resource_owner`: Specifies that you want to list only the resource shares that match the
+  following:     SELF  – resources that you are sharing     OTHER-ACCOUNTS  – resources
+  that other accounts share with you
 
 # Keyword Parameters
-- `max_results`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
-- `next_token`: The token for the next page of results.
-- `principal`: The principal.
-- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
-- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
-- `resource_type`: The resource type. Valid values: acm-pca:CertificateAuthority |
-  appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
-  ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
-  ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
-  | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
-  glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
-  network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
-  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
-  s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
+- `max_results`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `next_token`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `principal`: Specifies that you want to list only the resource shares that are associated
+  with the specified principal.
+- `resource_arns`: Specifies that you want to list only the resource shares that include
+  resources with the specified Amazon Resource Names (ARNs).
+- `resource_region_scope`: Specifies that you want the results to include only resources
+  that have the specified scope.    ALL – the results include both global and regional
+  resources or resource types.    GLOBAL – the results include only global resources or
+  resource types.    REGIONAL – the results include only regional resources or resource
+  types.   The default value is ALL.
+- `resource_share_arns`: Specifies that you want to list only resources in the resource
+  shares identified by the specified Amazon Resource Names (ARNs).
+- `resource_type`: Specifies that you want to list only the resource shares that include
+  resources of the specified resource type. For valid values, query the ListResourceTypes
+  operation.
 """
 function list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     promote_resource_share_created_from_policy(resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Resource shares that were created by attaching a policy to a resource are visible only to
-the resource share owner, and the resource share cannot be modified in RAM. Use this API
-action to promote the resource share. When you promote the resource share, it becomes:
-Visible to all principals that it is shared with.   Modifiable in RAM.
+When you attach a resource-based permission policy to a resource, it automatically creates
+a resource share. However, resource shares created this way are visible only to the
+resource share owner, and the resource share can't be modified in RAM. You can use this
+operation to promote the resource share to a full RAM resource share. When you promote a
+resource share, you can then manage the resource share in RAM and it becomes visible to all
+of the principals you shared it with.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share to promote.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+  promote.
 
 """
 function promote_resource_share_created_from_policy(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,63 +658,78 @@ end
 Rejects an invitation to a resource share from another Amazon Web Services account.
 
 # Arguments
-- `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
+- `resource_share_invitation_arn`: Specifies the Amazon Resoure Name (ARN) of the
+  invitation that you want to reject.
 
 # Keyword Parameters
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
 """
 function reject_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     tag_resource(resource_share_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Adds the specified tags to the specified resource share that you own.
+Adds the specified tag keys and values to the specified resource share. The tags are
+attached only to the resource share, not to the resources that are in the resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
-- `tags`: One or more tags.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+  you want to add tags to.
+- `tags`: A list of one or more tag key and value pairs. The tag key must be present and
+  not be an empty string. The tag value must be present but can be an empty string.
 
 """
 function tag_resource(resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/tagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     untag_resource(resource_share_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Removes the specified tags from the specified resource share that you own.
+Removes the specified tag key and value pairs from the specified resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
-- `tag_keys`: The tag keys of the tags to remove.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+  you want to remove tags from. The tags are removed from the resource share, not the
+  resources in the resource share.
+- `tag_keys`: Specifies a list of one or more tag keys that you want to remove.
 
 """
 function untag_resource(resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/untagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     update_resource_share(resource_share_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Updates the specified resource share that you own.
+Modifies some of the properties of the specified resource share.
 
 # Arguments
-- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
+- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+  you want to modify.
 
 # Keyword Parameters
-- `allow_external_principals`: Indicates whether principals outside your organization in
+- `allow_external_principals`: Specifies whether principals outside your organization in
   Organizations can be associated with a resource share.
-- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `name`: The name of the resource share.
+- `client_token`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you.
+- `name`: If specified, the new name that you want to attach to the resource share.
 """
 function update_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ram("POST", "/updateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

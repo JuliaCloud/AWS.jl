@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "application_component_criteria" => "applicationComponentCriteria", "filter_value" => "filterValue", "group_id_filter" => "groupIdFilter", "sort" => "sort", "s3bucket_for_analysis_data" => "s3bucketForAnalysisData", "s3bucket_for_report_data" => "s3bucketForReportData", "inclusion_status" => "inclusionStatus", "secrets_manager_key" => "secretsManagerKey", "source_code_list" => "sourceCodeList", "strategy_option" => "strategyOption", "application_preferences" => "applicationPreferences", "database_preferences" => "databasePreferences", "prioritize_business_goals" => "prioritizeBusinessGoals", "server_criteria" => "serverCriteria", "output_format" => "outputFormat", "data_source_type" => "dataSourceType", "group_id" => "groupId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "application_component_criteria" => "applicationComponentCriteria", "filter_value" => "filterValue", "group_id_filter" => "groupIdFilter", "sort" => "sort", "s3bucket_for_analysis_data" => "s3bucketForAnalysisData", "s3bucket_for_report_data" => "s3bucketForReportData", "inclusion_status" => "inclusionStatus", "secrets_manager_key" => "secretsManagerKey", "source_code_list" => "sourceCodeList", "strategy_option" => "strategyOption", "application_preferences" => "applicationPreferences", "database_preferences" => "databasePreferences", "prioritize_business_goals" => "prioritizeBusinessGoals", "server_criteria" => "serverCriteria", "output_format" => "outputFormat", "data_source_type" => "dataSourceType", "group_id" => "groupId")
 
 """
     get_application_component_details(application_component_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "ma
 
 """
 function get_application_component_details(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-applicationcomponent-details/$(applicationComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,7 @@ running on a server.
 
 """
 function get_application_component_strategies(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-applicationcomponent-strategies/$(applicationComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ end
 
 """
 function get_assessment(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-assessment/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ end
 
 """
 function get_import_file_task(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-import-file-task/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ end
 
 """
 function get_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-portfolio-preferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -86,7 +86,7 @@ of anti-patterns.
 
 """
 function get_portfolio_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-portfolio-summary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,7 +101,7 @@ end
 
 """
 function get_recommendation_report_details(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-recommendation-report-details/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -122,7 +122,7 @@ end
   returned token to retrieve the next set of 10.
 """
 function get_server_details(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-server-details/$(serverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ end
 
 """
 function get_server_strategies(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/get-server-strategies/$(serverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ end
 - `sort`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_application_components(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/list-applicationcomponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,7 +180,7 @@ end
   returned token to retrieve the next set of 10.
 """
 function list_collectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/list-collectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ end
   returned token to retrieve the next set of 10.
 """
 function list_import_file_task(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("GET", "/list-import-file-task", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -222,7 +222,7 @@ end
 - `sort`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/list-servers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -237,7 +237,7 @@ end
 - `prioritize_business_goals`:  The rank of the business goals based on priority.
 """
 function put_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/put-portfolio-preferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ end
   are stored. The bucket name must begin with migrationhub-strategy-.
 """
 function start_assessment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/start-assessment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,7 +278,7 @@ end
   results. The bucket name is required to begin with migrationhub-strategy-.
 """
 function start_import_file_task(S3Bucket, name, s3key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/start-import-file-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "name"=>name, "s3key"=>s3key), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ end
   format is Microsoft Excel.
 """
 function start_recommendation_report_generation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/start-recommendation-report-generation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ end
 
 """
 function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/stop-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -330,7 +330,7 @@ end
   values from the GetApplicationComponentStrategies response.
 """
 function update_application_component_config(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/update-applicationcomponent-config/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationComponentId"=>applicationComponentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,6 +347,6 @@ end
   response from GetServerStrategies.
 """
 function update_server_config(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return migrationhubstrategy("POST", "/update-server-config/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serverId"=>serverId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

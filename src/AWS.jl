@@ -15,7 +15,7 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge, amazonify
+export _merge, amazonify, LittleDict
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export ec2_instance_metadata, ec2_instance_region
 export generate_service_url, global_aws_config, set_user_agent

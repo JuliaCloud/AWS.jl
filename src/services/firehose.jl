@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("delivery_stream_type" => "DeliveryStreamType", "exclusive_start_delivery_stream_name" => "ExclusiveStartDeliveryStreamName", "limit" => "Limit", "allow_force_delete" => "AllowForceDelete", "amazonopensearchservice_destination_configuration" => "AmazonopensearchserviceDestinationConfiguration", "delivery_stream_encryption_configuration_input" => "DeliveryStreamEncryptionConfigurationInput", "elasticsearch_destination_configuration" => "ElasticsearchDestinationConfiguration", "extended_s3_destination_configuration" => "ExtendedS3DestinationConfiguration", "http_endpoint_destination_configuration" => "HttpEndpointDestinationConfiguration", "kinesis_stream_source_configuration" => "KinesisStreamSourceConfiguration", "redshift_destination_configuration" => "RedshiftDestinationConfiguration", "s3_destination_configuration" => "S3DestinationConfiguration", "splunk_destination_configuration" => "SplunkDestinationConfiguration", "tags" => "Tags", "amazonopensearchservice_destination_update" => "AmazonopensearchserviceDestinationUpdate", "elasticsearch_destination_update" => "ElasticsearchDestinationUpdate", "extended_s3_destination_update" => "ExtendedS3DestinationUpdate", "http_endpoint_destination_update" => "HttpEndpointDestinationUpdate", "redshift_destination_update" => "RedshiftDestinationUpdate", "s3_destination_update" => "S3DestinationUpdate", "splunk_destination_update" => "SplunkDestinationUpdate", "exclusive_start_tag_key" => "ExclusiveStartTagKey", "exclusive_start_destination_id" => "ExclusiveStartDestinationId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("delivery_stream_type" => "DeliveryStreamType", "exclusive_start_delivery_stream_name" => "ExclusiveStartDeliveryStreamName", "limit" => "Limit", "allow_force_delete" => "AllowForceDelete", "amazonopensearchservice_destination_configuration" => "AmazonopensearchserviceDestinationConfiguration", "delivery_stream_encryption_configuration_input" => "DeliveryStreamEncryptionConfigurationInput", "elasticsearch_destination_configuration" => "ElasticsearchDestinationConfiguration", "extended_s3_destination_configuration" => "ExtendedS3DestinationConfiguration", "http_endpoint_destination_configuration" => "HttpEndpointDestinationConfiguration", "kinesis_stream_source_configuration" => "KinesisStreamSourceConfiguration", "redshift_destination_configuration" => "RedshiftDestinationConfiguration", "s3_destination_configuration" => "S3DestinationConfiguration", "splunk_destination_configuration" => "SplunkDestinationConfiguration", "tags" => "Tags", "amazonopensearchservice_destination_update" => "AmazonopensearchserviceDestinationUpdate", "elasticsearch_destination_update" => "ElasticsearchDestinationUpdate", "extended_s3_destination_update" => "ExtendedS3DestinationUpdate", "http_endpoint_destination_update" => "HttpEndpointDestinationUpdate", "redshift_destination_update" => "RedshiftDestinationUpdate", "s3_destination_update" => "S3DestinationUpdate", "splunk_destination_update" => "SplunkDestinationUpdate", "exclusive_start_tag_key" => "ExclusiveStartTagKey", "exclusive_start_destination_id" => "ExclusiveStartDestinationId")
 
 """
     create_delivery_stream(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -90,7 +90,7 @@ Firehose Developer Guide.
   delivery stream.
 """
 function create_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("CreateDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ applications that are sending records before you delete a delivery stream.
   operation. The default value is false.
 """
 function delete_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("DeleteDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ again but with DeleteDeliveryStreamInputAllowForceDelete set to true.
   per delivery stream.
 """
 function describe_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("DescribeDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +171,7 @@ of the last delivery stream returned in the last call.
 - `limit`: The maximum number of delivery streams to list. The default value is 10.
 """
 function list_delivery_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("ListDeliveryStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -193,7 +193,7 @@ transactions per second per account.
   list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
 function list_tags_for_delivery_stream(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("ListTagsForDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -230,7 +230,7 @@ your records. Instead, concatenate the raw data, then perform base64 encoding.
 
 """
 function put_record(DeliveryStreamName, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ base64 encoding.
 
 """
 function put_record_batch(DeliveryStreamName, Records; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("PutRecordBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Records"=>Records), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +329,7 @@ the same delivery stream in a 24-hour period.
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
 function start_delivery_stream_encryption(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("StartDeliveryStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ same delivery stream in a 24-hour period.
 
 """
 function stop_delivery_stream_encryption(DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("StopDeliveryStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -381,7 +381,7 @@ account.
 
 """
 function tag_delivery_stream(DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("TagDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +400,7 @@ per account.
 
 """
 function untag_delivery_stream(DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("UntagDeliveryStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryStreamName"=>DeliveryStreamName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -450,6 +450,6 @@ version ID to set CurrentDeliveryStreamVersionId in the next call.
 - `splunk_destination_update`: Describes an update for a destination in Splunk.
 """
 function update_destination(CurrentDeliveryStreamVersionId, DeliveryStreamName, DestinationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return firehose("UpdateDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentDeliveryStreamVersionId"=>CurrentDeliveryStreamVersionId, "DeliveryStreamName"=>DeliveryStreamName, "DestinationId"=>DestinationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

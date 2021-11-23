@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("tags" => "Tags", "policy_ids" => "policyIds", "resource_types" => "resourceTypes", "state" => "State", "tags_to_add" => "tagsToAdd", "target_tags" => "targetTags", "description" => "Description", "execution_role_arn" => "ExecutionRoleArn", "policy_details" => "PolicyDetails")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("tags" => "Tags", "policy_ids" => "policyIds", "resource_types" => "resourceTypes", "state" => "State", "tags_to_add" => "tagsToAdd", "target_tags" => "targetTags", "description" => "Description", "execution_role_arn" => "ExecutionRoleArn", "policy_details" => "PolicyDetails")
 
 """
     create_lifecycle_policy(description, execution_role_arn, policy_details, state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,7 +25,7 @@ You can create up to 100 lifecycle policies.
 - `tags`: The tags to apply to the lifecycle policy during creation.
 """
 function create_lifecycle_policy(Description, ExecutionRoleArn, PolicyDetails, State; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ specified.
 
 """
 function delete_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("DELETE", "/policies/$(policyId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ complete information about a policy, use GetLifecyclePolicy.
 - `target_tags`: The target tag for a policy. Tags are strings in the format key=value.
 """
 function get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("GET", "/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ Gets detailed information about the specified lifecycle policy.
 
 """
 function get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("GET", "/policies/$(policyId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,6 +139,6 @@ Updates the specified lifecycle policy.
 - `state`: The desired activation state of the lifecycle policy after creation.
 """
 function update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return dlm("PATCH", "/policies/$(policyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

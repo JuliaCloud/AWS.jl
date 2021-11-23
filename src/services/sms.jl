@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("app_id" => "appId", "max_results" => "maxResults", "next_token" => "nextToken", "vm_server_address_list" => "vmServerAddressList", "replication_job_id" => "replicationJobId", "server_group_replication_configurations" => "serverGroupReplicationConfigurations", "role_name" => "roleName", "force_stop_app_replication" => "forceStopAppReplication", "force_terminate_app" => "forceTerminateApp", "description" => "description", "notification_context" => "notificationContext", "app_ids" => "appIds", "auto_launch" => "autoLaunch", "server_group_launch_configurations" => "serverGroupLaunchConfigurations", "encrypted" => "encrypted", "frequency" => "frequency", "kms_key_id" => "kmsKeyId", "license_type" => "licenseType", "number_of_recent_amis_to_keep" => "numberOfRecentAmisToKeep", "run_once" => "runOnce", "name" => "name", "server_groups" => "serverGroups", "tags" => "tags", "client_token" => "clientToken", "changeset_format" => "changesetFormat", "template_format" => "templateFormat", "app_validation_configurations" => "appValidationConfigurations", "server_group_validation_configurations" => "serverGroupValidationConfigurations", "next_replication_run_start_time" => "nextReplicationRunStartTime")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("app_id" => "appId", "max_results" => "maxResults", "next_token" => "nextToken", "vm_server_address_list" => "vmServerAddressList", "replication_job_id" => "replicationJobId", "server_group_replication_configurations" => "serverGroupReplicationConfigurations", "role_name" => "roleName", "force_stop_app_replication" => "forceStopAppReplication", "force_terminate_app" => "forceTerminateApp", "description" => "description", "notification_context" => "notificationContext", "app_ids" => "appIds", "auto_launch" => "autoLaunch", "server_group_launch_configurations" => "serverGroupLaunchConfigurations", "encrypted" => "encrypted", "frequency" => "frequency", "kms_key_id" => "kmsKeyId", "license_type" => "licenseType", "number_of_recent_amis_to_keep" => "numberOfRecentAmisToKeep", "run_once" => "runOnce", "name" => "name", "server_groups" => "serverGroups", "tags" => "tags", "client_token" => "clientToken", "changeset_format" => "changesetFormat", "template_format" => "templateFormat", "app_validation_configurations" => "appValidationConfigurations", "server_group_validation_configurations" => "serverGroupValidationConfigurations", "next_replication_run_start_time" => "nextReplicationRunStartTime")
 
 """
     create_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ group contain one or more servers.
 - `tags`: The tags to be associated with the application.
 """
 function create_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("CreateApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -53,7 +53,7 @@ replicate your server to AWS. Each replication run creates an Amazon Machine Ima
 - `run_once`: Indicates whether to run the replication job one time.
 """
 function create_replication_job(seedReplicationTime, serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ the application and all AWS SMS replication jobs for servers in the application.
   application while deleting the application.
 """
 function delete_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Deletes the launch configuration for the specified application.
 - `app_id`: The ID of the application.
 """
 function delete_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -97,7 +97,7 @@ Deletes the replication configuration for the specified application.
 - `app_id`: The ID of the application.
 """
 function delete_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -111,7 +111,7 @@ Deletes the validation configuration for the specified application.
 
 """
 function delete_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -127,7 +127,7 @@ AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
 
 """
 function delete_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ Deletes all servers from your server catalog.
 
 """
 function delete_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DeleteServerCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ is no longer available to support replication jobs.
 
 """
 function disassociate_connector(connectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -168,7 +168,7 @@ object in the customer’s Amazon S3 bucket.
 - `changeset_format`: The format for the change set.
 """
 function generate_change_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GenerateChangeSet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
 - `template_format`: The format for generating the AWS CloudFormation template.
 """
 function generate_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GenerateTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ Retrieve information about the specified application.
 - `app_id`: The ID of the application.
 """
 function get_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ Retrieves the application launch configuration associated with the specified app
 - `app_id`: The ID of the application.
 """
 function get_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -223,7 +223,7 @@ application.
 - `app_id`: The ID of the application.
 """
 function get_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -237,7 +237,7 @@ Retrieves information about a configuration for validating an application.
 
 """
 function get_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ Retrieves output from validating an application.
 
 """
 function get_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ Describes the connectors registered with the AWS SMS.
 - `next_token`: The token for the next set of results.
 """
 function get_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ Describes the specified replication job or all of your replication jobs.
 - `replication_job_id`: The ID of the replication job.
 """
 function get_replication_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetReplicationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -303,7 +303,7 @@ Describes the replication runs for the specified replication job.
 - `next_token`: The token for the next set of results.
 """
 function get_replication_runs(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -321,7 +321,7 @@ must import them using ImportServerCatalog.
 - `vm_server_address_list`: The server addresses.
 """
 function get_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("GetServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -336,7 +336,7 @@ Allows application import from AWS Migration Hub.
   provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
 """
 function import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("ImportAppCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -349,7 +349,7 @@ retrieve all the servers.
 
 """
 function import_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("ImportServerCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,7 +362,7 @@ Launches the specified application as a stack in AWS CloudFormation.
 - `app_id`: The ID of the application.
 """
 function launch_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("LaunchApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -379,7 +379,7 @@ Retrieves summaries for all applications.
 - `next_token`: The token for the next set of results.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("ListApps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -395,7 +395,7 @@ Provides information to AWS SMS about whether application validation is successf
 - `notification_context`: The notification information.
 """
 function notify_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +414,7 @@ Creates or updates the launch configuration for the specified application.
   server groups in the application.
 """
 function put_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("PutAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ Creates or updates the replication configuration for the specified application.
   configurations for server groups in the application.
 """
 function put_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("PutAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -446,7 +446,7 @@ Creates or updates a validation configuration for the specified application.
 - `server_group_validation_configurations`: The configuration for instance validation.
 """
 function put_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -460,7 +460,7 @@ in the application.
 - `app_id`: The ID of the application.
 """
 function start_app_replication(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("StartAppReplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +476,7 @@ Starts an on-demand replication run for the specified application.
 - `description`: The description of the replication run.
 """
 function start_on_demand_app_replication(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -495,7 +495,7 @@ There is a limit on the number of on-demand replications runs that you can reque
 - `description`: The description of the replication run.
 """
 function start_on_demand_replication_run(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -509,7 +509,7 @@ in the application.
 - `app_id`: The ID of the application.
 """
 function stop_app_replication(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("StopAppReplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -522,7 +522,7 @@ Terminates the stack for the specified application.
 - `app_id`: The ID of the application.
 """
 function terminate_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("TerminateApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -540,7 +540,7 @@ Updates the specified application.
 - `tags`: The tags to associate with the application.
 """
 function update_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("UpdateApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,6 +569,6 @@ Updates the specified settings for the specified replication job.
 - `role_name`: The name of the IAM role to be used by AWS SMS.
 """
 function update_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

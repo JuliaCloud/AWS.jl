@@ -5,26 +5,26 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("with_decryption" => "WithDecryption", "parameter_version" => "ParameterVersion", "aggregators" => "Aggregators", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "result_attributes" => "ResultAttributes", "sync_name" => "SyncName", "sync_type" => "SyncType", "actual_end_time" => "ActualEndTime", "actual_start_time" => "ActualStartTime", "category" => "Category", "description" => "Description", "notifications" => "Notifications", "operational_data" => "OperationalData", "operational_data_to_delete" => "OperationalDataToDelete", "planned_end_time" => "PlannedEndTime", "planned_start_time" => "PlannedStartTime", "priority" => "Priority", "related_ops_items" => "RelatedOpsItems", "severity" => "Severity", "status" => "Status", "title" => "Title", "ops_item_id" => "OpsItemId", "safe" => "Safe", "association_id" => "AssociationId", "association_version" => "AssociationVersion", "instance_id" => "InstanceId", "name" => "Name", "item_content_hash" => "ItemContentHash", "upload_type" => "UploadType", "apply_only_at_cron_interval" => "ApplyOnlyAtCronInterval", "association_name" => "AssociationName", "automation_target_parameter_name" => "AutomationTargetParameterName", "calendar_names" => "CalendarNames", "compliance_severity" => "ComplianceSeverity", "document_version" => "DocumentVersion", "max_concurrency" => "MaxConcurrency", "max_errors" => "MaxErrors", "output_location" => "OutputLocation", "parameters" => "Parameters", "schedule_expression" => "ScheduleExpression", "sync_compliance" => "SyncCompliance", "target_locations" => "TargetLocations", "targets" => "Targets", "command_id" => "CommandId", "document_filter_list" => "DocumentFilterList", "aggregator" => "Aggregator", "sub_type" => "SubType", "type_name" => "TypeName", "account_ids_to_add" => "AccountIdsToAdd", "account_ids_to_remove" => "AccountIdsToRemove", "shared_document_version" => "SharedDocumentVersion", "ops_item_filters" => "OpsItemFilters", "type" => "Type", "resource_ids" => "ResourceIds", "resource_types" => "ResourceTypes", "cutoff_behavior" => "CutoffBehavior", "logging_info" => "LoggingInfo", "replace" => "Replace", "service_role_arn" => "ServiceRoleArn", "task_arn" => "TaskArn", "task_invocation_parameters" => "TaskInvocationParameters", "task_parameters" => "TaskParameters", "client_token" => "ClientToken", "owner_information" => "OwnerInformation", "parameter_filters" => "ParameterFilters", "recursive" => "Recursive", "mode" => "Mode", "tags" => "Tags", "target_maps" => "TargetMaps", "target_parameter_name" => "TargetParameterName", "reverse_order" => "ReverseOrder", "resource_type" => "ResourceType", "window_id" => "WindowId", "at_time" => "AtTime", "deletion_id" => "DeletionId", "instance_information_filter_list" => "InstanceInformationFilterList", "attachments" => "Attachments", "display_name" => "DisplayName", "document_format" => "DocumentFormat", "target_type" => "TargetType", "version_name" => "VersionName", "allow_unassociated_targets" => "AllowUnassociatedTargets", "cutoff" => "Cutoff", "duration" => "Duration", "enabled" => "Enabled", "end_date" => "EndDate", "schedule" => "Schedule", "schedule_offset" => "ScheduleOffset", "schedule_timezone" => "ScheduleTimezone", "start_date" => "StartDate", "document_type" => "DocumentType", "requires" => "Requires", "ops_item_type" => "OpsItemType", "baseline_override" => "BaselineOverride", "dry_run" => "DryRun", "schema_delete_option" => "SchemaDeleteOption", "metadata" => "Metadata", "association_filter_list" => "AssociationFilterList", "cloud_watch_output_config" => "CloudWatchOutputConfig", "comment" => "Comment", "document_hash" => "DocumentHash", "document_hash_type" => "DocumentHashType", "instance_ids" => "InstanceIds", "notification_config" => "NotificationConfig", "output_s3_bucket_name" => "OutputS3BucketName", "output_s3_key_prefix" => "OutputS3KeyPrefix", "output_s3_region" => "OutputS3Region", "timeout_seconds" => "TimeoutSeconds", "document_name" => "DocumentName", "reason" => "Reason", "patch_set" => "PatchSet", "operating_system" => "OperatingSystem", "approval_rules" => "ApprovalRules", "approved_patches" => "ApprovedPatches", "approved_patches_compliance_level" => "ApprovedPatchesComplianceLevel", "approved_patches_enable_non_security" => "ApprovedPatchesEnableNonSecurity", "global_filters" => "GlobalFilters", "rejected_patches" => "RejectedPatches", "rejected_patches_action" => "RejectedPatchesAction", "sources" => "Sources", "force" => "Force", "details" => "Details", "s3_destination" => "S3Destination", "sync_source" => "SyncSource", "plugin_name" => "PluginName", "keys_to_delete" => "KeysToDelete", "metadata_to_update" => "MetadataToUpdate", "default_instance_name" => "DefaultInstanceName", "expiration_date" => "ExpirationDate", "registration_limit" => "RegistrationLimit", "auto_approve" => "AutoApprove", "change_details" => "ChangeDetails", "change_request_name" => "ChangeRequestName", "scheduled_end_time" => "ScheduledEndTime", "scheduled_time" => "ScheduledTime", "allowed_pattern" => "AllowedPattern", "data_type" => "DataType", "key_id" => "KeyId", "overwrite" => "Overwrite", "policies" => "Policies", "tier" => "Tier", "payload" => "Payload")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("with_decryption" => "WithDecryption", "parameter_version" => "ParameterVersion", "aggregators" => "Aggregators", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "result_attributes" => "ResultAttributes", "sync_name" => "SyncName", "sync_type" => "SyncType", "actual_end_time" => "ActualEndTime", "actual_start_time" => "ActualStartTime", "category" => "Category", "description" => "Description", "notifications" => "Notifications", "operational_data" => "OperationalData", "operational_data_to_delete" => "OperationalDataToDelete", "planned_end_time" => "PlannedEndTime", "planned_start_time" => "PlannedStartTime", "priority" => "Priority", "related_ops_items" => "RelatedOpsItems", "severity" => "Severity", "status" => "Status", "title" => "Title", "ops_item_id" => "OpsItemId", "safe" => "Safe", "association_id" => "AssociationId", "association_version" => "AssociationVersion", "instance_id" => "InstanceId", "name" => "Name", "item_content_hash" => "ItemContentHash", "upload_type" => "UploadType", "apply_only_at_cron_interval" => "ApplyOnlyAtCronInterval", "association_name" => "AssociationName", "automation_target_parameter_name" => "AutomationTargetParameterName", "calendar_names" => "CalendarNames", "compliance_severity" => "ComplianceSeverity", "document_version" => "DocumentVersion", "max_concurrency" => "MaxConcurrency", "max_errors" => "MaxErrors", "output_location" => "OutputLocation", "parameters" => "Parameters", "schedule_expression" => "ScheduleExpression", "sync_compliance" => "SyncCompliance", "target_locations" => "TargetLocations", "targets" => "Targets", "command_id" => "CommandId", "document_filter_list" => "DocumentFilterList", "aggregator" => "Aggregator", "sub_type" => "SubType", "type_name" => "TypeName", "account_ids_to_add" => "AccountIdsToAdd", "account_ids_to_remove" => "AccountIdsToRemove", "shared_document_version" => "SharedDocumentVersion", "ops_item_filters" => "OpsItemFilters", "type" => "Type", "resource_ids" => "ResourceIds", "resource_types" => "ResourceTypes", "cutoff_behavior" => "CutoffBehavior", "logging_info" => "LoggingInfo", "replace" => "Replace", "service_role_arn" => "ServiceRoleArn", "task_arn" => "TaskArn", "task_invocation_parameters" => "TaskInvocationParameters", "task_parameters" => "TaskParameters", "client_token" => "ClientToken", "owner_information" => "OwnerInformation", "parameter_filters" => "ParameterFilters", "recursive" => "Recursive", "mode" => "Mode", "tags" => "Tags", "target_maps" => "TargetMaps", "target_parameter_name" => "TargetParameterName", "reverse_order" => "ReverseOrder", "resource_type" => "ResourceType", "window_id" => "WindowId", "at_time" => "AtTime", "deletion_id" => "DeletionId", "instance_information_filter_list" => "InstanceInformationFilterList", "attachments" => "Attachments", "display_name" => "DisplayName", "document_format" => "DocumentFormat", "target_type" => "TargetType", "version_name" => "VersionName", "allow_unassociated_targets" => "AllowUnassociatedTargets", "cutoff" => "Cutoff", "duration" => "Duration", "enabled" => "Enabled", "end_date" => "EndDate", "schedule" => "Schedule", "schedule_offset" => "ScheduleOffset", "schedule_timezone" => "ScheduleTimezone", "start_date" => "StartDate", "document_type" => "DocumentType", "requires" => "Requires", "ops_item_type" => "OpsItemType", "baseline_override" => "BaselineOverride", "dry_run" => "DryRun", "schema_delete_option" => "SchemaDeleteOption", "metadata" => "Metadata", "association_filter_list" => "AssociationFilterList", "cloud_watch_output_config" => "CloudWatchOutputConfig", "comment" => "Comment", "document_hash" => "DocumentHash", "document_hash_type" => "DocumentHashType", "instance_ids" => "InstanceIds", "notification_config" => "NotificationConfig", "output_s3_bucket_name" => "OutputS3BucketName", "output_s3_key_prefix" => "OutputS3KeyPrefix", "output_s3_region" => "OutputS3Region", "timeout_seconds" => "TimeoutSeconds", "document_name" => "DocumentName", "reason" => "Reason", "patch_set" => "PatchSet", "operating_system" => "OperatingSystem", "approval_rules" => "ApprovalRules", "approved_patches" => "ApprovedPatches", "approved_patches_compliance_level" => "ApprovedPatchesComplianceLevel", "approved_patches_enable_non_security" => "ApprovedPatchesEnableNonSecurity", "global_filters" => "GlobalFilters", "rejected_patches" => "RejectedPatches", "rejected_patches_action" => "RejectedPatchesAction", "sources" => "Sources", "force" => "Force", "details" => "Details", "s3_destination" => "S3Destination", "sync_source" => "SyncSource", "plugin_name" => "PluginName", "keys_to_delete" => "KeysToDelete", "metadata_to_update" => "MetadataToUpdate", "default_instance_name" => "DefaultInstanceName", "expiration_date" => "ExpirationDate", "registration_limit" => "RegistrationLimit", "registration_metadata" => "RegistrationMetadata", "auto_approve" => "AutoApprove", "change_details" => "ChangeDetails", "change_request_name" => "ChangeRequestName", "scheduled_end_time" => "ScheduledEndTime", "scheduled_time" => "ScheduledTime", "allowed_pattern" => "AllowedPattern", "data_type" => "DataType", "key_id" => "KeyId", "overwrite" => "Overwrite", "policies" => "Policies", "tier" => "Tier", "payload" => "Payload")
 
 """
     add_tags_to_resource(resource_id, resource_type, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or overwrites one or more tags for the specified resource. Tags are metadata that you
-can assign to your documents, managed instances, maintenance windows, Parameter Store
+can assign to your documents, managed nodes, maintenance windows, Parameter Store
 parameters, and patch baselines. Tags enable you to categorize your resources in different
 ways, for example, by purpose, owner, or environment. Each tag consists of a key and an
 optional value, both of which you define. For example, you could define a set of tags for
-your account's managed instances that helps you track each instance's owner and stack
-level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin
-Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production
-Key=Stack,Value=Test    Each resource can have a maximum of 50 tags. We recommend that you
-devise a set of tag keys that meets your needs for each resource type. Using a consistent
-set of tag keys makes it easier for you to manage your resources. You can search and filter
-the resources based on the tags you add. Tags don't have any semantic meaning to and are
-interpreted strictly as a string of characters.  For more information about using tags with
-Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources
-in the Amazon EC2 User Guide.
+your account's managed nodes that helps you track each node's owner and stack level. For
+example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev
+ Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test
+Each resource can have a maximum of 50 tags. We recommend that you devise a set of tag keys
+that meets your needs for each resource type. Using a consistent set of tag keys makes it
+easier for you to manage your resources. You can search and filter the resources based on
+the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a
+string of characters.  For more information about using tags with Amazon Elastic Compute
+Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User
+Guide.
 
 # Arguments
 - `resource_id`: The resource ID you want to tag. Use the ID of the resource. Here are some
@@ -35,19 +35,18 @@ in the Amazon EC2 User Guide.
   arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of
   either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and
   Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The
-  ManagedInstance type for this API operation is only for on-premises managed instances. You
-  must specify the name of the managed instance in the following format: mi-ID_number . For
-  example, mi-1a2b3c4d5e6f.
-- `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
-  type for this API operation is for on-premises managed instances. You must specify the name
-  of the managed instance in the following format: mi-ID_number . For example,
+  ManagedInstance type for this API operation is only for on-premises managed nodes. You must
+  specify the name of the managed node in the following format: mi-ID_number . For example,
   mi-1a2b3c4d5e6f.
+- `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
+  type for this API operation is for on-premises managed nodes. You must specify the name of
+  the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
 - `tags`: One or more tags. The value parameter is required.  Don't enter personally
   identifiable information in this field.
 
 """
 function add_tags_to_resource(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +70,7 @@ OpsCenter are capabilities of Amazon Web Services Systems Manager.
 
 """
 function associate_ops_item_related_item(AssociationType, OpsItemId, ResourceType, ResourceUri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("AssociateOpsItemRelatedItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationType"=>AssociationType, "OpsItemId"=>OpsItemId, "ResourceType"=>ResourceType, "ResourceUri"=>ResourceUri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,12 +84,11 @@ command will be terminated and the underlying process stopped.
 - `command_id`: The ID of the command you want to cancel.
 
 # Keyword Parameters
-- `instance_ids`: (Optional) A list of instance IDs on which you want to cancel the
-  command. If not provided, the command is canceled on every instance on which it was
-  requested.
+- `instance_ids`: (Optional) A list of managed node IDs on which you want to cancel the
+  command. If not provided, the command is canceled on every node on which it was requested.
 """
 function cancel_command(CommandId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CancelCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -106,7 +104,7 @@ to completion.
 
 """
 function cancel_maintenance_window_execution(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CancelMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -114,26 +112,25 @@ end
     create_activation(iam_role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Generates an activation code and activation ID you can use to register your on-premises
-server or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these
-machines with Systems Manager makes it possible to manage them using Systems Manager
-capabilities. You use the activation code and ID when installing SSM Agent on machines in
-your hybrid environment. For more information about requirements for managing on-premises
-instances and VMs using Systems Manager, see Setting up Amazon Web Services Systems Manager
-for hybrid environments in the Amazon Web Services Systems Manager User Guide.
-On-premises servers or VMs that are registered with Systems Manager and Amazon Elastic
-Compute Cloud (Amazon EC2) instances that you manage with Systems Manager are all called
-managed instances.
+servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager.
+Registering these machines with Systems Manager makes it possible to manage them using
+Systems Manager capabilities. You use the activation code and ID when installing SSM Agent
+on machines in your hybrid environment. For more information about requirements for
+managing on-premises machines using Systems Manager, see Setting up Amazon Web Services
+Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User
+Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises
+servers and VMs that are configured for Systems Manager are all called managed nodes.
 
 # Arguments
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
-  assign to the managed instance. This IAM role must provide AssumeRole permissions for the
+  assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
   information, see Create an IAM service role for a hybrid environment in the Amazon Web
   Services Systems Manager User Guide.
 
 # Keyword Parameters
-- `default_instance_name`: The name of the registered, managed instance as it will appear
-  in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
+- `default_instance_name`: The name of the registered, managed node as it will appear in
+  the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
   command line tools to list Systems Manager resources.  Don't enter personally identifiable
   information in this field.
 - `description`: A user-defined description of the resource that you want to register with
@@ -141,8 +138,9 @@ managed instances.
 - `expiration_date`: The date by which this activation request should expire, in timestamp
   format, such as \"2021-07-07T00:00:00\". You can specify a date up to 30 days in advance.
   If you don't provide an expiration date, the activation code expires in 24 hours.
-- `registration_limit`: Specify the maximum number of managed instances you want to
-  register. The default value is 1.
+- `registration_limit`: Specify the maximum number of managed nodes you want to register.
+  The default value is 1.
+- `registration_metadata`: Reserved for internal use.
 - `tags`: Optional metadata that you assign to a resource. Tags enable you to categorize a
   resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag an activation to identify which servers or virtual machines (VMs) in your
@@ -151,41 +149,41 @@ managed instances.
   When you install SSM Agent on your on-premises servers and VMs, you specify an activation
   ID and code. When you specify the activation ID and code, tags assigned to the activation
   are automatically applied to the on-premises servers or VMs.  You can't add tags to or
-  delete tags from an existing activation. You can tag your on-premises servers and VMs after
-  they connect to Systems Manager for the first time and are assigned a managed instance ID.
-  This means they are listed in the Amazon Web Services Systems Manager console with an ID
-  that is prefixed with \"mi-\". For information about how to add tags to your managed
-  instances, see AddTagsToResource. For information about how to remove tags from your
-  managed instances, see RemoveTagsFromResource.
+  delete tags from an existing activation. You can tag your on-premises servers, edge
+  devices, and VMs after they connect to Systems Manager for the first time and are assigned
+  a managed node ID. This means they are listed in the Amazon Web Services Systems Manager
+  console with an ID that is prefixed with \"mi-\". For information about how to add tags to
+  your managed nodes, see AddTagsToResource. For information about how to remove tags from
+  your managed nodes, see RemoveTagsFromResource.
 """
 function create_activation(IamRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_association(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-A State Manager association defines the state that you want to maintain on your instances.
-For example, an association can specify that anti-virus software must be installed and
-running on your instances, or that certain ports must be closed. For static targets, the
-association specifies a schedule for when the configuration is reapplied. For dynamic
-targets, such as an Amazon Web Services resource group or an Amazon Web Services
+A State Manager association defines the state that you want to maintain on your managed
+nodes. For example, an association can specify that anti-virus software must be installed
+and running on your managed nodes, or that certain ports must be closed. For static
+targets, the association specifies a schedule for when the configuration is reapplied. For
+dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services
 autoscaling group, State Manager, a capability of Amazon Web Services Systems Manager
-applies the configuration when new instances are added to the group. The association also
-specifies actions to take when applying the configuration. For example, an association for
-anti-virus software might run once a day. If the software isn't installed, then State
+applies the configuration when new managed nodes are added to the group. The association
+also specifies actions to take when applying the configuration. For example, an association
+for anti-virus software might run once a day. If the software isn't installed, then State
 Manager installs it. If the software is installed, but the service isn't running, then the
 association might instruct State Manager to start the service.
 
 # Arguments
 - `name`: The name of the SSM Command document or Automation runbook that contains the
-  configuration information for the instance. You can specify Amazon Web Services-predefined
-  documents, documents you created, or a document that is shared with you from another
-  account. For Systems Manager documents (SSM documents) that are shared with you from other
-  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
-  following format:  arn:partition:ssm:region:account-id:document/document-name   For
-  example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
+  configuration information for the managed node. You can specify Amazon Web
+  Services-predefined documents, documents you created, or a document that is shared with you
+  from another account. For Systems Manager documents (SSM documents) that are shared with
+  you from other Amazon Web Services accounts, you must specify the complete SSM document
+  ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name
+  For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
@@ -206,25 +204,25 @@ association might instruct State Manager to start the service.
 - `compliance_severity`: The severity level to assign to the association.
 - `document_version`: The document version you want to associate with the target(s). Can be
   a specific version or the default version.
-- `instance_id`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+- `instance_id`: The managed node ID.   InstanceId has been deprecated. To specify a
+  managed node ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `max_concurrency`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
-  same time. If a new instance starts and attempts to run an association while Systems
+  same time. If a new managed node starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
-  the next association interval, the new instance will process its association within the
+  the next association interval, the new managed node will process its association within the
   limit specified for MaxConcurrency.
 - `max_errors`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
   received. If you specify 0, then the system stops sending requests after the first error is
-  returned. If you run an association on 50 instances and set MaxError to 10%, then the
+  returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the
   system stops sending the request when the sixth error is received. Executions that are
   already running an association when MaxErrors is reached are allowed to complete, but some
   of these executions may fail as well. If you need to ensure that there won't be more than
@@ -246,15 +244,15 @@ association might instruct State Manager to start the service.
 - `target_locations`: A location is a combination of Amazon Web Services Regions and Amazon
   Web Services accounts where you want to run the association. Use this action to create an
   association in multiple Regions and multiple accounts.
-- `targets`: The targets for the association. You can target instances by using tags,
-  Amazon Web Services resource groups, all instances in an Amazon Web Services account, or
-  individual instance IDs. You can target all instances in an Amazon Web Services account by
-  specifying the InstanceIds key with a value of *. For more information about choosing
-  targets for an association, see Using targets and rate controls with State Manager
+- `targets`: The targets for the association. You can target managed nodes by using tags,
+  Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
+  or individual managed node IDs. You can target all managed nodes in an Amazon Web Services
+  account by specifying the InstanceIds key with a value of *. For more information about
+  choosing targets for an association, see Using targets and rate controls with State Manager
   associations in the Amazon Web Services Systems Manager User Guide.
 """
 function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -262,10 +260,10 @@ end
     create_association_batch(entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates the specified Amazon Web Services Systems Manager document (SSM document) with
-the specified instances or targets. When you associate a document with one or more
-instances using instance IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent)
-running on the instance processes the document and configures the instance as specified. If
-you associate a document with an instance that already has an associated document, the
+the specified managed nodes or targets. When you associate a document with one or more
+managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent)
+running on the managed node processes the document and configures the node as specified. If
+you associate a document with a managed node that already has an associated document, the
 system returns the AssociationAlreadyExists exception.
 
 # Arguments
@@ -273,7 +271,7 @@ system returns the AssociationAlreadyExists exception.
 
 """
 function create_association_batch(Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateAssociationBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,10 +279,10 @@ end
     create_document(content, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the
-actions that Systems Manager performs on your managed instances. For more information about
-SSM documents, including information about supported schemas, features, and syntax, see
-Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager
-User Guide.
+actions that Systems Manager performs on your managed nodes. For more information about SSM
+documents, including information about supported schemas, features, and syntax, see Amazon
+Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User
+Guide.
 
 # Arguments
 - `content`: The content for the new SSM document in JSON or YAML format. We recommend
@@ -328,7 +326,7 @@ User Guide.
   versions of a document, and can't be changed.
 """
 function create_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,11 +341,11 @@ is three hours, and the value you specify for Cutoff is one hour, no maintenance
 tasks can start after 5 PM.
 
 # Arguments
-- `allow_unassociated_targets`: Enables a maintenance window task to run on managed
-  instances, even if you haven't registered those instances as targets. If enabled, then you
-  must specify the unregistered instances (by instance ID) when you register a task with the
-  maintenance window. If you don't enable this option, then you must specify
-  previously-registered targets when you register a task with the maintenance window.
+- `allow_unassociated_targets`: Enables a maintenance window task to run on managed nodes,
+  even if you haven't registered those nodes as targets. If enabled, then you must specify
+  the unregistered managed nodes (by node ID) when you register a task with the maintenance
+  window. If you don't enable this option, then you must specify previously-registered
+  targets when you register a task with the maintenance window.
 - `cutoff`: The number of hours before the end of the maintenance window that Amazon Web
   Services Systems Manager stops scheduling new tasks for execution.
 - `duration`: The duration of the maintenance window in hours.
@@ -383,7 +381,7 @@ tasks can start after 5 PM.
   AddTagsToResource operation.
 """
 function create_maintenance_window(AllowUnassociatedTargets, Cutoff, Duration, Name, Schedule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnassociatedTargets"=>AllowUnassociatedTargets, "Cutoff"=>Cutoff, "Duration"=>Duration, "Name"=>Name, "Schedule"=>Schedule, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +445,7 @@ Amazon Web Services Systems Manager User Guide.
   AddTagsToResource operation.
 """
 function create_ops_item(Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -471,7 +469,7 @@ application type.
      Key=Region,Value=us-east-2
 """
 function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -494,8 +492,8 @@ each supported operating system type, see PatchFilter.
   When an approved patch is reported as missing, this value describes the severity of the
   compliance violation. The default value is UNSPECIFIED.
 - `approved_patches_enable_non_security`: Indicates whether the list of approved patches
-  includes non-security updates that should be applied to the instances. The default value is
-  false. Applies to Linux instances only.
+  includes non-security updates that should be applied to the managed nodes. The default
+  value is false. Applies to Linux managed nodes only.
 - `client_token`: User-provided idempotency token.
 - `description`: A description of the patch baseline.
 - `global_filters`: A set of global filters used to include patches in the baseline.
@@ -513,8 +511,8 @@ each supported operating system type, see PatchFilter.
   packages that include them as dependencies, aren't installed under any circumstances. If a
   package was installed before it was added to the Rejected patches list, it is considered
   non-compliant with the patch baseline, and its status is reported as InstalledRejected.
-- `sources`: Information about the patches to use to update the instances, including target
-  operating systems and source repositories. Applies to Linux instances only.
+- `sources`: Information about the patches to use to update the managed nodes, including
+  target operating systems and source repositories. Applies to Linux managed nodes only.
 - `tags`: Optional metadata that you assign to a resource. Tags enable you to categorize a
   resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a patch baseline to identify the severity level of patches it specifies
@@ -523,7 +521,7 @@ each supported operating system type, see PatchFilter.
   To add tags to an existing patch baseline, use the AddTagsToResource operation.
 """
 function create_patch_baseline(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -565,7 +563,7 @@ bucket by creating a restrictive bucket policy.
   provide a value for SyncSource. The default value is SyncToDestination.
 """
 function create_resource_data_sync(SyncName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("CreateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,16 +571,15 @@ end
     delete_activation(activation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an activation. You aren't required to delete an activation. If you delete an
-activation, you can no longer use it to register additional managed instances. Deleting an
-activation doesn't de-register managed instances. You must manually de-register managed
-instances.
+activation, you can no longer use it to register additional managed nodes. Deleting an
+activation doesn't de-register managed nodes. You must manually de-register managed nodes.
 
 # Arguments
 - `activation_id`: The ID of the activation that you want to delete.
 
 """
 function delete_activation(ActivationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationId"=>ActivationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,33 +587,35 @@ end
     delete_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates the specified Amazon Web Services Systems Manager document (SSM document)
-from the specified instance. If you created the association by using the Targets parameter,
-then you must delete the association by using the association ID. When you disassociate a
-document from an instance, it doesn't change the configuration of the instance. To change
-the configuration state of an instance after you disassociate a document, you must create a
-new document with the desired configuration and associate it with the instance.
+from the specified managed node. If you created the association by using the Targets
+parameter, then you must delete the association by using the association ID. When you
+disassociate a document from a managed node, it doesn't change the configuration of the
+node. To change the configuration state of a managed node after you disassociate a
+document, you must create a new document with the desired configuration and associate it
+with the node.
 
 # Keyword Parameters
 - `association_id`: The association ID that you want to delete.
-- `instance_id`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+- `instance_id`: The managed node ID.   InstanceId has been deprecated. To specify a
+  managed node ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `name`: The name of the SSM document.
 """
 function delete_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_document(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes the Amazon Web Services Systems Manager document (SSM document) and all instance
-associations to the document. Before you delete the document, we recommend that you use
-DeleteAssociation to disassociate all instances that are associated with the document.
+Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed
+node associations to the document. Before you delete the document, we recommend that you
+use DeleteAssociation to disassociate all managed nodes that are associated with the
+document.
 
 # Arguments
 - `name`: The name of the document.
@@ -632,7 +631,7 @@ DeleteAssociation to disassociate all instances that are associated with the doc
   provided, all versions of the document are deleted.
 """
 function delete_document(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -662,7 +661,7 @@ Deleting a custom inventory type is also referred to as deleting a custom invent
   schema later, if you want.
 """
 function delete_inventory(TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeName"=>TypeName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -676,7 +675,7 @@ Deletes a maintenance window.
 
 """
 function delete_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +689,7 @@ Delete OpsMetadata related to an application.
 
 """
 function delete_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -705,7 +704,7 @@ seconds to create a parameter with the same name.
 
 """
 function delete_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -721,7 +720,7 @@ create a parameter with the same name.
 
 """
 function delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -735,7 +734,7 @@ Deletes a patch baseline.
 
 """
 function delete_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeletePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -743,7 +742,7 @@ end
     delete_resource_data_sync(sync_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a resource data sync configuration. After the configuration is deleted, changes to
-data on managed instances are no longer synced to or from the target. Deleting a sync
+data on managed nodes are no longer synced to or from the target. Deleting a sync
 configuration doesn't delete data.
 
 # Arguments
@@ -753,7 +752,7 @@ configuration doesn't delete data.
 - `sync_type`: Specify the type of resource data sync to delete.
 """
 function delete_resource_data_sync(SyncName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeleteResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -761,16 +760,16 @@ end
     deregister_managed_instance(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the server or virtual machine from the list of registered servers. You can
-reregister the instance again at any time. If you don't plan to use Run Command on the
-server, we suggest uninstalling SSM Agent first.
+reregister the node again at any time. If you don't plan to use Run Command on the server,
+we suggest uninstalling SSM Agent first.
 
 # Arguments
-- `instance_id`: The ID assigned to the managed instance when you registered it using the
+- `instance_id`: The ID assigned to the managed node when you registered it using the
   activation process.
 
 """
 function deregister_managed_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeregisterManagedInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -786,7 +785,7 @@ Removes a patch group from a patch baseline.
 
 """
 function deregister_patch_baseline_for_patch_group(BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeregisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -805,7 +804,7 @@ Removes a target from a maintenance window.
   maintenance window.
 """
 function deregister_target_from_maintenance_window(WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeregisterTargetFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -820,7 +819,7 @@ Removes a task from a maintenance window.
 
 """
 function deregister_task_from_maintenance_window(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DeregisterTaskFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -829,7 +828,7 @@ end
 
 Describes details about the activation, such as the date and time the activation was
 created, its expiration date, the Identity and Access Management (IAM) role assigned to the
-instances in the activation, and the number of instances registered by using this
+managed nodes in the activation, and the number of nodes registered by using this
 activation.
 
 # Keyword Parameters
@@ -839,14 +838,14 @@ activation.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_activations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeActivations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Describes the association for the specified target or instance. If you created the
+Describes the association for the specified target or managed node. If you created the
 association by using the Targets parameter, then you must retrieve the association by using
 the association ID.
 
@@ -854,13 +853,13 @@ the association ID.
 - `association_id`: The association ID for which you want information.
 - `association_version`: Specify the association version to retrieve. To view the latest
   version, either specify LATEST for this parameter, or omit this parameter. To view a list
-  of all associations for an instance, use ListAssociations. To get a list of versions for a
-  specific association, use ListAssociationVersions.
-- `instance_id`: The instance ID.
+  of all associations for a managed node, use ListAssociations. To get a list of versions for
+  a specific association, use ListAssociationVersions.
+- `instance_id`: The managed node ID.
 - `name`: The name of the SSM document.
 """
 function describe_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -882,7 +881,7 @@ Views information about a specific execution of a specific association.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_execution_targets(AssociationId, ExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAssociationExecutionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ExecutionId"=>ExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -902,7 +901,7 @@ Views all executions for a specific association ID.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_executions(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAssociationExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -919,7 +918,7 @@ Provides details about all active and terminated Automation executions.
   from a previous call.)
 """
 function describe_automation_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAutomationExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -943,7 +942,7 @@ Information about all active and terminated step executions in an Automation wor
   time. The default value is 'false'.
 """
 function describe_automation_step_executions(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAutomationStepExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -954,7 +953,7 @@ Lists all patches eligible to be included in a patch baseline.
 
 # Keyword Parameters
 - `filters`: Each element in the array is a structure containing a key-value pair.  Windows
-  Server  Supported keys for Windows Server instance patches include the following:
+  Server  Supported keys for Windows Server managed node patches include the following:
   PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values: WindowsServer2012
   | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample values: Windows |
   Office      MSRC_SEVERITY   Sample values: ServicePacks | Important | Moderate
@@ -964,7 +963,7 @@ Lists all patches eligible to be included in a patch baseline.
   Interface (CLI), the following command fails:  aws ssm describe-available-patches --filters
   Key=CVE_ID,Values=CVE-2018-3615  However, the following command succeeds:  aws ssm
   describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03
-  Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux instance patches include the
+  Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux managed node patches include the
   following:     PRODUCT   Sample values: AmazonLinux2018.03 | AmazonLinux2.0      NAME
   Sample values: kernel-headers | samba-python | php      SEVERITY   Sample values: Critical
   | Important | Medium | Low      EPOCH   Sample values: 0 | 1      VERSION   Sample values:
@@ -977,7 +976,7 @@ Lists all patches eligible to be included in a patch baseline.
   from a previous call.)
 """
 function describe_available_patches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeAvailablePatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -997,7 +996,7 @@ Describes the specified Amazon Web Services Systems Manager document (SSM docume
   versions of a document, and can't be changed.
 """
 function describe_document(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1020,17 +1019,17 @@ publicly (All).
   from a previous call.)
 """
 function describe_document_permission(Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_effective_instance_associations(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-All associations for the instance(s).
+All associations for the managed node(s).
 
 # Arguments
-- `instance_id`: The instance ID for which you want to view all associations.
+- `instance_id`: The managed node ID for which you want to view all associations.
 
 # Keyword Parameters
 - `max_results`: The maximum number of items to return for this call. The call also returns
@@ -1039,7 +1038,7 @@ All associations for the instance(s).
   from a previous call.)
 """
 function describe_effective_instance_associations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeEffectiveInstanceAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1058,17 +1057,17 @@ specified patch baseline. Applies to patch baselines for Windows only.
   from a previous call.)
 """
 function describe_effective_patches_for_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeEffectivePatchesForPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_instance_associations_status(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-The status of the associations for the instance(s).
+The status of the associations for the managed node(s).
 
 # Arguments
-- `instance_id`: The instance IDs for which you want association status information.
+- `instance_id`: The managed node IDs for which you want association status information.
 
 # Keyword Parameters
 - `max_results`: The maximum number of items to return for this call. The call also returns
@@ -1077,28 +1076,29 @@ The status of the associations for the instance(s).
   from a previous call.)
 """
 function describe_instance_associations_status(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInstanceAssociationsStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Describes one or more of your instances, including information about the operating system
-platform, the version of SSM Agent installed on the instance, instance status, and so on.
-If you specify one or more instance IDs, it returns information for those instances. If you
-don't specify instance IDs, it returns information for all your instances. If you specify
-an instance ID that isn't valid or an instance that you don't own, you receive an error.
-The IamRole field for this API operation is the Identity and Access Management (IAM) role
-assigned to on-premises instances. This call doesn't return the IAM role for EC2 instances.
+Describes one or more of your managed nodes, including information about the operating
+system platform, the version of SSM Agent installed on the managed node, node status, and
+so on. If you specify one or more managed node IDs, it returns information for those
+managed nodes. If you don't specify node IDs, it returns information for all your managed
+nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive
+an error.  The IamRole field for this API operation is the Identity and Access Management
+(IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for
+EC2 instances.
 
 # Keyword Parameters
-- `filters`: One or more filters. Use a filter to return a more specific list of instances.
-  You can filter based on tags applied to EC2 instances. Use this Filters data type instead
-  of InstanceInformationFilterList, which is deprecated.
+- `filters`: One or more filters. Use a filter to return a more specific list of managed
+  nodes. You can filter based on tags applied to EC2 instances. Use this Filters data type
+  instead of InstanceInformationFilterList, which is deprecated.
 - `instance_information_filter_list`: This is a legacy method. We recommend that you don't
-  use this method. Instead, use the Filters data type. Filters enables you to return instance
-  information by filtering based on tags applied to managed instances.  Attempting to use
+  use this method. Instead, use the Filters data type. Filters enables you to return node
+  information by filtering based on tags applied to managed nodes.  Attempting to use
   InstanceInformationFilterList and Filters leads to an exception error.
 - `max_results`: The maximum number of items to return for this call. The call also returns
   a token that you can specify in a subsequent call to get the next set of results.
@@ -1106,33 +1106,33 @@ assigned to on-premises instances. This call doesn't return the IAM role for EC2
   from a previous call.)
 """
 function describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInstanceInformation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_instance_patch_states(instance_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves the high-level patch state of one or more instances.
+Retrieves the high-level patch state of one or more managed nodes.
 
 # Arguments
-- `instance_ids`: The ID of the instance for which patch state information should be
+- `instance_ids`: The ID of the managed node for which patch state information should be
   retrieved.
 
 # Keyword Parameters
-- `max_results`: The maximum number of instances to return (per page).
+- `max_results`: The maximum number of managed nodes to return (per page).
 - `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_instance_patch_states(InstanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInstancePatchStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_instance_patch_states_for_patch_group(patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves the high-level patch state for the instances in the specified patch group.
+Retrieves the high-level patch state for the managed nodes in the specified patch group.
 
 # Arguments
 - `patch_group`: The name of the patch group for which the patch state information should
@@ -1147,18 +1147,19 @@ Retrieves the high-level patch state for the instances in the specified patch gr
   from a previous call.)
 """
 function describe_instance_patch_states_for_patch_group(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInstancePatchStatesForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_instance_patches(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves information about the patches on the specified instance and their state relative
-to the patch baseline being used for the instance.
+Retrieves information about the patches on the specified managed node and their state
+relative to the patch baseline being used for the node.
 
 # Arguments
-- `instance_id`: The ID of the instance whose patch state information should be retrieved.
+- `instance_id`: The ID of the managed node whose patch state information should be
+  retrieved.
 
 # Keyword Parameters
 - `filters`: Each element in the array is a structure containing a key-value pair.
@@ -1171,7 +1172,7 @@ to the patch baseline being used for the instance.
   from a previous call.)
 """
 function describe_instance_patches(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInstancePatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1188,7 +1189,7 @@ Describes a specific delete inventory operation.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_inventory_deletions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeInventoryDeletions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1213,7 +1214,7 @@ of a maintenance window execution.
   from a previous call.)
 """
 function describe_maintenance_window_execution_task_invocations(TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowExecutionTaskInvocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1236,7 +1237,7 @@ For a given maintenance window execution, lists the tasks that were run.
   from a previous call.)
 """
 function describe_maintenance_window_execution_tasks(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowExecutionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1261,7 +1262,7 @@ run with the maintenance window.
   from a previous call.)
 """
 function describe_maintenance_window_executions(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1280,11 +1281,11 @@ Retrieves information about upcoming executions of a maintenance window.
   from a previous call.)
 - `resource_type`: The type of resource you want to retrieve information about. For
   example, INSTANCE.
-- `targets`: The instance ID or key-value pair to retrieve information about.
+- `targets`: The managed node ID or key-value pair to retrieve information about.
 - `window_id`: The ID of the maintenance window to retrieve information about.
 """
 function describe_maintenance_window_schedule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowSchedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1305,7 +1306,7 @@ Lists the targets registered with the maintenance window.
   from a previous call.)
 """
 function describe_maintenance_window_targets(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1329,7 +1330,7 @@ These values don't affect the running of your task and can be ignored.
   from a previous call.)
 """
 function describe_maintenance_window_tasks(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1348,20 +1349,20 @@ Retrieves the maintenance windows in an Amazon Web Services account.
   from a previous call.)
 """
 function describe_maintenance_windows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_maintenance_windows_for_target(resource_type, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves information about the maintenance window targets or tasks that an instance is
+Retrieves information about the maintenance window targets or tasks that a managed node is
 associated with.
 
 # Arguments
 - `resource_type`: The type of resource you want to retrieve information about. For
   example, INSTANCE.
-- `targets`: The instance ID or key-value pair to retrieve information about.
+- `targets`: The managed node ID or key-value pair to retrieve information about.
 
 # Keyword Parameters
 - `max_results`: The maximum number of items to return for this call. The call also returns
@@ -1370,7 +1371,7 @@ associated with.
   from a previous call.)
 """
 function describe_maintenance_windows_for_target(ResourceType, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeMaintenanceWindowsForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1403,7 +1404,7 @@ Manager User Guide.
   {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
 function describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeOpsItems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1429,7 +1430,7 @@ whatever the original key alias was referencing.
 - `parameter_filters`: Filters to limit the request results.
 """
 function describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1448,7 +1449,7 @@ Lists the patch baselines in your Amazon Web Services account.
   from a previous call.)
 """
 function describe_patch_baselines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribePatchBaselines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1462,7 +1463,7 @@ Returns high-level aggregated patch compliance state information for a patch gro
 
 """
 function describe_patch_group_state(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribePatchGroupState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1480,7 +1481,7 @@ Lists all patch groups that have been registered with patch baselines.
   from a previous call.)
 """
 function describe_patch_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribePatchGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1515,7 +1516,7 @@ MSRC_SEVERITY
   applications released by Microsoft. Not applicable for the Linux or macOS operating systems.
 """
 function describe_patch_properties(OperatingSystem, Property; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribePatchProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1536,7 +1537,7 @@ sessions from the past 30 days.
   from a previous call.)
 """
 function describe_sessions(State; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("State"=>State), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1555,7 +1556,7 @@ capability of Amazon Web Services Systems Manager.
 
 """
 function disassociate_ops_item_related_item(AssociationId, OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("DisassociateOpsItemRelatedItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "OpsItemId"=>OpsItemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1571,7 +1572,7 @@ Get detailed information about a particular Automation execution.
 
 """
 function get_automation_execution(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1600,7 +1601,7 @@ Amazon Web Services Systems Manager User Guide.
   is used.
 """
 function get_calendar_state(CalendarNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetCalendarState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalendarNames"=>CalendarNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1609,15 +1610,15 @@ end
 
 Returns detailed information about command execution for an invocation or plugin.
 GetCommandInvocation only gives the execution status of a plugin in a document. To get the
-command execution status on a specific instance, use ListCommandInvocations. To get the
-command execution status across instances, use ListCommands.
+command execution status on a specific managed node, use ListCommandInvocations. To get the
+command execution status across managed nodes, use ListCommands.
 
 # Arguments
 - `command_id`: (Required) The parent command ID of the invocation plugin.
-- `instance_id`: (Required) The ID of the managed instance targeted by the command. A
-  managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2) instance or an
-  instance in your hybrid environment that is configured for Amazon Web Services Systems
-  Manager.
+- `instance_id`: (Required) The ID of the managed node targeted by the command. A managed
+  node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and
+  on-premises server or VM in your hybrid environment that is configured for Amazon Web
+  Services Systems Manager.
 
 # Keyword Parameters
 - `plugin_name`: The name of the plugin for which you want detailed results. If the
@@ -1630,22 +1631,22 @@ command execution status across instances, use ListCommands.
   Name attribute of the CommandPlugin object in the CommandPlugins list.
 """
 function get_command_invocation(CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetCommandInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_connection_status(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves the Session Manager connection status for an instance to determine whether it is
-running and ready to receive Session Manager connections.
+Retrieves the Session Manager connection status for a managed node to determine whether it
+is running and ready to receive Session Manager connections.
 
 # Arguments
-- `target`: The instance ID.
+- `target`: The managed node ID.
 
 """
 function get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetConnectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1661,32 +1662,32 @@ baseline for Windows is returned.
 - `operating_system`: Returns the default patch baseline for the specified operating system.
 """
 function get_default_patch_baseline(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetDefaultPatchBaseline", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Retrieves the current snapshot for the patch baseline the instance uses. This API is
+Retrieves the current snapshot for the patch baseline the managed node uses. This API is
 primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you
 run the command locally, such as with the Command Line Interface (CLI), the system attempts
 to use your local Amazon Web Services credentials and the operation fails. To avoid this,
 you can run the command in the Amazon Web Services Systems Manager console. Use Run
 Command, a capability of Amazon Web Services Systems Manager, with an SSM document that
-enables you to target an instance with a script or command. For example, run the command
+enables you to target a managed node with a script or command. For example, run the command
 using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
 
 # Arguments
-- `instance_id`: The ID of the instance for which the appropriate patch snapshot should be
-  retrieved.
+- `instance_id`: The ID of the managed node for which the appropriate patch snapshot should
+  be retrieved.
 - `snapshot_id`: The snapshot ID provided by the user when running AWS-RunPatchBaseline.
 
 # Keyword Parameters
 - `baseline_override`: Defines the basic information about a patch baseline override.
 """
 function get_deployable_patch_snapshot_for_instance(InstanceId, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetDeployablePatchSnapshotForInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1708,20 +1709,21 @@ document).
   versions of a document and can't be changed.
 """
 function get_document(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_inventory(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Query inventory information. This includes instance status, such as Stopped or Terminated.
+Query inventory information. This includes managed node status, such as Stopped or
+Terminated.
 
 # Keyword Parameters
 - `aggregators`: Returns counts of inventory types based on one or more expressions. For
   example, if you aggregate by using an expression that uses the
   AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and
-  Linux instances exist in your inventoried fleet.
+  Linux managed nodes exist in your inventoried fleet.
 - `filters`: One or more filters. Use a filter to return a more specific list of results.
 - `max_results`: The maximum number of items to return for this call. The call also returns
   a token that you can specify in a subsequent call to get the next set of results.
@@ -1730,7 +1732,7 @@ Query inventory information. This includes instance status, such as Stopped or T
 - `result_attributes`: The list of inventory item types to return.
 """
 function get_inventory(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetInventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1752,7 +1754,7 @@ for a specific Inventory item type.
 - `type_name`: The type of inventory item to return.
 """
 function get_inventory_schema(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetInventorySchema", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1766,7 +1768,7 @@ Retrieves a maintenance window.
 
 """
 function get_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1780,7 +1782,7 @@ Retrieves details about a specific a maintenance window execution.
 
 """
 function get_maintenance_window_execution(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1796,7 +1798,7 @@ Retrieves the details about a specific task run as part of a maintenance window 
 
 """
 function get_maintenance_window_execution_task(TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetMaintenanceWindowExecutionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1814,7 +1816,7 @@ Retrieves information about a specific task running on a specific target.
 
 """
 function get_maintenance_window_execution_task_invocation(InvocationId, TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetMaintenanceWindowExecutionTaskInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvocationId"=>InvocationId, "TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1832,7 +1834,7 @@ These values don't affect the running of your task and can be ignored.
 
 """
 function get_maintenance_window_task(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1852,7 +1854,7 @@ Web Services Systems Manager User Guide.
 
 """
 function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1870,7 +1872,7 @@ View operational metadata related to an application in Application Manager.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function get_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1894,7 +1896,7 @@ Explorer.
 - `sync_name`: Specify the name of a resource data sync to get.
 """
 function get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetOpsSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1913,7 +1915,7 @@ information about more than one parameter at a time, use the GetParameters opera
   ignored for String and StringList parameter types.
 """
 function get_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1937,7 +1939,7 @@ original key alias was referencing.
   ignored for String and StringList parameter types.
 """
 function get_parameter_history(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetParameterHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1957,7 +1959,7 @@ get information about a single parameter, you can use the GetParameter operation
   secure string parameters. This flag is ignored for String and StringList parameter types.
 """
 function get_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1994,7 +1996,7 @@ set of results.
 - `with_decryption`: Retrieve all parameters in a hierarchy with their value decrypted.
 """
 function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetParametersByPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Path"=>Path), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2012,7 +2014,7 @@ Retrieves information about a patch baseline.
 
 """
 function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2029,7 +2031,7 @@ Retrieves the patch baseline that should be used for the specified patch group.
   patch baseline.
 """
 function get_patch_baseline_for_patch_group(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2059,7 +2061,7 @@ current service setting for the Amazon Web Services account.
 
 """
 function get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("GetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2092,7 +2094,7 @@ isn't associated with a parameter and the system displays it in the list of Inva
   version.
 """
 function label_parameter_version(Labels, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("LabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2110,7 +2112,7 @@ Retrieves all versions of an association for a specific association ID.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_association_versions(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListAssociationVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2119,31 +2121,32 @@ end
 
 Returns all State Manager associations in the current Amazon Web Services account and
 Amazon Web Services Region. You can limit the results to a specific State Manager
-association document or instance by specifying a filter. State Manager is a capability of
-Amazon Web Services Systems Manager.
+association document or managed node by specifying a filter. State Manager is a capability
+of Amazon Web Services Systems Manager.
 
 # Keyword Parameters
 - `association_filter_list`: One or more filters. Use a filter to return a more specific
   list of results.  Filtering associations using the InstanceID attribute only returns legacy
-  associations created using the InstanceID attribute. Associations targeting the instance
-  that are part of the Target Attributes ResourceGroup or Tags aren't returned.
+  associations created using the InstanceID attribute. Associations targeting the managed
+  node that are part of the Target Attributes ResourceGroup or Tags aren't returned.
 - `max_results`: The maximum number of items to return for this call. The call also returns
   a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function list_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-An invocation is copy of a command sent to a specific instance. A command can apply to one
-or more instances. A command invocation applies to one instance. For example, if a user
-runs SendCommand against three instances, then a command invocation is created for each
-requested instance ID. ListCommandInvocations provide status about command execution.
+An invocation is copy of a command sent to a specific managed node. A command can apply to
+one or more managed nodes. A command invocation applies to one managed node. For example,
+if a user runs SendCommand against three managed nodes, then a command invocation is
+created for each requested managed node ID. ListCommandInvocations provide status about
+command execution.
 
 # Keyword Parameters
 - `command_id`: (Optional) The invocations for a specific command ID.
@@ -2151,7 +2154,7 @@ requested instance ID. ListCommandInvocations provide status about command execu
   command output. The default value is false.
 - `filters`: (Optional) One or more filters. Use a filter to return a more specific list of
   results.
-- `instance_id`: (Optional) The command execution details for a specific instance ID.
+- `instance_id`: (Optional) The command execution details for a specific managed node ID.
 - `max_results`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
@@ -2159,7 +2162,7 @@ requested instance ID. ListCommandInvocations provide status about command execu
   this token from a previous call.)
 """
 function list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListCommandInvocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2172,9 +2175,9 @@ Lists the commands requested by users of the Amazon Web Services account.
 - `command_id`: (Optional) If provided, lists only the specified command.
 - `filters`: (Optional) One or more filters. Use a filter to return a more specific list of
   results.
-- `instance_id`: (Optional) Lists commands issued against this instance ID.  You can't
-  specify an instance ID in the same command that you specify Status = Pending. This is
-  because the command hasn't reached the instance yet.
+- `instance_id`: (Optional) Lists commands issued against this managed node ID.  You can't
+  specify a managed node ID in the same command that you specify Status = Pending. This is
+  because the command hasn't reached the managed node yet.
 - `max_results`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
@@ -2182,7 +2185,7 @@ Lists the commands requested by users of the Amazon Web Services account.
   this token from a previous call.)
 """
 function list_commands(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2205,7 +2208,7 @@ results depend on the criteria specified in the filter.
   Currently, the only supported resource type is ManagedInstance.
 """
 function list_compliance_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListComplianceItems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2225,7 +2228,7 @@ types according to the filter criteria that you specify.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListComplianceSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2247,7 +2250,7 @@ Information about approval reviews for a version of a change template in Change 
   from a previous call.)
 """
 function list_document_metadata_history(Metadata, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListDocumentMetadataHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2266,7 +2269,7 @@ List all versions for a document.
   from a previous call.)
 """
 function list_document_versions(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListDocumentVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2292,7 +2295,7 @@ Amazon Web Services Region. You can limit the results of this request by using a
   from a previous call.)
 """
 function list_documents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListDocuments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2302,7 +2305,7 @@ end
 A list of inventory items returned by the request.
 
 # Arguments
-- `instance_id`: The instance ID for which you want inventory information.
+- `instance_id`: The managed node ID for which you want inventory information.
 - `type_name`: The type of inventory item for which you want information.
 
 # Keyword Parameters
@@ -2313,7 +2316,7 @@ A list of inventory items returned by the request.
   from a previous call.)
 """
 function list_inventory_entries(InstanceId, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListInventoryEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2332,7 +2335,7 @@ by specifying a filter.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListOpsItemEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2353,7 +2356,7 @@ OpsCenter is a capability of Amazon Web Services Systems Manager.
   resources.
 """
 function list_ops_item_related_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListOpsItemRelatedItems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2371,7 +2374,7 @@ Application Manager OpsMetadata objects or blobs.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListOpsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2389,7 +2392,7 @@ filter criteria you specify.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_resource_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListResourceComplianceSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2415,7 +2418,7 @@ parameter of a subsequent call.
   Amazon Web Services Regions.
 """
 function list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListResourceDataSync", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2431,7 +2434,7 @@ format for each supported resource type, see AddTagsToResource.
 
 """
 function list_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2458,7 +2461,7 @@ specify All as the account ID.
   specified, the system choose the Default version to share.
 """
 function modify_document_permission(Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ModifyDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2472,10 +2475,10 @@ compliance items each time that you send the request. ComplianceType can be one 
 following:   ExecutionId: The execution ID when the patch, association, or custom
 compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.
   ExecutionTime. The time the patch, association, or custom compliance item was applied to
-the instance.   Id: The patch, association, or custom compliance ID.   Title: A title.
-Status: The status of the compliance item. For example, approved for patches, or Failed for
-associations.   Severity: A patch severity. For example, critical.   DocumentName: An SSM
-document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document
+the managed node.   Id: The patch, association, or custom compliance ID.   Title: A title.
+ Status: The status of the compliance item. For example, approved for patches, or Failed
+for associations.   Severity: A patch severity. For example, critical.   DocumentName: An
+SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document
 version number. For example, 4.   Classification: A patch classification. For example,
 security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch
 severity. For example, Critical.   PatchState: A patch state. For example,
@@ -2492,8 +2495,7 @@ the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
 - `items`: Information about the compliance as defined by the resource type. For example,
   for a patch compliance type, Items includes information about the PatchSeverity,
   Classification, and so on.
-- `resource_id`: Specify an ID for this resource. For a managed instance, this is the
-  instance ID.
+- `resource_id`: Specify an ID for this resource. For a managed node, this is the node ID.
 - `resource_type`: Specify the type of resource. ManagedInstance is currently the only
   supported resource type.
 
@@ -2510,23 +2512,23 @@ the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
   compliance.
 """
 function put_compliance_items(ComplianceType, ExecutionSummary, Items, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("PutComplianceItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComplianceType"=>ComplianceType, "ExecutionSummary"=>ExecutionSummary, "Items"=>Items, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     put_inventory(instance_id, items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Bulk update custom inventory items on one more instance. The request adds an inventory
-item, if it doesn't already exist, or updates an inventory item, if it does exist.
+Bulk update custom inventory items on one or more managed nodes. The request adds an
+inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
 
 # Arguments
-- `instance_id`: An instance ID where you want to add or update inventory items.
-- `items`: The inventory items that you want to add or update on instances.
+- `instance_id`: An managed node ID where you want to add or update inventory items.
+- `items`: The inventory items that you want to add or update on managed nodes.
 
 """
 function put_inventory(InstanceId, Items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("PutInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Items"=>Items), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2586,10 +2588,10 @@ Add a parameter to the system.
   When you create the policy, you specify the expiration date. You can update the expiration
   date and time by updating the policy. Updating the parameter doesn't affect the expiration
   date and time. When the expiration time is reached, Parameter Store deletes the parameter.
-  ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that
+  ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that
   notifies you about the expiration. By using this policy, you can receive notification
   before or after the expiration time is reached, in units of days or hours.
-  NoChangeNotification: This policy triggers a CloudWatch Events event if a parameter hasn't
+  NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't
   been modified for a specified period of time. This policy type is useful when, for example,
   a secret needs to be changed within a period of time, but it hasn't been changed. All
   existing policies are preserved until you send new policies or an empty policy. For more
@@ -2644,7 +2646,7 @@ Add a parameter to the system.
   parameter type when creating a parameter.
 """
 function put_parameter(Name, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("PutParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Value"=>Value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2662,7 +2664,7 @@ pb-0574b43a65ea646ed.
 
 """
 function register_default_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("RegisterDefaultPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2677,7 +2679,7 @@ Registers a patch baseline for a patch group.
 
 """
 function register_patch_baseline_for_patch_group(BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("RegisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2689,23 +2691,25 @@ Registers a target with a maintenance window.
 # Arguments
 - `resource_type`: The type of target being registered with the maintenance window.
 - `targets`: The targets to register with the maintenance window. In other words, the
-  instances to run commands on when the maintenance window runs.  If a single maintenance
+  managed nodes to run commands on when the maintenance window runs.  If a single maintenance
   window task is registered with multiple targets, its task invocations occur sequentially
   and not in parallel. If your task must run on multiple targets at the same time, register a
   task for each target individually and assign each task the same priority level.  You can
-  specify targets using instance IDs, resource group names, or tags that have been applied to
-  instances.  Example 1: Specify instance IDs
-  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag
-  key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2
-  Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2
-    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name
-    Example 5: Use filters for resource group types
-  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For
-  Key=resource-groups:ResourceTypeFilters, specify resource types in the following format
-  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more
-  information about these examples formats, including the best use case for each one, see
-  Examples: Register targets with a maintenance window in the Amazon Web Services Systems
-  Manager User Guide.
+  specify targets using managed node IDs, resource group names, or tags that have been
+  applied to managed nodes.  Example 1: Specify managed node IDs
+  Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-3&gt;
+  Example 2: Use tag key-pairs applied to managed nodes
+  Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;   Example
+  3: Use tag-keys applied to managed nodes
+  Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;   Example 4: Use resource
+  group names  Key=resource-groups:Name,Values=&lt;resource-group-name&gt;   Example 5: Use
+  filters for resource group types
+  Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-type-2&g
+  t;   For Key=resource-groups:ResourceTypeFilters, specify resource types in the following
+  format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC
+  For more information about these examples formats, including the best use case for each
+  one, see Examples: Register targets with a maintenance window in the Amazon Web Services
+  Systems Manager User Guide.
 - `window_id`: The ID of the maintenance window the target should be registered with.
 
 # Keyword Parameters
@@ -2716,7 +2720,7 @@ Registers a target with a maintenance window.
   Events events raised while running tasks for these targets in this maintenance window.
 """
 function register_target_with_maintenance_window(ResourceType, Targets, WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("RegisterTargetWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets, "WindowId"=>WindowId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2743,8 +2747,8 @@ Adds a new task to a maintenance window.
   status for tasks that are not completed is TIMED_OUT.
 - `description`: An optional description for the task.
 - `logging_info`: A structure containing information about an Amazon Simple Storage Service
-  (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been deprecated. To
-  specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use
+  (Amazon S3) bucket to write managed node-level logs to.    LoggingInfo has been deprecated.
+  To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use
   the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
   structure. For information about how Amazon Web Services Systems Manager handles these
   options for the supported maintenance window task types, see
@@ -2769,12 +2773,12 @@ Adds a new task to a maintenance window.
   the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
   Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `targets`: The targets (either instances or maintenance window targets).  One or more
+- `targets`: The targets (either managed nodes or maintenance window targets).  One or more
   targets must be specified for maintenance window Run Command-type tasks. Depending on the
   task, targets are optional for other maintenance window task types (Automation, Lambda, and
   Step Functions). For more information about running tasks that don't specify targets, see
   Registering maintenance window tasks without targets in the Amazon Web Services Systems
-  Manager User Guide.  Specify instances using the following format:
+  Manager User Guide.  Specify managed nodes using the following format:
   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance
   window targets using the following format:
   Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
@@ -2787,7 +2791,7 @@ Adds a new task to a maintenance window.
   window task types, see MaintenanceWindowTaskInvocationParameters.
 """
 function register_task_with_maintenance_window(TaskArn, TaskType, WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2805,17 +2809,17 @@ Removes tag keys from the specified resource.
   ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a
   ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the
   Document and Parameter values, use the name of the resource.  The ManagedInstance type for
-  this API operation is only for on-premises managed instances. Specify the name of the
-  managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  this API operation is only for on-premises managed nodes. Specify the name of the managed
+  node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 - `resource_type`: The type of resource from which you want to remove a tag.  The
-  ManagedInstance type for this API operation is only for on-premises managed instances.
-  Specify the name of the managed instance in the following format: mi-ID_number . For
-  example, mi-1a2b3c4d5e6f.
+  ManagedInstance type for this API operation is only for on-premises managed nodes. Specify
+  the name of the managed node in the following format: mi-ID_number . For example,
+  mi-1a2b3c4d5e6f.
 - `tag_keys`: Tag keys that you want to remove from the specified resource.
 
 """
 function remove_tags_from_resource(ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2845,14 +2849,14 @@ provisioned by the Amazon Web Services service team.
 
 """
 function reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ResetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     resume_session(session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Reconnects a session to an instance after it has been disconnected. Connections can be
+Reconnects a session to a managed node after it has been disconnected. Connections can be
 resumed for disconnected sessions, but not terminated sessions.  This command is primarily
 for use by client machines to automatically reconnect during intermittent network issues.
 It isn't intended for any other use.
@@ -2862,7 +2866,7 @@ It isn't intended for any other use.
 
 """
 function resume_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("ResumeSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2887,14 +2891,14 @@ execution.
   StepExecutionId=\"97fff367-fc5a-4299-aed8-0123456789ab\"
 """
 function send_automation_signal(AutomationExecutionId, SignalType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("SendAutomationSignal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId, "SignalType"=>SignalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     send_command(document_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Runs commands on one or more managed instances.
+Runs commands on one or more managed nodes.
 
 # Arguments
 - `document_name`: The name of the Amazon Web Services Systems Manager document (SSM
@@ -2919,18 +2923,18 @@ Runs commands on one or more managed instances.
   using a backslash. If you specify a version number, then you don't need to use the
   backslash. For example: --document-version \"DEFAULT\" --document-version \"LATEST\"
   --document-version \"3\"
-- `instance_ids`: The IDs of the instances where the command should run. Specifying
-  instance IDs is most useful when you are targeting a limited number of instances, though
-  you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not
-  to list individual instance IDs, we recommend using the Targets option instead. Using
-  Targets, which accepts tag key-value pairs to identify the instances to send commands to,
-  you can a send command to tens, hundreds, or thousands of instances at once. For more
-  information about how to use targets, see Using targets and rate controls to send commands
-  to a fleet in the Amazon Web Services Systems Manager User Guide.
-- `max_concurrency`: (Optional) The maximum number of instances that are allowed to run the
-  command at the same time. You can specify a number such as 10 or a percentage such as 10%.
-  The default value is 50. For more information about how to use MaxConcurrency, see Using
-  concurrency controls in the Amazon Web Services Systems Manager User Guide.
+- `instance_ids`: The IDs of the managed nodes where the command should run. Specifying
+  managed node IDs is most useful when you are targeting a limited number of managed nodes,
+  though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you
+  prefer not to list individual node IDs, we recommend using the Targets option instead.
+  Using Targets, which accepts tag key-value pairs to identify the managed nodes to send
+  commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For
+  more information about how to use targets, see Using targets and rate controls to send
+  commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+- `max_concurrency`: (Optional) The maximum number of managed nodes that are allowed to run
+  the command at the same time. You can specify a number such as 10 or a percentage such as
+  10%. The default value is 50. For more information about how to use MaxConcurrency, see
+  Using concurrency controls in the Amazon Web Services Systems Manager User Guide.
 - `max_errors`: The maximum number of errors allowed without the command failing. When the
   command fails one more time beyond the value of MaxErrors, the systems stops sending the
   command to additional targets. You can specify a number like 10 or a percentage like 10%.
@@ -2948,18 +2952,18 @@ Runs commands on one or more managed instances.
 - `service_role_arn`: The ARN of the Identity and Access Management (IAM) service role to
   use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run
   Command commands.
-- `targets`: An array of search criteria that targets instances using a Key,Value
+- `targets`: An array of search criteria that targets managed nodes using a Key,Value
   combination that you specify. Specifying targets is most useful when you want to send a
-  command to a large number of instances at once. Using Targets, which accepts tag key-value
-  pairs to identify instances, you can send a command to tens, hundreds, or thousands of
-  instances at once. To send a command to a smaller number of instances, you can use the
-  InstanceIds option instead. For more information about how to use targets, see Sending
-  commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+  command to a large number of managed nodes at once. Using Targets, which accepts tag
+  key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or
+  thousands of nodes at once. To send a command to a smaller number of managed nodes, you can
+  use the InstanceIds option instead. For more information about how to use targets, see
+  Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
 - `timeout_seconds`: If this time is reached and the command hasn't already started
   running, it won't run.
 """
 function send_command(DocumentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("SendCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2974,7 +2978,7 @@ troubleshooting associations.
 
 """
 function start_associations_once(AssociationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("StartAssociationsOnce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationIds"=>AssociationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3030,7 +3034,7 @@ Initiates execution of an Automation runbook.
   TargetParameterName.
 """
 function start_automation_execution(DocumentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("StartAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3081,14 +3085,14 @@ received.
   Key=Region,Value=us-east-2
 """
 function start_change_request_execution(DocumentName, Runbooks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("StartChangeRequestExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     start_session(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Initiates a connection to a target (for example, an instance) for a Session Manager
+Initiates a connection to a target (for example, a managed node) for a Session Manager
 session. Returns a URL and token that can be used to open a WebSocket connection for
 sending input and receiving outputs.  Amazon Web Services CLI usage: start-session is an
 interactive command that requires the Session Manager plugin to be installed on the client
@@ -3098,19 +3102,19 @@ Services Tools for PowerShell usage: Start-SSMSession isn't currently supported 
 Web Services Tools for PowerShell on Windows local machines.
 
 # Arguments
-- `target`: The instance to connect to for the session.
+- `target`: The managed node to connect to for the session.
 
 # Keyword Parameters
 - `document_name`: The name of the SSM document to define the parameters and plugin
   settings for the session. For example, SSM-SessionManagerRunShell. You can call the
   GetDocument API to verify the document exists before attempting to start a session. If no
-  document name is provided, a shell to the instance is launched by default.
+  document name is provided, a shell to the managed node is launched by default.
 - `parameters`: Reserved for future use.
 - `reason`: The reason for connecting to the instance. This value is included in the
   details for the Amazon CloudWatch Events event created when you start the session.
 """
 function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("StartSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3127,7 +3131,7 @@ Stop an Automation that is currently running.
   The default type is Cancel.
 """
 function stop_automation_execution(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("StopAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3135,14 +3139,14 @@ end
     terminate_session(session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently ends a session and closes the data connection between the Session Manager
-client and SSM Agent on the instance. A terminated session isn't be resumed.
+client and SSM Agent on the managed node. A terminated session isn't be resumed.
 
 # Arguments
 - `session_id`: The ID of the session to terminate.
 
 """
 function terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("TerminateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3159,7 +3163,7 @@ Remove a label or labels from a parameter.
 
 """
 function unlabel_parameter_version(Labels, Name, ParameterVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UnlabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3205,27 +3209,27 @@ the association immediately runs against the specified targets.
 - `max_concurrency`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
-  same time. If a new instance starts and attempts to run an association while Systems
+  same time. If a new managed node starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
-  the next association interval, the new instance will process its association within the
+  the next association interval, the new managed node will process its association within the
   limit specified for MaxConcurrency.
 - `max_errors`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
   received. If you specify 0, then the system stops sending requests after the first error is
-  returned. If you run an association on 50 instances and set MaxError to 10%, then the
+  returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the
   system stops sending the request when the sixth error is received. Executions that are
   already running an association when MaxErrors is reached are allowed to complete, but some
   of these executions may fail as well. If you need to ensure that there won't be more than
   max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a
   time.
 - `name`: The name of the SSM Command document or Automation runbook that contains the
-  configuration information for the instance. You can specify Amazon Web Services-predefined
-  documents, documents you created, or a document that is shared with you from another
-  account. For Systems Manager document (SSM document) that are shared with you from other
-  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
-  following format:  arn:aws:ssm:region:account-id:document/document-name   For example:
+  configuration information for the managed node. You can specify Amazon Web
+  Services-predefined documents, documents you created, or a document that is shared with you
+  from another account. For Systems Manager document (SSM document) that are shared with you
+  from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in
+  the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:
   arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
@@ -3250,7 +3254,7 @@ the association immediately runs against the specified targets.
 - `targets`: The targets of the association.
 """
 function update_association(AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3258,18 +3262,19 @@ end
     update_association_status(association_status, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the status of the Amazon Web Services Systems Manager document (SSM document)
-associated with the specified instance.  UpdateAssociationStatus is primarily used by the
-Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your
-associations and is only used for associations created with the InstanceId legacy parameter.
+associated with the specified managed node.  UpdateAssociationStatus is primarily used by
+the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about
+your associations and is only used for associations created with the InstanceId legacy
+parameter.
 
 # Arguments
 - `association_status`: The association status.
-- `instance_id`: The instance ID.
+- `instance_id`: The managed node ID.
 - `name`: The name of the SSM document.
 
 """
 function update_association_status(AssociationStatus, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationStatus"=>AssociationStatus, "InstanceId"=>InstanceId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3299,7 +3304,7 @@ Updates one or more values for an SSM document.
   versions of a document, and can't be changed.
 """
 function update_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3315,7 +3320,7 @@ Set the default version of a document.
 
 """
 function update_document_default_version(DocumentVersion, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateDocumentDefaultVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentVersion"=>DocumentVersion, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3333,7 +3338,7 @@ in Change Manager.
 - `document_version`: The version of a change template in which to update approval metadata.
 """
 function update_document_metadata(DocumentReviews, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateDocumentMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3382,7 +3387,7 @@ for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
   Zone Database on the IANA website.
 """
 function update_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3410,7 +3415,7 @@ field isn't modified.
 - `targets`: The targets to add or replace.
 """
 function update_maintenance_window_target(WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateMaintenanceWindowTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3481,13 +3486,14 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
   the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
   Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `targets`: The targets (either instances or tags) to modify. Instances are specified
-  using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using
-  the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for
-  maintenance window Run Command-type tasks. Depending on the task, targets are optional for
-  other maintenance window task types (Automation, Lambda, and Step Functions). For more
-  information about running tasks that don't specify targets, see Registering maintenance
-  window tasks without targets in the Amazon Web Services Systems Manager User Guide.
+- `targets`: The targets (either managed nodes or tags) to modify. Managed nodes are
+  specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are
+  specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be
+  specified for maintenance window Run Command-type tasks. Depending on the task, targets are
+  optional for other maintenance window task types (Automation, Lambda, and Step Functions).
+  For more information about running tasks that don't specify targets, see Registering
+  maintenance window tasks without targets in the Amazon Web Services Systems Manager User
+  Guide.
 - `task_arn`: The task ARN to modify.
 - `task_invocation_parameters`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.  When
@@ -3507,7 +3513,7 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
   characters
 """
 function update_maintenance_window_task(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3515,16 +3521,16 @@ end
     update_managed_instance_role(iam_role, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the Identity and Access Management (IAM) role that is assigned to the on-premises
-instance or virtual machines (VM). IAM roles are first assigned to these hybrid instances
-during the activation process. For more information, see CreateActivation.
+server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid
+nodes during the activation process. For more information, see CreateActivation.
 
 # Arguments
 - `iam_role`: The IAM role you want to assign or change.
-- `instance_id`: The ID of the managed instance where you want to update the role.
+- `instance_id`: The ID of the managed node where you want to update the role.
 
 """
 function update_managed_instance_role(IamRole, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateManagedInstanceRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3584,7 +3590,7 @@ User Guide.
   resource.
 """
 function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3602,7 +3608,7 @@ Application Manager.
 - `metadata_to_update`: Metadata to add to an OpsMetadata object.
 """
 function update_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3625,8 +3631,8 @@ operating system type, see PatchFilter.
 - `approved_patches_compliance_level`: Assigns a new compliance severity level to an
   existing patch baseline.
 - `approved_patches_enable_non_security`: Indicates whether the list of approved patches
-  includes non-security updates that should be applied to the instances. The default value is
-  false. Applies to Linux instances only.
+  includes non-security updates that should be applied to the managed nodes. The default
+  value is false. Applies to Linux managed nodes only.
 - `description`: A description of the patch baseline.
 - `global_filters`: A set of global filters used to include patches in the baseline.
 - `name`: The name of the patch baseline.
@@ -3645,11 +3651,11 @@ operating system type, see PatchFilter.
 - `replace`: If True, then all fields that are required by the CreatePatchBaseline
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.
-- `sources`: Information about the patches to use to update the instances, including target
-  operating systems and source repositories. Applies to Linux instances only.
+- `sources`: Information about the patches to use to update the managed nodes, including
+  target operating systems and source repositories. Applies to Linux managed nodes only.
 """
 function update_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3671,7 +3677,7 @@ SyncFromSource SyncType.
 
 """
 function update_resource_data_sync(SyncName, SyncSource, SyncType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName, "SyncSource"=>SyncSource, "SyncType"=>SyncType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3713,6 +3719,6 @@ service setting for the account.
 
 """
 function update_service_setting(SettingId, SettingValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm("UpdateServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId, "SettingValue"=>SettingValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

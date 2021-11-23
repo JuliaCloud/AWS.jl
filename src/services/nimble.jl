@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "X-Amz-Client-Token", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "principal_id" => "principalId", "states" => "states", "description" => "description", "name" => "name", "configuration" => "configuration", "ec2_security_group_ids" => "ec2SecurityGroupIds", "initialization_scripts" => "initializationScripts", "script_parameters" => "scriptParameters", "subtype" => "subtype", "eula_ids" => "eulaIds", "expiration_in_seconds" => "expirationInSeconds", "launch_profile_protocol_versions" => "launchProfileProtocolVersions", "stream_configuration" => "streamConfiguration", "studio_component_ids" => "studioComponentIds", "studio_encryption_configuration" => "studioEncryptionConfiguration", "admin_role_arn" => "adminRoleArn", "display_name" => "displayName", "user_role_arn" => "userRoleArn", "types" => "types", "created_by" => "createdBy", "owned_by" => "ownedBy", "session_ids" => "sessionIds", "owner" => "owner", "type" => "type", "ec2_instance_type" => "ec2InstanceType", "launch_profile_id" => "launchProfileId", "streaming_image_id" => "streamingImageId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "X-Amz-Client-Token", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "principal_id" => "principalId", "states" => "states", "description" => "description", "name" => "name", "configuration" => "configuration", "ec2_security_group_ids" => "ec2SecurityGroupIds", "initialization_scripts" => "initializationScripts", "script_parameters" => "scriptParameters", "subtype" => "subtype", "eula_ids" => "eulaIds", "expiration_in_seconds" => "expirationInSeconds", "launch_profile_protocol_versions" => "launchProfileProtocolVersions", "stream_configuration" => "streamConfiguration", "studio_component_ids" => "studioComponentIds", "studio_encryption_configuration" => "studioEncryptionConfiguration", "admin_role_arn" => "adminRoleArn", "display_name" => "displayName", "user_role_arn" => "userRoleArn", "types" => "types", "created_by" => "createdBy", "owned_by" => "ownedBy", "session_ids" => "sessionIds", "owner" => "owner", "type" => "type", "ec2_instance_type" => "ec2InstanceType", "launch_profile_id" => "launchProfileId", "streaming_image_id" => "streamingImageId")
 
 """
     accept_eulas(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ Accept EULAs.
 - `eula_ids`: The EULA ID.
 """
 function accept_eulas(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/eula-acceptances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ Create a launch profile.
   resource.
 """
 function create_launch_profile(ec2SubnetIds, launchProfileProtocolVersions, name, streamConfiguration, studioComponentIds, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ec2SubnetIds"=>ec2SubnetIds, "launchProfileProtocolVersions"=>launchProfileProtocolVersions, "name"=>name, "streamConfiguration"=>streamConfiguration, "studioComponentIds"=>studioComponentIds, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ Creates a streaming image resource in a studio.
   resource.
 """
 function create_streaming_image(ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-images", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ec2ImageId"=>ec2ImageId, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -99,7 +99,7 @@ GetStreamingSession until the streaming session is in state READY.
   resource.
 """
 function create_streaming_session(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -121,7 +121,7 @@ state READY.
 - `expiration_in_seconds`: The expiration time in seconds.
 """
 function create_streaming_session_stream(sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ studio will no longer be accessible.
   resource.
 """
 function create_studio(adminRoleArn, displayName, studioName, userRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminRoleArn"=>adminRoleArn, "displayName"=>displayName, "studioName"=>studioName, "userRoleArn"=>userRoleArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ Creates a studio component resource.
   resource.
 """
 function create_studio_component(name, studioId, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/studio-components", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ Permanently delete a launch profile.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -230,7 +230,7 @@ Delete a user from launch profile membership.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_launch_profile_member(launchProfileId, principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ Delete streaming image.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -270,7 +270,7 @@ count against your streaming session quota until it is marked DELETED.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -288,7 +288,7 @@ Delete a studio resource.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ Deletes a studio component resource.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -327,7 +327,7 @@ Delete a user from studio membership.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_member(principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/studios/$(studioId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -341,7 +341,7 @@ Get Eula.
 
 """
 function get_eula(eulaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/eulas/$(eulaId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -356,7 +356,7 @@ Get a launch profile.
 
 """
 function get_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +374,7 @@ description of streaming images that can be used with this launch profile.
 
 """
 function get_launch_profile_details(launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ Get a launch profile initialization.
 
 """
 function get_launch_profile_initialization(launchProfileId, launchProfileProtocolVersions, launchPurpose, platform, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("launchProfileProtocolVersions"=>launchProfileProtocolVersions, "launchPurpose"=>launchPurpose, "platform"=>platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -410,7 +410,7 @@ Get a user persona in launch profile membership.
 
 """
 function get_launch_profile_member(launchProfileId, principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -425,7 +425,7 @@ Get streaming image.
 
 """
 function get_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -441,7 +441,7 @@ while creating or deleting a session.
 
 """
 function get_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -460,7 +460,7 @@ streaming client.
 
 """
 function get_streaming_session_stream(sessionId, streamId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -474,7 +474,7 @@ Get a Studio resource.
 
 """
 function get_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ Gets a studio component resource.
 
 """
 function get_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ Get a user's membership in a studio.
 
 """
 function get_studio_member(principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/membership/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -522,7 +522,7 @@ List Eula Acceptances.
 - `next_token`: The token to request the next page of results.
 """
 function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/eula-acceptances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -536,7 +536,7 @@ List Eulas.
 - `next_token`: The token to request the next page of results.
 """
 function list_eulas(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/eulas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ Get all users in a given launch profile membership.
 - `next_token`: The token to request the next page of results.
 """
 function list_launch_profile_members(launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -574,7 +574,7 @@ List all the launch profiles a studio.
 - `states`: Filter this request to launch profiles in any of the given states.
 """
 function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/launch-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -593,7 +593,7 @@ in your studio.
 - `owner`: Filter this request to streaming images with the given owner
 """
 function list_streaming_images(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-images", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -612,7 +612,7 @@ Lists the streaming image resources in a studio.
 - `session_ids`: Filters the request to only the provided session IDs.
 """
 function list_streaming_sessions(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -631,7 +631,7 @@ Lists the StudioComponents in a studio.
 - `types`: Filters the request to studio components that are of one of the given types.
 """
 function list_studio_components(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/studio-components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -648,7 +648,7 @@ Get all users in a given studio membership.
 - `next_token`: The token to request the next page of results.
 """
 function list_studio_members(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios/$(studioId)/membership", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -662,7 +662,7 @@ Region.
 - `next_token`: The token to request the next page of results.
 """
 function list_studios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/studios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -681,7 +681,7 @@ yourself.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("GET", "/2020-08-01/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -702,7 +702,7 @@ Add/update users with given persona to launch profile membership.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function put_launch_profile_members(identityStoreId, launchProfileId, members, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -722,7 +722,7 @@ Add/update users with given persona to studio membership.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function put_studio_members(identityStoreId, members, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "members"=>members, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -742,7 +742,7 @@ state is the intermediate state between the STOPPED and READY states.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function start_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -766,7 +766,7 @@ console to add administrators and users to your studio.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function start_studio_ssoconfiguration_repair(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PUT", "/2020-08-01/studios/$(studioId)/sso-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -786,7 +786,7 @@ state is the intermediate state between the READY and STOPPED states.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function stop_streaming_session(sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +803,7 @@ Creates tags for a resource, given its ARN.
   resource.
 """
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("POST", "/2020-08-01/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -819,7 +819,7 @@ Deletes the tags for a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("DELETE", "/2020-08-01/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -845,7 +845,7 @@ Update a launch profile.
   be used with this launch profile.
 """
 function update_launch_profile(launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -867,7 +867,7 @@ Update a user persona in launch profile membership.
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function update_launch_profile_member(launchProfileId, persona, principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PATCH", "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("persona"=>persona, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -888,7 +888,7 @@ Update streaming image.
 - `name`: The name for the streaming image.
 """
 function update_streaming_image(streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PATCH", "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -912,7 +912,7 @@ of your studio.
   Studio portal.
 """
 function update_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PATCH", "/2020-08-01/studios/$(studioId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -940,6 +940,6 @@ Updates a studio component resource.
 - `type`: The type of the studio component.
 """
 function update_studio_component(studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return nimble("PATCH", "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

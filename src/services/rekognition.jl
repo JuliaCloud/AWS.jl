@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("face_match_threshold" => "FaceMatchThreshold", "max_faces" => "MaxFaces", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_by" => "SortBy", "quality_filter" => "QualityFilter", "attributes" => "Attributes", "dataset_source" => "DatasetSource", "filters" => "Filters", "detection_attributes" => "DetectionAttributes", "external_image_id" => "ExternalImageId", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "testing_data" => "TestingData", "training_data" => "TrainingData", "contains_labels" => "ContainsLabels", "has_errors" => "HasErrors", "labeled" => "Labeled", "source_ref_contains" => "SourceRefContains", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "notification_channel" => "NotificationChannel", "summarization_attributes" => "SummarizationAttributes", "human_loop_config" => "HumanLoopConfig", "min_confidence" => "MinConfidence", "project_names" => "ProjectNames", "face_attributes" => "FaceAttributes", "version_names" => "VersionNames", "similarity_threshold" => "SimilarityThreshold", "max_labels" => "MaxLabels")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("face_match_threshold" => "FaceMatchThreshold", "max_faces" => "MaxFaces", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_by" => "SortBy", "quality_filter" => "QualityFilter", "attributes" => "Attributes", "dataset_source" => "DatasetSource", "filters" => "Filters", "detection_attributes" => "DetectionAttributes", "external_image_id" => "ExternalImageId", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "testing_data" => "TestingData", "training_data" => "TrainingData", "contains_labels" => "ContainsLabels", "has_errors" => "HasErrors", "labeled" => "Labeled", "source_ref_contains" => "SourceRefContains", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "notification_channel" => "NotificationChannel", "summarization_attributes" => "SummarizationAttributes", "human_loop_config" => "HumanLoopConfig", "min_confidence" => "MinConfidence", "project_names" => "ProjectNames", "face_attributes" => "FaceAttributes", "version_names" => "VersionNames", "similarity_threshold" => "SimilarityThreshold", "max_labels" => "MaxLabels")
 
 """
     compare_faces(source_image, target_image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ as base64-encoded image bytes or as references to images in an Amazon S3 bucket.
 the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The
 image must be formatted as a PNG or JPEG file.  In response, the operation returns an array
 of face matches ordered by similarity score in descending order. For each face match, the
-response provides a bounding box of the face, facial landmarks, pose details (pitch, role,
+response provides a bounding box of the face, facial landmarks, pose details (pitch, roll,
 and yaw), quality (brightness and sharpness), and confidence value (indicating the level of
 confidence that the bounding box contains a face). The response also provides a similarity
 score, which indicates how closely the faces match.   By default, only faces with a
@@ -71,7 +71,7 @@ requires permissions to perform the rekognition:CompareFaces action.
   must meet to be included in the FaceMatches array.
 """
 function compare_faces(SourceImage, TargetImage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ operation.
 - `tags`:  A set of tags (key-value pairs) that you want to attach to the collection.
 """
 function create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ permission to perform the rekognition:ListDatasetEntries action.
   labeled images to the dataset, You can use the console or call UpdateDatasetEntries.
 """
 function create_dataset(DatasetType, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -147,7 +147,7 @@ rekognition:CreateProject action.
 
 """
 function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -202,7 +202,7 @@ the rekognition:CreateProjectVersion action.
   have any associated datasets.
 """
 function create_project_version(OutputConfig, ProjectArn, VersionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "VersionName"=>VersionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ the rekognition:TagResource operation.
 - `tags`:  A set of tags (key-value pairs) that you want to attach to the stream processor.
 """
 function create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -255,7 +255,7 @@ permissions to perform the rekognition:DeleteCollection action.
 
 """
 function delete_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,7 +276,7 @@ rekognition:DeleteDataset action.
 
 """
 function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ rekognition:DeleteFaces action.
 
 """
 function delete_faces(CollectionId, FaceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -312,7 +312,7 @@ action.
 
 """
 function delete_project(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -331,7 +331,7 @@ rekognition:DeleteProjectVersion action.
 
 """
 function delete_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ same name for a stream processor for a few seconds after calling DeleteStreamPro
 
 """
 function delete_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ Amazon Rekognition Developer Guide.
 
 """
 function describe_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -380,7 +380,7 @@ operation requires permissions to perform the rekognition:DescribeDataset action
 
 """
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -411,7 +411,7 @@ requires permissions to perform the rekognition:DescribeProjectVersions action.
   -21T09.10.15/1234567890123.
 """
 function describe_project_versions(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ requires permissions to perform the rekognition:DescribeProjects action.
   projects in your AWS account.
 """
 function describe_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DescribeProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -449,7 +449,7 @@ recognition being performed, and the current status of the stream processor.
 
 """
 function describe_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -497,7 +497,7 @@ Developer Guide.
   label.
 """
 function detect_custom_labels(Image, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -535,7 +535,7 @@ rekognition:DetectFaces action.
   attributes to return (in this case, all attributes).
 """
 function detect_faces(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -594,7 +594,7 @@ operation requires permissions to perform the rekognition:DetectLabels action.
   greater than or equal to 55 percent.
 """
 function detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +627,7 @@ either a PNG or JPEG formatted file.
   values greater than or equal to 50 percent.
 """
 function detect_moderation_labels(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +660,7 @@ rekognition:DetectProtectiveEquipment action.
 - `summarization_attributes`: An array of PPE types that you want to summarize.
 """
 function detect_protective_equipment(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -674,15 +674,15 @@ reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image byt
 supported. The image must be either a .png or .jpeg formatted file.  The DetectText
 operation returns text in an array of TextDetection elements, TextDetections. Each
 TextDetection element provides information about a single word or line of text that was
-detected in the image.  A word is one or more ISO basic latin script characters that are
-not separated by spaces. DetectText can detect up to 100 words in an image. A line is a
-string of equally spaced words. A line isn't necessarily a complete sentence. For example,
-a driver's license number is detected as a line. A line ends when there is no aligned text
-after it. Also, a line ends when there is a large gap between words, relative to the length
-of the words. This means, depending on the gap between words, Amazon Rekognition may detect
-multiple lines in text aligned in the same direction. Periods don't represent the end of a
-line. If a sentence spans multiple lines, the DetectText operation returns multiple lines.
-To determine whether a TextDetection element is a line of text or a word, use the
+detected in the image.  A word is one or more script characters that are not separated by
+spaces. DetectText can detect up to 100 words in an image. A line is a string of equally
+spaced words. A line isn't necessarily a complete sentence. For example, a driver's license
+number is detected as a line. A line ends when there is no aligned text after it. Also, a
+line ends when there is a large gap between words, relative to the length of the words.
+This means, depending on the gap between words, Amazon Rekognition may detect multiple
+lines in text aligned in the same direction. Periods don't represent the end of a line. If
+a sentence spans multiple lines, the DetectText operation returns multiple lines. To
+determine whether a TextDetection element is a line of text or a word, use the
 TextDetection object Type field.  To be detected, text must be within +/- 90 degrees
 orientation of the horizontal axis. For more information, see DetectText in the Amazon
 Rekognition Developer Guide.
@@ -699,7 +699,7 @@ Rekognition Developer Guide.
   be included in your response.
 """
 function detect_text(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ rekognition:DistributeDatasetEntries action.
 
 """
 function distribute_dataset_entries(Datasets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("DistributeDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Datasets"=>Datasets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -743,7 +743,7 @@ operation requires permissions to perform the rekognition:GetCelebrityInfo actio
 
 """
 function get_celebrity_info(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -797,7 +797,7 @@ returned from the previous call to GetCelebrityRecognition.
   recognized.
 """
 function get_celebrity_recognition(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -845,7 +845,7 @@ information, see Content moderation in the Amazon Rekognition Developer Guide.
   detection confidence. The default sort is by TIMESTAMP.
 """
 function get_content_moderation(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -880,7 +880,7 @@ parameter with the token value returned from the previous call to GetFaceDetecti
   this pagination token to retrieve the next set of faces.
 """
 function get_face_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -923,7 +923,7 @@ persons by specifying INDEX for the SORTBY input parameter.
   by the time that they are recognized. Use INDEX to sort by recognized faces.
 """
 function get_face_search(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -967,7 +967,7 @@ GetLabelDetection.
   confidence. The default sort is by TIMESTAMP.
 """
 function get_label_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1011,7 +1011,7 @@ parameter with the token value returned from the previous call to GetPersonTrack
   default sort is by TIMESTAMP.
 """
 function get_person_tracking(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1051,7 +1051,7 @@ the Amazon Rekognition Developer Guide.
   that you can use in the subsequent request to retrieve the next set of text.
 """
 function get_segment_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1089,7 +1089,7 @@ previous call to GetTextDetection.
   this pagination token to retrieve the next set of text.
 """
 function get_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1185,7 +1185,7 @@ rekognition:IndexFaces action.
   with version 3 of the face model or higher.
 """
 function index_faces(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1203,7 +1203,7 @@ rekognition:ListCollections action.
 - `next_token`: Pagination token from the previous response.
 """
 function list_collections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1245,7 +1245,7 @@ rekognition:ListDatasetEntries action.
   folder.
 """
 function list_dataset_entries(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1269,7 +1269,7 @@ Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
   can use this pagination token to retrieve the next set of results.
 """
 function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListDatasetLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1292,7 +1292,7 @@ rekognition:ListFaces action.
   pagination token to retrieve the next set of faces.
 """
 function list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1309,7 +1309,7 @@ Gets a list of stream processors that you have created with CreateStreamProcesso
   response. You can use this pagination token to retrieve the next set of stream processors.
 """
 function list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListStreamProcessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1326,7 +1326,7 @@ rekognition:ListTagsForResource action.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1362,7 +1362,7 @@ operation.
 
 """
 function recognize_celebrities(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1393,7 +1393,7 @@ permissions to perform the rekognition:SearchFaces action.
   of faces with the highest confidence in the match.
 """
 function search_faces(CollectionId, FaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1451,7 +1451,7 @@ permissions to perform the rekognition:SearchFacesByImage action.
   associated with version 3 of the face model or higher.
 """
 function search_faces_by_image(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1487,7 +1487,7 @@ more information, see Recognizing Celebrities in the Amazon Rekognition Develope
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_celebrity_recognition(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1532,7 +1532,7 @@ Rekognition Developer Guide.
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1570,7 +1570,7 @@ Video in the Amazon Rekognition Developer Guide.
   the AmazonRekognitionServiceRole permissions policy.
 """
 function start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1607,7 +1607,7 @@ call to StartFaceSearch. For more information, see procedure-person-search-video
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_face_search(CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1650,7 +1650,7 @@ from the initial call to StartLabelDetection.
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1684,7 +1684,7 @@ from the initial call to StartPersonTracking.
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1708,7 +1708,7 @@ rekognition:StartProjectVersion action.
 
 """
 function start_project_version(MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1750,7 +1750,7 @@ Segments in Stored Video in the Amazon Rekognition Developer Guide.
   are using the AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_segment_detection(SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1766,7 +1766,7 @@ the value of the Name field specified in the call to CreateStreamProcessor.
 
 """
 function start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1798,7 +1798,7 @@ initial call to StartTextDetection.
 - `notification_channel`:
 """
 function start_text_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1815,7 +1815,7 @@ status, call DescribeProjectVersions.
 
 """
 function stop_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1829,7 +1829,7 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 
 """
 function stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1847,7 +1847,7 @@ requires permissions to perform the rekognition:TagResource action.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1865,7 +1865,7 @@ rekognition:UntagResource action.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1895,6 +1895,6 @@ This operation requires permissions to perform the rekognition:UpdateDatasetEntr
 
 """
 function update_dataset_entries(Changes, DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return rekognition("UpdateDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

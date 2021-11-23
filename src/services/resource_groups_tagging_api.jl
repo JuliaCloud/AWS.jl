@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("pagination_token" => "PaginationToken", "group_by" => "GroupBy", "max_results" => "MaxResults", "region_filters" => "RegionFilters", "resource_type_filters" => "ResourceTypeFilters", "tag_key_filters" => "TagKeyFilters", "target_id_filters" => "TargetIdFilters", "exclude_compliant_resources" => "ExcludeCompliantResources", "include_compliance_details" => "IncludeComplianceDetails", "resource_arnlist" => "ResourceARNList", "resources_per_page" => "ResourcesPerPage", "tag_filters" => "TagFilters", "tags_per_page" => "TagsPerPage")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("pagination_token" => "PaginationToken", "group_by" => "GroupBy", "max_results" => "MaxResults", "region_filters" => "RegionFilters", "resource_type_filters" => "ResourceTypeFilters", "tag_key_filters" => "TagKeyFilters", "target_id_filters" => "TargetIdFilters", "exclude_compliant_resources" => "ExcludeCompliantResources", "include_compliance_details" => "IncludeComplianceDetails", "resource_arnlist" => "ResourceARNList", "resources_per_page" => "ResourcesPerPage", "tag_filters" => "TagFilters", "tags_per_page" => "TagsPerPage")
 
 """
     describe_report_creation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -15,7 +15,7 @@ only from the organization's management account and from the us-east-1 Region.
 
 """
 function describe_report_creation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("DescribeReportCreation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -65,7 +65,7 @@ results waiting to be returned.
   resources includes only resources with the specified target IDs.
 """
 function get_compliance_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("GetComplianceSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -151,7 +151,7 @@ returned.
   TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
 """
 function get_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("GetResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ waiting to be returned.
   request.
 """
 function get_tag_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("GetTagKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ no more results waiting to be returned.
   request.
 """
 function get_tag_values(Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("GetTagValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ Region.
 
 """
 function start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("StartReportCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -255,7 +255,7 @@ TagResources operation, you must have both of the following permissions:    tag:
 
 """
 function tag_resources(ResourceARNList, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("TagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,6 +285,6 @@ permissions:    tag:UntagResource     ec2:DeleteTags
 
 """
 function untag_resources(ResourceARNList, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return resource_groups_tagging_api("UntagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "limit" => "Limit", "next_token" => "NextToken", "account_aggregation_sources" => "AccountAggregationSources", "organization_aggregation_source" => "OrganizationAggregationSource", "tags" => "Tags", "update_status" => "UpdateStatus", "conformance_pack_names" => "ConformancePackNames", "compliance_types" => "ComplianceTypes", "config_rule_names" => "ConfigRuleNames", "include_deleted_resources" => "includeDeletedResources", "resource_ids" => "resourceIds", "resource_name" => "ResourceName", "organization_conformance_pack_names" => "OrganizationConformancePackNames", "conformance_pack_input_parameters" => "ConformancePackInputParameters", "delivery_s3_bucket" => "DeliveryS3Bucket", "delivery_s3_key_prefix" => "DeliveryS3KeyPrefix", "template_body" => "TemplateBody", "template_s3_uri" => "TemplateS3Uri", "configuration_recorder_names" => "ConfigurationRecorderNames", "resource_types" => "ResourceTypes", "delivery_channel_names" => "DeliveryChannelNames", "excluded_accounts" => "ExcludedAccounts", "organization_config_rule_names" => "OrganizationConfigRuleNames", "evaluations" => "Evaluations", "test_mode" => "TestMode", "compliance_type" => "ComplianceType", "expiration_time" => "ExpirationTime", "message" => "Message", "resource_type" => "ResourceType", "max_results" => "MaxResults", "group_by_key" => "GroupByKey", "resource_keys" => "ResourceKeys", "resource_id" => "ResourceId", "retention_configuration_names" => "RetentionConfigurationNames", "configuration_aggregator_names" => "ConfigurationAggregatorNames", "chronological_order" => "chronologicalOrder", "earlier_time" => "earlierTime", "later_time" => "laterTime", "organization_custom_rule_metadata" => "OrganizationCustomRuleMetadata", "organization_managed_rule_metadata" => "OrganizationManagedRuleMetadata")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "limit" => "Limit", "next_token" => "NextToken", "account_aggregation_sources" => "AccountAggregationSources", "organization_aggregation_source" => "OrganizationAggregationSource", "tags" => "Tags", "update_status" => "UpdateStatus", "conformance_pack_names" => "ConformancePackNames", "compliance_types" => "ComplianceTypes", "config_rule_names" => "ConfigRuleNames", "include_deleted_resources" => "includeDeletedResources", "resource_ids" => "resourceIds", "resource_name" => "ResourceName", "organization_conformance_pack_names" => "OrganizationConformancePackNames", "conformance_pack_input_parameters" => "ConformancePackInputParameters", "delivery_s3_bucket" => "DeliveryS3Bucket", "delivery_s3_key_prefix" => "DeliveryS3KeyPrefix", "template_body" => "TemplateBody", "template_s3_uri" => "TemplateS3Uri", "configuration_recorder_names" => "ConfigurationRecorderNames", "resource_types" => "ResourceTypes", "delivery_channel_names" => "DeliveryChannelNames", "excluded_accounts" => "ExcludedAccounts", "organization_config_rule_names" => "OrganizationConfigRuleNames", "evaluations" => "Evaluations", "test_mode" => "TestMode", "compliance_type" => "ComplianceType", "expiration_time" => "ExpirationTime", "message" => "Message", "resource_type" => "ResourceType", "max_results" => "MaxResults", "group_by_key" => "GroupByKey", "resource_keys" => "ResourceKeys", "resource_id" => "ResourceId", "retention_configuration_names" => "RetentionConfigurationNames", "configuration_aggregator_names" => "ConfigurationAggregatorNames", "chronological_order" => "chronologicalOrder", "earlier_time" => "earlierTime", "later_time" => "laterTime", "organization_custom_rule_metadata" => "OrganizationCustomRuleMetadata", "organization_managed_rule_metadata" => "OrganizationManagedRuleMetadata")
 
 """
     batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ resources.    The API does not return tags and relationships.
 
 """
 function batch_get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("BatchGetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifiers"=>ResourceIdentifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ section of the API response.
 
 """
 function batch_get_resource_config(resourceKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("BatchGetResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceKeys"=>resourceKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ specified region.
 
 """
 function delete_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -77,7 +77,7 @@ DescribeConfigRules request.
 
 """
 function delete_config_rule(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -92,7 +92,7 @@ aggregator.
 
 """
 function delete_configuration_aggregator(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ Config console until you create a new configuration recorder.
 
 """
 function delete_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ while it is in this state.
 
 """
 function delete_conformance_pack(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,7 +145,7 @@ configuration recorder by using the StopConfigurationRecorder action.
 
 """
 function delete_delivery_channel(DeliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannelName"=>DeliveryChannelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ against the rule.
 
 """
 function delete_evaluation_results(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteEvaluationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ complete. You cannot update a rule while it is in this state.
 
 """
 function delete_organization_config_rule(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ pack while it is in this state.
 
 """
 function delete_organization_conformance_pack(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ region.
 
 """
 function delete_pending_aggregation_request(RequesterAccountId, RequesterAwsRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeletePendingAggregationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequesterAccountId"=>RequesterAccountId, "RequesterAwsRegion"=>RequesterAwsRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ Deletes the remediation configuration.
 - `resource_type`: The type of a resource.
 """
 function delete_remediation_configuration(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteRemediationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -259,7 +259,7 @@ cleared.
 
 """
 function delete_remediation_exceptions(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,7 +276,7 @@ ConfigurationItems recorded for this resource in your Config History.
 
 """
 function delete_resource_config(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ Deletes the retention configuration.
 
 """
 function delete_retention_configuration(RetentionConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionConfigurationName"=>RetentionConfigurationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -305,7 +305,7 @@ Services Region.
 
 """
 function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeleteStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -324,7 +324,7 @@ successfully completed.   Notification of delivery failure, if the delivery fail
 
 """
 function deliver_config_snapshot(deliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DeliverConfigSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deliveryChannelName"=>deliveryChannelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ results are displayed on the next page.
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeAggregateComplianceByConfigRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -371,7 +371,7 @@ but if you have a nextToken, the results are displayed on the next page.
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_conformance_packs(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeAggregateComplianceByConformancePacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ Returns a list of authorizations granted to various aggregator accounts and regi
   next page of results in a paginated response.
 """
 function describe_aggregation_authorizations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeAggregationAuthorizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ results. This can occur if the resources were deleted or removed from the rule's
   next page of results in a paginated response.
 """
 function describe_compliance_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeComplianceByConfigRule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ the resources were deleted or removed from the rule's scope.
   resource type is an Amazon Web Services account by specifying AWS::::Account.
 """
 function describe_compliance_by_resource(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeComplianceByResource", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -476,7 +476,7 @@ invoke the rule, and the related error for the last failure.
   next page of results in a paginated response.
 """
 function describe_config_rule_evaluation_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigRuleEvaluationStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -492,7 +492,7 @@ Returns details about your Config rules.
   next page of results in a paginated response.
 """
 function describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ or message.
   value OUTDATED indicates the data is not the most recent.
 """
 function describe_configuration_aggregator_sources_status(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigurationAggregatorSourcesStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -536,7 +536,7 @@ aggregators associated with the account.
   next page of results in a paginated response.
 """
 function describe_configuration_aggregators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigurationAggregators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ per region in your account.
   associated with the account.
 """
 function describe_configuration_recorder_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigurationRecorderStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -570,7 +570,7 @@ per region in your account.
 - `configuration_recorder_names`: A list of configuration recorder names.
 """
 function describe_configuration_recorders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConfigurationRecorders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -591,7 +591,7 @@ rule names.
   the next page of results in a paginated response.
 """
 function describe_conformance_pack_compliance(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConformancePackCompliance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -608,7 +608,7 @@ packs then you will see an empty result.
   the next page of results in a paginated response.
 """
 function describe_conformance_pack_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConformancePackStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -626,7 +626,7 @@ Returns a list of one or more conformance packs.
   the next page of results in a paginated response.
 """
 function describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeConformancePacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ account.
 - `delivery_channel_names`: A list of delivery channel names.
 """
 function describe_delivery_channel_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeDeliveryChannelStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -657,7 +657,7 @@ account.  Currently, you can specify only one delivery channel per region in you
 - `delivery_channel_names`: A list of delivery channel names.
 """
 function describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeDeliveryChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -681,7 +681,7 @@ organization config rules.
   organization Config rules.
 """
 function describe_organization_config_rule_statuses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeOrganizationConfigRuleStatuses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -703,7 +703,7 @@ organization config rules.
   organization config rules.
 """
 function describe_organization_config_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeOrganizationConfigRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -727,7 +727,7 @@ when you request all the organization conformance packs.
   all your organization conformance packs.
 """
 function describe_organization_conformance_pack_statuses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeOrganizationConformancePackStatuses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -748,7 +748,7 @@ all the organization conformance packs.
   conformance pack.
 """
 function describe_organization_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeOrganizationConformancePacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -764,7 +764,7 @@ Returns a list of all pending aggregation requests.
   next page of results in a paginated response.
 """
 function describe_pending_aggregation_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribePendingAggregationRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -779,7 +779,7 @@ Returns the details of one or more remediation configurations.
 
 """
 function describe_remediation_configurations(ConfigRuleNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleNames"=>ConfigRuleNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -808,7 +808,7 @@ request resources in batch. It is only applicable, when you request all resource
   exceptions for 3 resource keys.
 """
 function describe_remediation_exceptions(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -832,7 +832,7 @@ paginated response.
   element in the list consists of the resource type and resource ID.
 """
 function describe_remediation_execution_status(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeRemediationExecutionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -853,7 +853,7 @@ in your account.
   configuration per region in your account.
 """
 function describe_retention_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("DescribeRetentionConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -883,7 +883,7 @@ displayed on the next page.
   next page of results in a paginated response.
 """
 function get_aggregate_compliance_details_by_config_rule(AccountId, AwsRegion, ConfigRuleName, ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetAggregateComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "AwsRegion"=>AwsRegion, "ConfigRuleName"=>ConfigRuleName, "ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +907,7 @@ nextToken, the results are displayed on the next page.
   next page of results in a paginated response.
 """
 function get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -933,7 +933,7 @@ empty result page, but if you have a nextToken, the results are displayed on the
   next page of results in a paginated response.
 """
 function get_aggregate_conformance_pack_compliance_summary(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetAggregateConformancePackComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -960,7 +960,7 @@ accounts that are present in your aggregator.
   next page of results in a paginated response.
 """
 function get_aggregate_discovered_resource_counts(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetAggregateDiscoveredResourceCounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -976,7 +976,7 @@ source account and region.
 
 """
 function get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -999,7 +999,7 @@ evaluated, and whether each resource complies with the rule.
   next page of results in a paginated response.
 """
 function get_compliance_details_by_config_rule(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1023,7 +1023,7 @@ used, and whether the resource complies with each rule.
   next page of results in a paginated response.
 """
 function get_compliance_details_by_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetComplianceDetailsByResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1035,7 +1035,7 @@ Returns the number of Config rules that are compliant and noncompliant, up to a 
 
 """
 function get_compliance_summary_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetComplianceSummaryByConfigRule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1054,7 +1054,7 @@ maximum number returned is 100.
   AWS::::Account.
 """
 function get_compliance_summary_by_resource_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetComplianceSummaryByResourceType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1075,7 +1075,7 @@ are monitered by conformance pack.
   the next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_details(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetConformancePackComplianceDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1094,7 +1094,7 @@ results of all the rules in that conformance pack.
   next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_summary(ConformancePackNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetConformancePackComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackNames"=>ConformancePackNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1132,7 +1132,7 @@ the GetDiscoveredResourceCounts action.
   returned in the list of ResourceCount objects.
 """
 function get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetDiscoveredResourceCounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1154,7 +1154,7 @@ organization config rule.
   next page of results in a paginated response.
 """
 function get_organization_config_rule_detailed_status(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetOrganizationConfigRuleDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1176,7 +1176,7 @@ organization conformance pack.
   next page of results in a paginated response.
 """
 function get_organization_conformance_pack_detailed_status(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetOrganizationConformancePackDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1213,7 +1213,7 @@ nextToken.
   next page of results in a paginated response.
 """
 function get_resource_config_history(resourceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetResourceConfigHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1227,7 +1227,7 @@ Returns the details of a specific stored query.
 
 """
 function get_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("GetStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1255,7 +1255,7 @@ AWS::EC2::Instance then the API returns all the EC2 instance identifiers of acco
   next page of results in a paginated response.
 """
 function list_aggregate_discovered_resources(ConfigurationAggregatorName, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("ListAggregateDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1292,7 +1292,7 @@ nextToken parameter.
   specified type that it has discovered.
 """
 function list_discovered_resources(resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1308,7 +1308,7 @@ Services Region. The default is 100.
   the next page of results in a paginated response.
 """
 function list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("ListStoredQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1329,7 +1329,7 @@ List the tags for Config resource.
   next page of results in a paginated response.
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1348,7 +1348,7 @@ region.
 - `tags`: An array of tag object.
 """
 function put_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1382,7 +1382,7 @@ resource Configurations with Config in the Config Developer Guide.
 - `tags`: An array of tag object.
 """
 function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRule"=>ConfigRule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1412,7 +1412,7 @@ guide.
 - `tags`: An array of tag object.
 """
 function put_configuration_aggregator(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1432,7 +1432,7 @@ specified, the default is to record all supported resource types.
 
 """
 function put_configuration_recorder(ConfigurationRecorder; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorder"=>ConfigurationRecorder), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1465,7 +1465,7 @@ TemplateBody parameter.
    You must have access to read Amazon S3 bucket.
 """
 function put_conformance_pack(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1487,7 +1487,7 @@ delivery channel per region in your account.
 
 """
 function put_delivery_channel(DeliveryChannel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannel"=>DeliveryChannel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1512,7 +1512,7 @@ in every Lambda function that is invoked by an Config rule.
   value cannot be null.
 """
 function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutEvaluations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResultToken"=>ResultToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1529,7 +1529,7 @@ check when the name of the Config rule is provided.
 
 """
 function put_external_evaluation(ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutExternalEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1570,7 +1570,7 @@ OrganizationManagedRuleMetadata.
 - `organization_managed_rule_metadata`: An OrganizationManagedRuleMetadata object.
 """
 function put_organization_config_rule(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1615,7 +1615,7 @@ Config rules in each pack and 3 delegated administrator per organization.
   bucket.
 """
 function put_organization_conformance_pack(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1636,7 +1636,7 @@ conformance packs, and rules deployed by Amazon Web Services Security Hub.
 
 """
 function put_remediation_configurations(RemediationConfigurations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemediationConfigurations"=>RemediationConfigurations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1661,7 +1661,7 @@ exceptions blocks auto-remediation until the exception is cleared.
 - `message`: The message contains an explanation of the exception.
 """
 function put_remediation_exceptions(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1695,7 +1695,7 @@ configuration item.
 - `tags`: Tags associated with the resource.
 """
 function put_resource_config(Configuration, ResourceId, ResourceType, SchemaVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "SchemaVersionId"=>SchemaVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1714,7 +1714,7 @@ Currently, Config supports only one retention configuration per region in your a
 
 """
 function put_retention_configuration(RetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1736,7 +1736,7 @@ Region.
 - `tags`: A list of Tags object.
 """
 function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("PutStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StoredQuery"=>StoredQuery), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1767,7 +1767,7 @@ parameters, the default page size is set to 25.
   the next page of results in a paginated response.
 """
 function select_aggregate_resource_config(ConfigurationAggregatorName, Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("SelectAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1787,7 +1787,7 @@ about query components, see the  Query Components  section in the Config Develop
   the next page of results in a paginated response.
 """
 function select_resource_config(Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("SelectResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1816,7 +1816,7 @@ your IAM resources.   Your custom rule will still run periodic evaluations every
   for.
 """
 function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("StartConfigRulesEvaluation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1833,7 +1833,7 @@ channel to successfully start the configuration recorder.
 
 """
 function start_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("StartConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1854,7 +1854,7 @@ must complete before you can call the API again.
 
 """
 function start_remediation_execution(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("StartRemediationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1870,7 +1870,7 @@ record in your Amazon Web Services account.
 
 """
 function stop_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("StopConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1889,7 +1889,7 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1906,6 +1906,6 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return config_service("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

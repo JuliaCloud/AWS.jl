@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("artifacts" => "artifacts", "badge_enabled" => "badgeEnabled", "build_batch_config" => "buildBatchConfig", "cache" => "cache", "concurrent_build_limit" => "concurrentBuildLimit", "description" => "description", "encryption_key" => "encryptionKey", "environment" => "environment", "file_system_locations" => "fileSystemLocations", "logs_config" => "logsConfig", "queued_timeout_in_minutes" => "queuedTimeoutInMinutes", "secondary_artifacts" => "secondaryArtifacts", "secondary_source_versions" => "secondarySourceVersions", "secondary_sources" => "secondarySources", "service_role" => "serviceRole", "source" => "source", "source_version" => "sourceVersion", "tags" => "tags", "timeout_in_minutes" => "timeoutInMinutes", "vpc_config" => "vpcConfig", "resource_access_role" => "resourceAccessRole", "max_results" => "maxResults", "next_token" => "nextToken", "sort_by" => "sortBy", "sort_order" => "sortOrder", "filter" => "filter", "export_config" => "exportConfig", "max_line_coverage_percentage" => "maxLineCoveragePercentage", "min_line_coverage_percentage" => "minLineCoveragePercentage", "num_of_reports" => "numOfReports", "branch_filter" => "branchFilter", "build_type" => "buildType", "filter_groups" => "filterGroups", "artifacts_override" => "artifactsOverride", "build_status_config_override" => "buildStatusConfigOverride", "buildspec_override" => "buildspecOverride", "cache_override" => "cacheOverride", "certificate_override" => "certificateOverride", "compute_type_override" => "computeTypeOverride", "debug_session_enabled" => "debugSessionEnabled", "encryption_key_override" => "encryptionKeyOverride", "environment_type_override" => "environmentTypeOverride", "environment_variables_override" => "environmentVariablesOverride", "git_clone_depth_override" => "gitCloneDepthOverride", "git_submodules_config_override" => "gitSubmodulesConfigOverride", "idempotency_token" => "idempotencyToken", "image_override" => "imageOverride", "image_pull_credentials_type_override" => "imagePullCredentialsTypeOverride", "insecure_ssl_override" => "insecureSslOverride", "logs_config_override" => "logsConfigOverride", "privileged_mode_override" => "privilegedModeOverride", "queued_timeout_in_minutes_override" => "queuedTimeoutInMinutesOverride", "registry_credential_override" => "registryCredentialOverride", "report_build_status_override" => "reportBuildStatusOverride", "secondary_artifacts_override" => "secondaryArtifactsOverride", "secondary_sources_override" => "secondarySourcesOverride", "secondary_sources_version_override" => "secondarySourcesVersionOverride", "service_role_override" => "serviceRoleOverride", "source_auth_override" => "sourceAuthOverride", "source_location_override" => "sourceLocationOverride", "source_type_override" => "sourceTypeOverride", "timeout_in_minutes_override" => "timeoutInMinutesOverride", "build_batch_config_override" => "buildBatchConfigOverride", "build_timeout_in_minutes_override" => "buildTimeoutInMinutesOverride", "report_build_batch_status_override" => "reportBuildBatchStatusOverride", "project_name" => "projectName", "rotate_secret" => "rotateSecret", "delete_reports" => "deleteReports", "id" => "id", "retry_type" => "retryType", "should_overwrite" => "shouldOverwrite", "username" => "username")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("artifacts" => "artifacts", "badge_enabled" => "badgeEnabled", "build_batch_config" => "buildBatchConfig", "cache" => "cache", "concurrent_build_limit" => "concurrentBuildLimit", "description" => "description", "encryption_key" => "encryptionKey", "environment" => "environment", "file_system_locations" => "fileSystemLocations", "logs_config" => "logsConfig", "queued_timeout_in_minutes" => "queuedTimeoutInMinutes", "secondary_artifacts" => "secondaryArtifacts", "secondary_source_versions" => "secondarySourceVersions", "secondary_sources" => "secondarySources", "service_role" => "serviceRole", "source" => "source", "source_version" => "sourceVersion", "tags" => "tags", "timeout_in_minutes" => "timeoutInMinutes", "vpc_config" => "vpcConfig", "resource_access_role" => "resourceAccessRole", "max_results" => "maxResults", "next_token" => "nextToken", "sort_by" => "sortBy", "sort_order" => "sortOrder", "filter" => "filter", "export_config" => "exportConfig", "max_line_coverage_percentage" => "maxLineCoveragePercentage", "min_line_coverage_percentage" => "minLineCoveragePercentage", "num_of_reports" => "numOfReports", "branch_filter" => "branchFilter", "build_type" => "buildType", "filter_groups" => "filterGroups", "artifacts_override" => "artifactsOverride", "build_status_config_override" => "buildStatusConfigOverride", "buildspec_override" => "buildspecOverride", "cache_override" => "cacheOverride", "certificate_override" => "certificateOverride", "compute_type_override" => "computeTypeOverride", "debug_session_enabled" => "debugSessionEnabled", "encryption_key_override" => "encryptionKeyOverride", "environment_type_override" => "environmentTypeOverride", "environment_variables_override" => "environmentVariablesOverride", "git_clone_depth_override" => "gitCloneDepthOverride", "git_submodules_config_override" => "gitSubmodulesConfigOverride", "idempotency_token" => "idempotencyToken", "image_override" => "imageOverride", "image_pull_credentials_type_override" => "imagePullCredentialsTypeOverride", "insecure_ssl_override" => "insecureSslOverride", "logs_config_override" => "logsConfigOverride", "privileged_mode_override" => "privilegedModeOverride", "queued_timeout_in_minutes_override" => "queuedTimeoutInMinutesOverride", "registry_credential_override" => "registryCredentialOverride", "report_build_status_override" => "reportBuildStatusOverride", "secondary_artifacts_override" => "secondaryArtifactsOverride", "secondary_sources_override" => "secondarySourcesOverride", "secondary_sources_version_override" => "secondarySourcesVersionOverride", "service_role_override" => "serviceRoleOverride", "source_auth_override" => "sourceAuthOverride", "source_location_override" => "sourceLocationOverride", "source_type_override" => "sourceTypeOverride", "timeout_in_minutes_override" => "timeoutInMinutesOverride", "build_batch_config_override" => "buildBatchConfigOverride", "build_timeout_in_minutes_override" => "buildTimeoutInMinutesOverride", "report_build_batch_status_override" => "reportBuildBatchStatusOverride", "project_name" => "projectName", "rotate_secret" => "rotateSecret", "delete_reports" => "deleteReports", "id" => "id", "retry_type" => "retryType", "should_overwrite" => "shouldOverwrite", "username" => "username")
 
 """
     batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Deletes one or more builds.
 
 """
 function batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchDeleteBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -31,7 +31,7 @@ Retrieves information about one or more batch builds.
 
 """
 function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchGetBuildBatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -45,7 +45,7 @@ Gets information about one or more builds.
 
 """
 function batch_get_builds(ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchGetBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ Gets information about one or more build projects.
 
 """
 function batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchGetProjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -76,7 +76,7 @@ end
 
 """
 function batch_get_report_groups(reportGroupArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchGetReportGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArns"=>reportGroupArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ end
 
 """
 function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("BatchGetReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArns"=>reportArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -160,7 +160,7 @@ Creates a build project.
 - `vpc_config`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
 function create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -181,7 +181,7 @@ end
   tags.
 """
 function create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ CodeBuild. In the CodeBuild console, clear the Webhook box. For more information
   must pass. For a filter group to pass, each of its filters must pass.
 """
 function create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -227,7 +227,7 @@ Deletes a batch build.
 
 """
 function delete_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -241,7 +241,7 @@ end
 
 """
 function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -255,7 +255,7 @@ end
 
 """
 function delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ Deletes a report group. Before you delete a report group, you must delete its re
   reports, an exception is thrown.
 """
 function delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,7 +289,7 @@ end
 
 """
 function delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -303,7 +303,7 @@ end
 
 """
 function delete_source_credentials(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ change is pushed to the repository.
 
 """
 function delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ Retrieves one or more code coverage reports.
 - `sort_order`: Specifies if the results are sorted in ascending or descending order.
 """
 function describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DescribeCodeCoverages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -369,7 +369,7 @@ end
   next tokens are returned.
 """
 function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -397,7 +397,7 @@ Analyzes and accumulates test report values for the specified test reports.
   most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
 """
 function get_report_group_trend(reportGroupArn, trendField; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -411,7 +411,7 @@ end
 
 """
 function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
   not valid for other types of source providers or connections.
 """
 function import_source_credentials(authType, serverType, token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -451,7 +451,7 @@ Resets the cache for a project.
 
 """
 function invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("InvalidateProjectCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -471,7 +471,7 @@ Retrieves the identifiers of your build batches in the current region.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 function list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -492,7 +492,7 @@ Retrieves the identifiers of the build batches for a specific project.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 function list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListBuildBatchesForProject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -512,7 +512,7 @@ Gets a list of build IDs, with each build ID representing a single build.
   order by build ID.
 """
 function list_builds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +539,7 @@ identifier representing a single build.
   error.
 """
 function list_builds_for_project(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -550,7 +550,7 @@ Gets information about Docker images that are managed by CodeBuild.
 
 """
 function list_curated_environment_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListCuratedEnvironmentImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,7 +576,7 @@ build project.
   to specify the criterion to be used to list build project names.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -603,7 +603,7 @@ end
   Valid values are ASCENDING and DESCENDING.
 """
 function list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -629,7 +629,7 @@ end
   
 """
 function list_reports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -657,7 +657,7 @@ end
   order.
 """
 function list_reports_for_report_group(reportGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -684,7 +684,7 @@ end
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 function list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -712,7 +712,7 @@ users.
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 function list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListSharedReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -723,7 +723,7 @@ end
 
 """
 function list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("ListSourceCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -740,7 +740,7 @@ end
 
 """
 function put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ Restarts a build.
   change a parameter, CodeBuild returns a parameter mismatch error.
 """
 function retry_build(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -775,7 +775,7 @@ Restarts a failed batch build. Only batch builds that have failed can be retried
 - `retry_type`: Specifies the type of retry to perform.
 """
 function retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -890,7 +890,7 @@ Starts running a build.
   build project.
 """
 function start_build(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1002,7 +1002,7 @@ Starts a batch build for a project.
   the CodeBuild User Guide.
 """
 function start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1016,7 +1016,7 @@ Attempts to stop running a build.
 
 """
 function stop_build(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("StopBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1030,7 +1030,7 @@ Stops a running batch build.
 
 """
 function stop_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("StopBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1101,7 +1101,7 @@ Changes the settings of a build project.
 - `vpc_config`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
 function update_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1136,7 +1136,7 @@ downloaded.
   CloudWatch Logs and Amazon S3 artifacts for the project's builds.
 """
 function update_project_visibility(projectArn, projectVisibility; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("UpdateProjectVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1157,7 +1157,7 @@ end
   report group tags.
 """
 function update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1184,6 +1184,6 @@ for your repository, rotateSecret is ignored.
   rotateSecret is ignored.
 """
 function update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

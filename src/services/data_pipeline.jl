@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("parameter_values" => "parameterValues", "start_timestamp" => "startTimestamp", "cancel_active" => "cancelActive", "limit" => "limit", "marker" => "marker", "query" => "query", "hostname" => "hostname", "worker_group" => "workerGroup", "instance_identity" => "instanceIdentity", "parameter_objects" => "parameterObjects", "description" => "description", "tags" => "tags", "evaluate_expressions" => "evaluateExpressions", "version" => "version", "fields" => "fields", "error_id" => "errorId", "error_message" => "errorMessage", "error_stack_trace" => "errorStackTrace")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("parameter_values" => "parameterValues", "start_timestamp" => "startTimestamp", "cancel_active" => "cancelActive", "limit" => "limit", "marker" => "marker", "query" => "query", "hostname" => "hostname", "worker_group" => "workerGroup", "instance_identity" => "instanceIdentity", "parameter_objects" => "parameterObjects", "description" => "description", "tags" => "tags", "evaluate_expressions" => "evaluateExpressions", "version" => "version", "fields" => "fields", "error_id" => "errorId", "error_message" => "errorMessage", "error_stack_trace" => "errorStackTrace")
 
 """
     activate_pipeline(pipeline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ activate a finished pipeline, modify the end date for the pipeline and then acti
   resumes from the last completed execution.
 """
 function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("ActivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ Adds or modifies tags for the specified pipeline.
 
 """
 function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipelin
   AWS Data Pipeline Developer Guide.
 """
 function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ Optionally, you can specify the date and time to resume the pipeline.
   pipeline is deactivated after all running objects finish.
 """
 function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("DeactivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -109,7 +109,7 @@ by SetStatus can be resumed.
 
 """
 function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ definitions are composed of a set of fields that define the properties of the ob
   with the marker value from the previous call to retrieve the next set of results.
 """
 function describe_objects(objectIds, pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("DescribeObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,7 +152,7 @@ full pipeline definition instead of metadata about the pipeline, call GetPipelin
 
 """
 function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("DescribePipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineIds"=>pipelineIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ object. For example, a task runner can evaluate SQL queries stored in Amazon S3.
 
 """
 function evaluate_expression(expression, objectId, pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("EvaluateExpression", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ retrieve the pipeline definition that you provided using PutPipelineDefinition.
   definition that was activated.
 """
 function get_pipeline_definition(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("GetPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ Lists the pipeline identifiers for all active pipelines that you have permission
   with the marker value from the previous call to retrieve the next set of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ same workerGroup until it receives a response, and this can take up to 90 second
   service charges are applied to your pipeline.
 """
 function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("PollForTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workerGroup"=>workerGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ the GetPipelineDefinition action.
 - `parameter_values`: The parameter values used with the pipeline.
 """
 function put_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("PutPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +290,7 @@ conditions.
   fields in the object. These filters can be applied to components, instances, and attempts.
 """
 function query_objects(pipelineId, sphere; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("QueryObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -305,7 +305,7 @@ Removes existing tags from the specified pipeline.
 
 """
 function remove_tags(pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -331,7 +331,7 @@ call ReportTaskProgress every 60 seconds.
   object.
 """
 function report_task_progress(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("ReportTaskProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -358,7 +358,7 @@ has failed and restart a new instance.
   workerGroup; the string must be an exact, case-sensitive, match.
 """
 function report_task_runner_heartbeat(taskrunnerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskrunnerId"=>taskrunnerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -380,7 +380,7 @@ so returns InvalidRequestException.
 
 """
 function set_status(objectIds, pipelineId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("SetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -410,7 +410,7 @@ that are canceled by the web service during a call to ReportTaskProgress.
   used to display error information to the user. The web service does not parse this value.
 """
 function set_task_status(taskId, taskStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("SetTaskStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -430,6 +430,6 @@ without error.
 - `parameter_values`: The parameter values used with the pipeline.
 """
 function validate_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return data_pipeline("ValidatePipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

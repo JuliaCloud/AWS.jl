@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("engine" => "Engine", "language_code" => "LanguageCode", "lexicon_names" => "LexiconNames", "sample_rate" => "SampleRate", "speech_mark_types" => "SpeechMarkTypes", "text_type" => "TextType", "include_additional_language_codes" => "IncludeAdditionalLanguageCodes", "next_token" => "NextToken", "max_results" => "MaxResults", "status" => "Status", "output_s3_key_prefix" => "OutputS3KeyPrefix", "sns_topic_arn" => "SnsTopicArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("engine" => "Engine", "language_code" => "LanguageCode", "lexicon_names" => "LexiconNames", "sample_rate" => "SampleRate", "speech_mark_types" => "SpeechMarkTypes", "text_type" => "TextType", "include_additional_language_codes" => "IncludeAdditionalLanguageCodes", "next_token" => "NextToken", "max_results" => "MaxResults", "status" => "Status", "output_s3_key_prefix" => "OutputS3KeyPrefix", "sns_topic_arn" => "SnsTopicArn")
 
 """
     delete_lexicon(lexicon_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ Managing Lexicons.
 
 """
 function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("DELETE", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -54,7 +54,7 @@ voices.  This operation requires permissions to perform the polly:DescribeVoices
   operation. If present, this indicates where to continue the listing.
 """
 function describe_voices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("GET", "/v1/voices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ Region. For more information, see Managing Lexicons.
 
 """
 function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("GET", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ link to the S3 bucket containing the output of the task.
 
 """
 function get_speech_synthesis_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("GET", "/v1/synthesisTasks/$(TaskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -100,7 +100,7 @@ information, see Managing Lexicons.
   If present, indicates where to continue the list of lexicons.
 """
 function list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("GET", "/v1/lexicons", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ tasks that are completed.
 - `status`: Status of the speech synthesis tasks returned in a List operation
 """
 function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ available to the SynthesizeSpeech operation. For more information, see Managing 
 
 """
 function put_lexicon(Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("PUT", "/v1/lexicons/$(LexiconName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ synthesis task.
   plain text.
 """
 function start_speech_synthesis_task(OutputFormat, OutputS3BucketName, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("POST", "/v1/synthesisTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "OutputS3BucketName"=>OutputS3BucketName, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,6 +239,6 @@ used. For more information, see How it Works.
   is plain text. For more information, see Using SSML.
 """
 function synthesize_speech(OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return polly("POST", "/v1/speech", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

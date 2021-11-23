@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter" => "Filter", "granularity" => "Granularity", "sort_by" => "SortBy", "group_by" => "GroupBy", "max_results" => "MaxResults", "metrics" => "Metrics", "next_page_token" => "NextPageToken", "frequency" => "Frequency", "monitor_arn_list" => "MonitorArnList", "subscribers" => "Subscribers", "subscription_name" => "SubscriptionName", "threshold" => "Threshold", "search_string" => "SearchString", "tag_key" => "TagKey", "context" => "Context", "account_scope" => "AccountScope", "page_size" => "PageSize", "prediction_interval_level" => "PredictionIntervalLevel", "cost_category_name" => "CostCategoryName", "monitor_name" => "MonitorName", "default_value" => "DefaultValue", "split_charge_rules" => "SplitChargeRules", "configuration" => "Configuration", "next_token" => "NextToken", "data_type" => "DataType", "feedback" => "Feedback", "monitor_arn" => "MonitorArn", "total_impact" => "TotalImpact", "effective_on" => "EffectiveOn", "subscription_arn_list" => "SubscriptionArnList", "account_id" => "AccountId", "lookback_period_in_days" => "LookbackPeriodInDays", "payment_option" => "PaymentOption", "service_specification" => "ServiceSpecification", "term_in_years" => "TermInYears")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filter" => "Filter", "granularity" => "Granularity", "sort_by" => "SortBy", "group_by" => "GroupBy", "max_results" => "MaxResults", "metrics" => "Metrics", "next_page_token" => "NextPageToken", "frequency" => "Frequency", "monitor_arn_list" => "MonitorArnList", "subscribers" => "Subscribers", "subscription_name" => "SubscriptionName", "threshold" => "Threshold", "search_string" => "SearchString", "tag_key" => "TagKey", "context" => "Context", "account_scope" => "AccountScope", "page_size" => "PageSize", "prediction_interval_level" => "PredictionIntervalLevel", "cost_category_name" => "CostCategoryName", "monitor_name" => "MonitorName", "default_value" => "DefaultValue", "split_charge_rules" => "SplitChargeRules", "configuration" => "Configuration", "next_token" => "NextToken", "data_type" => "DataType", "feedback" => "Feedback", "monitor_arn" => "MonitorArn", "total_impact" => "TotalImpact", "effective_on" => "EffectiveOn", "subscription_arn_list" => "SubscriptionArnList", "account_id" => "AccountId", "lookback_period_in_days" => "LookbackPeriodInDays", "payment_option" => "PaymentOption", "service_specification" => "ServiceSpecification", "term_in_years" => "TermInYears")
 
 """
     create_anomaly_monitor(anomaly_monitor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ specification.
 
 """
 function create_anomaly_monitor(AnomalyMonitor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("CreateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyMonitor"=>AnomalyMonitor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,7 @@ threshold and a time frequency for receiving notifications.
 
 """
 function create_anomaly_subscription(AnomalySubscription; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("CreateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalySubscription"=>AnomalySubscription), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ Creates a new Cost Category with the requested name and rules.
   Cost Category values.
 """
 function create_cost_category_definition(Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ Deletes a cost anomaly monitor.
 
 """
 function delete_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("DeleteAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Deletes a cost anomaly subscription.
 
 """
 function delete_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("DeleteAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -99,7 +99,7 @@ categorized with this Cost Category.
 
 """
 function delete_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ EffectiveEnd is omitted in the response.
 - `effective_on`:  The date when the Cost Category was effective.
 """
 function describe_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ specified by the DateInterval object.
   estimated dollar impact greater than 200.
 """
 function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetAnomalies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DateInterval"=>DateInterval), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ list of cost anomaly monitor Amazon Resource Names (ARNs).
   page size.
 """
 function get_anomaly_monitors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ list of cost anomaly monitor Amazon Resource Names (ARNs).
 - `subscription_arn_list`: A list of cost anomaly subscription ARNs.
 """
 function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetAnomalySubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -231,7 +231,7 @@ see Quotas and restrictions in the Billing and Cost Management User Guide.
   page size.
 """
 function get_cost_and_usage(Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ User Guide.
   page size.
 """
 function get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ names and values are not associated with any cost, they will not be returned by 
   using SortBy, NextPageToken and SearchString are not supported.
 """
 function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetCostCategories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -355,7 +355,7 @@ forecast time period that you select, based on your past costs.
   prediction intervals.
 """
 function get_cost_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ search the dimension values for an arbitrary string.
   SortBy, NextPageToken and SearchString are not supported.
 """
 function get_dimension_values(Dimension, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ GetDimensionValues operation.
   Time    Supported values for SortOrder are ASCENDING or DESCENDING.
 """
 function get_reservation_coverage(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -533,7 +533,7 @@ instance family.
 - `term_in_years`: The reservation term that you want recommendations for.
 """
 function get_reservation_purchase_recommendation(Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -578,7 +578,7 @@ Currently, you can group only by SUBSCRIPTION_ID.
   SortOrder are ASCENDING or DESCENDING.
 """
 function get_reservation_utilization(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -608,7 +608,7 @@ Management User Guide.
   object.
 """
 function get_rightsizing_recommendation(Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -651,7 +651,7 @@ To determine valid values for a dimension, use the GetDimensionValues operation.
   ASCENDING or DESCENDING.
 """
 function get_savings_plans_coverage(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -687,7 +687,7 @@ Retrieves your request parameters, Savings Plan Recommendations Summary and Deta
   object.
 """
 function get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -719,7 +719,7 @@ You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimens
   DESCENDING.
 """
 function get_savings_plans_utilization(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ SavingsPlansArn.
   AmortizedUpfrontCommitment    Supported values for SortOrder are ASCENDING or DESCENDING.
 """
 function get_savings_plans_utilization_details(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -791,7 +791,7 @@ tag values for an arbitrary string.
 - `tag_key`: The key of the tag that you want to return values for.
 """
 function get_tags(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ forecast time period that you select, based on your past usage.
   prediction intervals.
 """
 function get_usage_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -850,7 +850,7 @@ pagination. The request can have a MaxResults range up to 100.
   page size.
 """
 function list_cost_category_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("ListCostCategoryDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +866,7 @@ Modifies the feedback property of a given cost anomaly.
 
 """
 function provide_anomaly_feedback(AnomalyId, Feedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("ProvideAnomalyFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyId"=>AnomalyId, "Feedback"=>Feedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -883,7 +883,7 @@ doesn'tt change anomalies detected in the past.
 - `monitor_name`: The new name for the cost anomaly monitor.
 """
 function update_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("UpdateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -903,7 +903,7 @@ Updates an existing cost anomaly monitor subscription.
 - `threshold`: The update to the threshold value for receiving notifications.
 """
 function update_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("UpdateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -926,6 +926,6 @@ categorization for the previous months.
   Cost Category values.
 """
 function update_cost_category_definition(CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

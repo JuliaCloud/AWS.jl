@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dry_run" => "DryRun", "usage_allocations" => "UsageAllocations", "usage_quantity" => "UsageQuantity", "nonce" => "Nonce")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("dry_run" => "DryRun", "usage_allocations" => "UsageAllocations", "usage_quantity" => "UsageQuantity", "nonce" => "Nonce")
 
 """
     batch_meter_usage(product_code, usage_records; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ allocations, to provide customers with usagedata split into buckets by tags that
 
 """
 function batch_meter_usage(ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ by tags that you define (or allow the customer to define).
 - `usage_quantity`: Consumption value for the hour. Defaults to 0 if not specified.
 """
 function meter_usage(ProductCode, Timestamp, UsageDimension; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ to perform entitlement checks at runtime.
   instance and guard against replay attacks.
 """
 function register_usage(ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -121,6 +121,6 @@ a CustomerIdentifier and product code.
 
 """
 function resolve_customer(RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

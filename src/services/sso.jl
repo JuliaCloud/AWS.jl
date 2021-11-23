@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "max_result", "next_token" => "next_token")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "max_result", "next_token" => "next_token")
 
 """
     get_role_credentials(account_id, role_name, x-amz-sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ Returns the STS short-term credentials for a given role name that is assigned to
 
 """
 function get_role_credentials(account_id, role_name, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ Lists all roles that are assigned to the user for a given AWS account.
   subsequent pages.
 """
 function list_account_roles(account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ User Guide. This operation returns a paginated response.
   the previous response output.
 """
 function list_accounts(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -76,6 +76,6 @@ Removes the client- and server-side session that is associated with the user.
 
 """
 function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

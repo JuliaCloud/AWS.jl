@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("custom_key_store_id" => "CustomKeyStoreId", "number_of_bytes" => "NumberOfBytes", "grant_tokens" => "GrantTokens", "message_type" => "MessageType", "limit" => "Limit", "marker" => "Marker", "cloud_hsm_cluster_id" => "CloudHsmClusterId", "key_store_password" => "KeyStorePassword", "new_custom_key_store_name" => "NewCustomKeyStoreName", "custom_key_store_name" => "CustomKeyStoreName", "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck", "customer_master_key_spec" => "CustomerMasterKeySpec", "description" => "Description", "key_spec" => "KeySpec", "key_usage" => "KeyUsage", "multi_region" => "MultiRegion", "origin" => "Origin", "policy" => "Policy", "tags" => "Tags", "destination_encryption_algorithm" => "DestinationEncryptionAlgorithm", "destination_encryption_context" => "DestinationEncryptionContext", "source_encryption_algorithm" => "SourceEncryptionAlgorithm", "source_encryption_context" => "SourceEncryptionContext", "source_key_id" => "SourceKeyId", "encryption_context" => "EncryptionContext", "expiration_model" => "ExpirationModel", "valid_to" => "ValidTo", "key_id" => "KeyId", "grant_id" => "GrantId", "grantee_principal" => "GranteePrincipal", "encryption_algorithm" => "EncryptionAlgorithm", "pending_window_in_days" => "PendingWindowInDays", "constraints" => "Constraints", "name" => "Name", "retiring_principal" => "RetiringPrincipal", "grant_token" => "GrantToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("custom_key_store_id" => "CustomKeyStoreId", "number_of_bytes" => "NumberOfBytes", "grant_tokens" => "GrantTokens", "message_type" => "MessageType", "limit" => "Limit", "marker" => "Marker", "cloud_hsm_cluster_id" => "CloudHsmClusterId", "key_store_password" => "KeyStorePassword", "new_custom_key_store_name" => "NewCustomKeyStoreName", "custom_key_store_name" => "CustomKeyStoreName", "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck", "customer_master_key_spec" => "CustomerMasterKeySpec", "description" => "Description", "key_spec" => "KeySpec", "key_usage" => "KeyUsage", "multi_region" => "MultiRegion", "origin" => "Origin", "policy" => "Policy", "tags" => "Tags", "destination_encryption_algorithm" => "DestinationEncryptionAlgorithm", "destination_encryption_context" => "DestinationEncryptionContext", "source_encryption_algorithm" => "SourceEncryptionAlgorithm", "source_encryption_context" => "SourceEncryptionContext", "source_key_id" => "SourceKeyId", "encryption_context" => "EncryptionContext", "expiration_model" => "ExpirationModel", "valid_to" => "ValidTo", "key_id" => "KeyId", "grant_id" => "GrantId", "grantee_principal" => "GranteePrincipal", "encryption_algorithm" => "EncryptionAlgorithm", "pending_window_in_days" => "PendingWindowInDays", "constraints" => "Constraints", "name" => "Name", "retiring_principal" => "RetiringPrincipal", "grant_token" => "GrantToken")
 
 """
     cancel_key_deletion(key_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
 
 """
 function cancel_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -68,7 +68,7 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 """
 function connect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ DeleteAlias     ListAliases     UpdateAlias
 
 """
 function create_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -155,7 +155,7 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 """
 function create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -243,7 +243,7 @@ Related operations:     ListGrants     ListRetirableGrants     RetireGrant     R
   Retiring and revoking grants in the Key Management Service Developer Guide.
 """
 function create_grant(GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -413,7 +413,7 @@ operations:     DescribeKey     ListKeys     ScheduleKeyDeletion
   can also be used to control access to a KMS key. For details, see Tagging Keys.
 """
 function create_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("CreateKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -494,7 +494,7 @@ permissions: kms:Decrypt (key policy)  Related operations:     Encrypt     Gener
   name and alias ARN, use ListAliases.
 """
 function decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -521,7 +521,7 @@ aliases in the Key Management Service Developer Guide.  Related operations:     
 
 """
 function delete_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -556,7 +556,7 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 """
 function delete_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -584,7 +584,7 @@ operations:     GetParametersForImport     ImportKeyMaterial
 
 """
 function delete_imported_key_material(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -630,7 +630,7 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
   received.
 """
 function describe_custom_key_stores(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DescribeCustomKeyStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
   Developer Guide.
 """
 function describe_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +706,7 @@ a different Amazon Web Services account.  Required permissions: kms:DisableKey (
 
 """
 function disable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -733,7 +733,7 @@ account.  Required permissions: kms:DisableKeyRotation (key policy)  Related ope
 
 """
 function disable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -762,7 +762,7 @@ DescribeCustomKeyStores     UpdateCustomKeyStore
 
 """
 function disconnect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -784,7 +784,7 @@ kms:EnableKey (key policy)  Related operations: DisableKey
 
 """
 function enable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -812,7 +812,7 @@ DisableKeyRotation     GetKeyRotationStatus
 
 """
 function enable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -891,7 +891,7 @@ operations:     Decrypt     GenerateDataKey     GenerateDataKeyPair
   Developer Guide.
 """
 function encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -969,7 +969,7 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
   or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
 """
 function generate_data_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1043,7 +1043,7 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
   Developer Guide.
 """
 function generate_data_key_pair(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1110,7 +1110,7 @@ Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyWithoutPl
   Developer Guide.
 """
 function generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1179,7 +1179,7 @@ Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyPairWitho
   256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
 """
 function generate_data_key_without_plaintext(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1202,7 +1202,7 @@ Cryptographic Details.  Required permissions: kms:GenerateRandom (IAM policy)
 - `number_of_bytes`: The length of the byte string.
 """
 function generate_random(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GenerateRandom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1223,7 +1223,7 @@ permissions: kms:GetKeyPolicy (key policy)  Related operations: PutKeyPolicy
 
 """
 function get_key_policy(KeyId, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1255,7 +1255,7 @@ DisableKeyRotation     EnableKeyRotation
 
 """
 function get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1295,7 +1295,7 @@ operations:     ImportKeyMaterial     DeleteImportedKeyMaterial
 
 """
 function get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1348,7 +1348,7 @@ CreateKey
   Developer Guide.
 """
 function get_public_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1411,7 +1411,7 @@ GetParametersForImport
   Otherwise it is required.
 """
 function import_key_material(EncryptedKeyMaterial, ImportToken, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1450,7 +1450,7 @@ CreateAlias     DeleteAlias     UpdateAlias
   received.
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1492,7 +1492,7 @@ operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGr
   received.
 """
 function list_grants(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1522,7 +1522,7 @@ kms:ListKeyPolicies (key policy)  Related operations:     GetKeyPolicy     PutKe
   received.
 """
 function list_key_policies(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1544,7 +1544,7 @@ Web Services account.  Required permissions: kms:ListKeys (IAM policy)  Related 
   received.
 """
 function list_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1575,7 +1575,7 @@ operations:     CreateKey     ReplicateKey     TagResource     UntagResource
   truncated response you just received.
 """
 function list_resource_tags(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1616,7 +1616,7 @@ RevokeGrant
   received.
 """
 function list_retirable_grants(RetiringPrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1663,7 +1663,7 @@ operations: GetKeyPolicy
   default value is false.
 """
 function put_key_policy(KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1779,7 +1779,7 @@ Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   ListAliases.
 """
 function re_encrypt(CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1887,7 +1887,7 @@ replica Region.    Related operations     CreateKey     UpdatePrimaryRegion
   Tagging Keys.
 """
 function replicate_key(KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ReplicateKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "ReplicaRegion"=>ReplicaRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1923,7 +1923,7 @@ ListRetirableGrants     RevokeGrant
   arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 function retire_grant(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("RetireGrant", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1955,7 +1955,7 @@ ListGrants     ListRetirableGrants     RetireGrant
 
 """
 function revoke_grant(GrantId, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2006,7 +2006,7 @@ account.  Required permissions: kms:ScheduleKeyDeletion (key policy)  Related op
   to 30.
 """
 function schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2067,7 +2067,7 @@ KeyId parameter.  Required permissions: kms:Sign (key policy)  Related operation
   enter DIGEST.
 """
 function sign(KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2103,7 +2103,7 @@ ListResourceTags     ReplicateKey     UntagResource
 
 """
 function tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2134,7 +2134,7 @@ TagResource
 
 """
 function untag_resource(KeyId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2179,7 +2179,7 @@ Related operations:     CreateAlias     DeleteAlias     ListAliases
 
 """
 function update_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2233,7 +2233,7 @@ DescribeCustomKeyStores     DisconnectCustomKeyStore
   account.
 """
 function update_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2256,7 +2256,7 @@ different Amazon Web Services account.   Required permissions: kms:UpdateKeyDesc
 
 """
 function update_key_description(Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2314,7 +2314,7 @@ key (in the replica key's Region). Include this permission in the replica key's 
 
 """
 function update_primary_region(KeyId, PrimaryRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("UpdatePrimaryRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PrimaryRegion"=>PrimaryRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2376,6 +2376,6 @@ permissions: kms:Verify (key policy)  Related operations: Sign
   verification operation can be compromised.
 """
 function verify(KeyId, Message, Signature, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

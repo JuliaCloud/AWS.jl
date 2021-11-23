@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "resource_id" => "ResourceId", "scalable_dimension" => "ScalableDimension", "scheduled_action_names" => "ScheduledActionNames", "resource_ids" => "ResourceIds", "policy_names" => "PolicyNames", "end_time" => "EndTime", "scalable_target_action" => "ScalableTargetAction", "schedule" => "Schedule", "start_time" => "StartTime", "timezone" => "Timezone", "max_capacity" => "MaxCapacity", "min_capacity" => "MinCapacity", "role_arn" => "RoleARN", "suspended_state" => "SuspendedState", "policy_type" => "PolicyType", "step_scaling_policy_configuration" => "StepScalingPolicyConfiguration", "target_tracking_scaling_policy_configuration" => "TargetTrackingScalingPolicyConfiguration")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "resource_id" => "ResourceId", "scalable_dimension" => "ScalableDimension", "scheduled_action_names" => "ScheduledActionNames", "resource_ids" => "ResourceIds", "policy_names" => "PolicyNames", "end_time" => "EndTime", "scalable_target_action" => "ScalableTargetAction", "schedule" => "Schedule", "start_time" => "StartTime", "timezone" => "Timezone", "max_capacity" => "MaxCapacity", "min_capacity" => "MinCapacity", "role_arn" => "RoleARN", "suspended_state" => "SuspendedState", "policy_type" => "PolicyType", "step_scaling_policy_configuration" => "StepScalingPolicyConfiguration", "target_tracking_scaling_policy_configuration" => "TargetTrackingScalingPolicyConfiguration")
 
 """
     delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -88,7 +88,7 @@ scaling policy in the Application Auto Scaling User Guide.
 
 """
 function delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
 
 """
 function delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -254,7 +254,7 @@ with it.
 
 """
 function deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ results using ResourceIds and ScalableDimension.
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scalable_targets(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DescribeScalableTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,7 +434,7 @@ ScalableDimension.
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_activities(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DescribeScalingActivities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ Application Auto Scaling User Guide.
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_policies(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -618,7 +618,7 @@ scheduled scaling in the Application Auto Scaling User Guide.
 - `scheduled_action_names`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("DescribeScheduledActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -731,7 +731,7 @@ scaling policies that were specified for the scalable target are deleted.
   are creating a policy and the policy type is TargetTrackingScaling.
 """
 function put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -844,7 +844,7 @@ scheduled actions that were specified for the scalable target are deleted.
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
 function put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("PutScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -974,6 +974,6 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   resuming scaling in the Application Auto Scaling User Guide.
 """
 function register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return application_auto_scaling("RegisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

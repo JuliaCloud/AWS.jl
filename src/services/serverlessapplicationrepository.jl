@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_items" => "maxItems", "next_token" => "nextToken", "semantic_version" => "semanticVersion", "home_page_url" => "homePageUrl", "labels" => "labels", "license_body" => "licenseBody", "license_url" => "licenseUrl", "readme_body" => "readmeBody", "readme_url" => "readmeUrl", "source_code_archive_url" => "sourceCodeArchiveUrl", "source_code_url" => "sourceCodeUrl", "spdx_license_id" => "spdxLicenseId", "template_body" => "templateBody", "template_url" => "templateUrl", "author" => "author", "description" => "description", "capabilities" => "capabilities", "change_set_name" => "changeSetName", "client_token" => "clientToken", "notification_arns" => "notificationArns", "parameter_overrides" => "parameterOverrides", "resource_types" => "resourceTypes", "rollback_configuration" => "rollbackConfiguration", "tags" => "tags", "template_id" => "templateId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_items" => "maxItems", "next_token" => "nextToken", "semantic_version" => "semanticVersion", "home_page_url" => "homePageUrl", "labels" => "labels", "license_body" => "licenseBody", "license_url" => "licenseUrl", "readme_body" => "readmeBody", "readme_url" => "readmeUrl", "source_code_archive_url" => "sourceCodeArchiveUrl", "source_code_url" => "sourceCodeUrl", "spdx_license_id" => "spdxLicenseId", "template_body" => "templateBody", "template_url" => "templateUrl", "author" => "author", "description" => "description", "capabilities" => "capabilities", "change_set_name" => "changeSetName", "client_token" => "clientToken", "notification_arns" => "notificationArns", "parameter_overrides" => "parameterOverrides", "resource_types" => "resourceTypes", "rollback_configuration" => "rollbackConfiguration", "tags" => "tags", "template_id" => "templateId")
 
 """
     create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -57,7 +57,7 @@ application version in the same call.
   results.
 """
 function create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -79,7 +79,7 @@ Creates an application version.
 - `template_url`: A link to the packaged AWS SAM template of your application.
 """
 function create_application_version(applicationId, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -159,7 +159,7 @@ Creates an AWS CloudFormation change set for the given application.
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
 function create_cloud_formation_change_set(applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -176,7 +176,7 @@ Creates an AWS CloudFormation template.
  https://semver.org/
 """
 function create_cloud_formation_template(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ Deletes the specified application.
 
 """
 function delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -206,7 +206,7 @@ Gets the specified application.
 - `semantic_version`: The semantic version of the application to get.
 """
 function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ Retrieves the policy for the application.
 
 """
 function get_application_policy(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -236,7 +236,7 @@ Gets the specified AWS CloudFormation template.
 
 """
 function get_cloud_formation_template(applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -254,7 +254,7 @@ Retrieves the list of applications nested in the containing application.
 - `semantic_version`: The semantic version of the application to get.
 """
 function list_application_dependencies(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -271,7 +271,7 @@ Lists versions for the specified application.
 - `next_token`: A token to specify where to start paginating.
 """
 function list_application_versions(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +285,7 @@ Lists applications owned by the requester.
 - `next_token`: A token to specify where to start paginating.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -304,7 +304,7 @@ operation, see
 
 """
 function put_application_policy(applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ organization's master account.
 
 """
 function unshare_application(applicationId, organizationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -346,6 +346,6 @@ Updates the specified application.
   detailed description of the application and how it works.Maximum size 5 MB
 """
 function update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("job_names" => "JobNames", "sample" => "Sample", "assume_control" => "AssumeControl", "configuration" => "Configuration", "encryption_key_arn" => "EncryptionKeyArn", "encryption_mode" => "EncryptionMode", "job_sample" => "JobSample", "log_subscription" => "LogSubscription", "max_capacity" => "MaxCapacity", "max_retries" => "MaxRetries", "timeout" => "Timeout", "validation_configurations" => "ValidationConfigurations", "data_catalog_outputs" => "DataCatalogOutputs", "database_outputs" => "DatabaseOutputs", "outputs" => "Outputs", "max_results" => "maxResults", "next_token" => "nextToken", "target_arn" => "targetArn", "recipe_version" => "recipeVersion", "format" => "Format", "format_options" => "FormatOptions", "path_options" => "PathOptions", "tags" => "Tags", "description" => "Description", "steps" => "Steps", "job_name" => "jobName", "client_session_id" => "ClientSessionId", "preview" => "Preview", "recipe_step" => "RecipeStep", "step_index" => "StepIndex", "view_frame" => "ViewFrame", "dataset_name" => "datasetName", "project_name" => "projectName", "recipe_reference" => "RecipeReference")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("job_names" => "JobNames", "sample" => "Sample", "assume_control" => "AssumeControl", "configuration" => "Configuration", "encryption_key_arn" => "EncryptionKeyArn", "encryption_mode" => "EncryptionMode", "job_sample" => "JobSample", "log_subscription" => "LogSubscription", "max_capacity" => "MaxCapacity", "max_retries" => "MaxRetries", "timeout" => "Timeout", "validation_configurations" => "ValidationConfigurations", "data_catalog_outputs" => "DataCatalogOutputs", "database_outputs" => "DatabaseOutputs", "outputs" => "Outputs", "max_results" => "maxResults", "next_token" => "nextToken", "target_arn" => "targetArn", "recipe_version" => "recipeVersion", "format" => "Format", "format_options" => "FormatOptions", "path_options" => "PathOptions", "tags" => "Tags", "description" => "Description", "steps" => "Steps", "job_name" => "jobName", "client_session_id" => "ClientSessionId", "preview" => "Preview", "recipe_step" => "RecipeStep", "step_index" => "StepIndex", "view_frame" => "ViewFrame", "dataset_name" => "datasetName", "project_name" => "projectName", "recipe_reference" => "RecipeReference")
 
 """
     batch_delete_recipe_version(recipe_versions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,7 +28,7 @@ LATEST_WORKING will be listed as partial failure in the response.
 
 """
 function batch_delete_recipe_version(RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -50,7 +50,7 @@ Creates a new DataBrew dataset.
 - `tags`: Metadata tags to apply to this dataset.
 """
 function create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -92,7 +92,7 @@ Creates a new job to analyze a dataset and create its data profile.
   profile job.
 """
 function create_profile_job(DatasetName, Name, OutputLocation, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -114,7 +114,7 @@ Creates a new DataBrew project.
 - `tags`: Metadata tags to apply to this project.
 """
 function create_project(DatasetName, Name, RecipeName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ Creates a new DataBrew recipe.
 - `tags`: Metadata tags to apply to this recipe.
 """
 function create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ recipe
   timeout period ends with a status of TIMEOUT.
 """
 function create_recipe_job(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -198,7 +198,7 @@ dataset.
 - `tags`: Metadata tags to apply to the ruleset.
 """
 function create_ruleset(Name, Rules, TargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/rulesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Rules"=>Rules, "TargetArn"=>TargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -219,7 +219,7 @@ and time, or at regular intervals.
 - `tags`: Metadata tags to apply to this schedule.
 """
 function create_schedule(CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ Deletes a dataset from DataBrew.
 
 """
 function delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/datasets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ Deletes the specified DataBrew job.
 
 """
 function delete_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/jobs/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -261,7 +261,7 @@ Deletes an existing DataBrew project.
 
 """
 function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/projects/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -277,7 +277,7 @@ Deletes a single version of a DataBrew recipe.
 
 """
 function delete_recipe_version(name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ Deletes a ruleset.
 
 """
 function delete_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/rulesets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -305,7 +305,7 @@ Deletes the specified DataBrew schedule.
 
 """
 function delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/schedules/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ Returns the definition of a specific DataBrew dataset.
 
 """
 function describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/datasets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -333,7 +333,7 @@ Returns the definition of a specific DataBrew job.
 
 """
 function describe_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/jobs/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +348,7 @@ Represents one run of a DataBrew job.
 
 """
 function describe_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/jobs/$(name)/jobRun/$(runId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,7 +362,7 @@ Returns the definition of a specific DataBrew project.
 
 """
 function describe_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/projects/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -379,7 +379,7 @@ Returns the definition of a specific DataBrew recipe corresponding to a particul
   the latest published version is returned.
 """
 function describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/recipes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ Retrieves detailed information about the ruleset.
 
 """
 function describe_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/rulesets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -407,7 +407,7 @@ Returns the definition of a specific DataBrew schedule.
 
 """
 function describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/schedules/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ Lists all of the DataBrew datasets.
 - `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -438,7 +438,7 @@ Lists all of the previous runs of a particular DataBrew job.
 - `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/jobs/$(name)/jobRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +458,7 @@ Lists all of the DataBrew jobs that are defined.
   those jobs that are associated with the specified project.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -472,7 +472,7 @@ Lists all of the DataBrew projects that are defined.
 - `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
 - `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ Lists all of the DataBrew recipes that are defined.
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
 function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/recipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ resource (dataset).
   resource.
 """
 function list_rulesets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/rulesets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -541,7 +541,7 @@ Lists the DataBrew schedules that are defined.
 - `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -556,7 +556,7 @@ Lists all the tags for a DataBrew resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,7 +573,7 @@ Publishes a new version of a DataBrew recipe.
   recipe.
 """
 function publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/recipes/$(name)/publishRecipe", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,7 +596,7 @@ Performs a recipe step within an interactive DataBrew session that's currently o
 - `view_frame`:
 """
 function send_project_session_action(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/projects/$(name)/sendProjectSessionAction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -610,7 +610,7 @@ Runs a DataBrew job.
 
 """
 function start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/jobs/$(name)/startJobRun", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +627,7 @@ Creates an interactive session, enabling you to manipulate data in a DataBrew pr
   if a different client is currently accessing the project.
 """
 function start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/projects/$(name)/startProjectSession", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ Stops a particular run of a job.
 
 """
 function stop_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -660,7 +660,7 @@ schedule.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -676,7 +676,7 @@ Removes metadata tags from a DataBrew resource.
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -696,7 +696,7 @@ Modifies the definition of an existing DataBrew dataset.
   of the dataset.
 """
 function update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -735,7 +735,7 @@ Modifies the definition of an existing profile job.
   profile job.
 """
 function update_profile_job(OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -752,7 +752,7 @@ Modifies the definition of an existing DataBrew project.
 - `sample`:
 """
 function update_project(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -770,7 +770,7 @@ Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
   action, and the conditions under which the action should succeed.
 """
 function update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/recipes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -804,7 +804,7 @@ Modifies the definition of an existing DataBrew recipe job.
   timeout period ends with a status of TIMEOUT.
 """
 function update_recipe_job(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -822,7 +822,7 @@ Updates specified ruleset.
 - `description`: The description of the ruleset.
 """
 function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/rulesets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -840,6 +840,6 @@ Modifies the definition of an existing DataBrew schedule.
 - `job_names`: The name or names of one or more jobs to be run for this schedule.
 """
 function update_schedule(CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

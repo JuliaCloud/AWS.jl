@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("cluster" => "cluster", "include" => "include", "family_prefix" => "familyPrefix", "max_results" => "maxResults", "next_token" => "nextToken", "sort" => "sort", "status" => "status", "configuration" => "configuration", "settings" => "settings", "principal_arn" => "principalArn", "container_instance" => "containerInstance", "capacity_providers" => "capacityProviders", "cluster_name" => "clusterName", "default_capacity_provider_strategy" => "defaultCapacityProviderStrategy", "tags" => "tags", "capacity_provider_strategy" => "capacityProviderStrategy", "deployment_configuration" => "deploymentConfiguration", "desired_count" => "desiredCount", "enable_execute_command" => "enableExecuteCommand", "force_new_deployment" => "forceNewDeployment", "health_check_grace_period_seconds" => "healthCheckGracePeriodSeconds", "network_configuration" => "networkConfiguration", "placement_constraints" => "placementConstraints", "placement_strategy" => "placementStrategy", "platform_version" => "platformVersion", "task_definition" => "taskDefinition", "effective_settings" => "effectiveSettings", "name" => "name", "value" => "value", "force" => "force", "attributes" => "attributes", "container_instance_arn" => "containerInstanceArn", "instance_identity_document" => "instanceIdentityDocument", "instance_identity_document_signature" => "instanceIdentityDocumentSignature", "platform_devices" => "platformDevices", "total_resources" => "totalResources", "version_info" => "versionInfo", "count" => "count", "enable_ecsmanaged_tags" => "enableECSManagedTags", "group" => "group", "launch_type" => "launchType", "overrides" => "overrides", "propagate_tags" => "propagateTags", "reference_id" => "referenceId", "started_by" => "startedBy", "container" => "container", "desired_status" => "desiredStatus", "family" => "family", "service_name" => "serviceName", "scheduling_strategy" => "schedulingStrategy", "client_token" => "clientToken", "deployment_controller" => "deploymentController", "load_balancers" => "loadBalancers", "role" => "role", "service_registries" => "serviceRegistries", "external_id" => "externalId", "scale" => "scale", "attachments" => "attachments", "containers" => "containers", "execution_stopped_at" => "executionStoppedAt", "managed_agents" => "managedAgents", "pull_started_at" => "pullStartedAt", "pull_stopped_at" => "pullStoppedAt", "reason" => "reason", "task" => "task", "clusters" => "clusters", "attribute_name" => "attributeName", "attribute_value" => "attributeValue", "cpu" => "cpu", "ephemeral_storage" => "ephemeralStorage", "execution_role_arn" => "executionRoleArn", "inference_accelerators" => "inferenceAccelerators", "ipc_mode" => "ipcMode", "memory" => "memory", "network_mode" => "networkMode", "pid_mode" => "pidMode", "proxy_configuration" => "proxyConfiguration", "requires_compatibilities" => "requiresCompatibilities", "runtime_platform" => "runtimePlatform", "task_role_arn" => "taskRoleArn", "volumes" => "volumes", "container_name" => "containerName", "exit_code" => "exitCode", "network_bindings" => "networkBindings", "runtime_id" => "runtimeId", "task_sets" => "taskSets", "filter" => "filter")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("cluster" => "cluster", "include" => "include", "family_prefix" => "familyPrefix", "max_results" => "maxResults", "next_token" => "nextToken", "sort" => "sort", "status" => "status", "configuration" => "configuration", "settings" => "settings", "principal_arn" => "principalArn", "container_instance" => "containerInstance", "capacity_providers" => "capacityProviders", "cluster_name" => "clusterName", "default_capacity_provider_strategy" => "defaultCapacityProviderStrategy", "tags" => "tags", "capacity_provider_strategy" => "capacityProviderStrategy", "deployment_configuration" => "deploymentConfiguration", "desired_count" => "desiredCount", "enable_execute_command" => "enableExecuteCommand", "force_new_deployment" => "forceNewDeployment", "health_check_grace_period_seconds" => "healthCheckGracePeriodSeconds", "network_configuration" => "networkConfiguration", "placement_constraints" => "placementConstraints", "placement_strategy" => "placementStrategy", "platform_version" => "platformVersion", "task_definition" => "taskDefinition", "effective_settings" => "effectiveSettings", "name" => "name", "value" => "value", "force" => "force", "attributes" => "attributes", "container_instance_arn" => "containerInstanceArn", "instance_identity_document" => "instanceIdentityDocument", "instance_identity_document_signature" => "instanceIdentityDocumentSignature", "platform_devices" => "platformDevices", "total_resources" => "totalResources", "version_info" => "versionInfo", "count" => "count", "enable_ecsmanaged_tags" => "enableECSManagedTags", "group" => "group", "launch_type" => "launchType", "overrides" => "overrides", "propagate_tags" => "propagateTags", "reference_id" => "referenceId", "started_by" => "startedBy", "container" => "container", "desired_status" => "desiredStatus", "family" => "family", "service_name" => "serviceName", "scheduling_strategy" => "schedulingStrategy", "client_token" => "clientToken", "deployment_controller" => "deploymentController", "load_balancers" => "loadBalancers", "role" => "role", "service_registries" => "serviceRegistries", "external_id" => "externalId", "scale" => "scale", "attachments" => "attachments", "containers" => "containers", "execution_stopped_at" => "executionStoppedAt", "managed_agents" => "managedAgents", "pull_started_at" => "pullStartedAt", "pull_stopped_at" => "pullStoppedAt", "reason" => "reason", "task" => "task", "clusters" => "clusters", "attribute_name" => "attributeName", "attribute_value" => "attributeValue", "cpu" => "cpu", "ephemeral_storage" => "ephemeralStorage", "execution_role_arn" => "executionRoleArn", "inference_accelerators" => "inferenceAccelerators", "ipc_mode" => "ipcMode", "memory" => "memory", "network_mode" => "networkMode", "pid_mode" => "pidMode", "proxy_configuration" => "proxyConfiguration", "requires_compatibilities" => "requiresCompatibilities", "runtime_platform" => "runtimePlatform", "task_role_arn" => "taskRoleArn", "volumes" => "volumes", "container_name" => "containerName", "exit_code" => "exitCode", "network_bindings" => "networkBindings", "runtime_id" => "runtimeId", "task_sets" => "taskSets", "filter" => "filter")
 
 """
     create_capacity_provider(auto_scaling_group_provider, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,7 +39,7 @@ to all accounts in the Amazon Web Services Regions that Fargate supports.
   against your tags per resource limit.
 """
 function create_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
   resource limit.
 """
 function create_cluster(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("CreateCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -327,7 +327,7 @@ number of running tasks for this service.
   CODE_DEPLOY deployment controllers.
 """
 function create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -395,7 +395,7 @@ Types in the Amazon Elastic Container Service Developer Guide.
   do not count against your tags per resource limit.
 """
 function create_task_set(cluster, service, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ account.
   for the authenticated user.
 """
 function delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -442,7 +442,7 @@ Deletes one or more custom attributes from an Amazon ECS resource.
   assumed.
 """
 function delete_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -467,7 +467,7 @@ PutClusterCapacityProviders or delete the cluster.
 
 """
 function delete_capacity_provider(capacityProvider; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -486,7 +486,7 @@ ListContainerInstances and deregister them with DeregisterContainerInstance.
 
 """
 function delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -517,7 +517,7 @@ or DRAINING status, you receive an error.
   tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
 """
 function delete_service(service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +539,7 @@ in the Amazon Elastic Container Service Developer Guide.
 - `force`: If true, you can delete a task set even if it hasn't been scaled down to zero.
 """
 function delete_task_set(cluster, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +579,7 @@ automatically deregistered when terminated).
   according to the settings on the load balancer or target group.
 """
 function deregister_container_instance(containerInstance; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +604,7 @@ persisting beyond the lifecycle of any associated tasks and services.
 
 """
 function deregister_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -633,7 +633,7 @@ Describes one or more of your capacity providers.
   only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 function describe_capacity_providers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeCapacityProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -654,7 +654,7 @@ Describes one or more of your clusters.
   specified, the metadata tags associated with the cluster are included.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -680,7 +680,7 @@ requested.
   included in the response.
 """
 function describe_container_instances(containerInstances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -703,7 +703,7 @@ Describes the specified services running in your cluster.
   included in the response.
 """
 function describe_services(services; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -726,7 +726,7 @@ active task or service references them.
   included in the response.
 """
 function describe_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -750,7 +750,7 @@ Deployment Types in the Amazon Elastic Container Service Developer Guide.
 - `task_sets`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
 function describe_task_sets(cluster, service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -772,7 +772,7 @@ Describes a specified task or tasks.
   included in the response.
 """
 function describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -792,7 +792,7 @@ of the agent.  Returns an endpoint for the Amazon ECS agent to poll for updates.
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 """
 function discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("DiscoverPollEndpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -813,7 +813,7 @@ Runs a command remotely on a container within a task.
   needs to be specified for tasks containing multiple containers.
 """
 function execute_command(command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ExecuteCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -848,7 +848,7 @@ Lists the account settings for a specified principal.
   an account setting name to use this parameter.
 """
 function list_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -884,7 +884,7 @@ instances in a cluster are running a Linux AMI (ecs.os-type=linux).
   items in a list and not for other programmatic purposes.
 """
 function list_attributes(targetType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -907,7 +907,7 @@ Returns a list of existing clusters.
   items in a list and not for other programmatic purposes.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -944,7 +944,7 @@ Service Developer Guide.
   default is to include container instances set to all states other than INACTIVE.
 """
 function list_container_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListContainerInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -974,7 +974,7 @@ scheduling strategy.
   results.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -990,7 +990,7 @@ List the tags for an Amazon ECS resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1028,7 +1028,7 @@ the familyPrefix parameter.
   subsequent request.
 """
 function list_task_definition_families(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListTaskDefinitionFamilies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1067,7 +1067,7 @@ parameter.
   constant in each subsequent request.
 """
 function list_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListTaskDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1114,7 +1114,7 @@ stopped tasks appear in the returned results for at least one hour.
   value limits the results to tasks that were started with that value.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1163,7 +1163,7 @@ Elastic Container Service Developer Guide.
   account settings set for them.
 """
 function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1186,7 +1186,7 @@ setting has been specified. Account settings are set on a per-Region basis.
 
 """
 function put_account_setting_default(name, value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1208,7 +1208,7 @@ Amazon Elastic Container Service Developer Guide.
   assumed.
 """
 function put_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1254,7 +1254,7 @@ a default strategy.
 
 """
 function put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1298,7 +1298,7 @@ available to place containers on.
   daemon that runs on the container instance.
 """
 function register_container_instance(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("RegisterContainerInstance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1458,7 +1458,7 @@ Service Developer Guide.
   use.
 """
 function register_task_definition(containerDefinitions, family; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1572,7 +1572,7 @@ time.
   resource limit.
 """
 function run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1634,7 +1634,7 @@ see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
   resource limit.
 """
 function start_task(containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1662,7 +1662,7 @@ Container Agent Configuration in the Amazon Elastic Container Service Developer 
   Up to 255 characters are allowed in this message.
 """
 function stop_task(task; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1680,7 +1680,7 @@ of the agent.  Sent to acknowledge that an attachment changed states.
   the attachment belongs to.
 """
 function submit_attachment_state_changes(attachments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1702,7 +1702,7 @@ of the agent.  Sent to acknowledge that a container changed states.
   container.
 """
 function submit_container_state_change(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("SubmitContainerStateChange", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1727,7 +1727,7 @@ of the agent.  Sent to acknowledge that a task changed states.
 - `task`: The task ID or full ARN of the task in the state change request.
 """
 function submit_task_state_change(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("SubmitTaskStateChange", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1757,7 +1757,7 @@ resource is deleted, the tags that are associated with that resource are deleted
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1774,7 +1774,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1790,7 +1790,7 @@ Modifies the parameters for a capacity provider.
 
 """
 function update_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1807,7 +1807,7 @@ Updates the cluster.
 - `settings`: The cluster settings for your cluster.
 """
 function update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1824,7 +1824,7 @@ Modifies the settings to use for a cluster.
 
 """
 function update_cluster_settings(cluster, settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1854,7 +1854,7 @@ Elastic Container Service Developer Guide.
   assumed.
 """
 function update_container_agent(containerInstance; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1907,7 +1907,7 @@ begin scheduling tasks on the instance again.
   assumed.
 """
 function update_container_instances_state(containerInstances, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2043,7 +2043,7 @@ tasks for this service.
   version is running.
 """
 function update_service(service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2065,7 +2065,7 @@ Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Gu
 
 """
 function update_service_primary_task_set(cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2087,6 +2087,6 @@ Service Developer Guide.
 
 """
 function update_task_set(cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

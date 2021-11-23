@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("progress" => "x-amz-Progress", "client_token" => "ClientToken", "description" => "Description", "encrypted" => "Encrypted", "kms_key_arn" => "KmsKeyArn", "parent_snapshot_id" => "ParentSnapshotId", "tags" => "Tags", "timeout" => "Timeout", "checksum" => "x-amz-Checksum", "checksum_aggregation_method" => "x-amz-Checksum-Aggregation-Method", "checksum_algorithm" => "x-amz-Checksum-Algorithm", "first_snapshot_id" => "firstSnapshotId", "max_results" => "maxResults", "next_token" => "pageToken", "starting_block_index" => "startingBlockIndex")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("progress" => "x-amz-Progress", "client_token" => "ClientToken", "description" => "Description", "encrypted" => "Encrypted", "kms_key_arn" => "KmsKeyArn", "parent_snapshot_id" => "ParentSnapshotId", "tags" => "Tags", "timeout" => "Timeout", "checksum" => "x-amz-Checksum", "checksum_aggregation_method" => "x-amz-Checksum-Aggregation-Method", "checksum_algorithm" => "x-amz-Checksum-Algorithm", "first_snapshot_id" => "firstSnapshotId", "max_results" => "maxResults", "next_token" => "pageToken", "starting_block_index" => "startingBlockIndex")
 
 """
     complete_snapshot(snapshot_id, x-amz-_changed_blocks_count; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,7 +30,7 @@ to a snapshot after it has been completed.
   supported algorithm is SHA256.
 """
 function complete_snapshot(snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
 
 """
 function get_snapshot_block(blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blockToken"=>blockToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ Store snapshots of the same volume/snapshot lineage.
   snapshots.
 """
 function list_changed_blocks(secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ Returns information about the blocks in an Amazon Elastic Block Store snapshot.
   response will start from this block index or the next valid block index in the snapshot.
 """
 function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("GET", "/snapshots/$(snapshotId)/blocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ snapshot must be aligned with 512-KiB sectors.
 - `progress`: The progress of the write process, as a percentage.
 """
 function put_snapshot_block(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,6 +180,6 @@ data to the snapshot.
   60 minutes.
 """
 function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ebs("POST", "/snapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeSize"=>VolumeSize, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

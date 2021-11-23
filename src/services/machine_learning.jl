@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("verbose" => "Verbose", "evaluation_name" => "EvaluationName", "mlmodel_name" => "MLModelName", "score_threshold" => "ScoreThreshold", "compute_statistics" => "ComputeStatistics", "data_source_name" => "DataSourceName", "eq" => "EQ", "filter_variable" => "FilterVariable", "ge" => "GE", "gt" => "GT", "le" => "LE", "limit" => "Limit", "lt" => "LT", "ne" => "NE", "next_token" => "NextToken", "prefix" => "Prefix", "sort_order" => "SortOrder", "parameters" => "Parameters", "recipe" => "Recipe", "recipe_uri" => "RecipeUri", "batch_prediction_name" => "BatchPredictionName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("verbose" => "Verbose", "evaluation_name" => "EvaluationName", "mlmodel_name" => "MLModelName", "score_threshold" => "ScoreThreshold", "compute_statistics" => "ComputeStatistics", "data_source_name" => "DataSourceName", "eq" => "EQ", "filter_variable" => "FilterVariable", "ge" => "GE", "gt" => "GT", "le" => "LE", "limit" => "Limit", "lt" => "LT", "ne" => "NE", "next_token" => "NextToken", "prefix" => "Prefix", "sort_order" => "SortOrder", "parameters" => "Parameters", "recipe" => "Recipe", "recipe_uri" => "RecipeUri", "batch_prediction_name" => "BatchPredictionName")
 
 """
     add_tags(resource_id, resource_type, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ AddTags updates the tag's value.
 
 """
 function add_tags(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -56,7 +56,7 @@ appears, the results are available in the location specified by the OutputUri pa
   BatchPredictionName can only use the UTF-8 character set.
 """
 function create_batch_prediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -109,7 +109,7 @@ Message attribute of the GetDataSource operation response.
 - `data_source_name`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_rds(DataSourceId, RDSData, RoleARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateDataSourceFromRDS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -167,7 +167,7 @@ required fields have the appropriate values.
 - `data_source_name`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_redshift(DataSourceId, DataSpec, RoleARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -212,7 +212,7 @@ combinations? The recipe provides answers to these questions.
 - `data_source_name`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_s3(DataSourceId, DataSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateDataSourceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -242,7 +242,7 @@ GetEvaluation operation to check progress of the evaluation during the creation 
 - `evaluation_name`: A user-supplied name or description of the Evaluation.
 """
 function create_evaluation(EvaluationDataSourceId, EvaluationId, MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -299,7 +299,7 @@ operations.
   specify a recipe or its URI, Amazon ML creates a default.
 """
 function create_mlmodel(MLModelId, MLModelType, TrainingDataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -314,7 +314,7 @@ that is, the location to send real-time prediction requests for the specified ML
 
 """
 function create_realtime_endpoint(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("CreateRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -331,7 +331,7 @@ DeleteBatchPrediction operation is irreversible.
 
 """
 function delete_batch_prediction(BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +348,7 @@ operation are irreversible.
 
 """
 function delete_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -365,7 +365,7 @@ operation are irreversible.
 
 """
 function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ irreversible.
 
 """
 function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,7 +396,7 @@ Deletes a real time endpoint of an MLModel.
 
 """
 function delete_realtime_endpoint(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +414,7 @@ it.
 
 """
 function delete_tags(ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -457,7 +457,7 @@ Returns a list of BatchPrediction operations that match the search criteria in t
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_batch_predictions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DescribeBatchPredictions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -497,7 +497,7 @@ Returns a list of DataSource that match the search criteria in the request.
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_data_sources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DescribeDataSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -539,7 +539,7 @@ Returns a list of DescribeEvaluations that match the search criteria in the requ
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_evaluations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DescribeEvaluations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -584,7 +584,7 @@ Returns a list of MLModel that match the search criteria in the request.
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_mlmodels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DescribeMLModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -599,7 +599,7 @@ Describes one or more of the tags for your Amazon ML object.
 
 """
 function describe_tags(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -614,7 +614,7 @@ information for a Batch Prediction request.
 
 """
 function get_batch_prediction(BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("GetBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -634,7 +634,7 @@ the DataSource to the normal format.
   If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
 """
 function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("GetDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +650,7 @@ Evaluation.
 
 """
 function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("GetEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -668,7 +668,7 @@ current status of the MLModel.  GetMLModel provides results in normal or verbose
   Recipe is returned. If false, Recipe is not returned.
 """
 function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("GetMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -686,7 +686,7 @@ the type of model requested.
 
 """
 function predict(MLModelId, PredictEndpoint, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("Predict", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -702,7 +702,7 @@ operation to view the contents of the updated data element.
 
 """
 function update_batch_prediction(BatchPredictionId, BatchPredictionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("UpdateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -719,7 +719,7 @@ the contents of the updated data element.
 
 """
 function update_data_source(DataSourceId, DataSourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +736,7 @@ view the contents of the updated data element.
 
 """
 function update_evaluation(EvaluationId, EvaluationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("UpdateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -758,6 +758,6 @@ operation to view the contents of the updated data element.
   MLModel, such as false.
 """
 function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return machine_learning("UpdateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

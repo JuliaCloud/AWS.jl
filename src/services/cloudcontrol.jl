@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("role_arn" => "RoleArn", "type_version_id" => "TypeVersionId", "client_token" => "ClientToken", "max_results" => "MaxResults", "next_token" => "NextToken", "resource_request_status_filter" => "ResourceRequestStatusFilter", "resource_model" => "ResourceModel")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("role_arn" => "RoleArn", "type_version_id" => "TypeVersionId", "client_token" => "ClientToken", "max_results" => "MaxResults", "next_token" => "NextToken", "resource_request_status_filter" => "ResourceRequestStatusFilter", "resource_model" => "ResourceModel")
 
 """
     cancel_resource_request(request_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ resource operations requests with a status of PENDING or IN_PROGRESS can be canc
 
 """
 function cancel_resource_request(RequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("CancelResourceRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestToken"=>RequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ using the RequestToken of the ProgressEvent type returned by CreateResource.
   version.
 """
 function create_resource(DesiredState, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("CreateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredState"=>DesiredState, "TypeName"=>TypeName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ using the RequestToken of the ProgressEvent returned by DeleteResource.
   version.
 """
 function delete_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("DeleteResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "TypeName"=>TypeName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ resources were provisioned using Cloud Control API.
   version.
 """
 function get_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("GetResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "TypeName"=>TypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ Control API User Guide.
 
 """
 function get_resource_request_status(RequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("GetResourceRequestStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestToken"=>RequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ days.
 - `resource_request_status_filter`: The filter criteria to apply to the requests returned.
 """
 function list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("ListResourceRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -225,7 +225,7 @@ Region, whether or not those resources were provisioned using Cloud Control API.
   version.
 """
 function list_resources(TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeName"=>TypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -278,6 +278,6 @@ Resource and property types reference in the Amazon Web Services CloudFormation 
   version.
 """
 function update_resource(Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudcontrol("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "PatchDocument"=>PatchDocument, "TypeName"=>TypeName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

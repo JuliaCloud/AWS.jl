@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("project_role" => "projectRole", "remote_access_allowed" => "remoteAccessAllowed", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "description", "name" => "name", "client_request_token" => "clientRequestToken", "source_code" => "sourceCode", "tags" => "tags", "toolchain" => "toolchain", "ssh_public_key" => "sshPublicKey", "delete_stack" => "deleteStack", "display_name" => "displayName", "email_address" => "emailAddress")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("project_role" => "projectRole", "remote_access_allowed" => "remoteAccessAllowed", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "description", "name" => "name", "client_request_token" => "clientRequestToken", "source_code" => "sourceCode", "tags" => "tags", "toolchain" => "toolchain", "ssh_public_key" => "sshPublicKey", "delete_stack" => "deleteStack", "display_name" => "displayName", "email_address" => "emailAddress")
 
 """
     associate_team_member(project_id, project_role, user_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ Adds an IAM user to the team for an AWS CodeStar project.
   key pair to remotely access project resources, for example Amazon EC2 instances.
 """
 function associate_team_member(projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("AssociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -53,7 +53,7 @@ included with the project request. If these are not provided, an empty project i
   If this parameter is specified, the request must also include the sourceCode parameter.
 """
 function create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ information appears to other users in AWS CodeStar.
   used along with the user's private key for SSH access.
 """
 function create_user_profile(displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -100,7 +100,7 @@ project, but does delete the IAM roles that allowed access to the project.
   deleting the project itself. Recommended for most use cases.
 """
 function delete_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -116,7 +116,7 @@ of that user, for example the history of commits made by that user.
 
 """
 function delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ Describes a project and its resources.
 
 """
 function describe_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("DescribeProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ Describes a user in AWS CodeStar and the user attributes across all projects.
 
 """
 function describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ from IAM.
 
 """
 function disassociate_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("DisassociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,7 +180,7 @@ Lists all projects in AWS CodeStar associated with your AWS account.
   results cannot be returned in one response.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +199,7 @@ Lists resources associated with a project in AWS CodeStar.
   be returned in one response.
 """
 function list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ Gets the tags for a project.
 - `next_token`: Reserved for future use.
 """
 function list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("ListTagsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ Lists all team members associated with a project.
   be returned in one response.
 """
 function list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("ListTeamMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ Lists all the user profiles configured for your AWS account in AWS CodeStar.
   be returned in one response.
 """
 function list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("ListUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ Adds tags to a project.
 
 """
 function tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("TagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -279,7 +279,7 @@ Removes tags from a project.
 
 """
 function untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("UntagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ Updates a project in AWS CodeStar.
 - `name`: The name of the project you want to update.
 """
 function update_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ resources.
   resources.
 """
 function update_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("UpdateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,6 +347,6 @@ other users in AWS CodeStar.
   used along with the user's private key for SSH access.
 """
 function update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return codestar("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

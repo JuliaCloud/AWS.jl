@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("accept" => "Accept", "content_type" => "Content-Type", "custom_attributes" => "X-Amzn-SageMaker-Custom-Attributes", "inference_id" => "X-Amzn-SageMaker-Inference-Id", "request_ttlseconds" => "X-Amzn-SageMaker-RequestTTLSeconds", "target_container_hostname" => "X-Amzn-SageMaker-Target-Container-Hostname", "target_model" => "X-Amzn-SageMaker-Target-Model", "target_variant" => "X-Amzn-SageMaker-Target-Variant")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("accept" => "Accept", "content_type" => "Content-Type", "custom_attributes" => "X-Amzn-SageMaker-Custom-Attributes", "inference_id" => "X-Amzn-SageMaker-Inference-Id", "request_ttlseconds" => "X-Amzn-SageMaker-RequestTTLSeconds", "target_container_hostname" => "X-Amzn-SageMaker-Target-Container-Hostname", "target_model" => "X-Amzn-SageMaker-Target-Model", "target_variant" => "X-Amzn-SageMaker-Target-Variant")
 
 """
     invoke_endpoint(body, endpoint_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -15,14 +15,15 @@ client applications use this API to get inferences from the model hosted at the 
 endpoint.  For an overview of Amazon SageMaker, see How It Works.  Amazon SageMaker strips
 all POST headers except those supported by the API. Amazon SageMaker might add additional
 headers. You should not rely on the behavior of headers outside those enumerated in the
-request syntax.  Calls to InvokeEndpoint are authenticated by using AWS Signature Version
-4. For information, see Authenticating Requests (AWS Signature Version 4) in the Amazon S3
-API Reference. A customer's model containers must respond to requests within 60 seconds.
-The model itself can have a maximum processing time of 60 seconds before responding to
-invocations. If your model is going to take 50-60 seconds of processing time, the SDK
-socket timeout should be set to be 70 seconds.  Endpoints are scoped to an individual
-account, and are not public. The URL does not contain the account ID, but Amazon SageMaker
-determines the account ID from the authentication token that is supplied by the caller.
+request syntax.  Calls to InvokeEndpoint are authenticated by using Amazon Web Services
+Signature Version 4. For information, see Authenticating Requests (Amazon Web Services
+Signature Version 4) in the Amazon S3 API Reference. A customer's model containers must
+respond to requests within 60 seconds. The model itself can have a maximum processing time
+of 60 seconds before responding to invocations. If your model is going to take 50-60
+seconds of processing time, the SDK socket timeout should be set to be 70 seconds.
+Endpoints are scoped to an individual account, and are not public. The URL does not contain
+the account ID, but Amazon SageMaker determines the account ID from the authentication
+token that is supplied by the caller.
 
 # Arguments
 - `body`: Provides input data, in the format specified in the ContentType request header.
@@ -44,8 +45,8 @@ determines the account ID from the authentication token that is supplied by the 
   custom attributes in the response. If your code does not set this value in the response, an
   empty value is returned. For example, if a custom attribute represents the trace ID, your
   model can prepend the custom attribute with Trace ID: in your post-processing function.
-  This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python
-  SDK.
+  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
+  SageMaker Python SDK.
 - `inference_id`: If you provide a value, it is added to the captured data when you enable
   data capture on the endpoint. For information about data capture, see Capture Data.
 - `target_container_hostname`: If the endpoint hosts multiple containers and is configured
@@ -58,7 +59,7 @@ determines the account ID from the authentication token that is supplied by the 
   perform a/b testing, see Test models in production
 """
 function invoke_endpoint(Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_runtime("POST", "/endpoints/$(EndpointName)/invocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,8 +75,9 @@ contain the result of the inference request but contain information about where 
 locate it. Amazon SageMaker strips all POST headers except those supported by the API.
 Amazon SageMaker might add additional headers. You should not rely on the behavior of
 headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are
-authenticated by using AWS Signature Version 4. For information, see Authenticating
-Requests (AWS Signature Version 4) in the Amazon S3 API Reference.
+authenticated by using Amazon Web Services Signature Version 4. For information, see
+Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon S3 API
+Reference.
 
 # Arguments
 - `endpoint_name`: The name of the endpoint that you specified when you created the
@@ -96,14 +98,14 @@ Requests (AWS Signature Version 4) in the Amazon S3 API Reference.
   custom attributes in the response. If your code does not set this value in the response, an
   empty value is returned. For example, if a custom attribute represents the trace ID, your
   model can prepend the custom attribute with Trace ID: in your post-processing function.
-  This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python
-  SDK.
+  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
+  SageMaker Python SDK.
 - `inference_id`: The identifier for the inference request. Amazon SageMaker will generate
   an identifier for you if none is specified.
 - `request_ttlseconds`: Maximum age in seconds a request can be in the queue before it is
   marked as expired.
 """
 function invoke_endpoint_async(EndpointName, X_Amzn_SageMaker_InputLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_runtime("POST", "/endpoints/$(EndpointName)/async-invocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amzn-SageMaker-InputLocation"=>X_Amzn_SageMaker_InputLocation)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

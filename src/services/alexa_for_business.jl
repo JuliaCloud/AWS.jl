@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("device_arn" => "DeviceArn", "gateway_group_arn" => "GatewayGroupArn", "max_results" => "MaxResults", "next_token" => "NextToken", "filters" => "Filters", "sort_criteria" => "SortCriteria", "client_request_token" => "ClientRequestToken", "email" => "Email", "first_name" => "FirstName", "last_name" => "LastName", "tags" => "Tags", "device_serial_number" => "DeviceSerialNumber", "room_arn" => "RoomArn", "enablement_type" => "EnablementType", "skill_group_arn" => "SkillGroupArn", "skill_type" => "SkillType", "description" => "Description", "name" => "Name", "profile_arn" => "ProfileArn", "provider_calendar_id" => "ProviderCalendarId", "room_name" => "RoomName", "time_to_live_in_seconds" => "TimeToLiveInSeconds", "ipdial_in" => "IPDialIn", "pstndial_in" => "PSTNDialIn", "display_name" => "DisplayName", "phone_number" => "PhoneNumber", "phone_numbers" => "PhoneNumbers", "sip_addresses" => "SipAddresses", "certificate_authority_arn" => "CertificateAuthorityArn", "current_password" => "CurrentPassword", "eap_method" => "EapMethod", "next_password" => "NextPassword", "trust_anchors" => "TrustAnchors", "user_arn" => "UserArn", "event_type" => "EventType", "recurrence" => "Recurrence", "s3_bucket_name" => "S3BucketName", "s3_key_prefix" => "S3KeyPrefix", "schedule_name" => "ScheduleName", "network_profile_name" => "NetworkProfileName", "data_retention_opt_in" => "DataRetentionOptIn", "locale" => "Locale", "max_volume_limit" => "MaxVolumeLimit", "meeting_room_configuration" => "MeetingRoomConfiguration", "pstnenabled" => "PSTNEnabled", "setup_mode_disabled" => "SetupModeDisabled", "skill_group_name" => "SkillGroupName", "device_name" => "DeviceName", "software_version" => "SoftwareVersion", "enrollment_id" => "EnrollmentId", "contact_email" => "ContactEmail", "private_skill_ids" => "PrivateSkillIds", "format" => "Format", "address" => "Address", "distance_unit" => "DistanceUnit", "is_default" => "IsDefault", "profile_name" => "ProfileName", "temperature_unit" => "TemperatureUnit", "timezone" => "Timezone", "wake_word" => "WakeWord")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("device_arn" => "DeviceArn", "gateway_group_arn" => "GatewayGroupArn", "max_results" => "MaxResults", "next_token" => "NextToken", "filters" => "Filters", "sort_criteria" => "SortCriteria", "client_request_token" => "ClientRequestToken", "email" => "Email", "first_name" => "FirstName", "last_name" => "LastName", "tags" => "Tags", "device_serial_number" => "DeviceSerialNumber", "room_arn" => "RoomArn", "enablement_type" => "EnablementType", "skill_group_arn" => "SkillGroupArn", "skill_type" => "SkillType", "description" => "Description", "name" => "Name", "profile_arn" => "ProfileArn", "provider_calendar_id" => "ProviderCalendarId", "room_name" => "RoomName", "time_to_live_in_seconds" => "TimeToLiveInSeconds", "ipdial_in" => "IPDialIn", "pstndial_in" => "PSTNDialIn", "display_name" => "DisplayName", "phone_number" => "PhoneNumber", "phone_numbers" => "PhoneNumbers", "sip_addresses" => "SipAddresses", "certificate_authority_arn" => "CertificateAuthorityArn", "current_password" => "CurrentPassword", "eap_method" => "EapMethod", "next_password" => "NextPassword", "trust_anchors" => "TrustAnchors", "user_arn" => "UserArn", "event_type" => "EventType", "recurrence" => "Recurrence", "s3_bucket_name" => "S3BucketName", "s3_key_prefix" => "S3KeyPrefix", "schedule_name" => "ScheduleName", "network_profile_name" => "NetworkProfileName", "data_retention_opt_in" => "DataRetentionOptIn", "locale" => "Locale", "max_volume_limit" => "MaxVolumeLimit", "meeting_room_configuration" => "MeetingRoomConfiguration", "pstnenabled" => "PSTNEnabled", "setup_mode_disabled" => "SetupModeDisabled", "skill_group_name" => "SkillGroupName", "device_name" => "DeviceName", "software_version" => "SoftwareVersion", "enrollment_id" => "EnrollmentId", "contact_email" => "ContactEmail", "private_skill_ids" => "PrivateSkillIds", "format" => "Format", "address" => "Address", "distance_unit" => "DistanceUnit", "is_default" => "IsDefault", "profile_name" => "ProfileName", "temperature_unit" => "TemperatureUnit", "timezone" => "Timezone", "wake_word" => "WakeWord")
 
 """
     approve_skill(skill_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ private, the user implicitly accepts access to this skill during enablement.
 
 """
 function approve_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ApproveSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -33,7 +33,7 @@ Associates a contact with a given address book.
 
 """
 function associate_contact_with_address_book(AddressBookArn, ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ Associates a device with the specified network profile.
 
 """
 function associate_device_with_network_profile(DeviceArn, NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ requires the device to be online, or else a manual sync is required.
 - `room_arn`: The ARN of the room with which to associate the device. Required.
 """
 function associate_device_with_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateDeviceWithRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -79,7 +79,7 @@ group on all devices in the room.
 - `skill_group_arn`: The ARN of the skill group to associate with a room. Required.
 """
 function associate_skill_group_with_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateSkillGroupWithRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -95,7 +95,7 @@ Associates a skill with a skill group.
 - `skill_group_arn`: The ARN of the skill group to associate the skill to. Required.
 """
 function associate_skill_with_skill_group(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -109,7 +109,7 @@ Makes a private skill available for enrolled users to enable on their devices.
 
 """
 function associate_skill_with_users(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ Creates an address book with the specified details.
 - `tags`: The tags to be added to the specified resource. Do not provide system tags.
 """
 function create_address_book(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ a specified daily or weekly interval.
 - `tags`: The tags for the business report schedule.
 """
 function create_business_report_schedule(ContentRange, Format; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ Adds a new conference provider under the user's AWS account.
 - `tags`: The tags to be added to the specified resource. Do not provide system tags.
 """
 function create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ Creates a contact with the specified details.
 - `tags`: The tags to be added to the specified resource. Do not provide system tags.
 """
 function create_contact(FirstName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstName"=>FirstName, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ Creates a gateway group with the specified details.
 - `tags`: The tags to be added to the specified resource. Do not provide system tags.
 """
 function create_gateway_group(ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ Creates a network profile with the specified details.
   your devices and used to trust your authentication server during EAP negotiation.
 """
 function create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ Creates a new room profile with the specified details.
 - `tags`: The tags for the profile.
 """
 function create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +302,7 @@ Creates a room with the specified details.
 - `tags`: The tags for the room.
 """
 function create_room(RoomName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomName"=>RoomName, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -321,7 +321,7 @@ Creates a skill group with a specified name and description.
 - `tags`: The tags for the skill group.
 """
 function create_skill_group(SkillGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillGroupName"=>SkillGroupName, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -342,7 +342,7 @@ Creates a user.
 - `tags`: The tags for the user.
 """
 function create_user(UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -356,7 +356,7 @@ Deletes an address book by the address book ARN.
 
 """
 function delete_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -370,7 +370,7 @@ Deletes the recurring report delivery schedule with the specified schedule ARN.
 
 """
 function delete_business_report_schedule(ScheduleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -384,7 +384,7 @@ Deletes a conference provider.
 
 """
 function delete_conference_provider(ConferenceProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +398,7 @@ Deletes a contact by the contact ARN.
 
 """
 function delete_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -412,7 +412,7 @@ Removes a device from Alexa For Business.
 
 """
 function delete_device(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ data. This action can be called once every 24 hours for a specific shared device
 
 """
 function delete_device_usage_data(DeviceArn, DeviceUsageType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -443,7 +443,7 @@ Deletes a gateway group.
 
 """
 function delete_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -457,7 +457,7 @@ Deletes a network profile by the network profile ARN.
 
 """
 function delete_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ Deletes a room profile by the profile ARN.
 - `profile_arn`: The ARN of the room profile to delete. Required.
 """
 function delete_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -483,7 +483,7 @@ Deletes a room by the room ARN.
 - `room_arn`: The ARN of the room to delete. Required.
 """
 function delete_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -500,7 +500,7 @@ Deletes room skill parameter details by room, skill, and parameter key ID.
 - `room_arn`: The ARN of the room from which to remove the room skill parameter details.
 """
 function delete_room_skill_parameter(ParameterKey, SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -516,7 +516,7 @@ Unlinks a third-party account from a skill.
 - `room_arn`: The room that the skill is authorized for.
 """
 function delete_skill_authorization(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -529,7 +529,7 @@ Deletes a skill group by skill group ARN.
 - `skill_group_arn`: The ARN of the skill group to delete. Required.
 """
 function delete_skill_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ Deletes a specified user by user ARN and enrollment ARN.
 - `user_arn`: The ARN of the user to delete in the organization. Required.
 """
 function delete_user(EnrollmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnrollmentId"=>EnrollmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +560,7 @@ Disassociates a contact from a given address book.
 
 """
 function disassociate_contact_from_address_book(AddressBookArn, ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ removed from the room.
 - `device_arn`: The ARN of the device to disassociate from a room. Required.
 """
 function disassociate_device_from_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DisassociateDeviceFromRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -591,7 +591,7 @@ Disassociates a skill from a skill group.
 - `skill_group_arn`: The unique identifier of a skill. Required.
 """
 function disassociate_skill_from_skill_group(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ their devices.
 
 """
 function disassociate_skill_from_users(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -622,7 +622,7 @@ group on all devices in the room.
 - `skill_group_arn`: The ARN of the skill group to disassociate from a room. Required.
 """
 function disassociate_skill_group_from_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("DisassociateSkillGroupFromRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -636,7 +636,7 @@ Forgets smart home appliances associated to a room.
 
 """
 function forget_smart_home_appliances(RoomArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +650,7 @@ Gets address the book details by the address book ARN.
 
 """
 function get_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,7 +661,7 @@ Retrieves the existing conference preferences.
 
 """
 function get_conference_preference(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetConferencePreference", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -675,7 +675,7 @@ Gets details about a specific conference provider.
 
 """
 function get_conference_provider(ConferenceProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -689,7 +689,7 @@ Gets the contact details by the contact ARN.
 
 """
 function get_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -702,7 +702,7 @@ Gets the details of a device by device ARN.
 - `device_arn`: The ARN of the device for which to request details. Required.
 """
 function get_device(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -716,7 +716,7 @@ Retrieves the details of a gateway.
 
 """
 function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -730,7 +730,7 @@ Retrieves the details of a gateway group.
 
 """
 function get_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -741,7 +741,7 @@ Retrieves the configured values for the user enrollment invitation email templat
 
 """
 function get_invitation_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetInvitationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -755,7 +755,7 @@ Gets the network profile details by the network profile ARN.
 
 """
 function get_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -768,7 +768,7 @@ Gets the details of a room profile by profile ARN.
 - `profile_arn`: The ARN of the room profile for which to request details. Required.
 """
 function get_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -781,7 +781,7 @@ Gets room details by room ARN.
 - `room_arn`: The ARN of the room for which to request details. Required.
 """
 function get_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -799,7 +799,7 @@ Gets room skill parameter details by room, skill, and parameter key ARN.
 - `room_arn`: The ARN of the room from which to get the room skill parameter details.
 """
 function get_room_skill_parameter(ParameterKey, SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -812,7 +812,7 @@ Gets skill group details by skill group ARN.
 - `skill_group_arn`: The ARN of the skill group for which to get details. Required.
 """
 function get_skill_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("GetSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ URL is returned each time, and is valid for 24 hours.
 - `next_token`: The token used to list the remaining schedules from the previous API call.
 """
 function list_business_report_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListBusinessReportSchedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -843,7 +843,7 @@ Lists conference providers under a specific AWS account.
 - `next_token`: The tokens used for pagination.
 """
 function list_conference_providers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListConferenceProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -869,7 +869,7 @@ Lists the device event history, including device connection status, for up to 30
   results is reached, the response has a value of null.
 """
 function list_device_events(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -884,7 +884,7 @@ specific gateway group.
 - `next_token`: The token used to paginate though multiple pages of gateway group summaries.
 """
 function list_gateway_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListGatewayGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -901,7 +901,7 @@ of gateways that are associated with that gateway group ARN.
 - `next_token`: The token used to paginate though multiple pages of gateway summaries.
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -922,7 +922,7 @@ Lists all enabled skills in a specific skill group.
 - `skill_type`: Whether the skill is publicly available or is a private skill.
 """
 function list_skills(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListSkills", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -936,7 +936,7 @@ Lists all categories in the Alexa skill store.
 - `next_token`: The tokens used for pagination.
 """
 function list_skills_store_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListSkillsStoreCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -954,7 +954,7 @@ Lists all skills in the Alexa skill store by category.
 - `next_token`: The tokens used for pagination.
 """
 function list_skills_store_skills_by_category(CategoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryId"=>CategoryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -971,7 +971,7 @@ Lists all of the smart home appliances associated with a room.
 - `next_token`: The tokens used for pagination.
 """
 function list_smart_home_appliances(RoomArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -992,7 +992,7 @@ Lists all tags for the specified resource.
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function list_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1006,7 +1006,7 @@ Sets the conference preferences on a specific conference provider at the account
 
 """
 function put_conference_preference(ConferencePreference; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("PutConferencePreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferencePreference"=>ConferencePreference), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1026,7 +1026,7 @@ attributes.
   to enable in the invitation.
 """
 function put_invitation_configuration(OrganizationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1044,7 +1044,7 @@ have a room skill parameter.
 - `room_arn`: The ARN of the room associated with the room skill parameter. Required.
 """
 function put_room_skill_parameter(RoomSkillParameter, SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("PutRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1064,7 +1064,7 @@ be owned by the AWS account that assumed the IAM role.
 - `room_arn`: The room that the skill is authorized for.
 """
 function put_skill_authorization(AuthorizationResult, SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("PutSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1092,7 +1092,7 @@ Alexa Voice Service (AVS).
 - `tags`: The tags to be added to the specified resource. Do not provide system tags.
 """
 function register_avsdevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("RegisterAVSDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1108,7 +1108,7 @@ rejected can be added later by calling the ApproveSkill API.
 
 """
 function reject_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("RejectSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1129,7 +1129,7 @@ ResolveRoom API and skill ID.
 
 """
 function resolve_room(SkillId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("ResolveRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1143,7 +1143,7 @@ Revokes an invitation and invalidates the enrollment URL.
 - `user_arn`: The ARN of the user for whom to revoke an enrollment invitation. Required.
 """
 function revoke_invitation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("RevokeInvitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1165,7 +1165,7 @@ Searches address books and lists the ones that meet a set of filter and sort cri
   supported sort key is AddressBookName.
 """
 function search_address_books(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchAddressBooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1187,7 +1187,7 @@ Searches contacts and lists the ones that meet a set of filter and sort criteria
   supported sort keys are DisplayName, FirstName, and LastName.
 """
 function search_contacts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1212,7 +1212,7 @@ Searches devices and lists the ones that meet a set of filter criteria.
   ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
 """
 function search_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1234,7 +1234,7 @@ Searches network profiles and lists the ones that meet a set of filter and sort 
   Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
 """
 function search_network_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchNetworkProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1256,7 +1256,7 @@ Searches room profiles and lists the ones that meet a set of filter criteria.
   Supported sort keys are ProfileName and Address.
 """
 function search_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1278,7 +1278,7 @@ Searches rooms and lists the ones that meet a set of filter and sort criteria.
   supported sort keys are RoomName and ProfileName.
 """
 function search_rooms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchRooms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1300,7 +1300,7 @@ Searches skill groups and lists the ones that meet a set of filter and sort crit
   supported sort key is SkillGroupName.
 """
 function search_skill_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchSkillGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1322,7 +1322,7 @@ Searches users and lists the ones that meet a set of filter and sort criteria.
   Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
 """
 function search_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SearchUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1346,7 +1346,7 @@ identified by a search or filter.
   delivery doesn't occur within this time, the announcement is not delivered.
 """
 function send_announcement(ClientRequestToken, Content, RoomFilters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1360,7 +1360,7 @@ until you call this operation again, whichever comes first.
 - `user_arn`: The ARN of the user to whom to send an invitation. Required.
 """
 function send_invitation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("SendInvitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1384,7 +1384,7 @@ room profile).
 - `room_arn`: The ARN of the room with which the device to sync is associated. Required.
 """
 function start_device_sync(Features; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("StartDeviceSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Features"=>Features), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1398,7 +1398,7 @@ Initiates the discovery of any smart home appliances associated with the room.
 
 """
 function start_smart_home_appliance_discovery(RoomArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1414,7 +1414,7 @@ Adds metadata tags to a specified resource.
 
 """
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1430,7 +1430,7 @@ Removes metadata tags from a specified resource.
 
 """
 function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1447,7 +1447,7 @@ Updates address book details by the address book ARN.
 - `name`: The updated name of the room.
 """
 function update_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1468,7 +1468,7 @@ Updates the configuration of the report delivery schedule with the specified sch
 - `schedule_name`: The name identifier of the schedule.
 """
 function update_business_report_schedule(ScheduleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1487,7 +1487,7 @@ Updates an existing conference provider's settings.
 - `pstndial_in`: The information for PSTN conferencing.
 """
 function update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1510,7 +1510,7 @@ Updates the contact details by the contact ARN.
 - `sip_addresses`: The list of SIP addresses for the contact.
 """
 function update_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1524,7 +1524,7 @@ Updates the device name by device ARN.
 - `device_name`: The updated device name. Required.
 """
 function update_device(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1544,7 +1544,7 @@ corresponding value is left unmodified.
   automatically updates its software version during normal operation.
 """
 function update_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1562,7 +1562,7 @@ corresponding value is left unmodified.
 - `name`: The updated name of the gateway group.
 """
 function update_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1588,7 +1588,7 @@ Updates a network profile by the network profile ARN.
   negotiation.
 """
 function update_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1616,7 +1616,7 @@ Updates an existing room profile by room profile ARN.
 - `wake_word`: The updated wake word for the room profile.
 """
 function update_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1633,7 +1633,7 @@ Updates room details by room ARN.
 - `room_name`: The updated name for the room.
 """
 function update_room(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1648,6 +1648,6 @@ Updates skill group details by skill group ARN.
 - `skill_group_name`: The updated name for the skill group.
 """
 function update_skill_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return alexa_for_business("UpdateSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("account_id" => "AccountId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("account_id" => "AccountId")
 
 """
     delete_alternate_contact(alternate_contact_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,7 +32,7 @@ alternate contacts.
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function delete_alternate_contact(AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return account("POST", "/deleteAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ the alternate contacts.
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_alternate_contact(AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return account("POST", "/getAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,6 +94,6 @@ the alternate contacts.
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function put_alternate_contact(AlternateContactType, EmailAddress, Name, PhoneNumber, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return account("POST", "/putAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType, "EmailAddress"=>EmailAddress, "Name"=>Name, "PhoneNumber"=>PhoneNumber, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

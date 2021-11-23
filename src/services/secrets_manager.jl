@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_order" => "SortOrder", "client_request_token" => "ClientRequestToken", "description" => "Description", "kms_key_id" => "KmsKeyId", "secret_binary" => "SecretBinary", "secret_string" => "SecretString", "add_replica_regions" => "AddReplicaRegions", "force_overwrite_replica_secret" => "ForceOverwriteReplicaSecret", "tags" => "Tags", "block_public_policy" => "BlockPublicPolicy", "version_stages" => "VersionStages", "secret_id" => "SecretId", "exclude_characters" => "ExcludeCharacters", "exclude_lowercase" => "ExcludeLowercase", "exclude_numbers" => "ExcludeNumbers", "exclude_punctuation" => "ExcludePunctuation", "exclude_uppercase" => "ExcludeUppercase", "include_space" => "IncludeSpace", "password_length" => "PasswordLength", "require_each_included_type" => "RequireEachIncludedType", "move_to_version_id" => "MoveToVersionId", "remove_from_version_id" => "RemoveFromVersionId", "rotation_lambda_arn" => "RotationLambdaARN", "rotation_rules" => "RotationRules", "force_delete_without_recovery" => "ForceDeleteWithoutRecovery", "recovery_window_in_days" => "RecoveryWindowInDays", "include_deprecated" => "IncludeDeprecated", "version_id" => "VersionId", "version_stage" => "VersionStage")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_order" => "SortOrder", "client_request_token" => "ClientRequestToken", "description" => "Description", "kms_key_id" => "KmsKeyId", "secret_binary" => "SecretBinary", "secret_string" => "SecretString", "add_replica_regions" => "AddReplicaRegions", "force_overwrite_replica_secret" => "ForceOverwriteReplicaSecret", "tags" => "Tags", "block_public_policy" => "BlockPublicPolicy", "version_stages" => "VersionStages", "secret_id" => "SecretId", "exclude_characters" => "ExcludeCharacters", "exclude_lowercase" => "ExcludeLowercase", "exclude_numbers" => "ExcludeNumbers", "exclude_punctuation" => "ExcludePunctuation", "exclude_uppercase" => "ExcludeUppercase", "include_space" => "IncludeSpace", "password_length" => "PasswordLength", "require_each_included_type" => "RequireEachIncludedType", "move_to_version_id" => "MoveToVersionId", "remove_from_version_id" => "RemoveFromVersionId", "rotation_lambda_arn" => "RotationLambdaARN", "rotation_rules" => "RotationRules", "force_delete_without_recovery" => "ForceDeleteWithoutRecovery", "recovery_window_in_days" => "RecoveryWindowInDays", "include_deprecated" => "IncludeDeprecated", "version_id" => "VersionId", "version_stage" => "VersionStage")
 
 """
     cancel_rotate_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,7 +36,7 @@ list all of the versions currently associated with a secret, use ListSecretVersi
 
 """
 function cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("CancelRotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +171,7 @@ DescribeSecret and examine the SecretVersionsToStages response value.
   numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
 """
 function create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -193,7 +193,7 @@ ListSecrets.
 
 """
 function delete_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -244,7 +244,7 @@ window has expired, use RestoreSecret.
   to 30 days with a default value of 30.
 """
 function delete_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("DeleteSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ the Amazon Web Services account, use ListSecrets.
 
 """
 function describe_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("DescribeSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ following permissions:   secretsmanager:GetRandomPassword
   True and the operation requires at least one of every character type.
 """
 function get_random_password(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("GetRandomPassword", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -331,7 +331,7 @@ ListSecrets.
 
 """
 function get_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -366,7 +366,7 @@ non-encrypted details for the secret, use DescribeSecret.
   the VersionStage value of AWSCURRENT.
 """
 function get_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("GetSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -407,7 +407,7 @@ account, use ListSecrets.
   output should continue from.
 """
 function list_secret_version_ids(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("ListSecretVersionIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -443,7 +443,7 @@ secret, use ListSecretVersionIds.
 - `sort_order`: Lists secrets in the requested order.
 """
 function list_secrets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("ListSecrets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -479,7 +479,7 @@ use ListSecrets.
   then you block resource-based policies that allow broad access to the secret.
 """
 function put_resource_policy(ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -580,7 +580,7 @@ use ListSecretVersionIds.
   new version.
 """
 function put_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("PutSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -595,7 +595,7 @@ Remove regions from replication.
 
 """
 function remove_regions_from_replication(RemoveReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("RemoveRegionsFromReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemoveReplicaRegions"=>RemoveReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -614,7 +614,7 @@ list of new regions.
   overwrites a secret with the same name in the destination region.
 """
 function replicate_secret_to_regions(AddReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("ReplicateSecretToRegions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddReplicaRegions"=>AddReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -633,7 +633,7 @@ operations    To delete a secret, use DeleteSecret.
 
 """
 function restore_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("RestoreSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -693,7 +693,7 @@ staging labels from a version of a secret, use UpdateSecretVersionStage.
 - `rotation_rules`: A structure that defines the rotation configuration for this secret.
 """
 function rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("RotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -708,7 +708,7 @@ replica Region.
 
 """
 function stop_replication_to_replica(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("StopReplicationToReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -747,7 +747,7 @@ view the list of tags attached to a secret, use DescribeSecret.
 
 """
 function tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -777,7 +777,7 @@ attached to a secret, use DescribeSecret.
 
 """
 function untag_resource(SecretId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +881,7 @@ ListSecretVersionIds.
   Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
 """
 function update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -925,7 +925,7 @@ examine the SecretVersionsToStages response value.
   fails.
 """
 function update_secret_version_stage(SecretId, VersionStage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("UpdateSecretVersionStage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -956,6 +956,6 @@ secretsmanager:PutResourcePolicy     secretsmanager:ValidateResourcePolicy
   partial ARN.
 """
 function validate_resource_policy(ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return secrets_manager("ValidateResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

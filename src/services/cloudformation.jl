@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_request_token" => "ClientRequestToken", "current_operation_status" => "CurrentOperationStatus", "error_code" => "ErrorCode", "resource_model" => "ResourceModel", "status_message" => "StatusMessage", "call_as" => "CallAs", "arn" => "Arn", "log_delivery_bucket" => "LogDeliveryBucket", "type" => "Type", "type_name" => "TypeName", "version_id" => "VersionId", "operation_id" => "OperationId", "operation_preferences" => "OperationPreferences", "next_token" => "NextToken", "stack_name" => "StackName", "public_version_number" => "PublicVersionNumber", "publisher_id" => "PublisherId", "logical_resource_ids" => "LogicalResourceIds", "logical_resource_id" => "LogicalResourceId", "physical_resource_id" => "PhysicalResourceId", "stack_status_filter" => "StackStatusFilter", "retain_resources" => "RetainResources", "role_arn" => "RoleARN", "capabilities" => "Capabilities", "change_set_type" => "ChangeSetType", "client_token" => "ClientToken", "description" => "Description", "include_nested_stacks" => "IncludeNestedStacks", "notification_arns" => "NotificationARNs", "parameters" => "Parameters", "resource_types" => "ResourceTypes", "resources_to_import" => "ResourcesToImport", "rollback_configuration" => "RollbackConfiguration", "tags" => "Tags", "template_body" => "TemplateBody", "template_url" => "TemplateURL", "use_previous_template" => "UsePreviousTemplate", "max_results" => "MaxResults", "registration_status_filter" => "RegistrationStatusFilter", "type_arn" => "TypeArn", "resources_to_skip" => "ResourcesToSkip", "deprecated_status" => "DeprecatedStatus", "accept_terms_and_conditions" => "AcceptTermsAndConditions", "connection_arn" => "ConnectionArn", "stack_policy_body" => "StackPolicyBody", "stack_policy_url" => "StackPolicyURL", "accounts" => "Accounts", "deployment_targets" => "DeploymentTargets", "execution_role_arn" => "ExecutionRoleArn", "logging_config" => "LoggingConfig", "parameter_overrides" => "ParameterOverrides", "filters" => "Filters", "stack_instance_account" => "StackInstanceAccount", "stack_instance_region" => "StackInstanceRegion", "configuration_alias" => "ConfigurationAlias", "stack_resource_drift_status_filters" => "StackResourceDriftStatusFilters", "administration_role_arn" => "AdministrationRoleARN", "auto_deployment" => "AutoDeployment", "execution_role_name" => "ExecutionRoleName", "managed_execution" => "ManagedExecution", "permission_model" => "PermissionModel", "stack_id" => "StackId", "regions" => "Regions", "auto_update" => "AutoUpdate", "major_version" => "MajorVersion", "public_type_arn" => "PublicTypeArn", "type_name_alias" => "TypeNameAlias", "version_bump" => "VersionBump", "provisioning_type" => "ProvisioningType", "visibility" => "Visibility", "disable_rollback" => "DisableRollback", "enable_termination_protection" => "EnableTerminationProtection", "on_failure" => "OnFailure", "timeout_in_minutes" => "TimeoutInMinutes", "stack_set_name" => "StackSetName", "stack_policy_during_update_body" => "StackPolicyDuringUpdateBody", "stack_policy_during_update_url" => "StackPolicyDuringUpdateURL", "change_set_name" => "ChangeSetName", "template_stage" => "TemplateStage", "status" => "Status")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_request_token" => "ClientRequestToken", "current_operation_status" => "CurrentOperationStatus", "error_code" => "ErrorCode", "resource_model" => "ResourceModel", "status_message" => "StatusMessage", "call_as" => "CallAs", "arn" => "Arn", "log_delivery_bucket" => "LogDeliveryBucket", "type" => "Type", "type_name" => "TypeName", "version_id" => "VersionId", "operation_id" => "OperationId", "operation_preferences" => "OperationPreferences", "next_token" => "NextToken", "stack_name" => "StackName", "public_version_number" => "PublicVersionNumber", "publisher_id" => "PublisherId", "logical_resource_ids" => "LogicalResourceIds", "logical_resource_id" => "LogicalResourceId", "physical_resource_id" => "PhysicalResourceId", "stack_status_filter" => "StackStatusFilter", "retain_resources" => "RetainResources", "role_arn" => "RoleARN", "capabilities" => "Capabilities", "change_set_type" => "ChangeSetType", "client_token" => "ClientToken", "description" => "Description", "include_nested_stacks" => "IncludeNestedStacks", "notification_arns" => "NotificationARNs", "parameters" => "Parameters", "resource_types" => "ResourceTypes", "resources_to_import" => "ResourcesToImport", "rollback_configuration" => "RollbackConfiguration", "tags" => "Tags", "template_body" => "TemplateBody", "template_url" => "TemplateURL", "use_previous_template" => "UsePreviousTemplate", "max_results" => "MaxResults", "registration_status_filter" => "RegistrationStatusFilter", "type_arn" => "TypeArn", "resources_to_skip" => "ResourcesToSkip", "deprecated_status" => "DeprecatedStatus", "accept_terms_and_conditions" => "AcceptTermsAndConditions", "connection_arn" => "ConnectionArn", "stack_policy_body" => "StackPolicyBody", "stack_policy_url" => "StackPolicyURL", "accounts" => "Accounts", "deployment_targets" => "DeploymentTargets", "execution_role_arn" => "ExecutionRoleArn", "logging_config" => "LoggingConfig", "parameter_overrides" => "ParameterOverrides", "filters" => "Filters", "stack_instance_account" => "StackInstanceAccount", "stack_instance_region" => "StackInstanceRegion", "configuration_alias" => "ConfigurationAlias", "stack_resource_drift_status_filters" => "StackResourceDriftStatusFilters", "administration_role_arn" => "AdministrationRoleARN", "auto_deployment" => "AutoDeployment", "execution_role_name" => "ExecutionRoleName", "managed_execution" => "ManagedExecution", "permission_model" => "PermissionModel", "stack_id" => "StackId", "regions" => "Regions", "auto_update" => "AutoUpdate", "major_version" => "MajorVersion", "public_type_arn" => "PublicTypeArn", "type_name_alias" => "TypeNameAlias", "version_bump" => "VersionBump", "provisioning_type" => "ProvisioningType", "visibility" => "Visibility", "disable_rollback" => "DisableRollback", "enable_termination_protection" => "EnableTerminationProtection", "on_failure" => "OnFailure", "timeout_in_minutes" => "TimeoutInMinutes", "organizational_unit_ids" => "OrganizationalUnitIds", "stack_ids" => "StackIds", "stack_ids_url" => "StackIdsUrl", "stack_set_name" => "StackSetName", "stack_policy_during_update_body" => "StackPolicyDuringUpdateBody", "stack_policy_during_update_url" => "StackPolicyDuringUpdateURL", "change_set_name" => "ChangeSetName", "template_stage" => "TemplateStage", "status" => "Status")
 
 """
     activate_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -48,7 +48,7 @@ Guide.
   one is available.
 """
 function activate_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ActivateType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -65,7 +65,7 @@ extensions at the account level in the CloudFormation User Guide.
 
 """
 function batch_describe_type_configurations(TypeConfigurationIdentifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("BatchDescribeTypeConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeConfigurationIdentifiers"=>TypeConfigurationIdentifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -86,7 +86,7 @@ stacks that are in the UPDATE_IN_PROGRESS state.
   CancelUpdateStack requests to ensure that CloudFormation successfully received them.
 """
 function cancel_update_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("CancelUpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -148,7 +148,7 @@ the update rollback to fail.
   uses a temporary session that is generated from your user credentials.
 """
 function continue_update_rollback(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ContinueUpdateRollback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ IncludeNestedStacks to True.
   to create the change set.
 """
 function create_change_set(ChangeSetName, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("CreateChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ stack creation starts. You can check the status of the stack via the DescribeSta
   back.
 """
 function create_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -444,7 +444,7 @@ Regions.
   update the stack set template.
 """
 function create_stack_instances(Regions, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("CreateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -544,7 +544,7 @@ Creates a stack set.
   TemplateURL parameter, but not both.
 """
 function create_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("CreateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -567,7 +567,7 @@ automatically updated if a new version of the extension is released.
   must specify either Arn, or TypeName and Type.
 """
 function deactivate_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeactivateType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,7 +590,7 @@ REVIEW_IN_PROGRESS.
   or ID (ARN) that is associated with it.
 """
 function delete_change_set(ChangeSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeleteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -630,7 +630,7 @@ successfully.
   CloudFormation uses a temporary session that is generated from your user credentials.
 """
 function delete_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -671,7 +671,7 @@ Deletes stack instances for the specified accounts, in the specified Regions.
   operation.
 """
 function delete_stack_instances(Regions, RetainStacks, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeleteStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "RetainStacks"=>RetainStacks, "StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -696,7 +696,7 @@ must be deleted. For more information about how to do this, see DeleteStackInsta
   Guide.
 """
 function delete_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeleteStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -726,7 +726,7 @@ use DescribeType.
   registered.
 """
 function deregister_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DeregisterType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -741,7 +741,7 @@ CloudFormation Limits in the CloudFormation User Guide.
 - `next_token`: A string that identifies the next page of limits that you want to retrieve.
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeAccountLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -763,7 +763,7 @@ in the CloudFormation User Guide.
   (ARN) of the change set you want to describe.
 """
 function describe_change_set(ChangeSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -782,7 +782,7 @@ public use in the CloudFormation CLI User Guide
   about your own publisher account.
 """
 function describe_publisher(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribePublisher", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -808,7 +808,7 @@ information about the stack and its resources.
 
 """
 function describe_stack_drift_detection_status(StackDriftDetectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackDriftDetectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackDriftDetectionId"=>StackDriftDetectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ specifying the unique stack identifier (stack ID).
   There is no default value.
 """
 function describe_stack_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -857,7 +857,7 @@ specific stack set, use ListStackInstances.
   Guide.
 """
 function describe_stack_instance(StackInstanceAccount, StackInstanceRegion, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackInstanceAccount"=>StackInstanceAccount, "StackInstanceRegion"=>StackInstanceRegion, "StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -878,7 +878,7 @@ been deleted.
 
 """
 function describe_stack_resource(LogicalResourceId, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -911,7 +911,7 @@ detect drift on all supported resources for a given stack.
   CloudFormation does not currently return this value.
 """
 function describe_stack_resource_drifts(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackResourceDrifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -946,7 +946,7 @@ PhysicalResourceId in the same request.
   specify PhysicalResourceId.
 """
 function describe_stack_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -969,7 +969,7 @@ Returns the description of the specified stack set.
   Guide.
 """
 function describe_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -994,7 +994,7 @@ Returns the description of the specified stack set operation.
   Guide.
 """
 function describe_stack_set_operation(OperationId, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1013,7 +1013,7 @@ ValidationError is returned.
   There is no default value.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1041,7 +1041,7 @@ Otherwise, it returns information about the default extension version.
   version.
 """
 function describe_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1061,7 +1061,7 @@ information about an extension.
 
 """
 function describe_type_registration(RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DescribeTypeRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1093,7 +1093,7 @@ belonging to that stack. Perform DetectStackDrift directly on the nested stack i
 - `logical_resource_ids`: The logical names of any resources you want to use as filters.
 """
 function detect_stack_drift(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DetectStackDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1118,7 +1118,7 @@ list of resources that support drift detection, see Resources that Support Drift
 
 """
 function detect_stack_resource_drift(LogicalResourceId, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DetectStackResourceDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1161,7 +1161,7 @@ one time.  To stop a drift detection stack set operation, use  StopStackSetOpera
 - `operation_preferences`:
 """
 function detect_stack_set_drift(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("DetectStackSetDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1184,7 +1184,7 @@ required to run the template.
   pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
 """
 function estimate_template_cost(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("EstimateTemplateCost", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1215,7 +1215,7 @@ hierachy, IncludeNestedStacks must have been set to True.
   (ARN) that is associated with the change set you want to execute.
 """
 function execute_change_set(ChangeSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ExecuteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1231,7 +1231,7 @@ value is returned.
 
 """
 function get_stack_policy(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("GetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1258,7 +1258,7 @@ returned.
   default, CloudFormation specifies Processed.
 """
 function get_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("GetTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1301,21 +1301,21 @@ exist, a ValidationError is returned.
   parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
 """
 function get_template_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("GetTemplateSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    import_stacks_to_stack_set(stack_ids, stack_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    import_stacks_to_stack_set(stack_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Import existing stacks into a new stack sets. Use the stack import operation to import up
-to 10 stacks into a new stack set in the same account as the source stack or in a different
-administrator account and Region, by specifying the stack ID of the stack you intend to
-import.   ImportStacksToStackSet is only supported by self-managed permissions.
+Use the stack import operations for self-managed or service-managed StackSets. For
+self-managed StackSets, the import operation can import stacks in the administrator account
+or in different target accounts and Amazon Web Services Regions. For service-managed
+StackSets, the import operation can import any stack in the same AWS Organizations as the
+management account. The import operation can import up to 10 stacks using inline stack IDs
+or up to 10,000 stacks using an Amazon S3 object.
 
 # Arguments
-- `stack_ids`: The IDs of the stacks you are importing into a stack set. You import up to
-  10 stacks per stack set at a time.
 - `stack_set_name`: The name of the stack set. The name must be unique in the Region where
   you create your stack set.
 
@@ -1325,10 +1325,16 @@ import.   ImportStacksToStackSet is only supported by self-managed permissions.
   managed stack sets, specify DELEGATED_ADMIN.
 - `operation_id`: A unique, user defined, identifier for the stack set operation.
 - `operation_preferences`:
+- `organizational_unit_ids`: The list of OU ID’s to which the stacks being imported has
+  to be mapped as deployment target.
+- `stack_ids`: The IDs of the stacks you are importing into a stack set. You import up to
+  10 stacks per stack set at a time. Specify either StackIds or StackIdsUrl.
+- `stack_ids_url`: The Amazon S3 URL which contains list of stack ids to be inputted.
+  Specify either StackIds or StackIdsUrl.
 """
-function import_stacks_to_stack_set(StackIds, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return cloudformation("ImportStacksToStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackIds"=>StackIds, "StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function import_stacks_to_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return cloudformation("ImportStacksToStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1346,7 +1352,7 @@ CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PE
   the next page of change sets that you want to retrieve.
 """
 function list_change_sets(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1363,7 +1369,7 @@ CloudFormation Export Stack Output Values.
   next page of exported output values that you asked to retrieve.
 """
 function list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1384,7 +1390,7 @@ importing an exported output value, see the  Fn::ImportValue  function.
   next page of stacks that are importing the specified exported output value.
 """
 function list_imports(ExportName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListImports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportName"=>ExportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1422,7 +1428,7 @@ Web Services account name or Region, or that have a specific status.
 - `stack_instance_region`: The name of the Region where you want to list stack instances.
 """
 function list_stack_instances(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1444,7 +1450,7 @@ deleted.
   retrieve.
 """
 function list_stack_resources(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStackResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1477,7 +1483,7 @@ Returns summary information about the results of a stack set operation.
   object's NextToken parameter is set to null.
 """
 function list_stack_set_operation_results(OperationId, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStackSetOperationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1509,7 +1515,7 @@ Returns summary information about operations performed on a stack set.
   object's NextToken parameter is set to null.
 """
 function list_stack_set_operations(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStackSetOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1546,7 +1552,7 @@ account.
 - `status`: The status of the stack sets that you want to get summary information about.
 """
 function list_stack_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStackSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1565,7 +1571,7 @@ for all stacks is returned (including existing stacks and stacks that have been 
   status codes, see the StackStatus parameter of the Stack data type.
 """
 function list_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1593,7 +1599,7 @@ Returns a list of registration tokens for the specified extension(s).
   Type, or Arn.
 """
 function list_type_registrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListTypeRegistrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1626,7 +1632,7 @@ Returns summary information about the versions of an extension.
   Conditional: You must specify either TypeName and Type, or Arn.
 """
 function list_type_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListTypeVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1670,7 +1676,7 @@ Returns summary information about extension that have been registered with Cloud
   The default is PRIVATE.
 """
 function list_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ListTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1698,7 +1704,7 @@ registered as a publisher with CloudFormation. For more information, see Registe
   and Type.
 """
 function publish_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("PublishType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1720,7 +1726,7 @@ CloudFormation CLI. Do not use this API in your code.
 - `status_message`: Reserved for use by the CloudFormation CLI.
 """
 function record_handler_progress(BearerToken, OperationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("RecordHandlerProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1744,7 +1750,7 @@ CloudFormation extensions in the CloudFormation CLI User Guide.
   CloudFormation CLI User Guide.
 """
 function register_publisher(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("RegisterPublisher", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1800,7 +1806,7 @@ extensions at the account level in the CloudFormation User Guide.
 - `type`: The kind of extension.
 """
 function register_type(SchemaHandlerPackage, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("RegisterType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaHandlerPackage"=>SchemaHandlerPackage, "TypeName"=>TypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1824,7 +1830,7 @@ UPDATE_ROLLBACK_COMPLETE     IMPORT_COMPLETE     IMPORT_ROLLBACK_COMPLETE
   CloudFormation assumes to rollback the stack.
 """
 function rollback_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("RollbackStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1845,7 +1851,7 @@ Sets a stack policy for a specified stack.
   can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
 """
 function set_stack_policy(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("SetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1883,7 +1889,7 @@ Using dynamic references to specify template values in the CloudFormation User G
   or Type and TypeName.
 """
 function set_type_configuration(Configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("SetTypeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1905,7 +1911,7 @@ used in CloudFormation operations.
   registered.
 """
 function set_type_default_version(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("SetTypeDefaultVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1932,7 +1938,7 @@ where you want to send signals from anywhere other than an Amazon EC2 instance.
 
 """
 function signal_resource(LogicalResourceId, StackName, Status, UniqueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("SignalResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName, "Status"=>Status, "UniqueId"=>UniqueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1957,7 +1963,7 @@ Stops an in-progress operation on a stack set and its associated stack instances
   Guide.
 """
 function stop_stack_set_operation(OperationId, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("StopStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1996,7 +2002,7 @@ extensions to make them available for public use in the CloudFormation CLI User 
   the default version of the extension in this account and region for testing.
 """
 function test_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("TestType", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2120,7 +2126,7 @@ the progress of the update, see Updating a Stack.
   TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
 """
 function update_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2193,7 +2199,7 @@ UpdateStackInstances.
   override the parameter value using UpdateStackInstances.
 """
 function update_stack_instances(Regions, StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("UpdateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2342,7 +2348,7 @@ use the updated stack set.
   TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
 """
 function update_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("UpdateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "operation_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2363,7 +2369,7 @@ stack and cannot be changed directly on the nested stack.
 
 """
 function update_termination_protection(EnableTerminationProtection, StackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("UpdateTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnableTerminationProtection"=>EnableTerminationProtection, "StackName"=>StackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2386,6 +2392,6 @@ fail, CloudFormation returns a template validation error.
   TemplateBody is used.
 """
 function validate_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudformation("ValidateTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

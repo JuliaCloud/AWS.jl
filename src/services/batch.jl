@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "array_properties" => "arrayProperties", "container_overrides" => "containerOverrides", "depends_on" => "dependsOn", "node_overrides" => "nodeOverrides", "parameters" => "parameters", "propagate_tags" => "propagateTags", "retry_strategy" => "retryStrategy", "scheduling_priority_override" => "schedulingPriorityOverride", "share_identifier" => "shareIdentifier", "tags" => "tags", "timeout" => "timeout", "compute_environments" => "computeEnvironments", "fairshare_policy" => "fairsharePolicy", "compute_resources" => "computeResources", "service_role" => "serviceRole", "state" => "state", "unmanagedv_cpus" => "unmanagedvCpus", "container_properties" => "containerProperties", "node_properties" => "nodeProperties", "platform_capabilities" => "platformCapabilities", "scheduling_priority" => "schedulingPriority", "scheduling_policy_arn" => "schedulingPolicyArn", "array_job_id" => "arrayJobId", "filters" => "filters", "job_queue" => "jobQueue", "job_status" => "jobStatus", "multi_node_job_id" => "multiNodeJobId", "compute_environment_order" => "computeEnvironmentOrder", "priority" => "priority", "job_queues" => "jobQueues", "job_definition_name" => "jobDefinitionName", "job_definitions" => "jobDefinitions", "status" => "status")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "array_properties" => "arrayProperties", "container_overrides" => "containerOverrides", "depends_on" => "dependsOn", "node_overrides" => "nodeOverrides", "parameters" => "parameters", "propagate_tags" => "propagateTags", "retry_strategy" => "retryStrategy", "scheduling_priority_override" => "schedulingPriorityOverride", "share_identifier" => "shareIdentifier", "tags" => "tags", "timeout" => "timeout", "compute_environments" => "computeEnvironments", "fairshare_policy" => "fairsharePolicy", "compute_resources" => "computeResources", "service_role" => "serviceRole", "state" => "state", "unmanagedv_cpus" => "unmanagedvCpus", "container_properties" => "containerProperties", "node_properties" => "nodeProperties", "platform_capabilities" => "platformCapabilities", "scheduling_priority" => "schedulingPriority", "scheduling_policy_arn" => "schedulingPolicyArn", "array_job_id" => "arrayJobId", "filters" => "filters", "job_queue" => "jobQueue", "job_status" => "jobStatus", "multi_node_job_id" => "multiNodeJobId", "compute_environment_order" => "computeEnvironmentOrder", "priority" => "priority", "job_queues" => "jobQueues", "job_definition_name" => "jobDefinitionName", "job_definitions" => "jobDefinitions", "status" => "status")
 
 """
     cancel_job(job_id, reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ with the TerminateJob operation.
 
 """
 function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/canceljob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -104,7 +104,7 @@ Delete the earlier compute environment.
   is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED/
 """
 function create_compute_environment(computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ preference for scheduling jobs to that compute environment.
   Tagging your Batch resources in Batch User Guide.
 """
 function create_job_queue(computeEnvironmentOrder, jobQueueName, priority; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/createjobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ Creates an Batch scheduling policy.
   operations.
 """
 function create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/createschedulingpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -195,7 +195,7 @@ invalid state.
 
 """
 function delete_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ DeleteJobQueue request.
 
 """
 function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/deletejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ in any job queues.
 
 """
 function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/deleteschedulingpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -243,7 +243,7 @@ Deregisters an Batch job definition. Job definitions are permanently deleted aft
 
 """
 function deregister_job_definition(jobDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -272,7 +272,7 @@ ecsClusterArn that you should launch your Amazon ECS container instances into.
   items in a list and not for other programmatic purposes.
 """
 function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/describecomputeenvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -304,7 +304,7 @@ return job definitions that match that status.
 - `status`: The status used to filter job definitions.
 """
 function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/describejobdefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -330,7 +330,7 @@ Describes one or more of your job queues.
   not for other programmatic purposes.
 """
 function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/describejobqueues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -344,7 +344,7 @@ Describes a list of Batch jobs.
 
 """
 function describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/describejobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -358,7 +358,7 @@ Describes one or more of your scheduling policies.
 
 """
 function describe_scheduling_policies(arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/describeschedulingpolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ don't specify a status, only RUNNING jobs are returned.
   programmatic purposes.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/listjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -446,7 +446,7 @@ Returns a list of Batch scheduling policies.
   in a list and not for other programmatic purposes.
 """
 function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/listschedulingpolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -465,7 +465,7 @@ jobs of array and multi-node parallel (MNP) jobs are not supported.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -523,7 +523,7 @@ Registers an Batch job definition.
   User Guide.
 """
 function register_job_definition(jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/registerjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -600,7 +600,7 @@ Fargate resources might become unavailable and job might be terminated.
   Developer Guide.
 """
 function submit_job(jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/submitjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -625,7 +625,7 @@ jobs are not supported.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,7 +644,7 @@ STARTING state are cancelled.
 
 """
 function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/terminatejob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -662,7 +662,7 @@ Deletes specified tags from an Batch resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +706,7 @@ Updates an Batch compute environment.
   vCPU capacity will be reserved.
 """
 function update_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -742,7 +742,7 @@ Updates a job queue.
   the queue, but jobs already in the queue can finish.
 """
 function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/updatejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -758,6 +758,6 @@ Updates a scheduling policy.
 - `fairshare_policy`: The fair share policy.
 """
 function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return batch("POST", "/v1/updateschedulingpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

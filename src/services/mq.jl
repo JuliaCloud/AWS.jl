@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("authentication_strategy" => "authenticationStrategy", "auto_minor_version_upgrade" => "autoMinorVersionUpgrade", "configuration" => "configuration", "engine_version" => "engineVersion", "host_instance_type" => "hostInstanceType", "ldap_server_metadata" => "ldapServerMetadata", "logs" => "logs", "maintenance_window_start_time" => "maintenanceWindowStartTime", "security_groups" => "securityGroups", "console_access" => "consoleAccess", "groups" => "groups", "engine_type" => "engineType", "max_results" => "maxResults", "next_token" => "nextToken", "password" => "password", "tags" => "tags", "storage_type" => "storageType", "description" => "description", "creator_request_id" => "creatorRequestId", "encryption_options" => "encryptionOptions", "subnet_ids" => "subnetIds")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("authentication_strategy" => "authenticationStrategy", "auto_minor_version_upgrade" => "autoMinorVersionUpgrade", "configuration" => "configuration", "engine_version" => "engineVersion", "host_instance_type" => "hostInstanceType", "ldap_server_metadata" => "ldapServerMetadata", "logs" => "logs", "maintenance_window_start_time" => "maintenanceWindowStartTime", "security_groups" => "securityGroups", "console_access" => "consoleAccess", "groups" => "groups", "engine_type" => "engineType", "max_results" => "maxResults", "next_token" => "nextToken", "password" => "password", "tags" => "tags", "storage_type" => "storageType", "description" => "description", "creator_request_id" => "creatorRequestId", "encryption_options" => "encryptionOptions", "subnet_ids" => "subnetIds")
 
 """
     create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -77,7 +77,7 @@ the Amazon MQ Developer Guide.
 - `tags`: Create tags when creating the broker.
 """
 function create_broker(autoMinorVersionUpgrade, brokerName, deploymentMode, engineType, engineVersion, hostInstanceType, publiclyAccessible, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoMinorVersionUpgrade"=>autoMinorVersionUpgrade, "brokerName"=>brokerName, "deploymentMode"=>deploymentMode, "engineType"=>engineType, "engineVersion"=>engineVersion, "hostInstanceType"=>hostInstanceType, "publiclyAccessible"=>publiclyAccessible, "users"=>users, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ default configuration (the engine type and version).
 - `tags`: Create tags when creating the configuration.
 """
 function create_configuration(engineType, engineVersion, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("engineType"=>engineType, "engineVersion"=>engineVersion, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -118,7 +118,7 @@ Add a tag to a resource.
 - `tags`: The key-value pair for the resource tag.
 """
 function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("POST", "/v1/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +143,7 @@ Creates an ActiveMQ user.
   ~). This value must be 2-100 characters long.
 """
 function create_user(broker_id, password, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("password"=>password), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ Deletes a broker. Note: This API is asynchronous.
 
 """
 function delete_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("DELETE", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ Removes a tag from a resource.
 
 """
 function delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -189,7 +189,7 @@ Deletes an ActiveMQ user.
 
 """
 function delete_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ Returns information about the specified broker.
 
 """
 function describe_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ Describe available engine types and versions.
   To request the first page, leave nextToken empty.
 """
 function describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/broker-engine-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ Describe available broker instance options.
 - `storage_type`: Filter response by storage type.
 """
 function describe_broker_instance_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/broker-instance-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ Returns information about the specified configuration.
 
 """
 function describe_configuration(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/configurations/$(configuration-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ Returns the specified configuration revision for the specified configuration.
 
 """
 function describe_configuration_revision(configuration_id, configuration_revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +285,7 @@ Returns information about an ActiveMQ user.
 
 """
 function describe_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -301,7 +301,7 @@ Returns a list of all brokers.
   To request the first page, leave nextToken empty.
 """
 function list_brokers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +320,7 @@ Returns a list of all revisions for the specified configuration.
   To request the first page, leave nextToken empty.
 """
 function list_configuration_revisions(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/configurations/$(configuration-id)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -336,7 +336,7 @@ Returns a list of all configurations.
   To request the first page, leave nextToken empty.
 """
 function list_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -350,7 +350,7 @@ Lists tags for a resource.
 
 """
 function list_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -369,7 +369,7 @@ Returns a list of all ActiveMQ users.
   To request the first page, leave nextToken empty.
 """
 function list_users(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("GET", "/v1/brokers/$(broker-id)/users", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -383,7 +383,7 @@ Reboots a broker. Note: This API is asynchronous.
 
 """
 function reboot_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("POST", "/v1/brokers/$(broker-id)/reboot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +414,7 @@ Adds a pending configuration change to a broker.
   connections to brokers.
 """
 function update_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("PUT", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -431,7 +431,7 @@ Updates the specified configuration.
 - `description`: The description of the configuration.
 """
 function update_configuration(configuration_id, data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("PUT", "/v1/configurations/$(configuration-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -456,6 +456,6 @@ Updates the information for an ActiveMQ user.
   signs (,:=).
 """
 function update_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

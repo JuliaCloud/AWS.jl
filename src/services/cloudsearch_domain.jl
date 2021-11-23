@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("size" => "size", "cursor" => "cursor", "expr" => "expr", "facet" => "facet", "filter_query" => "fq", "highlight" => "highlight", "partial" => "partial", "query_options" => "q.options", "query_parser" => "q.parser", "return" => "return", "sort" => "sort", "start" => "start", "stats" => "stats")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("size" => "size", "cursor" => "cursor", "expr" => "expr", "facet" => "facet", "filter_query" => "fq", "highlight" => "highlight", "partial" => "partial", "query_options" => "q.options", "query_parser" => "q.parser", "return" => "return", "sort" => "sort", "start" => "start", "stats" => "stats")
 
 """
     search(q; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -218,7 +218,7 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   supported for statistics.
 """
 function search(q; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,7 +245,7 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 - `size`: Specifies the maximum number of suggestions to return.
 """
 function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -276,6 +276,6 @@ Amazon CloudSearch Developer Guide.
 
 """
 function upload_documents(Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("backup_retention_policy" => "BackupRetentionPolicy", "source_backup_id" => "SourceBackupId", "tag_list" => "TagList", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_ascending" => "SortAscending", "ip_address" => "IpAddress", "eni_id" => "EniId", "eni_ip" => "EniIp", "hsm_id" => "HsmId")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("backup_retention_policy" => "BackupRetentionPolicy", "source_backup_id" => "SourceBackupId", "tag_list" => "TagList", "filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_ascending" => "SortAscending", "ip_address" => "IpAddress", "eni_id" => "EniId", "eni_ip" => "EniIp", "hsm_id" => "HsmId")
 
 """
     copy_backup_to_region(backup_id, destination_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ Copy an AWS CloudHSM cluster backup to a different region.
   service copies tags from the source backup to the destination backup.
 """
 function copy_backup_to_region(BackupId, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ Creates a new AWS CloudHSM cluster.
 - `tag_list`: Tags to apply to the CloudHSM cluster during creation.
 """
 function create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ Creates a new hardware security module (HSM) in the specified AWS CloudHSM clust
   If you don't specify an IP address, one is chosen for you from that subnet.
 """
 function create_hsm(AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ DeleteBackup request is made. For more information on restoring a backup, see Re
 
 """
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ DescribeClusters. To delete an HSM, use DeleteHsm.
 
 """
 function delete_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -125,7 +125,7 @@ to specify only one of these values. To find these values, use DescribeClusters.
 - `hsm_id`: The identifier (ID) of the HSM that you are deleting.
 """
 function delete_hsm(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -157,7 +157,7 @@ with no NextToken (or an empty or null value), that means there are no more back
   chronological order of generation.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -182,7 +182,7 @@ no NextToken (or an empty or null value), that means there are no more clusters 
   value to get more clusters.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -208,7 +208,7 @@ the cluster's CSR, use DescribeClusters.
 
 """
 function initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -232,7 +232,7 @@ subsequent ListTags request to get more tags. When you receive a response with n
   value to get more tags.
 """
 function list_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ Modifies attributes for AWS CloudHSM backup.
 
 """
 function modify_backup_attributes(BackupId, NeverExpires; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Modifies AWS CloudHSM cluster.
 
 """
 function modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -282,7 +282,7 @@ information on deleting a backup, see DeleteBackup.
 
 """
 function restore_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -298,7 +298,7 @@ Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
 
 """
 function tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,6 +315,6 @@ Removes the specified tag or tags from the specified AWS CloudHSM cluster.
 
 """
 function untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("next_token" => "NextToken", "stream_arn" => "StreamARN", "stream_name" => "StreamName", "channel_arn" => "ChannelARN", "channel_name" => "ChannelName", "data_retention_in_hours" => "DataRetentionInHours", "device_name" => "DeviceName", "kms_key_id" => "KmsKeyId", "media_type" => "MediaType", "tags" => "Tags", "current_version" => "CurrentVersion", "channel_name_condition" => "ChannelNameCondition", "max_results" => "MaxResults", "single_master_configuration" => "SingleMasterConfiguration", "channel_type" => "ChannelType", "single_master_channel_endpoint_configuration" => "SingleMasterChannelEndpointConfiguration", "stream_name_condition" => "StreamNameCondition")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("next_token" => "NextToken", "stream_arn" => "StreamARN", "stream_name" => "StreamName", "channel_arn" => "ChannelARN", "channel_name" => "ChannelName", "data_retention_in_hours" => "DataRetentionInHours", "device_name" => "DeviceName", "kms_key_id" => "KmsKeyId", "media_type" => "MediaType", "tags" => "Tags", "current_version" => "CurrentVersion", "channel_name_condition" => "ChannelNameCondition", "max_results" => "MaxResults", "single_master_configuration" => "SingleMasterConfiguration", "channel_type" => "ChannelType", "single_master_channel_endpoint_configuration" => "SingleMasterChannelEndpointConfiguration", "stream_name_condition" => "StreamNameCondition")
 
 """
     create_signaling_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Creates a signaling channel.   CreateSignalingChannel is an asynchronous operati
 - `tags`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 function create_signaling_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/createSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelName"=>ChannelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ KinesisVideo:CreateStream action.
   pair (the value is optional).
 """
 function create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/createStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,7 +83,7 @@ If you don't specify the channel's current version, the most recent version is d
   ListSignalingChannels API operations.
 """
 function delete_signaling_channel(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/deleteSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ KinesisVideo:DeleteStream action.
   checked before deleting the stream.
 """
 function delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/deleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -123,7 +123,7 @@ the name or the Amazon Resource Name (ARN) of the channel that you want to descr
 - `channel_name`: The name of the signaling channel that you want to describe.
 """
 function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ the StreamName or the StreamARN.
 - `stream_name`: The name of the stream.
 """
 function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/describeStream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ StreamARN.
   specify either this parameter or a StreamARN in the request.
 """
 function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/getDataEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APIName"=>APIName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ communicate only with a MASTER.
   configuration for the SINGLE_MASTER channel type.
 """
 function get_signaling_channel_endpoint(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/getSignalingChannelEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -209,7 +209,7 @@ ChannelNameCondition.
   batch of channels, provide this token in your next request.
 """
 function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -229,7 +229,7 @@ streams that satisfy a specific condition, you can specify a StreamNameCondition
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/listStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -248,7 +248,7 @@ Returns a list of tags associated with the specified signaling channel.
   the next batch of tags.
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ specify either the StreamName or the StreamARN.
 - `stream_name`: The name of the stream that you want to list tags for.
 """
 function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -287,7 +287,7 @@ User Guide.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ KinesisVideo:TagStream action. Kinesis video streams support up to 50 tags.
 - `stream_name`: The name of the stream that you want to add the tag or tags to.
 """
 function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/tagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +329,7 @@ ignored.
 
 """
 function untag_resource(ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -349,7 +349,7 @@ request, you must provide the StreamName or StreamARN.
 - `stream_name`: The name of the stream that you want to remove tags from.
 """
 function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/untagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ hour, and any data older than one hour is deleted immediately.
 - `stream_name`: The name of the stream whose retention period you want to change.
 """
 function update_data_retention(CurrentVersion, DataRetentionChangeInHours, Operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/updateDataRetention", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "DataRetentionChangeInHours"=>DataRetentionChangeInHours, "Operation"=>Operation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -404,7 +404,7 @@ are still expired as per the previous MessageTtlSeconds value.
   SINGLE_MASTER type of the signaling channel that you want to update.
 """
 function update_signaling_channel(ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/updateSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -434,6 +434,6 @@ DescribeStream API.   UpdateStream is an asynchronous operation, and takes time 
   is an identifier for the stream, and must be unique for each account and region.
 """
 function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video("POST", "/updateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

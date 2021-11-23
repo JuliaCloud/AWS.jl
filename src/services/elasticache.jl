@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("at_rest_encryption_enabled" => "AtRestEncryptionEnabled", "auth_token" => "AuthToken", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "automatic_failover_enabled" => "AutomaticFailoverEnabled", "cache_node_type" => "CacheNodeType", "cache_parameter_group_name" => "CacheParameterGroupName", "cache_security_group_names" => "CacheSecurityGroupName", "cache_subnet_group_name" => "CacheSubnetGroupName", "engine" => "Engine", "engine_version" => "EngineVersion", "global_replication_group_id" => "GlobalReplicationGroupId", "kms_key_id" => "KmsKeyId", "log_delivery_configurations" => "LogDeliveryConfigurationRequest", "multi_azenabled" => "MultiAZEnabled", "node_group_configuration" => "NodeGroupConfiguration", "notification_topic_arn" => "NotificationTopicArn", "num_cache_clusters" => "NumCacheClusters", "num_node_groups" => "NumNodeGroups", "port" => "Port", "preferred_cache_cluster_azs" => "AvailabilityZone", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "primary_cluster_id" => "PrimaryClusterId", "replicas_per_node_group" => "ReplicasPerNodeGroup", "security_group_ids" => "SecurityGroupId", "snapshot_arns" => "SnapshotArn", "snapshot_name" => "SnapshotName", "snapshot_retention_limit" => "SnapshotRetentionLimit", "snapshot_window" => "SnapshotWindow", "tags" => "Tag", "transit_encryption_enabled" => "TransitEncryptionEnabled", "user_group_ids" => "UserGroupIds", "user_ids" => "UserIds", "no_password_required" => "NoPasswordRequired", "passwords" => "Passwords", "global_replication_group_description" => "GlobalReplicationGroupDescription", "apply_immediately" => "ApplyImmediately", "auth_token_update_strategy" => "AuthTokenUpdateStrategy", "node_group_id" => "NodeGroupId", "notification_topic_status" => "NotificationTopicStatus", "remove_user_groups" => "RemoveUserGroups", "replication_group_description" => "ReplicationGroupDescription", "snapshotting_cluster_id" => "SnapshottingClusterId", "user_group_ids_to_add" => "UserGroupIdsToAdd", "user_group_ids_to_remove" => "UserGroupIdsToRemove", "cache_cluster_ids" => "CacheClusterIds", "replication_group_ids" => "ReplicationGroupIds", "cache_subnet_group_description" => "CacheSubnetGroupDescription", "subnet_ids" => "SubnetIdentifier", "regional_configurations" => "RegionalConfiguration", "final_snapshot_identifier" => "FinalSnapshotIdentifier", "retain_primary_cluster" => "RetainPrimaryCluster", "marker" => "Marker", "max_records" => "MaxRecords", "replication_group_id" => "ReplicationGroupId", "azmode" => "AZMode", "cache_node_ids_to_remove" => "CacheNodeId", "new_availability_zones" => "PreferredAvailabilityZone", "num_cache_nodes" => "NumCacheNodes", "parameter_name_values" => "ParameterNameValue", "reset_all_parameters" => "ResetAllParameters", "user_group_id" => "UserGroupId", "cache_cluster_id" => "CacheClusterId", "show_node_group_config" => "ShowNodeGroupConfig", "snapshot_source" => "SnapshotSource", "cache_parameter_group_family" => "CacheParameterGroupFamily", "default_only" => "DefaultOnly", "service_update_name" => "ServiceUpdateName", "service_update_status" => "ServiceUpdateStatus", "show_member_info" => "ShowMemberInfo", "access_string" => "AccessString", "append_access_string" => "AppendAccessString", "cache_security_group_name" => "CacheSecurityGroupName", "new_replica_count" => "NewReplicaCount", "replica_configuration" => "ConfigureShard", "replicas_to_remove" => "ReplicasToRemove", "filters" => "Filters", "user_id" => "UserId", "duration" => "Duration", "offering_type" => "OfferingType", "product_description" => "ProductDescription", "reserved_cache_node_id" => "ReservedCacheNodeId", "reserved_cache_nodes_offering_id" => "ReservedCacheNodesOfferingId", "outpost_mode" => "OutpostMode", "preferred_availability_zone" => "PreferredAvailabilityZone", "preferred_availability_zones" => "PreferredAvailabilityZone", "preferred_outpost_arn" => "PreferredOutpostArn", "preferred_outpost_arns" => "PreferredOutpostArn", "source" => "Source", "cache_node_count" => "CacheNodeCount", "node_groups_to_remove" => "NodeGroupToRemove", "node_groups_to_retain" => "NodeGroupToRetain", "resharding_configuration" => "ReshardingConfiguration", "global_node_groups_to_remove" => "GlobalNodeGroupId", "global_node_groups_to_retain" => "GlobalNodeGroupId", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "source_type" => "SourceType", "start_time" => "StartTime", "user_ids_to_add" => "UserIdsToAdd", "user_ids_to_remove" => "UserIdsToRemove", "force" => "Force", "target_bucket" => "TargetBucket", "service_update_time_range" => "ServiceUpdateTimeRange", "show_node_level_update_status" => "ShowNodeLevelUpdateStatus", "update_action_status" => "UpdateActionStatus", "show_cache_clusters_not_in_replication_groups" => "ShowCacheClustersNotInReplicationGroups", "show_cache_node_info" => "ShowCacheNodeInfo")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("at_rest_encryption_enabled" => "AtRestEncryptionEnabled", "auth_token" => "AuthToken", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "automatic_failover_enabled" => "AutomaticFailoverEnabled", "cache_node_type" => "CacheNodeType", "cache_parameter_group_name" => "CacheParameterGroupName", "cache_security_group_names" => "CacheSecurityGroupName", "cache_subnet_group_name" => "CacheSubnetGroupName", "data_tiering_enabled" => "DataTieringEnabled", "engine" => "Engine", "engine_version" => "EngineVersion", "global_replication_group_id" => "GlobalReplicationGroupId", "kms_key_id" => "KmsKeyId", "log_delivery_configurations" => "LogDeliveryConfigurationRequest", "multi_azenabled" => "MultiAZEnabled", "node_group_configuration" => "NodeGroupConfiguration", "notification_topic_arn" => "NotificationTopicArn", "num_cache_clusters" => "NumCacheClusters", "num_node_groups" => "NumNodeGroups", "port" => "Port", "preferred_cache_cluster_azs" => "AvailabilityZone", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "primary_cluster_id" => "PrimaryClusterId", "replicas_per_node_group" => "ReplicasPerNodeGroup", "security_group_ids" => "SecurityGroupId", "snapshot_arns" => "SnapshotArn", "snapshot_name" => "SnapshotName", "snapshot_retention_limit" => "SnapshotRetentionLimit", "snapshot_window" => "SnapshotWindow", "tags" => "Tag", "transit_encryption_enabled" => "TransitEncryptionEnabled", "user_group_ids" => "UserGroupIds", "user_ids" => "UserIds", "no_password_required" => "NoPasswordRequired", "passwords" => "Passwords", "global_replication_group_description" => "GlobalReplicationGroupDescription", "apply_immediately" => "ApplyImmediately", "auth_token_update_strategy" => "AuthTokenUpdateStrategy", "node_group_id" => "NodeGroupId", "notification_topic_status" => "NotificationTopicStatus", "remove_user_groups" => "RemoveUserGroups", "replication_group_description" => "ReplicationGroupDescription", "snapshotting_cluster_id" => "SnapshottingClusterId", "user_group_ids_to_add" => "UserGroupIdsToAdd", "user_group_ids_to_remove" => "UserGroupIdsToRemove", "cache_cluster_ids" => "CacheClusterIds", "replication_group_ids" => "ReplicationGroupIds", "cache_subnet_group_description" => "CacheSubnetGroupDescription", "subnet_ids" => "SubnetIdentifier", "regional_configurations" => "RegionalConfiguration", "final_snapshot_identifier" => "FinalSnapshotIdentifier", "retain_primary_cluster" => "RetainPrimaryCluster", "marker" => "Marker", "max_records" => "MaxRecords", "replication_group_id" => "ReplicationGroupId", "azmode" => "AZMode", "cache_node_ids_to_remove" => "CacheNodeId", "new_availability_zones" => "PreferredAvailabilityZone", "num_cache_nodes" => "NumCacheNodes", "parameter_name_values" => "ParameterNameValue", "reset_all_parameters" => "ResetAllParameters", "user_group_id" => "UserGroupId", "cache_cluster_id" => "CacheClusterId", "show_node_group_config" => "ShowNodeGroupConfig", "snapshot_source" => "SnapshotSource", "cache_parameter_group_family" => "CacheParameterGroupFamily", "default_only" => "DefaultOnly", "service_update_name" => "ServiceUpdateName", "service_update_status" => "ServiceUpdateStatus", "show_member_info" => "ShowMemberInfo", "access_string" => "AccessString", "append_access_string" => "AppendAccessString", "cache_security_group_name" => "CacheSecurityGroupName", "new_replica_count" => "NewReplicaCount", "replica_configuration" => "ConfigureShard", "replicas_to_remove" => "ReplicasToRemove", "filters" => "Filters", "user_id" => "UserId", "duration" => "Duration", "offering_type" => "OfferingType", "product_description" => "ProductDescription", "reserved_cache_node_id" => "ReservedCacheNodeId", "reserved_cache_nodes_offering_id" => "ReservedCacheNodesOfferingId", "outpost_mode" => "OutpostMode", "preferred_availability_zone" => "PreferredAvailabilityZone", "preferred_availability_zones" => "PreferredAvailabilityZone", "preferred_outpost_arn" => "PreferredOutpostArn", "preferred_outpost_arns" => "PreferredOutpostArn", "source" => "Source", "cache_node_count" => "CacheNodeCount", "node_groups_to_remove" => "NodeGroupToRemove", "node_groups_to_retain" => "NodeGroupToRetain", "resharding_configuration" => "ReshardingConfiguration", "global_node_groups_to_remove" => "GlobalNodeGroupId", "global_node_groups_to_retain" => "GlobalNodeGroupId", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "source_type" => "SourceType", "start_time" => "StartTime", "user_ids_to_add" => "UserIdsToAdd", "user_ids_to_remove" => "UserIdsToRemove", "force" => "Force", "target_bucket" => "TargetBucket", "service_update_time_range" => "ServiceUpdateTimeRange", "show_node_level_update_status" => "ShowNodeLevelUpdateStatus", "update_action_status" => "UpdateActionStatus", "show_cache_clusters_not_in_replication_groups" => "ShowCacheClustersNotInReplicationGroups", "show_cache_node_info" => "ShowCacheNodeInfo")
 
 """
     add_tags_to_resource(resource_name, tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,7 +32,7 @@ ElastiCache in the ElastiCache User Guide.
 
 """
 function add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -54,7 +54,7 @@ an ElastiCache cluster in another region.
 
 """
 function authorize_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("AuthorizeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ Applying Service Updates.
 - `replication_group_ids`: The replication group IDs
 """
 function batch_apply_update_action(ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("BatchApplyUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ Stopping Service Updates.
 - `replication_group_ids`: The replication group IDs
 """
 function batch_stop_update_action(ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("BatchStopUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -108,7 +108,7 @@ Complete the migration of data.
   application wants to continue migration to ElastiCache.
 """
 function complete_migration(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CompleteMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
   ElastiCache User Guide.
 """
 function copy_snapshot(SourceSnapshotName, TargetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -186,7 +186,9 @@ mode enabled) clusters.
   special characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special
   characters cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `auto_minor_version_upgrade`: This parameter is currently disabled.
+- `auto_minor_version_upgrade`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `azmode`: Specifies whether the nodes in this Memcached cluster are created in a single
   Availability Zone or created across multiple Availability Zones in the cluster's region.
   This parameter is only supported for Memcached clusters. If the AZMode and
@@ -196,19 +198,24 @@ mode enabled) clusters.
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
   generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for
-  Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge,
+  Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge,
   cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge,
   cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types:
   cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge,
   cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge,
-  cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small,
+  cache.m4.4xlarge, cache.m4.10xlarge   T4g node types (available only for Redis engine
+  version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
+  cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
   Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
   cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized:   Current generation:   R6g node types (available only for Redis engine version
-  5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+  optimized with data tiering:   Current generation:   R6gd node types (available only for
+  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
+  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
+  Memory optimized:   Current generation:   R6g node types (available only for Redis engine
+  version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
   cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see Supported Node Types
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
@@ -301,7 +308,7 @@ mode enabled) clusters.
 - `tags`: A list of tags to be added to this resource.
 """
 function create_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -320,7 +327,7 @@ Groups in the ElastiCache User Guide.
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family that the
   cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 |
-  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |
+  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.2
 - `cache_parameter_group_name`: A user-specified name for the cache parameter group.
 - `description`: A user-specified description for the cache parameter group.
 
@@ -329,7 +336,7 @@ Groups in the ElastiCache User Guide.
   must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -352,7 +359,7 @@ VPC, use a cache subnet group instead. For more information, see CreateCacheSubn
   must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_security_group(CacheSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,7 +381,7 @@ in an Amazon Virtual Private Cloud (Amazon VPC).
   must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -404,7 +411,7 @@ and will replicate updates to the secondary cluster.
 - `global_replication_group_description`: Provides details of the Global datastore
 """
 function create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +465,9 @@ Redis only.
   characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special characters
   cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `auto_minor_version_upgrade`: This parameter is currently disabled.
+- `auto_minor_version_upgrade`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `automatic_failover_enabled`: Specifies whether a read-only replica is automatically
   promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled
   must be enabled for Redis (cluster mode enabled) replication groups. Default: false
@@ -467,19 +476,24 @@ Redis only.
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
   generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for
-  Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge,
+  Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge,
   cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge,
   cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types:
   cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge,
   cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge,
-  cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small,
+  cache.m4.4xlarge, cache.m4.10xlarge   T4g node types (available only for Redis engine
+  version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
+  cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
   Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
   cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized:   Current generation:   R6g node types (available only for Redis engine version
-  5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+  optimized with data tiering:   Current generation:   R6gd node types (available only for
+  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
+  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
+  Memory optimized:   Current generation:   R6g node types (available only for Redis engine
+  version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
   cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see Supported Node Types
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
@@ -505,6 +519,9 @@ Redis only.
   replication group.  If you're going to launch your cluster in an Amazon VPC, you need to
   create a subnet group before you start creating a cluster. For more information, see
   Subnets and Subnet Groups.
+- `data_tiering_enabled`: Enables data tiering. Data tiering is only supported for
+  replication groups using the r6gd node type. This parameter must be set to true when using
+  r6gd nodes. For more information, see Data tiering.
 - `engine`: The name of the cache engine to be used for the clusters in this replication
   group. Must be Redis.
 - `engine_version`: The version number of the cache engine to be used for the clusters in
@@ -598,7 +615,7 @@ Redis only.
 - `user_group_ids`: The user group to associate with the replication group.
 """
 function create_replication_group(ReplicationGroupDescription, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -621,14 +638,14 @@ This operation is valid for Redis only.
   must be accompanied by a tag value, although null is accepted.
 """
 function create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_user(access_string, engine, user_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-For Redis engine version 6.x onwards: Creates a Redis user. For more information, see Using
+For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see Using
 Role Based Access Control (RBAC).
 
 # Arguments
@@ -645,14 +662,14 @@ Role Based Access Control (RBAC).
   must be accompanied by a tag value, although null is accepted.
 """
 function create_user(AccessString, Engine, UserId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_user_group(engine, user_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-For Redis engine version 6.x onwards: Creates a Redis user group. For more information, see
+For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see
 Using Role Based Access Control (RBAC)
 
 # Arguments
@@ -665,7 +682,7 @@ Using Role Based Access Control (RBAC)
 - `user_ids`: The list of user IDs that belong to the user group.
 """
 function create_user_group(Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("CreateUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -694,7 +711,7 @@ Decreases the number of node groups in a Global datastore
   GlobalNodeGroupsToRetain from the cluster.
 """
 function decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -728,7 +745,7 @@ time.
   group (shard).
 """
 function decrease_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DecreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -754,7 +771,7 @@ group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a R
   deletes the cluster immediately afterward.
 """
 function delete_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +788,7 @@ groups in your account.
 
 """
 function delete_cache_parameter_group(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -787,7 +804,7 @@ associated with any clusters.
 
 """
 function delete_cache_security_group(CacheSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +820,7 @@ is associated with any clusters.
 
 """
 function delete_cache_subnet_group(CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -829,7 +846,7 @@ this operation.
 
 """
 function delete_global_replication_group(GlobalReplicationGroupId, RetainPrimaryReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "RetainPrimaryReplicationGroup"=>RetainPrimaryReplicationGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -857,7 +874,7 @@ for Redis only.
   primary node is retained.
 """
 function delete_replication_group(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -873,14 +890,14 @@ operation.  This operation is valid for Redis only.
 
 """
 function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_user(user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-For Redis engine version 6.x onwards: Deletes a user. The user will be removed from all
+For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all
 user groups and in turn removed from all replication groups. For more information, see
 Using Role Based Access Control (RBAC).
 
@@ -889,14 +906,14 @@ Using Role Based Access Control (RBAC).
 
 """
 function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_user_group(user_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-For Redis engine version 6.x onwards: Deletes a user group. The user group must first be
+For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be
 disassociated from the replication group before it can be deleted. For more information,
 see Using Role Based Access Control (RBAC).
 
@@ -905,7 +922,7 @@ see Using Role Based Access Control (RBAC).
 
 """
 function delete_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DeleteUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -943,7 +960,7 @@ the cluster, no endpoint information for the removed nodes is displayed.
   request to retrieve information about the individual cache nodes.
 """
 function describe_cache_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -955,9 +972,9 @@ Returns a list of the available cache engines and their versions.
 # Keyword Parameters
 - `cache_parameter_group_family`: The name of a specific cache parameter group family to
   return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6
-  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |  Constraints:   Must be 1 to 255
-  alphanumeric characters   First character must be a letter   Cannot end with a hyphen or
-  contain two consecutive hyphens
+  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2  Constraints:   Must be 1
+  to 255 alphanumeric characters   First character must be a letter   Cannot end with a
+  hyphen or contain two consecutive hyphens
 - `default_only`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
 - `engine`: The cache engine to return. Valid values: memcached | redis
@@ -970,7 +987,7 @@ Returns a list of the available cache engines and their versions.
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
 function describe_cache_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -991,7 +1008,7 @@ specified, the list contains only the descriptions for that group.
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
 function describe_cache_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1014,7 +1031,7 @@ Returns the detailed parameter list for a particular cache parameter group.
 - `source`: The parameter types to return. Valid values: user | system | engine-default
 """
 function describe_cache_parameters(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1035,7 +1052,7 @@ you have ElastiCache in Classic setup
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
 function describe_cache_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1056,7 +1073,7 @@ ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
 function describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeCacheSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1068,7 +1085,7 @@ Returns the default engine and system parameter information for the specified ca
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family. Valid
   values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 |
-  redis4.0 | redis5.0 | redis6.x |
+  redis4.0 | redis5.0 | redis6.x | redis6.2
 
 # Keyword Parameters
 - `marker`: An optional marker returned from a prior request. Use this marker for
@@ -1079,7 +1096,7 @@ Returns the default engine and system parameter information for the specified ca
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
 function describe_engine_default_parameters(CacheParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1110,7 +1127,7 @@ if necessary.
   8601 format.  Example: 2017-03-30T07:03:49.555Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1131,7 +1148,7 @@ specified, returns information about all Global datastores.
 - `show_member_info`: Returns the list of members that comprise the Global datastore.
 """
 function describe_global_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeGlobalReplicationGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1154,7 +1171,7 @@ is valid for Redis only.
   all replication groups is returned.
 """
 function describe_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeReplicationGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1169,19 +1186,24 @@ reserved cache node.
   those reservations matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types
+  generation counterparts.   General purpose:   Current generation:   M6g node types:
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
+  1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
-  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types:
+  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
+  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
+  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
   cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
   cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
   cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types
+  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
+  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
+  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
+  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
   cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
@@ -1215,7 +1237,7 @@ reserved cache node.
   parameter to show only purchased reservations matching the specified offering identifier.
 """
 function describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeReservedCacheNodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1229,19 +1251,24 @@ Lists available reserved cache node offerings.
   available offerings matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types
+  generation counterparts.   General purpose:   Current generation:   M6g node types:
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
+  1.5.16 onward) cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
-  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types:
+  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
+  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
+  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
   cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
   cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
   cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types
+  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
+  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
+  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
+  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
   cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
@@ -1274,7 +1301,7 @@ Lists available reserved cache node offerings.
   identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
 """
 function describe_reserved_cache_nodes_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeReservedCacheNodesOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1292,7 +1319,7 @@ Returns details of the service updates
 - `service_update_status`: The status of the service update
 """
 function describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeServiceUpdates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1324,7 +1351,7 @@ is valid for Redis only.
   created. If omitted, the output shows both automatically and manually created snapshots.
 """
 function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1350,7 +1377,7 @@ Returns details of the update actions
 - `update_action_status`: The status of the update action.
 """
 function describe_update_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeUpdateActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1369,7 +1396,7 @@ Returns a list of user groups.
 - `user_group_id`: The ID of the user group.
 """
 function describe_user_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeUserGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1390,7 +1417,7 @@ Returns a list of users.
 - `user_id`: The ID of the user.
 """
 function describe_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1410,7 +1437,7 @@ as a standalone cluster in that Amazon region.
 
 """
 function disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1427,7 +1454,7 @@ region will become primary, and all other clusters will become secondary.
 
 """
 function failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, PrimaryReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("FailoverGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "PrimaryRegion"=>PrimaryRegion, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1447,7 +1474,7 @@ Increase the number of node groups in the Global datastore
   they are stored and the shard configuration for each that comprise the Global datastore
 """
 function increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1475,7 +1502,7 @@ time.
   three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
 """
 function increase_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("IncreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1499,7 +1526,7 @@ parameter must be one of the node types returned by this operation.
   ReplicationGroupId.
 """
 function list_allowed_node_type_modifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ListAllowedNodeTypeModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1521,7 +1548,7 @@ available state, ListTagsForResource returns an error.
 
 """
 function list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1550,7 +1577,9 @@ cluster configuration parameters by specifying the parameters and the new values
 - `auth_token_update_strategy`: Specifies the strategy to use to update the AUTH token.
   This parameter must be specified with the auth-token parameter. Possible values:   Rotate
   Set    For more information, see Authenticating Users with Redis AUTH
-- `auto_minor_version_upgrade`: This parameter is currently disabled.
+- `auto_minor_version_upgrade`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `azmode`: Specifies whether the new nodes in this Memcached cluster are all created in a
   single Availability Zone or created across multiple Availability Zones. Valid values:
   single-az | cross-az. This option is only supported for Memcached clusters.  You cannot
@@ -1650,7 +1679,7 @@ cluster configuration parameters by specifying the parameters and the new values
   daily snapshot of your cluster.
 """
 function modify_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1668,7 +1697,7 @@ single request by submitting a list parameter name and value pairs.
 
 """
 function modify_cache_parameter_group(CacheParameterGroupName, ParameterNameValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName, "ParameterNameValue"=>ParameterNameValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1687,7 +1716,7 @@ Modifies an existing cache subnet group.
 - `subnet_ids`: The EC2 subnet IDs for the cache subnet group.
 """
 function modify_cache_subnet_group(CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1715,7 +1744,7 @@ Modifies the settings for a Global datastore.
 - `global_replication_group_description`: A description of the Global datastore
 """
 function modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1744,7 +1773,9 @@ is valid for Redis only.
 - `auth_token_update_strategy`: Specifies the strategy to use to update the AUTH token.
   This parameter must be specified with the auth-token parameter. Possible values:   Rotate
   Set    For more information, see Authenticating Users with Redis AUTH
-- `auto_minor_version_upgrade`: This parameter is currently disabled.
+- `auto_minor_version_upgrade`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `automatic_failover_enabled`: Determines whether a read replica is automatically promoted
   to read/write primary if the existing primary encounters a failure. Valid values: true |
   false
@@ -1806,7 +1837,7 @@ is valid for Redis only.
   group, meaning the users in the group no longer can access the replication group.
 """
 function modify_replication_group(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1842,7 +1873,7 @@ shards, or rebalance the keyspaces among existing shards.
   greater than the current number of node groups (shards).
 """
 function modify_replication_group_shard_configuration(ApplyImmediately, NodeGroupCount, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyReplicationGroupShardConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "NodeGroupCount"=>NodeGroupCount, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1861,7 +1892,7 @@ Changes user password(s) and/or access string.
 - `passwords`: The passwords belonging to the user. You are allowed up to two.
 """
 function modify_user(UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1878,7 +1909,7 @@ Changes the list of users that belong to the user group.
 - `user_ids_to_remove`: The list of user IDs to remove from the user group.
 """
 function modify_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ModifyUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1903,7 +1934,7 @@ Nodes for Redis or Managing Costs with Reserved Nodes for Memcached.
   must be accompanied by a tag value, although null is accepted.
 """
 function purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1918,7 +1949,7 @@ Redistribute slots to ensure uniform distribution across existing shards in the 
 
 """
 function rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1944,7 +1975,7 @@ alternate process.
 
 """
 function reboot_cache_cluster(CacheClusterId, CacheNodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("RebootCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId, "CacheNodeId"=>CacheNodeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1967,7 +1998,7 @@ nodes in the replication group. For more information, see Resource-level permiss
 
 """
 function remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1991,7 +2022,7 @@ parameters.
   to their default values. Valid values: true | false
 """
 function reset_cache_parameter_group(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("ResetCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2011,7 +2042,7 @@ Amazon EC2 security group that had been previously authorized.
 
 """
 function revoke_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("RevokeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2027,7 +2058,7 @@ Start the migration of data.
 
 """
 function start_migration(CustomerNodeEndpointList, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("StartMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerNodeEndpointList"=>CustomerNodeEndpointList, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2036,23 +2067,27 @@ end
 
 Represents the input of a TestFailover operation which test automatic failover on a
 specified node group (called shard in the console) in a replication group (called cluster
-in the console).  Note the following    A customer can use this operation to test automatic
-failover on up to 5 shards (called node groups in the ElastiCache API and Amazon CLI) in
-any rolling 24-hour period.   If calling this operation on shards in different clusters
-(called replication groups in the API and CLI), the calls can be made concurrently.     If
-calling this operation multiple times on different shards in the same Redis (cluster mode
-enabled) replication group, the first node replacement must complete before a subsequent
-call can be made.   To determine whether the node replacement is complete you can check
-Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look
-for the following automatic failover related events, listed here in order of occurrance:
-Replication group message: Test Failover API called for node group &lt;node-group-id&gt;
-Cache cluster message: Failover from primary node &lt;primary-node-id&gt; to replica node
-&lt;node-id&gt; completed    Replication group message: Failover from primary node
-&lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message:
-Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for
-cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in
-the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also
-see, Testing Multi-AZ  in the ElastiCache User Guide.
+in the console). This API is designed for testing the behavior of your application in case
+of ElastiCache failover. It is not designed to be an operational tool for initiating a
+failover to overcome a problem you may have with the cluster. Moreover, in certain
+conditions such as large-scale operational events, Amazon may block this API.   Note the
+following    A customer can use this operation to test automatic failover on up to 5 shards
+(called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.
+If calling this operation on shards in different clusters (called replication groups in the
+API and CLI), the calls can be made concurrently.     If calling this operation multiple
+times on different shards in the same Redis (cluster mode enabled) replication group, the
+first node replacement must complete before a subsequent call can be made.   To determine
+whether the node replacement is complete you can check Events using the Amazon ElastiCache
+console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover
+related events, listed here in order of occurrance:   Replication group message: Test
+Failover API called for node group &lt;node-group-id&gt;    Cache cluster message: Failover
+from primary node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed
+Replication group message: Failover from primary node &lt;primary-node-id&gt; to replica
+node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes
+&lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;
+   For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide
+ DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the
+ElastiCache User Guide.
 
 # Arguments
 - `node_group_id`: The name of the node group (called shard in the console) in this
@@ -2063,6 +2098,6 @@ see, Testing Multi-AZ  in the ElastiCache User Guide.
 
 """
 function test_failover(NodeGroupId, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elasticache("TestFailover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeGroupId"=>NodeGroupId, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

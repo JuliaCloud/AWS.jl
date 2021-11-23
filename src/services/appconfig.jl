@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "Description", "latest_version_number" => "Latest-Version-Number", "final_bake_time_in_minutes" => "FinalBakeTimeInMinutes", "growth_type" => "GrowthType", "tags" => "Tags", "deployment_duration_in_minutes" => "DeploymentDurationInMinutes", "growth_factor" => "GrowthFactor", "monitors" => "Monitors", "max_results" => "max_results", "next_token" => "next_token", "name" => "Name", "client_configuration_version" => "client_configuration_version", "retrieval_role_arn" => "RetrievalRoleArn", "type" => "type", "validators" => "Validators")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("description" => "Description", "latest_version_number" => "Latest-Version-Number", "final_bake_time_in_minutes" => "FinalBakeTimeInMinutes", "growth_type" => "GrowthType", "tags" => "Tags", "deployment_duration_in_minutes" => "DeploymentDurationInMinutes", "growth_factor" => "GrowthFactor", "monitors" => "Monitors", "max_results" => "max_results", "next_token" => "next_token", "name" => "Name", "client_configuration_version" => "client_configuration_version", "retrieval_role_arn" => "RetrievalRoleArn", "type" => "type", "validators" => "Validators")
 
 """
     create_application(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,7 +25,7 @@ application using Amazon API Gateway and Lambda, or any system you run on behalf
   define.
 """
 function create_application(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -71,7 +71,7 @@ Guide.
 - `validators`: A list of methods for validating the configuration.
 """
 function create_configuration_profile(ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ an algorithm that defines how percentage grows, and bake time.
   you define.
 """
 function create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -140,7 +140,7 @@ configuration.
   define.
 """
 function create_environment(ApplicationId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -164,7 +164,7 @@ Creates a new configuration in the AppConfig hosted configuration store.
   specify the version number of the latest hosted configuration version.
 """
 function create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ Deletes an application. Deleting an application does not delete a configuration 
 
 """
 function delete_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -195,7 +195,7 @@ configuration from a host.
 
 """
 function delete_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -210,7 +210,7 @@ configuration from a host.
 
 """
 function delete_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ Deletes an environment. Deleting an environment does not delete a configuration 
 
 """
 function delete_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -242,7 +242,7 @@ Deletes a version of a configuration from the AppConfig hosted configuration sto
 
 """
 function delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -256,7 +256,7 @@ Retrieves information about an application.
 
 """
 function get_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ the ClientConfigurationVersion parameter.
   Configuration in the AppConfig User Guide.
 """
 function get_configuration(Application, Configuration, Environment, client_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -312,7 +312,7 @@ Retrieves information about a configuration profile.
 
 """
 function get_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,7 +328,7 @@ Retrieves information about a configuration deployment.
 
 """
 function get_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -346,7 +346,7 @@ time.
 
 """
 function get_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -365,7 +365,7 @@ deployment, AppConfig roles back the configuration.
 
 """
 function get_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -381,7 +381,7 @@ Retrieves information about a specific configuration version.
 
 """
 function get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +400,7 @@ Lists all applications in your Amazon Web Services account.
   of results.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -420,7 +420,7 @@ Lists the configuration profiles for an application.
   contains. A configuration can be a feature flag or a free-form configuration.
 """
 function list_configuration_profiles(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ Lists deployment strategies.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -454,7 +454,7 @@ Lists the deployments for an environment.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_deployments(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -472,7 +472,7 @@ Lists the environments for an application.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_environments(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -491,7 +491,7 @@ Lists configurations stored in the AppConfig hosted configuration store by versi
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
 function list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ Retrieves the list of key-value tags assigned to the resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +528,7 @@ Starts a deployment.
   define.
 """
 function start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
 
 """
 function stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -564,7 +564,7 @@ can specify a maximum of 50 tags for a resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +579,7 @@ Deletes a tag key and value from an AppConfig resource.
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,7 +596,7 @@ Updates an application.
 - `name`: The name of the application.
 """
 function update_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("PATCH", "/applications/$(ApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -617,7 +617,7 @@ Updates a configuration profile.
 - `validators`: A list of methods for validating the configuration.
 """
 function update_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -653,7 +653,7 @@ Updates a deployment strategy.
   to all targets.
 """
 function update_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -672,7 +672,7 @@ Updates an environment.
 - `name`: The name of the environment.
 """
 function update_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,6 +688,6 @@ Uses the validators in a configuration profile to validate a configuration.
 
 """
 function validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

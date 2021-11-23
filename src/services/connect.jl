@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "directory_user_id" => "DirectoryUserId", "hierarchy_group_id" => "HierarchyGroupId", "identity_info" => "IdentityInfo", "password" => "Password", "tags" => "Tags", "parent_group_id" => "ParentGroupId", "phone_number_country_codes" => "phoneNumberCountryCodes", "phone_number_types" => "phoneNumberTypes", "quick_connect_types" => "QuickConnectTypes", "agent_status_types" => "AgentStatusTypes", "description" => "Description", "name" => "Name", "source_application_name" => "SourceApplicationName", "source_application_url" => "SourceApplicationUrl", "source_type" => "SourceType", "client_token" => "ClientToken", "directory_id" => "DirectoryId", "instance_alias" => "InstanceAlias", "lex_bot" => "LexBot", "lex_v2_bot" => "LexV2Bot", "attributes" => "Attributes", "previous_contact_id" => "PreviousContactId", "references" => "References", "scheduled_time" => "ScheduledTime", "display_order" => "DisplayOrder", "groupings" => "Groupings", "integration_type" => "integrationType", "permissions" => "Permissions", "config" => "Config", "time_zone" => "TimeZone", "contact_flow_types" => "contactFlowTypes", "queue_configs" => "QueueConfigs", "initial_message" => "InitialMessage", "queue_types" => "queueTypes", "max_contacts" => "MaxContacts", "outbound_caller_config" => "OutboundCallerConfig", "quick_connect_ids" => "QuickConnectIds", "reset_order_number" => "ResetOrderNumber", "state" => "State", "answer_machine_detection_config" => "AnswerMachineDetectionConfig", "campaign_id" => "CampaignId", "queue_id" => "QueueId", "source_phone_number" => "SourcePhoneNumber", "traffic_type" => "TrafficType")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "directory_user_id" => "DirectoryUserId", "hierarchy_group_id" => "HierarchyGroupId", "identity_info" => "IdentityInfo", "password" => "Password", "tags" => "Tags", "parent_group_id" => "ParentGroupId", "phone_number_country_codes" => "phoneNumberCountryCodes", "phone_number_types" => "phoneNumberTypes", "quick_connect_types" => "QuickConnectTypes", "description" => "Description", "name" => "Name", "state" => "State", "agent_status_types" => "AgentStatusTypes", "source_application_name" => "SourceApplicationName", "source_application_url" => "SourceApplicationUrl", "source_type" => "SourceType", "client_token" => "ClientToken", "directory_id" => "DirectoryId", "instance_alias" => "InstanceAlias", "lex_bot" => "LexBot", "lex_v2_bot" => "LexV2Bot", "attributes" => "Attributes", "previous_contact_id" => "PreviousContactId", "references" => "References", "scheduled_time" => "ScheduledTime", "display_order" => "DisplayOrder", "groupings" => "Groupings", "integration_type" => "integrationType", "permissions" => "Permissions", "contact_flow_state" => "ContactFlowState", "config" => "Config", "time_zone" => "TimeZone", "contact_flow_types" => "contactFlowTypes", "queue_configs" => "QueueConfigs", "initial_message" => "InitialMessage", "queue_types" => "queueTypes", "max_contacts" => "MaxContacts", "outbound_caller_config" => "OutboundCallerConfig", "quick_connect_ids" => "QuickConnectIds", "reset_order_number" => "ResetOrderNumber", "answer_machine_detection_config" => "AnswerMachineDetectionConfig", "campaign_id" => "CampaignId", "queue_id" => "QueueId", "source_phone_number" => "SourcePhoneNumber", "traffic_type" => "TrafficType", "contact_flow_module_state" => "state")
 
 """
     associate_approved_origin(instance_id, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ approved origin to an Amazon Connect instance.
 
 """
 function associate_approved_origin(InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origin"=>Origin), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ specified Amazon Connect instance to access the specified Amazon Lex or Amazon L
 - `lex_v2_bot`: The Amazon Lex V2 bot to associate with the instance.
 """
 function associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/bot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ association.
 
 """
 function associate_instance_storage_config(InstanceId, ResourceType, StorageConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ specified Amazon Connect instance to access the specified Lambda function.
 
 """
 function associate_lambda_function(FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionArn"=>FunctionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -97,7 +97,7 @@ specified Amazon Connect instance to access the specified Amazon Lex bot.
 
 """
 function associate_lex_bot(InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LexBot"=>LexBot), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ set of quick connects with a queue.
 
 """
 function associate_queue_quick_connects(InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuickConnectIds"=>QuickConnectIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ Associates a set of queues with a routing profile.
 
 """
 function associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueConfigs"=>QueueConfigs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -149,7 +149,7 @@ security key to the instance.
 
 """
 function associate_security_key(InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -168,10 +168,10 @@ agent status for the specified Amazon Connect instance.
 # Keyword Parameters
 - `description`: The description of the status.
 - `display_order`: The display order of the status.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_agent_status(InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/agent-status/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "State"=>State), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -193,14 +193,37 @@ update contact flows using the Amazon Connect Flow language.
 - `tags`: One or more tags.
 """
 function create_contact_flow(Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_contact_flow_module(content, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a contact flow module for the specified Amazon Connect instance.
+
+# Arguments
+- `content`: The content of the contact flow module.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `name`: The name of the contact flow module.
+
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `description`: The description of the contact flow module.
+- `tags`: The tags used to organize, track, or control access for this resource.
+"""
+function create_contact_flow_module(Content, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("PUT", "/contact-flow-modules/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_hours_of_operation(config, instance_id, name, time_zone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates hours of operation.
+This API is in preview release for Amazon Connect and is subject to change. Creates hours
+of operation.
 
 # Arguments
 - `config`: Configuration information for the hours of operation: day, start time, and end
@@ -212,10 +235,10 @@ Creates hours of operation.
 
 # Keyword Parameters
 - `description`: The description of the hours of operation.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_hours_of_operation(Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/hours-of-operations/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "Name"=>Name, "TimeZone"=>TimeZone), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -242,7 +265,7 @@ has been an excessive number of attempts at creating or deleting instances. You 
 - `instance_alias`: The name for your instance.
 """
 function create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,10 +287,10 @@ Creates an AWS resource association with an Amazon Connect instance.
   required for the EVENT integration type.
 - `source_type`: The type of the data source. This field is only required for the EVENT
   integration type.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_integration_association(InstanceId, IntegrationArn, IntegrationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -289,10 +312,10 @@ queue for the specified Amazon Connect instance.
   considered full.
 - `outbound_caller_config`: The outbound caller ID name, number, and outbound whisper flow.
 - `quick_connect_ids`: The quick connects available to agents who are working the queue.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_queue(HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/queues/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HoursOfOperationId"=>HoursOfOperationId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -309,10 +332,10 @@ Creates a quick connect for the specified Amazon Connect instance.
 
 # Keyword Parameters
 - `description`: The description of the quick connect.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_quick_connect(InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/quick-connects/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "QuickConnectConfig"=>QuickConnectConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -336,7 +359,7 @@ Creates a new routing profile.
 - `tags`: One or more tags.
 """
 function create_routing_profile(DefaultOutboundQueueId, Description, InstanceId, MediaConcurrencies, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/routing-profiles/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId, "Description"=>Description, "MediaConcurrencies"=>MediaConcurrencies, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,10 +377,10 @@ security profile.
 # Keyword Parameters
 - `description`: The description of the security profile.
 - `permissions`: Permissions assigned to the security profile.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_security_profile(InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/security-profiles/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityProfileName"=>SecurityProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -374,10 +397,10 @@ Creates a use case for an integration association.
   integration association can have only one of each use case type.
 
 # Keyword Parameters
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
 function create_use_case(InstanceId, IntegrationAssociationId, UseCaseType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UseCaseType"=>UseCaseType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -414,7 +437,7 @@ Connect Administrator Guide.
 - `tags`: One or more tags.
 """
 function create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/users/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneConfig"=>PhoneConfig, "RoutingProfileId"=>RoutingProfileId, "SecurityProfileIds"=>SecurityProfileIds, "Username"=>Username), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,14 +456,47 @@ Creates a new user hierarchy group.
   created at level one if the parent group ID is null.
 """
 function create_user_hierarchy_group(InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_contact_flow(contact_flow_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a contact flow for the specified Amazon Connect instance.
+
+# Arguments
+- `contact_flow_id`: The identifier of the contact flow.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function delete_contact_flow(ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("DELETE", "/contact-flows/$(InstanceId)/$(ContactFlowId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_contact_flow_module(contact_flow_module_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes the specified contact flow module.
+
+# Arguments
+- `contact_flow_module_id`: The identifier of the contact flow module.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function delete_contact_flow_module(ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("DELETE", "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     delete_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes an hours of operation.
+This API is in preview release for Amazon Connect and is subject to change. Deletes an
+hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
@@ -449,7 +505,7 @@ Deletes an hours of operation.
 
 """
 function delete_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -469,7 +525,7 @@ your account.
 
 """
 function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -486,7 +542,7 @@ not have any use cases associated with it.
 
 """
 function delete_integration_association(InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -502,7 +558,7 @@ Deletes a quick connect.
 
 """
 function delete_quick_connect(InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/quick-connects/$(InstanceId)/$(QuickConnectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -519,7 +575,7 @@ security profile.
 
 """
 function delete_security_profile(InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/security-profiles/$(InstanceId)/$(SecurityProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -536,7 +592,7 @@ Deletes a use case from an integration association.
 
 """
 function delete_use_case(InstanceId, IntegrationAssociationId, UseCaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +610,7 @@ Amazon Connect Instance in the Amazon Connect Administrator Guide.
 
 """
 function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/users/$(InstanceId)/$(UserId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -571,7 +627,7 @@ any active child groups.
 
 """
 function delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +644,7 @@ agent status.
 
 """
 function describe_agent_status(AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/agent-status/$(InstanceId)/$(AgentStatusId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,17 +652,17 @@ end
     describe_contact(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Describes the
-specified contact.   Contact information is available in Amazon Connect for 24 months, and
-then it is deleted.
+specified contact.   Contact information remains available in Amazon Connect for 24 months,
+and then it is deleted.
 
 # Arguments
-- `contact_id`: The identifier of the initial contact.
+- `contact_id`: The identifier of the contact.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 
 """
 function describe_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/contacts/$(InstanceId)/$(ContactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -622,14 +678,31 @@ the Amazon Connect Flow language.
 
 """
 function describe_contact_flow(ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/contact-flows/$(InstanceId)/$(ContactFlowId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_contact_flow_module(contact_flow_module_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes the specified contact flow module.
+
+# Arguments
+- `contact_flow_module_id`: The identifier of the contact flow module.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function describe_contact_flow_module(ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("GET", "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Describes the hours of operation.
+This API is in preview release for Amazon Connect and is subject to change. Describes the
+hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
@@ -638,7 +711,7 @@ Describes the hours of operation.
 
 """
 function describe_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -658,7 +731,7 @@ invoked.
 
 """
 function describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -675,7 +748,7 @@ specified instance attribute.
 
 """
 function describe_instance_attribute(AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -695,7 +768,7 @@ instance ID.
 
 """
 function describe_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -712,7 +785,7 @@ specified queue.
 
 """
 function describe_queue(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/queues/$(InstanceId)/$(QueueId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -728,7 +801,7 @@ Describes the quick connect.
 
 """
 function describe_quick_connect(InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/quick-connects/$(InstanceId)/$(QuickConnectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -744,7 +817,7 @@ Describes the specified routing profile.
 
 """
 function describe_routing_profile(InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -761,7 +834,7 @@ information about the security profle.
 
 """
 function describe_security_profile(InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/security-profiles/$(InstanceId)/$(SecurityProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -779,7 +852,7 @@ users and note the IDs provided in the output.
 
 """
 function describe_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/users/$(InstanceId)/$(UserId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -795,7 +868,7 @@ Describes the specified hierarchy group.
 
 """
 function describe_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -810,7 +883,7 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
 
 """
 function describe_user_hierarchy_structure(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/user-hierarchy-structure/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -827,7 +900,7 @@ to integrated applications from Amazon Connect.
 
 """
 function disassociate_approved_origin(InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("origin"=>origin), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -847,7 +920,7 @@ V2 bot.
 - `lex_v2_bot`: The Amazon Lex V2 bot to disassociate from the instance.
 """
 function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/instance/$(InstanceId)/bot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +939,7 @@ storage type configurations for the specified resource type and association ID.
 
 """
 function disassociate_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -883,7 +956,7 @@ Lambda function from the dropdown options available in the relevant contact flow
 
 """
 function disassociate_lambda_function(InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("functionArn"=>functionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -901,7 +974,7 @@ authorization from the specified instance to access the specified Amazon Lex bot
 
 """
 function disassociate_lex_bot(InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -919,7 +992,7 @@ set of quick connects from a queue.
 
 """
 function disassociate_queue_quick_connects(InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuickConnectIds"=>QuickConnectIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -936,7 +1009,7 @@ Disassociates a set of queues from a routing profile.
 
 """
 function disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueReferences"=>QueueReferences), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -954,7 +1027,7 @@ specified security key.
 
 """
 function disassociate_security_key(AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -969,7 +1042,7 @@ Retrieves the contact attributes for the specified contact.
 
 """
 function get_contact_attributes(InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/contact/attributes/$(InstanceId)/$(InitialContactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1018,7 +1091,7 @@ Administrator Guide.
   must use the same request parameters as the request that generated the token.
 """
 function get_current_metric_data(CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/metrics/current/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentMetrics"=>CurrentMetrics, "Filters"=>Filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1036,7 +1109,7 @@ with Amazon Connect
 
 """
 function get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/user/federate/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1096,7 +1169,7 @@ Administrator Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1117,7 +1190,7 @@ statuses.
   previous response in the next request to retrieve the next set of results.
 """
 function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/agent-status/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1137,7 +1210,7 @@ paginated list of all approved origins associated with the instance.
   previous response in the next request to retrieve the next set of results.
 """
 function list_approved_origins(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/approved-origins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1159,8 +1232,29 @@ currently associated with the instance.
   previous response in the next request to retrieve the next set of results.
 """
 function list_bots(InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lexVersion"=>lexVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_contact_flow_modules(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Provides information about the contact flow modules for the specified Amazon Connect
+instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Keyword Parameters
+- `contact_flow_module_state`: The state of the contact flow module.
+- `max_results`: The maximum number of results to return per page.
+- `next_token`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_contact_flow_modules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("GET", "/contact-flow-modules-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1182,7 +1276,7 @@ Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/contact-flows-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1201,10 +1295,10 @@ specified referenceTypes, returns a list of references associated with the conta
 # Keyword Parameters
 - `next_token`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.  This is not
-  expected to be set since the value returned in the previous response is always null.
+  expected to be set, because the value returned in the previous response is always null.
 """
 function list_contact_references(ContactId, InstanceId, referenceTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/contact/references/$(InstanceId)/$(ContactId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("referenceTypes"=>referenceTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1225,7 +1319,7 @@ a Queue in the Amazon Connect Administrator Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function list_hours_of_operations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/hours-of-operations-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1245,7 +1339,7 @@ paginated list of all attribute types for the given instance.
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_attributes(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/attributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1266,7 +1360,7 @@ paginated list of storage configs for the identified instance and resource type.
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_storage_configs(InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1284,7 +1378,7 @@ for 24 hours after the CreateInstance API was invoked.
   previous response in the next request to retrieve the next set of results.
 """
 function list_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1299,13 +1393,13 @@ Connect instance.
   in the ARN of the instance.
 
 # Keyword Parameters
-- `integration_type`:
+- `integration_type`: The integration type.
 - `max_results`: The maximum number of results to return per page.
 - `next_token`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_integration_associations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/integration-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1326,7 +1420,7 @@ contact flow blocks.
   previous response in the next request to retrieve the next set of results.
 """
 function list_lambda_functions(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/lambda-functions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1347,7 +1441,7 @@ paginated list of all the Amazon Lex bots currently associated with the instance
   previous response in the next request to retrieve the next set of results.
 """
 function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/lex-bots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1370,7 +1464,7 @@ in the Amazon Connect Administrator Guide.
 - `phone_number_types`: The type of phone number.
 """
 function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/phone-numbers-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1388,7 +1482,7 @@ Provides information about the prompts for the specified Amazon Connect instance
   previous response in the next request to retrieve the next set of results.
 """
 function list_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/prompts-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1409,7 +1503,7 @@ connects associated with a queue.
   previous response in the next request to retrieve the next set of results.
 """
 function list_queue_quick_connects(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/queues/$(InstanceId)/$(QueueId)/quick-connects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1433,7 +1527,7 @@ Queues: Standard and Agent in the Amazon Connect Administrator Guide.
 - `queue_types`: The type of queue.
 """
 function list_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/queues-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1455,7 +1549,7 @@ Provides information about the quick connects for the specified Amazon Connect i
   (USER), External (PHONE_NUMBER), or Queue (QUEUE).
 """
 function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/quick-connects/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1475,7 +1569,7 @@ Lists the queues associated with a routing profile.
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profile_queues(InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1496,7 +1590,7 @@ Routing Profile in the Amazon Connect Administrator Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/routing-profiles-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1516,7 +1610,7 @@ paginated list of all security keys associated with the instance.
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/security-keys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1537,7 +1631,7 @@ permissions granted to a security profile.
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profile_permissions(InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1558,7 +1652,7 @@ Connect Administrator Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/security-profiles-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1573,7 +1667,7 @@ Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1593,7 +1687,7 @@ Lists the use cases for the integration association.
   previous response in the next request to retrieve the next set of results.
 """
 function list_use_cases(InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1614,7 +1708,7 @@ Amazon Connect Administrator Guide.
   previous response in the next request to retrieve the next set of results.
 """
 function list_user_hierarchy_groups(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/user-hierarchy-groups-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1633,7 +1727,7 @@ Provides summary information about the users for the specified Amazon Connect in
   previous response in the next request to retrieve the next set of results.
 """
 function list_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("GET", "/users-summary/$(InstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1653,7 +1747,7 @@ supported at this time.
 
 """
 function resume_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/resume-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1693,7 +1787,7 @@ Administrator Guide.
 - `initial_message`: The initial message to be sent to the newly created chat.
 """
 function start_chat_contact(ContactFlowId, InstanceId, ParticipantDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/contact/chat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "ParticipantDetails"=>ParticipantDetails, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1718,7 +1812,7 @@ in the Set recording behavior block. Only voice recordings are supported at this
 
 """
 function start_contact_recording(ContactId, InitialContactId, InstanceId, VoiceRecordingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/start-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId, "VoiceRecordingConfiguration"=>VoiceRecordingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1741,7 +1835,7 @@ Administrator Guide.
 
 """
 function start_contact_streaming(ChatStreamingConfiguration, ClientToken, ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/start-streaming", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChatStreamingConfiguration"=>ChatStreamingConfiguration, "ClientToken"=>ClientToken, "ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1795,14 +1889,14 @@ Amazon Connect Administrator Guide.
   EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
 """
 function start_outbound_voice_contact(ContactFlowId, DestinationPhoneNumber, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/contact/outbound-voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "DestinationPhoneNumber"=>DestinationPhoneNumber, "InstanceId"=>InstanceId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     start_task_contact(contact_flow_id, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Initiates a contact flow to start a new task immediately or at a future date and time.
+Initiates a contact flow to start a new task.
 
 # Arguments
 - `contact_flow_id`: The identifier of the contact flow for initiating the tasks. To see
@@ -1833,7 +1927,7 @@ Initiates a contact flow to start a new task immediately or at a future date and
   6 days in future.
 """
 function start_task_contact(ContactFlowId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("PUT", "/contact/task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "Name"=>Name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1849,7 +1943,7 @@ Ends the specified contact.
 
 """
 function stop_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1872,7 +1966,7 @@ voice recordings are supported at this time.
 
 """
 function stop_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/stop-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1891,7 +1985,7 @@ contact, call the StartContactStreaming API.
 
 """
 function stop_contact_streaming(ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/stop-streaming", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId, "StreamingId"=>StreamingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1913,7 +2007,7 @@ recordings are supported at this time.
 
 """
 function suspend_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/suspend-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1932,7 +2026,7 @@ Examples in the Amazon Connect Administrator Guide.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1947,7 +2041,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1970,7 +2064,7 @@ status.
 - `state`: The state of the agent status.
 """
 function update_agent_status(AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/agent-status/$(InstanceId)/$(AgentStatusId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1978,7 +2072,7 @@ end
     update_contact(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Adds or updates
-user defined contact information associated with the specified contact. At least one field
+user-defined contact information associated with the specified contact. At least one field
 to be updated must be present in the request.  You can add or update user-defined contact
 information for both ongoing and completed contacts.
 
@@ -1995,7 +2089,7 @@ information for both ongoing and completed contacts.
   (CCP).
 """
 function update_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contacts/$(InstanceId)/$(ContactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2031,7 +2125,7 @@ the API but are still active in your instance.
 
 """
 function update_contact_attributes(Attributes, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2050,8 +2144,65 @@ Amazon Connect Flow language.
 
 """
 function update_contact_flow_content(ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_contact_flow_metadata(contact_flow_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates metadata about specified contact flow.
+
+# Arguments
+- `contact_flow_id`: The identifier of the contact flow.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Keyword Parameters
+- `contact_flow_state`: The state of contact flow.
+- `description`: The description of the contact flow.
+- `name`: TThe name of the contact flow.
+"""
+function update_contact_flow_metadata(ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_contact_flow_module_content(contact_flow_module_id, content, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates specified contact flow module for the specified Amazon Connect instance.
+
+# Arguments
+- `contact_flow_module_id`: The identifier of the contact flow module.
+- `content`: The content of the contact flow module.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function update_contact_flow_module_content(ContactFlowModuleId, Content, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("POST", "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_contact_flow_module_metadata(contact_flow_module_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates metadata about specified contact flow module.
+
+# Arguments
+- `contact_flow_module_id`: The identifier of the contact flow module.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Keyword Parameters
+- `description`: The description of the contact flow module.
+- `name`: The name of the contact flow module.
+- `state`: The state of contact flow module.
+"""
+function update_contact_flow_module_metadata(ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return connect("POST", "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2069,7 +2220,7 @@ Connect Flow language.
 - `name`: The name of the contact flow.
 """
 function update_contact_flow_name(ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2088,14 +2239,15 @@ Updates the scheduled time of a task contact that is already scheduled.
 
 """
 function update_contact_schedule(ContactId, InstanceId, ScheduledTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/contact/schedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId, "ScheduledTime"=>ScheduledTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     update_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Updates the hours of operation.
+This API is in preview release for Amazon Connect and is subject to change. Updates the
+hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier of the hours of operation.
@@ -2109,7 +2261,7 @@ Updates the hours of operation.
 - `time_zone`: The time zone of the hours of operation.
 """
 function update_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2128,7 +2280,7 @@ value for the specified attribute type.
 
 """
 function update_instance_attribute(AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Value"=>Value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2148,7 +2300,7 @@ existing configuration for a resource type. This API is idempotent.
 
 """
 function update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2166,7 +2318,7 @@ hours of operation for the specified queue.
 
 """
 function update_queue_hours_of_operation(HoursOfOperationId, InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/hours-of-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HoursOfOperationId"=>HoursOfOperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2186,7 +2338,7 @@ maximum number of contacts allowed in a queue before it is considered full.
   considered full.
 """
 function update_queue_max_contacts(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/max-contacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2206,7 +2358,7 @@ name and description of a queue. At least Name or Description must be provided.
 - `name`: The name of the queue.
 """
 function update_queue_name(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/name", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2224,7 +2376,7 @@ outbound caller ID name, number, and outbound whisper flow for a specified queue
 
 """
 function update_queue_outbound_caller_config(InstanceId, OutboundCallerConfig, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutboundCallerConfig"=>OutboundCallerConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2242,7 +2394,7 @@ status of the queue.
 
 """
 function update_queue_status(InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/queues/$(InstanceId)/$(QueueId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2260,7 +2412,7 @@ Updates the configuration settings for the specified quick connect.
 
 """
 function update_quick_connect_config(InstanceId, QuickConnectConfig, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuickConnectConfig"=>QuickConnectConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2280,7 +2432,7 @@ in JSON format. At least Name or Description must be provided.
 - `name`: The name of the quick connect.
 """
 function update_quick_connect_name(InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/name", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2299,7 +2451,7 @@ routing profile.
 
 """
 function update_routing_profile_concurrency(InstanceId, MediaConcurrencies, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MediaConcurrencies"=>MediaConcurrencies), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2316,7 +2468,7 @@ Updates the default outbound queue of a routing profile.
 
 """
 function update_routing_profile_default_outbound_queue(DefaultOutboundQueueId, InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2337,7 +2489,7 @@ data in JSON format. At least Name or Description must be provided.
 - `name`: The name of the routing profile. Must not be more than 127 characters.
 """
 function update_routing_profile_name(InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2355,7 +2507,7 @@ Updates the properties associated with a set of queues for a routing profile.
 
 """
 function update_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueConfigs"=>QueueConfigs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2375,7 +2527,7 @@ security profile.
 - `permissions`: The permissions granted to a security profile.
 """
 function update_security_profile(InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/security-profiles/$(InstanceId)/$(SecurityProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2393,7 +2545,7 @@ Assigns the specified hierarchy group to the specified user.
 - `hierarchy_group_id`: The identifier of the hierarchy group.
 """
 function update_user_hierarchy(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2410,7 +2562,7 @@ Updates the name of the user hierarchy group.
 
 """
 function update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2426,7 +2578,7 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
 
 """
 function update_user_hierarchy_structure(HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HierarchyStructure"=>HierarchyStructure), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2448,7 +2600,7 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 
 """
 function update_user_identity_info(IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/users/$(InstanceId)/$(UserId)/identity-info", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityInfo"=>IdentityInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2465,7 +2617,7 @@ Updates the phone configuration settings for the specified user.
 
 """
 function update_user_phone_config(InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/users/$(InstanceId)/$(UserId)/phone-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneConfig"=>PhoneConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2482,7 +2634,7 @@ Assigns the specified routing profile to the specified user.
 
 """
 function update_user_routing_profile(InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/users/$(InstanceId)/$(UserId)/routing-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingProfileId"=>RoutingProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2499,6 +2651,6 @@ Assigns the specified security profiles to the specified user.
 
 """
 function update_user_security_profiles(InstanceId, SecurityProfileIds, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect("POST", "/users/$(InstanceId)/$(UserId)/security-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityProfileIds"=>SecurityProfileIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

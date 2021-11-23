@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "ClientToken", "description" => "Description", "tags" => "Tags", "max_results" => "maxResults", "next_token" => "nextToken", "name" => "Name", "kms_key" => "KmsKey", "schedule_config" => "ScheduleConfig", "source_uri" => "SourceURI")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "ClientToken", "description" => "Description", "tags" => "Tags", "max_results" => "maxResults", "next_token" => "nextToken", "name" => "Name", "kms_key" => "KmsKey", "schedule_config" => "ScheduleConfig", "source_uri" => "SourceURI")
 
 """
     create_data_integration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 - `tags`: One or more tags.
 """
 function create_data_integration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("POST", "/dataIntegrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -51,7 +51,7 @@ the EventIntegration control plane.
 - `tags`: One or more tags.
 """
 function create_event_integration(EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("POST", "/eventIntegrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventBridgeBus"=>EventBridgeBus, "EventFilter"=>EventFilter, "Name"=>Name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -70,7 +70,7 @@ CreateDataIntegration API.
 
 """
 function delete_data_integration(Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("DELETE", "/dataIntegrations/$(Identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ with clients, the request is rejected.
 
 """
 function delete_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("DELETE", "/eventIntegrations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -101,7 +101,7 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 
 """
 function get_data_integration(Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/dataIntegrations/$(Identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Returns information about the event integration.
 
 """
 function get_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/eventIntegrations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ CreateDataIntegration API.
   previous response in the next request to retrieve the next set of results.
 """
 function list_data_integration_associations(Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/dataIntegrations/$(Identifier)/associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -154,7 +154,7 @@ CreateDataIntegration API.
   previous response in the next request to retrieve the next set of results.
 """
 function list_data_integrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/dataIntegrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ Returns a paginated list of event integration associations in the account.
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integration_associations(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/eventIntegrations/$(Name)/associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -187,7 +187,7 @@ Returns a paginated list of event integrations in the account.
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/eventIntegrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -231,7 +231,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 - `name`: The name of the DataIntegration.
 """
 function update_data_integration(Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("PATCH", "/dataIntegrations/$(Identifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,6 +266,6 @@ Updates the description of an event integration.
 - `description`: The description of the event inegration.
 """
 function update_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return appintegrations("PATCH", "/eventIntegrations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

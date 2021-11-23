@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags", "data_source" => "DataSource", "enable_visualization" => "EnableVisualization", "end_date_time" => "EndDateTime", "schema" => "Schema", "start_date_time" => "StartDateTime", "data_frequency" => "DataFrequency", "encryption_config" => "EncryptionConfig", "forecast_types" => "ForecastTypes", "geolocation_format" => "GeolocationFormat", "time_zone" => "TimeZone", "timestamp_format" => "TimestampFormat", "use_geolocation_for_time_zone" => "UseGeolocationForTimeZone", "dataset_arns" => "DatasetArns", "algorithm_arn" => "AlgorithmArn", "auto_mloverride_strategy" => "AutoMLOverrideStrategy", "evaluation_parameters" => "EvaluationParameters", "hpoconfig" => "HPOConfig", "optimization_metric" => "OptimizationMetric", "perform_auto_ml" => "PerformAutoML", "perform_hpo" => "PerformHPO", "training_parameters" => "TrainingParameters", "data_config" => "DataConfig", "explain_predictor" => "ExplainPredictor", "forecast_dimensions" => "ForecastDimensions", "forecast_frequency" => "ForecastFrequency", "forecast_horizon" => "ForecastHorizon", "reference_predictor_arn" => "ReferencePredictorArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags", "data_source" => "DataSource", "enable_visualization" => "EnableVisualization", "end_date_time" => "EndDateTime", "schema" => "Schema", "start_date_time" => "StartDateTime", "data_frequency" => "DataFrequency", "encryption_config" => "EncryptionConfig", "forecast_types" => "ForecastTypes", "geolocation_format" => "GeolocationFormat", "time_zone" => "TimeZone", "timestamp_format" => "TimestampFormat", "use_geolocation_for_time_zone" => "UseGeolocationForTimeZone", "dataset_arns" => "DatasetArns", "algorithm_arn" => "AlgorithmArn", "auto_mloverride_strategy" => "AutoMLOverrideStrategy", "evaluation_parameters" => "EvaluationParameters", "hpoconfig" => "HPOConfig", "optimization_metric" => "OptimizationMetric", "perform_auto_ml" => "PerformAutoML", "perform_hpo" => "PerformHPO", "training_parameters" => "TrainingParameters", "data_config" => "DataConfig", "explain_predictor" => "ExplainPredictor", "forecast_dimensions" => "ForecastDimensions", "forecast_frequency" => "ForecastFrequency", "forecast_horizon" => "ForecastHorizon", "reference_predictor_arn" => "ReferencePredictorArn")
 
 """
     create_auto_predictor(predictor_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -67,7 +67,7 @@ specify values for the ReferencePredictorArn and PredictorName.
   tag keys with this prefix.
 """
 function create_auto_predictor(PredictorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateAutoPredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorName"=>PredictorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -128,7 +128,7 @@ DescribeDataset operation to get the status.
   the key prefix of aws do not count against your tags per resource limit.
 """
 function create_dataset(DatasetName, DatasetType, Domain, Schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ DescribeDatasetGroup operation.
   limit.
 """
 function create_dataset_group(DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,7 +245,7 @@ operation.
   multiple time zones and those timestamps are expressed in local time.
 """
 function create_dataset_import_job(DataSource, DatasetArn, DatasetImportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,7 +315,7 @@ timestamp in the range of time points.
   tag keys with this prefix.
 """
 function create_explainability(ExplainabilityConfig, ExplainabilityName, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityConfig"=>ExplainabilityConfig, "ExplainabilityName"=>ExplainabilityName, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -351,7 +351,7 @@ DescribeExplainabilityExport operation.
   tag keys with this prefix.
 """
 function create_explainability_export(Destination, ExplainabilityArn, ExplainabilityExportName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ExplainabilityArn"=>ExplainabilityArn, "ExplainabilityExportName"=>ExplainabilityExportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -397,7 +397,7 @@ DescribeForecast operation to get the status.
   the key prefix of aws do not count against your tags per resource limit.
 """
 function create_forecast(ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -442,7 +442,7 @@ Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation
   per resource limit.
 """
 function create_forecast_export_job(Destination, ForecastArn, ForecastExportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -549,7 +549,7 @@ status, use the DescribePredictor operation.
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
 function create_predictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +588,7 @@ status, use the DescribePredictorBacktestExportJob operation.
   tag keys with this prefix.
 """
 function create_predictor_backtest_export_job(Destination, PredictorArn, PredictorBacktestExportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("CreatePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "PredictorArn"=>PredictorArn, "PredictorBacktestExportJobName"=>PredictorBacktestExportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ operation, omitting the deleted dataset's ARN.
 
 """
 function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -623,7 +623,7 @@ group, not the datasets in the group.
 
 """
 function delete_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -640,7 +640,7 @@ status, use the DescribeDatasetImportJob operation.
 
 """
 function delete_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -656,7 +656,7 @@ ACTIVE or CREATE_FAILED. To get the status, use the DescribeExplainability opera
 
 """
 function delete_explainability(ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityArn"=>ExplainabilityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -671,7 +671,7 @@ Deletes an Explainability export job.
 
 """
 function delete_explainability_export(ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityExportArn"=>ExplainabilityExportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -688,7 +688,7 @@ forecast is deleted, you can no longer query the forecast.
 
 """
 function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -705,7 +705,7 @@ use the DescribeForecastExportJob operation.
 
 """
 function delete_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -721,7 +721,7 @@ DescribePredictor operation.
 
 """
 function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +736,7 @@ Deletes a predictor backtest export job.
 
 """
 function delete_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeletePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -759,7 +759,7 @@ delete datasets or exported files stored in Amazon S3.
 
 """
 function delete_resource_tree(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DeleteResourceTree", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -773,7 +773,7 @@ Describes a predictor created using the CreateAutoPredictor operation.
 
 """
 function describe_auto_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeAutoPredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -789,7 +789,7 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 
 """
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -806,7 +806,7 @@ CreationTime     LastModificationTime     Status
 
 """
 function describe_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -824,7 +824,7 @@ about the error.
 
 """
 function describe_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -838,7 +838,7 @@ Describes an Explainability resource created using the CreateExplainability oper
 
 """
 function describe_explainability(ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityArn"=>ExplainabilityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -852,7 +852,7 @@ Describes an Explainability export created using the CreateExplainabilityExport 
 
 """
 function describe_explainability_export(ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityExportArn"=>ExplainabilityExportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -870,7 +870,7 @@ information about the error.
 
 """
 function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -888,7 +888,7 @@ error.
 
 """
 function describe_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -911,7 +911,7 @@ information about the error.
 
 """
 function describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -930,7 +930,7 @@ an error occurred)
 
 """
 function describe_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("DescribePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -955,7 +955,7 @@ that training has completed. To get the status, use the DescribePredictor operat
 
 """
 function get_accuracy_metrics(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -974,7 +974,7 @@ group ARN with the DescribeDatasetGroup operation.
   expire after 24 hours.
 """
 function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1004,7 +1004,7 @@ array of Filter objects.
   expire after 24 hours.
 """
 function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListDatasetImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1022,7 +1022,7 @@ retrieve the complete set of properties, use the ARN with the DescribeDataset op
   expire after 24 hours.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1047,7 +1047,7 @@ particular Explainability resource, use the ARN with the DescribeExplainability 
   expire after 24 hours.
 """
 function list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListExplainabilities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1072,7 +1072,7 @@ particular Explainability export, use the ARN with the DescribeExplainability op
   expire after 24 hours.
 """
 function list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListExplainabilityExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1103,7 +1103,7 @@ Filter objects.
   expire after 24 hours.
 """
 function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListForecastExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1132,7 +1132,7 @@ DescribeForecast operation. You can filter the list using an array of Filter obj
   expire after 24 hours.
 """
 function list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListForecasts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1160,7 +1160,7 @@ DescribePredictorBacktestExportJob operation.
   expire after 24 hours.
 """
 function list_predictor_backtest_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListPredictorBacktestExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1189,7 +1189,7 @@ the DescribePredictor operation. You can filter the list using an array of Filte
   expire after 24 hours.
 """
 function list_predictors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListPredictors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1205,7 +1205,7 @@ Lists the tags for an Amazon Forecast resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1225,7 +1225,7 @@ Job
 
 """
 function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("StopResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1256,7 +1256,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1273,7 +1273,7 @@ Deletes the specified tags from a resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1291,6 +1291,6 @@ Use the DescribeDatasetGroup operation to get the status.
 
 """
 function update_dataset_group(DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

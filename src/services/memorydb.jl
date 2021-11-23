@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("service_update" => "ServiceUpdate", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "description" => "Description", "engine_version" => "EngineVersion", "kms_key_id" => "KmsKeyId", "maintenance_window" => "MaintenanceWindow", "num_replicas_per_shard" => "NumReplicasPerShard", "num_shards" => "NumShards", "parameter_group_name" => "ParameterGroupName", "port" => "Port", "security_group_ids" => "SecurityGroupIds", "snapshot_arns" => "SnapshotArns", "snapshot_name" => "SnapshotName", "snapshot_retention_limit" => "SnapshotRetentionLimit", "snapshot_window" => "SnapshotWindow", "sns_topic_arn" => "SnsTopicArn", "subnet_group_name" => "SubnetGroupName", "tags" => "Tags", "tlsenabled" => "TLSEnabled", "max_results" => "MaxResults", "next_token" => "NextToken", "duration" => "Duration", "end_time" => "EndTime", "source_name" => "SourceName", "source_type" => "SourceType", "start_time" => "StartTime", "access_string" => "AccessString", "authentication_mode" => "AuthenticationMode", "cluster_name" => "ClusterName", "show_detail" => "ShowDetail", "source" => "Source", "subnet_ids" => "SubnetIds", "cluster_names" => "ClusterNames", "service_update_name" => "ServiceUpdateName", "status" => "Status", "target_bucket" => "TargetBucket", "all_parameters" => "AllParameters", "parameter_names" => "ParameterNames", "aclname" => "ACLName", "node_type" => "NodeType", "replica_configuration" => "ReplicaConfiguration", "shard_configuration" => "ShardConfiguration", "sns_topic_status" => "SnsTopicStatus", "default_only" => "DefaultOnly", "parameter_group_family" => "ParameterGroupFamily", "final_snapshot_name" => "FinalSnapshotName", "user_names" => "UserNames", "filters" => "Filters", "user_name" => "UserName", "user_names_to_add" => "UserNamesToAdd", "user_names_to_remove" => "UserNamesToRemove", "show_shard_details" => "ShowShardDetails")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("service_update" => "ServiceUpdate", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "description" => "Description", "engine_version" => "EngineVersion", "kms_key_id" => "KmsKeyId", "maintenance_window" => "MaintenanceWindow", "num_replicas_per_shard" => "NumReplicasPerShard", "num_shards" => "NumShards", "parameter_group_name" => "ParameterGroupName", "port" => "Port", "security_group_ids" => "SecurityGroupIds", "snapshot_arns" => "SnapshotArns", "snapshot_name" => "SnapshotName", "snapshot_retention_limit" => "SnapshotRetentionLimit", "snapshot_window" => "SnapshotWindow", "sns_topic_arn" => "SnsTopicArn", "subnet_group_name" => "SubnetGroupName", "tags" => "Tags", "tlsenabled" => "TLSEnabled", "max_results" => "MaxResults", "next_token" => "NextToken", "duration" => "Duration", "end_time" => "EndTime", "source_name" => "SourceName", "source_type" => "SourceType", "start_time" => "StartTime", "access_string" => "AccessString", "authentication_mode" => "AuthenticationMode", "cluster_name" => "ClusterName", "show_detail" => "ShowDetail", "source" => "Source", "subnet_ids" => "SubnetIds", "cluster_names" => "ClusterNames", "service_update_name" => "ServiceUpdateName", "status" => "Status", "target_bucket" => "TargetBucket", "all_parameters" => "AllParameters", "parameter_names" => "ParameterNames", "aclname" => "ACLName", "node_type" => "NodeType", "replica_configuration" => "ReplicaConfiguration", "shard_configuration" => "ShardConfiguration", "sns_topic_status" => "SnsTopicStatus", "default_only" => "DefaultOnly", "parameter_group_family" => "ParameterGroupFamily", "final_snapshot_name" => "FinalSnapshotName", "user_names" => "UserNames", "filters" => "Filters", "user_name" => "UserName", "user_names_to_add" => "UserNamesToAdd", "user_names_to_remove" => "UserNamesToRemove", "show_shard_details" => "ShowShardDetails")
 
 """
     batch_update_cluster(cluster_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,7 +20,7 @@ updates and applying them, see Applying the service updates.
 - `service_update`: The unique ID of the service update
 """
 function batch_update_cluster(ClusterNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("BatchUpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterNames"=>ClusterNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -45,7 +45,7 @@ Makes a copy of an existing snapshot.
   information, see Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket.
 """
 function copy_snapshot(SourceSnapshotName, TargetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ Contol Lists (ACLs).
 - `user_names`: The list of users that belong to the Access Control List.
 """
 function create_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -114,7 +114,7 @@ Creates a cluster. All nodes in the cluster run the same protocol-compliant engi
 - `tlsenabled`: A flag to enable in-transit encryption on the cluster.
 """
 function create_cluster(ACLName, ClusterName, NodeType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName, "ClusterName"=>ClusterName, "NodeType"=>NodeType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -136,7 +136,7 @@ Configuring engine parameters using parameter groups.
   must be accompanied by a tag value, although null is accepted.
 """
 function create_parameter_group(Family, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Family"=>Family, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -155,7 +155,7 @@ Creates a copy of an entire cluster at a specific moment in time.
   must be accompanied by a tag value, although null is accepted.
 """
 function create_snapshot(ClusterName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ associate with your nodes. For more information, see Subnets and subnet groups.
   must be accompanied by a tag value, although null is accepted.
 """
 function create_subnet_group(SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -200,7 +200,7 @@ Lists (ACLs).
   must be accompanied by a tag value, although null is accepted.
 """
 function create_user(AccessString, AuthenticationMode, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "AuthenticationMode"=>AuthenticationMode, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ it can be deleted. For more information, see Authenticating users with Access Co
 
 """
 function delete_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -234,7 +234,7 @@ Deletes a cluster. It also deletes all associated nodes and node endpoints
   the cluster immediately afterward.
 """
 function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ account.
 
 """
 function delete_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ operation.
 
 """
 function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ with any clusters.
 
 """
 function delete_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ clusters.
 
 """
 function delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -316,7 +316,7 @@ Returns a list of ACLs
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_acls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ or about a specific cluster if a cluster name is supplied.
   information about the individual shard(s).
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -363,7 +363,7 @@ Returns a list of the available Redis engine versions.
   for.
 """
 function describe_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -394,7 +394,7 @@ returned; however, you can retrieve up to 14 days' worth of events if necessary.
   8601 format. Example: 2017-03-30T07:03:49.555Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -415,7 +415,7 @@ list contains only the descriptions for that group.
 - `parameter_group_name`: The name of a specific parameter group to return details for.
 """
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ Returns the detailed parameter list for a particular parameter group.
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -459,7 +459,7 @@ Returns details of the service updates
 - `status`: The status(es) of the service updates to filter on
 """
 function describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeServiceUpdates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ associated with a particular cluster.
   the output shows both automatically and manually created snapshots.
 """
 function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -510,7 +510,7 @@ contains only the description of that group.
 - `subnet_group_name`: The name of the subnet group to return details for.
 """
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Returns a list of users.
 - `user_name`: The name of the user
 """
 function describe_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,7 +546,7 @@ Used to failover a shard
 
 """
 function failover_shard(ClusterName, ShardName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("FailoverShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "ShardName"=>ShardName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -564,7 +564,7 @@ parameter must be one of the node types returned by this operation.
 
 """
 function list_allowed_node_type_updates(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("ListAllowedNodeTypeUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -581,7 +581,7 @@ For more information, see Tagging your MemoryDB resources
 
 """
 function list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +604,7 @@ parameter group, specify the AllParameters and ParameterGroupName parameters.
   specify the name of at least one parameter to reset.
 """
 function reset_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("ResetParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -628,7 +628,7 @@ costs across multiple services. For more information, see Using Cost Allocation 
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -644,7 +644,7 @@ Use this operation to remove tags on a resource
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -661,7 +661,7 @@ Changes the list of users that belong to the Access Control List.
 - `user_names_to_remove`: The list of users to remove from the Access Control List
 """
 function update_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UpdateACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -697,7 +697,7 @@ cluster configuration settings by specifying the settings and the new values.
   sent only if the status is active.
 """
 function update_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -715,7 +715,7 @@ request by submitting a list parameter name and value pairs.
 
 """
 function update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -732,7 +732,7 @@ Updates a subnet group. For more information, see Updating a subnet group
 - `subnet_ids`: The EC2 subnet IDs for the subnet group.
 """
 function update_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -750,6 +750,6 @@ Changes user password(s) and/or access string.
   requires a password to authenticate.
 """
 function update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return memorydb("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

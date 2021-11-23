@@ -52,7 +52,7 @@ end
 @testset "AWS.jl" begin
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
-    include("test_pkg.jl")
+    #include("test_pkg.jl")
     include("utilities.jl")
     include("AWSConfig.jl")
 

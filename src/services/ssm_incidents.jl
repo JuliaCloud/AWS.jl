@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "clientToken", "actions" => "actions", "chat_channel" => "chatChannel", "display_name" => "displayName", "engagements" => "engagements", "tags" => "tags", "impact" => "impact", "notification_targets" => "notificationTargets", "status" => "status", "summary" => "summary", "title" => "title", "max_results" => "maxResults", "next_token" => "nextToken", "event_data" => "eventData", "event_time" => "eventTime", "event_type" => "eventType", "filters" => "filters", "sort_by" => "sortBy", "sort_order" => "sortOrder", "related_items" => "relatedItems", "trigger_details" => "triggerDetails", "incident_template_dedupe_string" => "incidentTemplateDedupeString", "incident_template_impact" => "incidentTemplateImpact", "incident_template_notification_targets" => "incidentTemplateNotificationTargets", "incident_template_summary" => "incidentTemplateSummary", "incident_template_title" => "incidentTemplateTitle")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "clientToken", "actions" => "actions", "chat_channel" => "chatChannel", "display_name" => "displayName", "engagements" => "engagements", "tags" => "tags", "impact" => "impact", "notification_targets" => "notificationTargets", "status" => "status", "summary" => "summary", "title" => "title", "max_results" => "maxResults", "next_token" => "nextToken", "event_data" => "eventData", "event_time" => "eventTime", "event_type" => "eventType", "filters" => "filters", "sort_by" => "sortBy", "sort_order" => "sortOrder", "related_items" => "relatedItems", "trigger_details" => "triggerDetails", "incident_template_dedupe_string" => "incidentTemplateDedupeString", "incident_template_impact" => "incidentTemplateImpact", "incident_template_notification_targets" => "incidentTemplateNotificationTargets", "incident_template_summary" => "incidentTemplateSummary", "incident_template_title" => "incidentTemplateTitle")
 
 """
     create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ provided KMS key.
   specified details.
 """
 function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/createReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regions"=>regions, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ beginning of an incident.
 - `tags`: A list of tags that you are adding to the response plan.
 """
 function create_response_plan(incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/createResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentTemplate"=>incidentTemplate, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ automatically detected by Incident Manager.
   details.
 """
 function create_timeline_event(eventData, eventTime, eventType, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ Delete an incident record from Incident Manager.
 
 """
 function delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/deleteIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ Incident Manager data.
 
 """
 function delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/deleteReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ Manager resource.
 
 """
 function delete_resource_policy(policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/deleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyId"=>policyId, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ alarms and EventBridge events from creating an incident with this response plan.
 
 """
 function delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/deleteResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -151,7 +151,7 @@ Deletes a timeline event from an incident.
 
 """
 function delete_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/deleteTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -165,7 +165,7 @@ Returns the details for the specified incident record.
 
 """
 function get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("GET", "/getIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -179,7 +179,7 @@ Retrieve your Incident Manager replication set.
 
 """
 function get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("GET", "/getReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Retrieves the resource policies attached to the specified response plan.
 - `next_token`: The pagination token to continue to the next page of results.
 """
 function get_resource_policies(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/getResourcePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -211,7 +211,7 @@ Retrieves the details of the specified response plan.
 
 """
 function get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("GET", "/getResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ Retrieves a timeline event based on its ID and incident record.
 
 """
 function get_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("GET", "/getTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ Resource Name (ARN) of the incident record you want to update.
 - `next_token`: The pagination token to continue to the next page of results.
 """
 function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/listIncidentRecords", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -268,7 +268,7 @@ List all related items for an incident record.
 - `next_token`: The pagination token to continue to the next page of results.
 """
 function list_related_items(incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/listRelatedItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -282,7 +282,7 @@ Lists details about the replication set configured in your account.
 - `next_token`: The pagination token to continue to the next page of results.
 """
 function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/listReplicationSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -296,7 +296,7 @@ Lists all response plans in your account.
 - `next_token`: The pagination token to continue to the next page of results.
 """
 function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/listResponsePlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -310,7 +310,7 @@ Lists the tags that are attached to the specified response plan.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -338,7 +338,7 @@ Lists timeline events for the specified incident record.
   field.
 """
 function list_timeline_events(incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/listTimelineEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -354,7 +354,7 @@ Adds a resource policy to the specified response plan.
 
 """
 function put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/putResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -384,7 +384,7 @@ Used to start an incident from CloudWatch alarms, EventBridge events, or manuall
 - `trigger_details`: Details of what created the incident record in Incident Manager.
 """
 function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/startIncident", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("responsePlanArn"=>responsePlanArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -400,7 +400,7 @@ Adds a tag to a response plan.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -436,7 +436,7 @@ replication set.
   specified details.
 """
 function update_deletion_protection(arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateDeletionProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "deletionProtected"=>deletionProtected, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -469,7 +469,7 @@ channels, see Interacting through chat.
 - `title`: A brief description of the incident.
 """
 function update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ Add or remove related items from the related items tab of an incident record.
   specified details.
 """
 function update_related_items(incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateRelatedItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn, "relatedItemsUpdate"=>relatedItemsUpdate, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ Add or delete Regions from your replication set.
   specified details.
 """
 function update_replication_set(actions, arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "arn"=>arn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -541,7 +541,7 @@ Updates the specified response plan.
   spaces.
 """
 function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -564,6 +564,6 @@ Updates a timeline event. You can update events of type Custom Event.
 - `event_type`: The type of the event. You can update events of type Custom Event.
 """
 function update_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

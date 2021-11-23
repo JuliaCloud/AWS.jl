@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("delete_option" => "DeleteOption", "maximum_player_session_count" => "MaximumPlayerSessionCount", "name" => "Name", "player_session_creation_policy" => "PlayerSessionCreationPolicy", "protection_policy" => "ProtectionPolicy", "connection_info" => "ConnectionInfo", "game_server_data" => "GameServerData", "limit" => "Limit", "location" => "Location", "next_token" => "NextToken", "status_filter" => "StatusFilter", "names" => "Names", "rule_set_name" => "RuleSetName", "instance_ids" => "InstanceIds", "game_server_id" => "GameServerId", "player_data" => "PlayerData", "acceptance_timeout_seconds" => "AcceptanceTimeoutSeconds", "additional_player_count" => "AdditionalPlayerCount", "backfill_mode" => "BackfillMode", "custom_event_data" => "CustomEventData", "description" => "Description", "flex_match_mode" => "FlexMatchMode", "game_properties" => "GameProperties", "game_session_data" => "GameSessionData", "game_session_queue_arns" => "GameSessionQueueArns", "notification_target" => "NotificationTarget", "tags" => "Tags", "alias_id" => "AliasId", "fleet_id" => "FleetId", "game_session_id" => "GameSessionId", "filter_expression" => "FilterExpression", "sort_expression" => "SortExpression", "build_id" => "BuildId", "certificate_configuration" => "CertificateConfiguration", "ec2_inbound_permissions" => "EC2InboundPermissions", "fleet_type" => "FleetType", "instance_role_arn" => "InstanceRoleArn", "locations" => "Locations", "log_paths" => "LogPaths", "metric_groups" => "MetricGroups", "new_game_session_protection_policy" => "NewGameSessionProtectionPolicy", "peer_vpc_aws_account_id" => "PeerVpcAwsAccountId", "peer_vpc_id" => "PeerVpcId", "resource_creation_limit_policy" => "ResourceCreationLimitPolicy", "runtime_configuration" => "RuntimeConfiguration", "script_id" => "ScriptId", "server_launch_parameters" => "ServerLaunchParameters", "server_launch_path" => "ServerLaunchPath", "auto_scaling_policy" => "AutoScalingPolicy", "balancing_strategy" => "BalancingStrategy", "game_server_protection_policy" => "GameServerProtectionPolicy", "vpc_subnets" => "VpcSubnets", "player_id" => "PlayerId", "player_session_id" => "PlayerSessionId", "player_session_status_filter" => "PlayerSessionStatusFilter", "desired_instances" => "DesiredInstances", "max_size" => "MaxSize", "min_size" => "MinSize", "storage_location" => "StorageLocation", "version" => "Version", "zip_file" => "ZipFile", "fleet_ids" => "FleetIds", "operating_system" => "OperatingSystem", "destinations" => "Destinations", "filter_configuration" => "FilterConfiguration", "player_latency_policies" => "PlayerLatencyPolicies", "priority_configuration" => "PriorityConfiguration", "timeout_in_seconds" => "TimeoutInSeconds", "acceptance_required" => "AcceptanceRequired", "request_timeout_seconds" => "RequestTimeoutSeconds", "creator_id" => "CreatorId", "idempotency_token" => "IdempotencyToken", "routing_strategy" => "RoutingStrategy", "instance_id" => "InstanceId", "routing_strategy_type" => "RoutingStrategyType", "health_check" => "HealthCheck", "utilization_status" => "UtilizationStatus", "end_time" => "EndTime", "start_time" => "StartTime", "comparison_operator" => "ComparisonOperator", "evaluation_periods" => "EvaluationPeriods", "policy_type" => "PolicyType", "scaling_adjustment" => "ScalingAdjustment", "scaling_adjustment_type" => "ScalingAdjustmentType", "target_configuration" => "TargetConfiguration", "threshold" => "Threshold", "sort_order" => "SortOrder", "inbound_permission_authorizations" => "InboundPermissionAuthorizations", "inbound_permission_revocations" => "InboundPermissionRevocations", "player_data_map" => "PlayerDataMap", "ticket_id" => "TicketId", "status" => "Status", "game_session_arn" => "GameSessionArn", "ec2_instance_type" => "EC2InstanceType", "desired_player_sessions" => "DesiredPlayerSessions", "game_session_name" => "GameSessionName", "player_latencies" => "PlayerLatencies", "instance_definitions" => "InstanceDefinitions", "role_arn" => "RoleArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("delete_option" => "DeleteOption", "maximum_player_session_count" => "MaximumPlayerSessionCount", "name" => "Name", "player_session_creation_policy" => "PlayerSessionCreationPolicy", "protection_policy" => "ProtectionPolicy", "connection_info" => "ConnectionInfo", "game_server_data" => "GameServerData", "limit" => "Limit", "location" => "Location", "next_token" => "NextToken", "status_filter" => "StatusFilter", "names" => "Names", "rule_set_name" => "RuleSetName", "instance_ids" => "InstanceIds", "game_server_id" => "GameServerId", "player_data" => "PlayerData", "acceptance_timeout_seconds" => "AcceptanceTimeoutSeconds", "additional_player_count" => "AdditionalPlayerCount", "backfill_mode" => "BackfillMode", "custom_event_data" => "CustomEventData", "description" => "Description", "flex_match_mode" => "FlexMatchMode", "game_properties" => "GameProperties", "game_session_data" => "GameSessionData", "game_session_queue_arns" => "GameSessionQueueArns", "notification_target" => "NotificationTarget", "tags" => "Tags", "alias_id" => "AliasId", "fleet_id" => "FleetId", "game_session_id" => "GameSessionId", "filter_expression" => "FilterExpression", "sort_expression" => "SortExpression", "build_id" => "BuildId", "certificate_configuration" => "CertificateConfiguration", "ec2_inbound_permissions" => "EC2InboundPermissions", "fleet_type" => "FleetType", "instance_role_arn" => "InstanceRoleArn", "locations" => "Locations", "log_paths" => "LogPaths", "metric_groups" => "MetricGroups", "new_game_session_protection_policy" => "NewGameSessionProtectionPolicy", "peer_vpc_aws_account_id" => "PeerVpcAwsAccountId", "peer_vpc_id" => "PeerVpcId", "resource_creation_limit_policy" => "ResourceCreationLimitPolicy", "runtime_configuration" => "RuntimeConfiguration", "script_id" => "ScriptId", "server_launch_parameters" => "ServerLaunchParameters", "server_launch_path" => "ServerLaunchPath", "auto_scaling_policy" => "AutoScalingPolicy", "balancing_strategy" => "BalancingStrategy", "game_server_protection_policy" => "GameServerProtectionPolicy", "vpc_subnets" => "VpcSubnets", "player_id" => "PlayerId", "player_session_id" => "PlayerSessionId", "player_session_status_filter" => "PlayerSessionStatusFilter", "desired_instances" => "DesiredInstances", "max_size" => "MaxSize", "min_size" => "MinSize", "storage_location" => "StorageLocation", "version" => "Version", "zip_file" => "ZipFile", "fleet_ids" => "FleetIds", "operating_system" => "OperatingSystem", "destinations" => "Destinations", "filter_configuration" => "FilterConfiguration", "player_latency_policies" => "PlayerLatencyPolicies", "priority_configuration" => "PriorityConfiguration", "timeout_in_seconds" => "TimeoutInSeconds", "acceptance_required" => "AcceptanceRequired", "request_timeout_seconds" => "RequestTimeoutSeconds", "creator_id" => "CreatorId", "idempotency_token" => "IdempotencyToken", "routing_strategy" => "RoutingStrategy", "instance_id" => "InstanceId", "routing_strategy_type" => "RoutingStrategyType", "health_check" => "HealthCheck", "utilization_status" => "UtilizationStatus", "end_time" => "EndTime", "start_time" => "StartTime", "comparison_operator" => "ComparisonOperator", "evaluation_periods" => "EvaluationPeriods", "policy_type" => "PolicyType", "scaling_adjustment" => "ScalingAdjustment", "scaling_adjustment_type" => "ScalingAdjustmentType", "target_configuration" => "TargetConfiguration", "threshold" => "Threshold", "sort_order" => "SortOrder", "inbound_permission_authorizations" => "InboundPermissionAuthorizations", "inbound_permission_revocations" => "InboundPermissionRevocations", "player_data_map" => "PlayerDataMap", "ticket_id" => "TicketId", "status" => "Status", "game_session_arn" => "GameSessionArn", "ec2_instance_type" => "EC2InstanceType", "desired_player_sessions" => "DesiredPlayerSessions", "game_session_name" => "GameSessionName", "player_latencies" => "PlayerLatencies", "instance_definitions" => "InstanceDefinitions", "role_arn" => "RoleArn")
 
 """
     accept_match(acceptance_type, player_ids, ticket_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -38,7 +38,7 @@ StartMatchBackfill | All APIs by task
 
 """
 function accept_match(AcceptanceType, PlayerIds, TicketId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("AcceptMatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceType"=>AcceptanceType, "PlayerIds"=>PlayerIds, "TicketId"=>TicketId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,7 +83,7 @@ DescribeGameServer | UpdateGameServer | DeregisterGameServer | All APIs by task
   specified game server group.
 """
 function claim_game_server(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ClaimGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -120,7 +120,7 @@ ResolveAlias | All APIs by task
   than stated. See the AWS General Reference for actual tagging limits.
 """
 function create_alias(Name, RoutingStrategy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoutingStrategy"=>RoutingStrategy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +171,7 @@ CreateBuild | ListBuilds | DescribeBuild | UpdateBuild | DeleteBuild | All APIs 
   do not need to be unique. You can use UpdateBuild to change this value later.
 """
 function create_build(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -292,7 +292,7 @@ StopFleetActions | DeleteFleet | All APIs by task
   stated. See the AWS General Reference for actual tagging limits.
 """
 function create_fleet(EC2InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EC2InstanceType"=>EC2InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +326,7 @@ All APIs by task
 
 """
 function create_fleet_locations(FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateFleetLocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Locations"=>Locations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ task
   group is updated directly.
 """
 function create_game_server_group(GameServerGroupName, InstanceDefinitions, LaunchTemplate, MaxSize, MinSize, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "InstanceDefinitions"=>InstanceDefinitions, "LaunchTemplate"=>LaunchTemplate, "MaxSize"=>MaxSize, "MinSize"=>MinSize, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -505,7 +505,7 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
   need to be unique.
 """
 function create_game_session(MaximumPlayerSessionCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateGameSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaximumPlayerSessionCount"=>MaximumPlayerSessionCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -572,7 +572,7 @@ DeleteGameSessionQueue | All APIs by task
   changes to a TIMED_OUT status.
 """
 function create_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -663,7 +663,7 @@ APIs by task
   tagging limits.
 """
 function create_matchmaking_configuration(AcceptanceRequired, Name, RequestTimeoutSeconds, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -700,7 +700,7 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
   tagging limits.
 """
 function create_matchmaking_rule_set(Name, RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleSetBody"=>RuleSetBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -728,7 +728,7 @@ StartGameSessionPlacement | DescribeGameSessionPlacement | All APIs by task
   this data, so it can be formatted as needed for use in the game.
 """
 function create_player_session(GameSessionId, PlayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreatePlayerSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId, "PlayerId"=>PlayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -759,7 +759,7 @@ DescribeGameSessionPlacement | All APIs by task
   player IDs that are not included in the PlayerIds parameter are ignored.
 """
 function create_player_sessions(GameSessionId, PlayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreatePlayerSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId, "PlayerIds"=>PlayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -809,7 +809,7 @@ DescribeScript | UpdateScript | DeleteScript | All APIs by task
   object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
 function create_script(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -850,7 +850,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 
 """
 function create_vpc_peering_authorization(GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateVpcPeeringAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameLiftAwsAccountId"=>GameLiftAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -891,7 +891,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 
 """
 function create_vpc_peering_connection(FleetId, PeerVpcAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("CreateVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "PeerVpcAwsAccountId"=>PeerVpcAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -909,7 +909,7 @@ DescribeAlias | UpdateAlias | DeleteAlias | ResolveAlias | All APIs by task
 
 """
 function delete_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -928,7 +928,7 @@ CreateBuild | ListBuilds | DescribeBuild | UpdateBuild | DeleteBuild | All APIs 
 
 """
 function delete_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -955,7 +955,7 @@ task
 
 """
 function delete_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -981,7 +981,7 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
 
 """
 function delete_fleet_locations(FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteFleetLocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Locations"=>Locations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1019,7 +1019,7 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
   server group but retains the EC2 Auto Scaling group as is.
 """
 function delete_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1038,7 +1038,7 @@ DeleteGameSessionQueue | All APIs by task
 
 """
 function delete_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1058,7 +1058,7 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
 
 """
 function delete_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1080,7 +1080,7 @@ APIs by task
 
 """
 function delete_matchmaking_rule_set(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1103,7 +1103,7 @@ All APIs by task
 
 """
 function delete_scaling_policy(FleetId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1125,7 +1125,7 @@ UpdateScript | DeleteScript | All APIs by task
 
 """
 function delete_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1149,7 +1149,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 
 """
 function delete_vpc_peering_authorization(GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteVpcPeeringAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameLiftAwsAccountId"=>GameLiftAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1176,7 +1176,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 
 """
 function delete_vpc_peering_connection(FleetId, VpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "VpcPeeringConnectionId"=>VpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1199,7 +1199,7 @@ DeregisterGameServer | All APIs by task
 
 """
 function deregister_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DeregisterGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1218,7 +1218,7 @@ APIs by task
 
 """
 function describe_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1236,7 +1236,7 @@ UpdateBuild | DeleteBuild | All APIs by task
 
 """
 function describe_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1283,7 +1283,7 @@ UpdateFleetAttributes | StopFleetActions | DeleteFleet | All APIs by task
   an AWS Region code such as us-west-2.
 """
 function describe_ec2_instance_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeEC2InstanceLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1317,7 +1317,7 @@ DescribeRuntimeConfiguration | DescribeScalingPolicies | All APIs by task
   request specifies one or a list of fleet IDs.
 """
 function describe_fleet_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1356,7 +1356,7 @@ DescribeRuntimeConfiguration | DescribeScalingPolicies | All APIs by task
   request specifies one or a list of fleet IDs.
 """
 function describe_fleet_capacity(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetCapacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1393,7 +1393,7 @@ DescribeScalingPolicies | All APIs by task
   \"1469498468.057\").
 """
 function describe_fleet_events(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1429,7 +1429,7 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
   beginning of the result set, do not specify a value.
 """
 function describe_fleet_location_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetLocationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1456,7 +1456,7 @@ All APIs by task
 
 """
 function describe_fleet_location_capacity(FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetLocationCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Location"=>Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1482,7 +1482,7 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
 
 """
 function describe_fleet_location_utilization(FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetLocationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Location"=>Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1513,7 +1513,7 @@ DescribeScalingPolicies | All APIs by task
   Region code format, such as us-west-2.
 """
 function describe_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetPortSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1552,7 +1552,7 @@ APIs by task
   request specifies one or a list of fleet IDs.
 """
 function describe_fleet_utilization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeFleetUtilization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1575,7 +1575,7 @@ UpdateGameServer | DeregisterGameServer | All APIs by task
 
 """
 function describe_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1599,7 +1599,7 @@ DescribeGameServerInstances | All APIs by task
 
 """
 function describe_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1638,7 +1638,7 @@ DescribeGameServerInstances | All APIs by task
   beginning of the result set, do not specify a value.
 """
 function describe_game_server_instances(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameServerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1682,7 +1682,7 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
   include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory).
 """
 function describe_game_session_details(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameSessionDetails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1701,7 +1701,7 @@ StopGameSessionPlacement | All APIs by task
 
 """
 function describe_game_session_placement(PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1726,7 +1726,7 @@ task
   beginning of the result set, do not specify a value.
 """
 function describe_game_session_queues(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameSessionQueues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1771,7 +1771,7 @@ APIs by task
   transitory and used for only very brief periods of time.
 """
 function describe_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1805,7 +1805,7 @@ GetInstanceAccess | DescribeEC2InstanceLimits | All APIs by task
   beginning of the result set, do not specify a value.
 """
 function describe_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1831,7 +1831,7 @@ DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMatchBackfill | All A
 
 """
 function describe_matchmaking(TicketIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TicketIds"=>TicketIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1864,7 +1864,7 @@ APIs by task
   that use this rule set.
 """
 function describe_matchmaking_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeMatchmakingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1891,7 +1891,7 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
   beginning of the result set, do not specify a value.
 """
 function describe_matchmaking_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeMatchmakingRuleSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1930,7 +1930,7 @@ StartGameSessionPlacement | DescribeGameSessionPlacement | All APIs by task
   validated within the timeout limit (60 seconds).
 """
 function describe_player_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribePlayerSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1954,7 +1954,7 @@ APIs by task
 
 """
 function describe_runtime_configuration(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeRuntimeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1992,7 +1992,7 @@ DeleteScalingPolicy | StopFleetActions | StartFleetActions | All APIs by task
   the policy. It should be removed and recreated.
 """
 function describe_scaling_policies(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2010,7 +2010,7 @@ DescribeScript | UpdateScript | DeleteScript | All APIs by task
 
 """
 function describe_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2026,7 +2026,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 
 """
 function describe_vpc_peering_authorizations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeVpcPeeringAuthorizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2048,7 +2048,7 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
   value.
 """
 function describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("DescribeVpcPeeringConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2068,7 +2068,7 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 
 """
 function get_game_session_log_url(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("GetGameSessionLogUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2100,7 +2100,7 @@ Remotely Access Fleet Instances   Debug Fleet Issues   Related actions   Describ
 
 """
 function get_instance_access(FleetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("GetInstanceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2130,7 +2130,7 @@ ResolveAlias | All APIs by task
   message embedded.
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2159,7 +2159,7 @@ DeleteBuild | All APIs by task
   fleets for this build.
 """
 function list_builds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2197,7 +2197,7 @@ StopFleetActions | DeleteFleet | All APIs by task
   value.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2220,7 +2220,7 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
   beginning of the result set, do not specify a value.
 """
 function list_game_server_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListGameServerGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2250,7 +2250,7 @@ DescribeGameServer | UpdateGameServer | DeregisterGameServer | All APIs by task
   returned in no particular order.
 """
 function list_game_servers(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListGameServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2269,7 +2269,7 @@ ListScripts | DescribeScript | UpdateScript | DeleteScript | All APIs by task
   beginning of the result set, do not specify a value.
 """
 function list_scripts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListScripts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2292,7 +2292,7 @@ TagResource | UntagResource | ListTagsForResource | All APIs by task
 
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2396,7 +2396,7 @@ StartFleetActions | All APIs by task
 - `threshold`: Metric value used to trigger a scaling event.
 """
 function put_scaling_policy(FleetId, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2437,7 +2437,7 @@ DeregisterGameServer | All APIs by task
   servers using ListGameServers or ClaimGameServer.
 """
 function register_game_server(GameServerGroupName, GameServerId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("RegisterGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2458,7 +2458,7 @@ DeleteBuild | All APIs by task
 
 """
 function request_upload_credentials(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("RequestUploadCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2475,7 +2475,7 @@ APIs by task
 
 """
 function resolve_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ResolveAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2502,7 +2502,7 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 
 """
 function resume_game_server_group(GameServerGroupName, ResumeActions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ResumeGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "ResumeActions"=>ResumeActions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2591,7 +2591,7 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
   value for the sort operand are returned at the end of the list.
 """
 function search_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("SearchGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2623,7 +2623,7 @@ All APIs by task
   form of an AWS Region code, such as us-west-2.
 """
 function start_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StartFleetActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2685,7 +2685,7 @@ APIs by task
   experience for the players.
 """
 function start_game_session_placement(GameSessionQueueName, MaximumPlayerSessionCount, PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StartGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionQueueName"=>GameSessionQueueName, "MaximumPlayerSessionCount"=>MaximumPlayerSessionCount, "PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2738,7 +2738,7 @@ StartMatchmaking | DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMa
   the match backfill ticket status and retrieve match results.
 """
 function start_match_backfill(ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StartMatchBackfill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2777,7 +2777,7 @@ DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMatchBackfill | All A
   the matchmaking ticket status and retrieve match results.
 """
 function start_matchmaking(ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StartMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2811,7 +2811,7 @@ StopFleetActions | DeleteFleet | All APIs by task
   of an AWS Region code, such as us-west-2.
 """
 function stop_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StopFleetActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2829,7 +2829,7 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 
 """
 function stop_game_session_placement(PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StopGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2852,7 +2852,7 @@ StopMatchmaking | AcceptMatch | StartMatchBackfill | All APIs by task
 
 """
 function stop_matchmaking(TicketId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("StopMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TicketId"=>TicketId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2883,7 +2883,7 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 
 """
 function suspend_game_server_group(GameServerGroupName, SuspendActions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("SuspendGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "SuspendActions"=>SuspendActions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2912,7 +2912,7 @@ UntagResource | ListTagsForResource | All APIs by task
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2940,7 +2940,7 @@ actions   TagResource | UntagResource | ListTagsForResource | All APIs by task
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2965,7 +2965,7 @@ ResolveAlias | All APIs by task
   for the alias.
 """
 function update_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2989,7 +2989,7 @@ DeleteBuild | All APIs by task
   do not need to be unique.
 """
 function update_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3025,7 +3025,7 @@ DeleteFleet | DeleteFleetLocations | DeleteScalingPolicy | All APIs by task
   an individual player can create over a span of time.
 """
 function update_fleet_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateFleetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3073,7 +3073,7 @@ task
   location. If this parameter is not set, the default is 0.
 """
 function update_fleet_capacity(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateFleetCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3105,7 +3105,7 @@ task
   fleet resource.
 """
 function update_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateFleetPortSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3145,7 +3145,7 @@ DeregisterGameServer | All APIs by task
   hosting gameplay.
 """
 function update_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3201,7 +3201,7 @@ DescribeGameServerInstances | All APIs by task
   access your EC2 Auto Scaling groups.
 """
 function update_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3231,7 +3231,7 @@ APIs by task
   during a scale-down event.
 """
 function update_game_session(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateGameSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3278,7 +3278,7 @@ DeleteGameSessionQueue | All APIs by task
   changes to a TIMED_OUT status.
 """
 function update_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3348,7 +3348,7 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
   configuration can only use rule sets that are defined in the same Region.
 """
 function update_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3380,7 +3380,7 @@ task
 
 """
 function update_runtime_configuration(FleetId, RuntimeConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateRuntimeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "RuntimeConfiguration"=>RuntimeConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3421,7 +3421,7 @@ APIs by task
   object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
 function update_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("UpdateScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3442,6 +3442,6 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
 
 """
 function validate_matchmaking_rule_set(RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return gamelift("ValidateMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetBody"=>RuleSetBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

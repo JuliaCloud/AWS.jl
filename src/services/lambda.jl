@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("allowed_publishers" => "AllowedPublishers", "code_signing_policies" => "CodeSigningPolicies", "description" => "Description", "qualifier" => "Qualifier", "event_source_arn" => "EventSourceArn", "function_name" => "FunctionName", "marker" => "Marker", "max_items" => "MaxItems", "compatible_architecture" => "CompatibleArchitecture", "compatible_runtime" => "CompatibleRuntime", "batch_size" => "BatchSize", "bisect_batch_on_function_error" => "BisectBatchOnFunctionError", "destination_config" => "DestinationConfig", "enabled" => "Enabled", "function_response_types" => "FunctionResponseTypes", "maximum_batching_window_in_seconds" => "MaximumBatchingWindowInSeconds", "maximum_record_age_in_seconds" => "MaximumRecordAgeInSeconds", "maximum_retry_attempts" => "MaximumRetryAttempts", "parallelization_factor" => "ParallelizationFactor", "queues" => "Queues", "self_managed_event_source" => "SelfManagedEventSource", "source_access_configurations" => "SourceAccessConfigurations", "starting_position" => "StartingPosition", "starting_position_timestamp" => "StartingPositionTimestamp", "topics" => "Topics", "tumbling_window_in_seconds" => "TumblingWindowInSeconds", "routing_config" => "RoutingConfig", "architectures" => "Architectures", "code_signing_config_arn" => "CodeSigningConfigArn", "dead_letter_config" => "DeadLetterConfig", "environment" => "Environment", "file_system_configs" => "FileSystemConfigs", "handler" => "Handler", "image_config" => "ImageConfig", "kmskey_arn" => "KMSKeyArn", "layers" => "Layers", "memory_size" => "MemorySize", "package_type" => "PackageType", "publish" => "Publish", "runtime" => "Runtime", "tags" => "Tags", "timeout" => "Timeout", "tracing_config" => "TracingConfig", "vpc_config" => "VpcConfig", "client_context" => "X-Amz-Client-Context", "invocation_type" => "X-Amz-Invocation-Type", "log_type" => "X-Amz-Log-Type", "payload" => "Payload", "revision_id" => "RevisionId", "maximum_event_age_in_seconds" => "MaximumEventAgeInSeconds", "function_version" => "FunctionVersion", "compatible_architectures" => "CompatibleArchitectures", "compatible_runtimes" => "CompatibleRuntimes", "license_info" => "LicenseInfo", "code_sha256" => "CodeSha256", "dry_run" => "DryRun", "image_uri" => "ImageUri", "s3_bucket" => "S3Bucket", "s3_key" => "S3Key", "s3_object_version" => "S3ObjectVersion", "zip_file" => "ZipFile", "role" => "Role", "authorization_type" => "AuthorizationType", "cors" => "Cors", "organization_id" => "OrganizationId", "master_region" => "MasterRegion", "event_source_token" => "EventSourceToken", "source_account" => "SourceAccount", "source_arn" => "SourceArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("allowed_publishers" => "AllowedPublishers", "code_signing_policies" => "CodeSigningPolicies", "description" => "Description", "qualifier" => "Qualifier", "event_source_arn" => "EventSourceArn", "function_name" => "FunctionName", "marker" => "Marker", "max_items" => "MaxItems", "compatible_architecture" => "CompatibleArchitecture", "compatible_runtime" => "CompatibleRuntime", "batch_size" => "BatchSize", "bisect_batch_on_function_error" => "BisectBatchOnFunctionError", "destination_config" => "DestinationConfig", "enabled" => "Enabled", "filter_criteria" => "FilterCriteria", "function_response_types" => "FunctionResponseTypes", "maximum_batching_window_in_seconds" => "MaximumBatchingWindowInSeconds", "maximum_record_age_in_seconds" => "MaximumRecordAgeInSeconds", "maximum_retry_attempts" => "MaximumRetryAttempts", "parallelization_factor" => "ParallelizationFactor", "queues" => "Queues", "self_managed_event_source" => "SelfManagedEventSource", "source_access_configurations" => "SourceAccessConfigurations", "starting_position" => "StartingPosition", "starting_position_timestamp" => "StartingPositionTimestamp", "topics" => "Topics", "tumbling_window_in_seconds" => "TumblingWindowInSeconds", "routing_config" => "RoutingConfig", "architectures" => "Architectures", "code_signing_config_arn" => "CodeSigningConfigArn", "dead_letter_config" => "DeadLetterConfig", "environment" => "Environment", "file_system_configs" => "FileSystemConfigs", "handler" => "Handler", "image_config" => "ImageConfig", "kmskey_arn" => "KMSKeyArn", "layers" => "Layers", "memory_size" => "MemorySize", "package_type" => "PackageType", "publish" => "Publish", "runtime" => "Runtime", "tags" => "Tags", "timeout" => "Timeout", "tracing_config" => "TracingConfig", "vpc_config" => "VpcConfig", "client_context" => "X-Amz-Client-Context", "invocation_type" => "X-Amz-Invocation-Type", "log_type" => "X-Amz-Log-Type", "payload" => "Payload", "revision_id" => "RevisionId", "maximum_event_age_in_seconds" => "MaximumEventAgeInSeconds", "function_version" => "FunctionVersion", "compatible_architectures" => "CompatibleArchitectures", "compatible_runtimes" => "CompatibleRuntimes", "license_info" => "LicenseInfo", "code_sha256" => "CodeSha256", "dry_run" => "DryRun", "image_uri" => "ImageUri", "s3_bucket" => "S3Bucket", "s3_key" => "S3Key", "s3_object_version" => "S3ObjectVersion", "zip_file" => "ZipFile", "role" => "Role", "organization_id" => "OrganizationId", "master_region" => "MasterRegion", "event_source_token" => "EventSourceToken", "source_account" => "SourceAccount", "source_arn" => "SourceArn")
 
 """
     add_layer_version_permission(action, layer_name, principal, statement_id, version_number; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,7 +35,7 @@ specified when you added it.
   this option to avoid modifying a policy that has changed since you last read it.
 """
 function add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -87,7 +87,7 @@ Policies.
   Note that Lambda configures the comparison using the StringLike operator.
 """
 function add_permission(Action, FunctionName, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -112,7 +112,7 @@ specify a second version and the percentage of invocation requests that it recei
 - `routing_config`: The routing configuration of the alias.
 """
 function create_alias(FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ if deployment validation checks fail).
 - `description`: Descriptive name for this code signing configuration.
 """
 function create_code_signing_config(AllowedPublishers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,8 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
   Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `bisect_batch_on_function_error`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `destination_config`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
@@ -181,8 +182,11 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
   - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
-- `function_response_types`: (Streams only) A list of current response type enums applied
-  to the event source mapping.
+- `filter_criteria`: (Streams and Amazon SQS) An object that defines the filter criteria
+  that determine whether Lambda should process an event. For more information, see Lambda
+  event filtering.
+- `function_response_types`: (Streams and Amazon SQS) A list of current response type enums
+  applied to the event source mapping.
 - `maximum_batching_window_in_seconds`: (Streams and Amazon SQS standard queues) The
   maximum amount of time, in seconds, that Lambda spends gathering records before invoking
   the function. Default: 0 Related setting: When you set BatchSize to a value greater than
@@ -208,7 +212,7 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
   window. The range is between 1 second up to 900 seconds.
 """
 function create_event_source_mapping(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +268,7 @@ other service. For more information, see Invoking Functions.
 
 # Keyword Parameters
 - `architectures`: The instruction set architecture that the function supports. Enter a
-  string array with one of the valid values. The default value is x86_64.
+  string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
 - `code_signing_config_arn`: To enable code signing for this function, specify the ARN of a
   code-signing configuration. A code-signing configuration includes a set of signing
   profiles, which define the trusted publishers for this function.
@@ -276,8 +280,9 @@ other service. For more information, see Invoking Functions.
   execution.
 - `file_system_configs`: Connection settings for an Amazon EFS file system.
 - `handler`: The name of the method within your code that Lambda calls to execute your
-  function. The format includes the file name. It can also include namespaces and other
-  qualifiers, depending on the runtime. For more information, see Programming Model.
+  function. Handler is required if the deployment package is a .zip file archive. The format
+  includes the file name. It can also include namespaces and other qualifiers, depending on
+  the runtime. For more information, see Programming Model.
 - `image_config`: Container image configuration values that override the values in the
   container image Dockerfile.
 - `kmskey_arn`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
@@ -291,7 +296,8 @@ other service. For more information, see Invoking Functions.
 - `package_type`: The type of deployment package. Set to Image for container image and set
   Zip for ZIP archive.
 - `publish`: Set to true to publish the first version of the function during creation.
-- `runtime`: The identifier of the function's runtime.
+- `runtime`: The identifier of the function's runtime. Runtime is required if the
+  deployment package is a .zip file archive.
 - `tags`: A list of tags to apply to the function.
 - `timeout`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
@@ -304,26 +310,8 @@ other service. For more information, see Invoking Functions.
   Settings.
 """
 function create_function(Code, FunctionName, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    create_function_url_config(authorization_type, function_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-
-
-
-# Arguments
-- `authorization_type`:
-- `function_name`:
-
-# Keyword Parameters
-- `cors`:
-- `qualifier`:
-"""
-function create_function_url_config(AuthorizationType, FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lambda("POST", "/2021-10-31/functions/$(FunctionName)/url", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationType"=>AuthorizationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -340,7 +328,7 @@ Deletes a Lambda function alias.
 
 """
 function delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -356,7 +344,7 @@ if no function is using it.
 
 """
 function delete_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +360,7 @@ state and might not be completely deleted for several seconds.
 
 """
 function delete_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -398,7 +386,7 @@ service where you originally configured it.
   an alias.
 """
 function delete_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -415,7 +403,7 @@ Removes the code signing configuration from the function.
 
 """
 function delete_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +421,7 @@ Removes a concurrent execution limit from a function.
 
 """
 function delete_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -455,24 +443,8 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 - `qualifier`: A version number or alias name.
 """
 function delete_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    delete_function_url_config(function_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-
-
-
-# Arguments
-- `function_name`:
-
-# Keyword Parameters
-- `qualifier`:
-"""
-function delete_function_url_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lambda("DELETE", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -488,7 +460,7 @@ functions refer to it.
 
 """
 function delete_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +479,7 @@ Deletes the provisioned concurrency configuration for a function.
 
 """
 function delete_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -518,7 +490,7 @@ Retrieves details about your account's limits and usage in an Amazon Web Service
 
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -536,7 +508,7 @@ Returns details about a Lambda function alias.
 
 """
 function get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -551,7 +523,7 @@ Returns information about the specified code signing configuration.
 
 """
 function get_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -566,7 +538,7 @@ the output of ListEventSourceMappings.
 
 """
 function get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -590,7 +562,7 @@ details that are specific to that version are returned.
   function.
 """
 function get_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -607,7 +579,7 @@ Returns the code signing configuration for the specified function.
 
 """
 function get_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -626,7 +598,7 @@ concurrency limit for a function, use PutFunctionConcurrency.
 
 """
 function get_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -651,7 +623,7 @@ settings, use GetFunction.
   function.
 """
 function get_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -673,24 +645,8 @@ To configure options for asynchronous invocation, use PutFunctionEventInvokeConf
 - `qualifier`: A version number or alias name.
 """
 function get_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    get_function_url_config(function_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-
-
-
-# Arguments
-- `function_name`:
-
-# Keyword Parameters
-- `qualifier`:
-"""
-function get_function_url_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lambda("GET", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -705,7 +661,7 @@ archive that's valid for 10 minutes.
 
 """
 function get_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -720,7 +676,7 @@ archive that's valid for 10 minutes.
 
 """
 function get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +692,7 @@ AddLayerVersionPermission.
 
 """
 function get_layer_version_policy(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +713,7 @@ Returns the resource-based IAM policy for a function, version, or alias.
 - `qualifier`: Specify a version or alias to get the policy for that resource.
 """
 function get_policy(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -776,7 +732,7 @@ Retrieves the provisioned concurrency configuration for a function's alias or ve
 
 """
 function get_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -827,11 +783,13 @@ permission for the lambda:InvokeFunction action.
   to invoke the function.
 - `log_type`: Set to Tail to include the execution log in the response. Applies to
   synchronously invoked functions only.
-- `payload`: The JSON that you want to provide to your Lambda function as input.
+- `payload`: The JSON that you want to provide to your Lambda function as input. You can
+  enter the JSON directly. For example, --payload '{ \"key\": \"value\" }'. You can also
+  specify a file path. For example, --payload file://payload.json.
 - `qualifier`: Specify a version or alias to invoke a published version of the function.
 """
 function invoke(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -850,7 +808,7 @@ end
 
 """
 function invoke_async(FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -873,7 +831,7 @@ Returns a list of aliases for a Lambda function.
 - `max_items`: Limit the number of aliases returned.
 """
 function list_aliases(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -890,7 +848,7 @@ per call.
 - `max_items`: Maximum number of items to return.
 """
 function list_code_signing_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -916,7 +874,7 @@ for a single event source.
   the number higher.
 """
 function list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -939,25 +897,8 @@ options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 - `max_items`: The maximum number of configurations to return.
 """
 function list_function_event_invoke_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    list_function_url_configs(function_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-
-
-
-# Arguments
-- `function_name`:
-
-# Keyword Parameters
-- `marker`:
-- `max_items`:
-"""
-function list_function_url_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lambda("GET", "/2021-10-31/functions/$(FunctionName)/urls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -984,7 +925,7 @@ LastUpdateStatusReasonCode) for a function or version, use GetFunction.
   higher.
 """
 function list_functions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1005,7 +946,7 @@ using it.
 - `max_items`: Maximum number of items to return.
 """
 function list_functions_by_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1027,7 +968,7 @@ are compatible with that architecture.
 - `max_items`: The maximum number of versions to return.
 """
 function list_layer_versions(LayerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1046,7 +987,7 @@ that instruction set architecture.
 - `max_items`: The maximum number of layers to return.
 """
 function list_layers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1068,7 +1009,7 @@ Retrieves a list of provisioned concurrency configurations for a function.
 - `max_items`: Specify a number to limit the number of configurations returned.
 """
 function list_provisioned_concurrency_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1083,7 +1024,7 @@ Returns a function's tags. You can also view tags with GetFunction.
 
 """
 function list_tags(ARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2017-03-31/tags/$(ARN)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1106,7 +1047,7 @@ up to 50 versions per call.
   returns a maximum of 50 items in each response, even if you set the number higher.
 """
 function list_versions_by_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1131,7 +1072,7 @@ or UpdateFunctionConfiguration.
   example, https://opensource.org/licenses/MIT.   The full text of the license.
 """
 function publish_layer_version(Content, LayerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1163,7 +1104,7 @@ alias. To create an alias, use CreateAlias.
   changed since you last updated it.
 """
 function publish_version(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1184,7 +1125,7 @@ function.
 
 """
 function put_function_code_signing_config(CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1212,7 +1153,7 @@ per-function limit. For more information, see Managing Concurrency.
 
 """
 function put_function_concurrency(FunctionName, ReservedConcurrentExecutions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1252,7 +1193,7 @@ instead of a dead-letter queue.
 - `qualifier`: A version number or alias name.
 """
 function put_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1273,7 +1214,7 @@ Adds a provisioned concurrency configuration to a function's alias or version.
 
 """
 function put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1293,7 +1234,7 @@ information, see AddLayerVersionPermission.
   this option to avoid modifying a policy that has changed since you last read it.
 """
 function remove_layer_version_permission(LayerName, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1319,7 +1260,7 @@ can get the ID of the statement from the output of GetPolicy.
   Use this option to avoid modifying a policy that has changed since you last read it.
 """
 function remove_permission(FunctionName, StatementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1334,7 +1275,7 @@ Adds tags to a function.
 
 """
 function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1349,7 +1290,7 @@ Removes tags from a function.
 
 """
 function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1373,7 +1314,7 @@ Updates the configuration of a Lambda function alias.
 - `routing_config`: The routing configuration of the alias.
 """
 function update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1393,7 +1334,7 @@ effect the next time a user tries to deploy a code package to the function.
 - `description`: Descriptive name for this code signing configuration.
 """
 function update_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1427,20 +1368,24 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
   Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `bisect_batch_on_function_error`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `destination_config`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
 - `enabled`: When true, the event source mapping is active. When false, Lambda pauses
   polling and invocation. Default: True
+- `filter_criteria`: (Streams and Amazon SQS) An object that defines the filter criteria
+  that determine whether Lambda should process an event. For more information, see Lambda
+  event filtering.
 - `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
-- `function_response_types`: (Streams only) A list of current response type enums applied
-  to the event source mapping.
+- `function_response_types`: (Streams and Amazon SQS) A list of current response type enums
+  applied to the event source mapping.
 - `maximum_batching_window_in_seconds`: (Streams and Amazon SQS standard queues) The
   maximum amount of time, in seconds, that Lambda spends gathering records before invoking
   the function. Default: 0 Related setting: When you set BatchSize to a value greater than
@@ -1458,7 +1403,7 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
   window. The range is between 1 second up to 900 seconds.
 """
 function update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1481,7 +1426,7 @@ update the image tag to a new image, Lambda does not automatically update the fu
 
 # Keyword Parameters
 - `architectures`: The instruction set architecture that the function supports. Enter a
-  string array with one of the valid values. The default value is x86_64.
+  string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
 - `dry_run`: Set to true to validate the request parameters and access permissions without
   modifying the function code.
 - `image_uri`: URI of a container image in the Amazon ECR registry.
@@ -1499,7 +1444,7 @@ update the image tag to a new image, Lambda does not automatically update the fu
   SDK and Amazon Web Services CLI clients handle the encoding for you.
 """
 function update_function_code(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1534,8 +1479,9 @@ permissions to an account or Amazon Web Services service, use AddPermission.
   execution.
 - `file_system_configs`: Connection settings for an Amazon EFS file system.
 - `handler`: The name of the method within your code that Lambda calls to execute your
-  function. The format includes the file name. It can also include namespaces and other
-  qualifiers, depending on the runtime. For more information, see Programming Model.
+  function. Handler is required if the deployment package is a .zip file archive. The format
+  includes the file name. It can also include namespaces and other qualifiers, depending on
+  the runtime. For more information, see Programming Model.
 - `image_config`:  Container image configuration values that override the values in the
   container image Docker file.
 - `kmskey_arn`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
@@ -1550,7 +1496,8 @@ permissions to an account or Amazon Web Services service, use AddPermission.
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
 - `role`: The Amazon Resource Name (ARN) of the function's execution role.
-- `runtime`: The identifier of the function's runtime.
+- `runtime`: The identifier of the function's runtime. Runtime is required if the
+  deployment package is a .zip file archive.
 - `timeout`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
   additional information, see Lambda execution environment.
@@ -1562,7 +1509,7 @@ permissions to an account or Amazon Web Services service, use AddPermission.
   Settings.
 """
 function update_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1592,24 +1539,6 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 - `qualifier`: A version number or alias name.
 """
 function update_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    update_function_url_config(function_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-
-
-
-# Arguments
-- `function_name`:
-
-# Keyword Parameters
-- `authorization_type`:
-- `cors`:
-- `qualifier`:
-"""
-function update_function_url_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return lambda("PUT", "/2021-10-31/functions/$(FunctionName)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

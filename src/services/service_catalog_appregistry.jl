@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "attributes" => "attributes", "description" => "description", "name" => "name", "tags" => "tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "attributes" => "attributes", "description" => "description", "name" => "name", "tags" => "tags")
 
 """
     associate_attribute_group(application, attribute_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ user-defined details that are machine-readable, such as third-party integrations
 
 """
 function associate_attribute_group(application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("PUT", "/applications/$(application)/attribute-groups/$(attributeGroup)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -38,7 +38,7 @@ specified either by ID or name.
 
 """
 function associate_resource(application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("PUT", "/applications/$(application)/resources/$(resourceType)/$(resource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ resource abstractions.
 - `tags`: Key-value pairs you can use to associate with the application.
 """
 function create_application(clientToken, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ tools.
 - `tags`: Key-value pairs you can use to associate with the attribute group.
 """
 function create_attribute_group(attributes, clientToken, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("POST", "/attribute-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes, "clientToken"=>clientToken, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -105,7 +105,7 @@ application.
 
 """
 function delete_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("DELETE", "/applications/$(application)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -120,7 +120,7 @@ Deletes an attribute group, specified either by its attribute group ID or name.
 
 """
 function delete_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("DELETE", "/attribute-groups/$(attributeGroup)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ AssociateAttributeGroup.
 
 """
 function disassociate_attribute_group(application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("DELETE", "/applications/$(application)/attribute-groups/$(attributeGroup)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -155,7 +155,7 @@ specified either by ID or name.
 
 """
 function disassociate_resource(application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("DELETE", "/applications/$(application)/resources/$(resourceType)/$(resource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -173,7 +173,7 @@ avoiding the ABA addressing problem.
 
 """
 function get_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/applications/$(application)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -189,7 +189,7 @@ Gets the resource associated with the application.
 
 """
 function get_associated_resource(application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/applications/$(application)/resources/$(resourceType)/$(resource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -205,7 +205,7 @@ specified either by its unique ID or by its name.
 
 """
 function get_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/attribute-groups/$(attributeGroup)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ Retrieves a list of all of your applications. Results are paginated.
 - `next_token`: The token to use to get the next page of results after a previous API call.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ paginated.
 - `next_token`: The token to use to get the next page of results after a previous API call.
 """
 function list_associated_attribute_groups(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/applications/$(application)/attribute-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -257,7 +257,7 @@ Lists all resources that are associated with specified application. Results are 
 - `next_token`: The token to use to get the next page of results after a previous API call.
 """
 function list_associated_resources(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/applications/$(application)/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -272,7 +272,7 @@ Lists all attribute groups which you have access to. Results are paginated.
 - `next_token`: The token to use to get the next page of results after a previous API call.
 """
 function list_attribute_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/attribute-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -286,7 +286,7 @@ Lists all of the tags on the resource.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -305,7 +305,7 @@ permissions to read and update the resource.
 
 """
 function sync_resource(resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("POST", "/sync/$(resourceType)/$(resource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -323,7 +323,7 @@ call was successful.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ successful.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -357,7 +357,7 @@ Updates an existing application with new attributes.
   you are updating the application.
 """
 function update_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("PATCH", "/applications/$(application)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -378,6 +378,6 @@ Updates an existing attribute group with new details.
   which you are updating the attribute group.
 """
 function update_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog_appregistry("PATCH", "/attribute-groups/$(attributeGroup)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

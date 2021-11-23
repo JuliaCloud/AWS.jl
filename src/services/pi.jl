@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken", "partition_by" => "PartitionBy", "period_in_seconds" => "PeriodInSeconds", "requested_dimensions" => "RequestedDimensions")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken", "partition_by" => "PartitionBy", "period_in_seconds" => "PeriodInSeconds", "requested_dimensions" => "RequestedDimensions")
 
 """
     describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -62,7 +62,7 @@ the first 500 bytes are returned.
   points in the response.
 """
 function describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ text.
   group.
 """
 function get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pi("GetDimensionKeyDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -137,6 +137,6 @@ elements, such as SQL statements, only the first 500 bytes are returned.
   data points in the response.
 """
 function get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pi("GetResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

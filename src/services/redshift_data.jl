@@ -5,29 +5,32 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("next_token" => "NextToken", "max_results" => "MaxResults", "role_level" => "RoleLevel", "statement_name" => "StatementName", "status" => "Status", "db_user" => "DbUser", "secret_arn" => "SecretArn", "connected_database" => "ConnectedDatabase", "schema_pattern" => "SchemaPattern", "table_pattern" => "TablePattern", "with_event" => "WithEvent", "schema" => "Schema", "table" => "Table", "parameters" => "Parameters")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("next_token" => "NextToken", "max_results" => "MaxResults", "role_level" => "RoleLevel", "statement_name" => "StatementName", "status" => "Status", "cluster_identifier" => "ClusterIdentifier", "db_user" => "DbUser", "secret_arn" => "SecretArn", "connected_database" => "ConnectedDatabase", "schema_pattern" => "SchemaPattern", "table_pattern" => "TablePattern", "with_event" => "WithEvent", "schema" => "Schema", "table" => "Table", "parameters" => "Parameters")
 
 """
-    batch_execute_statement(cluster_identifier, database, sqls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    batch_execute_statement(database, sqls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs one or more SQL statements, which can be data manipulation language (DML) or data
 definition language (DDL). Depending on the authorization method, use one of the following
-combinations of request parameters:    Secrets Manager - specify the Amazon Resource Name
-(ARN) of the secret, the database name, and the cluster identifier that matches the cluster
-in the secret.    Temporary credentials - specify the cluster identifier, the database
-name, and the database user name. Permission to call the redshift:GetClusterCredentials
-operation is required to use this method.
+combinations of request parameters:    Secrets Manager - when connecting to a cluster,
+specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster
+identifier that matches the cluster in the secret. When connecting to a serverless
+endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.
+Temporary credentials - when connecting to a cluster, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+redshift:GetClusterCredentials operation is required. When connecting to a serverless
+endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database. This parameter is required when authenticating
   using either Secrets Manager or temporary credentials.
 - `sqls`: One or more SQL statements to run.
 
 # Keyword Parameters
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `secret_arn`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
 - `statement_name`: The name of the SQL statements. You can name the SQL statements when
@@ -35,9 +38,9 @@ operation is required to use this method.
 - `with_event`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statements run.
 """
-function batch_execute_statement(ClusterIdentifier, Database, Sqls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database, "Sqls"=>Sqls), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function batch_execute_statement(Database, Sqls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Sqls"=>Sqls), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -52,7 +55,7 @@ Cancels a running query. To be canceled, a query must be running.
 
 """
 function cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift_data("CancelStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,34 +75,36 @@ status, the number of rows returned, and the SQL statement.
 
 """
 function describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift_data("DescribeStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    describe_table(cluster_identifier, database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    describe_table(database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the detailed information about a table from metadata in the cluster. The
 information includes its columns. A token is returned to page through the column list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - specify the Amazon Resource Name (ARN) of the secret, the
-database name, and the cluster identifier that matches the cluster in the secret.
-Temporary credentials - specify the cluster identifier, the database name, and the database
-user name. Permission to call the redshift:GetClusterCredentials operation is required to
-use this method.
+parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
+Name (ARN) of the secret, the database name, and the cluster identifier that matches the
+cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
+connecting to a cluster, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required. When connecting to a serverless endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database that contains the tables to be described. If
   ConnectedDatabase is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Keyword Parameters
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `connected_database`: A database name. The connected database is specified when you
   connect with your authentication credentials.
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `max_results`: The maximum number of tables to return in the response. If more tables
   exist than fit in one response, then NextToken is returned to page through the results.
 - `next_token`: A value that indicates the starting point for the next set of response
@@ -115,32 +120,35 @@ use this method.
   schemas are returned. If no table and no schema is specified, then all tables for all
   schemas in the database are returned
 """
-function describe_table(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_table(Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    execute_statement(cluster_identifier, database, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    execute_statement(database, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs an SQL statement, which can be data manipulation language (DML) or data definition
 language (DDL). This statement must be a single SQL statement. Depending on the
 authorization method, use one of the following combinations of request parameters:
-Secrets Manager - specify the Amazon Resource Name (ARN) of the secret, the database name,
-and the cluster identifier that matches the cluster in the secret.    Temporary credentials
-- specify the cluster identifier, the database name, and the database user name. Permission
-to call the redshift:GetClusterCredentials operation is required to use this method.
+Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of
+the secret, the database name, and the cluster identifier that matches the cluster in the
+secret. When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of
+the secret and the database name.    Temporary credentials - when connecting to a cluster,
+specify the cluster identifier, the database name, and the database user name. Also,
+permission to call the redshift:GetClusterCredentials operation is required. When
+connecting to a serverless endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database. This parameter is required when authenticating
   using either Secrets Manager or temporary credentials.
 - `sql`: The SQL statement text to run.
 
 # Keyword Parameters
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `parameters`: The parameters for the SQL statement.
 - `secret_arn`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
@@ -149,9 +157,9 @@ to call the redshift:GetClusterCredentials operation is required to use this met
 - `with_event`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statement runs.
 """
-function execute_statement(ClusterIdentifier, Database, Sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database, "Sql"=>Sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Sql"=>Sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -176,30 +184,32 @@ through the statement results.
   have been retrieved for the request.
 """
 function get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift_data("GetStatementResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    list_databases(cluster_identifier, database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    list_databases(database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the databases in a cluster. A token is returned to page through the database list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - specify the Amazon Resource Name (ARN) of the secret, the
-database name, and the cluster identifier that matches the cluster in the secret.
-Temporary credentials - specify the cluster identifier, the database name, and the database
-user name. Permission to call the redshift:GetClusterCredentials operation is required to
-use this method.
+parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
+Name (ARN) of the secret, the database name, and the cluster identifier that matches the
+cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
+connecting to a cluster, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required. When connecting to a serverless endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database. This parameter is required when authenticating
   using either Secrets Manager or temporary credentials.
 
 # Keyword Parameters
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `max_results`: The maximum number of databases to return in the response. If more
   databases exist than fit in one response, then NextToken is returned to page through the
   results.
@@ -211,34 +221,36 @@ use this method.
 - `secret_arn`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
 """
-function list_databases(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_databases(Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    list_schemas(cluster_identifier, database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    list_schemas(database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the schemas in a database. A token is returned to page through the schema list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - specify the Amazon Resource Name (ARN) of the secret, the
-database name, and the cluster identifier that matches the cluster in the secret.
-Temporary credentials - specify the cluster identifier, the database name, and the database
-user name. Permission to call the redshift:GetClusterCredentials operation is required to
-use this method.
+parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
+Name (ARN) of the secret, the database name, and the cluster identifier that matches the
+cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
+connecting to a cluster, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required. When connecting to a serverless endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database that contains the schemas to list. If
   ConnectedDatabase is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Keyword Parameters
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `connected_database`: A database name. The connected database is specified when you
   connect with your authentication credentials.
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `max_results`: The maximum number of schemas to return in the response. If more schemas
   exist than fit in one response, then NextToken is returned to page through the results.
 - `next_token`: A value that indicates the starting point for the next set of response
@@ -252,9 +264,9 @@ use this method.
 - `secret_arn`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
 """
-function list_schemas(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("ListSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_schemas(Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("ListSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -289,34 +301,36 @@ to page through the statement list.
   but not yet processed.
 """
 function list_statements(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift_data("ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
-    list_tables(cluster_identifier, database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    list_tables(database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the tables in a database. If neither SchemaPattern nor TablePattern are specified,
 then all tables in the database are returned. A token is returned to page through the table
 list. Depending on the authorization method, use one of the following combinations of
-request parameters:    Secrets Manager - specify the Amazon Resource Name (ARN) of the
-secret, the database name, and the cluster identifier that matches the cluster in the
-secret.    Temporary credentials - specify the cluster identifier, the database name, and
-the database user name. Permission to call the redshift:GetClusterCredentials operation is
-required to use this method.
+request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon
+Resource Name (ARN) of the secret, the database name, and the cluster identifier that
+matches the cluster in the secret. When connecting to a serverless endpoint, specify the
+Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials -
+when connecting to a cluster, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required. When connecting to a serverless endpoint, specify the database name.
 
 # Arguments
-- `cluster_identifier`: The cluster identifier. This parameter is required when
-  authenticating using either Secrets Manager or temporary credentials.
 - `database`: The name of the database that contains the tables to list. If
   ConnectedDatabase is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Keyword Parameters
+- `cluster_identifier`: The cluster identifier. This parameter is required when connecting
+  to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `connected_database`: A database name. The connected database is specified when you
   connect with your authentication credentials.
-- `db_user`: The database user name. This parameter is required when authenticating using
-  temporary credentials.
+- `db_user`: The database user name. This parameter is required when connecting to a
+  cluster and authenticating using temporary credentials.
 - `max_results`: The maximum number of tables to return in the response. If more tables
   exist than fit in one response, then NextToken is returned to page through the results.
 - `next_token`: A value that indicates the starting point for the next set of response
@@ -337,7 +351,7 @@ required to use this method.
   specified, then all tables that match SchemaPatternare returned. If neither SchemaPattern
   or TablePattern are specified, then all tables are returned.
 """
-function list_tables(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
-    return redshift_data("ListTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_tables(Database; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift_data("ListTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

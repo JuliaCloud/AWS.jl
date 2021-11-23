@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("end_date" => "EndDate", "next_token" => "NextToken", "start_date" => "StartDate")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("end_date" => "EndDate", "next_token" => "NextToken", "start_date" => "StartDate")
 
 """
     query_forecast(filters, forecast_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,6 +35,6 @@ Forecast are in the same timezone as the dataset that was used to create the pre
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
 function query_forecast(Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

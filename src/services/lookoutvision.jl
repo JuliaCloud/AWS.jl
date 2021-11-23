@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "X-Amzn-Client-Token", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "Description", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "after_creation_date" => "createdAfter", "anomaly_class" => "anomalyClass", "before_creation_date" => "createdBefore", "labeled" => "labeled", "source_ref_contains" => "sourceRefContains", "dataset_source" => "DatasetSource")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "X-Amzn-Client-Token", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "Description", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "after_creation_date" => "createdAfter", "anomaly_class" => "anomalyClass", "before_creation_date" => "createdBefore", "labeled" => "labeled", "source_ref_contains" => "sourceRefContains", "dataset_source" => "DatasetSource")
 
 """
     create_dataset(dataset_type, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -40,7 +40,7 @@ lookoutvision:CreateDataset operation.
   value of Status returned in a call to DescribeDataset.
 """
 function create_dataset(DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ require permission to the lookoutvision:TagResource operation.
 - `tags`: A set of tags (key-value pairs) that you want to attach to the model.
 """
 function create_model(OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -102,7 +102,7 @@ lookoutvision:CreateProject operation.
   token is active for 8 hours.
 """
 function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ lookoutvision:DeleteDataset operation.
   token is active for 8 hours.
 """
 function delete_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ perform the lookoutvision:DeleteModel operation.
   token is active for 8 hours.
 """
 function delete_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ lookoutvision:DeleteProject operation.
   token is active for 8 hours.
 """
 function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -207,7 +207,7 @@ perform the lookoutvision:DescribeDataset operation.
 
 """
 function describe_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -224,7 +224,7 @@ permissions to perform the lookoutvision:DescribeModel operation.
 
 """
 function describe_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,7 +239,7 @@ perform the lookoutvision:DescribeProject operation.
 
 """
 function describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects/$(projectName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -264,7 +264,7 @@ permissions to perform the lookoutvision:DetectAnomalies operation.
 
 """
 function detect_anomalies(Body, Content_Type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -303,7 +303,7 @@ operation.
   source-ref key value matches *IMG_17*.
 """
 function list_dataset_entries(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +326,7 @@ requires permissions to perform the lookoutvision:ListModels operation.
   use this pagination token to retrieve the next set of models.
 """
 function list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -345,7 +345,7 @@ permissions to perform the lookoutvision:ListProjects operation.
   use this pagination token to retrieve the next set of projects.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -361,7 +361,7 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ requires permissions to perform the lookoutvision:StartModel operation.
   token is active for 8 hours.
 """
 function start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ lookoutvision:StopModel operation.
   is active for 8 hours.
 """
 function stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -436,7 +436,7 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -454,7 +454,7 @@ permissions to perform the lookoutvision:UntagResource operation.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,6 +484,6 @@ requires permissions to perform the lookoutvision:UpdateDatasetEntries operation
   new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
 """
 function update_dataset_entries(Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

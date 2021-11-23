@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "job_tags" => "JobTags", "node_description" => "NodeDescription", "mark_latest" => "MarkLatest", "owner_account" => "OwnerAccount", "category" => "category", "package_name" => "packageName", "package_version" => "packageVersion", "patch_version" => "PatchVersion", "updated_latest_patch_version" => "UpdatedLatestPatchVersion", "force_delete" => "ForceDelete", "tags" => "Tags", "device_id" => "DeviceId", "status_filter" => "statusFilter", "application_instance_id_to_replace" => "ApplicationInstanceIdToReplace", "description" => "Description", "manifest_overrides_payload" => "ManifestOverridesPayload", "name" => "Name", "runtime_role_arn" => "RuntimeRoleArn", "networking_configuration" => "NetworkingConfiguration")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "job_tags" => "JobTags", "node_description" => "NodeDescription", "mark_latest" => "MarkLatest", "owner_account" => "OwnerAccount", "category" => "category", "package_name" => "packageName", "package_version" => "packageVersion", "patch_version" => "PatchVersion", "updated_latest_patch_version" => "UpdatedLatestPatchVersion", "force_delete" => "ForceDelete", "tags" => "Tags", "device_id" => "DeviceId", "status_filter" => "statusFilter", "application_instance_id_to_replace" => "ApplicationInstanceIdToReplace", "description" => "Description", "manifest_overrides_payload" => "ManifestOverridesPayload", "name" => "Name", "runtime_role_arn" => "RuntimeRoleArn", "networking_configuration" => "NetworkingConfiguration")
 
 """
     create_application_instance(default_runtime_context_device, manifest_payload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,7 +26,7 @@ Creates an application instance and deploys it to a device.
 - `tags`: Tags for the application instance.
 """
 function create_application_instance(DefaultRuntimeContextDevice, ManifestPayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/application-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultRuntimeContextDevice"=>DefaultRuntimeContextDevice, "ManifestPayload"=>ManifestPayload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ Creates a job to run on one or more devices.
 
 """
 function create_job_for_devices(DeviceIds, DeviceJobConfig, JobType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds, "DeviceJobConfig"=>DeviceJobConfig, "JobType"=>JobType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ Creates a camera stream node.
 - `node_description`: A description for the node.
 """
 function create_node_from_template_job(NodeName, OutputPackageName, OutputPackageVersion, TemplateParameters, TemplateType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/packages/template-job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "OutputPackageName"=>OutputPackageName, "OutputPackageVersion"=>OutputPackageVersion, "TemplateParameters"=>TemplateParameters, "TemplateType"=>TemplateType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -79,7 +79,7 @@ Creates a package and storage location in an Amazon S3 access point.
 - `tags`: Tags for the package.
 """
 function create_package(PackageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageName"=>PackageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -98,7 +98,7 @@ Imports a node package.
 - `job_tags`: Tags for the package import job.
 """
 function create_package_import_job(ClientToken, InputConfig, JobType, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/packages/import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "InputConfig"=>InputConfig, "JobType"=>JobType, "OutputConfig"=>OutputConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -112,7 +112,7 @@ Deletes a device.
 
 """
 function delete_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("DELETE", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ Deletes a package.
   Deletes the package's artifacts from Amazon S3.
 """
 function delete_package(PackageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("DELETE", "/packages/$(PackageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -149,7 +149,7 @@ Deregisters a package version.
   maker as latest.
 """
 function deregister_package_version(PackageId, PackageVersion, PatchVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("DELETE", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -163,7 +163,7 @@ Returns information about an application instance on a device.
 
 """
 function describe_application_instance(applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/application-instances/$(applicationInstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -177,7 +177,7 @@ Returns information about an application instance's configuration manifest.
 
 """
 function describe_application_instance_details(applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/application-instances/$(applicationInstanceId)/details", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -191,7 +191,7 @@ Returns information about a device.
 
 """
 function describe_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -205,7 +205,7 @@ Returns information about a device job.
 
 """
 function describe_device_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +221,7 @@ Returns information about a node.
 - `owner_account`: The account ID of the node's owner.
 """
 function describe_node(NodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/nodes/$(NodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -235,7 +235,7 @@ Returns information about a job to create a camera stream node.
 
 """
 function describe_node_from_template_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/template-job/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ Returns information about a package.
 
 """
 function describe_package(PackageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/metadata/$(PackageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -263,7 +263,7 @@ Returns information about a package import job.
 
 """
 function describe_package_import_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/import-jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,7 +281,7 @@ Returns information about a package version.
 - `patch_version`: The version's patch version.
 """
 function describe_package_version(PackageId, PackageVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/metadata/$(PackageId)/versions/$(PackageVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ Returns a list of application instance dependencies.
   page of results.
 """
 function list_application_instance_dependencies(applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/application-instances/$(applicationInstanceId)/package-dependencies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -318,7 +318,7 @@ Returns a list of application node instances.
   page of results.
 """
 function list_application_instance_node_instances(applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/application-instances/$(applicationInstanceId)/node-instances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -336,7 +336,7 @@ Returns a list of application instances.
 - `status_filter`: Only include instances with a specific status.
 """
 function list_application_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/application-instances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -351,7 +351,7 @@ Returns a list of devices.
   page of results.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -367,7 +367,7 @@ Returns a list of jobs.
   page of results.
 """
 function list_devices_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -383,7 +383,7 @@ Returns a list of camera stream node jobs.
   page of results.
 """
 function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/template-job", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -403,7 +403,7 @@ Returns a list of nodes.
 - `patch_version`: Search for nodes by patch version.
 """
 function list_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -418,7 +418,7 @@ Returns a list of package import jobs.
   page of results.
 """
 function list_package_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages/import-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ Returns a list of packages.
   page of results.
 """
 function list_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +447,7 @@ Returns a list of tags for a resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -467,7 +467,7 @@ configuration archive to the device with the included USB storage device within 
 - `tags`: Tags for the device.
 """
 function provision_device(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -486,7 +486,7 @@ Registers a package version.
 - `owner_account`: An owner account.
 """
 function register_package_version(PackageId, PackageVersion, PatchVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("PUT", "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -500,7 +500,7 @@ Removes an application instance.
 
 """
 function remove_application_instance(applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("DELETE", "/application-instances/$(applicationInstanceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -515,7 +515,7 @@ Tags a resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -530,7 +530,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,6 +546,6 @@ Updates a device's metadata.
 - `description`: A description for the device.
 """
 function update_device_metadata(DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return panorama("PUT", "/devices/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

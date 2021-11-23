@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("human_loop_config" => "HumanLoopConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "kmskey_id" => "KMSKeyId", "notification_channel" => "NotificationChannel", "output_config" => "OutputConfig")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("human_loop_config" => "HumanLoopConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "kmskey_id" => "KMSKeyId", "notification_channel" => "NotificationChannel", "output_config" => "OutputConfig")
 
 """
     analyze_document(document, feature_types; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,26 +42,42 @@ use StartDocumentAnalysis. For more information, see Document Text Analysis.
   analyzing documents.
 """
 function analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     analyze_expense(document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Analyzes an input document for financially related relationships between text. Information
-is returned as ExpenseDocuments and seperated as follows.    LineItemGroups- A data set
-containing LineItems which store information about the lines of text, such as an item
-purchased and its price on a receipt.    SummaryFields- Contains all other information a
-receipt, such as header information or the vendors name.
+ AnalyzeExpense synchronously analyzes an input document for financially related
+relationships between text. Information is returned as ExpenseDocuments and seperated as
+follows.    LineItemGroups- A data set containing LineItems which store information about
+the lines of text, such as an item purchased and its price on a receipt.    SummaryFields-
+Contains all other information a receipt, such as header information or the vendors name.
 
 # Arguments
 - `document`:
 
 """
 function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("AnalyzeExpense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    analyze_id(document_pages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Analyzes identity documents for relevant information. This information is extracted and
+returned as IdentityDocumentFields, which records both the normalized field and value of
+the extracted text.
+
+# Arguments
+- `document_pages`: The document being passed to AnalyzeID.
+
+"""
+function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return textract("AnalyzeID", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentPages"=>DocumentPages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,7 +100,7 @@ use StartDocumentTextDetection. For more information, see Document Text Detectio
 
 """
 function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +146,7 @@ GetDocumentAnalysis. For more information, see Document Text Analysis.
   pagination token to retrieve the next set of blocks.
 """
 function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +186,7 @@ more information, see Document Text Detection.
   pagination token to retrieve the next set of blocks.
 """
 function get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -206,7 +222,7 @@ GetExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
   pagination token to retrieve the next set of blocks.
 """
 function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("GetExpenseAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +268,7 @@ StartDocumentAnalysis. For more information, see Document Text Analysis.
   operation.
 """
 function start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +309,7 @@ StartDocumentTextDetection. For more information, see Document Text Detection.
   GetDocumentTextDetection operation.
 """
 function start_document_text_detection(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -335,6 +351,6 @@ StartExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
   operation.
 """
 function start_expense_analysis(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return textract("StartExpenseAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

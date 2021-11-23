@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("location" => "Location", "sinks" => "Sinks", "catalog_id" => "CatalogId", "max_results" => "MaxResults", "next_token" => "NextToken", "expression" => "Expression", "csv_classifier" => "CsvClassifier", "grok_classifier" => "GrokClassifier", "json_classifier" => "JsonClassifier", "xmlclassifier" => "XMLClassifier", "partition_indexes" => "PartitionIndexes", "filter" => "Filter", "sort" => "Sort", "metadata_list" => "MetadataList", "schema_id" => "SchemaId", "schema_version_id" => "SchemaVersionId", "schema_version_number" => "SchemaVersionNumber", "compatibility" => "Compatibility", "description" => "Description", "filters" => "Filters", "resource_share_type" => "ResourceShareType", "search_text" => "SearchText", "sort_criteria" => "SortCriteria", "include_blueprint" => "IncludeBlueprint", "include_parameter_spec" => "IncludeParameterSpec", "registry_id" => "RegistryId", "crawler_name_list" => "CrawlerNameList", "classifiers" => "Classifiers", "configuration" => "Configuration", "crawler_security_configuration" => "CrawlerSecurityConfiguration", "database_name" => "DatabaseName", "lineage_configuration" => "LineageConfiguration", "recrawl_policy" => "RecrawlPolicy", "role" => "Role", "schedule" => "Schedule", "schema_change_policy" => "SchemaChangePolicy", "table_prefix" => "TablePrefix", "targets" => "Targets", "include_graph" => "IncludeGraph", "tags" => "Tags", "additional_plan_options_map" => "AdditionalPlanOptionsMap", "language" => "Language", "arguments" => "Arguments", "extra_jars_s3_path" => "ExtraJarsS3Path", "extra_python_libs_s3_path" => "ExtraPythonLibsS3Path", "glue_version" => "GlueVersion", "number_of_nodes" => "NumberOfNodes", "number_of_workers" => "NumberOfWorkers", "public_key" => "PublicKey", "public_keys" => "PublicKeys", "security_configuration" => "SecurityConfiguration", "security_group_ids" => "SecurityGroupIds", "subnet_id" => "SubnetId", "worker_type" => "WorkerType", "python_script" => "PythonScript", "schema_definition" => "SchemaDefinition", "dag_edges" => "DagEdges", "dag_nodes" => "DagNodes", "hide_password" => "HidePassword", "allocated_capacity" => "AllocatedCapacity", "job_run_id" => "JobRunId", "max_capacity" => "MaxCapacity", "notification_property" => "NotificationProperty", "timeout" => "Timeout", "resource_arn" => "ResourceArn", "enable_hybrid" => "EnableHybrid", "policy_exists_condition" => "PolicyExistsCondition", "policy_hash_condition" => "PolicyHashCondition", "add_arguments" => "AddArguments", "add_public_keys" => "AddPublicKeys", "custom_libraries" => "CustomLibraries", "delete_arguments" => "DeleteArguments", "delete_public_keys" => "DeletePublicKeys", "update_etl_libraries" => "UpdateEtlLibraries", "skip_archive" => "SkipArchive", "connections" => "Connections", "default_arguments" => "DefaultArguments", "execution_property" => "ExecutionProperty", "log_uri" => "LogUri", "max_retries" => "MaxRetries", "non_overridable_arguments" => "NonOverridableArguments", "parameters" => "Parameters", "predecessors_included" => "PredecessorsIncluded", "default_run_properties" => "DefaultRunProperties", "max_concurrent_runs" => "MaxConcurrentRuns", "version_id" => "VersionId", "event_batching_condition" => "EventBatchingCondition", "predicate" => "Predicate", "start_on_creation" => "StartOnCreation", "workflow_name" => "WorkflowName", "exclude_column_schema" => "ExcludeColumnSchema", "segment" => "Segment", "name" => "Name", "transform_encryption" => "TransformEncryption", "replace_all_labels" => "ReplaceAllLabels", "run_id" => "RunId", "dependent_job_name" => "DependentJobName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("location" => "Location", "sinks" => "Sinks", "catalog_id" => "CatalogId", "max_results" => "MaxResults", "next_token" => "NextToken", "expression" => "Expression", "query_as_of_time" => "QueryAsOfTime", "transaction_id" => "TransactionId", "csv_classifier" => "CsvClassifier", "grok_classifier" => "GrokClassifier", "json_classifier" => "JsonClassifier", "xmlclassifier" => "XMLClassifier", "partition_indexes" => "PartitionIndexes", "filter" => "Filter", "sort" => "Sort", "metadata_list" => "MetadataList", "schema_id" => "SchemaId", "schema_version_id" => "SchemaVersionId", "schema_version_number" => "SchemaVersionNumber", "compatibility" => "Compatibility", "description" => "Description", "filters" => "Filters", "resource_share_type" => "ResourceShareType", "search_text" => "SearchText", "sort_criteria" => "SortCriteria", "include_blueprint" => "IncludeBlueprint", "include_parameter_spec" => "IncludeParameterSpec", "registry_id" => "RegistryId", "crawler_name_list" => "CrawlerNameList", "classifiers" => "Classifiers", "configuration" => "Configuration", "crawler_security_configuration" => "CrawlerSecurityConfiguration", "database_name" => "DatabaseName", "lineage_configuration" => "LineageConfiguration", "recrawl_policy" => "RecrawlPolicy", "role" => "Role", "schedule" => "Schedule", "schema_change_policy" => "SchemaChangePolicy", "table_prefix" => "TablePrefix", "targets" => "Targets", "include_graph" => "IncludeGraph", "tags" => "Tags", "additional_plan_options_map" => "AdditionalPlanOptionsMap", "language" => "Language", "arguments" => "Arguments", "extra_jars_s3_path" => "ExtraJarsS3Path", "extra_python_libs_s3_path" => "ExtraPythonLibsS3Path", "glue_version" => "GlueVersion", "number_of_nodes" => "NumberOfNodes", "number_of_workers" => "NumberOfWorkers", "public_key" => "PublicKey", "public_keys" => "PublicKeys", "security_configuration" => "SecurityConfiguration", "security_group_ids" => "SecurityGroupIds", "subnet_id" => "SubnetId", "worker_type" => "WorkerType", "python_script" => "PythonScript", "schema_definition" => "SchemaDefinition", "dag_edges" => "DagEdges", "dag_nodes" => "DagNodes", "hide_password" => "HidePassword", "allocated_capacity" => "AllocatedCapacity", "job_run_id" => "JobRunId", "max_capacity" => "MaxCapacity", "notification_property" => "NotificationProperty", "timeout" => "Timeout", "resource_arn" => "ResourceArn", "enable_hybrid" => "EnableHybrid", "policy_exists_condition" => "PolicyExistsCondition", "policy_hash_condition" => "PolicyHashCondition", "add_arguments" => "AddArguments", "add_public_keys" => "AddPublicKeys", "custom_libraries" => "CustomLibraries", "delete_arguments" => "DeleteArguments", "delete_public_keys" => "DeletePublicKeys", "update_etl_libraries" => "UpdateEtlLibraries", "skip_archive" => "SkipArchive", "connections" => "Connections", "default_arguments" => "DefaultArguments", "execution_property" => "ExecutionProperty", "log_uri" => "LogUri", "max_retries" => "MaxRetries", "non_overridable_arguments" => "NonOverridableArguments", "parameters" => "Parameters", "predecessors_included" => "PredecessorsIncluded", "default_run_properties" => "DefaultRunProperties", "max_concurrent_runs" => "MaxConcurrentRuns", "version_id" => "VersionId", "event_batching_condition" => "EventBatchingCondition", "predicate" => "Predicate", "start_on_creation" => "StartOnCreation", "workflow_name" => "WorkflowName", "exclude_column_schema" => "ExcludeColumnSchema", "segment" => "Segment", "name" => "Name", "transform_encryption" => "TransformEncryption", "replace_all_labels" => "ReplaceAllLabels", "run_id" => "RunId", "dependent_job_name" => "DependentJobName")
 
 """
     batch_create_partition(database_name, partition_input_list, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Creates one or more partitions in a batch operation.
   this should be the Amazon Web Services account ID.
 """
 function batch_create_partition(DatabaseName, PartitionInputList, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchCreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ Deletes a list of connection definitions from the Data Catalog.
   provided, the Amazon Web Services account ID is used by default.
 """
 function batch_delete_connection(ConnectionNameList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchDeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNameList"=>ConnectionNameList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -61,7 +61,7 @@ Deletes one or more partitions in a batch operation.
   none is provided, the Amazon Web Services account ID is used by default.
 """
 function batch_delete_partition(DatabaseName, PartitionsToDelete, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchDeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,9 +83,10 @@ BatchDeletePartition, to delete any resources that belong to the table.
 # Keyword Parameters
 - `catalog_id`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `transaction_id`: The transaction ID at which to delete the table contents.
 """
 function batch_delete_table(DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchDeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -107,7 +108,7 @@ Deletes a specified batch of versions of a table.
   the Amazon Web Services account ID is used by default.
 """
 function batch_delete_table_version(DatabaseName, TableName, VersionIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchDeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -125,7 +126,7 @@ Retrieves information about a list of blueprints.
   string, for the blueprint in the response.
 """
 function batch_get_blueprints(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetBlueprints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -143,7 +144,7 @@ conditions that uses tags.
 
 """
 function batch_get_crawlers(CrawlerNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetCrawlers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerNames"=>CrawlerNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +162,7 @@ including permission conditions that uses tags.
 
 """
 function batch_get_dev_endpoints(DevEndpointNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetDevEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevEndpointNames"=>DevEndpointNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -179,7 +180,7 @@ conditions that uses tags.
 
 """
 function batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobNames"=>JobNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -198,7 +199,7 @@ Retrieves partitions in a batch request.
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function batch_get_partition(DatabaseName, PartitionsToGet, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +217,7 @@ conditions that uses tags.
 
 """
 function batch_get_triggers(TriggerNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TriggerNames"=>TriggerNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -237,7 +238,7 @@ conditions that uses tags.
   resource metadata.
 """
 function batch_get_workflows(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchGetWorkflows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +253,7 @@ Stops one or more job runs for a specified job definition.
 
 """
 function batch_stop_job_run(JobName, JobRunIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -272,7 +273,7 @@ Updates one or more partitions in a batch operation.
   this should be the Amazon Web Services account ID.
 """
 function batch_update_partition(DatabaseName, Entries, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("BatchUpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +291,7 @@ transform's TransformID and the task run's TaskRunId.
 
 """
 function cancel_mltask_run(TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +309,7 @@ no compatibility checks are performed.
 
 """
 function check_schema_version_validity(DataFormat, SchemaDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -326,7 +327,7 @@ Registers a blueprint with Glue.
 - `tags`: The tags to be applied to this blueprint.
 """
 function create_blueprint(BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateBlueprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlueprintLocation"=>BlueprintLocation, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,7 +344,7 @@ a JsonClassifier, or a CsvClassifier, depending on which field of the request is
 - `xmlclassifier`: An XMLClassifier object specifying the classifier to create.
 """
 function create_classifier(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateClassifier", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -361,7 +362,7 @@ Creates a connection definition in the Data Catalog.
 - `tags`: The tags you assign to the connection.
 """
 function create_connection(ConnectionInput; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -403,7 +404,7 @@ or the DynamoDBTargets field.
   in the developer guide.
 """
 function create_crawler(Name, Role, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -420,7 +421,7 @@ Creates a new database in a Data Catalog.
   provided, the Amazon Web Services account ID is used by default.
 """
 function create_database(DatabaseInput; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +485,7 @@ Creates a new development endpoint.
   memory, and a 64 GB disk.
 """
 function create_dev_endpoint(EndpointName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -557,7 +558,7 @@ Creates a new job definition.
   provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
 """
 function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -630,7 +631,7 @@ Timeout, and MaxRetries. For more information, see Jobs.
   vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
 """
 function create_mltransform(InputRecordTables, Name, Parameters, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -650,7 +651,7 @@ Creates a new partition.
   to be created.
 """
 function create_partition(DatabaseName, PartitionInput, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -670,7 +671,7 @@ Creates a specified partition index in an existing table.
 - `catalog_id`: The catalog ID where the table resides.
 """
 function create_partition_index(DatabaseName, PartitionIndex, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +691,7 @@ Creates a new registry which may be used to hold a collection of schemas.
   console, command line, or API.
 """
 function create_registry(RegistryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -749,7 +750,7 @@ used. When this API is called without a RegistryId, this will create an entry fo
   pattern.
 """
 function create_schema(DataFormat, SchemaName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -764,7 +765,7 @@ Transforms a directed acyclic graph (DAG) into code.
 - `language`: The programming language of the resulting code from the DAG.
 """
 function create_script(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -783,7 +784,7 @@ Written by Crawlers, Jobs, and Development Endpoints.
 
 """
 function create_security_configuration(EncryptionConfiguration, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,9 +804,10 @@ Creates a new table definition in the Data Catalog.
   supplied, the Amazon Web Services account ID is used by default.
 - `partition_indexes`: A list of partition indexes, PartitionIndex structures, to create in
   the table.
+- `transaction_id`: The ID of the transaction.
 """
 function create_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -836,7 +838,7 @@ Creates a new trigger.
 - `workflow_name`: The name of the workflow associated with the trigger.
 """
 function create_trigger(Actions, Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -855,7 +857,7 @@ Creates a new function definition in the Data Catalog.
   provided, the Amazon Web Services account ID is used by default.
 """
 function create_user_defined_function(DatabaseName, FunctionInput; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -878,7 +880,7 @@ Creates a new workflow.
 - `tags`: The tags to be used with this workflow.
 """
 function create_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -892,7 +894,7 @@ Deletes an existing blueprint.
 
 """
 function delete_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteBlueprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -906,7 +908,7 @@ Removes a classifier from the Data Catalog.
 
 """
 function delete_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -927,7 +929,7 @@ Delete the partition column statistics of a column. The Identity and Access Mana
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function delete_column_statistics_for_partition(ColumnName, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +949,7 @@ required for this operation is DeleteTable.
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function delete_column_statistics_for_table(ColumnName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -964,7 +966,7 @@ Deletes a connection from the Data Catalog.
   provided, the Amazon Web Services account ID is used by default.
 """
 function delete_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +980,7 @@ Removes a specified crawler from the Glue Data Catalog, unless the crawler state
 
 """
 function delete_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1003,7 +1005,7 @@ that belong to the database.
   provided, the Amazon Web Services account ID is used by default.
 """
 function delete_database(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1017,7 +1019,7 @@ Deletes a specified development endpoint.
 
 """
 function delete_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1032,7 +1034,7 @@ thrown.
 
 """
 function delete_job(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1051,7 +1053,7 @@ no longer succeed.
 
 """
 function delete_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1070,7 +1072,7 @@ Deletes a specified partition.
   none is provided, the Amazon Web Services account ID is used by default.
 """
 function delete_partition(DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1090,7 +1092,7 @@ Deletes a specified partition index from an existing table.
 - `catalog_id`: The catalog ID where the table resides.
 """
 function delete_partition_index(DatabaseName, IndexName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1108,7 +1110,7 @@ UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
 
 """
 function delete_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1122,7 +1124,7 @@ Deletes a specified policy.
 - `resource_arn`: The ARN of the Glue resource for the resource policy to be deleted.
 """
 function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1140,7 +1142,7 @@ GetSchemaByDefinition, and RegisterSchemaVersion APIs.
 
 """
 function delete_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1168,7 +1170,7 @@ returned.
 
 """
 function delete_schema_versions(SchemaId, Versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1182,7 +1184,7 @@ Deletes a specified security configuration.
 
 """
 function delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1205,9 +1207,10 @@ DeletePartition or BatchDeletePartition, to delete any resources that belong to 
 # Keyword Parameters
 - `catalog_id`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `transaction_id`: The transaction ID at which to delete the table contents.
 """
 function delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1229,7 +1232,7 @@ Deletes a specified version of a table.
   the Amazon Web Services account ID is used by default.
 """
 function delete_table_version(DatabaseName, TableName, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1243,7 +1246,7 @@ Deletes a specified trigger. If the trigger is not found, no exception is thrown
 
 """
 function delete_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1261,7 +1264,7 @@ Deletes an existing function definition from the Data Catalog.
   none is supplied, the Amazon Web Services account ID is used by default.
 """
 function delete_user_defined_function(DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1275,7 +1278,7 @@ Deletes a workflow.
 
 """
 function delete_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1292,7 +1295,7 @@ Retrieves the details of a blueprint.
 - `include_parameter_spec`: Specifies whether or not to include the parameter specification.
 """
 function get_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetBlueprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1307,7 +1310,7 @@ Retrieves the details of a blueprint run.
 
 """
 function get_blueprint_run(BlueprintName, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetBlueprintRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlueprintName"=>BlueprintName, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1324,7 +1327,7 @@ Retrieves the details of blueprint runs for a specified blueprint.
 - `next_token`: A continuation token, if this is a continuation request.
 """
 function get_blueprint_runs(BlueprintName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetBlueprintRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlueprintName"=>BlueprintName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1338,7 +1341,7 @@ Retrieves the status of a migration operation.
   Services account ID.
 """
 function get_catalog_import_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetCatalogImportStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1352,7 +1355,7 @@ Retrieve a classifier by name.
 
 """
 function get_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1366,7 +1369,7 @@ Lists all classifier objects in the Data Catalog.
 - `next_token`: An optional continuation token.
 """
 function get_classifiers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetClassifiers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1387,7 +1390,7 @@ permission required for this operation is GetPartition.
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function get_column_statistics_for_partition(ColumnNames, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1407,7 +1410,7 @@ required for this operation is GetTable.
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function get_column_statistics_for_table(ColumnNames, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1429,7 +1432,7 @@ Retrieves a connection definition from the Data Catalog.
   of the connection properties.
 """
 function get_connection(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1451,7 +1454,7 @@ Retrieves a list of connection definitions from the Data Catalog.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1465,7 +1468,7 @@ Retrieves metadata for a specified crawler.
 
 """
 function get_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1480,7 +1483,7 @@ Retrieves metrics about specified crawlers.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_crawler_metrics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetCrawlerMetrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1494,7 +1497,7 @@ Retrieves metadata for all crawlers defined in the customer account.
 - `next_token`: A continuation token, if this is a continuation request.
 """
 function get_crawlers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetCrawlers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1508,7 +1511,7 @@ Retrieves the security configuration for a specified catalog.
   none is provided, the Amazon Web Services account ID is used by default.
 """
 function get_data_catalog_encryption_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDataCatalogEncryptionSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1526,7 +1529,7 @@ Retrieves the definition of a specified database.
   provided, the Amazon Web Services account ID is used by default.
 """
 function get_database(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1546,7 +1549,7 @@ Retrieves all databases defined in a given Data Catalog.
   with your account, as well as the databases in yor local account.
 """
 function get_databases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1559,7 +1562,7 @@ Transforms a Python script into a directed acyclic graph (DAG).
 - `python_script`: The Python script to transform.
 """
 function get_dataflow_graph(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDataflowGraph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1576,7 +1579,7 @@ development endpoint, Glue returns only a public IP address.
 
 """
 function get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1593,7 +1596,7 @@ Glue returns only a public IP address.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetDevEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1607,7 +1610,7 @@ Retrieves an existing job definition.
 
 """
 function get_job(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1623,7 +1626,7 @@ Returns information on a job bookmark entry.
 - `run_id`: The unique run identifier associated with this job run.
 """
 function get_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1640,7 +1643,7 @@ Retrieves the metadata for a given job run.
 - `predecessors_included`: True if a list of predecessor runs should be returned.
 """
 function get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1657,7 +1660,7 @@ Retrieves metadata for all runs of a given job definition.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_job_runs(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetJobRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1671,7 +1674,7 @@ Retrieves all current job definitions.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1688,7 +1691,7 @@ Creates mappings.
 - `sinks`: A list of target tables.
 """
 function get_mapping(Source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1706,7 +1709,7 @@ the TaskRunID and its parent transform's TransformID.
 
 """
 function get_mltask_run(TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1730,7 +1733,7 @@ paginated.
 - `sort`: The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
 """
 function get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetMLTaskRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1749,7 +1752,7 @@ calling GetMLTransform.
 
 """
 function get_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1769,7 +1772,7 @@ calling GetMLTransforms.
 - `sort`: The sorting criteria.
 """
 function get_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetMLTransforms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1788,7 +1791,7 @@ Retrieves information about a specified partition.
   is provided, the Amazon Web Services account ID is used by default.
 """
 function get_partition(DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1808,7 +1811,7 @@ Retrieves the partition indexes associated with a table.
 - `next_token`: A continuation token, included if this is a continuation call.
 """
 function get_partition_indexes(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetPartitionIndexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1852,10 +1855,14 @@ Retrieves information about the partitions in a table.
 - `max_results`: The maximum number of partitions to return in a single response.
 - `next_token`: A continuation token, if this is not the first call to retrieve these
   partitions.
+- `query_as_of_time`: The time as of when to read the partition contents. If not set, the
+  most recent transaction commit time will be used. Cannot be specified along with
+  TransactionId.
 - `segment`: The segment of the table's partitions to scan in this request.
+- `transaction_id`: The transaction ID at which to read the partition contents.
 """
 function get_partitions(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetPartitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1879,7 +1886,7 @@ Gets code to perform a specified mapping.
 - `sinks`: The target tables.
 """
 function get_plan(Mapping, Source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1894,7 +1901,7 @@ Describes the specified registry in detail.
 
 """
 function get_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1911,7 +1918,7 @@ the KMS key, the operation can't return the Data Catalog resource policy.
 - `next_token`: A continuation token, if this is a continuation request.
 """
 function get_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetResourcePolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1927,7 +1934,7 @@ Retrieves a specified resource policy.
   ARNs.
 """
 function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1944,7 +1951,7 @@ Describes the specified schema in detail.
 
 """
 function get_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1966,7 +1973,7 @@ statuses will not be included in the results.
 
 """
 function get_schema_by_definition(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1986,7 +1993,7 @@ or registered. Schema versions in Deleted status will not be included in the res
 - `schema_version_number`: The version number of the schema.
 """
 function get_schema_version(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSchemaVersion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2008,7 +2015,7 @@ between two schema definitions under the same schema.
 
 """
 function get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2022,7 +2029,7 @@ Retrieves a specified security configuration.
 
 """
 function get_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2036,7 +2043,7 @@ Retrieves a list of all security configurations.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetSecurityConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2054,9 +2061,12 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 # Keyword Parameters
 - `catalog_id`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `query_as_of_time`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `transaction_id`: The transaction ID at which to read the table contents.
 """
 function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2078,7 +2088,7 @@ Retrieves a specified version of a table.
   representation of an integer. Each version is incremented by 1.
 """
 function get_table_version(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2100,7 +2110,7 @@ Retrieves a list of strings that identify available versions of a specified tabl
 - `next_token`: A continuation token, if this is not the first call.
 """
 function get_table_versions(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTableVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2120,9 +2130,12 @@ Retrieves the definitions of some or all of the tables in a given Database.
   match the pattern are returned.
 - `max_results`: The maximum number of tables to return in a single response.
 - `next_token`: A continuation token, included if this is a continuation call.
+- `query_as_of_time`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `transaction_id`: The transaction ID at which to read the table contents.
 """
 function get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2136,7 +2149,7 @@ Retrieves a list of tags associated with a resource.
 
 """
 function get_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2150,7 +2163,7 @@ Retrieves the definition of a trigger.
 
 """
 function get_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2166,7 +2179,7 @@ Gets all the triggers associated with a job.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_triggers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetTriggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2184,7 +2197,7 @@ Retrieves a specified function definition from the Data Catalog.
   If none is provided, the Amazon Web Services account ID is used by default.
 """
 function get_user_defined_function(DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2206,7 +2219,7 @@ Retrieves multiple function definitions from the Data Catalog.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function get_user_defined_functions(Pattern; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetUserDefinedFunctions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2223,7 +2236,7 @@ Retrieves resource metadata for a workflow.
   resource metadata.
 """
 function get_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2240,7 +2253,7 @@ Retrieves the metadata for a given workflow run.
 - `include_graph`: Specifies whether to include the workflow graph in response or not.
 """
 function get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2255,7 +2268,7 @@ Retrieves the workflow run properties which were set during the run.
 
 """
 function get_workflow_run_properties(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2273,7 +2286,7 @@ Retrieves metadata for all runs of a given workflow.
 - `next_token`: The maximum size of the response.
 """
 function get_workflow_runs(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("GetWorkflowRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2287,7 +2300,7 @@ Imports an existing Amazon Athena Data Catalog to Glue.
   Services account ID.
 """
 function import_catalog_to_glue(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ImportCatalogToGlue", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2302,7 +2315,7 @@ Lists all the blueprint names in an account.
 - `tags`: Filters the list by an Amazon Web Services resource tag.
 """
 function list_blueprints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2321,7 +2334,7 @@ a group. If you choose to use tags filtering, only resources with the tag are re
 - `tags`: Specifies to return only these tagged resources.
 """
 function list_crawlers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListCrawlers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2340,7 +2353,7 @@ a group. If you choose to use tags filtering, only resources with the tag are re
 - `tags`: Specifies to return only these tagged resources.
 """
 function list_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListDevEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2359,7 +2372,7 @@ a group. If you choose to use tags filtering, only resources with the tag are re
 - `tags`: Specifies to return only these tagged resources.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2380,7 +2393,7 @@ with the tags are retrieved.
 - `tags`: Specifies to return only these tagged resources.
 """
 function list_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListMLTransforms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2397,7 +2410,7 @@ be returned if there are no registries available.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function list_registries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListRegistries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2420,7 +2433,7 @@ returned if there are no schema versions available.
 - `next_token`: A continuation token, if this is a continuation call.
 """
 function list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2440,7 +2453,7 @@ API response.
   Name (ARN).
 """
 function list_schemas(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2461,7 +2474,7 @@ a group. If you choose to use tags filtering, only resources with the tag are re
 - `tags`: Specifies to return only these tagged resources.
 """
 function list_triggers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListTriggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2475,7 +2488,7 @@ Lists names of workflows created in the account.
 - `next_token`: A continuation token, if this is a continuation request.
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2493,7 +2506,7 @@ set, the specified encryption is applied to every catalog write thereafter.
   is provided, the Amazon Web Services account ID is used by default.
 """
 function put_data_catalog_encryption_settings(DataCatalogEncryptionSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("PutDataCatalogEncryptionSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2520,7 +2533,7 @@ Sets the Data Catalog resource policy for access control.
 - `resource_arn`: Do not use. For internal use only.
 """
 function put_resource_policy(PolicyInJson; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2539,7 +2552,7 @@ value pairs will be allowed per schema version. They can be added over one or mo
 - `schema_version_number`: The version number of the schema.
 """
 function put_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2557,7 +2570,7 @@ property to existing properties.
 
 """
 function put_workflow_run_properties(Name, RunId, RunProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2578,7 +2591,7 @@ Queries for the schema version metadata information.
 - `schema_version_number`: The version number of the schema.
 """
 function query_schema_version_metadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("QuerySchemaVersionMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2605,7 +2618,7 @@ of the existing schema is returned to the caller.
 
 """
 function register_schema_version(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2625,7 +2638,7 @@ ID.
 - `schema_version_number`: The version number of the schema.
 """
 function remove_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2641,7 +2654,7 @@ Resets a bookmark entry.
 - `run_id`: The unique run identifier associated with this job run.
 """
 function reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ResetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2660,7 +2673,7 @@ are run.
 
 """
 function resume_workflow_run(Name, NodeIds, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("ResumeWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2698,7 +2711,7 @@ the search.
   ascending or descending order.
 """
 function search_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("SearchTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2715,7 +2728,7 @@ Starts a new run of the specified blueprint.
 - `parameters`: Specifies the parameters as a BlueprintParameters object.
 """
 function start_blueprint_run(BlueprintName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartBlueprintRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlueprintName"=>BlueprintName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2730,7 +2743,7 @@ is already running, returns a CrawlerRunningException.
 
 """
 function start_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2745,7 +2758,7 @@ already running or the schedule state is already SCHEDULED.
 
 """
 function start_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2767,7 +2780,7 @@ by calling the GetMLTaskRun API.
 
 """
 function start_export_labels_task_run(OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartExportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2804,7 +2817,7 @@ the GetMLTaskRun operation.
 - `replace_all_labels`: Indicates whether to overwrite your existing labels.
 """
 function start_import_labels_task_run(InputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartImportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2857,7 +2870,7 @@ Starts a job run using a job definition.
   128GB disk, and 1 executor per worker.
 """
 function start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2875,7 +2888,7 @@ EvaluationTaskRun.
 
 """
 function start_mlevaluation_task_run(TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartMLEvaluationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2899,7 +2912,7 @@ use the new and improved labels and perform a higher-quality transformation.
 
 """
 function start_mllabeling_set_generation_task_run(OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2914,7 +2927,7 @@ of trigger are started.
 
 """
 function start_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2928,7 +2941,7 @@ Starts a new run of the specified workflow.
 
 """
 function start_workflow_run(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StartWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2942,7 +2955,7 @@ If the specified crawler is running, stops the crawl.
 
 """
 function stop_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StopCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2957,7 +2970,7 @@ crawler if it is already running.
 
 """
 function stop_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StopCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2971,7 +2984,7 @@ Stops a specified trigger.
 
 """
 function stop_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StopTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2986,7 +2999,7 @@ Stops the execution of the specified workflow run.
 
 """
 function stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("StopWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3004,7 +3017,7 @@ you can tag, see Amazon Web Services Tags in Glue.
 
 """
 function tag_resource(ResourceArn, TagsToAdd; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3020,7 +3033,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(ResourceArn, TagsToRemove; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3037,7 +3050,7 @@ Updates a registered blueprint.
 - `description`: A description of the blueprint.
 """
 function update_blueprint(BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateBlueprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlueprintLocation"=>BlueprintLocation, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3054,7 +3067,7 @@ CsvClassifier, depending on which field is present).
 - `xmlclassifier`: An XMLClassifier object with updated fields.
 """
 function update_classifier(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateClassifier", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3075,7 +3088,7 @@ Creates or updates partition statistics of columns. The Identity and Access Mana
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function update_column_statistics_for_partition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3095,7 +3108,7 @@ permission required for this operation is UpdateTable.
   is supplied, the Amazon Web Services account ID is used by default.
 """
 function update_column_statistics_for_table(ColumnStatisticsList, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3113,7 +3126,7 @@ Updates a connection definition in the Data Catalog.
   provided, the Amazon Web Services account ID is used by default.
 """
 function update_connection(ConnectionInput, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3151,7 +3164,7 @@ updating it.
 - `targets`: A list of targets to crawl.
 """
 function update_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3169,7 +3182,7 @@ Updates the schedule of a crawler using a cron expression.
   would specify: cron(15 12 * * ? *).
 """
 function update_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3189,7 +3202,7 @@ Updates an existing database definition in a Data Catalog.
   is provided, the Amazon Web Services account ID is used by default.
 """
 function update_database(DatabaseInput, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3217,7 +3230,7 @@ Updates a specified development endpoint.
   development endpoint needs to be updated, or False if otherwise.
 """
 function update_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3232,7 +3245,7 @@ Updates an existing job definition.
 
 """
 function update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3280,7 +3293,7 @@ cost-effective).
   memory and a 128GB disk, and 1 executor per worker.
 """
 function update_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3302,7 +3315,7 @@ Updates a partition.
   none is provided, the Amazon Web Services account ID is used by default.
 """
 function update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3321,7 +3334,7 @@ registry.
 
 """
 function update_registry(Description, RegistryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3349,7 +3362,7 @@ the schema. This update will happen only if the schema is in the AVAILABLE state
   or Compatibility has to be provided.
 """
 function update_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3369,9 +3382,10 @@ Updates a metadata table in the Data Catalog.
 - `skip_archive`: By default, UpdateTable always creates an archived version of the table
   before updating it. However, if skipArchive is set to true, UpdateTable does not create the
   archived version.
+- `transaction_id`: The transaction ID at which to update the table contents.
 """
 function update_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3386,7 +3400,7 @@ Updates a trigger definition.
 
 """
 function update_trigger(Name, TriggerUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3406,7 +3420,7 @@ Updates an existing function definition in the Data Catalog.
   none is provided, the Amazon Web Services account ID is used by default.
 """
 function update_user_defined_function(DatabaseName, FunctionInput, FunctionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3428,6 +3442,6 @@ Updates an existing workflow.
   no limit to the number of concurrent workflow runs.
 """
 function update_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return glue("UpdateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxresults", "next_token" => "nexttoken", "comment" => "Comment", "marker" => "marker", "max_items" => "maxitems", "add_tags" => "Tag", "remove_tag_keys" => "Key", "traffic_policy_version_marker" => "trafficpolicyversion", "traffic_policy_id_marker" => "trafficpolicyid", "start_record_identifier" => "identifier", "start_record_name" => "name", "start_record_type" => "type", "hosted_zone_id_marker" => "hostedzoneid", "traffic_policy_instance_name_marker" => "trafficpolicyinstancename", "traffic_policy_instance_type_marker" => "trafficpolicyinstancetype", "edns0_client_subnet_ip" => "edns0clientsubnetip", "edns0_client_subnet_mask" => "edns0clientsubnetmask", "resolver_ip" => "resolverip", "dnsname" => "dnsname", "hosted_zone_id" => "hostedzoneid", "delegation_set_id" => "DelegationSetId", "continent_code" => "continentcode", "country_code" => "countrycode", "subdivision_code" => "subdivisioncode", "alarm_identifier" => "AlarmIdentifier", "child_health_checks" => "ChildHealthCheck", "disabled" => "Disabled", "enable_sni" => "EnableSNI", "failure_threshold" => "FailureThreshold", "fully_qualified_domain_name" => "FullyQualifiedDomainName", "health_check_version" => "HealthCheckVersion", "health_threshold" => "HealthThreshold", "insufficient_data_health_status" => "InsufficientDataHealthStatus", "inverted" => "Inverted", "ipaddress" => "IPAddress", "port" => "Port", "regions" => "Region", "reset_elements" => "ResettableElementName", "resource_path" => "ResourcePath", "search_string" => "SearchString", "start_continent_code" => "startcontinentcode", "start_country_code" => "startcountrycode", "start_subdivision_code" => "startsubdivisioncode", "hosted_zone_config" => "HostedZoneConfig", "vpc" => "VPC")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxresults", "next_token" => "nexttoken", "comment" => "Comment", "marker" => "marker", "max_items" => "maxitems", "add_tags" => "Tag", "remove_tag_keys" => "Key", "traffic_policy_version_marker" => "trafficpolicyversion", "traffic_policy_id_marker" => "trafficpolicyid", "start_record_identifier" => "identifier", "start_record_name" => "name", "start_record_type" => "type", "hosted_zone_id_marker" => "hostedzoneid", "traffic_policy_instance_name_marker" => "trafficpolicyinstancename", "traffic_policy_instance_type_marker" => "trafficpolicyinstancetype", "edns0_client_subnet_ip" => "edns0clientsubnetip", "edns0_client_subnet_mask" => "edns0clientsubnetmask", "resolver_ip" => "resolverip", "dnsname" => "dnsname", "hosted_zone_id" => "hostedzoneid", "delegation_set_id" => "DelegationSetId", "continent_code" => "continentcode", "country_code" => "countrycode", "subdivision_code" => "subdivisioncode", "alarm_identifier" => "AlarmIdentifier", "child_health_checks" => "ChildHealthCheck", "disabled" => "Disabled", "enable_sni" => "EnableSNI", "failure_threshold" => "FailureThreshold", "fully_qualified_domain_name" => "FullyQualifiedDomainName", "health_check_version" => "HealthCheckVersion", "health_threshold" => "HealthThreshold", "insufficient_data_health_status" => "InsufficientDataHealthStatus", "inverted" => "Inverted", "ipaddress" => "IPAddress", "port" => "Port", "regions" => "Region", "reset_elements" => "ResettableElementName", "resource_path" => "ResourcePath", "search_string" => "SearchString", "start_continent_code" => "startcontinentcode", "start_country_code" => "startcountrycode", "start_subdivision_code" => "startsubdivisioncode", "hosted_zone_config" => "HostedZoneConfig", "vpc" => "VPC")
 
 """
     activate_key_signing_key(hosted_zone_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ operation changes the KSK status to ACTIVE.
 
 """
 function activate_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/activate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -47,7 +47,7 @@ created the VPC must submit an AssociateVPCWithHostedZone request.
 - `comment`:  Optional: A comment about the association request.
 """
 function associate_vpcwith_hosted_zone(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -106,7 +106,7 @@ Limits in the Amazon Route 53 Developer Guide.
 
 """
 function change_resource_record_sets(ChangeBatch, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeBatch"=>ChangeBatch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -130,7 +130,7 @@ Management User Guide.
   delete from the specified health check or hosted zone. You can specify up to 10 keys.
 """
 function change_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +171,7 @@ metrics and alarms by using the CloudWatch console, see the Amazon CloudWatch Us
 
 """
 function create_health_check(CallerReference, HealthCheckConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -228,7 +228,7 @@ to have an ec2:DescribeVpcs permission.
   hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
 """
 function create_hosted_zone(CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -259,7 +259,7 @@ KSKs per hosted zone.
 
 """
 function create_key_signing_key(CallerReference, HostedZoneId, KeyManagementServiceArn, Name, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/keysigningkey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HostedZoneId"=>HostedZoneId, "KeyManagementServiceArn"=>KeyManagementServiceArn, "Name"=>Name, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -329,7 +329,7 @@ information, see DeleteQueryLoggingConfig.
 
 """
 function create_query_logging_config(CloudWatchLogsLogGroupArn, HostedZoneId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ migrate the hosted zones again to use the reusable delegation set.
   reusable, the ID for that hosted zone.
 """
 function create_reusable_delegation_set(CallerReference; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -391,7 +391,7 @@ domain name (such as example.com) or one subdomain name (such as www.example.com
 - `comment`: (Optional) Any comments that you want to include about the traffic policy.
 """
 function create_traffic_policy(Document, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ subdomain name by using the resource record sets that CreateTrafficPolicyInstanc
 
 """
 function create_traffic_policy_instance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ start a new traffic policy.
   any.
 """
 function create_traffic_policy_version(Document, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -468,7 +468,7 @@ request for each VPC.
 
 """
 function create_vpcassociation_authorization(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +484,7 @@ operation changes the KSK status to INACTIVE.
 
 """
 function deactivate_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/deactivate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ delay of several hours before the health check is deleted from Route 53.
 
 """
 function delete_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -548,7 +548,7 @@ current Amazon Web Services account.
 
 """
 function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -565,7 +565,7 @@ enabled for DNSSEC signing.
 
 """
 function delete_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -582,7 +582,7 @@ CreateQueryLoggingConfig.
 
 """
 function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -599,7 +599,7 @@ ID of the reusable delegation set that you want to delete.
 
 """
 function delete_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/delegationset/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -619,7 +619,7 @@ policy document, by running GetTrafficPolicy.
 
 """
 function delete_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -637,7 +637,7 @@ are known as policy records.
 
 """
 function delete_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -663,7 +663,7 @@ use DisassociateVPCFromHostedZone.
 
 """
 function delete_vpcassociation_authorization(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -678,7 +678,7 @@ key-signing keys (KSKs) that are active in the hosted zone.
 
 """
 function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/disable-dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -707,7 +707,7 @@ can't use DisassociateVPCFromHostedZone.
 - `comment`:  Optional: A comment about the disassociation request.
 """
 function disassociate_vpcfrom_hosted_zone(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -721,7 +721,7 @@ Enables DNSSEC signing in a specific hosted zone.
 
 """
 function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)/enable-dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -749,7 +749,7 @@ navigation pane.
 
 """
 function get_account_limit(Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/accountlimit/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -767,7 +767,7 @@ INSYNC indicates that the changes have propagated to all Route 53 DNS servers.
 
 """
 function get_change(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/change/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -782,7 +782,7 @@ Amazon Route 53 Developer Guide.
 
 """
 function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/checkeripranges", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -797,7 +797,7 @@ Returns information about DNSSEC for a specific hosted zone, including the key-s
 
 """
 function get_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzone/$(Id)/dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -828,7 +828,7 @@ code&amp;subdivisioncode=subdivision code
   supported subdivision codes, use the ListGeoLocations API.
 """
 function get_geo_location(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/geolocation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -844,7 +844,7 @@ Gets information about a specified health check.
 
 """
 function get_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -856,7 +856,7 @@ Services account.
 
 """
 function get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/healthcheckcount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -874,7 +874,7 @@ Gets the reason that a specified health check failed most recently.
 
 """
 function get_health_check_last_failure_reason(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -894,7 +894,7 @@ require immediate and actionable responses.
 
 """
 function get_health_check_status(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -909,7 +909,7 @@ the hosted zone.
 
 """
 function get_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -921,7 +921,7 @@ Services account.
 
 """
 function get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzonecount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -941,7 +941,7 @@ Amazon Route 53 Developer Guide. To request a higher limit, open a case.
 
 """
 function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -957,7 +957,7 @@ information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS Q
 
 """
 function get_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -973,7 +973,7 @@ servers that are assigned to the delegation set.
 
 """
 function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/delegationset/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -991,7 +991,7 @@ To request a higher limit, open a case.
 
 """
 function get_reusable_delegation_set_limit(Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1009,7 +1009,7 @@ DeleteTrafficPolicy.
 
 """
 function get_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1027,7 +1027,7 @@ Route 53 console, traffic policy instances are known as policy records.
 
 """
 function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1039,7 +1039,7 @@ Services account.
 
 """
 function get_traffic_policy_instance_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicyinstancecount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1076,7 +1076,7 @@ a list of supported geolocation codes, see the GeoLocation data type.
   states), you must include both startcountrycode and startsubdivisioncode.
 """
 function list_geo_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/geolocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1099,7 +1099,7 @@ Services account.
   checks.
 """
 function list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/healthcheck", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1128,7 +1128,7 @@ to 100.
   zone that Route 53 will return if you submit another request.
 """
 function list_hosted_zones(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzone", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1182,7 +1182,7 @@ respectively.
   NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
 """
 function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzonesbyname", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1216,7 +1216,7 @@ of Owner is efs.amazonaws.com.
   there are no more hosted zones to get.
 """
 function list_hosted_zones_by_vpc(vpcid, vpcregion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1246,7 +1246,7 @@ Amazon Route 53 Developer Guide.
   specify that value for NextToken in the request.
 """
 function list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/queryloggingconfig", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1310,7 +1310,7 @@ StartRecordName, StartRecordType, and StartRecordIdentifier.
   specifying name returns an InvalidInput error.
 """
 function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1332,7 +1332,7 @@ Amazon Web Services account.
   returns only the first 100 reusable delegation sets.
 """
 function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/delegationset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1349,7 +1349,7 @@ allocation, see Using Cost Allocation Tags in the Billing and Cost Management Us
 
 """
 function list_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1368,7 +1368,7 @@ Guide.
 
 """
 function list_tags_for_resources(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1393,7 +1393,7 @@ from ListTrafficPolicies, see DeleteTrafficPolicy.
   returned in the previous response.
 """
 function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1438,7 +1438,7 @@ to 100.
   false, there are no more traffic policy instances to get.
 """
 function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicyinstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1479,7 +1479,7 @@ of up to 100.
   false, there are no more traffic policy instances to get.
 """
 function list_traffic_policy_instances_by_hosted_zone(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1530,7 +1530,7 @@ parameter to list them in groups of up to 100.
   response was false, there are no more traffic policy instances to get.
 """
 function list_traffic_policy_instances_by_policy(id, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1558,7 +1558,7 @@ versions are listed in numerical order by VersionNumber.
   value of TrafficPolicyVersionMarker in the previous response.
 """
 function list_traffic_policy_versions(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1584,7 +1584,7 @@ VPC child element for each VPC that can be associated with the hosted zone.
   nexttoken parameter in another ListVPCAssociationAuthorizations request.
 """
 function list_vpcassociation_authorizations(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1620,7 +1620,7 @@ hosted zones.
   of a DNS resolver in the Amazon Web Services US East (N. Virginia) Region (us-east-1).
 """
 function test_dnsanswer(hostedzoneid, recordname, recordtype; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1777,7 +1777,7 @@ Checks in the Amazon Route 53 Developer Guide.
   healthy. (You can't change the value of Type when you update a health check.)
 """
 function update_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1794,7 +1794,7 @@ Updates the comment for a specified hosted zone.
   Amazon Route 53 deletes the existing value of the Comment element, if any.
 """
 function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1811,7 +1811,7 @@ Updates the comment for a specified traffic policy version.
 
 """
 function update_traffic_policy_comment(Comment, Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Comment"=>Comment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1841,6 +1841,6 @@ resource record sets that are associated with the root resource record set name.
 
 """
 function update_traffic_policy_instance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

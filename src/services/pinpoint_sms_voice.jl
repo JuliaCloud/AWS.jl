@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("event_destination" => "EventDestination", "event_destination_name" => "EventDestinationName", "configuration_set_name" => "ConfigurationSetName", "next_token" => "NextToken", "page_size" => "PageSize", "caller_id" => "CallerId", "content" => "Content", "destination_phone_number" => "DestinationPhoneNumber", "origination_phone_number" => "OriginationPhoneNumber")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("event_destination" => "EventDestination", "event_destination_name" => "EventDestinationName", "configuration_set_name" => "ConfigurationSetName", "next_token" => "NextToken", "page_size" => "PageSize", "caller_id" => "CallerId", "content" => "Content", "destination_phone_number" => "DestinationPhoneNumber", "origination_phone_number" => "OriginationPhoneNumber")
 
 """
     create_configuration_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ more event destinations to it.
 - `configuration_set_name`: The name that you want to give the configuration set.
 """
 function create_configuration_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,7 @@ Create a new event destination in a configuration set.
 - `event_destination_name`: A name that identifies the event destination.
 """
 function create_configuration_set_event_destination(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ Deletes an existing configuration set.
 
 """
 function delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ Deletes an event destination in a configuration set.
 
 """
 function delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -78,7 +78,7 @@ the Amazon Resource Name (ARN) of the destination, and the name of the event des
 
 """
 function get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ current region.
 - `page_size`: Used to specify the number of items that should be returned in the response.
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Create a new voice message and send it to a recipient's phone number.
   when they receive the message, because you can specify a CallerId parameter in the request.
 """
 function send_voice_message(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,6 +134,6 @@ Amazon CloudWatch destination when a call fails.
 - `event_destination`:
 """
 function update_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

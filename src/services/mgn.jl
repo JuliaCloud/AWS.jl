@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "associate_default_security_group" => "associateDefaultSecurityGroup", "bandwidth_throttling" => "bandwidthThrottling", "create_public_ip" => "createPublicIP", "data_plane_routing" => "dataPlaneRouting", "default_large_staging_disk_type" => "defaultLargeStagingDiskType", "ebs_encryption" => "ebsEncryption", "ebs_encryption_key_arn" => "ebsEncryptionKeyArn", "name" => "name", "replicated_disks" => "replicatedDisks", "replication_server_instance_type" => "replicationServerInstanceType", "replication_servers_security_groups_ids" => "replicationServersSecurityGroupsIDs", "staging_area_subnet_id" => "stagingAreaSubnetId", "staging_area_tags" => "stagingAreaTags", "use_dedicated_replication_server" => "useDedicatedReplicationServer", "copy_private_ip" => "copyPrivateIp", "copy_tags" => "copyTags", "launch_disposition" => "launchDisposition", "licensing" => "licensing", "target_instance_type_right_sizing_method" => "targetInstanceTypeRightSizingMethod", "arn" => "arn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "associate_default_security_group" => "associateDefaultSecurityGroup", "bandwidth_throttling" => "bandwidthThrottling", "create_public_ip" => "createPublicIP", "data_plane_routing" => "dataPlaneRouting", "default_large_staging_disk_type" => "defaultLargeStagingDiskType", "ebs_encryption" => "ebsEncryption", "ebs_encryption_key_arn" => "ebsEncryptionKeyArn", "name" => "name", "replicated_disks" => "replicatedDisks", "replication_server_instance_type" => "replicationServerInstanceType", "replication_servers_security_groups_ids" => "replicationServersSecurityGroupsIDs", "staging_area_subnet_id" => "stagingAreaSubnetId", "staging_area_tags" => "stagingAreaTags", "use_dedicated_replication_server" => "useDedicatedReplicationServer", "copy_private_ip" => "copyPrivateIp", "copy_tags" => "copyTags", "launch_disposition" => "launchDisposition", "licensing" => "licensing", "target_instance_type_right_sizing_method" => "targetInstanceTypeRightSizingMethod", "arn" => "arn")
 
 """
     change_server_life_cycle_state(life_cycle, source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ if the Source Server is already launchable (dataReplicationInfo.lagDuration is n
 
 """
 function change_server_life_cycle_state(lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/ChangeServerLifeCycleState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifeCycle"=>lifeCycle, "sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ Creates a new ReplicationConfigurationTemplate.
 - `tags`: Request to configure tags during Replication Settings template creation.
 """
 function create_replication_configuration_template(associateDefaultSecurityGroup, bandwidthThrottling, createPublicIP, dataPlaneRouting, defaultLargeStagingDiskType, ebsEncryption, replicationServerInstanceType, replicationServersSecurityGroupsIDs, stagingAreaSubnetId, stagingAreaTags, useDedicatedReplicationServer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/CreateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associateDefaultSecurityGroup"=>associateDefaultSecurityGroup, "bandwidthThrottling"=>bandwidthThrottling, "createPublicIP"=>createPublicIP, "dataPlaneRouting"=>dataPlaneRouting, "defaultLargeStagingDiskType"=>defaultLargeStagingDiskType, "ebsEncryption"=>ebsEncryption, "replicationServerInstanceType"=>replicationServerInstanceType, "replicationServersSecurityGroupsIDs"=>replicationServersSecurityGroupsIDs, "stagingAreaSubnetId"=>stagingAreaSubnetId, "stagingAreaTags"=>stagingAreaTags, "useDedicatedReplicationServer"=>useDedicatedReplicationServer), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -74,7 +74,7 @@ Deletes a single Job by ID.
 
 """
 function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ Deletes a single Replication Configuration Template by ID
 
 """
 function delete_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DeleteReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,8 +103,22 @@ Deletes a single source server by ID.
 
 """
 function delete_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DeleteSourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_vcenter_client(vcenter_client_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a single vCenter client by ID.
+
+# Arguments
+- `vcenter_client_id`: ID of resource to be deleted.
+
+"""
+function delete_vcenter_client(vcenterClientID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return mgn("POST", "/DeleteVcenterClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vcenterClientID"=>vcenterClientID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,7 +134,7 @@ Retrieves detailed Job log with paging.
 - `next_token`: Request to describe Job log next token.
 """
 function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DescribeJobLogItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +155,7 @@ only to *Support* and only used in response to relevant support tickets.
 - `next_token`: Request to describe Job logby next token.
 """
 function describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DescribeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -159,7 +173,7 @@ Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 - `next_token`: Request to describe Replication Configuration template by next token.
 """
 function describe_replication_configuration_templates(replicationConfigurationTemplateIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DescribeReplicationConfigurationTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateIDs"=>replicationConfigurationTemplateIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -176,8 +190,22 @@ Retrieves all SourceServers or multiple SourceServers by ID.
 - `next_token`: Request to filter Source Servers list by next token.
 """
 function describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DescribeSourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists all vCenter clients.
+
+# Keyword Parameters
+- `max_results`: Maximum results to be returned in DescribeVcenterClients.
+- `next_token`: Next pagination token to be provided for DescribeVcenterClients.
+"""
+function describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return mgn("GET", "/DescribeVcenterClients", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -199,7 +227,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 
 """
 function disconnect_from_service(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/DisconnectFromService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -221,7 +249,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 
 """
 function finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/FinalizeCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -235,7 +263,7 @@ Lists all LaunchConfigurations available, filtered by Source Server IDs.
 
 """
 function get_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/GetLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +277,7 @@ Lists all ReplicationConfigurations, filtered by Source Server ID.
 
 """
 function get_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/GetReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -260,7 +288,7 @@ Initialize Application Migration Service.
 
 """
 function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/InitializeService", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -274,7 +302,7 @@ List all tags for your Application Migration Service resources.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -290,7 +318,7 @@ lifecycle.state which equals DISCONNECTED or CUTOVER.
 
 """
 function mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/MarkAsArchived", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +335,7 @@ state.
 
 """
 function retry_data_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/RetryDataReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,8 +353,22 @@ property to CUTTING_OVER.
 - `tags`: Start Cutover by Tags.
 """
 function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/StartCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    start_replication(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Starts replication on source server by ID.
+
+# Arguments
+- `source_server_id`: ID of source server on which to start replication.
+
+"""
+function start_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return mgn("POST", "/StartReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -343,7 +385,7 @@ TESTING.
 - `tags`: Start Test by Tags.
 """
 function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/StartTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -361,7 +403,7 @@ optional value.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -379,7 +421,7 @@ CUTOVER.
 - `tags`: Terminate Target instance by Tags.
 """
 function terminate_target_instances(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/TerminateTargetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -395,7 +437,7 @@ resources.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -417,7 +459,7 @@ Updates multiple LaunchConfigurations by Source Server ID.
   right sizing request.
 """
 function update_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/UpdateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -451,7 +493,7 @@ Allows you to update multiple ReplicationConfigurations by Source Server ID.
   Replication Server request.
 """
 function update_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/UpdateReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,6 +531,21 @@ Updates multiple ReplicationConfigurationTemplates by ID.
   dedicated Replication Server request.
 """
 function update_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mgn("POST", "/UpdateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_source_server_replication_type(replication_type, source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates source server Replication Type by ID.
+
+# Arguments
+- `replication_type`: Replication type to which to update source server.
+- `source_server_id`: ID of source server on which to update replication type.
+
+"""
+function update_source_server_replication_type(replicationType, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return mgn("POST", "/UpdateSourceServerReplicationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationType"=>replicationType, "sourceServerID"=>sourceServerID), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

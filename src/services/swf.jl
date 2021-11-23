@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("result" => "result", "input" => "input", "run_id" => "runId", "close_status_filter" => "closeStatusFilter", "close_time_filter" => "closeTimeFilter", "execution_filter" => "executionFilter", "maximum_page_size" => "maximumPageSize", "next_page_token" => "nextPageToken", "reverse_order" => "reverseOrder", "start_time_filter" => "startTimeFilter", "tag_filter" => "tagFilter", "type_filter" => "typeFilter", "decisions" => "decisions", "execution_context" => "executionContext", "description" => "description", "tags" => "tags", "name" => "name", "identity" => "identity", "details" => "details", "reason" => "reason", "default_child_policy" => "defaultChildPolicy", "default_execution_start_to_close_timeout" => "defaultExecutionStartToCloseTimeout", "default_lambda_role" => "defaultLambdaRole", "default_task_list" => "defaultTaskList", "default_task_priority" => "defaultTaskPriority", "default_task_start_to_close_timeout" => "defaultTaskStartToCloseTimeout", "default_task_heartbeat_timeout" => "defaultTaskHeartbeatTimeout", "default_task_schedule_to_close_timeout" => "defaultTaskScheduleToCloseTimeout", "default_task_schedule_to_start_timeout" => "defaultTaskScheduleToStartTimeout", "child_policy" => "childPolicy", "execution_start_to_close_timeout" => "executionStartToCloseTimeout", "lambda_role" => "lambdaRole", "tag_list" => "tagList", "task_list" => "taskList", "task_priority" => "taskPriority", "task_start_to_close_timeout" => "taskStartToCloseTimeout")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("result" => "result", "input" => "input", "run_id" => "runId", "close_status_filter" => "closeStatusFilter", "close_time_filter" => "closeTimeFilter", "execution_filter" => "executionFilter", "maximum_page_size" => "maximumPageSize", "next_page_token" => "nextPageToken", "reverse_order" => "reverseOrder", "start_time_filter" => "startTimeFilter", "tag_filter" => "tagFilter", "type_filter" => "typeFilter", "decisions" => "decisions", "execution_context" => "executionContext", "description" => "description", "tags" => "tags", "name" => "name", "identity" => "identity", "details" => "details", "reason" => "reason", "default_child_policy" => "defaultChildPolicy", "default_execution_start_to_close_timeout" => "defaultExecutionStartToCloseTimeout", "default_lambda_role" => "defaultLambdaRole", "default_task_list" => "defaultTaskList", "default_task_priority" => "defaultTaskPriority", "default_task_start_to_close_timeout" => "defaultTaskStartToCloseTimeout", "default_task_heartbeat_timeout" => "defaultTaskHeartbeatTimeout", "default_task_schedule_to_close_timeout" => "defaultTaskScheduleToCloseTimeout", "default_task_schedule_to_start_timeout" => "defaultTaskScheduleToStartTimeout", "child_policy" => "childPolicy", "execution_start_to_close_timeout" => "executionStartToCloseTimeout", "lambda_role" => "lambdaRole", "tag_list" => "tagList", "task_list" => "taskList", "task_priority" => "taskPriority", "task_start_to_close_timeout" => "taskStartToCloseTimeout")
 
 """
     count_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -50,7 +50,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   can specify at most one of these in a request.
 """
 function count_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("CountClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   one of these in a request.
 """
 function count_open_workflow_executions(domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("CountOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 """
 function count_pending_activity_tasks(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("CountPendingActivityTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -141,7 +141,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 """
 function count_pending_decision_tasks(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("CountPendingDecisionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ Workflows in the Amazon SWF Developer Guide.
 
 """
 function deprecate_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 """
 function deprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 
 """
 function deprecate_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 
 """
 function describe_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DescribeActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 
 """
 function describe_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -300,7 +300,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 """
 function describe_workflow_execution(domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DescribeWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -327,7 +327,7 @@ Workflows in the Amazon SWF Developer Guide.
 
 """
 function describe_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("DescribeWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -364,7 +364,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   results are returned in ascending order of the eventTimeStamp of the events.
 """
 function get_workflow_execution_history(domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("GetWorkflowExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -403,7 +403,7 @@ Developer Guide.
   results are returned in ascending alphabetical order by name of the activity types.
 """
 function list_activity_types(domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListActivityTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -466,7 +466,7 @@ the Amazon SWF Developer Guide.
   exclusive. You can specify at most one of these in a request.
 """
 function list_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -503,7 +503,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
   results are returned in ascending alphabetical order by name of the domains.
 """
 function list_domains(registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -553,7 +553,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
   specify at most one of these in a request.
 """
 function list_open_workflow_executions(domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -567,7 +567,7 @@ List tags for a given domain.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -603,7 +603,7 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
   results are returned in ascending alphabetical order of the name of the workflow types.
 """
 function list_workflow_types(domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("ListWorkflowTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -642,7 +642,7 @@ Amazon SWF Developer Guide.
   problems arise. The form of this identity is user defined.
 """
 function poll_for_activity_task(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("PollForActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -702,7 +702,7 @@ Amazon SWF Developer Guide.
   results are returned in ascending order of the eventTimestamp of the events.
 """
 function poll_for_decision_task(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("PollForDecisionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -745,7 +745,7 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 - `details`: If specified, contains details about the progress of the task.
 """
 function record_activity_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RecordActivityTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -815,7 +815,7 @@ Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `description`: A textual description of the activity type.
 """
 function register_activity_type(domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RegisterActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -852,7 +852,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
   letters, digits, whitespace, or these symbols: _ . : / = + - @.
 """
 function register_domain(name, workflowExecutionRetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -929,7 +929,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `description`: Textual description of the workflow type.
 """
 function register_workflow_type(domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RegisterWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -961,7 +961,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `run_id`: The runId of the workflow execution to cancel.
 """
 function request_cancel_workflow_execution(domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RequestCancelWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -996,7 +996,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `details`:  Information about the cancellation.
 """
 function respond_activity_task_canceled(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RespondActivityTaskCanceled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1033,7 +1033,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   implementation specific.
 """
 function respond_activity_task_completed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RespondActivityTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1067,7 +1067,7 @@ Amazon SWF Developer Guide.
 - `reason`: Description of the error that may assist in diagnostics.
 """
 function respond_activity_task_failed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RespondActivityTaskFailed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1097,7 +1097,7 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `execution_context`: User defined context to add to workflow execution.
 """
 function respond_decision_task_completed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("RespondDecisionTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1132,7 +1132,7 @@ Developer Guide.
 - `run_id`: The runId of the workflow execution to signal.
 """
 function signal_workflow_execution(domain, signalName, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("SignalWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1226,7 +1226,7 @@ Workflows in the Amazon SWF Developer Guide.
   time then a fault is returned.
 """
 function start_workflow_execution(domain, workflowId, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("StartWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1242,7 +1242,7 @@ Add a tag to a Amazon SWF domain.  Amazon SWF supports a maximum of 50 tags per 
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1288,7 +1288,7 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `run_id`: The runId of the workflow execution to terminate.
 """
 function terminate_workflow_execution(domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("TerminateWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1316,7 +1316,7 @@ Workflows in the Amazon SWF Developer Guide.
 
 """
 function undeprecate_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("UndeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1341,7 +1341,7 @@ Developer Guide.
 
 """
 function undeprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("UndeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1369,7 +1369,7 @@ Workflows in the Amazon SWF Developer Guide.
 
 """
 function undeprecate_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("UndeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1384,6 +1384,6 @@ Remove a tag from a Amazon SWF domain.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return swf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     list_realtime_contact_analysis_segments(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,6 +22,6 @@ Provides a list of analysis segments for a real-time analysis session.
   previous response in the next request to retrieve the next set of results.
 """
 function list_realtime_contact_analysis_segments(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

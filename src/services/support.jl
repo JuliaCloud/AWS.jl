@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("case_id" => "caseId", "attachment_set_id" => "attachmentSetId", "category_code" => "categoryCode", "cc_email_addresses" => "ccEmailAddresses", "issue_type" => "issueType", "language" => "language", "service_code" => "serviceCode", "severity_code" => "severityCode", "after_time" => "afterTime", "before_time" => "beforeTime", "case_id_list" => "caseIdList", "display_id" => "displayId", "include_communications" => "includeCommunications", "include_resolved_cases" => "includeResolvedCases", "max_results" => "maxResults", "next_token" => "nextToken", "service_code_list" => "serviceCodeList")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("case_id" => "caseId", "attachment_set_id" => "attachmentSetId", "category_code" => "categoryCode", "cc_email_addresses" => "ccEmailAddresses", "issue_type" => "issueType", "language" => "language", "service_code" => "serviceCode", "severity_code" => "severityCode", "after_time" => "afterTime", "before_time" => "beforeTime", "case_id_list" => "caseIdList", "display_id" => "displayId", "include_communications" => "includeCommunications", "include_resolved_cases" => "includeResolvedCases", "max_results" => "maxResults", "next_token" => "nextToken", "service_code_list" => "serviceCodeList")
 
 """
     add_attachments_to_set(attachments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,7 +32,7 @@ appears. For information about changing your support plan, see AWS Support.
   set, if it exists.
 """
 function add_attachments_to_set(attachments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("AddAttachmentsToSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ error message appears. For information about changing your support plan, see AWS
   support case.
 """
 function add_communication_to_case(communicationBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("AddCommunicationToCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -111,7 +111,7 @@ support plan, see AWS Support.
   availability of severity levels depends on the support plan for the AWS account.
 """
 function create_case(communicationBody, subject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("CreateCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -133,7 +133,7 @@ appears. For information about changing your support plan, see AWS Support.
 
 """
 function describe_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -171,7 +171,7 @@ information about changing your support plan, see AWS Support.
 - `next_token`: A resumption point for pagination.
 """
 function describe_cases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeCases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ error message appears. For information about changing your support plan, see AWS
 - `next_token`: A resumption point for pagination.
 """
 function describe_communications(caseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeCommunications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caseId"=>caseId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -229,7 +229,7 @@ appears. For information about changing your support plan, see AWS Support.
 - `service_code_list`: A JSON-formatted list of service codes available for AWS services.
 """
 function describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -249,7 +249,7 @@ appears. For information about changing your support plan, see AWS Support.
   be passed explicitly for operations that take them.
 """
 function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeSeverityLevels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -273,7 +273,7 @@ support plan, see AWS Support.
 
 """
 function describe_trusted_advisor_check_refresh_statuses(checkIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -301,7 +301,7 @@ message appears. For information about changing your support plan, see AWS Suppo
   be passed explicitly for operations that take them.
 """
 function describe_trusted_advisor_check_result(checkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -321,7 +321,7 @@ support plan, see AWS Support.
 
 """
 function describe_trusted_advisor_check_summaries(checkIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -346,7 +346,7 @@ ID in your code to uniquely identify a check.
 
 """
 function describe_trusted_advisor_checks(language; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("DescribeTrustedAdvisorChecks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("language"=>language), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -369,7 +369,7 @@ error message appears. For information about changing your support plan, see AWS
 
 """
 function refresh_trusted_advisor_check(checkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("RefreshTrustedAdvisorCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -388,6 +388,6 @@ appears. For information about changing your support plan, see AWS Support.
   case-12345678910-2013-c4c1d2bf33c5cf47
 """
 function resolve_case(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return support("ResolveCase", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

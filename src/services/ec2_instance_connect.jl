@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("serial_port" => "SerialPort")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("serial_port" => "SerialPort")
 
 """
     send_serial_console_sshpublic_key(instance_id, sshpublic_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,7 +25,7 @@ SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
   Default: 0
 """
 function send_serial_console_sshpublic_key(InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -46,6 +46,6 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
 
 """
 function send_sshpublic_key(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

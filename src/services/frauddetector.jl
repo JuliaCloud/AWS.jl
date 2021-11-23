@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "name" => "name", "next_token" => "nextToken", "model_endpoint" => "modelEndpoint", "model_id" => "modelId", "model_type" => "modelType", "default_value" => "defaultValue", "description" => "description", "variable_type" => "variableType", "rule_id" => "ruleId", "rule_version" => "ruleVersion", "model_version_number" => "modelVersionNumber", "job_id" => "jobId", "assigned_label" => "assignedLabel", "label_timestamp" => "labelTimestamp", "external_events_detail" => "externalEventsDetail", "ingested_events_detail" => "ingestedEventsDetail", "tags" => "tags", "detector_id" => "detectorId", "model_versions" => "modelVersions", "rule_execution_mode" => "ruleExecutionMode", "detector_version" => "detectorVersion", "delete_audit_history" => "deleteAuditHistory", "event_ingestion" => "eventIngestion", "labels" => "labels", "detector_version_id" => "detectorVersionId", "external_model_endpoint_data_blobs" => "externalModelEndpointDataBlobs", "external_model_endpoints" => "externalModelEndpoints")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "name" => "name", "next_token" => "nextToken", "model_endpoint" => "modelEndpoint", "model_id" => "modelId", "model_type" => "modelType", "default_value" => "defaultValue", "description" => "description", "variable_type" => "variableType", "rule_id" => "ruleId", "rule_version" => "ruleVersion", "model_version_number" => "modelVersionNumber", "job_id" => "jobId", "assigned_label" => "assignedLabel", "label_timestamp" => "labelTimestamp", "external_events_detail" => "externalEventsDetail", "ingested_events_detail" => "ingestedEventsDetail", "tags" => "tags", "detector_id" => "detectorId", "model_versions" => "modelVersions", "rule_execution_mode" => "ruleExecutionMode", "detector_version" => "detectorVersion", "delete_audit_history" => "deleteAuditHistory", "event_ingestion" => "eventIngestion", "labels" => "labels", "detector_version_id" => "detectorVersionId", "external_model_endpoint_data_blobs" => "externalModelEndpointDataBlobs", "external_model_endpoints" => "externalModelEndpoints")
 
 """
     batch_create_variable(variable_entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ Creates a batch of variables.
 - `tags`: A collection of key and value pairs.
 """
 function batch_create_variable(variableEntries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("BatchCreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("variableEntries"=>variableEntries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -33,7 +33,7 @@ Gets a batch of variables.
 
 """
 function batch_get_variable(names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("BatchGetVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -48,7 +48,7 @@ end
 
 """
 function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CancelBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,7 +62,7 @@ Cancels the specified batch prediction job.
 
 """
 function cancel_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CancelBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Creates a batch import job.
 - `tags`: A collection of key-value pairs associated with this request.
 """
 function create_batch_import_job(eventTypeName, iamRoleArn, inputPath, jobId, outputPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -106,7 +106,7 @@ Creates a batch prediction job.
 - `tags`: A collection of key and value pairs.
 """
 function create_batch_prediction_job(detectorName, eventTypeName, iamRoleArn, inputPath, jobId, outputPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorName"=>detectorName, "eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ Creates a detector version. The detector version starts in a DRAFT status.
 - `tags`: A collection of key and value pairs.
 """
 function create_detector_version(detectorId, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "rules"=>rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -153,7 +153,7 @@ Creates a model using the specified model type.
 - `tags`: A collection of key and value pairs.
 """
 function create_model(eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName, "modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -176,7 +176,7 @@ Creates a version of the model using the specified model type and model id.
 - `tags`: A collection of key and value pairs.
 """
 function create_model_version(modelId, modelType, trainingDataSchema, trainingDataSource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "trainingDataSchema"=>trainingDataSchema, "trainingDataSource"=>trainingDataSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -197,7 +197,7 @@ Creates a rule for use with the specified detector.
 - `tags`: A collection of key and value pairs.
 """
 function create_rule(detectorId, expression, language, outcomes, ruleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "expression"=>expression, "language"=>language, "outcomes"=>outcomes, "ruleId"=>ruleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -224,7 +224,7 @@ Creates a variable.
   SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
 """
 function create_variable(dataSource, dataType, defaultValue, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("CreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ Deletes data that was batch imported to Amazon Fraud Detector.
 
 """
 function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -252,7 +252,7 @@ Deletes a batch prediction job.
 
 """
 function delete_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ Fraud Detector.
 
 """
 function delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -286,7 +286,7 @@ detector and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_detector_version(detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -302,7 +302,7 @@ and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_entity_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteEntityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -321,7 +321,7 @@ deletes that event and the event data is no longer stored in Amazon Fraud Detect
   with the event.
 """
 function delete_event(eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ type and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_event_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -351,7 +351,7 @@ Deletes all events of a particular event type.
 
 """
 function delete_events_by_event_type(eventTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteEventsByEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -367,7 +367,7 @@ disconnects it from Amazon Fraud Detector, but the model remains available in Sa
 
 """
 function delete_external_model(modelEndpoint; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteExternalModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelEndpoint"=>modelEndpoint), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -384,7 +384,7 @@ that label and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_label(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -402,7 +402,7 @@ Amazon Fraud Detector.
 
 """
 function delete_model(modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -421,7 +421,7 @@ longer stored in Amazon Fraud Detector.
 
 """
 function delete_model_version(modelId, modelType, modelVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ no longer stored in Amazon Fraud Detector.
 
 """
 function delete_outcome(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteOutcome", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -453,7 +453,7 @@ the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_rule(rule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -471,7 +471,7 @@ that variable and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_variable(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DeleteVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -488,7 +488,7 @@ Gets all versions for a specified detector.
 - `next_token`: The next token from the previous response.
 """
 function describe_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DescribeDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ and model ID. You can also get details for a single, specified model version.
 - `next_token`: The next token from the previous results.
 """
 function describe_model_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("DescribeModelVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -525,7 +525,7 @@ request. A null pagination token fetches the records from the beginning.
 - `next_token`: The next token from the previous request.
 """
 function get_batch_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetBatchImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -544,7 +544,7 @@ as part of your request. A null pagination token fetches the records from the be
 - `next_token`: The next token from the previous request.
 """
 function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetBatchPredictionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -558,7 +558,7 @@ Retrieves the status of a DeleteEventsByEventType action.
 
 """
 function get_delete_events_by_event_type_status(eventTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetDeleteEventsByEventTypeStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -573,7 +573,7 @@ Gets a particular detector version.
 
 """
 function get_detector_version(detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -592,7 +592,7 @@ request. A null pagination token fetches the records from the beginning.
 - `next_token`: The next token for the subsequent request.
 """
 function get_detectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -611,7 +611,7 @@ request. A null pagination token fetches the records from the beginning.
 - `next_token`: The next token for the subsequent request.
 """
 function get_entity_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetEntityTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -627,7 +627,7 @@ retrieve prediction results.
 
 """
 function get_event(eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -666,7 +666,7 @@ detector’s (ACTIVE) version is used.
   blobs.
 """
 function get_event_prediction(detectorId, entities, eventId, eventTimestamp, eventTypeName, eventVariables; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetEventPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -685,7 +685,7 @@ request. A null pagination token fetches the records from the beginning.
 - `next_token`: The next token for the subsequent request.
 """
 function get_event_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -705,7 +705,7 @@ records from the beginning.
 - `next_token`: The next page token for the request.
 """
 function get_external_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetExternalModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -717,7 +717,7 @@ Amazon Fraud Detector.
 
 """
 function get_kmsencryption_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetKMSEncryptionKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +736,7 @@ pagination token fetches the records from the beginning.
 - `next_token`: The next token for the subsequent request.
 """
 function get_labels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -752,7 +752,7 @@ Gets the details of the specified model version.
 
 """
 function get_model_version(modelId, modelType, modelVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -775,7 +775,7 @@ token fetches the records from the beginning.
 - `next_token`: The next token for the subsequent request.
 """
 function get_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -794,7 +794,7 @@ from the beginning.
 - `next_token`: The next page token for the request.
 """
 function get_outcomes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetOutcomes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -819,7 +819,7 @@ records from the beginning.
 - `rule_version`: The rule version.
 """
 function get_rules(detectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -838,7 +838,7 @@ fetches the records from the beginning.
 - `next_token`: The next page token of the get variable request.
 """
 function get_variables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("GetVariables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -857,7 +857,7 @@ pagination token fetches the records from the beginning.
 - `next_token`: The next token from the previous results.
 """
 function list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -875,7 +875,7 @@ Creates or updates a detector.
 - `tags`: A collection of key and value pairs.
 """
 function put_detector(detectorId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -895,7 +895,7 @@ customer, merchant, or account.
 - `tags`: A collection of key and value pairs.
 """
 function put_entity_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutEntityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -922,7 +922,7 @@ transactions, account registrations, and authentications.
 - `tags`: A collection of key and value pairs.
 """
 function put_event_type(entityTypes, eventVariables, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityTypes"=>entityTypes, "eventVariables"=>eventVariables, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -945,7 +945,7 @@ variables.
 - `tags`: A collection of key and value pairs.
 """
 function put_external_model(inputConfiguration, invokeModelEndpointRoleArn, modelEndpoint, modelEndpointStatus, modelSource, outputConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutExternalModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputConfiguration"=>inputConfiguration, "invokeModelEndpointRoleArn"=>invokeModelEndpointRoleArn, "modelEndpoint"=>modelEndpoint, "modelEndpointStatus"=>modelEndpointStatus, "modelSource"=>modelSource, "outputConfiguration"=>outputConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -959,7 +959,7 @@ Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 """
 function put_kmsencryption_key(kmsEncryptionKeyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutKMSEncryptionKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("kmsEncryptionKeyArn"=>kmsEncryptionKeyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +978,7 @@ Amazon Fraud Detector.
 - `tags`:
 """
 function put_label(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -995,7 +995,7 @@ Creates or updates an outcome.
 - `tags`: A collection of key and value pairs.
 """
 function put_outcome(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("PutOutcome", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1023,7 +1023,7 @@ then later use to train a model.
   assignedLabel.
 """
 function send_event(entities, eventId, eventTimestamp, eventTypeName, eventVariables; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("SendEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1038,7 +1038,7 @@ Assigns tags to a resource.
 
 """
 function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1053,7 +1053,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1082,7 +1082,7 @@ update a DRAFT detector version.
   detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
 """
 function update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "externalModelEndpoints"=>externalModelEndpoints, "rules"=>rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1099,7 +1099,7 @@ version (DRAFT, ACTIVE, or INACTIVE).
 
 """
 function update_detector_version_metadata(description, detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateDetectorVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1117,7 +1117,7 @@ INACTIVE to ACTIVE.
 
 """
 function update_detector_version_status(detectorId, detectorVersionId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateDetectorVersionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1135,7 +1135,7 @@ Updates the specified event with a new label.
 
 """
 function update_event_label(assignedLabel, eventId, eventTypeName, labelTimestamp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateEventLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assignedLabel"=>assignedLabel, "eventId"=>eventId, "eventTypeName"=>eventTypeName, "labelTimestamp"=>labelTimestamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1152,7 +1152,7 @@ Updates model description.
 - `description`: The new model description.
 """
 function update_model(modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1177,7 +1177,7 @@ creates and trains a new minor version of the model, for example version 1.01, 1
 - `tags`: A collection of key and value pairs.
 """
 function update_model_version(majorVersionNumber, modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersionNumber"=>majorVersionNumber, "modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1195,7 +1195,7 @@ Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
 
 """
 function update_model_version_status(modelId, modelType, modelVersionNumber, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateModelVersionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1210,7 +1210,7 @@ Updates a rule's metadata. The description attribute can be updated.
 
 """
 function update_rule_metadata(description, rule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateRuleMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1231,7 +1231,7 @@ a new rule version (version 1, 2, 3 ...).
 - `tags`: The tags to assign to the rule version.
 """
 function update_rule_version(expression, language, outcomes, rule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateRuleVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "language"=>language, "outcomes"=>outcomes, "rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1249,6 +1249,6 @@ Updates a variable.
 - `variable_type`: The variable type. For more information see Variable types.
 """
 function update_variable(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return frauddetector("UpdateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

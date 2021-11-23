@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("current_version" => "currentVersion", "max_results" => "maxResults", "next_token" => "nextToken", "connector_name_prefix" => "connectorNamePrefix", "connector_description" => "connectorDescription", "log_delivery" => "logDelivery", "worker_configuration" => "workerConfiguration", "description" => "description")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("current_version" => "currentVersion", "max_results" => "maxResults", "next_token" => "nextToken", "connector_name_prefix" => "connectorNamePrefix", "connector_description" => "connectorDescription", "log_delivery" => "logDelivery", "worker_configuration" => "workerConfiguration", "description" => "description")
 
 """
     create_connector(capacity, connector_configuration, connector_name, kafka_cluster, kafka_cluster_client_authentication, kafka_cluster_encryption_in_transit, kafka_connect_version, plugins, service_execution_role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -37,7 +37,7 @@ Creates a connector using the specified properties.
 - `worker_configuration`: Specifies which worker configuration to use with the connector.
 """
 function create_connector(capacity, connectorConfiguration, connectorName, kafkaCluster, kafkaClusterClientAuthentication, kafkaClusterEncryptionInTransit, kafkaConnectVersion, plugins, serviceExecutionRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("POST", "/v1/connectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacity"=>capacity, "connectorConfiguration"=>connectorConfiguration, "connectorName"=>connectorName, "kafkaCluster"=>kafkaCluster, "kafkaClusterClientAuthentication"=>kafkaClusterClientAuthentication, "kafkaClusterEncryptionInTransit"=>kafkaClusterEncryptionInTransit, "kafkaConnectVersion"=>kafkaConnectVersion, "plugins"=>plugins, "serviceExecutionRoleArn"=>serviceExecutionRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ Creates a custom plugin using the specified properties.
 - `description`: A summary description of the custom plugin.
 """
 function create_custom_plugin(contentType, location, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("POST", "/v1/custom-plugins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentType"=>contentType, "location"=>location, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ Creates a worker configuration using the specified properties.
 - `description`: A summary description of the worker configuration.
 """
 function create_worker_configuration(name, propertiesFileContent; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("POST", "/v1/worker-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "propertiesFileContent"=>propertiesFileContent), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -88,7 +88,7 @@ Deletes the specified connector.
 - `current_version`: The current version of the connector that you want to delete.
 """
 function delete_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("DELETE", "/v1/connectors/$(connectorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Returns summary information about the connector.
 
 """
 function describe_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/connectors/$(connectorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -117,7 +117,7 @@ A summary description of the custom plugin.
 
 """
 function describe_custom_plugin(customPluginArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/custom-plugins/$(customPluginArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ Returns information about a worker configuration.
 
 """
 function describe_worker_configuration(workerConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/worker-configurations/$(workerConfigurationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -152,7 +152,7 @@ description of each of the listed connectors.
   previous operation left off.
 """
 function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -168,7 +168,7 @@ Returns a list of all of the custom plugins in this account and Region.
   where the previous operation left off.
 """
 function list_custom_plugins(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/custom-plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -184,7 +184,7 @@ Returns a list of all of the worker configurations in this account and Region.
   from where the previous operation left off.
 """
 function list_worker_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("GET", "/v1/worker-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -200,6 +200,6 @@ Updates the specified connector.
 
 """
 function update_connector(capacity, connectorArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kafkaconnect("PUT", "/v1/connectors/$(connectorArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacity"=>capacity, "currentVersion"=>currentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

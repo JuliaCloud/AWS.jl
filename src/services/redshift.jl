@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("authentication_profile_name" => "AuthenticationProfileName", "active" => "Active", "end_time" => "EndTime", "filters" => "Filter", "marker" => "Marker", "max_records" => "MaxRecords", "scheduled_action_name" => "ScheduledActionName", "start_time" => "StartTime", "target_action_type" => "TargetActionType", "tags" => "Tag", "cidrip" => "CIDRIP", "ec2_security_group_name" => "EC2SecurityGroupName", "ec2_security_group_owner_id" => "EC2SecurityGroupOwnerId", "defer_maintenance" => "DeferMaintenance", "defer_maintenance_duration" => "DeferMaintenanceDuration", "defer_maintenance_end_time" => "DeferMaintenanceEndTime", "defer_maintenance_identifier" => "DeferMaintenanceIdentifier", "defer_maintenance_start_time" => "DeferMaintenanceStartTime", "cluster_identifier" => "ClusterIdentifier", "schedule_identifier" => "ScheduleIdentifier", "tag_keys" => "TagKey", "tag_values" => "TagValue", "allow_version_upgrade" => "AllowVersionUpgrade", "automated_snapshot_retention_period" => "AutomatedSnapshotRetentionPeriod", "availability_zone" => "AvailabilityZone", "availability_zone_relocation" => "AvailabilityZoneRelocation", "cluster_parameter_group_name" => "ClusterParameterGroupName", "cluster_security_groups" => "ClusterSecurityGroupName", "cluster_type" => "ClusterType", "cluster_version" => "ClusterVersion", "elastic_ip" => "ElasticIp", "encrypted" => "Encrypted", "enhanced_vpc_routing" => "EnhancedVpcRouting", "hsm_client_certificate_identifier" => "HsmClientCertificateIdentifier", "hsm_configuration_identifier" => "HsmConfigurationIdentifier", "kms_key_id" => "KmsKeyId", "maintenance_track_name" => "MaintenanceTrackName", "manual_snapshot_retention_period" => "ManualSnapshotRetentionPeriod", "master_user_password" => "MasterUserPassword", "new_cluster_identifier" => "NewClusterIdentifier", "node_type" => "NodeType", "number_of_nodes" => "NumberOfNodes", "port" => "Port", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "publicly_accessible" => "PubliclyAccessible", "vpc_security_group_ids" => "VpcSecurityGroupId", "parameter_group_name" => "ParameterGroupName", "data_share_arn" => "DataShareArn", "aqua_configuration_status" => "AquaConfigurationStatus", "enable" => "Enable", "scheduled_action_description" => "ScheduledActionDescription", "additional_info" => "AdditionalInfo", "cluster_subnet_group_name" => "ClusterSubnetGroupName", "default_iam_role_arn" => "DefaultIamRoleArn", "iam_roles" => "IamRoleArn", "owner_account" => "OwnerAccount", "snapshot_cluster_identifier" => "SnapshotClusterIdentifier", "snapshot_schedule_identifier" => "SnapshotScheduleIdentifier", "consumer_arn" => "ConsumerArn", "status" => "Status", "account" => "Account", "force" => "Force", "vpc_ids" => "VpcIdentifier", "source_type" => "SourceType", "node_count" => "NodeCount", "amount" => "Amount", "breach_action" => "BreachAction", "cluster_security_group_name" => "ClusterSecurityGroupName", "feature_type" => "FeatureType", "usage_limit_id" => "UsageLimitId", "reserved_node_offering_id" => "ReservedNodeOfferingId", "final_cluster_snapshot_identifier" => "FinalClusterSnapshotIdentifier", "final_cluster_snapshot_retention_period" => "FinalClusterSnapshotRetentionPeriod", "skip_final_cluster_snapshot" => "SkipFinalClusterSnapshot", "producer_arn" => "ProducerArn", "dbname" => "DBName", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "period" => "Period", "enabled" => "Enabled", "event_categories" => "EventCategory", "severity" => "Severity", "sns_topic_arn" => "SnsTopicArn", "source_ids" => "SourceId", "snapshot_identifier" => "SnapshotIdentifier", "disassociate_entire_account" => "DisassociateEntireAccount", "source_snapshot_cluster_identifier" => "SourceSnapshotClusterIdentifier", "description" => "Description", "grantee" => "Grantee", "auto_create" => "AutoCreate", "db_groups" => "DbGroup", "db_name" => "DbName", "duration_seconds" => "DurationSeconds", "cluster_exists" => "ClusterExists", "snapshot_type" => "SnapshotType", "sorting_entities" => "SnapshotSortingEntity", "table_restore_request_id" => "TableRestoreRequestId", "resource_name" => "ResourceName", "resource_type" => "ResourceType", "iam_role" => "IamRole", "schedule" => "Schedule", "target_action" => "TargetAction", "resource_owner" => "ResourceOwner", "database_name" => "DatabaseName", "partner_name" => "PartnerName", "snapshot_copy_grant_name" => "SnapshotCopyGrantName", "associate_entire_account" => "AssociateEntireAccount", "retention_period" => "RetentionPeriod", "source" => "Source", "add_iam_roles" => "IamRoleArn", "remove_iam_roles" => "IamRoleArn", "duration" => "Duration", "source_identifier" => "SourceIdentifier", "enable_case_sensitive_identifier" => "EnableCaseSensitiveIdentifier", "source_schema_name" => "SourceSchemaName", "target_database_name" => "TargetDatabaseName", "target_schema_name" => "TargetSchemaName", "attribute_names" => "AttributeName", "status_message" => "StatusMessage", "cluster_parameter_group_family" => "ClusterParameterGroupFamily", "endpoint_name" => "EndpointName", "vpc_id" => "VpcId", "subscription_name" => "SubscriptionName", "dry_run" => "DryRun", "next_invocations" => "NextInvocations", "schedule_definitions" => "ScheduleDefinition", "schedule_description" => "ScheduleDescription", "manual" => "Manual", "s3_key_prefix" => "S3KeyPrefix", "classic" => "Classic", "reserved_node_id" => "ReservedNodeId", "disassociate_schedule" => "DisassociateSchedule")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("authentication_profile_name" => "AuthenticationProfileName", "active" => "Active", "end_time" => "EndTime", "filters" => "Filter", "marker" => "Marker", "max_records" => "MaxRecords", "scheduled_action_name" => "ScheduledActionName", "start_time" => "StartTime", "target_action_type" => "TargetActionType", "tags" => "Tag", "cidrip" => "CIDRIP", "ec2_security_group_name" => "EC2SecurityGroupName", "ec2_security_group_owner_id" => "EC2SecurityGroupOwnerId", "defer_maintenance" => "DeferMaintenance", "defer_maintenance_duration" => "DeferMaintenanceDuration", "defer_maintenance_end_time" => "DeferMaintenanceEndTime", "defer_maintenance_identifier" => "DeferMaintenanceIdentifier", "defer_maintenance_start_time" => "DeferMaintenanceStartTime", "cluster_identifier" => "ClusterIdentifier", "schedule_identifier" => "ScheduleIdentifier", "tag_keys" => "TagKey", "tag_values" => "TagValue", "allow_version_upgrade" => "AllowVersionUpgrade", "automated_snapshot_retention_period" => "AutomatedSnapshotRetentionPeriod", "availability_zone" => "AvailabilityZone", "availability_zone_relocation" => "AvailabilityZoneRelocation", "cluster_parameter_group_name" => "ClusterParameterGroupName", "cluster_security_groups" => "ClusterSecurityGroupName", "cluster_type" => "ClusterType", "cluster_version" => "ClusterVersion", "elastic_ip" => "ElasticIp", "encrypted" => "Encrypted", "enhanced_vpc_routing" => "EnhancedVpcRouting", "hsm_client_certificate_identifier" => "HsmClientCertificateIdentifier", "hsm_configuration_identifier" => "HsmConfigurationIdentifier", "kms_key_id" => "KmsKeyId", "maintenance_track_name" => "MaintenanceTrackName", "manual_snapshot_retention_period" => "ManualSnapshotRetentionPeriod", "master_user_password" => "MasterUserPassword", "new_cluster_identifier" => "NewClusterIdentifier", "node_type" => "NodeType", "number_of_nodes" => "NumberOfNodes", "port" => "Port", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "publicly_accessible" => "PubliclyAccessible", "vpc_security_group_ids" => "VpcSecurityGroupId", "parameter_group_name" => "ParameterGroupName", "data_share_arn" => "DataShareArn", "aqua_configuration_status" => "AquaConfigurationStatus", "enable" => "Enable", "scheduled_action_description" => "ScheduledActionDescription", "additional_info" => "AdditionalInfo", "cluster_subnet_group_name" => "ClusterSubnetGroupName", "default_iam_role_arn" => "DefaultIamRoleArn", "iam_roles" => "IamRoleArn", "owner_account" => "OwnerAccount", "reserved_node_id" => "ReservedNodeId", "snapshot_cluster_identifier" => "SnapshotClusterIdentifier", "snapshot_schedule_identifier" => "SnapshotScheduleIdentifier", "target_reserved_node_offering_id" => "TargetReservedNodeOfferingId", "consumer_arn" => "ConsumerArn", "status" => "Status", "account" => "Account", "force" => "Force", "vpc_ids" => "VpcIdentifier", "snapshot_identifier" => "SnapshotIdentifier", "source_type" => "SourceType", "node_count" => "NodeCount", "amount" => "Amount", "breach_action" => "BreachAction", "cluster_security_group_name" => "ClusterSecurityGroupName", "feature_type" => "FeatureType", "usage_limit_id" => "UsageLimitId", "reserved_node_offering_id" => "ReservedNodeOfferingId", "final_cluster_snapshot_identifier" => "FinalClusterSnapshotIdentifier", "final_cluster_snapshot_retention_period" => "FinalClusterSnapshotRetentionPeriod", "skip_final_cluster_snapshot" => "SkipFinalClusterSnapshot", "reserved_node_exchange_request_id" => "ReservedNodeExchangeRequestId", "producer_arn" => "ProducerArn", "dbname" => "DBName", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "period" => "Period", "enabled" => "Enabled", "event_categories" => "EventCategory", "severity" => "Severity", "sns_topic_arn" => "SnsTopicArn", "source_ids" => "SourceId", "disassociate_entire_account" => "DisassociateEntireAccount", "source_snapshot_cluster_identifier" => "SourceSnapshotClusterIdentifier", "description" => "Description", "grantee" => "Grantee", "auto_create" => "AutoCreate", "db_groups" => "DbGroup", "db_name" => "DbName", "duration_seconds" => "DurationSeconds", "cluster_exists" => "ClusterExists", "snapshot_type" => "SnapshotType", "sorting_entities" => "SnapshotSortingEntity", "table_restore_request_id" => "TableRestoreRequestId", "resource_name" => "ResourceName", "resource_type" => "ResourceType", "iam_role" => "IamRole", "schedule" => "Schedule", "target_action" => "TargetAction", "resource_owner" => "ResourceOwner", "database_name" => "DatabaseName", "partner_name" => "PartnerName", "snapshot_copy_grant_name" => "SnapshotCopyGrantName", "associate_entire_account" => "AssociateEntireAccount", "retention_period" => "RetentionPeriod", "source" => "Source", "add_iam_roles" => "IamRoleArn", "remove_iam_roles" => "IamRoleArn", "duration" => "Duration", "source_identifier" => "SourceIdentifier", "enable_case_sensitive_identifier" => "EnableCaseSensitiveIdentifier", "source_schema_name" => "SourceSchemaName", "target_database_name" => "TargetDatabaseName", "target_schema_name" => "TargetSchemaName", "attribute_names" => "AttributeName", "status_message" => "StatusMessage", "cluster_parameter_group_family" => "ClusterParameterGroupFamily", "endpoint_name" => "EndpointName", "vpc_id" => "VpcId", "subscription_name" => "SubscriptionName", "dry_run" => "DryRun", "next_invocations" => "NextInvocations", "schedule_definitions" => "ScheduleDefinition", "schedule_description" => "ScheduleDescription", "manual" => "Manual", "s3_key_prefix" => "S3KeyPrefix", "classic" => "Classic", "disassociate_schedule" => "DisassociateSchedule")
 
 """
     accept_reserved_node_exchange(reserved_node_id, target_reserved_node_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,7 +22,7 @@ Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the con
 
 """
 function accept_reserved_node_exchange(ReservedNodeId, TargetReservedNodeOfferingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AcceptReservedNodeExchange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId, "TargetReservedNodeOfferingId"=>TargetReservedNodeOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ integration on the partner website.
 
 """
 function add_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AddPartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ association, the consumer can consume the datashare.
   the datashare.
 """
 function associate_data_share_consumer(DataShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AssociateDataShareConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataShareArn"=>DataShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -98,7 +98,7 @@ Cluster Management Guide.
   Access Key ID is not an acceptable value.  Example: 111122223333
 """
 function authorize_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -117,7 +117,7 @@ have the correct access privileges.
 
 """
 function authorize_data_share(ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AuthorizeDataShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerIdentifier"=>ConsumerIdentifier, "DataShareArn"=>DataShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ Grants access to a cluster.
 - `vpc_ids`: The virtual private cloud (VPC) identifiers to grant access to.
 """
 function authorize_endpoint_access(Account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AuthorizeEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -158,7 +158,7 @@ Amazon Redshift Cluster Management Guide.
   resource element that specifies anything other than * for the cluster name.
 """
 function authorize_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("AuthorizeSnapshotAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -173,7 +173,7 @@ Deletes a set of cluster snapshots.
 
 """
 function batch_delete_cluster_snapshots(DeleteClusterSnapshotMessage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("BatchDeleteClusterSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteClusterSnapshotMessage"=>DeleteClusterSnapshotMessage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ Modifies the settings for a set of cluster snapshots.
   errors and delete the snapshots, use the force option.
 """
 function batch_modify_cluster_snapshots(String; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("BatchModifyClusterSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("String"=>String), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -211,7 +211,7 @@ Cancels a resize operation for a cluster.
 
 """
 function cancel_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CancelResize", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -246,7 +246,7 @@ Management Guide.
   Constraints:   Must be the identifier for a valid cluster.
 """
 function copy_cluster_snapshot(SourceSnapshotIdentifier, TargetSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CopyClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotIdentifier"=>SourceSnapshotIdentifier, "TargetSnapshotIdentifier"=>TargetSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -262,7 +262,7 @@ Creates an authentication profile with the specified parameters.
 
 """
 function create_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -401,7 +401,7 @@ Redshift Cluster Management Guide.
   cluster.
 """
 function create_cluster(ClusterIdentifier, MasterUserPassword, MasterUsername, NodeType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "NodeType"=>NodeType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -435,7 +435,7 @@ in the Amazon Redshift Cluster Management Guide.
 - `tags`: A list of tag instances.
 """
 function create_cluster_parameter_group(Description, ParameterGroupFamily, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ParameterGroupFamily"=>ParameterGroupFamily, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -457,7 +457,7 @@ Cluster Security Groups in the Amazon Redshift Cluster Management Guide.
 - `tags`: A list of tag instances.
 """
 function create_cluster_security_group(ClusterSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateClusterSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -483,7 +483,7 @@ in the Amazon Redshift Cluster Management Guide.
 - `tags`: A list of tag instances.
 """
 function create_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -508,7 +508,7 @@ Groups in the Amazon Redshift Cluster Management Guide.
 - `tags`: A list of tag instances.
 """
 function create_cluster_subnet_group(ClusterSubnetGroupName, Description, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "Description"=>Description, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -532,7 +532,7 @@ Creates a Redshift-managed VPC endpoint.
   sources for inbound traffic that you are authorizing into your endpoint.
 """
 function create_endpoint_access(EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +588,7 @@ specify a source type if you specify a source ID.
 - `tags`: A list of tag instances.
 """
 function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -612,7 +612,7 @@ Guide.
 - `tags`: A list of tag instances.
 """
 function create_hsm_client_certificate(HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateHsmClientCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -643,7 +643,7 @@ Guide.
 - `tags`: A list of tag instances.
 """
 function create_hsm_configuration(Description, HsmConfigurationIdentifier, HsmIpAddress, HsmPartitionName, HsmPartitionPassword, HsmServerPublicCertificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateHsmConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "HsmConfigurationIdentifier"=>HsmConfigurationIdentifier, "HsmIpAddress"=>HsmIpAddress, "HsmPartitionName"=>HsmPartitionName, "HsmPartitionPassword"=>HsmPartitionPassword, "HsmServerPublicCertificate"=>HsmServerPublicCertificate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -675,7 +675,7 @@ operation.
   ScheduledAction.
 """
 function create_scheduled_action(IamRole, Schedule, ScheduledActionName, TargetAction; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole, "Schedule"=>Schedule, "ScheduledActionName"=>ScheduledActionName, "TargetAction"=>TargetAction), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -700,7 +700,7 @@ Database Encryption in the Amazon Redshift Cluster Management Guide.
 - `tags`: A list of tag instances.
 """
 function create_snapshot_copy_grant(SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateSnapshotCopyGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -721,7 +721,7 @@ default system backup schedule.
 - `tags`: An optional set of tags you can use to search for the schedule.
 """
 function create_snapshot_schedule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateSnapshotSchedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -744,7 +744,7 @@ new value.
 
 """
 function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +771,7 @@ is identified by the returned usage limit identifier.
 - `tags`: A list of tag instances.
 """
 function create_usage_limit(Amount, ClusterIdentifier, FeatureType, LimitType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("CreateUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Amount"=>Amount, "ClusterIdentifier"=>ClusterIdentifier, "FeatureType"=>FeatureType, "LimitType"=>LimitType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -788,7 +788,7 @@ From the producer account, removes authorization from the specified datashare.
 
 """
 function deauthorize_data_share(ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeauthorizeDataShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerIdentifier"=>ConsumerIdentifier, "DataShareArn"=>DataShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -802,7 +802,7 @@ Deletes an authentication profile.
 
 """
 function delete_authentication_profile(AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -844,7 +844,7 @@ Guide.
   is false.  Default: false
 """
 function delete_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -861,7 +861,7 @@ if it is associated with a cluster.
 
 """
 function delete_cluster_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -878,7 +878,7 @@ in the Amazon Redshift Cluster Management Guide.
 
 """
 function delete_cluster_security_group(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteClusterSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -904,7 +904,7 @@ authorizations before you can delete the snapshot.
   Constraints: Must be the name of valid cluster.
 """
 function delete_cluster_snapshot(SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -918,7 +918,7 @@ Deletes the specified cluster subnet group.
 
 """
 function delete_cluster_subnet_group(ClusterSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +932,7 @@ Deletes a Redshift-managed VPC endpoint.
 
 """
 function delete_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +947,7 @@ Deletes an Amazon Redshift event notification subscription.
 
 """
 function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -962,7 +962,7 @@ Deletes the specified HSM client certificate.
 
 """
 function delete_hsm_client_certificate(HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteHsmClientCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -977,7 +977,7 @@ Deletes the specified Amazon Redshift HSM configuration.
 
 """
 function delete_hsm_configuration(HsmConfigurationIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteHsmConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmConfigurationIdentifier"=>HsmConfigurationIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -996,7 +996,7 @@ integration is deleted at the partner's website.
 
 """
 function delete_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeletePartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1010,7 +1010,7 @@ Deletes a scheduled action.
 
 """
 function delete_scheduled_action(ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1024,7 +1024,7 @@ Deletes the specified snapshot copy grant.
 
 """
 function delete_snapshot_copy_grant(SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteSnapshotCopyGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1038,7 +1038,7 @@ Deletes a snapshot schedule.
 
 """
 function delete_snapshot_schedule(ScheduleIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleIdentifier"=>ScheduleIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1055,7 +1055,7 @@ to delete the tag or tags.
 
 """
 function delete_tags(ResourceName, TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1069,7 +1069,7 @@ Deletes a usage limit from a cluster.
 
 """
 function delete_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DeleteUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UsageLimitId"=>UsageLimitId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1082,7 +1082,7 @@ Returns a list of attributes attached to an account
 - `attribute_names`: A list of attribute names.
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1096,7 +1096,7 @@ Describes an authentication profile.
   specified then all authentication profiles owned by the account are listed.
 """
 function describe_authentication_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeAuthenticationProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1122,7 +1122,7 @@ Returns an array of ClusterDbRevision objects.
   request.  Default: 100 Constraints: minimum 20, maximum 100.
 """
 function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterDbRevisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1168,7 +1168,7 @@ values associated with them.
   with the parameter groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1204,7 +1204,7 @@ Redshift Cluster Management Guide.
   Values: user | engine-default
 """
 function describe_cluster_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1250,7 +1250,7 @@ values associated with them.
   with the security groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterSecurityGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1318,7 +1318,7 @@ keys or values associated with them.
   snapshots that have either or both of these tag values associated with them.
 """
 function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1360,7 +1360,7 @@ associated with them.
   with the subnet groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1379,7 +1379,7 @@ Returns a list of all the available maintenance tracks.
 - `max_records`: An integer value for the maximum number of maintenance tracks to return.
 """
 function describe_cluster_tracks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterTracks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1408,7 +1408,7 @@ the Amazon Redshift Cluster Management Guide.
   20, maximum 100.
 """
 function describe_cluster_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusterVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1453,7 +1453,7 @@ associated with them.
   have either or both of these tag values associated with them.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1475,7 +1475,7 @@ Shows the status of any inbound or outbound datashares available in the specifie
   retrying the command with the returned marker value.
 """
 function describe_data_shares(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeDataShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1502,7 +1502,7 @@ account identifier.
   status.
 """
 function describe_data_shares_for_consumer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeDataSharesForConsumer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1528,7 +1528,7 @@ identifier.
   is specified, Amazon Redshift returns the list of datashares that have the specified status.
 """
 function describe_data_shares_for_producer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeDataSharesForProducer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1555,7 +1555,7 @@ in the Amazon Redshift Cluster Management Guide.
   20, maximum 100.
 """
 function describe_default_cluster_parameters(ParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupFamily"=>ParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1577,7 +1577,7 @@ Describes a Redshift-managed VPC endpoint.
 - `vpc_id`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
 function describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1602,7 +1602,7 @@ Describes an endpoint authorization.
   in the response so that the remaining results can be retrieved.
 """
 function describe_endpoint_authorization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeEndpointAuthorization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1619,7 +1619,7 @@ Notifications.
   cluster-parameter-group, cluster-security-group, and scheduled-action.
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1661,7 +1661,7 @@ returned regardless of whether they have tag keys or values associated with them
   with them.
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1708,7 +1708,7 @@ hour of events are returned.
   Example: 2009-07-08T18:00Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1752,7 +1752,7 @@ with them.
   associated with them.
 """
 function describe_hsm_client_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeHsmClientCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1796,7 +1796,7 @@ them.
   them.
 """
 function describe_hsm_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeHsmConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1812,7 +1812,7 @@ the specified Amazon Redshift cluster.
 
 """
 function describe_logging_status(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeLoggingStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1849,7 +1849,7 @@ disk usage for the specified action type.
   configurations.
 """
 function describe_node_configuration_options(ActionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeNodeConfigurationOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionType"=>ActionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1882,7 +1882,7 @@ Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
   available offerings matching the specified node type.
 """
 function describe_orderable_cluster_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeOrderableClusterOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1903,8 +1903,33 @@ Returns information about the partner integrations defined for a cluster.
   specified, then all partner integrations are described.
 """
 function describe_partners(AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribePartners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_reserved_node_exchange_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns exchange status details and associated metadata for a reserved-node exchange.
+Statuses include such values as in progress and requested.
+
+# Keyword Parameters
+- `marker`: An optional pagination token provided by a previous
+  DescribeReservedNodeExchangeStatus request. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by the MaxRecords
+  parameter. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
+- `max_records`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a Marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `reserved_node_exchange_request_id`: The identifier of the reserved-node exchange request.
+- `reserved_node_id`: The identifier of the source reserved node in a reserved-node
+  exchange request.
+"""
+function describe_reserved_node_exchange_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift("DescribeReservedNodeExchangeStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1932,7 +1957,7 @@ Nodes in the Amazon Redshift Cluster Management Guide.
 - `reserved_node_offering_id`: The unique identifier for the offering.
 """
 function describe_reserved_node_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeReservedNodeOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1955,7 +1980,7 @@ Returns the descriptions of the reserved nodes.
 - `reserved_node_id`: Identifier for the node reservation.
 """
 function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeReservedNodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1975,7 +2000,7 @@ and specifying a different number or type of nodes for the cluster.
 
 """
 function describe_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeResize", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2006,7 +2031,7 @@ Describes properties of scheduled actions.
 - `target_action_type`: The type of the scheduled actions to retrieve.
 """
 function describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeScheduledActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2042,7 +2067,7 @@ Redshift Database Encryption in the Amazon Redshift Cluster Management Guide.
   both of these tag values associated with them.
 """
 function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeSnapshotCopyGrants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2068,7 +2093,7 @@ Returns a list of snapshot schedules.
 - `tag_values`: The value corresponding to the key of the snapshot schedule tag.
 """
 function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeSnapshotSchedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2079,7 +2104,7 @@ Returns account level backups storage size and provisional storage.
 
 """
 function describe_storage(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeStorage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2106,7 +2131,7 @@ TableRestoreRequestId.
   returns the status of all in-progress table restore requests.
 """
 function describe_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeTableRestoreStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2156,7 +2181,7 @@ associated with them.
   both of these tag values associated with them.
 """
 function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2199,7 +2224,7 @@ objects for the combination of cluster and feature are returned.
 - `usage_limit_id`: The identifier of the usage limit to describe.
 """
 function describe_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DescribeUsageLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2215,7 +2240,7 @@ Amazon Redshift cluster.
 
 """
 function disable_logging(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DisableLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2234,7 +2259,7 @@ grants Amazon Redshift permission to the CMK in the destination region.
 
 """
 function disable_snapshot_copy(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DisableSnapshotCopy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2254,7 +2279,7 @@ From a consumer account, remove association for the specified datashare.
   datashare is removed from the entire account.
 """
 function disassociate_data_share_consumer(DataShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("DisassociateDataShareConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataShareArn"=>DataShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2278,7 +2303,7 @@ Amazon Redshift cluster.
   x00 to x20   x22   x27   x5c   x7f or larger
 """
 function enable_logging(BucketName, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("EnableLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketName"=>BucketName, "ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2308,7 +2333,7 @@ cluster.
   an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
 """
 function enable_snapshot_copy(ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("EnableSnapshotCopy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2370,8 +2395,39 @@ database name.
   Constraint: minimum 900, maximum 3600. Default: 900
 """
 function get_cluster_credentials(ClusterIdentifier, DbUser; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("GetClusterCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DbUser"=>DbUser), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_reserved_node_exchange_configuration_options(action_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the configuration options for the reserved-node exchange. These options include
+information about the source reserved node and target reserved node offering. Details
+include the node type, the price, the node count, and the offering type.
+
+# Arguments
+- `action_type`: The action type of the reserved-node configuration. The action type can be
+  an exchange initiated from either a snapshot or a resize.
+
+# Keyword Parameters
+- `cluster_identifier`: The identifier for the cluster that is the source for a
+  reserved-node exchange.
+- `marker`: An optional pagination token provided by a previous
+  GetReservedNodeExchangeConfigurationOptions request. If this parameter is specified, the
+  response includes only records beyond the marker, up to the value specified by the
+  MaxRecords parameter. You can retrieve the next set of response records by providing the
+  returned marker value in the Marker parameter and retrying the request.
+- `max_records`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a Marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `snapshot_identifier`: The identifier for the snapshot that is the source for the
+  reserved-node exchange.
+"""
+function get_reserved_node_exchange_configuration_options(ActionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
+    return redshift("GetReservedNodeExchangeConfigurationOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionType"=>ActionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2390,7 +2446,7 @@ usage price of the given DC1 reserved node.
 - `max_records`: An integer setting the maximum number of ReservedNodeOfferings to retrieve.
 """
 function get_reserved_node_exchange_offerings(ReservedNodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("GetReservedNodeExchangeOfferings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2409,7 +2465,7 @@ Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
   Amazon Redshift determines whether to use AQUA.
 """
 function modify_aqua_configuration(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyAquaConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2425,7 +2481,7 @@ Modifies an authentication profile.
 
 """
 function modify_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2549,7 +2605,7 @@ Redshift Cluster Management Guide.
   associated with the cluster. This change is asynchronously applied as soon as possible.
 """
 function modify_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2567,7 +2623,7 @@ the database running in a cluster.
 
 """
 function modify_cluster_db_revision(ClusterIdentifier, RevisionTarget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterDbRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RevisionTarget"=>RevisionTarget), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2592,7 +2648,7 @@ associated at any time.
   cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
 """
 function modify_cluster_iam_roles(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterIamRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2617,7 +2673,7 @@ Modifies the maintenance settings of a cluster.
   maintenance window.
 """
 function modify_cluster_maintenance(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2638,7 +2694,7 @@ to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Gu
 
 """
 function modify_cluster_parameter_group(Parameter, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Parameter"=>Parameter, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2661,7 +2717,7 @@ setting for a cluster snapshot.
   3,653.
 """
 function modify_cluster_snapshot(SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2681,7 +2737,7 @@ Modifies a snapshot schedule for a cluster.
   associate with the cluster.
 """
 function modify_cluster_snapshot_schedule(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2700,7 +2756,7 @@ replaces the existing list of subnets with the new list of subnets.
 - `description`: A text description of the subnet group to be modified.
 """
 function modify_cluster_subnet_group(ClusterSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2717,7 +2773,7 @@ Modifies a Redshift-managed VPC endpoint.
   endpoint after the endpoint is modified.
 """
 function modify_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2753,7 +2809,7 @@ Modifies an existing Amazon Redshift event notification subscription.
   cluster-snapshot, and scheduled-action.
 """
 function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2781,7 +2837,7 @@ Modifies a scheduled action.
   about this parameter, see ScheduledAction.
 """
 function modify_scheduled_action(ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2818,7 +2874,7 @@ the new retention period.
   snapshots instead of automated snapshots.
 """
 function modify_snapshot_copy_retention_period(ClusterIdentifier, RetentionPeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifySnapshotCopyRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RetentionPeriod"=>RetentionPeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2835,7 +2891,7 @@ asynchronously.
 
 """
 function modify_snapshot_schedule(ScheduleDefinition, ScheduleIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifySnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleDefinition"=>ScheduleDefinition, "ScheduleIdentifier"=>ScheduleIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2855,7 +2911,7 @@ limit.
   more information about this parameter, see UsageLimit.
 """
 function modify_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ModifyUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UsageLimitId"=>UsageLimitId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2869,7 +2925,7 @@ Pauses a cluster.
 
 """
 function pause_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("PauseCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2891,7 +2947,7 @@ Reserved Nodes in the Amazon Redshift Cluster Management Guide.
 - `node_count`: The number of reserved nodes that you want to purchase. Default: 1
 """
 function purchase_reserved_node_offering(ReservedNodeOfferingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("PurchaseReservedNodeOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeOfferingId"=>ReservedNodeOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2909,7 +2965,7 @@ to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
 
 """
 function reboot_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RebootCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2923,7 +2979,7 @@ From the consumer account, rejects the specified datashare.
 
 """
 function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RejectDataShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataShareArn"=>DataShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2946,7 +3002,7 @@ effect you must reboot any associated clusters.
   reset to their default values.  Default: true
 """
 function reset_cluster_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ResetClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -2974,9 +3030,11 @@ must match the node type for the cluster.
   cluster's current node type is used.
 - `number_of_nodes`: The new number of nodes for the cluster. If not specified, the
   cluster's current number of nodes is used.
+- `reserved_node_id`: The identifier of the reserved node.
+- `target_reserved_node_offering_id`: The identifier of the target reserved node offering.
 """
 function resize_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ResizeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3085,16 +3143,18 @@ Management Guide.
   Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute
   window.
 - `publicly_accessible`: If true, the cluster can be accessed from a public network.
+- `reserved_node_id`: The identifier of the target reserved node offering.
 - `snapshot_cluster_identifier`: The name of the cluster the source snapshot was created
   from. This parameter is required if your IAM user has a policy containing a snapshot
   resource element that specifies anything other than * for the cluster name.
 - `snapshot_schedule_identifier`: A unique identifier for the snapshot schedule.
+- `target_reserved_node_offering_id`: The identifier of the target reserved node offering.
 - `vpc_security_group_ids`: A list of Virtual Private Cloud (VPC) security groups to be
   associated with the cluster. Default: The default VPC security group is associated with the
   cluster. VPC security groups only apply to clusters in VPCs.
 """
 function restore_from_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RestoreFromClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3133,7 +3193,7 @@ table created from the snapshot.
 - `target_schema_name`: The name of the schema to restore the table to.
 """
 function restore_table_from_cluster_snapshot(ClusterIdentifier, NewTableName, SnapshotIdentifier, SourceDatabaseName, SourceTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RestoreTableFromClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "NewTableName"=>NewTableName, "SnapshotIdentifier"=>SnapshotIdentifier, "SourceDatabaseName"=>SourceDatabaseName, "SourceTableName"=>SourceTableName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3147,7 +3207,7 @@ Resumes a paused cluster.
 
 """
 function resume_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("ResumeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3177,7 +3237,7 @@ Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Managemen
   111122223333
 """
 function revoke_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3194,7 +3254,7 @@ Revokes access to a cluster.
 - `vpc_ids`: The virtual private cloud (VPC) identifiers for which access is to be revoked.
 """
 function revoke_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RevokeEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3218,7 +3278,7 @@ Snapshots in the Amazon Redshift Cluster Management Guide.
   resource element that specifies anything other than * for the cluster name.
 """
 function revoke_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RevokeSnapshotAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3234,7 +3294,7 @@ Rotates the encryption keys for a cluster.
 
 """
 function rotate_encryption_key(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("RotateEncryptionKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -3256,6 +3316,6 @@ Updates the status of a partner integration.
 - `status_message`: The status message provided by the partner.
 """
 function update_partner_status(AccountId, ClusterIdentifier, DatabaseName, PartnerName, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return redshift("UpdatePartnerStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

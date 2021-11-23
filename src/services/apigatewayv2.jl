@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("access_log_settings" => "accessLogSettings", "auto_deploy" => "autoDeploy", "client_certificate_id" => "clientCertificateId", "default_route_settings" => "defaultRouteSettings", "deployment_id" => "deploymentId", "description" => "description", "route_settings" => "routeSettings", "stage_variables" => "stageVariables", "tags" => "tags", "api_key_selection_expression" => "apiKeySelectionExpression", "cors_configuration" => "corsConfiguration", "credentials_arn" => "credentialsArn", "disable_execute_api_endpoint" => "disableExecuteApiEndpoint", "disable_schema_validation" => "disableSchemaValidation", "route_key" => "routeKey", "route_selection_expression" => "routeSelectionExpression", "target" => "target", "version" => "version", "name" => "name", "domain_name_configurations" => "domainNameConfigurations", "mutual_tls_authentication" => "mutualTlsAuthentication", "security_group_ids" => "securityGroupIds", "max_results" => "maxResults", "next_token" => "nextToken", "authorizer_credentials_arn" => "authorizerCredentialsArn", "authorizer_payload_format_version" => "authorizerPayloadFormatVersion", "authorizer_result_ttl_in_seconds" => "authorizerResultTtlInSeconds", "authorizer_type" => "authorizerType", "authorizer_uri" => "authorizerUri", "enable_simple_responses" => "enableSimpleResponses", "identity_source" => "identitySource", "identity_validation_expression" => "identityValidationExpression", "jwt_configuration" => "jwtConfiguration", "api_key_required" => "apiKeyRequired", "authorization_scopes" => "authorizationScopes", "authorization_type" => "authorizationType", "authorizer_id" => "authorizerId", "model_selection_expression" => "modelSelectionExpression", "operation_name" => "operationName", "request_models" => "requestModels", "request_parameters" => "requestParameters", "route_response_selection_expression" => "routeResponseSelectionExpression", "connection_id" => "connectionId", "connection_type" => "connectionType", "content_handling_strategy" => "contentHandlingStrategy", "integration_method" => "integrationMethod", "integration_subtype" => "integrationSubtype", "integration_uri" => "integrationUri", "passthrough_behavior" => "passthroughBehavior", "payload_format_version" => "payloadFormatVersion", "request_templates" => "requestTemplates", "response_parameters" => "responseParameters", "template_selection_expression" => "templateSelectionExpression", "timeout_in_millis" => "timeoutInMillis", "tls_config" => "tlsConfig", "api_mapping_key" => "apiMappingKey", "stage" => "stage", "stage_name" => "stageName", "content_type" => "contentType", "response_models" => "responseModels", "route_response_key" => "routeResponseKey", "integration_response_key" => "integrationResponseKey", "response_templates" => "responseTemplates", "basepath" => "basepath", "fail_on_warnings" => "failOnWarnings", "schema" => "schema", "export_version" => "exportVersion", "include_extensions" => "includeExtensions", "integration_type" => "integrationType")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("access_log_settings" => "accessLogSettings", "auto_deploy" => "autoDeploy", "client_certificate_id" => "clientCertificateId", "default_route_settings" => "defaultRouteSettings", "deployment_id" => "deploymentId", "description" => "description", "route_settings" => "routeSettings", "stage_variables" => "stageVariables", "tags" => "tags", "api_key_selection_expression" => "apiKeySelectionExpression", "cors_configuration" => "corsConfiguration", "credentials_arn" => "credentialsArn", "disable_execute_api_endpoint" => "disableExecuteApiEndpoint", "disable_schema_validation" => "disableSchemaValidation", "route_key" => "routeKey", "route_selection_expression" => "routeSelectionExpression", "target" => "target", "version" => "version", "name" => "name", "domain_name_configurations" => "domainNameConfigurations", "mutual_tls_authentication" => "mutualTlsAuthentication", "security_group_ids" => "securityGroupIds", "max_results" => "maxResults", "next_token" => "nextToken", "authorizer_credentials_arn" => "authorizerCredentialsArn", "authorizer_payload_format_version" => "authorizerPayloadFormatVersion", "authorizer_result_ttl_in_seconds" => "authorizerResultTtlInSeconds", "authorizer_type" => "authorizerType", "authorizer_uri" => "authorizerUri", "enable_simple_responses" => "enableSimpleResponses", "identity_source" => "identitySource", "identity_validation_expression" => "identityValidationExpression", "jwt_configuration" => "jwtConfiguration", "api_key_required" => "apiKeyRequired", "authorization_scopes" => "authorizationScopes", "authorization_type" => "authorizationType", "authorizer_id" => "authorizerId", "model_selection_expression" => "modelSelectionExpression", "operation_name" => "operationName", "request_models" => "requestModels", "request_parameters" => "requestParameters", "route_response_selection_expression" => "routeResponseSelectionExpression", "connection_id" => "connectionId", "connection_type" => "connectionType", "content_handling_strategy" => "contentHandlingStrategy", "integration_method" => "integrationMethod", "integration_subtype" => "integrationSubtype", "integration_uri" => "integrationUri", "passthrough_behavior" => "passthroughBehavior", "payload_format_version" => "payloadFormatVersion", "request_templates" => "requestTemplates", "response_parameters" => "responseParameters", "template_selection_expression" => "templateSelectionExpression", "timeout_in_millis" => "timeoutInMillis", "tls_config" => "tlsConfig", "api_mapping_key" => "apiMappingKey", "stage" => "stage", "stage_name" => "stageName", "content_type" => "contentType", "response_models" => "responseModels", "route_response_key" => "routeResponseKey", "integration_response_key" => "integrationResponseKey", "response_templates" => "responseTemplates", "basepath" => "basepath", "fail_on_warnings" => "failOnWarnings", "schema" => "schema", "export_version" => "exportVersion", "include_extensions" => "includeExtensions", "integration_type" => "integrationType")
 
 """
     create_api(name, protocol_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -52,7 +52,7 @@ Creates an Api resource.
 - `version`: A version identifier for the API.
 """
 function create_api(name, protocolType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "protocolType"=>protocolType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -70,7 +70,7 @@ Creates an API mapping.
 - `api_mapping_key`: The API mapping key.
 """
 function create_api_mapping(apiId, domainName, stage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId, "stage"=>stage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -133,7 +133,7 @@ Creates an Authorizer for an API.
   JWT authorizer type. Supported only for HTTP APIs.
 """
 function create_authorizer(apiId, authorizerType, identitySource, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerType"=>authorizerType, "identitySource"=>identitySource, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -150,7 +150,7 @@ Creates a Deployment for an API.
 - `stage_name`: The name of the Stage resource for the Deployment resource to create.
 """
 function create_deployment(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -169,7 +169,7 @@ Creates a domain name.
 - `tags`: The collection of tags associated with a domain name.
 """
 function create_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -279,7 +279,7 @@ Creates an Integration.
   APIs.
 """
 function create_integration(apiId, integrationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationType"=>integrationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -317,7 +317,7 @@ Creates an IntegrationResponses.
   response. Supported only for WebSocket APIs.
 """
 function create_integration_response(apiId, integrationId, integrationResponseKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationResponseKey"=>integrationResponseKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ Creates a Model for an API.
 - `description`: The description of the model.
 """
 function create_model(apiId, name, schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -373,7 +373,7 @@ Creates a Route for an API.
 - `target`: The target for the route.
 """
 function create_route(apiId, routeKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeKey"=>routeKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -394,7 +394,7 @@ Creates a RouteResponse for a Route.
 - `response_parameters`: The route response parameters.
 """
 function create_route_response(apiId, routeId, routeResponseKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeResponseKey"=>routeResponseKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -423,7 +423,7 @@ Creates a Stage for an API.
 - `tags`: The collection of tags. Each tag element is associated with a given resource.
 """
 function create_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/apis/$(apiId)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stageName"=>stageName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -441,7 +441,7 @@ Creates a VPC link.
 - `tags`: A list of tags.
 """
 function create_vpc_link(name, subnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "subnetIds"=>subnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +458,7 @@ its AccessLogSettings.
 
 """
 function delete_access_log_settings(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -472,7 +472,7 @@ Deletes an Api resource.
 
 """
 function delete_api(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -487,7 +487,7 @@ Deletes an API mapping.
 
 """
 function delete_api_mapping(apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -502,7 +502,7 @@ Deletes an Authorizer.
 
 """
 function delete_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -516,7 +516,7 @@ Deletes a CORS configuration.
 
 """
 function delete_cors_configuration(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -531,7 +531,7 @@ Deletes a Deployment.
 
 """
 function delete_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -545,7 +545,7 @@ Deletes a domain name.
 
 """
 function delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/domainnames/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +560,7 @@ Deletes an Integration.
 
 """
 function delete_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,7 +576,7 @@ Deletes an IntegrationResponses.
 
 """
 function delete_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -591,7 +591,7 @@ Deletes a Model.
 
 """
 function delete_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ Deletes a Route.
 
 """
 function delete_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -622,7 +622,7 @@ Deletes a route request parameter.
 
 """
 function delete_route_request_parameter(apiId, requestParameterKey, routeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -638,7 +638,7 @@ Deletes a RouteResponse.
 
 """
 function delete_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -655,7 +655,7 @@ Deletes the RouteSettings for a stage.
 
 """
 function delete_route_settings(apiId, routeKey, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -671,7 +671,7 @@ Deletes a Stage.
 
 """
 function delete_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -685,7 +685,7 @@ Deletes a VPC link.
 
 """
 function delete_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -710,7 +710,7 @@ end
   representation of the latest API configuration is exported.
 """
 function export_api(apiId, outputType, specification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputType"=>outputType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -724,7 +724,7 @@ Gets an Api resource.
 
 """
 function get_api(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -739,7 +739,7 @@ Gets an API mapping.
 
 """
 function get_api_mapping(apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ Gets API mappings.
   element of the collection.
 """
 function get_api_mappings(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -772,7 +772,7 @@ Gets a collection of Api resources.
   element of the collection.
 """
 function get_apis(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -787,7 +787,7 @@ Gets an Authorizer.
 
 """
 function get_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -805,7 +805,7 @@ Gets the Authorizers for an API.
   element of the collection.
 """
 function get_authorizers(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -820,7 +820,7 @@ Gets a Deployment.
 
 """
 function get_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -838,7 +838,7 @@ Gets the Deployments for an API.
   element of the collection.
 """
 function get_deployments(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -852,7 +852,7 @@ Gets a domain name.
 
 """
 function get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/domainnames/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -867,7 +867,7 @@ Gets the domain names for an AWS account.
   element of the collection.
 """
 function get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/domainnames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -882,7 +882,7 @@ Gets an Integration.
 
 """
 function get_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -898,7 +898,7 @@ Gets an IntegrationResponses.
 
 """
 function get_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -917,7 +917,7 @@ Gets the IntegrationResponses for an Integration.
   element of the collection.
 """
 function get_integration_responses(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -935,7 +935,7 @@ Gets the Integrations for an API.
   element of the collection.
 """
 function get_integrations(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/integrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -950,7 +950,7 @@ Gets a Model.
 
 """
 function get_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -965,7 +965,7 @@ Gets a model template.
 
 """
 function get_model_template(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -983,7 +983,7 @@ Gets the Models for an API.
   element of the collection.
 """
 function get_models(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -998,7 +998,7 @@ Gets a Route.
 
 """
 function get_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1014,7 +1014,7 @@ Gets a RouteResponse.
 
 """
 function get_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1033,7 +1033,7 @@ Gets the RouteResponses for a Route.
   element of the collection.
 """
 function get_route_responses(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1051,7 +1051,7 @@ Gets the Routes for an API.
   element of the collection.
 """
 function get_routes(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/routes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1067,7 +1067,7 @@ Gets a Stage.
 
 """
 function get_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1085,7 +1085,7 @@ Gets the Stages for an API.
   element of the collection.
 """
 function get_stages(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/apis/$(apiId)/stages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1099,7 +1099,7 @@ Gets a collection of Tag resources.
 
 """
 function get_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1113,7 +1113,7 @@ Gets a VPC link.
 
 """
 function get_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1128,7 +1128,7 @@ Gets a collection of VPC links.
   element of the collection.
 """
 function get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("GET", "/v2/vpclinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1148,7 +1148,7 @@ Imports an API.
   encountered. By default, API creation continues if a warning is encountered.
 """
 function import_api(body; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PUT", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1169,7 +1169,7 @@ Puts an Api resource.
   encountered. By default, API creation continues if a warning is encountered.
 """
 function reimport_api(apiId, body; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PUT", "/v2/apis/$(apiId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1185,7 +1185,7 @@ Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
 
 """
 function reset_authorizers_cache(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1201,7 +1201,7 @@ Creates a new Tag resource to represent a tag.
 - `tags`: The collection of tags. Each tag element is associated with a given resource.
 """
 function tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("POST", "/v2/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1216,7 +1216,7 @@ Deletes a Tag.
 
 """
 function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1263,7 +1263,7 @@ Updates an Api resource.
 - `version`: A version identifier for the API.
 """
 function update_api(apiId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1282,7 +1282,7 @@ The API mapping.
 - `stage`: The API stage.
 """
 function update_api_mapping(apiId, apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1346,7 +1346,7 @@ Updates an Authorizer.
 - `name`: The name of the authorizer.
 """
 function update_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1363,7 +1363,7 @@ Updates a Deployment.
 - `description`: The description for the deployment resource.
 """
 function update_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1381,7 +1381,7 @@ Updates a domain name.
   domain name.
 """
 function update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/domainnames/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1491,7 +1491,7 @@ Updates an Integration.
   APIs.
 """
 function update_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1536,7 +1536,7 @@ Updates an IntegrationResponses.
   response. Supported only for WebSocket APIs.
 """
 function update_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1557,7 +1557,7 @@ Updates a Model.
   schema draft 4 model.
 """
 function update_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1594,7 +1594,7 @@ Updates a Route.
 - `target`: The target for the route.
 """
 function update_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1616,7 +1616,7 @@ Updates a RouteResponse.
 - `route_response_key`: The route response key.
 """
 function update_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1645,7 +1645,7 @@ Updates a Stage.
   [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
 function update_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1661,6 +1661,6 @@ Updates a VPC link.
 - `name`: The name of the VPC link.
 """
 function update_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

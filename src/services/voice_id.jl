@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "ClientToken", "job_name" => "JobName", "registration_config" => "RegistrationConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "description" => "Description", "enrollment_config" => "EnrollmentConfig", "job_status" => "JobStatus", "tags" => "Tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_token" => "ClientToken", "job_name" => "JobName", "registration_config" => "RegistrationConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "description" => "Description", "enrollment_config" => "EnrollmentConfig", "job_status" => "JobStatus", "tags" => "Tags")
 
 """
     create_domain(name, server_side_encryption_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,7 +26,7 @@ fraudsters, customer audio, and voiceprints.
 - `tags`: A list of tags you want added to the domain.
 """
 function create_domain(Name, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -40,7 +40,7 @@ Deletes the specified domain from the Amazon Connect Voice ID system.
 
 """
 function delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -55,7 +55,7 @@ Deletes the specified fraudster from the Amazon Connect Voice ID system.
 
 """
 function delete_fraudster(DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DeleteFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -70,7 +70,7 @@ Deletes the specified speaker from the Amazon Connect Voice ID system.
 
 """
 function delete_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DeleteSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -84,7 +84,7 @@ Describes the specified domain.
 
 """
 function describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -99,7 +99,7 @@ Describes the specified fraudster.
 
 """
 function describe_fraudster(DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DescribeFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -114,7 +114,7 @@ Describes the specified fraudster registration job.
 
 """
 function describe_fraudster_registration_job(DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DescribeFraudsterRegistrationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ Describes the specified speaker.
 
 """
 function describe_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DescribeSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ Describes the specified speaker enrollment job.
 
 """
 function describe_speaker_enrollment_job(DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("DescribeSpeakerEnrollmentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ Connect Voice ID call.
 
 """
 function evaluate_session(DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("EvaluateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SessionNameOrId"=>SessionNameOrId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -180,7 +180,7 @@ Lists all the domains in the Amazon Web Services account.
   pagination token expires after 24 hours.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ JobStatus is not provided, this lists all fraudster registration jobs in the giv
   pagination token expires after 24 hours.
 """
 function list_fraudster_registration_jobs(DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("ListFraudsterRegistrationJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -229,7 +229,7 @@ statuses.
   pagination token expires after 24 hours.
 """
 function list_speaker_enrollment_jobs(DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("ListSpeakerEnrollmentJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -251,7 +251,7 @@ Lists all speakers in a specified domain.
   pagination token expires after 24 hours.
 """
 function list_speakers(DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("ListSpeakers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -266,7 +266,7 @@ Lists all tags associated with a specified Voice ID resource.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -285,7 +285,7 @@ speakers, and opted out speakers have no voice embeddings stored in the system.
 
 """
 function opt_out_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("OptOutSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -315,7 +315,7 @@ Starts a new batch fraudster registration job using provided details.
   detecting a duplicate fraudster.
 """
 function start_fraudster_registration_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("StartFraudsterRegistrationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -345,7 +345,7 @@ Starts a new batch speaker enrollment job using specified details.
 - `job_name`: A name for your speaker enrollment job.
 """
 function start_speaker_enrollment_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("StartSpeakerEnrollmentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -360,7 +360,7 @@ Tags an Amazon Connect Voice ID resource with the provided list of tags.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -376,7 +376,7 @@ Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -399,6 +399,6 @@ the domain.
 - `description`: A brief description about this domain.
 """
 function update_domain(DomainId, Name, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return voice_id("UpdateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("airflow_configuration_options" => "AirflowConfigurationOptions", "airflow_version" => "AirflowVersion", "environment_class" => "EnvironmentClass", "kms_key" => "KmsKey", "logging_configuration" => "LoggingConfiguration", "max_workers" => "MaxWorkers", "min_workers" => "MinWorkers", "plugins_s3_object_version" => "PluginsS3ObjectVersion", "plugins_s3_path" => "PluginsS3Path", "requirements_s3_object_version" => "RequirementsS3ObjectVersion", "requirements_s3_path" => "RequirementsS3Path", "schedulers" => "Schedulers", "tags" => "Tags", "webserver_access_mode" => "WebserverAccessMode", "weekly_maintenance_window_start" => "WeeklyMaintenanceWindowStart", "max_results" => "MaxResults", "next_token" => "NextToken", "dag_s3_path" => "DagS3Path", "execution_role_arn" => "ExecutionRoleArn", "network_configuration" => "NetworkConfiguration", "source_bucket_arn" => "SourceBucketArn")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("airflow_configuration_options" => "AirflowConfigurationOptions", "airflow_version" => "AirflowVersion", "environment_class" => "EnvironmentClass", "kms_key" => "KmsKey", "logging_configuration" => "LoggingConfiguration", "max_workers" => "MaxWorkers", "min_workers" => "MinWorkers", "plugins_s3_object_version" => "PluginsS3ObjectVersion", "plugins_s3_path" => "PluginsS3Path", "requirements_s3_object_version" => "RequirementsS3ObjectVersion", "requirements_s3_path" => "RequirementsS3Path", "schedulers" => "Schedulers", "tags" => "Tags", "webserver_access_mode" => "WebserverAccessMode", "weekly_maintenance_window_start" => "WeeklyMaintenanceWindowStart", "max_results" => "MaxResults", "next_token" => "NextToken", "dag_s3_path" => "DagS3Path", "execution_role_arn" => "ExecutionRoleArn", "network_configuration" => "NetworkConfiguration", "source_bucket_arn" => "SourceBucketArn")
 
 """
     create_cli_token(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Create a CLI token to use Airflow CLI.
 
 """
 function create_cli_token(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("POST", "/clitoken/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
   includes the following:   MON|TUE|WED|THU|FRI|SAT|SUN:([01]d|2[0-3]):(00|30)
 """
 function create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Create a JWT token to be used to login to Airflow Web UI with claims based Authe
 
 """
 function create_web_login_token(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("POST", "/webtoken/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -117,7 +117,7 @@ Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
 """
 function delete_environment(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("DELETE", "/environments/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -131,7 +131,7 @@ Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) e
 
 """
 function get_environment(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("GET", "/environments/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -146,7 +146,7 @@ Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
 - `next_token`: Retrieves the next page of the results.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("GET", "/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apa
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -178,7 +178,7 @@ An operation for publishing metrics from the customers to the Ops plane.
 
 """
 function publish_metrics(EnvironmentName, MetricData; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -196,7 +196,7 @@ environment.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -214,7 +214,7 @@ Removes key-value tag pairs associated to your Amazon Managed Workflows for Apac
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -281,6 +281,6 @@ Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
   includes the following:   MON|TUE|WED|THU|FRI|SAT|SUN:([01]d|2[0-3]):(00|30)
 """
 function update_environment(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mwaa("PATCH", "/environments/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

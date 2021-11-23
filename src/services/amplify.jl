@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("auto_sub_domain_creation_patterns" => "autoSubDomainCreationPatterns", "auto_sub_domain_iamrole" => "autoSubDomainIAMRole", "enable_auto_sub_domain" => "enableAutoSubDomain", "job_id" => "jobId", "source_url" => "sourceUrl", "file_map" => "fileMap", "commit_id" => "commitId", "commit_message" => "commitMessage", "commit_time" => "commitTime", "job_reason" => "jobReason", "max_results" => "maxResults", "next_token" => "nextToken", "backend_environment_arn" => "backendEnvironmentArn", "basic_auth_credentials" => "basicAuthCredentials", "build_spec" => "buildSpec", "description" => "description", "display_name" => "displayName", "enable_auto_build" => "enableAutoBuild", "enable_basic_auth" => "enableBasicAuth", "enable_notification" => "enableNotification", "enable_performance_mode" => "enablePerformanceMode", "enable_pull_request_preview" => "enablePullRequestPreview", "environment_variables" => "environmentVariables", "framework" => "framework", "pull_request_environment_name" => "pullRequestEnvironmentName", "stage" => "stage", "tags" => "tags", "ttl" => "ttl", "end_time" => "endTime", "start_time" => "startTime", "access_token" => "accessToken", "auto_branch_creation_config" => "autoBranchCreationConfig", "auto_branch_creation_patterns" => "autoBranchCreationPatterns", "custom_headers" => "customHeaders", "custom_rules" => "customRules", "enable_auto_branch_creation" => "enableAutoBranchCreation", "enable_branch_auto_build" => "enableBranchAutoBuild", "enable_branch_auto_deletion" => "enableBranchAutoDeletion", "iam_service_role_arn" => "iamServiceRoleArn", "name" => "name", "oauth_token" => "oauthToken", "platform" => "platform", "repository" => "repository", "deployment_artifacts" => "deploymentArtifacts", "stack_name" => "stackName", "branch_name" => "branchName", "environment_name" => "environmentName")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("auto_sub_domain_creation_patterns" => "autoSubDomainCreationPatterns", "auto_sub_domain_iamrole" => "autoSubDomainIAMRole", "enable_auto_sub_domain" => "enableAutoSubDomain", "job_id" => "jobId", "source_url" => "sourceUrl", "file_map" => "fileMap", "commit_id" => "commitId", "commit_message" => "commitMessage", "commit_time" => "commitTime", "job_reason" => "jobReason", "max_results" => "maxResults", "next_token" => "nextToken", "backend_environment_arn" => "backendEnvironmentArn", "basic_auth_credentials" => "basicAuthCredentials", "build_spec" => "buildSpec", "description" => "description", "display_name" => "displayName", "enable_auto_build" => "enableAutoBuild", "enable_basic_auth" => "enableBasicAuth", "enable_notification" => "enableNotification", "enable_performance_mode" => "enablePerformanceMode", "enable_pull_request_preview" => "enablePullRequestPreview", "environment_variables" => "environmentVariables", "framework" => "framework", "pull_request_environment_name" => "pullRequestEnvironmentName", "stage" => "stage", "tags" => "tags", "ttl" => "ttl", "end_time" => "endTime", "start_time" => "startTime", "access_token" => "accessToken", "auto_branch_creation_config" => "autoBranchCreationConfig", "auto_branch_creation_patterns" => "autoBranchCreationPatterns", "custom_headers" => "customHeaders", "custom_rules" => "customRules", "enable_auto_branch_creation" => "enableAutoBranchCreation", "enable_branch_auto_build" => "enableBranchAutoBuild", "enable_branch_auto_deletion" => "enableBranchAutoDeletion", "iam_service_role_arn" => "iamServiceRoleArn", "name" => "name", "oauth_token" => "oauthToken", "platform" => "platform", "repository" => "repository", "deployment_artifacts" => "deploymentArtifacts", "stack_name" => "stackName", "branch_name" => "branchName", "environment_name" => "environmentName")
 
 """
     create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,7 +45,7 @@ const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("auto_sub_domain_cre
 - `tags`:  The tag for an Amplify app.
 """
 function create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ end
 - `stack_name`:  The AWS CloudFormation stack name of a backend environment.
 """
 function create_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -100,7 +100,7 @@ end
 - `ttl`:  The content Time To Live (TTL) for the website in seconds.
 """
 function create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -121,7 +121,7 @@ connected to a repository.
   for the zipped files.
 """
 function create_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ domain with the Amplify app
 - `enable_auto_sub_domain`:  Enables the automated creation of subdomains for branches.
 """
 function create_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -161,7 +161,7 @@ end
 - `description`:  The description for a webhook.
 """
 function create_webhook(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -175,7 +175,7 @@ end
 
 """
 function delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -190,7 +190,7 @@ end
 
 """
 function delete_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -205,7 +205,7 @@ end
 
 """
 function delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ end
 
 """
 function delete_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -236,7 +236,7 @@ end
 
 """
 function delete_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -250,7 +250,7 @@ end
 
 """
 function delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -270,7 +270,7 @@ end
   inclusive of the start time.
 """
 function generate_access_logs(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,7 +284,7 @@ end
 
 """
 function get_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -298,7 +298,7 @@ end
 
 """
 function get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/artifacts/$(artifactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -313,7 +313,7 @@ end
 
 """
 function get_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,7 +328,7 @@ end
 
 """
 function get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -343,7 +343,7 @@ end
 
 """
 function get_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ end
 
 """
 function get_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -373,7 +373,7 @@ end
 
 """
 function get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -388,7 +388,7 @@ end
   result. Pass its value in another request to retrieve more entries.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -409,7 +409,7 @@ end
   artifacts.
 """
 function list_artifacts(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ end
   to list more backend environments.
 """
 function list_backend_environments(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/backendenvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -448,7 +448,7 @@ end
   branches.
 """
 function list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/branches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -467,7 +467,7 @@ end
   projects.
 """
 function list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -487,7 +487,7 @@ end
   steps.
 """
 function list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,7 +501,7 @@ end
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -520,7 +520,7 @@ end
   more webhooks.
 """
 function list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("GET", "/apps/$(appId)/webhooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -541,7 +541,7 @@ to a repository.
   accessible and downloads a single .zip file.
 """
 function start_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -567,7 +567,7 @@ end
 - `job_reason`:  A descriptive reason for starting this job.
 """
 function start_job(appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -583,7 +583,7 @@ end
 
 """
 function stop_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -598,7 +598,7 @@ end
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -613,7 +613,7 @@ end
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -654,7 +654,7 @@ end
 - `repository`:  The name of the repository for an Amplify app
 """
 function update_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -690,7 +690,7 @@ end
 - `ttl`:  The content Time to Live (TTL) for the website in seconds.
 """
 function update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -712,7 +712,7 @@ end
 - `enable_auto_sub_domain`:  Enables the automated creation of subdomains for branches.
 """
 function update_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -729,6 +729,6 @@ end
 - `description`:  The description for a webhook.
 """
 function update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return amplify("POST", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

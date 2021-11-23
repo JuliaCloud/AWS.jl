@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("channel_definitions" => "ChannelDefinitions", "output_encryption_kmskey_id" => "OutputEncryptionKMSKeyId", "output_location" => "OutputLocation", "settings" => "Settings", "tags" => "Tags", "phrases" => "Phrases", "vocabulary_file_uri" => "VocabularyFileUri", "vocabulary_filter_file_uri" => "VocabularyFilterFileUri", "words" => "Words", "max_results" => "MaxResults", "next_token" => "NextToken", "job_name_contains" => "JobNameContains", "status" => "Status", "name_contains" => "NameContains", "content_redaction" => "ContentRedaction", "identify_language" => "IdentifyLanguage", "job_execution_settings" => "JobExecutionSettings", "kmsencryption_context" => "KMSEncryptionContext", "language_code" => "LanguageCode", "language_id_settings" => "LanguageIdSettings", "language_options" => "LanguageOptions", "media_format" => "MediaFormat", "media_sample_rate_hertz" => "MediaSampleRateHertz", "model_settings" => "ModelSettings", "output_bucket_name" => "OutputBucketName", "output_key" => "OutputKey", "subtitles" => "Subtitles", "content_identification_type" => "ContentIdentificationType", "state_equals" => "StateEquals", "status_equals" => "StatusEquals")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("channel_definitions" => "ChannelDefinitions", "output_encryption_kmskey_id" => "OutputEncryptionKMSKeyId", "output_location" => "OutputLocation", "settings" => "Settings", "tags" => "Tags", "phrases" => "Phrases", "vocabulary_file_uri" => "VocabularyFileUri", "vocabulary_filter_file_uri" => "VocabularyFilterFileUri", "words" => "Words", "max_results" => "MaxResults", "next_token" => "NextToken", "job_name_contains" => "JobNameContains", "status" => "Status", "name_contains" => "NameContains", "content_redaction" => "ContentRedaction", "identify_language" => "IdentifyLanguage", "job_execution_settings" => "JobExecutionSettings", "kmsencryption_context" => "KMSEncryptionContext", "language_code" => "LanguageCode", "language_id_settings" => "LanguageIdSettings", "language_options" => "LanguageOptions", "media_format" => "MediaFormat", "media_sample_rate_hertz" => "MediaSampleRateHertz", "model_settings" => "ModelSettings", "output_bucket_name" => "OutputBucketName", "output_key" => "OutputKey", "subtitles" => "Subtitles", "content_identification_type" => "ContentIdentificationType", "state_equals" => "StateEquals", "status_equals" => "StatusEquals")
 
 """
     create_call_analytics_category(category_name, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ Transcribe applies the category to the analytics job that you've specified.
 
 """
 function create_call_analytics_category(CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("CreateCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -52,7 +52,7 @@ data.
   model at the time you create this new model.
 """
 function create_language_model(BaseModelName, InputDataConfig, LanguageCode, ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("CreateLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -85,7 +85,7 @@ transcribes your audio file.
   vocabulary at the time you create this new vocabulary.
 """
 function create_medical_vocabulary(LanguageCode, VocabularyFileUri, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("CreateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -113,7 +113,7 @@ handles transcription of an audio file.
   Custom vocabularies.
 """
 function create_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("CreateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -145,7 +145,7 @@ from the output of a transcription job.
   can't use the VocabularyFilterFileUri parameter.
 """
 function create_vocabulary_filter(LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("CreateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -160,7 +160,7 @@ Deletes a call analytics category using its name.
 
 """
 function delete_call_analytics_category(CategoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -174,7 +174,7 @@ Deletes a call analytics job using its name.
 
 """
 function delete_call_analytics_job(CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -188,7 +188,7 @@ Deletes a custom language model using its name.
 
 """
 function delete_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ information.
 
 """
 function delete_medical_transcription_job(MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -218,7 +218,7 @@ Deletes a vocabulary from Amazon Transcribe Medical.
 
 """
 function delete_medical_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ such as the transcription, models, and so on.
 
 """
 function delete_transcription_job(TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -247,7 +247,7 @@ Deletes a vocabulary from Amazon Transcribe.
 
 """
 function delete_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -261,7 +261,7 @@ Removes a vocabulary filter.
 
 """
 function delete_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DeleteVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -280,7 +280,7 @@ understand why Amazon Transcribe couldn't create it.
 
 """
 function describe_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("DescribeLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -295,7 +295,7 @@ Retrieves information about a call analytics category.
 
 """
 function get_call_analytics_category(CategoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -314,7 +314,7 @@ RedactedTranscriptFileUri field.
 
 """
 function get_call_analytics_job(CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -330,7 +330,7 @@ job is finished. You find the results of the completed job in the TranscriptFile
 
 """
 function get_medical_transcription_job(MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -345,7 +345,7 @@ Retrieves information about a medical vocabulary.
 
 """
 function get_medical_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -362,7 +362,7 @@ content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
 
 """
 function get_transcription_job(TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -377,7 +377,7 @@ Gets information about a vocabulary.
 
 """
 function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +392,7 @@ Returns information about a vocabulary filter.
 
 """
 function get_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("GetVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -411,7 +411,7 @@ operation to get more information about it.
   the previous request was truncated.
 """
 function list_call_analytics_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListCallAnalyticsCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -433,7 +433,7 @@ List call analytics jobs with a specified status or substring that matches their
   specify a status, Amazon Transcribe returns all analytics jobs ordered by creation date.
 """
 function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListCallAnalyticsJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -458,7 +458,7 @@ operation to get more information about it.
   date.
 """
 function list_language_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListLanguageModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -482,7 +482,7 @@ names.
   creation date.
 """
 function list_medical_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListMedicalTranscriptionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -506,7 +506,7 @@ value in any of the request parameters, returns the entire list of vocabularies.
   your medical transcription jobs.
 """
 function list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListMedicalVocabularies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -524,7 +524,7 @@ Lists all tags associated with a given transcription job, vocabulary, or resourc
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -546,7 +546,7 @@ Lists transcription jobs with the specified status.
   status, Amazon Transcribe returns all transcription jobs ordered by creation date.
 """
 function list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListTranscriptionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -570,7 +570,7 @@ specified, returns the entire list of vocabularies.
   equal to the specified state.
 """
 function list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListVocabularies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -589,7 +589,7 @@ Gets information about vocabulary filters.
   truncated, include the NextToken to fetch the next set of collections.
 """
 function list_vocabulary_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("ListVocabularyFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -648,7 +648,7 @@ call. For more information, see the operation.
 - `settings`: A Settings object that provides optional settings for a call analytics job.
 """
 function start_call_analytics_job(CallAnalyticsJobName, DataAccessRoleArn, Media; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("StartCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName, "DataAccessRoleArn"=>DataAccessRoleArn, "Media"=>Media), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -722,7 +722,7 @@ Starts a batch job to transcribe medical speech to text.
 - `tags`: Add tags to an Amazon Transcribe medical transcription job.
 """
 function start_medical_transcription_job(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("StartMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -810,7 +810,7 @@ Starts an asynchronous job to transcribe speech to text.
 - `tags`: Add tags to an Amazon Transcribe transcription job.
 """
 function start_transcription_job(Media, TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("StartTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -830,7 +830,7 @@ Tags an Amazon Transcribe resource with the given list of tags.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -851,7 +851,7 @@ Removes specified tags from a specified Amazon Transcribe resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -871,7 +871,7 @@ the request.
 
 """
 function update_call_analytics_category(CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("UpdateCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -900,7 +900,7 @@ the existing information with the values that you provide in the request.
   Medical, see Medical Custom Vocabularies.
 """
 function update_medical_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("UpdateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -926,7 +926,7 @@ all of the existing information with the values that you provide in the request.
   vocabularies, see Custom Vocabularies.
 """
 function update_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("UpdateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -952,6 +952,6 @@ Updates a vocabulary filter with a new list of filtered words.
   can't use the VocabularyFilterFileUri parameter.
 """
 function update_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return transcribe("UpdateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

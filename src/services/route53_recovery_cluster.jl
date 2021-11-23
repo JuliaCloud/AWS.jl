@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict{String, String, Vector{String}, Vector{String}}()
+const SERVICE_PARAMETER_MAP = AWS.LittleDict{String, String, Vector{String}, Vector{String}}()
 
 """
     get_routing_control_state(routing_control_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,7 +24,7 @@ For more information about working with routing controls, see Routing control in
 
 """
 function get_routing_control_state(RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53_recovery_cluster("GetRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -44,7 +44,7 @@ For more information about working with routing controls, see Routing control in
 
 """
 function update_routing_control_state(RoutingControlArn, RoutingControlState; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53_recovery_cluster("UpdateRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlState"=>RoutingControlState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -62,6 +62,6 @@ Application Recovery Controller Developer Guide.
 
 """
 function update_routing_control_states(UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return route53_recovery_cluster("UpdateRoutingControlStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRoutingControlStateEntries"=>UpdateRoutingControlStateEntries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("cidr_allow_list" => "cidrAllowList", "description" => "description", "destination" => "destination", "encryption" => "encryption", "max_latency" => "maxLatency", "media_stream_output_configurations" => "mediaStreamOutputConfigurations", "min_latency" => "minLatency", "port" => "port", "protocol" => "protocol", "remote_id" => "remoteId", "smoothing_latency" => "smoothingLatency", "stream_id" => "streamId", "vpc_interface_attachment" => "vpcInterfaceAttachment", "max_results" => "maxResults", "next_token" => "nextToken", "entitlement_status" => "entitlementStatus", "subscribers" => "subscribers", "source_failover_config" => "sourceFailoverConfig", "decryption" => "decryption", "entitlement_arn" => "entitlementArn", "ingest_port" => "ingestPort", "max_bitrate" => "maxBitrate", "max_sync_buffer" => "maxSyncBuffer", "media_stream_source_configurations" => "mediaStreamSourceConfigurations", "vpc_interface_name" => "vpcInterfaceName", "whitelist_cidr" => "whitelistCidr", "attributes" => "attributes", "clock_rate" => "clockRate", "media_stream_type" => "mediaStreamType", "video_format" => "videoFormat", "availability_zone" => "availabilityZone", "entitlements" => "entitlements", "media_streams" => "mediaStreams", "outputs" => "outputs", "source" => "source", "sources" => "sources", "vpc_interfaces" => "vpcInterfaces")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("cidr_allow_list" => "cidrAllowList", "description" => "description", "destination" => "destination", "encryption" => "encryption", "max_latency" => "maxLatency", "media_stream_output_configurations" => "mediaStreamOutputConfigurations", "min_latency" => "minLatency", "port" => "port", "protocol" => "protocol", "remote_id" => "remoteId", "smoothing_latency" => "smoothingLatency", "stream_id" => "streamId", "vpc_interface_attachment" => "vpcInterfaceAttachment", "max_results" => "maxResults", "next_token" => "nextToken", "entitlement_status" => "entitlementStatus", "subscribers" => "subscribers", "source_failover_config" => "sourceFailoverConfig", "decryption" => "decryption", "entitlement_arn" => "entitlementArn", "ingest_port" => "ingestPort", "max_bitrate" => "maxBitrate", "max_sync_buffer" => "maxSyncBuffer", "media_stream_source_configurations" => "mediaStreamSourceConfigurations", "vpc_interface_name" => "vpcInterfaceName", "whitelist_cidr" => "whitelistCidr", "attributes" => "attributes", "clock_rate" => "clockRate", "media_stream_type" => "mediaStreamType", "video_format" => "videoFormat", "availability_zone" => "availabilityZone", "entitlements" => "entitlements", "media_streams" => "mediaStreams", "outputs" => "outputs", "source" => "source", "sources" => "sources", "vpc_interfaces" => "vpcInterfaces")
 
 """
     add_flow_media_streams(flow_arn, media_streams; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI
 
 """
 function add_flow_media_streams(flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mediaStreams"=>mediaStreams), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -34,7 +34,7 @@ Adds outputs to an existing flow. You can create up to 50 outputs per flow.
 
 """
 function add_flow_outputs(flowArn, outputs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/$(flowArn)/outputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputs"=>outputs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -49,7 +49,7 @@ Adds Sources to flow
 
 """
 function add_flow_sources(flowArn, sources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/$(flowArn)/source", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -64,7 +64,7 @@ Adds VPC interfaces to flow
 
 """
 function add_flow_vpc_interfaces(flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcInterfaces"=>vpcInterfaces), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ outputs (up to 50) and entitlements (up to 50).
 - `vpc_interfaces`: The VPC interfaces you want on the flow.
 """
 function create_flow(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -104,7 +104,7 @@ Deletes a flow. Before you can delete a flow, you must stop the flow.
 
 """
 function delete_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -119,7 +119,7 @@ Zone, as well as details about the source, outputs, and entitlements.
 
 """
 function describe_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
 
 """
 function describe_offering(offeringArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/offerings/$(offeringArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -150,7 +150,7 @@ reservation (such as price, duration, and outbound bandwidth).
 
 """
 function describe_reservation(reservationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/reservations/$(reservationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -165,7 +165,7 @@ Grants entitlements to an existing flow.
 
 """
 function grant_flow_entitlements(entitlements, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entitlements"=>entitlements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -189,7 +189,7 @@ returns 20 results per page.
   NextToken value.
 """
 function list_entitlements(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -212,7 +212,7 @@ paginated result.
   you can submit the ListFlows request a second time and specify the NextToken value.
 """
 function list_flows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/flows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ offerings.
   value.
 """
 function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -262,7 +262,7 @@ AWS Region. This list includes all reservations in all states (such as active an
   NextToken value.
 """
 function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -277,7 +277,7 @@ List all tags on an AWS Elemental MediaConnect resource
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -298,7 +298,7 @@ can't purchase another offering.
 
 """
 function purchase_offering(offeringArn, reservationName, start; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/offerings/$(offeringArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservationName"=>reservationName, "start"=>start), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -314,7 +314,7 @@ not associated with a source or output.
 
 """
 function remove_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -332,7 +332,7 @@ automatically removes the associated output.
 
 """
 function remove_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -348,7 +348,7 @@ one source on the flow.
 
 """
 function remove_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -366,7 +366,7 @@ no longer reference the VPC interface.
 
 """
 function remove_flow_vpc_interface(flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -382,7 +382,7 @@ unavailable to the subscriber and the associated output is removed.
 
 """
 function revoke_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -396,7 +396,7 @@ Starts a flow.
 
 """
 function start_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/start/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -410,7 +410,7 @@ Stops a flow.
 
 """
 function stop_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/v1/flows/stop/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -429,7 +429,7 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -445,7 +445,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ Updates flow
 - `source_failover_config`:
 """
 function update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("PUT", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -490,7 +490,7 @@ are removed.
   content as the source.
 """
 function update_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -513,7 +513,7 @@ Updates an existing media stream.
 - `video_format`: The resolution of the video.
 """
 function update_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -554,7 +554,7 @@ Updates an existing flow output.
   output.
 """
 function update_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,6 +596,6 @@ Updates the source of a flow.
   Routing (CIDR) block; for example, 10.0.0.0/16.
 """
 function update_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

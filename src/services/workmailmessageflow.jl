@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict{String, String, Vector{String}, Vector{String}}()
+const SERVICE_PARAMETER_MAP = AWS.LittleDict{String, String, Vector{String}, Vector{String}}()
 
 """
     get_raw_message_content(message_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -17,7 +17,7 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 
 """
 function get_raw_message_content(messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return workmailmessageflow("GET", "/messages/$(messageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -38,6 +38,6 @@ returns an updated message.
 
 """
 function put_raw_message_content(content, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return workmailmessageflow("POST", "/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

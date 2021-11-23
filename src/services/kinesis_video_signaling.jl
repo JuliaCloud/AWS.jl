@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_id" => "ClientId", "service" => "Service", "username" => "Username")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("client_id" => "ClientId", "service" => "Service", "username" => "Username")
 
 """
     get_ice_server_config(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -33,7 +33,7 @@ either a signaling channel ARN or the client ID in order to invoke this API.
 - `username`: An optional user ID to be associated with the credentials.
 """
 function get_ice_server_config(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -54,6 +54,6 @@ connected to the signaling channel, redelivery requests are made until the messa
 
 """
 function send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

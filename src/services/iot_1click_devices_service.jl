@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("device_type" => "deviceType", "max_results" => "maxResults", "next_token" => "nextToken", "device_method" => "deviceMethod", "device_method_parameters" => "deviceMethodParameters", "tags" => "tags", "enabled" => "enabled")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("device_type" => "deviceType", "max_results" => "maxResults", "next_token" => "nextToken", "device_method" => "deviceMethod", "device_method_parameters" => "deviceMethodParameters", "tags" => "tags", "enabled" => "enabled")
 
 """
     claim_devices_by_claim_code(claim_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ received a claim code with the device(s).
 
 """
 function claim_devices_by_claim_code(claimCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("PUT", "/claims/$(claimCode)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -35,7 +35,7 @@ device.
 
 """
 function describe_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("GET", "/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ device.
   Tagging Strategies.
 """
 function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -73,7 +73,7 @@ Given a device ID, returns the invokable methods associated with the device.
 
 """
 function get_device_methods(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ device.
 
 """
 function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -112,7 +112,7 @@ parameters). See the \"Example POST\" code snippet below.
   parameters.
 """
 function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -139,7 +139,7 @@ the device.
 - `next_token`: The token to retrieve the next set of results.
 """
 function list_device_events(deviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -156,7 +156,7 @@ Lists the 1-Click compatible devices associated with your AWS account.
 - `next_token`: The token to retrieve the next set of results.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -170,7 +170,7 @@ Lists the tags associated with the specified resource ARN.
 
 """
 function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("GET", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -189,7 +189,7 @@ Limits for the maximum number of tags allowed per
 
 """
 function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -203,7 +203,7 @@ Disassociates a device from your AWS account using its device ID.
 
 """
 function unclaim_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -220,7 +220,7 @@ ARN.
 
 """
 function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -239,6 +239,6 @@ a device ID.
  disabled.
 """
 function update_device_state(deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

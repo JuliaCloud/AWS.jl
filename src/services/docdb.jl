@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "source_type" => "SourceType", "availability_zones" => "AvailabilityZone", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "kms_key_id" => "KmsKeyId", "port" => "Port", "tags" => "Tag", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "database_name" => "DatabaseName", "source_dbcluster_identifier" => "SourceDBClusterIdentifier", "storage_encrypted" => "StorageEncrypted", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "new_global_cluster_identifier" => "NewGlobalClusterIdentifier", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "global_cluster_identifier" => "GlobalClusterIdentifier", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "promotion_tier" => "PromotionTier", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "certificate_identifier" => "CertificateIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "source_type" => "SourceType", "availability_zones" => "AvailabilityZone", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "kms_key_id" => "KmsKeyId", "port" => "Port", "tags" => "Tag", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "database_name" => "DatabaseName", "source_dbcluster_identifier" => "SourceDBClusterIdentifier", "storage_encrypted" => "StorageEncrypted", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "new_global_cluster_identifier" => "NewGlobalClusterIdentifier", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "global_cluster_identifier" => "GlobalClusterIdentifier", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "promotion_tier" => "PromotionTier", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "certificate_identifier" => "CertificateIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
 
 """
     add_source_identifier_to_subscription(source_identifier, subscription_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ Adds a source identifier to an existing event notification subscription.
 
 """
 function add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -42,7 +42,7 @@ DocumentDB.
 
 """
 function add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -65,7 +65,7 @@ instance).
 
 """
 function apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,7 +93,7 @@ Copies the specified cluster parameter group.
 - `tags`: The tags that are to be assigned to the parameter group.
 """
 function copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -155,7 +155,7 @@ cluster snapshot is in the copying status.
 - `tags`: The tags to be assigned to the cluster snapshot.
 """
 function copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -226,7 +226,7 @@ Creates a new Amazon DocumentDB cluster.
   cluster.
 """
 function create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -255,7 +255,7 @@ information, see  Modifying Amazon DocumentDB Cluster Parameter Groups.
 - `tags`: The tags to be assigned to the cluster parameter group.
 """
 function create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -277,7 +277,7 @@ Creates a snapshot of a cluster.
 - `tags`: The tags to be assigned to the cluster snapshot.
 """
 function create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -316,7 +316,7 @@ Creates a new instance.
   instance.
 """
 function create_dbinstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -337,7 +337,7 @@ Availability Zones in the Region.
 - `tags`: The tags to be assigned to the subnet group.
 """
 function create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ all Amazon DocumentDB sources belonging to your customer account.
 - `tags`: The tags to be assigned to the event subscription.
 """
 function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -419,7 +419,7 @@ action only applies to Amazon DocumentDB clusters.
 - `storage_encrypted`: The storage encryption setting for the new global cluster.
 """
 function create_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("CreateGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +447,7 @@ specified cluster are not deleted.
   Default: false
 """
 function delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -464,7 +464,7 @@ can't be associated with any clusters.
 
 """
 function delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -480,7 +480,7 @@ terminated.  The cluster snapshot must be in the available state to be deleted.
 
 """
 function delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -496,7 +496,7 @@ Deletes a previously provisioned instance.
 
 """
 function delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -513,7 +513,7 @@ any DB instances.
 
 """
 function delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -528,7 +528,7 @@ Deletes an Amazon DocumentDB event notification subscription.
 
 """
 function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -544,7 +544,7 @@ DocumentDB clusters.
 
 """
 function delete_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DeleteGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -569,7 +569,7 @@ this account.
   Minimum: 20   Maximum: 100
 """
 function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -594,7 +594,7 @@ parameter group.
   20, maximum 100.
 """
 function describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBClusterParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -621,7 +621,7 @@ Returns the detailed parameter list for a particular cluster parameter group.
   Parameter sources can be engine, service, or customer.
 """
 function describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -641,7 +641,7 @@ restored by all accounts.
 
 """
 function describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -687,7 +687,7 @@ Returns information about cluster snapshots. This API operation supports paginat
   The IncludeShared parameter doesn't apply when SnapshotType is set to public.
 """
 function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBClusterSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -716,7 +716,7 @@ only Amazon DocumentDB clusters.
   20, maximum 100.
 """
 function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -748,7 +748,7 @@ Returns a list of the available engines.
   20, maximum 100.
 """
 function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -778,7 +778,7 @@ pagination.
   20, maximum 100.
 """
 function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -800,7 +800,7 @@ will contain only the descriptions of the specified DBSubnetGroup.
   20, maximum 100.
 """
 function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeDBSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -824,7 +824,7 @@ Returns the default engine and system parameter information for the cluster data
   20, maximum 100.
 """
 function describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -840,7 +840,7 @@ source type.
   db-instance, db-parameter-group, db-security-group
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -865,7 +865,7 @@ subscription.
   that you want to describe.
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -905,7 +905,7 @@ events of the past hour are returned.
   ISO 8601 format.  Example: 2009-07-08T18:00Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -931,7 +931,7 @@ This action only applies to Amazon DocumentDB clusters.
   in the response so that you can retrieve the remaining results.
 """
 function describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeGlobalClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -962,7 +962,7 @@ Returns a list of orderable instance options for the specified engine.
   the available VPC or non-VPC offerings.
 """
 function describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -989,7 +989,7 @@ maintenance action.
 - `resource_identifier`: The ARN of a resource to return pending maintenance actions for.
 """
 function describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1010,7 +1010,7 @@ simulate a failure of a primary instance for testing.
   cluster. For example, mydbcluster-replica1.
 """
 function failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1027,7 +1027,7 @@ Lists all tags on an Amazon DocumentDB resource.
 - `filters`: This parameter is not currently supported.
 """
 function list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1091,7 +1091,7 @@ configuration parameters by specifying these parameters and the new values in th
   cluster will belong to.
 """
 function modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1116,7 +1116,7 @@ character_set_database parameter.
 
 """
 function modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1155,7 +1155,7 @@ ValuesToAdd parameter. You can't use all as a value for that parameter in this c
   attribute can still copy or restore a manual cluster snapshot.
 """
 function modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1205,7 +1205,7 @@ parameters by specifying these parameters and the new values in the request.
   Default: 1 Valid values: 0-15
 """
 function modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1225,7 +1225,7 @@ least two Availability Zones in the Region.
 - `dbsubnet_group_description`: The description for the subnet group.
 """
 function modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1249,7 +1249,7 @@ Modifies an existing Amazon DocumentDB event notification subscription.
   db-parameter-group, db-security-group
 """
 function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1275,7 +1275,7 @@ only applies to Amazon DocumentDB clusters.
   or contain two consecutive hyphens   Example: my-cluster2
 """
 function modify_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ModifyGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1297,7 +1297,7 @@ momentary outage, during which the instance status is set to rebooting.
   Constraint: You can't specify true if the instance is not configured for Multi-AZ.
 """
 function reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1317,7 +1317,7 @@ clusters.
 
 """
 function remove_from_global_cluster(DbClusterIdentifier, GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RemoveFromGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbClusterIdentifier"=>DbClusterIdentifier, "GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1335,7 +1335,7 @@ subscription.
 
 """
 function remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1351,7 +1351,7 @@ Removes metadata tags from an Amazon DocumentDB resource.
 
 """
 function remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1377,7 +1377,7 @@ next DB instance reboot.
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
 function reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1432,7 +1432,7 @@ cluster, except that the new cluster is created with the default security group.
   new cluster will belong to.
 """
 function restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1487,7 +1487,7 @@ that the new cluster is created with the default security group.
 - `vpc_security_group_ids`: A list of VPC security groups that the new cluster belongs to.
 """
 function restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1503,7 +1503,7 @@ information, see Stopping and Starting an Amazon DocumentDB Cluster.
 
 """
 function start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1520,6 +1520,6 @@ Cluster.
 
 """
 function stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

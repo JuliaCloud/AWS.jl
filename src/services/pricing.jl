@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "format_version" => "FormatVersion", "max_results" => "MaxResults", "next_token" => "NextToken", "service_code" => "ServiceCode")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "format_version" => "FormatVersion", "max_results" => "MaxResults", "next_token" => "NextToken", "service_code" => "ServiceCode")
 
 """
     describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,7 +27,7 @@ EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity
   retrieve a list of all services, leave this blank.
 """
 function describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pricing("DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -50,7 +50,7 @@ Amazon Web Services Billing and Cost Management User Guide.
   to retrieve.
 """
 function get_attribute_values(AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -70,6 +70,6 @@ Returns a list of all products that match the filter criteria.
 - `service_code`: The code for the service whose products you want to retrieve.
 """
 function get_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return pricing("GetProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

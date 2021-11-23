@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("listener_arns" => "ListenerArns", "load_balancer_arn" => "LoadBalancerArn", "marker" => "Marker", "page_size" => "PageSize", "load_balancer_type" => "LoadBalancerType", "names" => "Names", "targets" => "Targets", "alpn_policy" => "AlpnPolicy", "certificates" => "Certificates", "default_actions" => "DefaultActions", "port" => "Port", "protocol" => "Protocol", "ssl_policy" => "SslPolicy", "load_balancer_arns" => "LoadBalancerArns", "ip_address_type" => "IpAddressType", "subnet_mappings" => "SubnetMappings", "subnets" => "Subnets", "tags" => "Tags", "health_check_enabled" => "HealthCheckEnabled", "health_check_interval_seconds" => "HealthCheckIntervalSeconds", "health_check_path" => "HealthCheckPath", "health_check_port" => "HealthCheckPort", "health_check_protocol" => "HealthCheckProtocol", "health_check_timeout_seconds" => "HealthCheckTimeoutSeconds", "healthy_threshold_count" => "HealthyThresholdCount", "matcher" => "Matcher", "protocol_version" => "ProtocolVersion", "target_type" => "TargetType", "unhealthy_threshold_count" => "UnhealthyThresholdCount", "vpc_id" => "VpcId", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool", "scheme" => "Scheme", "security_groups" => "SecurityGroups", "type" => "Type", "target_group_arns" => "TargetGroupArns", "listener_arn" => "ListenerArn", "rule_arns" => "RuleArns", "actions" => "Actions", "conditions" => "Conditions")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("listener_arns" => "ListenerArns", "load_balancer_arn" => "LoadBalancerArn", "marker" => "Marker", "page_size" => "PageSize", "load_balancer_type" => "LoadBalancerType", "names" => "Names", "targets" => "Targets", "alpn_policy" => "AlpnPolicy", "certificates" => "Certificates", "default_actions" => "DefaultActions", "port" => "Port", "protocol" => "Protocol", "ssl_policy" => "SslPolicy", "load_balancer_arns" => "LoadBalancerArns", "ip_address_type" => "IpAddressType", "subnet_mappings" => "SubnetMappings", "subnets" => "Subnets", "tags" => "Tags", "health_check_enabled" => "HealthCheckEnabled", "health_check_interval_seconds" => "HealthCheckIntervalSeconds", "health_check_path" => "HealthCheckPath", "health_check_port" => "HealthCheckPort", "health_check_protocol" => "HealthCheckProtocol", "health_check_timeout_seconds" => "HealthCheckTimeoutSeconds", "healthy_threshold_count" => "HealthyThresholdCount", "matcher" => "Matcher", "protocol_version" => "ProtocolVersion", "target_type" => "TargetType", "unhealthy_threshold_count" => "UnhealthyThresholdCount", "vpc_id" => "VpcId", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool", "scheme" => "Scheme", "security_groups" => "SecurityGroups", "type" => "Type", "target_group_arns" => "TargetGroupArns", "listener_arn" => "ListenerArn", "rule_arns" => "RuleArns", "actions" => "Actions", "conditions" => "Conditions")
 
 """
     add_listener_certificates(certificates, listener_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,7 +23,7 @@ Balancers Guide.
 
 """
 function add_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ already has a tag with the same key, AddTags updates its value.
 
 """
 function add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ call succeeds.
 - `tags`: The tags to assign to the listener.
 """
 function create_listener(DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ settings, each call succeeds.
   customer-owned address pool (CoIP pool).
 - `ip_address_type`: The type of IP addresses used by the subnets for your load balancer.
   The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6
-  addresses). Internal load balancers must use ipv4.
+  addresses).
 - `scheme`: The nodes of an Internet-facing load balancer have public IP addresses. The DNS
   name of an Internet-facing load balancer is publicly resolvable to the public IP addresses
   of the nodes. Therefore, Internet-facing load balancers can route requests from clients
@@ -137,7 +137,7 @@ settings, each call succeeds.
 - `type`: The type of load balancer. The default is application.
 """
 function create_load_balancer(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -162,7 +162,7 @@ information, see Listener rules in the Application Load Balancers Guide.
 - `tags`: The tags to assign to the rule.
 """
 function create_rule(Actions, Conditions, ListenerArn, Priority; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,7 +245,7 @@ settings, each call succeeds.
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
 function create_target_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -260,7 +260,7 @@ load balancer to which it is attached.
 
 """
 function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -280,7 +280,7 @@ or terminate them.
 
 """
 function delete_load_balancer(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -294,7 +294,7 @@ Deletes the specified rule. You can't delete the default rule.
 
 """
 function delete_rule(RuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ continue to run until you stop or terminate them.
 
 """
 function delete_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,7 +328,7 @@ deregistered, they no longer receive traffic from the load balancer.
 
 """
 function deregister_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -346,7 +346,7 @@ Balancers
 - `page_size`: The maximum number of results to return with this call.
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeAccountLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -368,7 +368,7 @@ certificates in the Network Load Balancers Guide.
 - `page_size`: The maximum number of results to return with this call.
 """
 function describe_listener_certificates(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -387,7 +387,7 @@ balancer or one or more listeners.
 - `page_size`: The maximum number of results to return with this call.
 """
 function describe_listeners(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeListeners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -405,7 +405,7 @@ Guide
 
 """
 function describe_load_balancer_attributes(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -423,7 +423,7 @@ Describes the specified load balancers or all of your load balancers.
 - `page_size`: The maximum number of results to return with this call.
 """
 function describe_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -441,7 +441,7 @@ either a listener or one or more rules.
 - `rule_arns`: The Amazon Resource Names (ARN) of the rules.
 """
 function describe_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -461,7 +461,7 @@ policies in the Network Load Balancers Guide.
 - `page_size`: The maximum number of results to return with this call.
 """
 function describe_sslpolicies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeSSLPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -478,7 +478,7 @@ Balancers, target groups, listeners, or rules.
 
 """
 function describe_tags(ResourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -495,7 +495,7 @@ Gateway Load Balancers Guide
 
 """
 function describe_target_group_attributes(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -516,7 +516,7 @@ of one or more target groups.
 - `target_group_arns`: The Amazon Resource Names (ARN) of the target groups.
 """
 function describe_target_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeTargetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -532,7 +532,7 @@ Describes the health of the specified targets or all of your targets.
 - `targets`: The targets.
 """
 function describe_target_health(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -570,7 +570,7 @@ list with the current actions plus the new action.
   Load Balancers Guide or Security policies in the Network Load Balancers Guide.
 """
 function modify_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +588,7 @@ current values.
 
 """
 function modify_load_balancer_attributes(Attributes, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -608,7 +608,7 @@ list with the current actions plus the new action.
 - `conditions`: The conditions.
 """
 function modify_rule(RuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("ModifyRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -652,7 +652,7 @@ specified target group.
   this value must be the same as the healthy threshold count.
 """
 function modify_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -667,7 +667,7 @@ Modifies the specified attributes of the specified target group.
 
 """
 function modify_target_group_attributes(Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -689,7 +689,7 @@ HS1, M1, M2, M3, and T1. You can register instances of these types by IP address
 
 """
 function register_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -706,7 +706,7 @@ listener.
 
 """
 function remove_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -723,7 +723,7 @@ Load Balancers, target groups, listeners, or rules.
 
 """
 function remove_tags(ResourceArns, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -735,13 +735,13 @@ Balancer or Network Load Balancer.
 
 # Arguments
 - `ip_address_type`: The IP address type. The possible values are ipv4 (for IPv4 addresses)
-  and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. You
-  can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+  and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load
+  balancer with a UDP or TCP_UDP listener.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
 function set_ip_address_type(IpAddressType, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ their current priority.
 
 """
 function set_rule_priorities(RulePriorities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RulePriorities"=>RulePriorities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -774,7 +774,7 @@ specify a security group for a Network Load Balancer or Gateway Load Balancer.
 
 """
 function set_security_groups(LoadBalancerArn, SecurityGroups; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -794,7 +794,7 @@ any additional subnets.
 - `ip_address_type`: [Network Load Balancers] The type of IP addresses used by the subnets
   for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack
   (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP
-  or TCP_UDP listener. Internal load balancers must use ipv4.
+  or TCP_UDP listener. .
 - `subnet_mappings`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. You cannot
@@ -813,6 +813,6 @@ any additional subnets.
   You can specify subnets from one or more Availability Zones.
 """
 function set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

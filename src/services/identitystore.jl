@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     describe_group(group_id, identity_store_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ Retrieves the group metadata and attributes from GroupId in an identity store.
 
 """
 function describe_group(GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return identitystore("DescribeGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -39,7 +39,7 @@ Retrieves the user metadata and attributes from UserId in an identity store.
 
 """
 function describe_user(IdentityStoreId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return identitystore("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId, "UserId"=>UserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -69,7 +69,7 @@ response.
   it is used in the API request to search for the next page.
 """
 function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return identitystore("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -98,6 +98,6 @@ API returns minimum attributes, including UserId and UserName in the response.
   it is used in the API request to search for the next page.
 """
 function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return identitystore("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

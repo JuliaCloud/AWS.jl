@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "group_id" => "groupId", "user_id" => "userId", "user_type" => "userType", "client_token" => "clientToken", "organization_role_name" => "organizationRoleName", "stack_set_name" => "stackSetName", "workspace_data_sources" => "workspaceDataSources", "workspace_description" => "workspaceDescription", "workspace_name" => "workspaceName", "workspace_notification_destinations" => "workspaceNotificationDestinations", "workspace_organizational_units" => "workspaceOrganizationalUnits", "workspace_role_arn" => "workspaceRoleArn", "saml_configuration" => "samlConfiguration", "account_access_type" => "accountAccessType", "permission_type" => "permissionType")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "group_id" => "groupId", "user_id" => "userId", "user_type" => "userType", "client_token" => "clientToken", "organization_role_name" => "organizationRoleName", "stack_set_name" => "stackSetName", "workspace_data_sources" => "workspaceDataSources", "workspace_description" => "workspaceDescription", "workspace_name" => "workspaceName", "workspace_notification_destinations" => "workspaceNotificationDestinations", "workspace_organizational_units" => "workspaceOrganizationalUnits", "workspace_role_arn" => "workspaceRoleArn", "saml_configuration" => "samlConfiguration", "account_access_type" => "accountAccessType", "permission_type" => "permissionType")
 
 """
     associate_license(license_type, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ additional fees. For more information, see Upgrade a workspace to Grafana Enterp
 
 """
 function associate_license(licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("POST", "/workspaces/$(workspaceId)/licenses/$(licenseType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -82,7 +82,7 @@ workspace. Instead, use UpdateWorkspace.
   a new IAM role with the necessary permissions is automatically created.
 """
 function create_workspace(accountAccessType, authenticationProviders, permissionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountAccessType"=>accountAccessType, "authenticationProviders"=>authenticationProviders, "permissionType"=>permissionType, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -96,7 +96,7 @@ Deletes an Amazon Managed Grafana workspace.
 
 """
 function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("DELETE", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -110,7 +110,7 @@ Displays information about one Amazon Managed Grafana workspace.
 
 """
 function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -125,7 +125,7 @@ workspace.
 
 """
 function describe_workspace_authentication(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("GET", "/workspaces/$(workspaceId)/authentication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -140,7 +140,7 @@ Removes the Grafana Enterprise license from a workspace.
 
 """
 function disassociate_license(licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("DELETE", "/workspaces/$(workspaceId)/licenses/$(licenseType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -168,7 +168,7 @@ groupId.
   Web Services SSO groups are returned.
 """
 function list_permissions(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("GET", "/workspaces/$(workspaceId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -185,7 +185,7 @@ DescribeWorkspace.
   from a previous ListWorkspaces operation.)
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ Updates which users in a workspace have the Grafana Admin or Editor roles.
 
 """
 function update_permissions(updateInstructionBatch, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("PATCH", "/workspaces/$(workspaceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("updateInstructionBatch"=>updateInstructionBatch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -260,7 +260,7 @@ have the Admin and Editor Grafana roles, use UpdatePermissions.
   a new IAM role with the necessary permissions is automatically created.
 """
 function update_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("PUT", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -284,6 +284,6 @@ Editor roles in the workspace.
   attribute are to have the Admin and Editor roles in the workspace.
 """
 function update_workspace_authentication(authenticationProviders, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return grafana("POST", "/workspaces/$(workspaceId)/authentication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authenticationProviders"=>authenticationProviders), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

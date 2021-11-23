@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("acceleration_settings" => "accelerationSettings", "category" => "category", "description" => "description", "hop_destinations" => "hopDestinations", "priority" => "priority", "queue" => "queue", "status_update_interval" => "statusUpdateInterval", "tags" => "tags", "pricing_plan" => "pricingPlan", "reservation_plan_settings" => "reservationPlanSettings", "status" => "status", "list_by" => "listBy", "max_results" => "maxResults", "next_token" => "nextToken", "order" => "order", "billing_tags_source" => "billingTagsSource", "client_request_token" => "clientRequestToken", "job_template" => "jobTemplate", "simulate_reserved_queue" => "simulateReservedQueue", "user_metadata" => "userMetadata", "tag_keys" => "tagKeys", "settings" => "settings", "mode" => "mode")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("acceleration_settings" => "accelerationSettings", "category" => "category", "description" => "description", "hop_destinations" => "hopDestinations", "priority" => "priority", "queue" => "queue", "status_update_interval" => "statusUpdateInterval", "tags" => "tags", "pricing_plan" => "pricingPlan", "reservation_plan_settings" => "reservationPlanSettings", "status" => "status", "list_by" => "listBy", "max_results" => "maxResults", "next_token" => "nextToken", "order" => "order", "billing_tags_source" => "billingTagsSource", "client_request_token" => "clientRequestToken", "job_template" => "jobTemplate", "simulate_reserved_queue" => "simulateReservedQueue", "user_metadata" => "userMetadata", "tag_keys" => "tagKeys", "settings" => "settings", "mode" => "mode")
 
 """
     associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,7 +19,7 @@ MediaConvert.
 
 """
 function associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -33,7 +33,7 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 
 """
 function cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -90,7 +90,7 @@ Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   use standard AWS tags.
 """
 function create_job(role, settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -129,7 +129,7 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   key-value pair or with only a key.
 """
 function create_job_template(name, settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -150,7 +150,7 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   key-value pair or with only a key.
 """
 function create_preset(name, settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -179,7 +179,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
   key-value pair or with only a key.
 """
 function create_queue(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -193,7 +193,7 @@ Permanently delete a job template you have created.
 
 """
 function delete_job_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -204,7 +204,7 @@ Permanently delete a policy that you created.
 
 """
 function delete_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -218,7 +218,7 @@ Permanently delete a preset you have created.
 
 """
 function delete_preset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -232,7 +232,7 @@ Permanently delete a queue you have created.
 
 """
 function delete_queue(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ endpoint.
   request the next batch of endpoints.
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 
 """
 function disassociate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -283,7 +283,7 @@ Retrieve the JSON for a specific completed transcoding job.
 
 """
 function get_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -297,7 +297,7 @@ Retrieve the JSON for a specific job template.
 
 """
 function get_job_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +308,7 @@ Retrieve the JSON for your policy.
 
 """
 function get_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -322,7 +322,7 @@ Retrieve the JSON for a specific preset.
 
 """
 function get_preset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -336,7 +336,7 @@ Retrieve the JSON for a specific queue.
 
 """
 function get_queue(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -361,7 +361,7 @@ nextToken string returned with the array
   sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -384,7 +384,7 @@ string returned with the array.
   ERROR.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -409,7 +409,7 @@ string returned with the array.
   sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_presets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -432,7 +432,7 @@ string returned with the array.
   sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_queues(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -447,7 +447,7 @@ Retrieve the tags for a MediaConvert resource.
 
 """
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("GET", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -464,7 +464,7 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 """
 function put_policy(policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("PUT", "/2017-08-29/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -483,7 +483,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 
 """
 function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -502,7 +502,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
 """
 function untag_resource(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("PUT", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -534,7 +534,7 @@ Modify one of your existing job templates.
   your job to the time it completes the transcode or encounters an error.
 """
 function update_job_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -552,7 +552,7 @@ Modify one of your existing presets.
 - `settings`: Settings for preset
 """
 function update_preset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("PUT", "/2017-08-29/presets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,6 +576,6 @@ Modify one of your existing queues.
   queue continue to run until they finish or result in an error.
 """
 function update_queue(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return mediaconvert("PUT", "/2017-08-29/queues/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

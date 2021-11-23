@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("configuration_set_name" => "ConfigurationSetName", "dkim_signing_attributes" => "DkimSigningAttributes", "tags" => "Tags", "suppressed_reasons" => "SuppressedReasons", "filter" => "Filter", "next_token" => "NextToken", "page_size" => "PageSize", "delivery_options" => "DeliveryOptions", "reputation_options" => "ReputationOptions", "sending_options" => "SendingOptions", "suppression_options" => "SuppressionOptions", "tracking_options" => "TrackingOptions", "sending_enabled" => "SendingEnabled", "attributes_data" => "AttributesData", "topic_preferences" => "TopicPreferences", "unsubscribe_all" => "UnsubscribeAll", "subscribed_domains" => "SubscribedDomains", "report_name" => "ReportName", "sending_pool_name" => "SendingPoolName", "tls_policy" => "TlsPolicy", "reputation_metrics_enabled" => "ReputationMetricsEnabled", "description" => "Description", "topics" => "Topics", "end_date" => "EndDate", "reasons" => "Reason", "start_date" => "StartDate", "additional_contact_email_addresses" => "AdditionalContactEmailAddresses", "contact_language" => "ContactLanguage", "production_access_enabled" => "ProductionAccessEnabled", "auto_warmup_enabled" => "AutoWarmupEnabled", "pool_name" => "PoolName", "default_email_tags" => "DefaultEmailTags", "feedback_forwarding_email_address" => "FeedbackForwardingEmailAddress", "feedback_forwarding_email_address_identity_arn" => "FeedbackForwardingEmailAddressIdentityArn", "from_email_address" => "FromEmailAddress", "from_email_address_identity_arn" => "FromEmailAddressIdentityArn", "reply_to_addresses" => "ReplyToAddresses", "behavior_on_mx_failure" => "BehaviorOnMxFailure", "mail_from_domain" => "MailFromDomain", "custom_redirect_domain" => "CustomRedirectDomain", "signing_enabled" => "SigningEnabled", "destination" => "Destination", "email_tags" => "EmailTags", "list_management_options" => "ListManagementOptions", "email_forwarding_enabled" => "EmailForwardingEnabled", "signing_attributes" => "SigningAttributes", "import_destination_type" => "ImportDestinationType")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("configuration_set_name" => "ConfigurationSetName", "dkim_signing_attributes" => "DkimSigningAttributes", "tags" => "Tags", "suppressed_reasons" => "SuppressedReasons", "filter" => "Filter", "next_token" => "NextToken", "page_size" => "PageSize", "delivery_options" => "DeliveryOptions", "reputation_options" => "ReputationOptions", "sending_options" => "SendingOptions", "suppression_options" => "SuppressionOptions", "tracking_options" => "TrackingOptions", "sending_enabled" => "SendingEnabled", "attributes_data" => "AttributesData", "topic_preferences" => "TopicPreferences", "unsubscribe_all" => "UnsubscribeAll", "subscribed_domains" => "SubscribedDomains", "report_name" => "ReportName", "sending_pool_name" => "SendingPoolName", "tls_policy" => "TlsPolicy", "reputation_metrics_enabled" => "ReputationMetricsEnabled", "description" => "Description", "topics" => "Topics", "end_date" => "EndDate", "reasons" => "Reason", "start_date" => "StartDate", "additional_contact_email_addresses" => "AdditionalContactEmailAddresses", "contact_language" => "ContactLanguage", "production_access_enabled" => "ProductionAccessEnabled", "auto_warmup_enabled" => "AutoWarmupEnabled", "pool_name" => "PoolName", "default_email_tags" => "DefaultEmailTags", "feedback_forwarding_email_address" => "FeedbackForwardingEmailAddress", "feedback_forwarding_email_address_identity_arn" => "FeedbackForwardingEmailAddressIdentityArn", "from_email_address" => "FromEmailAddress", "from_email_address_identity_arn" => "FromEmailAddressIdentityArn", "reply_to_addresses" => "ReplyToAddresses", "behavior_on_mx_failure" => "BehaviorOnMxFailure", "mail_from_domain" => "MailFromDomain", "custom_redirect_domain" => "CustomRedirectDomain", "signing_enabled" => "SigningEnabled", "destination" => "Destination", "email_tags" => "EmailTags", "list_management_options" => "ListManagementOptions", "email_forwarding_enabled" => "EmailForwardingEnabled", "signing_attributes" => "SigningAttributes", "import_destination_type" => "ImportDestinationType")
 
 """
     create_configuration_set(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,7 +35,7 @@ the email.
   that you send using the configuration set.
 """
 function create_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ include more than one event destination.
 
 """
 function create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -79,7 +79,7 @@ contact list.
   contact list topics.
 """
 function create_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -98,7 +98,7 @@ Creates a contact list.
   multiple topics.
 """
 function create_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactListName"=>ContactListName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -124,7 +124,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/custom-verification-email-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -144,7 +144,7 @@ message is sent from one of the addresses in the associated pool.
   the pool.
 """
 function create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -172,7 +172,7 @@ results of the test.
   associate with the predictive inbox placement test.
 """
 function create_deliverability_test_report(Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ an existing configuration set with the email identity that you're verifying.
   email identity.
 """
 function create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -240,7 +240,7 @@ operation no more than once per second.
 
 """
 function create_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -258,7 +258,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function create_email_template(TemplateContent, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -273,7 +273,7 @@ Creates an import job for a data destination.
 
 """
 function create_import_job(ImportDataSource, ImportDestination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportDataSource"=>ImportDataSource, "ImportDestination"=>ImportDestination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ the email.
 
 """
 function delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -311,7 +311,7 @@ Firehose to stream data to Amazon S3 for long-term storage.
 
 """
 function delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -327,7 +327,7 @@ Removes a contact from a contact list.
 
 """
 function delete_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -341,7 +341,7 @@ Deletes a contact list and all of the contacts on that list.
 
 """
 function delete_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -358,7 +358,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function delete_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -372,7 +372,7 @@ Delete a dedicated IP pool.
 
 """
 function delete_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -386,7 +386,7 @@ Deletes an email identity. An identity can be either an email address or a domai
 
 """
 function delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -408,7 +408,7 @@ than once per second.
 
 """
 function delete_email_identity_policy(EmailIdentity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -422,7 +422,7 @@ Deletes an email template. You can execute this operation no more than once per 
 
 """
 function delete_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/templates/$(TemplateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -437,7 +437,7 @@ Removes an email address from the suppression list for your account.
 
 """
 function delete_suppressed_destination(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -449,7 +449,7 @@ account in the current Amazon Web Services Region.
 
 """
 function get_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/account", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -465,7 +465,7 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 """
 function get_blacklist_reports(BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +484,7 @@ that configuration set are applied to the email.
 
 """
 function get_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -504,7 +504,7 @@ long-term storage.
 
 """
 function get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -519,7 +519,7 @@ Returns a contact from a contact list.
 
 """
 function get_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -534,7 +534,7 @@ present in the list.
 
 """
 function get_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/contact-lists/$(ContactListName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -552,7 +552,7 @@ once per second.
 
 """
 function get_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -570,7 +570,7 @@ address.
 
 """
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/dedicated-ips/$(IP)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -588,7 +588,7 @@ List the dedicated IP addresses that are associated with your Amazon Web Service
 - `pool_name`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/dedicated-ips", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -606,7 +606,7 @@ Pricing.
 
 """
 function get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -620,7 +620,7 @@ Retrieve the results of a predictive inbox placement test.
 
 """
 function get_deliverability_test_report(ReportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -637,7 +637,7 @@ dashboard is enabled for.
 
 """
 function get_domain_deliverability_campaign(CampaignId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -656,7 +656,7 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 """
 function get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -672,7 +672,7 @@ Mail-From settings.
 
 """
 function get_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/identities/$(EmailIdentity)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -692,7 +692,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function get_email_identity_policies(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/identities/$(EmailIdentity)/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -707,7 +707,7 @@ the template you specify. You can execute this operation no more than once per s
 
 """
 function get_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/templates/$(TemplateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -721,7 +721,7 @@ Provides information about an import job.
 
 """
 function get_import_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/import-jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -736,7 +736,7 @@ your account.
 
 """
 function get_suppressed_destination(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -757,7 +757,7 @@ that configuration set are applied to the email.
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/configuration-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -777,7 +777,7 @@ Lists all of the contact lists available.
   to retrieve additional lists.
 """
 function list_contact_lists(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/contact-lists", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -801,7 +801,7 @@ Lists the contacts present in a specific contact list.
   additional contacts.
 """
 function list_contacts(ContactListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -824,7 +824,7 @@ execute this operation no more than once per second.
   be no more than 50.
 """
 function list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/custom-verification-email-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -842,7 +842,7 @@ current Region.
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/dedicated-ip-pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -863,7 +863,7 @@ GetDeliverabilityTestReport operation to view the results.
   more than 1000.
 """
 function list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -892,7 +892,7 @@ enabled the Deliverability dashboard for the domain.
   you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -913,7 +913,7 @@ identities that are associated with Amazon SES and Amazon Pinpoint.
   value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/identities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +932,7 @@ Services Region. You can execute this operation no more than once per second.
   value you specify has to be at least 1, and can be no more than 10.
 """
 function list_email_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -953,7 +953,7 @@ Lists all of the import jobs.
   additional addresses.
 """
 function list_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/import-jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +978,7 @@ Retrieves a list of email addresses that are on the suppression list for your ac
   specify should be in Unix time format.
 """
 function list_suppressed_destinations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/suppression/addresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -997,7 +997,7 @@ descriptor within a tag key.
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("GET", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1013,7 +1013,7 @@ Enable or disable the automatic warm-up feature for dedicated IP addresses.
   disable it.
 """
 function put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1042,7 +1042,7 @@ Update your Amazon SES account details.
   quota and maximum sending rate for your account vary based on your specific use case.
 """
 function put_account_details(MailType, UseCaseDescription, WebsiteURL; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/account/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1058,7 +1058,7 @@ Enable or disable the ability of your account to send email.
   account's ability to send email.
 """
 function put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/account/sending", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1076,7 +1076,7 @@ Change the settings for the account-level suppression list.
   message sent to that address results in a hard bounce.
 """
 function put_account_suppression_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/account/suppression", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1099,7 +1099,7 @@ create groups of dedicated IP addresses for sending specific types of email.
   plain text if a TLS connection can't be established.
 """
 function put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1118,7 +1118,7 @@ particular configuration set in a specific Amazon Web Services Region.
   configuration set.
 """
 function put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1137,7 +1137,7 @@ specific Amazon Web Services Region.
   email sending is disabled for the configuration set.
 """
 function put_configuration_set_sending_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1159,7 +1159,7 @@ Specify the account suppression list preferences for a configuration set.
   message sent to that address results in a hard bounce.
 """
 function put_configuration_set_suppression_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1175,7 +1175,7 @@ Specify a custom domain to use for open and click tracking elements in email tha
 - `custom_redirect_domain`: The domain to use to track open and click events.
 """
 function put_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1196,7 +1196,7 @@ by using the CreateDedicatedIpPool operation.
 
 """
 function put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1212,7 +1212,7 @@ end
 
 """
 function put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1236,7 +1236,7 @@ dashboard subscription, see Amazon SES Pricing.
   send email and enabled the Deliverability dashboard for.
 """
 function put_deliverability_dashboard_option(DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1252,7 +1252,7 @@ Used to associate a configuration set with an email identity.
 - `configuration_set_name`: The configuration set to associate with an email identity.
 """
 function put_email_identity_configuration_set_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/configuration-set", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1270,7 +1270,7 @@ Used to enable or disable DKIM authentication for an email identity.
   If you set this value to false, your messages are sent without DKIM signing.
 """
 function put_email_identity_dkim_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1297,7 +1297,7 @@ BYODKIM.   Change from using BYODKIM to using Easy DKIM.
   (BYODKIM) for the identity, or, configures the key length to be used for Easy DKIM.
 """
 function put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1326,7 +1326,7 @@ email notification when these events occur (even if this setting is disabled).
   notification when these events occur (even if this setting is disabled).
 """
 function put_email_identity_feedback_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1351,7 +1351,7 @@ Used to enable or disable the custom Mail-From domain configuration for an email
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
 function put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1368,7 +1368,7 @@ Adds an email address to the suppression list for your account.
 
 """
 function put_suppressed_destination(EmailAddress, Reason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1414,7 +1414,7 @@ Composes an email message to multiple destinations.
   recipient replies to the message, each Reply-to address receives the reply.
 """
 function send_bulk_email(BulkEmailEntries, DefaultContent; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1439,7 +1439,7 @@ than once per second.
   verification email.
 """
 function send_custom_verification_email(EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1497,7 +1497,7 @@ replaces the tags with values that you specify.
   recipient replies to the message, each Reply-to address receives the reply.
 """
 function send_email(Content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1520,7 +1520,7 @@ a category for more specific tag values. A tag value acts as a descriptor within
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1538,7 +1538,7 @@ of replacement data. You can execute this operation no more than once per second
 
 """
 function test_render_email_template(TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("POST", "/v2/email/templates/$(TemplateName)/render", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1558,7 +1558,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
 """
 function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("DELETE", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1579,7 +1579,7 @@ can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term s
 
 """
 function update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1601,7 +1601,7 @@ topic preferences in the TopicPreferences object, just the ones that need updati
   contact list topics.
 """
 function update_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1619,7 +1619,7 @@ Updates contact list metadata. This operation does a complete replacement.
   multiple topics.
 """
 function update_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1646,7 +1646,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/custom-verification-email-templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateSubject"=>TemplateSubject), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1671,7 +1671,7 @@ than once per second.
 
 """
 function update_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1689,6 +1689,6 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function update_email_template(TemplateContent, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sesv2("PUT", "/v2/email/templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

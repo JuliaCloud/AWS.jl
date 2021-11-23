@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("ascending" => "Ascending", "page_token" => "PageToken", "aws_kms_key_arn" => "AwsKmsKeyArn", "content_config" => "ContentConfig", "notifications" => "Notifications", "output_bucket" => "OutputBucket", "thumbnail_config" => "ThumbnailConfig", "input_bucket" => "InputBucket", "name" => "Name", "role" => "Role", "input" => "Input", "inputs" => "Inputs", "output" => "Output", "output_key_prefix" => "OutputKeyPrefix", "outputs" => "Outputs", "playlists" => "Playlists", "user_metadata" => "UserMetadata", "audio" => "Audio", "description" => "Description", "thumbnails" => "Thumbnails", "video" => "Video")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("ascending" => "Ascending", "page_token" => "PageToken", "aws_kms_key_arn" => "AwsKmsKeyArn", "content_config" => "ContentConfig", "notifications" => "Notifications", "output_bucket" => "OutputBucket", "thumbnail_config" => "ThumbnailConfig", "input_bucket" => "InputBucket", "name" => "Name", "role" => "Role", "input" => "Input", "inputs" => "Inputs", "output" => "Output", "output_key_prefix" => "OutputKeyPrefix", "outputs" => "Outputs", "playlists" => "Playlists", "user_metadata" => "UserMetadata", "audio" => "Audio", "description" => "Description", "thumbnails" => "Thumbnails", "video" => "Video")
 
 """
     cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,7 +21,7 @@ getting the job identifier, use UpdatePipelineStatus to temporarily pause the pi
 
 """
 function cancel_job(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -63,7 +63,7 @@ the jobs (as opposed to the AWS Console).
   the same order in which you specify them.
 """
 function create_job(PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineId"=>PipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ The CreatePipeline operation creates a pipeline with settings that you specify.
   bucket.
 """
 function create_pipeline(InputBucket, Name, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -217,7 +217,7 @@ generic audiovisual services.
 - `video`: A section of the request body that specifies the video parameters.
 """
 function create_preset(Container, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Container"=>Container, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -233,7 +233,7 @@ pipeline is currently in use, DeletePipeline returns an error.
 
 """
 function delete_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -248,7 +248,7 @@ delete the default presets that are included with Elastic Transcoder.
 
 """
 function delete_preset(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -269,7 +269,7 @@ contains one element for each job that satisfies the search criteria.
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_jobs_by_pipeline(PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -291,7 +291,7 @@ response body contains one element for each job that satisfies the search criter
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_jobs_by_status(Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -308,7 +308,7 @@ account.
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -325,7 +325,7 @@ Transcoder and the presets that you've added in an AWS region.
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_presets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ The ReadJob operation returns detailed information about a job.
 
 """
 function read_job(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -353,7 +353,7 @@ The ReadPipeline operation gets detailed information about a pipeline.
 
 """
 function read_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -367,7 +367,7 @@ The ReadPreset operation gets detailed information about a preset.
 
 """
 function read_preset(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -392,7 +392,7 @@ buckets, and tries to send a test notification to Amazon SNS topics that you spe
 
 """
 function test_role(InputBucket, OutputBucket, Role, Topics; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -501,7 +501,7 @@ to jobs that you submit after you change settings.
   S3 bucket.
 """
 function update_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -530,7 +530,7 @@ pipeline, Elastic Transcoder returns the values that you specified in the reques
 
 """
 function update_pipeline_notifications(Id, Notifications; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notifications"=>Notifications), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -551,6 +551,6 @@ request.
 
 """
 function update_pipeline_status(Id, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

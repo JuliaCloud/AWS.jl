@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("creation_time_after" => "CreationTimeAfter", "creation_time_before" => "CreationTimeBefore", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_order" => "SortOrder", "data_attributes" => "DataAttributes")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("creation_time_after" => "CreationTimeAfter", "creation_time_before" => "CreationTimeBefore", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_order" => "SortOrder", "data_attributes" => "DataAttributes")
 
 """
     delete_human_loop(human_loop_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -18,7 +18,7 @@ operation will return a ResourceNotFoundException.
 
 """
 function delete_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -33,7 +33,7 @@ operation will return a ResourceNotFoundException error.
 
 """
 function describe_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ deleted, it will not be included.
   Descending.
 """
 function list_human_loops(FlowDefinitionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -79,7 +79,7 @@ Starts a human loop, provided that at least one activation condition is met.
   your data is free of personally identifiable information and/or free of adult content.
 """
 function start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -93,6 +93,6 @@ Stops the specified human loop.
 
 """
 function stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanLoopName"=>HumanLoopName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

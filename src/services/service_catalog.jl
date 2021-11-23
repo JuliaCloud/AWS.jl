@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("accept_language" => "AcceptLanguage", "page_size" => "PageSize", "page_token" => "PageToken", "portfolio_share_type" => "PortfolioShareType", "description" => "Description", "notification_arns" => "NotificationArns", "path_id" => "PathId", "provisioning_parameters" => "ProvisioningParameters", "tags" => "Tags", "id" => "Id", "name" => "Name", "source_portfolio_id" => "SourcePortfolioId", "distributor" => "Distributor", "support_description" => "SupportDescription", "support_email" => "SupportEmail", "support_url" => "SupportUrl", "account_id" => "AccountId", "organization_node" => "OrganizationNode", "share_tag_options" => "ShareTagOptions", "active" => "Active", "value" => "Value", "copy_options" => "CopyOptions", "source_provisioning_artifact_identifiers" => "SourceProvisioningArtifactIdentifiers", "target_product_id" => "TargetProductId", "target_product_name" => "TargetProductName", "path_name" => "PathName", "product_id" => "ProductId", "product_name" => "ProductName", "provisioning_artifact_id" => "ProvisioningArtifactId", "provisioning_artifact_name" => "ProvisioningArtifactName", "access_level_filter" => "AccessLevelFilter", "provision_product_id" => "ProvisionProductId", "output_keys" => "OutputKeys", "provisioned_product_id" => "ProvisionedProductId", "provisioned_product_name" => "ProvisionedProductName", "provisioning_preferences" => "ProvisioningPreferences", "filters" => "Filters", "ignore_errors" => "IgnoreErrors", "retain_physical_resources" => "RetainPhysicalResources", "sort_by" => "SortBy", "sort_order" => "SortOrder", "add_tags" => "AddTags", "display_name" => "DisplayName", "provider_name" => "ProviderName", "remove_tags" => "RemoveTags", "search_filter" => "SearchFilter", "definition" => "Definition", "parameters" => "Parameters", "verbose" => "Verbose", "resource_type" => "ResourceType", "owner" => "Owner", "portfolio_id" => "PortfolioId", "product_source" => "ProductSource", "organization_parent_id" => "OrganizationParentId", "guidance" => "Guidance")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("accept_language" => "AcceptLanguage", "page_size" => "PageSize", "page_token" => "PageToken", "portfolio_share_type" => "PortfolioShareType", "description" => "Description", "notification_arns" => "NotificationArns", "path_id" => "PathId", "provisioning_parameters" => "ProvisioningParameters", "tags" => "Tags", "id" => "Id", "name" => "Name", "source_portfolio_id" => "SourcePortfolioId", "distributor" => "Distributor", "support_description" => "SupportDescription", "support_email" => "SupportEmail", "support_url" => "SupportUrl", "account_id" => "AccountId", "organization_node" => "OrganizationNode", "share_tag_options" => "ShareTagOptions", "active" => "Active", "value" => "Value", "copy_options" => "CopyOptions", "source_provisioning_artifact_identifiers" => "SourceProvisioningArtifactIdentifiers", "target_product_id" => "TargetProductId", "target_product_name" => "TargetProductName", "path_name" => "PathName", "product_id" => "ProductId", "product_name" => "ProductName", "provisioning_artifact_id" => "ProvisioningArtifactId", "provisioning_artifact_name" => "ProvisioningArtifactName", "access_level_filter" => "AccessLevelFilter", "provision_product_id" => "ProvisionProductId", "output_keys" => "OutputKeys", "provisioned_product_id" => "ProvisionedProductId", "provisioned_product_name" => "ProvisionedProductName", "provisioning_preferences" => "ProvisioningPreferences", "filters" => "Filters", "ignore_errors" => "IgnoreErrors", "retain_physical_resources" => "RetainPhysicalResources", "sort_by" => "SortBy", "sort_order" => "SortOrder", "add_tags" => "AddTags", "display_name" => "DisplayName", "provider_name" => "ProviderName", "remove_tags" => "RemoveTags", "search_filter" => "SearchFilter", "definition" => "Definition", "parameters" => "Parameters", "verbose" => "Verbose", "resource_type" => "ResourceType", "owner" => "Owner", "portfolio_id" => "PortfolioId", "product_source" => "ProductSource", "organization_parent_id" => "OrganizationParentId", "guidance" => "Guidance")
 
 """
     accept_portfolio_share(portfolio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,7 +26,7 @@ Accepts an offer to share the specified portfolio.
   --portfolio-share-type AWS_ORGANIZATIONS
 """
 function accept_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AcceptPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -41,7 +41,7 @@ Associates the specified budget with the specified resource.
 
 """
 function associate_budget_with_resource(BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AssociateBudgetWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -60,7 +60,7 @@ Associates the specified principal ARN with the specified portfolio.
   Chinese
 """
 function associate_principal_with_portfolio(PortfolioId, PrincipalARN, PrincipalType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AssociatePrincipalWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -80,7 +80,7 @@ authorized to invoke this command.
 - `source_portfolio_id`: The identifier of the source portfolio.
 """
 function associate_product_with_portfolio(PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AssociateProductWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -100,7 +100,7 @@ Associates a self-service action with a provisioning artifact.
   Chinese
 """
 function associate_service_action_with_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ Associate the specified TagOption with the specified portfolio or product.
 
 """
 function associate_tag_option_with_resource(ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("AssociateTagOptionWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -133,7 +133,7 @@ Associates multiple self-service actions with provisioning artifacts.
   Chinese
 """
 function batch_associate_service_action_with_provisioning_artifact(ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("BatchAssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -151,7 +151,7 @@ Disassociates a batch of self-service actions from the specified provisioning ar
   Chinese
 """
 function batch_disassociate_service_action_from_provisioning_artifact(ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("BatchDisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -183,7 +183,7 @@ progress of the operation, use DescribeCopyProductStatus.
   source product.
 """
 function copy_product(IdempotencyToken, SourceProductArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CopyProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "SourceProductArn"=>SourceProductArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -230,7 +230,7 @@ Creates a constraint. A delegated admin is authorized to invoke this command.
 - `description`: The description of the constraint.
 """
 function create_constraint(IdempotencyToken, Parameters, PortfolioId, ProductId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "PortfolioId"=>PortfolioId, "ProductId"=>ProductId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -253,7 +253,7 @@ Creates a portfolio. A delegated admin is authorized to invoke this command.
 - `tags`: One or more tags.
 """
 function create_portfolio(DisplayName, IdempotencyToken, ProviderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "IdempotencyToken"=>IdempotencyToken, "ProviderName"=>ProviderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -286,7 +286,7 @@ error. To update an existing share, you must use the  UpdatePortfolioShare API i
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
 function create_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -319,7 +319,7 @@ source in the information data section.
 - `tags`: One or more tags.
 """
 function create_product(IdempotencyToken, Name, Owner, ProductType, ProvisioningArtifactParameters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name, "Owner"=>Owner, "ProductType"=>ProductType, "ProvisioningArtifactParameters"=>ProvisioningArtifactParameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -359,7 +359,7 @@ provisioned product, use ExecuteProvisionedProductPlan.
   to allow tag updates.
 """
 function create_provisioned_product_plan(IdempotencyToken, PlanName, PlanType, ProductId, ProvisionedProductName, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanName"=>PlanName, "PlanType"=>PlanType, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -384,7 +384,7 @@ source in the information data section.
   Chinese
 """
 function create_provisioning_artifact(IdempotencyToken, Parameters, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -416,7 +416,7 @@ Creates a self-service action.
 - `description`: The self-service action description.
 """
 function create_service_action(Definition, DefinitionType, IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Definition"=>Definition, "DefinitionType"=>DefinitionType, "IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -431,7 +431,7 @@ Creates a TagOption.
 
 """
 function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("CreateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "Value"=>Value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -448,7 +448,7 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
   Chinese
 """
 function delete_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -467,7 +467,7 @@ authorized to invoke this command.
   Chinese
 """
 function delete_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeletePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -489,7 +489,7 @@ de-registered, portfolio shares created from that account are removed.
 - `organization_node`: The organization node to whom you are going to stop sharing.
 """
 function delete_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeletePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -507,7 +507,7 @@ associated with a portfolio. A delegated admin is authorized to invoke this comm
   Chinese
 """
 function delete_product(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ Deletes the specified plan.
   provisioned product even if it cannot delete the underlying resources.
 """
 function delete_provisioned_product_plan(PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -547,7 +547,7 @@ product must have at least one provisioning artifact.
   Chinese
 """
 function delete_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -564,7 +564,7 @@ Deletes a self-service action.
   Chinese
 """
 function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -579,7 +579,7 @@ product or portfolio.
 
 """
 function delete_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DeleteTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -596,7 +596,7 @@ Gets information about the specified constraint.
   Chinese
 """
 function describe_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -614,7 +614,7 @@ Gets the status of the specified copy product operation.
   Chinese
 """
 function describe_copy_product_status(CopyProductToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeCopyProductStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CopyProductToken"=>CopyProductToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -632,7 +632,7 @@ this command.
   Chinese
 """
 function describe_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -648,7 +648,7 @@ the management account in the organization or by a delegated admin.
 
 """
 function describe_portfolio_share_status(PortfolioShareToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribePortfolioShareStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioShareToken"=>PortfolioShareToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -676,7 +676,7 @@ both required.
   results, use null.
 """
 function describe_portfolio_shares(PortfolioId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribePortfolioShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -692,7 +692,7 @@ Gets information about the specified product.
 - `name`: The product name.
 """
 function describe_product(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -714,7 +714,7 @@ access.
   associated with the product. Otherwise only local TagOptions will be returned.
 """
 function describe_product_as_admin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProductAsAdmin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -731,7 +731,7 @@ Gets information about the specified product.
   Chinese
 """
 function describe_product_view(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProductView", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -751,7 +751,7 @@ Gets information about the specified provisioned product.
   InvalidParametersException will occur.
 """
 function describe_provisioned_product(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProvisionedProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +771,7 @@ Gets information about the resource changes for the specified plan.
   results, use null.
 """
 function describe_provisioned_product_plan(PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -791,7 +791,7 @@ the specified product.
 - `verbose`: Indicates whether a verbose level of detail is enabled.
 """
 function describe_provisioning_artifact(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProvisioningArtifact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -822,7 +822,7 @@ product with the value sc-tagoption-conflict-portfolioId-productId.
   name or ID, but not both.
 """
 function describe_provisioning_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeProvisioningParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -849,7 +849,7 @@ owner.
   results, use null.
 """
 function describe_record(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -866,7 +866,7 @@ Describes a self-service action.
   Chinese
 """
 function describe_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -885,7 +885,7 @@ product and returns a map of the results to the user.
   Chinese
 """
 function describe_service_action_execution_parameters(ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeServiceActionExecutionParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -899,7 +899,7 @@ Gets information about the specified TagOption.
 
 """
 function describe_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DescribeTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -916,7 +916,7 @@ DisableAWSOrganizationsAccess.
 
 """
 function disable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisableAWSOrganizationsAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -932,7 +932,7 @@ Disassociates the specified budget from the specified resource.
 
 """
 function disassociate_budget_from_resource(BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisassociateBudgetFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -950,7 +950,7 @@ Disassociates a previously associated principal ARN from a specified portfolio.
   Chinese
 """
 function disassociate_principal_from_portfolio(PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisassociatePrincipalFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -969,7 +969,7 @@ authorized to invoke this command.
   Chinese
 """
 function disassociate_product_from_portfolio(PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisassociateProductFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -990,7 +990,7 @@ artifact.
   Chinese
 """
 function disassociate_service_action_from_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1005,7 +1005,7 @@ Disassociates the specified TagOption from the specified resource.
 
 """
 function disassociate_tag_option_from_resource(ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("DisassociateTagOptionFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1022,7 +1022,7 @@ authorized to invoke EnableAWSOrganizationsAccess.
 
 """
 function enable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("EnableAWSOrganizationsAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1042,7 +1042,7 @@ Provisions or modifies a product based on the resource changes for the specified
   Chinese
 """
 function execute_provisioned_product_plan(IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ExecuteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1066,7 +1066,7 @@ Executes a self-service action against a provisioned product.
   such as TARGET.
 """
 function execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ExecuteProvisionedProductServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecuteToken"=>ExecuteToken, "ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1078,7 +1078,7 @@ called by the management account in the organization or by a delegated admin.
 
 """
 function get_awsorganizations_access_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("GetAWSOrganizationsAccessStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1102,7 +1102,7 @@ of one or more output keys, and responds with the key/value pairs of those outpu
   from.
 """
 function get_provisioned_product_outputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("GetProvisionedProductOutputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1137,7 +1137,7 @@ cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissi
   Chinese
 """
 function import_as_provisioned_product(IdempotencyToken, PhysicalId, ProductId, ProvisionedProductName, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ImportAsProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PhysicalId"=>PhysicalId, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1158,7 +1158,7 @@ Lists all portfolios for which sharing was accepted by this account.
   List imported portfolios
 """
 function list_accepted_portfolio_shares(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListAcceptedPortfolioShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1178,7 +1178,7 @@ Lists all the budgets associated to the specified resource.
   results, use null.
 """
 function list_budgets_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListBudgetsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1199,7 +1199,7 @@ Lists the constraints for the specified portfolio and product.
 - `product_id`: The product identifier.
 """
 function list_constraints_for_portfolio(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListConstraintsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1221,7 +1221,7 @@ constraints put on the product.
   results, use null.
 """
 function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListLaunchPaths", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1247,7 +1247,7 @@ delegated admin is de-registered, they can no longer perform this operation.
   results, use null.
 """
 function list_organization_portfolio_access(OrganizationNodeType, PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListOrganizationPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationNodeType"=>OrganizationNodeType, "PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1271,7 +1271,7 @@ is de-registered, they can no longer perform this operation.
   results, use null.
 """
 function list_portfolio_access(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1288,7 +1288,7 @@ Lists all portfolios in the catalog.
   results, use null.
 """
 function list_portfolios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListPortfolios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1308,7 +1308,7 @@ Lists all portfolios that the specified product is associated with.
   results, use null.
 """
 function list_portfolios_for_product(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListPortfoliosForProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1328,7 +1328,7 @@ Lists all principal ARNs associated with the specified portfolio.
   results, use null.
 """
 function list_principals_for_portfolio(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListPrincipalsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1348,7 +1348,7 @@ access.
 - `provision_product_id`: The product identifier.
 """
 function list_provisioned_product_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListProvisionedProductPlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1365,7 +1365,7 @@ Lists all provisioning artifacts (also known as versions) for the specified prod
   Chinese
 """
 function list_provisioning_artifacts(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListProvisioningArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1386,7 +1386,7 @@ action.
   results, use null.
 """
 function list_provisioning_artifacts_for_service_action(ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListProvisioningArtifactsForServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1405,7 +1405,7 @@ Lists the specified requests or all performed requests.
 - `search_filter`: The search filter to scope the results.
 """
 function list_record_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListRecordHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1424,7 +1424,7 @@ Lists the resources associated with the specified TagOption.
 - `resource_type`: The resource type.    Portfolio     Product
 """
 function list_resources_for_tag_option(TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListResourcesForTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1441,7 +1441,7 @@ Lists all self-service actions.
   results, use null.
 """
 function list_service_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListServiceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1464,7 +1464,7 @@ and Provisioning Artifact ID.
   results, use null.
 """
 function list_service_actions_for_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListServiceActionsForProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1486,7 +1486,7 @@ associated with a specific AWS account name or region.
   results, use null.
 """
 function list_stack_instances_for_provisioned_product(ProvisionedProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListStackInstancesForProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1503,7 +1503,7 @@ Lists the specified TagOptions or all TagOptions.
   results, use null.
 """
 function list_tag_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ListTagOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1544,7 +1544,7 @@ error \"Parameter validation failed: Missing required parameter in Tags[N]:Value
 - `tags`: One or more tags.
 """
 function provision_product(ProvisionToken, ProvisionedProductName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ProvisionProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionToken"=>ProvisionToken, "ProvisionedProductName"=>ProvisionedProductName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1567,7 +1567,7 @@ Rejects an offer to share the specified portfolio.
   --portfolio-share-type AWS_ORGANIZATIONS
 """
 function reject_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("RejectPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1586,7 +1586,7 @@ filtering, see SearchProvisionedProducts.
   results, use null.
 """
 function scan_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("ScanProvisionedProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1607,7 +1607,7 @@ Gets information about the products to which the caller has access.
 - `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("SearchProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1630,7 +1630,7 @@ Gets information about the products for the specified portfolio or all products.
 - `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_products_as_admin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("SearchProductsAsAdmin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1656,7 +1656,7 @@ Gets information about the provisioned products that meet the specified criteria
 - `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("SearchProvisionedProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1688,7 +1688,7 @@ DescribeRecord.
   deleted provisioned product. The default value is false.
 """
 function terminate_provisioned_product(TerminateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("TerminateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateToken"=>TerminateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1729,7 +1729,7 @@ Updates the specified constraint.
   Template Constraint Rules.
 """
 function update_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1751,7 +1751,7 @@ Updates the specified portfolio. You cannot update a product that was shared wit
 - `remove_tags`: The tags to remove.
 """
 function update_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1783,7 +1783,7 @@ that action.
   portfolio share will not be modified.
 """
 function update_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1809,7 +1809,7 @@ Updates the specified product.
 - `support_url`: The updated support URL for the product.
 """
 function update_product(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1850,7 +1850,7 @@ DescribeRecord.
   TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
 function update_provisioned_product(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1887,7 +1887,7 @@ Requests updates to the properties of the specified provisioned product.
   Chinese
 """
 function update_provisioned_product_properties(IdempotencyToken, ProvisionedProductId, ProvisionedProductProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateProvisionedProductProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "ProvisionedProductId"=>ProvisionedProductId, "ProvisionedProductProperties"=>ProvisionedProductProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1916,7 +1916,7 @@ product. You cannot update a provisioning artifact for a product that was shared
 - `name`: The updated name of the provisioning artifact.
 """
 function update_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1936,7 +1936,7 @@ Updates a self-service action.
 - `name`: The self-service action name.
 """
 function update_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1953,6 +1953,6 @@ Updates the specified TagOption.
 - `value`: The updated value.
 """
 function update_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return service_catalog("UpdateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

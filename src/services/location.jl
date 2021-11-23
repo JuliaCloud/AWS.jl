@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "Description", "pricing_plan" => "PricingPlan", "pricing_plan_data_source" => "PricingPlanDataSource", "data_source_configuration" => "DataSourceConfiguration", "language" => "Language", "max_results" => "MaxResults", "end_time_exclusive" => "EndTimeExclusive", "next_token" => "NextToken", "start_time_inclusive" => "StartTimeInclusive", "kms_key_id" => "KmsKeyId", "position_filtering" => "PositionFiltering", "tags" => "Tags", "car_mode_options" => "CarModeOptions", "depart_now" => "DepartNow", "departure_time" => "DepartureTime", "distance_unit" => "DistanceUnit", "include_leg_geometry" => "IncludeLegGeometry", "travel_mode" => "TravelMode", "truck_mode_options" => "TruckModeOptions", "waypoint_positions" => "WaypointPositions", "bias_position" => "BiasPosition", "filter_bbox" => "FilterBBox", "filter_countries" => "FilterCountries")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("description" => "Description", "pricing_plan" => "PricingPlan", "pricing_plan_data_source" => "PricingPlanDataSource", "data_source_configuration" => "DataSourceConfiguration", "language" => "Language", "max_results" => "MaxResults", "end_time_exclusive" => "EndTimeExclusive", "next_token" => "NextToken", "start_time_inclusive" => "StartTimeInclusive", "kms_key_id" => "KmsKeyId", "position_filtering" => "PositionFiltering", "tags" => "Tags", "car_mode_options" => "CarModeOptions", "depart_now" => "DepartNow", "departure_time" => "DepartureTime", "distance_unit" => "DistanceUnit", "include_leg_geometry" => "IncludeLegGeometry", "travel_mode" => "TravelMode", "truck_mode_options" => "TruckModeOptions", "waypoint_positions" => "WaypointPositions", "bias_position" => "BiasPosition", "filter_bbox" => "FilterBBox", "filter_countries" => "FilterCountries")
 
 """
     associate_tracker_consumer(consumer_arn, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,7 +26,7 @@ resource in one account and a geofence collection in another account.
 
 """
 function associate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/consumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerArn"=>ConsumerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -43,7 +43,7 @@ Deletes the position history of one or more devices from a tracker resource.
 
 """
 function batch_delete_device_position_history(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/delete-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -59,7 +59,7 @@ resource permanently.
 
 """
 function batch_delete_geofence(CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/collections/$(CollectionName)/delete-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeofenceIds"=>GeofenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -83,7 +83,7 @@ recent device position update.
 
 """
 function batch_evaluate_geofences(CollectionName, DevicePositionUpdates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/collections/$(CollectionName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevicePositionUpdates"=>DevicePositionUpdates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -99,7 +99,7 @@ Lists the latest device positions for requested devices.
 
 """
 function batch_get_device_position(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/get-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ updates the geometry of an existing geofence if a geofence ID is included in the
 
 """
 function batch_put_geofence(CollectionName, Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/collections/$(CollectionName)/put-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -138,7 +138,7 @@ against linked geofence collections only if the device has moved more than 30 m 
 
 """
 function batch_update_device_position(TrackerName, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -201,7 +201,7 @@ if traveling by Truck.
   Values: [-180 to 180,-90 to 90]
 """
 function calculate_route(CalculatorName, DeparturePosition, DestinationPosition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeparturePosition"=>DeparturePosition, "DestinationPosition"=>DestinationPosition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -238,7 +238,7 @@ Creates a geofence collection, which manages and stores geofences.
   use \"aws:\" as a prefix for a key.
 """
 function create_geofence_collection(CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionName"=>CollectionName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -267,7 +267,7 @@ sourced from global location data providers.
   \"aws:\" as a prefix for a key.
 """
 function create_map(Configuration, MapName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/maps/v0/maps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "MapName"=>MapName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ reverse geocode coordinates by using the SearchPlaceIndexForPosition operation.
   use \"aws:\" as a prefix for a key.
 """
 function create_place_index(DataSource, IndexName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/places/v0/indexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "IndexName"=>IndexName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -347,7 +347,7 @@ calculator sources traffic and road network data from your chosen data provider.
   for a key.
 """
 function create_route_calculator(CalculatorName, DataSource, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/routes/v0/calculators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculatorName"=>CalculatorName, "DataSource"=>DataSource, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ historical location of devices.
   \"aws:\" as a prefix for a key.
 """
 function create_tracker(PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PricingPlan"=>PricingPlan, "TrackerName"=>TrackerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -409,7 +409,7 @@ will no longer be monitored.
 
 """
 function delete_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -424,7 +424,7 @@ permanently. If the map is being used in an application, the map may not render.
 
 """
 function delete_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -439,7 +439,7 @@ permanently.
 
 """
 function delete_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -454,7 +454,7 @@ resource permanently.
 
 """
 function delete_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -470,7 +470,7 @@ the target resource isn't a dependency for your applications.
 
 """
 function delete_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -484,7 +484,7 @@ Retrieves the geofence collection details.
 
 """
 function describe_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -498,7 +498,7 @@ Retrieves the map resource details.
 
 """
 function describe_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -512,7 +512,7 @@ Retrieves the place index resource details.
 
 """
 function describe_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -526,7 +526,7 @@ Retrieves the route calculator resource details.
 
 """
 function describe_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -540,7 +540,7 @@ Retrieves the tracker resource details.
 
 """
 function describe_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -560,7 +560,7 @@ be automatically evaluated against geofences.
 
 """
 function disassociate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -576,7 +576,7 @@ are deleted after 30 days.
 
 """
 function get_device_position(DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -604,7 +604,7 @@ time.  Device positions are deleted after 30 days.
   before EndTimeExclusive.
 """
 function get_device_position_history(DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -619,7 +619,7 @@ Retrieves the geofence details from a geofence collection.
 
 """
 function get_geofence(CollectionName, GeofenceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -645,7 +645,7 @@ Retrieves glyphs used to display labels on a map.
 
 """
 function get_map_glyphs(FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -665,7 +665,7 @@ displayed on a rendered map.
 
 """
 function get_map_sprites(FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ Mapbox Style Specification.
 
 """
 function get_map_style_descriptor(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/maps/v0/maps/$(MapName)/style-descriptor", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -703,7 +703,7 @@ doubles both the X and Y dimensions, so a tile containing data for the entire wo
 
 """
 function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -722,7 +722,7 @@ A batch request to retrieve all device positions.
   response. If no token is provided, the default page is the first page. Default value: null
 """
 function list_device_positions(TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/list-positions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -738,7 +738,7 @@ Lists geofence collections in your AWS account.
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 function list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/list-collections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -755,7 +755,7 @@ Lists geofences stored in a given geofence collection.
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 function list_geofences(CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/geofencing/v0/collections/$(CollectionName)/list-geofences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -771,7 +771,7 @@ Lists map resources in your AWS account.
   response. If no token is provided, the default page is the first page. Default value: null
 """
 function list_maps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/maps/v0/list-maps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -787,7 +787,7 @@ Lists place index resources in your AWS account.
   response. If no token is provided, the default page is the first page. Default value: null
 """
 function list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/places/v0/list-indexes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -803,7 +803,7 @@ Lists route calculator resources in your AWS account.
   response. If no token is provided, the default page is the first page. Default Value: null
 """
 function list_route_calculators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/routes/v0/list-calculators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -818,7 +818,7 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
 
 """
 function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -838,7 +838,7 @@ Lists geofence collections currently associated to the given tracker resource.
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 function list_tracker_consumers(TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -854,7 +854,7 @@ Lists tracker resources in your AWS account.
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 function list_trackers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -872,7 +872,7 @@ existing geofence if a geofence ID is included in the request.
 
 """
 function put_geofence(CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Geometry"=>Geometry), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -899,7 +899,7 @@ Places or points of interest near a given position.
   Default value: 50
 """
 function search_place_index_for_position(IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/places/v0/indexes/$(IndexName)/search/position", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Position"=>Position), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -947,7 +947,7 @@ error.  Search results are returned in order of highest to lowest relevance.
    The default: 50
 """
 function search_place_index_for_text(IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/places/v0/indexes/$(IndexName)/search/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -978,7 +978,7 @@ resource.&lt;/p&gt;
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -994,7 +994,7 @@ Removes one or more tags from the specified Amazon Location resource.
 
 """
 function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1020,7 +1020,7 @@ Updates the specified properties of a given geofence collection.
   your AWS account and Region unless you move it.
 """
 function update_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PATCH", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1038,7 +1038,7 @@ Updates the specified properties of a given map resource.
   each pricing plan option restrictions, see Amazon Location Service pricing.
 """
 function update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PATCH", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1058,7 +1058,7 @@ Updates the specified properties of a given place index resource.
   pricing.
 """
 function update_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PATCH", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1077,7 +1077,7 @@ Updates the specified properties for a given route calculator resource.
   pricing.
 """
 function update_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PATCH", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1111,6 +1111,6 @@ Updates the specified properties of a given tracker resource.
   AWS account and Region unless you move it.
 """
 function update_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return location("PATCH", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

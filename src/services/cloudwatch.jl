@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dimensions" => "Dimensions", "extended_statistics" => "ExtendedStatistics", "statistics" => "Statistics", "unit" => "Unit", "metric_name" => "MetricName", "namespace" => "Namespace", "next_token" => "NextToken", "recently_active" => "RecentlyActive", "state_reason_data" => "StateReasonData", "max_results" => "MaxResults", "action_prefix" => "ActionPrefix", "alarm_name_prefix" => "AlarmNamePrefix", "alarm_names" => "AlarmNames", "alarm_types" => "AlarmTypes", "children_of_alarm_name" => "ChildrenOfAlarmName", "max_records" => "MaxRecords", "parents_of_alarm_name" => "ParentsOfAlarmName", "state_value" => "StateValue", "actions_enabled" => "ActionsEnabled", "alarm_actions" => "AlarmActions", "alarm_description" => "AlarmDescription", "insufficient_data_actions" => "InsufficientDataActions", "okactions" => "OKActions", "tags" => "Tags", "alarm_name" => "AlarmName", "end_date" => "EndDate", "history_item_type" => "HistoryItemType", "scan_by" => "ScanBy", "start_date" => "StartDate", "datapoints_to_alarm" => "DatapointsToAlarm", "evaluate_low_sample_count_percentile" => "EvaluateLowSampleCountPercentile", "extended_statistic" => "ExtendedStatistic", "metrics" => "Metrics", "period" => "Period", "statistic" => "Statistic", "threshold" => "Threshold", "threshold_metric_id" => "ThresholdMetricId", "treat_missing_data" => "TreatMissingData", "exclude_filters" => "ExcludeFilters", "include_filters" => "IncludeFilters", "configuration" => "Configuration", "metric_math_anomaly_detector" => "MetricMathAnomalyDetector", "single_metric_anomaly_detector" => "SingleMetricAnomalyDetector", "stat" => "Stat", "rule_state" => "RuleState", "output_format" => "OutputFormat", "anomaly_detector_types" => "AnomalyDetectorTypes", "dashboard_name_prefix" => "DashboardNamePrefix", "max_contributor_count" => "MaxContributorCount", "order_by" => "OrderBy", "label_options" => "LabelOptions", "max_datapoints" => "MaxDatapoints")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("dimensions" => "Dimensions", "extended_statistics" => "ExtendedStatistics", "statistics" => "Statistics", "unit" => "Unit", "metric_name" => "MetricName", "namespace" => "Namespace", "next_token" => "NextToken", "recently_active" => "RecentlyActive", "state_reason_data" => "StateReasonData", "max_results" => "MaxResults", "action_prefix" => "ActionPrefix", "alarm_name_prefix" => "AlarmNamePrefix", "alarm_names" => "AlarmNames", "alarm_types" => "AlarmTypes", "children_of_alarm_name" => "ChildrenOfAlarmName", "max_records" => "MaxRecords", "parents_of_alarm_name" => "ParentsOfAlarmName", "state_value" => "StateValue", "actions_enabled" => "ActionsEnabled", "alarm_actions" => "AlarmActions", "alarm_description" => "AlarmDescription", "insufficient_data_actions" => "InsufficientDataActions", "okactions" => "OKActions", "tags" => "Tags", "alarm_name" => "AlarmName", "end_date" => "EndDate", "history_item_type" => "HistoryItemType", "scan_by" => "ScanBy", "start_date" => "StartDate", "datapoints_to_alarm" => "DatapointsToAlarm", "evaluate_low_sample_count_percentile" => "EvaluateLowSampleCountPercentile", "extended_statistic" => "ExtendedStatistic", "metrics" => "Metrics", "period" => "Period", "statistic" => "Statistic", "threshold" => "Threshold", "threshold_metric_id" => "ThresholdMetricId", "treat_missing_data" => "TreatMissingData", "exclude_filters" => "ExcludeFilters", "include_filters" => "IncludeFilters", "configuration" => "Configuration", "metric_math_anomaly_detector" => "MetricMathAnomalyDetector", "single_metric_anomaly_detector" => "SingleMetricAnomalyDetector", "stat" => "Stat", "rule_state" => "RuleState", "output_format" => "OutputFormat", "anomaly_detector_types" => "AnomalyDetectorTypes", "dashboard_name_prefix" => "DashboardNamePrefix", "max_contributor_count" => "MaxContributorCount", "order_by" => "OrderBy", "label_options" => "LabelOptions", "max_datapoints" => "MaxDatapoints")
 
 """
     delete_alarms(alarm_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,7 +29,7 @@ evaluation path.
 
 """
 function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DeleteAlarms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -57,7 +57,7 @@ Deletes the specified anomaly detection model from your account.
 - `stat`: The statistic associated with the anomaly detection model to delete.
 """
 function delete_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DeleteAnomalyDetector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -72,7 +72,7 @@ there is an error during this call, no dashboards are deleted.
 
 """
 function delete_dashboards(DashboardNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DeleteDashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardNames"=>DashboardNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -89,7 +89,7 @@ was created might not be available.
 
 """
 function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -103,7 +103,7 @@ Permanently deletes the metric stream that you specify.
 
 """
 function delete_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DeleteMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -134,7 +134,7 @@ permission has a narrower scope.
 - `start_date`: The starting date to retrieve alarm history.
 """
 function describe_alarm_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DescribeAlarmHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -186,7 +186,7 @@ about composite alarms if your cloudwatch:DescribeAlarms permission has a narrow
   currently in the state that you specify.
 """
 function describe_alarms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DescribeAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -213,7 +213,7 @@ specified metric, or composite alarms that use the specified metric.
 - `unit`: The unit for the metric.
 """
 function describe_alarms_for_metric(MetricName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -245,7 +245,7 @@ account.
   of results.
 """
 function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DescribeAnomalyDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -262,7 +262,7 @@ about Contributor Insights, see Using Contributor Insights to Analyze High-Cardi
   the next set of rules.
 """
 function describe_insight_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DescribeInsightRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -277,7 +277,7 @@ alarm actions do not execute when the alarm state changes.
 
 """
 function disable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DisableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -293,7 +293,7 @@ analyze log groups and do not incur costs.
 
 """
 function disable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("DisableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -307,7 +307,7 @@ Enables the actions for the specified alarms.
 
 """
 function enable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("EnableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -323,7 +323,7 @@ begin analyzing log data.
 
 """
 function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("EnableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -339,7 +339,7 @@ new dashboard when you call PutDashboard to create the copy.
 
 """
 function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardName"=>DashboardName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -393,7 +393,7 @@ represented by that data point.
   SUM and MAXIMUM.
 """
 function get_insight_rule_report(EndTime, Period, RuleName, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetInsightRuleReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -468,7 +468,7 @@ conversions.
   is reached.
 """
 function get_metric_data(EndTime, MetricDataQueries, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -561,7 +561,7 @@ Dimensions Reference in the Amazon CloudWatch User Guide.
   conversions.
 """
 function get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -575,7 +575,7 @@ Returns information about the metric stream that you specify.
 
 """
 function get_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -615,7 +615,7 @@ metrics in the graph.   Up to 100 KB uncompressed payload.
   content-type set to image/png, and the body of the response is a PNG image.
 """
 function get_metric_widget_image(MetricWidget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -636,7 +636,7 @@ value you received for NextToken in the first call, to receive the next 1000 res
   available.
 """
 function list_dashboards(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("ListDashboards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -651,7 +651,7 @@ Returns a list of metric streams in this account.
   next set of metric streams.
 """
 function list_metric_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("ListMetricStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -682,7 +682,7 @@ in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetric
   with last published data as much as 40 minutes more than the specified time interval.
 """
 function list_metrics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("ListMetrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -702,7 +702,7 @@ Insights rules support tagging.
 
 """
 function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -735,7 +735,7 @@ see CloudWatch Anomaly Detection.
 - `stat`: The statistic to use for the metric and the anomaly detection model.
 """
 function put_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutAnomalyDetector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -820,7 +820,7 @@ a composite alarm that has Systems Manager OpsItem actions.
   to access or change only resources with certain tag values.
 """
 function put_composite_alarm(AlarmName, AlarmRule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutCompositeAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -851,7 +851,7 @@ DashboardBody script or the CloudFormation template used to create the dashboard
 
 """
 function put_dashboard(DashboardBody, DashboardName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -881,7 +881,7 @@ time the rule was created might not be available.
   ignored. To change the tags of an existing rule, use TagResource.
 """
 function put_insight_rule(RuleDefinition, RuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutInsightRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1043,7 +1043,7 @@ CloudWatch console.
   DATA state.
 """
 function put_metric_alarm(AlarmName, ComparisonOperator, EvaluationPeriods; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutMetricAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1086,7 +1086,7 @@ by SampleCount.
 
 """
 function put_metric_data(MetricData, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1137,7 +1137,7 @@ update an existing stream, the state of the stream is not changed.
   tags of an existing metric stream, use TagResource or UntagResource.
 """
 function put_metric_stream(FirehoseArn, Name, OutputFormat, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("PutMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirehoseArn"=>FirehoseArn, "Name"=>Name, "OutputFormat"=>OutputFormat, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1169,7 +1169,7 @@ StateReasonData parameter to enable the policy to take the correct action.
   this field to take the correct action.
 """
 function set_alarm_state(AlarmName, StateReason, StateValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1185,7 +1185,7 @@ Starts the streaming of metrics for one or more of your metric streams.
 
 """
 function start_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("StartMetricStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1201,7 +1201,7 @@ Stops the streaming of metrics for one or more of your metric streams.
 
 """
 function stop_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("StopMetricStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1230,7 +1230,7 @@ value for that tag. You can associate as many as 50 tags with a CloudWatch resou
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -1250,6 +1250,6 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return cloudwatch("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

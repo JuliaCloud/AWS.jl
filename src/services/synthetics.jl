@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 # Julia syntax for service-level optional parameters to the AWS request syntax
-const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("artifact_config" => "ArtifactConfig", "artifact_s3_location" => "ArtifactS3Location", "code" => "Code", "execution_role_arn" => "ExecutionRoleArn", "failure_retention_period_in_days" => "FailureRetentionPeriodInDays", "run_config" => "RunConfig", "runtime_version" => "RuntimeVersion", "schedule" => "Schedule", "success_retention_period_in_days" => "SuccessRetentionPeriodInDays", "visual_reference" => "VisualReference", "vpc_config" => "VpcConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags")
+const SERVICE_PARAMETER_MAP = AWS.LittleDict("artifact_config" => "ArtifactConfig", "artifact_s3_location" => "ArtifactS3Location", "code" => "Code", "execution_role_arn" => "ExecutionRoleArn", "failure_retention_period_in_days" => "FailureRetentionPeriodInDays", "run_config" => "RunConfig", "runtime_version" => "RuntimeVersion", "schedule" => "Schedule", "success_retention_period_in_days" => "SuccessRetentionPeriodInDays", "visual_reference" => "VisualReference", "vpc_config" => "VpcConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags")
 
 """
     create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -67,7 +67,7 @@ Canaries.
   see  Running a Canary in a VPC.
 """
 function create_canary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArtifactS3Location"=>ArtifactS3Location, "Code"=>Code, "ExecutionRoleArn"=>ExecutionRoleArn, "Name"=>Name, "RuntimeVersion"=>RuntimeVersion, "Schedule"=>Schedule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -94,7 +94,7 @@ canary.
 
 """
 function delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("DELETE", "/canary/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -115,7 +115,7 @@ specific resources.
   token in a subsequent operation to retrieve the next set of results.
 """
 function describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -132,7 +132,7 @@ created.
   token in a subsequent DescribeCanaries operation to retrieve the next set of results.
 """
 function describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canaries/last-run", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -150,7 +150,7 @@ Runtime Versions.
   token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
 """
 function describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/runtime-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -165,7 +165,7 @@ that you want. To get a list of canaries and their names, use DescribeCanaries.
 
 """
 function get_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("GET", "/canary/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -184,7 +184,7 @@ Retrieves a list of runs for a specified canary.
   token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
 """
 function get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canary/$(name)/runs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -199,7 +199,7 @@ Displays the tags associated with a canary.
 
 """
 function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -216,7 +216,7 @@ schedule, use GetCanary.
 
 """
 function start_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canary/$(name)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -235,7 +235,7 @@ again with the canary’s current schedule at any point in the future.
 
 """
 function stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/canary/$(name)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -259,7 +259,7 @@ associate as many as 50 tags with a canary.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -275,7 +275,7 @@ Removes one or more tags from the specified canary.
 
 """
 function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
@@ -328,6 +328,6 @@ existing canary, use TagResource.
   see  Running a Canary in a VPC.
 """
 function update_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
-    params = amazonify(MAPPING, kwargs)
+    params = amazonify(SERVICE_PARAMETER_MAP, kwargs)
     return synthetics("PATCH", "/canary/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
