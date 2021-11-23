@@ -157,36 +157,74 @@ try
 
     @testset "issue 515" begin
         # https://github.com/JuliaCloud/AWS.jl/issues/515
-        data = rand(UInt8, 100)
-        ATTEMPT_NUM = 0 # reset
-        patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-            @patch function HTTP.request(args...; response_stream, kwargs...)
-                ATTEMPT_NUM += 1
-                if ATTEMPT_NUM == 1
-                    write(response_stream, data[1:end-1]) # an incomplete stream that shouldn't be retained
-                    throw(HTTP.IOError(EOFError(), "msg"))
-                else
-                    write(response_stream, data)
-                    return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
+        n = 100
+        n_incomplete = n - 1
+        data = rand(UInt8, n)
+
+        @testset "Fail 2 attempts then succeed" begin
+            i = 2
+            ATTEMPT_NUM = 0 # reset
+            patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @patch function HTTP.request(args...; response_stream, kwargs...)
+                    ATTEMPT_NUM += 1
+                    if ATTEMPT_NUM <= i
+                        write(response_stream, data[1:n_incomplete]) # an incomplete stream that shouldn't be retained
+                        throw(HTTP.IOError(EOFError(), "msg"))
+                    else
+                        write(response_stream, data)
+                        return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
+                    end
+                end
+            elseif AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
+                @patch function Downloads.request(args...; output, kwargs...)
+                    ATTEMPT_NUM += 1
+                    if ATTEMPT_NUM <= i
+                        write(output, data[1:n_incomplete]) # an incomplete stream that shouldn't be retained
+                        throw(Downloads.RequestError("", 18, "transfer closed with 1 bytes remaining to read", Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])))
+                    else
+                        write(output, data)
+                        return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])
+                    end
                 end
             end
-        elseif AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
-            @patch function Downloads.request(args...; output, kwargs...)
-                ATTEMPT_NUM += 1
-                if ATTEMPT_NUM == 1
-                    write(output, data[1:end-1]) # an incomplete stream that shouldn't be retained
-                    throw(Downloads.RequestError("", 18, "transfer closed with 1 bytes remaining to read", Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])))
-                else
-                    write(output, data)
-                    return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])
-                end
+            config = AWSConfig(; creds=nothing)
+            apply(patch) do
+                resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+                @test length(resp) == n
+                @test resp == data
             end
         end
-        config = AWSConfig(; creds=nothing)
-        apply(patch) do
-            resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
-            @test length(resp) == length(data)
-            @test resp == data
+        @testset "Fail all 4 attempts then throw" begin
+            i = 4
+            ATTEMPT_NUM = 0 # reset
+            patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @patch function HTTP.request(args...; response_stream, kwargs...)
+                    ATTEMPT_NUM += 1
+                    if ATTEMPT_NUM <= i
+                        write(response_stream, data[1:n_incomplete]) # an incomplete stream that shouldn't be retained
+                        throw(HTTP.IOError(EOFError(), "msg"))
+                    else
+                        write(response_stream, data)
+                        return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
+                    end
+                end
+            elseif AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
+                @patch function Downloads.request(args...; output, kwargs...)
+                    ATTEMPT_NUM += 1
+                    if ATTEMPT_NUM <= i
+                        write(output, data[1:n_incomplete]) # an incomplete stream that shouldn't be retained
+                        throw(Downloads.RequestError("", 18, "transfer closed with 1 bytes remaining to read", Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])))
+                    else
+                        write(output, data)
+                        return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])
+                    end
+                end
+            end
+            config = AWSConfig(; creds=nothing)
+            apply(patch) do
+                err_t = AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend ? HTTP.IOError : Downloads.RequestError
+                @test_throws err_t S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dumm
+            end
         end
     end
 
