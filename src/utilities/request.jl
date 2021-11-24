@@ -144,9 +144,9 @@ end
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
-    attempts = 4
+    max_attempts = 4
     attempt = 0
-    @repeat attempts try
+    @repeat max_attempts try
         attempt += 1
         # HTTP options such as `status_exception` need to be used when creating the stack
         http_stack = HTTP.stack(;
@@ -186,7 +186,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             # Transfer the contents of the `BufferStream` into `response_stream` variable
             # but only if no EOFError error because of a broken connection OR it's the final attempt.
             # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
-            if should_write || attempt == attempts
+            if should_write || attempt == max_attempts
                 write(response_stream, buffer)
             end
         end
