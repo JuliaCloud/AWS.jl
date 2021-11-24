@@ -328,11 +328,11 @@ end
 Creates a new updated WorkSpace image based on the specified source image. The new updated
 WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces
 components. To determine which WorkSpace images need to be updated with the latest Amazon
-WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10 WorkSpace images
-can be programmatically updated at this time.   Microsoft Windows updates and other
-application updates are not included in the update process.   The source WorkSpace image is
-not deleted. You can delete the source image after you've verified your new updated image
-and created a new bundle.
+WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Sever
+2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this
+time.   Microsoft Windows updates and other application updates are not included in the
+update process.   The source WorkSpace image is not deleted. You can delete the source
+image after you've verified your new updated image and created a new bundle.
 
 # Arguments
 - `description`: A description of whether updates for the WorkSpace image are available.

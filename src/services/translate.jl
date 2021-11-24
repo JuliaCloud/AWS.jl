@@ -186,44 +186,37 @@ function get_parallel_data(
 end
 
 """
-    get_terminology(name, terminology_data_format)
-    get_terminology(name, terminology_data_format, params::Dict{String,<:Any})
+    get_terminology(name)
+    get_terminology(name, params::Dict{String,<:Any})
 
 Retrieves a custom terminology.
 
 # Arguments
 - `name`: The name of the custom terminology being retrieved.
-- `terminology_data_format`: The data format of the custom terminology being retrieved,
-  either CSV or TMX.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TerminologyDataFormat"`: The data format of the custom terminology being retrieved. If
+  you don't specify this parameter, Amazon Translate returns a file that has the same format
+  as the file that was imported to create the terminology.  If you specify this parameter
+  when you retrieve a multi-directional terminology resource, you must specify the same
+  format as that of the input file that was imported to create it. Otherwise, Amazon
+  Translate throws an error.
 """
-function get_terminology(
-    Name, TerminologyDataFormat; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return translate(
         "GetTerminology",
-        Dict{String,Any}("Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_terminology(
-    Name,
-    TerminologyDataFormat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return translate(
         "GetTerminology",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat
-                ),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

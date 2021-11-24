@@ -1413,6 +1413,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication for OpenSearch Dashboards.
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.
+- `"DryRun"`: This flag, when set to True, specifies whether the UpdateDomain request
+  should return the results of validation checks (DryRunResults) without actually applying
+  the change.
 - `"EBSOptions"`: Specify the type and size of the EBS volume to use.
 - `"EncryptionAtRestOptions"`: Specifies encryption of data at rest options.
 - `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options

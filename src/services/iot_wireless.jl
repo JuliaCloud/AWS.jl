@@ -1497,6 +1497,40 @@ function get_multicast_group_session(
 end
 
 """
+    get_network_analyzer_configuration(configuration_name)
+    get_network_analyzer_configuration(configuration_name, params::Dict{String,<:Any})
+
+Get NetworkAnalyzer configuration.
+
+# Arguments
+- `configuration_name`:
+
+"""
+function get_network_analyzer_configuration(
+    ConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/network-analyzer-configurations/$(ConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_analyzer_configuration(
+    ConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/network-analyzer-configurations/$(ConfigurationName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_partner_account(partner_account_id, partner_type)
     get_partner_account(partner_account_id, partner_type, params::Dict{String,<:Any})
 
@@ -2902,6 +2936,48 @@ function update_multicast_group(
     return iot_wireless(
         "PATCH",
         "/multicast-groups/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_network_analyzer_configuration(configuration_name)
+    update_network_analyzer_configuration(configuration_name, params::Dict{String,<:Any})
+
+Update NetworkAnalyzer configuration.
+
+# Arguments
+- `configuration_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TraceContent"`:
+- `"WirelessDevicesToAdd"`: WirelessDevices to add into NetworkAnalyzerConfiguration.
+- `"WirelessDevicesToRemove"`: WirelessDevices to remove from NetworkAnalyzerConfiguration.
+- `"WirelessGatewaysToAdd"`: WirelessGateways to add into NetworkAnalyzerConfiguration.
+- `"WirelessGatewaysToRemove"`: WirelessGateways to remove from
+  NetworkAnalyzerConfiguration.
+"""
+function update_network_analyzer_configuration(
+    ConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/network-analyzer-configurations/$(ConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_network_analyzer_configuration(
+    ConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/network-analyzer-configurations/$(ConfigurationName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

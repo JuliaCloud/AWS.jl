@@ -505,6 +505,46 @@ function get_stream_key(
 end
 
 """
+    get_stream_session(channel_arn)
+    get_stream_session(channel_arn, params::Dict{String,<:Any})
+
+Gets metadata on a specified stream.
+
+# Arguments
+- `channel_arn`: ARN of the channel resource
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"streamId"`: Unique identifier for a live or previously live stream in the specified
+  channel. If no streamId is provided, this returns the most recent stream session for the
+  channel, if it exists.
+"""
+function get_stream_session(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ivs(
+        "POST",
+        "/GetStreamSession",
+        Dict{String,Any}("channelArn" => channelArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_stream_session(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/GetStreamSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_playback_key_pair(public_key_material)
     import_playback_key_pair(public_key_material, params::Dict{String,<:Any})
 
@@ -692,6 +732,47 @@ function list_stream_keys(
 end
 
 """
+    list_stream_sessions(channel_arn)
+    list_stream_sessions(channel_arn, params::Dict{String,<:Any})
+
+Gets a summary of current and previous streams for a specified channel in your account, in
+the AWS region where the API request is processed.
+
+# Arguments
+- `channel_arn`: Channel ARN used to filter the list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum number of streams to return. Default: 50.
+- `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
+  nextToken response field.
+"""
+function list_stream_sessions(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ivs(
+        "POST",
+        "/ListStreamSessions",
+        Dict{String,Any}("channelArn" => channelArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_stream_sessions(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/ListStreamSessions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_streams()
     list_streams(params::Dict{String,<:Any})
 
@@ -700,6 +781,7 @@ region where the API request is processed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterBy"`: Filters the stream list to match the specified criterion.
 - `"maxResults"`: Maximum number of streams to return. Default: 50.
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.

@@ -13,7 +13,7 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 
 # Arguments
 - `bot_id`: The identifier of the bot to build. The identifier is returned in the response
-  from the operation.
+  from the CreateBot operation.
 - `bot_version`: The version of the bot to build. This can only be the draft version of the
   bot.
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
@@ -143,7 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this parameter to specify a specific Lambda function to run different functions in
   different locales.
 - `"botVersion"`: The version of the bot that this alias points to. You can use the
-  operation to change the bot version associated with the alias.
+  UpdateBotAlias operation to change the bot version associated with the alias.
 - `"conversationLogSettings"`: Specifies whether Amazon Lex logs text and audio for a
   conversation with the bot. When you enable conversation logs, text logs store text input,
   transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs
@@ -1258,12 +1258,12 @@ end
     delete_utterances(bot_id, params::Dict{String,<:Any})
 
 Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot.
-Utterances are stored for 15 days for use with the operation, and then stored indefinitely
-for use in improving the ability of your bot to respond to user input.. Use the
-DeleteUtterances operation to manually delete utterances for a specific session. When you
-use the DeleteUtterances operation, utterances stored for improving your bot's ability to
-respond to user input are deleted immediately. Utterances stored for use with the
-ListAggregatedUtterances operation are deleted after 15 days.
+Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and
+then stored indefinitely for use in improving the ability of your bot to respond to user
+input.. Use the DeleteUtterances operation to manually delete utterances for a specific
+session. When you use the DeleteUtterances operation, utterances stored for improving your
+bot's ability to respond to user input are deleted immediately. Utterances stored for use
+with the ListAggregatedUtterances operation are deleted after 15 days.
 
 # Arguments
 - `bot_id`: The unique identifier of the bot that contains the utterances.
@@ -1274,7 +1274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   collected. The string must match one of the supported locales. For more information, see
   Supported languages.
 - `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
-  the response from the and operations.
+  the response from the RecognizeText and RecognizeUtterance operations.
 """
 function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_models_v2(
@@ -2274,7 +2274,7 @@ Starts importing a bot or bot locale from a zip archive that you uploaded to an 
 
 # Arguments
 - `import_id`: The unique identifier for the import. It is included in the response from
-  the operation.
+  the CreateUploadUrl operation.
 - `merge_strategy`: The strategy to use when there is a name conflict between the imported
   resource and an existing resource. When the merge strategy is FailOnConflict existing
   resources are not overwritten and the import fails.
@@ -2600,7 +2600,7 @@ end
 Updates the password used to protect an export zip archive. The password is not required.
 If you don't supply a password, Amazon Lex generates a zip file that is not protected by a
 password. This is the archive that is available at the pre-signed S3 URL provided by the
-operation.
+DescribeExport operation.
 
 # Arguments
 - `export_id`: The unique identifier Amazon Lex assigned to the export.

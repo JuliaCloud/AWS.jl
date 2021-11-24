@@ -171,7 +171,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This option also requires you to provide a Directory ID using the IdentityProviderDetails
   parameter. Use the API_GATEWAY value to integrate with an identity provider of your
   choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to
-  call for authentication using the IdentityProviderDetails parameter.
+  call for authentication using the IdentityProviderDetails parameter. Use the LAMBDA value
+  to directly use a Lambda function as your identity provider. If you choose this value, you
+  must specify the ARN for the lambda function in the Function parameter for the
+  IdentityProviderDetails data type.
 - `"LoggingRole"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
   Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch
   logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your

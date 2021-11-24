@@ -2979,6 +2979,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Ipv6Native"`: Indicates whether to create an IPv6 only subnet. If you already have a
+  default subnet for this Availability Zone, you must delete it before you can create an IPv6
+  only subnet.
 """
 function create_default_subnet(
     AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4607,6 +4610,7 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: The ID of the carrier gateway. You can only use this option when
   the VPC contains a subnet which is associated with a Wavelength Zone.
+- `"CoreNetworkArn"`:
 - `"DestinationPrefixListId"`: The ID of a prefix list used for the destination match.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"TransitGatewayId"`: The ID of a transit gateway.
@@ -4987,8 +4991,8 @@ function create_store_image_task(
 end
 
 """
-    create_subnet(cidr_block, vpc_id)
-    create_subnet(cidr_block, vpc_id, params::Dict{String,<:Any})
+    create_subnet(vpc_id)
+    create_subnet(vpc_id, params::Dict{String,<:Any})
 
 Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet.
 After you create a subnet, you can't change its CIDR block. The allowed block size is
@@ -5004,9 +5008,6 @@ but no remaining IP addresses available. For more information about subnets, see
 and subnets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
-- `cidr_block`: The IPv4 network range for the subnet, in CIDR notation. For example,
-  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
-  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
 - `vpc_id`: The ID of the VPC.
 
 # Optional Parameters
@@ -5019,8 +5020,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cloud User Guide. To create a subnet in an Outpost, set this value to the Availability Zone
   for the Outpost and specify the Outpost ARN.
 - `"AvailabilityZoneId"`: The AZ ID or the Local Zone ID of the subnet.
+- `"CidrBlock"`: The IPv4 network range for the subnet, in CIDR notation. For example,
+  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
+  specify 100.68.0.18/18, we modify it to 100.68.0.0/18. This parameter is not supported for
+  an IPv6 only subnet.
 - `"Ipv6CidrBlock"`: The IPv6 network range for the subnet, in CIDR notation. The subnet
-  size must use a /64 prefix length.
+  size must use a /64 prefix length. This parameter is required for an IPv6 only subnet.
+- `"Ipv6Native"`: Indicates whether to create an IPv6 only subnet.
 - `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost
   ARN, you must also specify the Availability Zone of the Outpost subnet.
 - `"TagSpecification"`: The tags to assign to the subnet.
@@ -5028,27 +5034,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_subnet(CidrBlock, VpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_subnet(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
         "CreateSubnet",
-        Dict{String,Any}("CidrBlock" => CidrBlock, "VpcId" => VpcId);
+        Dict{String,Any}("VpcId" => VpcId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_subnet(
-    CidrBlock,
-    VpcId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ec2(
         "CreateSubnet",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CidrBlock" => CidrBlock, "VpcId" => VpcId), params
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -11188,7 +11187,7 @@ Describes the status of the specified instances or all of your instances. By def
 running instances are described, unless you specifically indicate to return the status of
 all instances. Instance status includes the following components:    Status checks - Amazon
 EC2 performs status checks on running EC2 instances to identify hardware and software
-issues. For more information, see Status checks for your instances and Troubleshooting
+issues. For more information, see Status checks for your instances and Troubleshoot
 instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events -
 Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances
 related to hardware issues, software updates, or system maintenance. For more information,
@@ -13757,21 +13756,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you
   specify must exactly match the subnet's CIDR block for information to be returned for the
   subnet. You can also use cidr or cidrBlock as the filter names.    default-for-az -
-  Indicates whether this is the default subnet for the Availability Zone. You can also use
-  defaultForAz as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6
-  CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An
-  association ID for an IPv6 CIDR block associated with the subnet.
-  ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
-  subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
-  ID of the Amazon Web Services account that owns the subnet.    state - The state of the
-  subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.
-     subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a
-  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
-  VPC for the subnet.
+  Indicates whether this is the default subnet for the Availability Zone (true | false). You
+  can also use defaultForAz as the filter name.
+  ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the
+  subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR
+  block associated with the subnet.    ipv6-cidr-block-association.state - The state of an
+  IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an
+  IPv6 only subnet (true | false).    outpost-arn - The Amazon Resource Name (ARN) of the
+  Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.
+  state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource
+  Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  vpc-id - The ID of the VPC for the subnet.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -19300,8 +19300,7 @@ an elastic network interface (ENI) attached to an instance in a VPC can result i
 if the instance has more than one ENI. To change the security groups associated with an ENI
 attached to an instance that has multiple ENIs, we recommend that you use the
 ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be
-stopped. For more information, see Modifying attributes of a stopped instance in the Amazon
-EC2 User Guide.
+stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -19322,7 +19321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently attached. The volume must be owned by the caller. If no value is specified for
   DeleteOnTermination, the default is true and the volume is deleted when the instance is
   terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add
-  them when you launch the instance. For more information, see Updating the block device
+  them when you launch the instance. For more information, see Update the block device
   mapping when launching an instance in the Amazon EC2 User Guide.
 - `"disableApiTermination"`: If the value is true, you can't terminate the instance using
   the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for
@@ -19627,11 +19626,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"HttpEndpoint"`: This parameter enables or disables the HTTP metadata endpoint on your
-  instances. If the parameter is not specified, the existing state is maintained.  If you
-  specify a value of disabled, you will not be able to access your instance metadata.
+- `"HttpEndpoint"`: Enables or disables the HTTP metadata endpoint on your instances. If
+  the parameter is not specified, the existing state is maintained. If you specify a value of
+  disabled, you cannot access your instance metadata.
 - `"HttpProtocolIpv6"`: Enables or disables the IPv6 endpoint for the instance metadata
-  service.
+  service. This setting applies only if you have enabled the HTTP metadata endpoint.
 - `"HttpPutResponseHopLimit"`: The desired HTTP PUT response hop limit for instance
   metadata requests. The larger the number, the further instance metadata requests can
   travel. If no parameter is specified, the existing state is maintained. Possible values:
@@ -19697,7 +19696,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance from a placement group, specify an empty string (\"\").
 - `"HostResourceGroupArn"`: The ARN of the host resource group in which to place the
   instance.
-- `"PartitionNumber"`: Reserved for future use.
+- `"PartitionNumber"`: The number of the partition in which to place the instance. Valid
+  only if the placement group strategy is set to partition.
 - `"affinity"`: The affinity setting for the instance.
 - `"hostId"`: The ID of the Dedicated Host with which to associate the instance.
 - `"tenancy"`: The tenancy for the instance.  For T3 instances, you can't change the
@@ -19871,6 +19871,47 @@ function modify_network_interface_attribute(
                 _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_private_dns_name_options()
+    modify_private_dns_name_options(params::Dict{String,<:Any})
+
+Modifies the options for instance hostnames for the specified instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnableResourceNameDnsAAAARecord"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS AAAA records.
+- `"EnableResourceNameDnsARecord"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS A records.
+- `"InstanceId"`: The ID of the instance.
+- `"PrivateDnsHostnameType"`: The type of hostname for EC2 instances. For IPv4 only
+  subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only
+  subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you
+  can specify whether DNS names use the instance IPv4 address or the instance ID.
+"""
+function modify_private_dns_name_options(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyPrivateDnsNameOptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_private_dns_name_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyPrivateDnsNameOptions",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -20124,12 +20165,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2016-11-15 or later of the Amazon EC2 API.
 - `"CustomerOwnedIpv4Pool"`: The customer-owned IPv4 address pool associated with the
   subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
+- `"EnableDns64"`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver
+  in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
+- `"EnableResourceNameDnsAAAARecordOnLaunch"`: Indicates whether to respond to DNS queries
+  for instance hostnames with DNS AAAA records.
+- `"EnableResourceNameDnsARecordOnLaunch"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS A records.
 - `"MapCustomerOwnedIpOnLaunch"`: Specify true to indicate that network interfaces attached
   to instances created in the specified subnet should be assigned a customer-owned IPv4
   address. When this value is true, you must specify the customer-owned IP pool using
   CustomerOwnedIpv4Pool.
 - `"MapPublicIpOnLaunch"`: Specify true to indicate that network interfaces attached to
   instances created in the specified subnet should be assigned a public IPv4 address.
+- `"PrivateDnsHostnameTypeOnLaunch"`: The type of hostnames to assign to instances in the
+  subnet at launch. For IPv4 only subnets, an instance DNS name must be based on the instance
+  IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID.
+  For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or
+  the instance ID.
 """
 function modify_subnet_attribute(
     subnetId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -21214,7 +21266,7 @@ end
     monitor_instances(instance_id, params::Dict{String,<:Any})
 
 Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled.
-For more information, see Monitoring your instances and volumes in the Amazon EC2 User
+For more information, see Monitor your instances using CloudWatch in the Amazon EC2 User
 Guide. To disable detailed monitoring, see .
 
 # Arguments
@@ -21532,8 +21584,8 @@ Requests a reboot of the specified instances. This operation is asynchronous; it
 queues a request to reboot the specified instances. The operation succeeds if the instances
 are valid and belong to you. Requests to reboot terminated instances are ignored. If an
 instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard
-reboot. For more information about troubleshooting, see Getting console output and
-rebooting instances in the Amazon EC2 User Guide.
+reboot. For more information about troubleshooting, see Troubleshoot an unreachable
+instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The instance IDs.
@@ -22280,6 +22332,7 @@ For more information, see Route tables in the Amazon Virtual Private Cloud User 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: [IPv4 traffic only] The ID of a carrier gateway.
+- `"CoreNetworkArn"`:
 - `"DestinationPrefixListId"`: The ID of the prefix list for the route.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"LocalTarget"`: Specifies whether to reset the local route to its default target (local).
@@ -23284,8 +23337,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting option. If you do not specify this parameter, the instance's Capacity Reservation
   preference defaults to open, which enables it to run in any open Capacity Reservation that
   has matching attributes (instance type, platform, Availability Zone).
-- `"CpuOptions"`: The CPU options for the instance. For more information, see Optimizing
-  CPU options in the Amazon EC2 User Guide.
+- `"CpuOptions"`: The CPU options for the instance. For more information, see Optimize CPU
+  options in the Amazon EC2 User Guide.
 - `"CreditSpecification"`: The credit option for CPU usage of the burstable performance
   instance. Valid values are standard and unlimited. To change this attribute after launch,
   use  ModifyInstanceCreditSpecification. For more information, see Burstable performance
@@ -23337,6 +23390,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance metadata and user data.
 - `"Monitoring"`: Specifies whether detailed monitoring is enabled for the instance.
 - `"Placement"`: The placement for the instance.
+- `"PrivateDnsNameOptions"`: The options for the instance hostname. The default values are
+  inherited from the subnet.
 - `"RamdiskId"`: The ID of the RAM disk to select. Some kernels require additional drivers
   at launch. Check the kernel requirements for information about whether you need to specify
   a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
@@ -23355,10 +23410,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances and volumes on launch. The specified tags are applied to all instances or volumes
   that are created during launch. To tag a resource after it has been created, see CreateTags.
 - `"UserData"`: The user data to make available to the instance. For more information, see
-  Running commands on your Linux instance at launch (Linux) and Adding User Data (Windows).
-  If you are using a command line tool, base64-encoding is performed for you, and you can
-  load the text from a file. Otherwise, you must provide base64-encoded text. User data is
-  limited to 16 KB.
+  Run commands on your Linux instance at launch and Run commands on your Windows instance at
+  launch. If you are using a command line tool, base64-encoding is performed for you, and you
+  can load the text from a file. Otherwise, you must provide base64-encoded text. User data
+  is limited to 16 KB.
 - `"additionalInfo"`: Reserved.
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used
@@ -23662,8 +23717,8 @@ tasks, such as generating a memory dump file, loading a secondary kernel, or obt
 call trace. Before sending a diagnostic interrupt to your instance, ensure that its
 operating system is configured to perform the required diagnostic tasks. For more
 information about configuring your operating system to generate a crash dump when a kernel
-panic or stop error occurs, see Send a diagnostic interrupt (Linux instances) or Send a
-Diagnostic Interrupt (Windows instances).
+panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux
+instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -23716,7 +23771,7 @@ instance store as its root device returns an error. If you attempt to start a T3
 with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU
 credit option is not supported on Dedicated Hosts. Before you start the instance, either
 change its CPU credit option to standard, or change its tenancy to default or dedicated.
-For more information, see Stopping instances in the Amazon EC2 User Guide.
+For more information, see Stop and start your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -23878,7 +23933,7 @@ differences between rebooting, stopping, hibernating, and terminating instances,
 Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to
 shut it down forcibly after a short while. If your instance appears stuck in the stopping
 state after a period of time, there may be an issue with the underlying host computer. For
-more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
+more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.

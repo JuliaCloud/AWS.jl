@@ -50,51 +50,41 @@ function delete_alarms(
 end
 
 """
-    delete_anomaly_detector(metric_name, namespace, stat)
-    delete_anomaly_detector(metric_name, namespace, stat, params::Dict{String,<:Any})
+    delete_anomaly_detector()
+    delete_anomaly_detector(params::Dict{String,<:Any})
 
 Deletes the specified anomaly detection model from your account.
-
-# Arguments
-- `metric_name`: The metric name associated with the anomaly detection model to delete.
-- `namespace`: The namespace associated with the anomaly detection model to delete.
-- `stat`: The statistic associated with the anomaly detection model to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Dimensions"`: The metric dimensions associated with the anomaly detection model to
   delete.
+- `"MetricMathAnomalyDetector"`: The metric math anomaly detector to be deleted. When using
+  MetricMathAnomalyDetector, you cannot include following parameters in the same operation:
+   Dimensions,    MetricName     Namespace     Stat    the SingleMetricAnomalyDetector
+  parameters of DeleteAnomalyDetectorInput    Instead, specify the metric math anomaly
+  detector attributes as part of the MetricMathAnomalyDetector property.
+- `"MetricName"`: The metric name associated with the anomaly detection model to delete.
+- `"Namespace"`: The namespace associated with the anomaly detection model to delete.
+- `"SingleMetricAnomalyDetector"`: A single metric anomaly detector to be deleted. When
+  using SingleMetricAnomalyDetector, you cannot include the following parameters in the same
+  operation:    Dimensions,    MetricName     Namespace     Stat    the
+  MetricMathAnomalyDetector parameters of DeleteAnomalyDetectorInput    Instead, specify the
+  single metric anomaly detector attributes as part of the SingleMetricAnomalyDetector
+  property.
+- `"Stat"`: The statistic associated with the anomaly detection model to delete.
 """
-function delete_anomaly_detector(
-    MetricName, Namespace, Stat; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DeleteAnomalyDetector",
-        Dict{String,Any}(
-            "MetricName" => MetricName, "Namespace" => Namespace, "Stat" => Stat
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_anomaly_detector(
-    MetricName,
-    Namespace,
-    Stat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
         "DeleteAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MetricName" => MetricName, "Namespace" => Namespace, "Stat" => Stat
-                ),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -208,7 +198,10 @@ end
 Retrieves the history for the specified alarm. You can filter the results by date range or
 item type. If an alarm name is not specified, the histories for either all metric alarms or
 all composite alarms are returned. CloudWatch retains the history of an alarm even if you
-delete the alarm.
+delete the alarm. To use this operation and return information about a composite alarm, you
+must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to *.
+You can't return information about composite alarms if your cloudwatch:DescribeAlarmHistory
+permission has a narrower scope.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -247,7 +240,10 @@ end
     describe_alarms(params::Dict{String,<:Any})
 
 Retrieves the specified alarms. You can filter the results by specifying a prefix for the
-alarm name, the alarm state, or a prefix for any action.
+alarm name, the alarm state, or a prefix for any action. To use this operation and return
+information about composite alarms, you must be signed on with the
+cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information
+about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -359,12 +355,17 @@ end
     describe_anomaly_detectors()
     describe_anomaly_detectors(params::Dict{String,<:Any})
 
-Lists the anomaly detection models that you have created in your account. You can list all
-models in your account or filter the results to only the models that are related to a
-certain namespace, metric name, or metric dimension.
+Lists the anomaly detection models that you have created in your account. For single metric
+anomaly detectors, you can list all of the models in your account or filter the results to
+only the models that are related to a certain namespace, metric name, or metric dimension.
+For metric math anomaly detectors, you can list them by adding METRIC_MATH to the
+AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnomalyDetectorTypes"`: The anomaly detector types to request when using
+  DescribeAnomalyDetectorsInput. If empty, defaults to SINGLE_METRIC.
 - `"Dimensions"`: Limits the results to only the anomaly detection models that are
   associated with the specified metric dimensions. If there are multiple metrics that have
   these dimensions and have anomaly detection models associated, they're all returned.
@@ -1171,17 +1172,12 @@ function list_tags_for_resource(
 end
 
 """
-    put_anomaly_detector(metric_name, namespace, stat)
-    put_anomaly_detector(metric_name, namespace, stat, params::Dict{String,<:Any})
+    put_anomaly_detector()
+    put_anomaly_detector(params::Dict{String,<:Any})
 
 Creates an anomaly detection model for a CloudWatch metric. You can use the model to
 display a band of expected normal values when the metric is graphed. For more information,
 see CloudWatch Anomaly Detection.
-
-# Arguments
-- `metric_name`: The name of the metric to create the anomaly detection model for.
-- `namespace`: The namespace of the metric to create the anomaly detection model for.
-- `stat`: The statistic to use for the metric and the anomaly detection model.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1190,39 +1186,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model. You can specify as many as 10 time ranges. The configuration can also include the
   time zone to use for the metric.
 - `"Dimensions"`: The metric dimensions to create the anomaly detection model for.
+- `"MetricMathAnomalyDetector"`: The metric math anomaly detector to be created. When using
+  MetricMathAnomalyDetector, you cannot include the following parameters in the same
+  operation:    Dimensions     MetricName     Namespace     Stat    the
+  SingleMetricAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the
+  metric math anomaly detector attributes as part of the property MetricMathAnomalyDetector.
+- `"MetricName"`: The name of the metric to create the anomaly detection model for.
+- `"Namespace"`: The namespace of the metric to create the anomaly detection model for.
+- `"SingleMetricAnomalyDetector"`: A single metric anomaly detector to be created. When
+  using SingleMetricAnomalyDetector, you cannot include the following parameters in the same
+  operation:    Dimensions     MetricName     Namespace     Stat    the
+  MetricMatchAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the
+  single metric anomaly detector attributes as part of the property
+  SingleMetricAnomalyDetector.
+- `"Stat"`: The statistic to use for the metric and the anomaly detection model.
 """
-function put_anomaly_detector(
-    MetricName, Namespace, Stat; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function put_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "PutAnomalyDetector",
-        Dict{String,Any}(
-            "MetricName" => MetricName, "Namespace" => Namespace, "Stat" => Stat
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function put_anomaly_detector(
-    MetricName,
-    Namespace,
-    Stat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "PutAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MetricName" => MetricName, "Namespace" => Namespace, "Stat" => Stat
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PutAnomalyDetector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1252,9 +1240,11 @@ to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropria
 actions associated with the new state are then executed. For a composite alarm, this
 initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA
 state. When you update an existing alarm, its state is left unchanged, but the update
-completely overwrites the previous configuration of the alarm. If you are an IAM user, you
-must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager
-OpsItem actions.
+completely overwrites the previous configuration of the alarm. To use this operation, you
+must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You
+can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a
+narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create
+a composite alarm that has Systems Manager OpsItem actions.
 
 # Arguments
 - `alarm_name`: The name for the composite alarm. This name must be unique within the
@@ -1469,22 +1459,23 @@ an existing alarm, its state is left unchanged, but the update completely overwr
 previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2
 permissions for some alarm operations:   The iam:CreateServiceLinkedRole for all alarms
 with EC2 actions   The iam:CreateServiceLinkedRole to create an alarm with Systems Manager
-OpsItem actions.   The first time you create an alarm in the Management Console, the CLI,
-or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role
-for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
-AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services
-service-linked role.  Cross-account alarms  You can set an alarm on metrics in the current
-account, or in another account. To create a cross-account alarm that watches a metric in a
-different account, you must have completed the following pre-requisites:   The account
-where the metrics are located (the sharing account) must already have a sharing role named
-CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create
-it using the instructions in Set up a sharing account in  Cross-account cross-Region
-CloudWatch console. The policy for that role must grant access to the ID of the account
-where you are creating the alarm.    The account where you are creating the alarm (the
-monitoring account) must already have a service-linked role named
-AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in
-the sharing account. If it does not, you must create it following the directions in Set up
-a monitoring account in  Cross-account cross-Region CloudWatch console.
+OpsItem actions.   The first time you create an alarm in the Amazon Web Services Management
+Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary
+service-linked role for you. The service-linked roles are called
+AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more
+information, see Amazon Web Services service-linked role.  Cross-account alarms  You can
+set an alarm on metrics in the current account, or in another account. To create a
+cross-account alarm that watches a metric in a different account, you must have completed
+the following pre-requisites:   The account where the metrics are located (the sharing
+account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it
+does not already have this role, you must create it using the instructions in Set up a
+sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role
+must grant access to the ID of the account where you are creating the alarm.    The account
+where you are creating the alarm (the monitoring account) must already have a
+service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to
+assume the sharing role in the sharing account. If it does not, you must create it
+following the directions in Set up a monitoring account in  Cross-account cross-Region
+CloudWatch console.
 
 # Arguments
 - `alarm_name`: The name for the alarm. This name must be unique within the Region.

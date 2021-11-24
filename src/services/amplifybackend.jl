@@ -66,7 +66,7 @@ the time of app creation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"resourceConfig"`: The resource configuration for the create backend request.
+- `"resourceConfig"`: The resource configuration for creating backend storage.
 - `"resourceName"`: The name of the resource.
 """
 function create_backend(
@@ -265,6 +265,65 @@ function create_backend_config(
 end
 
 """
+    create_backend_storage(app_id, backend_environment_name, resource_config, resource_name)
+    create_backend_storage(app_id, backend_environment_name, resource_config, resource_name, params::Dict{String,<:Any})
+
+Creates a backend storage resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `resource_config`: The resource configuration for creating backend storage.
+- `resource_name`: The name of the storage resource.
+
+"""
+function create_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceConfig,
+    resourceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage",
+        Dict{String,Any}(
+            "backendEnvironmentName" => backendEnvironmentName,
+            "resourceConfig" => resourceConfig,
+            "resourceName" => resourceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceConfig,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "backendEnvironmentName" => backendEnvironmentName,
+                    "resourceConfig" => resourceConfig,
+                    "resourceName" => resourceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_token(app_id)
     create_token(app_id, params::Dict{String,<:Any})
 
@@ -416,6 +475,59 @@ function delete_backend_auth(
         "/backend/$(appId)/auth/$(backendEnvironmentName)/remove",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_backend_storage(app_id, backend_environment_name, resource_name, service_name)
+    delete_backend_storage(app_id, backend_environment_name, resource_name, service_name, params::Dict{String,<:Any})
+
+Removes the specified backend storage resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `resource_name`: The name of the storage resource.
+- `service_name`: The name of the storage service.
+
+"""
+function delete_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceName,
+    serviceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
+        Dict{String,Any}("resourceName" => resourceName, "serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceName" => resourceName, "serviceName" => serviceName
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -708,6 +820,50 @@ function get_backend_job(
 end
 
 """
+    get_backend_storage(app_id, backend_environment_name, resource_name)
+    get_backend_storage(app_id, backend_environment_name, resource_name, params::Dict{String,<:Any})
+
+Gets details for a backend storage resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `resource_name`: The name of the storage resource.
+
+"""
+function get_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_token(app_id, session_id)
     get_token(app_id, session_id, params::Dict{String,<:Any})
 
@@ -807,6 +963,53 @@ function import_backend_auth(
 end
 
 """
+    import_backend_storage(app_id, backend_environment_name, service_name)
+    import_backend_storage(app_id, backend_environment_name, service_name, params::Dict{String,<:Any})
+
+Imports an existing backend storage resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `service_name`: The name of the storage service.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucketName"`: The name of the S3 bucket.
+"""
+function import_backend_storage(
+    appId,
+    backendEnvironmentName,
+    serviceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_backend_storage(
+    appId,
+    backendEnvironmentName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_backend_jobs(app_id, backend_environment_name)
     list_backend_jobs(app_id, backend_environment_name, params::Dict{String,<:Any})
 
@@ -848,6 +1051,29 @@ function list_backend_jobs(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_s3_buckets()
+    list_s3_buckets(params::Dict{String,<:Any})
+
+The list of S3 buckets in your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: Reserved for future use.
+"""
+function list_s3_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return amplifybackend(
+        "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_s3_buckets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifybackend(
+        "POST", "/s3Buckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1089,6 +1315,61 @@ function update_backend_job(
         "POST",
         "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_backend_storage(app_id, backend_environment_name, resource_config, resource_name)
+    update_backend_storage(app_id, backend_environment_name, resource_config, resource_name, params::Dict{String,<:Any})
+
+Updates an existing backend storage resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `resource_config`: The resource configuration for updating backend storage.
+- `resource_name`: The name of the storage resource.
+
+"""
+function update_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceConfig,
+    resourceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)",
+        Dict{String,Any}(
+            "resourceConfig" => resourceConfig, "resourceName" => resourceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_backend_storage(
+    appId,
+    backendEnvironmentName,
+    resourceConfig,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceConfig" => resourceConfig, "resourceName" => resourceName
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
