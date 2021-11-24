@@ -24,7 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned to all backups created with this plan.
 - `"CreatorRequestId"`: Identifies the request and allows failed requests to be retried
   without the risk of running the operation twice. If the request includes a CreatorRequestId
-  that matches an existing backup plan, that plan is returned. This parameter is optional.
+  that matches an existing backup plan, that plan is returned. This parameter is optional. If
+  used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
 """
 function create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
@@ -55,18 +56,8 @@ end
     create_backup_selection(backup_selection, backup_plan_id)
     create_backup_selection(backup_selection, backup_plan_id, params::Dict{String,<:Any})
 
-Creates a JSON document that specifies a set of resources to assign to a backup plan.
-Resources can be included by specifying patterns for a ListOfTags and selected Resources.
-For example, consider the following patterns:    Resources:
-\"arn:aws:ec2:region:account-id:volume/volume-id\"     ConditionKey:\"department\"
-ConditionValue:\"finance\"   ConditionType:\"StringEquals\"     ConditionKey:\"importance\"
-  ConditionValue:\"critical\"   ConditionType:\"StringEquals\"    Using these patterns
-would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as
-\"department=finance\", \"importance=critical\", in addition to an EBS volume with the
-specified volume ID. Resources and conditions are additive in that all resources that match
-the pattern are selected. This shouldn't be confused with a logical AND, where all
-conditions must match. The matching patterns are logically put together using the OR
-operator. In other words, all patterns that match are selected for backup.
+Creates a JSON document that specifies a set of resources to assign to a backup plan. For
+examples, see Assigning resources programmatically.
 
 # Arguments
 - `backup_selection`: Specifies the body of a request to assign a set of resources to a
@@ -77,7 +68,8 @@ operator. In other words, all patterns that match are selected for backup.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreatorRequestId"`: A unique string that identifies the request and allows failed
-  requests to be retried without the risk of running the operation twice.
+  requests to be retried without the risk of running the operation twice. This parameter is
+  optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
 """
 function create_backup_selection(
     BackupSelection, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -128,7 +120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BackupVaultTags"`: Metadata that you can assign to help organize the resources that you
   create. Each tag is a key-value pair.
 - `"CreatorRequestId"`: A unique string that identifies the request and allows failed
-  requests to be retried without the risk of running the operation twice.
+  requests to be retried without the risk of running the operation twice. This parameter is
+  optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
 - `"EncryptionKeyArn"`: The server-side encryption key that is used to protect your
   backups; for example,
   arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
@@ -1979,7 +1972,8 @@ Applies Backup Vault Lock to a backup vault, preventing attempts to delete any r
 point stored in or created in a backup vault. Vault Lock also prevents attempts to update
 the lifecycle policy that controls the retention period of any recovery point currently
 stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention
-period for future backup and copy jobs that target a backup vault.
+period for future backup and copy jobs that target a backup vault.  Backup Vault Lock has
+yet to receive a third-party assessment for SEC 17a-4(f) and CFTC.
 
 # Arguments
 - `backup_vault_name`: The Backup Vault Lock configuration that specifies the name of the
@@ -2053,11 +2047,11 @@ Turns on notifications on a backup vault for the specified topic and events.
 
 # Arguments
 - `backup_vault_events`: An array of events that indicate the status of jobs to back up
-  resources to the backup vault.  The following events are supported:  BACKUP_JOB_STARTED,
-  BACKUP_JOB_COMPLETED,  COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED,
-  RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, and RECOVERY_POINT_MODIFIED. To find failed
-  backup jobs, use BACKUP_JOB_COMPLETED and filter using event metadata. Other events in the
-  following list are deprecated.
+  resources to the backup vault. For common use cases and code samples, see Using Amazon SNS
+  to track Backup events. The following events are supported:    BACKUP_JOB_STARTED |
+  BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED
+  RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     Ignore the list
+  below because it includes deprecated events. Refer to the list above.
 - `snstopic_arn`: The Amazon Resource Name (ARN) that specifies the topic for a backup
   vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
@@ -2439,7 +2433,8 @@ identified by an Amazon Resource Name (ARN).
 
 # Arguments
 - `tags`: Key-value pairs that are used to help organize your resources. You can assign
-  your own metadata to the resources you create.
+  your own metadata to the resources you create. For clarity, this is the structure to assign
+  tags: [{\"Key\":\"string\",\"Value\":\"string\"}].
 - `resource_arn`: An ARN that uniquely identifies a resource. The format of the ARN depends
   on the type of the tagged resource.
 
@@ -2700,6 +2695,8 @@ DescribeRegionSettings API to determine the resource types that are supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceTypeManagementPreference"`: Enables or disables  Backup's advanced DynamoDB
+  backup features for the Region.
 - `"ResourceTypeOptInPreference"`: Updates the list of services along with the opt-in
   preferences for the Region.
 """

@@ -8,7 +8,9 @@ using AWS.UUIDs
     batch_create_attendee(attendees, meeting_id)
     batch_create_attendee(attendees, meeting_id, params::Dict{String,<:Any})
 
-Creates a group of meeting attendees.
+Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information
+about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer
+Guide.
 
 # Arguments
 - `attendees`: The attendee information, including attendees' IDs and join tokens.
@@ -104,6 +106,8 @@ SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MeetingFeatures"`: Lists the audio and video features enabled for a meeting, such as
+  echo reduction.
 - `"MeetingHostId"`: Reserved.
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
@@ -170,6 +174,8 @@ the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MeetingFeatures"`: Lists the audio and video features enabled for a meeting, such as
+  echo reduction.
 - `"MeetingHostId"`: Reserved.
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.

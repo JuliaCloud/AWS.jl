@@ -678,6 +678,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM
   role only if you are using customized execution roles to control which stack resources
   users and groups can include in their stack sets.
+- `"ManagedExecution"`: Describes whether StackSets performs non-conflicting operations
+  concurrently and queues conflicting operations.
 - `"Parameters"`: The input parameters for the stack set template.
 - `"PermissionModel"`: Describes how the IAM roles required for stack set operations are
   created. By default, SELF-MANAGED is specified.   With self-managed permissions, you must
@@ -2043,17 +2045,17 @@ function get_template_summary(
 end
 
 """
-    import_stacks_to_stack_set(stack_ids, stack_set_name)
-    import_stacks_to_stack_set(stack_ids, stack_set_name, params::Dict{String,<:Any})
+    import_stacks_to_stack_set(stack_set_name)
+    import_stacks_to_stack_set(stack_set_name, params::Dict{String,<:Any})
 
-Import existing stacks into a new stack sets. Use the stack import operation to import up
-to 10 stacks into a new stack set in the same account as the source stack or in a different
-administrator account and Region, by specifying the stack ID of the stack you intend to
-import.   ImportStacksToStackSet is only supported by self-managed permissions.
+Use the stack import operations for self-managed or service-managed StackSets. For
+self-managed StackSets, the import operation can import stacks in the administrator account
+or in different target accounts and Amazon Web Services Regions. For service-managed
+StackSets, the import operation can import any stack in the same AWS Organizations as the
+management account. The import operation can import up to 10 stacks using inline stack IDs
+or up to 10,000 stacks using an Amazon S3 object.
 
 # Arguments
-- `stack_ids`: The IDs of the stacks you are importing into a stack set. You import up to
-  10 stacks per stack set at a time.
 - `stack_set_name`: The name of the stack set. The name must be unique in the Region where
   you create your stack set.
 
@@ -2064,23 +2066,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed stack sets, specify DELEGATED_ADMIN.
 - `"OperationId"`: A unique, user defined, identifier for the stack set operation.
 - `"OperationPreferences"`:
+- `"OrganizationalUnitIds"`: The list of OU ID’s to which the stacks being imported has
+  to be mapped as deployment target.
+- `"StackIds"`: The IDs of the stacks you are importing into a stack set. You import up to
+  10 stacks per stack set at a time. Specify either StackIds or StackIdsUrl.
+- `"StackIdsUrl"`: The Amazon S3 URL which contains list of stack ids to be inputted.
+  Specify either StackIds or StackIdsUrl.
 """
 function import_stacks_to_stack_set(
-    StackIds, StackSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    StackSetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudformation(
         "ImportStacksToStackSet",
-        Dict{String,Any}(
-            "StackIds" => StackIds,
-            "StackSetName" => StackSetName,
-            "OperationId" => string(uuid4()),
-        );
+        Dict{String,Any}("StackSetName" => StackSetName, "OperationId" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_stacks_to_stack_set(
-    StackIds,
     StackSetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2091,9 +2094,7 @@ function import_stacks_to_stack_set(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "StackIds" => StackIds,
-                    "StackSetName" => StackSetName,
-                    "OperationId" => string(uuid4()),
+                    "StackSetName" => StackSetName, "OperationId" => string(uuid4())
                 ),
                 params,
             ),
@@ -2600,9 +2601,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   summary information about. Valid values include:    LIVE: The extension is registered for
   use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and
   can no longer be used in CloudFormation operations.
-- `"Filters"`: Filter criteria to use in determining which extensions to return. If you
-  specify a filter, CloudFormation ignores any specified Visibility value when returning the
-  list of types.
+- `"Filters"`: Filter criteria to use in determining which extensions to return. Filters
+  must be compatible with Visibility to return valid results. For example, specifying
+  AWS_TYPES for Category and PRIVATE for Visibility returns an empty list of types, but
+  specifying PUBLIC for Visibility returns the desired list.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results.
@@ -2659,8 +2661,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the following format, and adhere to semantic versioning when assigning a version number
   to your extension:   MAJOR.MINOR.PATCH  For more information, see Semantic Versioning
   2.0.0. If you do not specify a version number, CloudFormation increments the version number
-  by one minor version release. The first time you publish a type, CloudFormation sets the
-  version number to 1.0.0, regardless of the value you specify.
+  by one minor version release. You cannot specify a version number the first time you
+  publish a type. CloudFormation automatically sets the first version number to be 1.0.0.
 - `"Type"`: The type of the extension. Conditional: You must specify Arn, or TypeName and
   Type.
 - `"TypeName"`: The name of the extension. Conditional: You must specify Arn, or TypeName
@@ -3544,6 +3546,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role, CloudFormation uses that role to update the stack. If you do not specify a customized
   execution role, CloudFormation performs the update using the role previously associated
   with the stack set, so long as you have permissions to perform operations on the stack set.
+- `"ManagedExecution"`: Describes whether StackSets performs non-conflicting operations
+  concurrently and queues conflicting operations.
 - `"OperationId"`: The unique ID for this stack set operation.  The operation ID also
   functions as an idempotency token, to ensure that CloudFormation performs the stack set
   operation only once, even if you retry the request multiple times. You might retry stack

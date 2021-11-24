@@ -534,7 +534,7 @@ end
  Deletes a custom framework in Audit Manager.
 
 # Arguments
-- `framework_id`:  The identifier for the framework.
+- `framework_id`:  The identifier for the custom framework.
 
 """
 function delete_assessment_framework(
@@ -608,7 +608,7 @@ end
  Deletes an assessment report from an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
@@ -644,7 +644,7 @@ end
  Deletes a custom control in Audit Manager.
 
 # Arguments
-- `control_id`:  The identifier for the control.
+- `control_id`:  The unique identifier for the control.
 
 """
 function delete_control(controlId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -740,8 +740,9 @@ end
  Disassociates an evidence folder from the specified assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `evidence_folder_id`:  The identifier for the folder in which evidence is stored.
+- `assessment_id`:  The unique identifier for the assessment.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
 
 """
 function disassociate_assessment_report_evidence_folder(
@@ -802,10 +803,10 @@ end
     get_assessment(assessment_id)
     get_assessment(assessment_id, params::Dict{String,<:Any})
 
- Returns an assessment from Audit Manager.
+Returns an assessment from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`: The unique identifier for the assessment.
 
 """
 function get_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -834,7 +835,7 @@ end
     get_assessment_framework(framework_id)
     get_assessment_framework(framework_id, params::Dict{String,<:Any})
 
- Returns a framework from Audit Manager.
+Returns a framework from Audit Manager.
 
 # Arguments
 - `framework_id`:  The identifier for the framework.
@@ -871,8 +872,8 @@ end
  Returns the URL of an assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `assessment_report_id`:  The identifier for the assessment report.
+- `assessment_id`:  The unique identifier for the assessment.
+- `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
 function get_assessment_report_url(
@@ -907,13 +908,13 @@ end
  Returns a list of changelogs from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`: The unique identifier for the assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"controlId"`:  The identifier for the control.
-- `"controlSetId"`:  The identifier for the control set.
-- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
+- `"controlId"`:  The unique identifier for the control.
+- `"controlSetId"`:  The unique identifier for the control set.
+- `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
@@ -1007,10 +1008,11 @@ end
  Returns evidence from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_set_id`:  The identifier for the control set.
-- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
-- `evidence_id`:  The identifier for the evidence.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_set_id`:  The unique identifier for the control set.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
+- `evidence_id`:  The unique identifier for the evidence.
 
 """
 function get_evidence(
@@ -1098,9 +1100,10 @@ end
  Returns an evidence folder from the specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_set_id`:  The identifier for the control set.
-- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_set_id`:  The unique identifier for the control set.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
 
 """
 function get_evidence_folder(
@@ -1139,7 +1142,7 @@ end
  Returns the evidence folders from a specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1209,6 +1212,60 @@ function get_evidence_folders_by_assessment_control(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_insights()
+    get_insights(params::Dict{String,<:Any})
+
+Gets the latest analytics data for all your current active assessments.
+
+"""
+function get_insights(; aws_config::AbstractAWSConfig=global_aws_config())
+    return auditmanager(
+        "GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_insights(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET", "/insights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_insights_by_assessment(assessment_id)
+    get_insights_by_assessment(assessment_id, params::Dict{String,<:Any})
+
+Gets the latest analytics data for a specific active assessment.
+
+# Arguments
+- `assessment_id`: The unique identifier for the assessment.
+
+"""
+function get_insights_by_assessment(
+    assessmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/insights/assessments/$(assessmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_insights_by_assessment(
+    assessmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "GET",
+        "/insights/assessments/$(assessmentId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1290,6 +1347,62 @@ function get_settings(
         "GET",
         "/settings/$(attribute)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id)
+    list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id, params::Dict{String,<:Any})
+
+Lists the latest analytics data for controls within a specific control domain and a
+specific active assessment.  Control insights are listed only if the control belongs to the
+control domain and assessment that was specified. Moreover, the control must have collected
+evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these
+conditions are met, no data is listed for that control.
+
+# Arguments
+- `assessment_id`: The unique identifier for the active assessment.
+- `control_domain_id`: The unique identifier for the control domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Represents the maximum number of results on a page or for an API request
+  call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_assessment_control_insights_by_control_domain(
+    assessmentId, controlDomainId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/insights/controls-by-assessment",
+        Dict{String,Any}(
+            "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_assessment_control_insights_by_control_domain(
+    assessmentId,
+    controlDomainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "GET",
+        "/insights/controls-by-assessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1422,6 +1535,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
+- `"status"`:  The current status of the assessment.
 """
 function list_assessments(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1435,6 +1549,134 @@ function list_assessments(
         "GET",
         "/assessments",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_control_domain_insights()
+    list_control_domain_insights(params::Dict{String,<:Any})
+
+Lists the latest analytics data for control domains across all of your active assessments.
+ A control domain is listed only if at least one of the controls within that domain
+collected evidence on the lastUpdated date of controlDomainInsights. If this condition
+isn’t met, no data is listed for that control domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Represents the maximum number of results on a page or for an API request
+  call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_domain_insights(; aws_config::AbstractAWSConfig=global_aws_config())
+    return auditmanager(
+        "GET",
+        "/insights/control-domains";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_control_domain_insights(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/insights/control-domains",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_control_domain_insights_by_assessment(assessment_id)
+    list_control_domain_insights_by_assessment(assessment_id, params::Dict{String,<:Any})
+
+Lists analytics data for control domains within a specified active assessment.  A control
+domain is listed only if at least one of the controls within that domain collected evidence
+on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is
+listed for that domain.
+
+# Arguments
+- `assessment_id`: The unique identifier for the active assessment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Represents the maximum number of results on a page or for an API request
+  call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_domain_insights_by_assessment(
+    assessmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/insights/control-domains-by-assessment",
+        Dict{String,Any}("assessmentId" => assessmentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_control_domain_insights_by_assessment(
+    assessmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "GET",
+        "/insights/control-domains-by-assessment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assessmentId" => assessmentId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_control_insights_by_control_domain(control_domain_id)
+    list_control_insights_by_control_domain(control_domain_id, params::Dict{String,<:Any})
+
+Lists the latest analytics data for controls within a specific control domain across all
+active assessments.  Control insights are listed only if the control belongs to the control
+domain that was specified and the control collected evidence on the lastUpdated date of
+controlInsightsMetadata. If neither of these conditions are met, no data is listed for that
+control.
+
+# Arguments
+- `control_domain_id`: The unique identifier for the control domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Represents the maximum number of results on a page or for an API request
+  call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_insights_by_control_domain(
+    controlDomainId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/insights/controls",
+        Dict{String,Any}("controlDomainId" => controlDomainId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_control_insights_by_control_domain(
+    controlDomainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "GET",
+        "/insights/controls",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("controlDomainId" => controlDomainId), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1795,7 +2037,7 @@ end
  Edits an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `scope`:  The scope of the assessment.
 
 # Optional Parameters
@@ -1839,9 +2081,9 @@ end
  Updates a control within an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_id`:  The identifier for the control.
-- `control_set_id`:  The identifier for the control set.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_id`:  The unique identifier for the control.
+- `control_set_id`:  The unique identifier for the control set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1881,9 +2123,9 @@ end
  Updates the status of a control set in an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `comment`:  The comment that's related to the status update.
-- `control_set_id`:  The identifier for the control set.
+- `control_set_id`:  The unique identifier for the control set.
 - `status`:  The status of the control set that's being updated.
 
 """
@@ -1931,7 +2173,7 @@ end
 
 # Arguments
 - `control_sets`:  The control sets that are associated with the framework.
-- `framework_id`:  The identifier for the framework.
+- `framework_id`:  The unique identifier for the framework.
 - `name`:  The name of the framework to be updated.
 
 # Optional Parameters
@@ -2026,7 +2268,7 @@ end
  Updates the status of an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `status`:  The current status of the assessment.
 
 """
