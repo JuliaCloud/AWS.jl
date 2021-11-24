@@ -196,14 +196,14 @@ try
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
-            apply(_incomplete_patch(; data, num_attempts_to_fail = 2)) do
+            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 2)) do
                 resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
                 @test length(resp) == n
                 @test resp == data
             end
         end
         @testset "Fail all 4 attempts then throw" begin
-            apply(_incomplete_patch(; data, num_attempts_to_fail = 4)) do
+            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 4)) do
                 err_t = AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend ? HTTP.IOError : Downloads.RequestError
                 @test_throws err_t S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
             end
