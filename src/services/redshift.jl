@@ -233,7 +233,7 @@ have the correct access privileges.
 
 # Arguments
 - `consumer_identifier`: The identifier of the data consumer that is authorized to access
-  the datashare. This identifier is an AWS account ID.
+  the datashare. This identifier is an Amazon Web Services account ID.
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that producers are to
   authorize sharing for.
 
@@ -693,6 +693,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must contain 1 to 64 alphanumeric characters.   Must contain only lowercase letters.
   Cannot be a word that is reserved by the service. A list of reserved words can be found in
   Reserved Words in the Amazon Redshift Database Developer Guide.
+- `"DefaultIamRoleArn"`: The Amazon Resource Name (ARN) for the IAM role that was set as
+  default for the cluster when the cluster was created.
 - `"ElasticIp"`: The Elastic IP (EIP) address for the cluster. Constraints: The cluster
   must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For
   more information about provisioning clusters in EC2-VPC, go to Supported Platforms to
@@ -1613,7 +1615,7 @@ From the producer account, removes authorization from the specified datashare.
 
 # Arguments
 - `consumer_identifier`: The identifier of the data consumer that is to have authorization
-  removed from the datashare. This identifier is an AWS account ID.
+  removed from the datashare. This identifier is an Amazon Web Services account ID.
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to remove authorization
   from.
 
@@ -2903,9 +2905,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataShareArn"`: The identifier of the datashare to describe details of.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDataShares request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -2937,9 +2939,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of datashares.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDataSharesForConsumer request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -2979,9 +2981,9 @@ identifier.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDataSharesForProducer request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -3596,6 +3598,48 @@ function describe_partners(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_reserved_node_exchange_status()
+    describe_reserved_node_exchange_status(params::Dict{String,<:Any})
+
+Returns exchange status details and associated metadata for a reserved-node exchange.
+Statuses include such values as in progress and requested.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: An optional pagination token provided by a previous
+  DescribeReservedNodeExchangeStatus request. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by the MaxRecords
+  parameter. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a Marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"ReservedNodeExchangeRequestId"`: The identifier of the reserved-node exchange request.
+- `"ReservedNodeId"`: The identifier of the source reserved node in a reserved-node
+  exchange request.
+"""
+function describe_reserved_node_exchange_status(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeReservedNodeExchangeStatus";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_reserved_node_exchange_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeReservedNodeExchangeStatus",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4366,6 +4410,59 @@ function get_cluster_credentials(
 end
 
 """
+    get_reserved_node_exchange_configuration_options(action_type)
+    get_reserved_node_exchange_configuration_options(action_type, params::Dict{String,<:Any})
+
+Gets the configuration options for the reserved-node exchange. These options include
+information about the source reserved node and target reserved node offering. Details
+include the node type, the price, the node count, and the offering type.
+
+# Arguments
+- `action_type`: The action type of the reserved-node configuration. The action type can be
+  an exchange initiated from either a snapshot or a resize.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The identifier for the cluster that is the source for a
+  reserved-node exchange.
+- `"Marker"`: An optional pagination token provided by a previous
+  GetReservedNodeExchangeConfigurationOptions request. If this parameter is specified, the
+  response includes only records beyond the marker, up to the value specified by the
+  MaxRecords parameter. You can retrieve the next set of response records by providing the
+  returned marker value in the Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a Marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"SnapshotIdentifier"`: The identifier for the snapshot that is the source for the
+  reserved-node exchange.
+"""
+function get_reserved_node_exchange_configuration_options(
+    ActionType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "GetReservedNodeExchangeConfigurationOptions",
+        Dict{String,Any}("ActionType" => ActionType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_reserved_node_exchange_configuration_options(
+    ActionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "GetReservedNodeExchangeConfigurationOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ActionType" => ActionType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_reserved_node_exchange_offerings(reserved_node_id)
     get_reserved_node_exchange_offerings(reserved_node_id, params::Dict{String,<:Any})
 
@@ -4715,6 +4812,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AddIamRoles"`: Zero or more IAM roles to associate with the cluster. The roles must be
   in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a
   single cluster in a single request.
+- `"DefaultIamRoleArn"`: The Amazon Resource Name (ARN) for the IAM role that was set as
+  default for the cluster when the cluster was last modified.
 - `"RemoveIamRoles"`: Zero or more IAM roles in ARN format to disassociate from the
   cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
 """
@@ -5545,6 +5644,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster's current node type is used.
 - `"NumberOfNodes"`: The new number of nodes for the cluster. If not specified, the
   cluster's current number of nodes is used.
+- `"ReservedNodeId"`: The identifier of the reserved node.
+- `"TargetReservedNodeOfferingId"`: The identifier of the target reserved node offering.
 """
 function resize_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5629,6 +5730,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterSubnetGroupName"`: The name of the subnet group where you want to cluster
   restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must
   provide subnet group name where you want the cluster restored.
+- `"DefaultIamRoleArn"`: The Amazon Resource Name (ARN) for the IAM role that was set as
+  default for the cluster when the cluster was last modified while it was restored from a
+  snapshot.
 - `"ElasticIp"`: The elastic IP (EIP) address for the cluster.
 - `"EnhancedVpcRouting"`: An option that specifies whether to create the cluster with
   enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -5677,10 +5781,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute
   window.
 - `"PubliclyAccessible"`: If true, the cluster can be accessed from a public network.
+- `"ReservedNodeId"`: The identifier of the target reserved node offering.
 - `"SnapshotClusterIdentifier"`: The name of the cluster the source snapshot was created
   from. This parameter is required if your IAM user has a policy containing a snapshot
   resource element that specifies anything other than * for the cluster name.
 - `"SnapshotScheduleIdentifier"`: A unique identifier for the snapshot schedule.
+- `"TargetReservedNodeOfferingId"`: The identifier of the target reserved node offering.
 - `"VpcSecurityGroupIds"`: A list of Virtual Private Cloud (VPC) security groups to be
   associated with the cluster. Default: The default VPC security group is associated with the
   cluster. VPC security groups only apply to clusters in VPCs.

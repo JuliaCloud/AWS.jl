@@ -8,12 +8,16 @@ using AWS.UUIDs
     batch_execute_statement(statements)
     batch_execute_statement(statements, params::Dict{String,<:Any})
 
- This operation allows you to perform batch reads and writes on data stored in DynamoDB,
-using PartiQL.
+This operation allows you to perform batch reads or writes on data stored in DynamoDB,
+using PartiQL.  The entire batch must consist of either read statements or write
+statements, you cannot mix both in one batch.
 
 # Arguments
-- `statements`:  The list of PartiQL statements representing the batch to run.
+- `statements`: The list of PartiQL statements representing the batch to run.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ReturnConsumedCapacity"`:
 """
 function batch_execute_statement(
     Statements; aws_config::AbstractAWSConfig=global_aws_config()
@@ -354,16 +358,17 @@ end
     create_table(attribute_definitions, key_schema, table_name)
     create_table(attribute_definitions, key_schema, table_name, params::Dict{String,<:Any})
 
-The CreateTable operation adds a new table to your account. In an AWS account, table names
-must be unique within each Region. That is, you can have two tables with same name if you
-create the tables in different Regions.  CreateTable is an asynchronous operation. Upon
-receiving a CreateTable request, DynamoDB immediately returns a response with a TableStatus
-of CREATING. After the table is created, DynamoDB sets the TableStatus to ACTIVE. You can
-perform read and write operations only on an ACTIVE table.  You can optionally define
-secondary indexes on the new table, as part of the CreateTable operation. If you want to
-create multiple tables with secondary indexes on them, you must create the tables
-sequentially. Only one table with secondary indexes can be in the CREATING state at any
-given time. You can use the DescribeTable action to check the table status.
+The CreateTable operation adds a new table to your account. In an Amazon Web Services
+account, table names must be unique within each Region. That is, you can have two tables
+with same name if you create the tables in different Regions.  CreateTable is an
+asynchronous operation. Upon receiving a CreateTable request, DynamoDB immediately returns
+a response with a TableStatus of CREATING. After the table is created, DynamoDB sets the
+TableStatus to ACTIVE. You can perform read and write operations only on an ACTIVE table.
+You can optionally define secondary indexes on the new table, as part of the CreateTable
+operation. If you want to create multiple tables with secondary indexes on them, you must
+create the tables sequentially. Only one table with secondary indexes can be in the
+CREATING state at any given time. You can use the DescribeTable action to check the table
+status.
 
 # Arguments
 - `attribute_definitions`: An array of attributes that describe the key schema for the
@@ -946,36 +951,36 @@ end
     describe_limits()
     describe_limits(params::Dict{String,<:Any})
 
-Returns the current provisioned-capacity quotas for your AWS account in a Region, both for
-the Region as a whole and for any one DynamoDB table that you create there. When you
-establish an AWS account, the account has initial quotas on the maximum read capacity units
-and write capacity units that you can provision across all of your DynamoDB tables in a
-given Region. Also, there are per-table quotas that apply when you create a table there.
-For more information, see Service, Account, and Table Quotas page in the Amazon DynamoDB
-Developer Guide. Although you can increase these quotas by filing a case at AWS Support
-Center, obtaining the increase is not instantaneous. The DescribeLimits action lets you
-write code to compare the capacity you are currently using to those quotas imposed by your
-account so that you have enough time to apply for an increase before you hit a quota. For
-example, you could use one of the AWS SDKs to do the following:   Call DescribeLimits for a
-particular Region to obtain your current account quotas on provisioned capacity there.
-Create a variable to hold the aggregate read capacity units provisioned for all your tables
-in that Region, and one to hold the aggregate write capacity units. Zero them both.   Call
-ListTables to obtain a list of all your DynamoDB tables.   For each table name listed by
-ListTables, do the following:   Call DescribeTable with the table name.   Use the data
-returned by DescribeTable to add the read capacity units and write capacity units
-provisioned for the table itself to your variables.   If the table has one or more global
-secondary indexes (GSIs), loop over these GSIs and add their provisioned capacity values to
-your variables as well.     Report the account quotas for that Region returned by
-DescribeLimits, along with the total current provisioned capacity levels you have
-calculated.   This will let you see whether you are getting close to your account-level
-quotas. The per-table quotas apply only when you are creating a new table. They restrict
-the sum of the provisioned capacity of the new table itself and all its global secondary
-indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned
-capacity extremely rapidly, but the only quota that applies is that the aggregate
-provisioned capacity over all your tables and GSIs cannot exceed either of the per-account
-quotas.   DescribeLimits should only be called periodically. You can expect throttling
-errors if you call it more than once in a minute.  The DescribeLimits Request element has
-no content.
+Returns the current provisioned-capacity quotas for your Amazon Web Services account in a
+Region, both for the Region as a whole and for any one DynamoDB table that you create
+there. When you establish an Amazon Web Services account, the account has initial quotas on
+the maximum read capacity units and write capacity units that you can provision across all
+of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when
+you create a table there. For more information, see Service, Account, and Table Quotas page
+in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a
+case at Amazon Web Services Support Center, obtaining the increase is not instantaneous.
+The DescribeLimits action lets you write code to compare the capacity you are currently
+using to those quotas imposed by your account so that you have enough time to apply for an
+increase before you hit a quota. For example, you could use one of the Amazon Web Services
+SDKs to do the following:   Call DescribeLimits for a particular Region to obtain your
+current account quotas on provisioned capacity there.   Create a variable to hold the
+aggregate read capacity units provisioned for all your tables in that Region, and one to
+hold the aggregate write capacity units. Zero them both.   Call ListTables to obtain a list
+of all your DynamoDB tables.   For each table name listed by ListTables, do the following:
+ Call DescribeTable with the table name.   Use the data returned by DescribeTable to add
+the read capacity units and write capacity units provisioned for the table itself to your
+variables.   If the table has one or more global secondary indexes (GSIs), loop over these
+GSIs and add their provisioned capacity values to your variables as well.     Report the
+account quotas for that Region returned by DescribeLimits, along with the total current
+provisioned capacity levels you have calculated.   This will let you see whether you are
+getting close to your account-level quotas. The per-table quotas apply only when you are
+creating a new table. They restrict the sum of the provisioned capacity of the new table
+itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB
+doesn't let you increase provisioned capacity extremely rapidly, but the only quota that
+applies is that the aggregate provisioned capacity over all your tables and GSIs cannot
+exceed either of the per-account quotas.   DescribeLimits should only be called
+periodically. You can expect throttling errors if you call it more than once in a minute.
+The DescribeLimits Request element has no content.
 
 """
 function describe_limits(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1188,19 +1193,20 @@ end
     execute_statement(statement)
     execute_statement(statement, params::Dict{String,<:Any})
 
- This operation allows you to perform reads and singleton writes on data stored in
-DynamoDB, using PartiQL.
+This operation allows you to perform reads and singleton writes on data stored in DynamoDB,
+using PartiQL.
 
 # Arguments
-- `statement`:  The PartiQL statement representing the operation to run.
+- `statement`: The PartiQL statement representing the operation to run.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsistentRead"`:  The consistency of a read operation. If set to true, then a strongly
+- `"ConsistentRead"`: The consistency of a read operation. If set to true, then a strongly
   consistent read is used; otherwise, an eventually consistent read is used.
-- `"NextToken"`:  Set this value to get remaining results, if NextToken was returned in the
+- `"NextToken"`: Set this value to get remaining results, if NextToken was returned in the
   statement response.
-- `"Parameters"`:  The parameters for the PartiQL statement, if any.
+- `"Parameters"`: The parameters for the PartiQL statement, if any.
+- `"ReturnConsumedCapacity"`:
 """
 function execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1229,17 +1235,22 @@ end
     execute_transaction(transact_statements)
     execute_transaction(transact_statements, params::Dict{String,<:Any})
 
- This operation allows you to perform transactional reads or writes on data stored in
-DynamoDB, using PartiQL.
+This operation allows you to perform transactional reads or writes on data stored in
+DynamoDB, using PartiQL.  The entire transaction must consist of either read statements or
+write statements, you cannot mix both in one transaction. The EXISTS function is an
+exception and can be used to check the condition of specific attributes of the item in a
+similar manner to ConditionCheck in the TransactWriteItems API.
 
 # Arguments
-- `transact_statements`:  The list of PartiQL statements representing the transaction to
-  run.
+- `transact_statements`: The list of PartiQL statements representing the transaction to run.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`:  Set this value to get remaining results, if NextToken was
+- `"ClientRequestToken"`: Set this value to get remaining results, if NextToken was
   returned in the statement response.
+- `"ReturnConsumedCapacity"`: Determines the level of detail about either provisioned or
+  on-demand throughput consumption that is returned in the response. For more information,
+  see TransactGetItems and TransactWriteItems.
 """
 function execute_transaction(
     TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1301,14 +1312,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DYNAMODB_JSON or ION.
 - `"ExportTime"`: Time in the past from which to export table data. The table export will
   be a snapshot of the table's state at this point in time.
-- `"S3BucketOwner"`: The ID of the AWS account that owns the bucket the export will be
-  stored in.
+- `"S3BucketOwner"`: The ID of the Amazon Web Services account that owns the bucket the
+  export will be stored in.
 - `"S3Prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
   exported snapshot.
 - `"S3SseAlgorithm"`: Type of encryption used on the bucket where export data will be
   stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon
-  S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
-- `"S3SseKmsKeyId"`: The ID of the AWS KMS managed key used to encrypt the S3 bucket where
+  S3 managed keys    KMS - server-side encryption with KMS managed keys
+- `"S3SseKmsKeyId"`: The ID of the KMS managed key used to encrypt the S3 bucket where
   export data will be stored (if applicable).
 """
 function export_table_to_point_in_time(
@@ -1426,12 +1437,12 @@ end
     list_backups()
     list_backups(params::Dict{String,<:Any})
 
-List backups associated with an AWS account. To list backups for a given table, specify
-TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items
-in a page. You can also specify a maximum number of entries to be returned in a page.  In
-the request, start time is inclusive, but end time is exclusive. Note that these boundaries
-are for the time at which the original backup was requested. You can call ListBackups a
-maximum of five times per second.
+List backups associated with an Amazon Web Services account. To list backups for a given
+table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB
+worth of items in a page. You can also specify a maximum number of entries to be returned
+in a page. In the request, start time is inclusive, but end time is exclusive. Note that
+these boundaries are for the time at which the original backup was requested. You can call
+ListBackups a maximum of five times per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1625,22 +1636,22 @@ replaces the existing item. You can perform a conditional put operation (add a n
 one with the specified primary key doesn't exist), or replace an existing item if it has
 certain attribute values. You can return the item's attribute values in the same operation,
 using the ReturnValues parameter.  This topic provides general information about the
-PutItem API. For information on how to call the PutItem API using the AWS SDK in specific
-languages, see the following:     PutItem in the AWS Command Line Interface      PutItem in
-the AWS SDK for .NET      PutItem in the AWS SDK for C++      PutItem in the AWS SDK for Go
-     PutItem in the AWS SDK for Java      PutItem in the AWS SDK for JavaScript
-PutItem in the AWS SDK for PHP V3      PutItem in the AWS SDK for Python      PutItem in
-the AWS SDK for Ruby V2     When you add an item, the primary key attributes are the only
-required attributes. Attribute values cannot be null. Empty String and Binary attribute
-values are allowed. Attribute values of type String and Binary must have a length greater
-than zero if the attribute is used as a key attribute for a table or index. Set type
-attributes cannot be empty.  Invalid Requests with empty values will be rejected with a
-ValidationException exception.  To prevent a new item from replacing an existing item, use
-a conditional expression that contains the attribute_not_exists function with the name of
-the attribute being used as the partition key for the table. Since every record must
-contain that attribute, the attribute_not_exists function will only succeed if no matching
-item exists.  For more information about PutItem, see Working with Items in the Amazon
-DynamoDB Developer Guide.
+PutItem API. For information on how to call the PutItem API using the Amazon Web Services
+SDK in specific languages, see the following:     PutItem in the Command Line Interface
+ PutItem in the SDK for .NET      PutItem in the SDK for C++      PutItem in the SDK for Go
+     PutItem in the SDK for Java      PutItem in the SDK for JavaScript      PutItem in the
+SDK for PHP V3      PutItem in the SDK for Python (Boto)      PutItem in the SDK for Ruby
+V2     When you add an item, the primary key attributes are the only required attributes.
+Attribute values cannot be null. Empty String and Binary attribute values are allowed.
+Attribute values of type String and Binary must have a length greater than zero if the
+attribute is used as a key attribute for a table or index. Set type attributes cannot be
+empty.  Invalid Requests with empty values will be rejected with a ValidationException
+exception.  To prevent a new item from replacing an existing item, use a conditional
+expression that contains the attribute_not_exists function with the name of the attribute
+being used as the partition key for the table. Since every record must contain that
+attribute, the attribute_not_exists function will only succeed if no matching item exists.
+For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer
+Guide.
 
 # Arguments
 - `item`: A map of attribute name/value pairs, one for each attribute. Only the primary key
@@ -1702,9 +1713,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   appeared before they were updated with the PutItem request. For PutItem, the valid values
   are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is
   returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote
-  an attribute name-value pair, then the content of the old item is returned.    The
-  ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not
-  recognize any values other than NONE or ALL_OLD.
+  an attribute name-value pair, then the content of the old item is returned.   The values
+  returned are strongly consistent.  The ReturnValues parameter is used by several DynamoDB
+  operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
 """
 function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1736,37 +1747,39 @@ end
     query(table_name)
     query(table_name, params::Dict{String,<:Any})
 
-The Query operation finds items based on primary key values. You can query any table or
-secondary index that has a composite primary key (a partition key and a sort key).  Use the
-KeyConditionExpression parameter to provide a specific value for the partition key. The
-Query operation will return all of the items from the table or index with that partition
-key value. You can optionally narrow the scope of the Query operation by specifying a sort
-key value and a comparison operator in KeyConditionExpression. To further refine the Query
-results, you can optionally provide a FilterExpression. A FilterExpression determines which
-items within the results should be returned to you. All of the other results are discarded.
-  A Query operation always returns a result set. If no matching items are found, the result
-set will be empty. Queries that do not return results consume the minimum number of read
-capacity units for that type of read operation.    DynamoDB calculates the number of read
-capacity units consumed based on item size, not on the amount of data that is returned to
-an application. The number of capacity units consumed will be the same whether you request
-all of the attributes (the default behavior) or just some of them (using a projection
-expression). The number will also be the same whether or not you use a FilterExpression.
-Query results are always sorted by the sort key value. If the data type of the sort key is
-Number, the results are returned in numeric order; otherwise, the results are returned in
-order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set
-the ScanIndexForward parameter to false.   A single Query operation will read up to the
-maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and
-then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is
-present in the response, you will need to paginate the result set. For more information,
-see Paginating the Results in the Amazon DynamoDB Developer Guide.   FilterExpression is
-applied after a Query finishes, but before the results are returned. A FilterExpression
-cannot contain partition key or sort key attributes. You need to specify those attributes
-in the KeyConditionExpression.    A Query operation can return an empty result set and a
-LastEvaluatedKey if all the items read for the page of results are filtered out.   You can
-query a table, a local secondary index, or a global secondary index. For a query on a table
-or on a local secondary index, you can set the ConsistentRead parameter to true and obtain
-a strongly consistent result. Global secondary indexes support eventually consistent reads
-only, so do not specify ConsistentRead when querying a global secondary index.
+You must provide the name of the partition key attribute and a single value for that
+attribute. Query returns all items with that partition key value. Optionally, you can
+provide a sort key attribute and use a comparison operator to refine the search results.
+Use the KeyConditionExpression parameter to provide a specific value for the partition key.
+The Query operation will return all of the items from the table or index with that
+partition key value. You can optionally narrow the scope of the Query operation by
+specifying a sort key value and a comparison operator in KeyConditionExpression. To further
+refine the Query results, you can optionally provide a FilterExpression. A FilterExpression
+determines which items within the results should be returned to you. All of the other
+results are discarded.   A Query operation always returns a result set. If no matching
+items are found, the result set will be empty. Queries that do not return results consume
+the minimum number of read capacity units for that type of read operation.    DynamoDB
+calculates the number of read capacity units consumed based on item size, not on the amount
+of data that is returned to an application. The number of capacity units consumed will be
+the same whether you request all of the attributes (the default behavior) or just some of
+them (using a projection expression). The number will also be the same whether or not you
+use a FilterExpression.    Query results are always sorted by the sort key value. If the
+data type of the sort key is Number, the results are returned in numeric order; otherwise,
+the results are returned in order of UTF-8 bytes. By default, the sort order is ascending.
+To reverse the order, set the ScanIndexForward parameter to false.   A single Query
+operation will read up to the maximum number of items set (if using the Limit parameter) or
+a maximum of 1 MB of data and then apply any filtering to the results using
+FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate
+the result set. For more information, see Paginating the Results in the Amazon DynamoDB
+Developer Guide.   FilterExpression is applied after a Query finishes, but before the
+results are returned. A FilterExpression cannot contain partition key or sort key
+attributes. You need to specify those attributes in the KeyConditionExpression.    A Query
+operation can return an empty result set and a LastEvaluatedKey if all the items read for
+the page of results are filtered out.   You can query a table, a local secondary index, or
+a global secondary index. For a query on a table or on a local secondary index, you can set
+the ConsistentRead parameter to true and obtain a strongly consistent result. Global
+secondary indexes support eventually consistent reads only, so do not specify
+ConsistentRead when querying a global secondary index.
 
 # Arguments
 - `table_name`: The name of the table containing the requested items.
@@ -2268,13 +2281,13 @@ end
 one or more tables (but not from indexes) in a single account and Region. A
 TransactGetItems call can contain up to 25 TransactGetItem objects, each of which contains
 a Get structure that specifies an item to retrieve from a table in the account and Region.
-A call to TransactGetItems cannot retrieve items from tables in more than one AWS account
-or Region. The aggregate size of the items in the transaction cannot exceed 4 MB. DynamoDB
-rejects the entire TransactGetItems request if any of the following is true:   A
-conflicting operation is in the process of updating an item to be read.   There is
-insufficient provisioned capacity for the transaction to be completed.   There is a user
-error, such as an invalid data format.   The aggregate size of the items in the transaction
-cannot exceed 4 MB.
+A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web
+Services account or Region. The aggregate size of the items in the transaction cannot
+exceed 4 MB. DynamoDB rejects the entire TransactGetItems request if any of the following
+is true:   A conflicting operation is in the process of updating an item to be read.
+There is insufficient provisioned capacity for the transaction to be completed.   There is
+a user error, such as an invalid data format.   The aggregate size of the items in the
+transaction cannot exceed 4 MB.
 
 # Arguments
 - `transact_items`: An ordered array of up to 25 TransactGetItem objects, each of which
@@ -2316,25 +2329,25 @@ end
     transact_write_items(transact_items, params::Dict{String,<:Any})
 
  TransactWriteItems is a synchronous write operation that groups up to 25 action requests.
-These actions can target items in different tables, but not in different AWS accounts or
-Regions, and no two actions can target the same item. For example, you cannot both
-ConditionCheck and Update the same item. The aggregate size of the items in the transaction
-cannot exceed 4 MB. The actions are completed atomically so that either all of them
-succeed, or all of them fail. They are defined by the following objects:    Put  &#x97;
-Initiates a PutItem operation to write a new item. This structure specifies the primary key
-of the item to be written, the name of the table to write it in, an optional condition
+These actions can target items in different tables, but not in different Amazon Web
+Services accounts or Regions, and no two actions can target the same item. For example, you
+cannot both ConditionCheck and Update the same item. The aggregate size of the items in the
+transaction cannot exceed 4 MB. The actions are completed atomically so that either all of
+them succeed, or all of them fail. They are defined by the following objects:    Put  —
+  Initiates a PutItem operation to write a new item. This structure specifies the primary
+key of the item to be written, the name of the table to write it in, an optional condition
 expression that must be satisfied for the write to succeed, a list of the item's
 attributes, and a field indicating whether to retrieve the item's attributes if the
-condition is not met.    Update  &#x97;   Initiates an UpdateItem operation to update an
+condition is not met.    Update  —   Initiates an UpdateItem operation to update an
 existing item. This structure specifies the primary key of the item to be updated, the name
 of the table where it resides, an optional condition expression that must be satisfied for
 the update to succeed, an expression that defines one or more attributes to be updated, and
 a field indicating whether to retrieve the item's attributes if the condition is not met.
- Delete  &#x97;   Initiates a DeleteItem operation to delete an existing item. This
+ Delete  —   Initiates a DeleteItem operation to delete an existing item. This
 structure specifies the primary key of the item to be deleted, the name of the table where
 it resides, an optional condition expression that must be satisfied for the deletion to
 succeed, and a field indicating whether to retrieve the item's attributes if the condition
-is not met.    ConditionCheck  &#x97;   Applies a condition to an item that is not being
+is not met.    ConditionCheck  —   Applies a condition to an item that is not being
 modified by the transaction. This structure specifies the primary key of the item to be
 checked, the name of the table where it resides, a condition expression that must be
 satisfied for the transaction to succeed, and a field indicating whether to retrieve the
@@ -2350,8 +2363,8 @@ is a user error, such as an invalid data format.
 # Arguments
 - `transact_items`: An ordered array of up to 25 TransactWriteItem objects, each of which
   contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in
-  different tables, but the tables must reside in the same AWS account and Region, and no two
-  of them can operate on the same item.
+  different tables, but the tables must reside in the same Amazon Web Services account and
+  Region, and no two of them can operate on the same item.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2514,7 +2527,12 @@ end
     update_contributor_insights(contributor_insights_action, table_name)
     update_contributor_insights(contributor_insights_action, table_name, params::Dict{String,<:Any})
 
-Updates the status for contributor insights for a specific table or index.
+Updates the status for contributor insights for a specific table or index. CloudWatch
+Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort
+key of frequently accessed items and frequently throttled items in plaintext. If you
+require the use of AWS Key Management Service (KMS) to encrypt this table’s partition key
+and sort key data with an AWS managed key or customer managed key, you should not enable
+CloudWatch Contributor Insights for DynamoDB for this table.
 
 # Arguments
 - `contributor_insights_action`: Represents the contributor insights action.

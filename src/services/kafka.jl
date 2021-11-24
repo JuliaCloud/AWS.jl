@@ -697,7 +697,7 @@ end
     list_kafka_versions(params::Dict{String,<:Any})
 
 
-            Returns a list of Kafka versions.
+            Returns a list of Apache Kafka versions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1340,6 +1340,66 @@ function update_configuration(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("serverProperties" => serverProperties), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_connectivity(cluster_arn, connectivity_info, current_version)
+    update_connectivity(cluster_arn, connectivity_info, current_version, params::Dict{String,<:Any})
+
+
+            Updates the cluster's connectivity configuration.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the configuration.
+- `connectivity_info`: 
+            Information about the broker access configuration.
+  
+- `current_version`: 
+            The version of the MSK cluster to update. Cluster
+  versions aren't simple numbers. You can describe an MSK cluster to find its version. When
+  this update operation is successful, it generates a new cluster version.
+
+"""
+function update_connectivity(
+    clusterArn,
+    connectivityInfo,
+    currentVersion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/connectivity",
+        Dict{String,Any}(
+            "connectivityInfo" => connectivityInfo, "currentVersion" => currentVersion
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_connectivity(
+    clusterArn,
+    connectivityInfo,
+    currentVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/connectivity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectivityInfo" => connectivityInfo,
+                    "currentVersion" => currentVersion,
+                ),
+                params,
             ),
         );
         aws_config=aws_config,

@@ -81,8 +81,9 @@ to an existing job queue.   Remove the earlier compute environment from your job
 Delete the earlier compute environment.
 
 # Arguments
-- `compute_environment_name`: The name for your compute environment. Up to 128 letters
-  (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `compute_environment_name`: The name for your compute environment. It can be up to 128
+  letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  underscores (_).
 - `type`: The type of the compute environment: MANAGED or UNMANAGED. For more information,
   see Compute Environments in the Batch User Guide.
 
@@ -122,9 +123,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operations. These tags don't propagate to the underlying compute resources.
 - `"unmanagedvCpus"`: The maximum number of vCPUs for an unmanaged compute environment.
   This parameter is only used for fair share scheduling to reserve vCPU capacity for new
-  share identifiers. If this parameter is not provided for a fair share job queue, no vCPU
-  capacity will be reserved.  This parameter is only supported when the type parameter is set
-  to UNMANAGED/
+  share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU
+  capacity is reserved.  This parameter is only supported when the type parameter is set to
+  UNMANAGED/
 """
 function create_compute_environment(
     computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -183,8 +184,8 @@ preference for scheduling jobs to that compute environment.
   can't be mixed.  All compute environments that are associated with a job queue must share
   the same architecture. Batch doesn't support mixing compute environment architecture types
   in a single job queue.
-- `job_queue_name`: The name of the job queue. Up to 128 letters (uppercase and lowercase),
-  numbers, and underscores are allowed.
+- `job_queue_name`: The name of the job queue. It can be up to 128 letters long. It can
+  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
 - `priority`: The priority of the job queue. Job queues with a higher priority (or a higher
   integer value for the priority parameter) are evaluated first when associated with the same
   compute environment. Priority is determined in descending order. For example, a job queue
@@ -194,12 +195,12 @@ preference for scheduling jobs to that compute environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schedulingPolicyArn"`: Amazon Resource Name (ARN) of the fair share scheduling policy.
-  If this parameter is specified, the job queue will use a fair share scheduling policy. If
-  this parameter is not specified, the job queue will use a first in, first out (FIFO)
-  scheduling policy. Once a job queue is created, the fair share scheduling policy can be
-  replaced but not removed. The format is
-  aws:Partition:batch:Region:Account:scheduling-policy/Name . For example,
+- `"schedulingPolicyArn"`: The Amazon Resource Name (ARN) of the fair share scheduling
+  policy. If this parameter is specified, the job queue uses a fair share scheduling policy.
+  If this parameter isn't specified, the job queue uses a first in, first out (FIFO)
+  scheduling policy. After a job queue is created, you can replace but can't remove the fair
+  share scheduling policy. The format is
+  aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is
   aws:aws:batch:us-west-2:012345678910:scheduling-policy/MySchedulingPolicy.
 - `"state"`: The state of the job queue. If the job queue state is ENABLED, it is able to
   accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but
@@ -259,8 +260,8 @@ end
 Creates an Batch scheduling policy.
 
 # Arguments
-- `name`: The name of the scheduling policy. Up to 128 letters (uppercase and lowercase),
-  numbers, hyphens, and underscores are allowed.
+- `name`: The name of the scheduling policy. It can be up to 128 letters long. It can
+  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -380,7 +381,7 @@ end
     delete_scheduling_policy(arn)
     delete_scheduling_policy(arn, params::Dict{String,<:Any})
 
-Deletes the specified scheduling policy. You can't delete a scheduling policy that is used
+Deletes the specified scheduling policy. You can't delete a scheduling policy that's used
 in any job queues.
 
 # Arguments
@@ -503,7 +504,7 @@ return job definitions that match that status.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"jobDefinitionName"`: The name of the job definition to describe.
 - `"jobDefinitions"`: A list of up to 100 job definitions. Each entry in the list can
-  either be an ARN of the form
+  either be an ARN in the format
   arn:aws:batch:{Region}:{Account}:job-definition/{JobDefinitionName}:{Revision} or a short
   version using the form {JobDefinitionName}:{Revision}.
 - `"maxResults"`: The maximum number of results returned by DescribeJobDefinitions in
@@ -682,10 +683,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the results include jobs that used the specified revision of the job definition. Asterisk
   (*) is not supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is
   the time that's before the job was created. This corresponds to the createdAt value. The
-  value is a string representation of the number of seconds since 00:00:00 UTC (midnight) on
-  January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the
-  job was created. This corresponds to the createdAt value. The value is a string
-  representation of the number of seconds since 00:00:00 UTC (midnight) on January 1, 1970.
+  value is a string representation of the number of milliseconds since 00:00:00 UTC
+  (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time
+  that's after the job was created. This corresponds to the createdAt value. The value is a
+  string representation of the number of milliseconds since 00:00:00 UTC (midnight) on
+  January 1, 1970.
 - `"jobQueue"`: The name or full Amazon Resource Name (ARN) of the job queue used to list
   jobs.
 - `"jobStatus"`: The job status used to filter jobs in the specified queue. If the filters
@@ -732,14 +734,14 @@ Returns a list of Batch scheduling policies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results returned by ListSchedulingPolicies in
-  paginated output. When this parameter is used, ListSchedulingPolicies only returns
-  maxResults results in a single page and a nextToken response element. The remaining results
-  of the initial request can be seen by sending another ListSchedulingPolicies request with
-  the returned nextToken value. This value can be between 1 and 100. If this parameter isn't
-  used, then ListSchedulingPolicies returns up to 100 results and a nextToken value if
+- `"maxResults"`: The maximum number of results that's returned by ListSchedulingPolicies
+  in paginated output. When this parameter is used, ListSchedulingPolicies only returns
+  maxResults results in a single page and a nextToken response element. You can see the
+  remaining results of the initial request by sending another ListSchedulingPolicies request
+  with the returned nextToken value. This value can be between 1 and 100. If this parameter
+  isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if
   applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated
+- `"nextToken"`: The nextToken value that's returned from a previous paginated
   ListSchedulingPolicies request where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
   the nextToken value. This value is null when there are no more results to return.  This
@@ -812,8 +814,9 @@ end
 Registers an Batch job definition.
 
 # Arguments
-- `job_definition_name`: The name of the job definition to register. Up to 128 letters
-  (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `job_definition_name`: The name of the job definition to register. It can be up to 128
+  letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  underscores (_).
 - `type`: The type of job definition. For more information about multi-node parallel jobs,
   see Creating a multi-node parallel job definition in the Batch User Guide.  If the job is
   run on Fargate resources, then multinode isn't supported.
@@ -909,8 +912,9 @@ Fargate resources might become unavailable and job might be terminated.
 - `job_definition`: The job definition used by this job. This value can be one of name,
   name:revision, or the Amazon Resource Name (ARN) for the job definition. If name is
   specified without a revision then the latest active revision is used.
-- `job_name`: The name of the job. The first character must be alphanumeric, and up to 128
-  letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `job_name`: The name of the job. It can be up to 128 letters long. The first character
+  must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-),
+  and underscores (_).
 - `job_queue`: The job queue where the job is submitted. You can specify either the name or
   the Amazon Resource Name (ARN) of the queue.
 

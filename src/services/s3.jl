@@ -91,17 +91,19 @@ white space characters to keep the connection from timing out. Because a request
 after the initial 200 OK response has been sent, it is important that you check the
 response body to determine whether the request succeeded. Note that if
 CompleteMultipartUpload fails, applications should be prepared to retry the failed
-requests. For more information, see Amazon S3 Error Best Practices. For more information
-about multipart uploads, see Uploading Objects Using Multipart Upload. For information
-about permissions required to use the multipart upload API, see Multipart Upload and
-Permissions.  CompleteMultipartUpload has the following special errors:   Error code:
-EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed
-object size. Each part must be at least 5 MB in size, except the last part.   400 Bad
-Request     Error code: InvalidPart    Description: One or more of the specified parts
-could not be found. The part might not have been uploaded, or the specified entity tag
-might not have matched the part's entity tag.   400 Bad Request     Error code:
-InvalidPartOrder    Description: The list of parts was not in ascending order. The parts
-list must be specified in order by part number.   400 Bad Request     Error code:
+requests. For more information, see Amazon S3 Error Best Practices.  You cannot use
+Content-Type: application/x-www-form-urlencoded with Complete Multipart Upload requests.
+Also, if you do not provide a Content-Type header, CompleteMultipartUpload returns a 200 OK
+response.  For more information about multipart uploads, see Uploading Objects Using
+Multipart Upload. For information about permissions required to use the multipart upload
+API, see Multipart Upload and Permissions.  CompleteMultipartUpload has the following
+special errors:   Error code: EntityTooSmall    Description: Your proposed upload is
+smaller than the minimum allowed object size. Each part must be at least 5 MB in size,
+except the last part.   400 Bad Request     Error code: InvalidPart    Description: One or
+more of the specified parts could not be found. The part might not have been uploaded, or
+the specified entity tag might not have matched the part's entity tag.   400 Bad Request
+ Error code: InvalidPartOrder    Description: The list of parts was not in ascending order.
+The parts list must be specified in order by part number.   400 Bad Request     Error code:
 NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID
 might be invalid, or the multipart upload might have been aborted or completed.   404 Not
 Found     The following operations are related to CompleteMultipartUpload:
@@ -2504,14 +2506,15 @@ have the s3:ListBucket permission on the bucket, Amazon S3 will return an HTTP s
 404 (\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
 will return an HTTP status code 403 (\"access denied\") error.    Versioning  By default,
 the GET action returns the current version of an object. To return a different version, use
-the versionId subresource.    You need the s3:GetObjectVersion permission to access a
-specific version of an object.    If the current version of the object is a delete marker,
-Amazon S3 behaves as if the object was deleted and includes x-amz-delete-marker: true in
-the response.    For more information about versioning, see PutBucketVersioning.
-Overriding Response Header Values  There are times when you want to override certain
-response header values in a GET response. For example, you might override the
-Content-Disposition response header value in your GET request. You can override values for
-a set of response headers using the following query parameters. These response header
+the versionId subresource.     If you supply a versionId, you need the s3:GetObjectVersion
+permission to access a specific version of an object. If you request a specific version,
+you do not need to have the s3:GetObject permission.    If the current version of the
+object is a delete marker, Amazon S3 behaves as if the object was deleted and includes
+x-amz-delete-marker: true in the response.    For more information about versioning, see
+PutBucketVersioning.   Overriding Response Header Values  There are times when you want to
+override certain response header values in a GET response. For example, you might override
+the Content-Disposition response header value in your GET request. You can override values
+for a set of response headers using the following query parameters. These response header
 values are sent only on a successful request, that is, when status code 200 OK is returned.
 The set of headers you can override using these parameters is a subset of the headers that
 Amazon S3 accepts when you create an object. The response headers that you can override for

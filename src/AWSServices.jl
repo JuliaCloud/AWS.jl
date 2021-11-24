@@ -24,6 +24,7 @@ const apigatewaymanagementapi = AWS.RestJSONService(
 const apigatewayv2 = AWS.RestJSONService("apigateway", "apigateway", "2018-11-29")
 const app_mesh = AWS.RestJSONService("appmesh", "appmesh", "2019-01-25")
 const appconfig = AWS.RestJSONService("appconfig", "appconfig", "2019-10-09")
+const appconfigdata = AWS.RestJSONService("appconfig", "appconfigdata", "2021-11-11")
 const appflow = AWS.RestJSONService("appflow", "appflow", "2020-08-23")
 const appintegrations = AWS.RestJSONService(
     "app-integrations", "app-integrations", "2020-07-29"
@@ -198,6 +199,7 @@ const directory_service = AWS.JSONService(
 )
 const dlm = AWS.RestJSONService("dlm", "dlm", "2018-01-12")
 const docdb = AWS.QueryService("rds", "rds", "2014-10-31")
+const drs = AWS.RestJSONService("drs", "drs", "2020-02-26")
 const dynamodb = AWS.JSONService(
     "dynamodb", "dynamodb", "2012-08-10", "1.0", "DynamoDB_20120810"
 )
@@ -421,6 +423,9 @@ const mgn = AWS.RestJSONService("mgn", "mgn", "2020-02-26")
 const migration_hub = AWS.JSONService("mgh", "mgh", "2017-05-31", "1.1", "AWSMigrationHub")
 const migrationhub_config = AWS.JSONService(
     "mgh", "migrationhub-config", "2019-06-30", "1.1", "AWSMigrationHubMultiAccountService"
+)
+const migrationhubstrategy = AWS.RestJSONService(
+    "migrationhub-strategy", "migrationhub-strategy", "2020-02-19"
 )
 const mobile = AWS.RestJSONService("AWSMobileHubService", "mobile", "2017-07-01")
 const mobile_analytics = AWS.RestJSONService(

@@ -8,10 +8,10 @@ using AWS.UUIDs
     create_application(name)
     create_application(name, params::Dict{String,<:Any})
 
-An application in AppConfig is a logical unit of code that provides capabilities for your
-customers. For example, an application can be a microservice that runs on Amazon EC2
-instances, a mobile application installed by your users, a serverless application using
-Amazon API Gateway and AWS Lambda, or any system you run on behalf of others.
+Creates an application. An application in AppConfig is a logical unit of code that provides
+capabilities for your customers. For example, an application can be a microservice that
+runs on Amazon EC2 instances, a mobile application installed by your users, a serverless
+application using Amazon API Gateway and Lambda, or any system you run on behalf of others.
 
 # Arguments
 - `name`: A name for the application.
@@ -48,20 +48,23 @@ end
     create_configuration_profile(application_id, location_uri, name)
     create_configuration_profile(application_id, location_uri, name, params::Dict{String,<:Any})
 
-Information that enables AppConfig to access the configuration source. Valid configuration
-sources include Systems Manager (SSM) documents, SSM Parameter Store parameters, and Amazon
-S3 objects. A configuration profile includes the following information.   The Uri location
-of the configuration data.   The AWS Identity and Access Management (IAM) role that
+Creates a configuration profile, which is information that enables AppConfig to access the
+configuration source. Valid configuration sources include the AppConfig hosted
+configuration store, Amazon Web Services Systems Manager (SSM) documents, SSM Parameter
+Store parameters, Amazon S3 objects, or any integration source action supported by
+CodePipeline. A configuration profile includes the following information:   The URI
+location of the configuration data.   The Identity and Access Management (IAM) role that
 provides access to the configuration data.   A validator for the configuration data.
-Available validators include either a JSON Schema or an AWS Lambda function.   For more
-information, see Create a Configuration and a Configuration Profile in the AWS AppConfig
-User Guide.
+Available validators include either a JSON Schema or an Lambda function.   For more
+information, see Create a Configuration and a Configuration Profile in the AppConfig User
+Guide.
 
 # Arguments
 - `application_id`: The application ID.
-- `location_uri`: A URI to locate the configuration. You can specify a Systems Manager
-  (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM
-  document, specify either the document name in the format
+- `location_uri`: A URI to locate the configuration. You can specify the AppConfig hosted
+  configuration store, Systems Manager (SSM) document, an SSM Parameter Store parameter, or
+  an Amazon S3 object. For the hosted configuration store and for feature flags, specify
+  hosted. For an SSM document, specify either the document name in the format
   ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter,
   specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or
   the ARN. For an Amazon S3 object, specify the URI in the following format:
@@ -73,10 +76,15 @@ User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the configuration profile.
 - `"RetrievalRoleArn"`: The ARN of an IAM role with permission to access the configuration
-  at the specified LocationUri.
+  at the specified LocationUri.  A retrieval role ARN is not required for configurations
+  stored in the AppConfig hosted configuration store. It is required for all other sources
+  that store your configuration.
 - `"Tags"`: Metadata to assign to the configuration profile. Tags help organize and
   categorize your AppConfig resources. Each tag consists of a key and an optional value, both
   of which you define.
+- `"Type"`: The type of configurations that the configuration profile contains. A
+  configuration can be a feature flag used for enabling or disabling new features or a
+  free-form configuration used for distributing configurations to your application.
 - `"Validators"`: A list of methods for validating the configuration.
 """
 function create_configuration_profile(
@@ -116,10 +124,10 @@ end
     create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, replicate_to)
     create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, replicate_to, params::Dict{String,<:Any})
 
-A deployment strategy defines important criteria for rolling out your configuration to the
-designated targets. A deployment strategy includes: the overall duration required, a
-percentage of targets to receive the deployment during each interval, an algorithm that
-defines how percentage grows, and bake time.
+Creates a deployment strategy that defines important criteria for rolling out your
+configuration to the designated targets. A deployment strategy includes the overall
+duration required, a percentage of targets to receive the deployment during each interval,
+an algorithm that defines how percentage grows, and bake time.
 
 # Arguments
 - `deployment_duration_in_minutes`: Total amount of time for a deployment to last.
@@ -133,9 +141,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the deployment strategy.
 - `"FinalBakeTimeInMinutes"`: The amount of time AppConfig monitors for alarms before
   considering the deployment to be complete and no longer eligible for automatic roll back.
-- `"GrowthType"`: The algorithm used to define how percentage grows over time. AWS
-  AppConfig supports the following growth types:  Linear: For this type, AppConfig processes
-  the deployment by dividing the total number of targets by the value specified for Step
+- `"GrowthType"`: The algorithm used to define how percentage grows over time. AppConfig
+  supports the following growth types:  Linear: For this type, AppConfig processes the
+  deployment by dividing the total number of targets by the value specified for Step
   percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the
   configuration to 10 percent of the hosts. After those deployments are complete, the system
   deploys the configuration to the next 10 percent. This continues until 100% of the targets
@@ -203,12 +211,13 @@ end
     create_environment(application_id, name)
     create_environment(application_id, name, params::Dict{String,<:Any})
 
-For each application, you define one or more environments. An environment is a logical
-deployment group of AppConfig targets, such as applications in a Beta or Production
-environment. You can also define environments for application subcomponents such as the
-Web, Mobile and Back-end components for your application. You can configure Amazon
-CloudWatch alarms for each environment. The system monitors alarms during a configuration
-deployment. If an alarm is triggered, the system rolls back the configuration.
+Creates an environment. For each application, you define one or more environments. An
+environment is a logical deployment group of AppConfig targets, such as applications in a
+Beta or Production environment. You can also define environments for application
+subcomponents such as the Web, Mobile and Back-end components for your application. You can
+configure Amazon CloudWatch alarms for each environment. The system monitors alarms during
+a configuration deployment. If an alarm is triggered, the system rolls back the
+configuration.
 
 # Arguments
 - `application_id`: The application ID.
@@ -252,7 +261,7 @@ end
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type)
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type, params::Dict{String,<:Any})
 
-Create a new configuration in the AppConfig configuration store.
+Creates a new configuration in the AppConfig hosted configuration store.
 
 # Arguments
 - `application_id`: The application ID.
@@ -267,7 +276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Latest-Version-Number"`: An optional locking token used to prevent race conditions from
   overwriting configuration updates when creating a new version. To ensure your data is not
   overwritten when creating multiple hosted configuration versions in rapid succession,
-  specify the version of the latest hosted configuration version.
+  specify the version number of the latest hosted configuration version.
 """
 function create_hosted_configuration_version(
     ApplicationId,
@@ -317,7 +326,7 @@ end
     delete_application(application_id)
     delete_application(application_id, params::Dict{String,<:Any})
 
-Delete an application. Deleting an application does not delete a configuration from a host.
+Deletes an application. Deleting an application does not delete a configuration from a host.
 
 # Arguments
 - `application_id`: The ID of the application to delete.
@@ -351,7 +360,7 @@ end
     delete_configuration_profile(application_id, configuration_profile_id)
     delete_configuration_profile(application_id, configuration_profile_id, params::Dict{String,<:Any})
 
-Delete a configuration profile. Deleting a configuration profile does not delete a
+Deletes a configuration profile. Deleting a configuration profile does not delete a
 configuration from a host.
 
 # Arguments
@@ -389,7 +398,7 @@ end
     delete_deployment_strategy(deployment_strategy_id)
     delete_deployment_strategy(deployment_strategy_id, params::Dict{String,<:Any})
 
-Delete a deployment strategy. Deleting a deployment strategy does not delete a
+Deletes a deployment strategy. Deleting a deployment strategy does not delete a
 configuration from a host.
 
 # Arguments
@@ -424,11 +433,12 @@ end
     delete_environment(application_id, environment_id)
     delete_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Delete an environment. Deleting an environment does not delete a configuration from a host.
+Deletes an environment. Deleting an environment does not delete a configuration from a host.
 
 # Arguments
-- `application_id`: The application ID that includes the environment you want to delete.
-- `environment_id`: The ID of the environment you want to delete.
+- `application_id`: The application ID that includes the environment that you want to
+  delete.
+- `environment_id`: The ID of the environment that you want to delete.
 
 """
 function delete_environment(
@@ -460,7 +470,7 @@ end
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number)
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number, params::Dict{String,<:Any})
 
-Delete a version of a configuration from the AppConfig configuration store.
+Deletes a version of a configuration from the AppConfig hosted configuration store.
 
 # Arguments
 - `application_id`: The application ID.
@@ -501,7 +511,7 @@ end
     get_application(application_id)
     get_application(application_id, params::Dict{String,<:Any})
 
-Retrieve information about an application.
+Retrieves information about an application.
 
 # Arguments
 - `application_id`: The ID of the application you want to get.
@@ -533,7 +543,7 @@ end
     get_configuration(application, configuration, environment, client_id)
     get_configuration(application, configuration, environment, client_id, params::Dict{String,<:Any})
 
-Receive information about a configuration.  AWS AppConfig uses the value of the
+Retrieves information about a configuration.  AppConfig uses the value of the
 ClientConfigurationVersion parameter to identify the configuration version on your clients.
 If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your
 clients receive the current configuration. You are charged each time your clients receive a
@@ -549,13 +559,14 @@ the ClientConfigurationVersion parameter.
   configuration ID.
 - `environment`: The environment to get. Specify either the environment name or the
   environment ID.
-- `client_id`: A unique ID to identify the client for the configuration. This ID enables
-  AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
+- `client_id`: The clientId parameter in the following command is a unique, user-specified
+  ID to identify the client for the configuration. This ID enables AppConfig to deploy the
+  configuration in intervals, as defined in the deployment strategy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"client_configuration_version"`: The configuration version returned in the most recent
-  GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion
+  GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion
   parameter to identify the configuration version on your clients. If you don’t send
   ClientConfigurationVersion with each call to GetConfiguration, your clients receive the
   current configuration. You are charged each time your clients receive a configuration. To
@@ -563,7 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with every call to GetConfiguration. This value must be saved on your client. Subsequent
   calls to GetConfiguration must pass this value by using the ClientConfigurationVersion
   parameter.   For more information about working with configurations, see Retrieving the
-  Configuration in the AWS AppConfig User Guide.
+  Configuration in the AppConfig User Guide.
 """
 function get_configuration(
     Application,
@@ -603,12 +614,12 @@ end
     get_configuration_profile(application_id, configuration_profile_id)
     get_configuration_profile(application_id, configuration_profile_id, params::Dict{String,<:Any})
 
-Retrieve information about a configuration profile.
+Retrieves information about a configuration profile.
 
 # Arguments
 - `application_id`: The ID of the application that includes the configuration profile you
   want to get.
-- `configuration_profile_id`: The ID of the configuration profile you want to get.
+- `configuration_profile_id`: The ID of the configuration profile that you want to get.
 
 """
 function get_configuration_profile(
@@ -640,7 +651,7 @@ end
     get_deployment(application_id, deployment_number, environment_id)
     get_deployment(application_id, deployment_number, environment_id, params::Dict{String,<:Any})
 
-Retrieve information about a configuration deployment.
+Retrieves information about a configuration deployment.
 
 # Arguments
 - `application_id`: The ID of the application that includes the deployment you want to get.
@@ -681,9 +692,9 @@ end
     get_deployment_strategy(deployment_strategy_id)
     get_deployment_strategy(deployment_strategy_id, params::Dict{String,<:Any})
 
-Retrieve information about a deployment strategy. A deployment strategy defines important
+Retrieves information about a deployment strategy. A deployment strategy defines important
 criteria for rolling out your configuration to the designated targets. A deployment
-strategy includes: the overall duration required, a percentage of targets to receive the
+strategy includes the overall duration required, a percentage of targets to receive the
 deployment during each interval, an algorithm that defines how percentage grows, and bake
 time.
 
@@ -719,7 +730,7 @@ end
     get_environment(application_id, environment_id)
     get_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Retrieve information about an environment. An environment is a logical deployment group of
+Retrieves information about an environment. An environment is a logical deployment group of
 AppConfig applications, such as applications in a Production environment or in an EU_Region
 environment. Each configuration deployment targets an environment. You can enable one or
 more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a
@@ -727,7 +738,7 @@ deployment, AppConfig roles back the configuration.
 
 # Arguments
 - `application_id`: The ID of the application that includes the environment you want to get.
-- `environment_id`: The ID of the environment you wnat to get.
+- `environment_id`: The ID of the environment that you want to get.
 
 """
 function get_environment(
@@ -759,7 +770,7 @@ end
     get_hosted_configuration_version(application_id, configuration_profile_id, version_number)
     get_hosted_configuration_version(application_id, configuration_profile_id, version_number, params::Dict{String,<:Any})
 
-Get information about a specific configuration version.
+Retrieves information about a specific configuration version.
 
 # Arguments
 - `application_id`: The application ID.
@@ -800,13 +811,17 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-List all applications in your AWS account.
+Lists all applications in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Next token is a pagination token generated by
+  AppConfig to describe what page the previous List call ended on. For the first List
+  request, the nextToken should not be set. On subsequent calls, the nextToken parameter
+  should be set to the previous responses nextToken value. Use this token to get the next set
+  of results.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return appconfig(
@@ -839,6 +854,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"type"`: A filter based on the type of configurations that the configuration profile
+  contains. A configuration can be a feature flag or a free-form configuration.
 """
 function list_configuration_profiles(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -868,7 +885,7 @@ end
     list_deployment_strategies()
     list_deployment_strategies(params::Dict{String,<:Any})
 
-List deployment strategies.
+Lists deployment strategies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -941,7 +958,7 @@ end
     list_environments(application_id)
     list_environments(application_id, params::Dict{String,<:Any})
 
-List the environments for an application.
+Lists the environments for an application.
 
 # Arguments
 - `application_id`: The application ID.
@@ -978,7 +995,7 @@ end
     list_hosted_configuration_versions(application_id, configuration_profile_id)
     list_hosted_configuration_versions(application_id, configuration_profile_id, params::Dict{String,<:Any})
 
-View a list of configurations stored in the AppConfig configuration store by version.
+Lists configurations stored in the AppConfig hosted configuration store by version.
 
 # Arguments
 - `application_id`: The application ID.
@@ -1163,9 +1180,9 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Metadata to assign to an AppConfig resource. Tags help organize and categorize your
-AppConfig resources. Each tag consists of a key and an optional value, both of which you
-define. You can specify a maximum of 50 tags for a resource.
+Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig
+resources. Each tag consists of a key and an optional value, both of which you define. You
+can specify a maximum of 50 tags for a resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource for which to retrieve tags.
@@ -1329,14 +1346,14 @@ Updates a deployment strategy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeploymentDurationInMinutes"`: Total amount of time for a deployment to last.
 - `"Description"`: A description of the deployment strategy.
-- `"FinalBakeTimeInMinutes"`: The amount of time AppConfig monitors for alarms before
-  considering the deployment to be complete and no longer eligible for automatic roll back.
+- `"FinalBakeTimeInMinutes"`: The amount of time that AppConfig monitors for alarms before
+  considering the deployment to be complete and no longer eligible for automatic rollback.
 - `"GrowthFactor"`: The percentage of targets to receive a deployed configuration during
   each interval.
-- `"GrowthType"`: The algorithm used to define how percentage grows over time. AWS
-  AppConfig supports the following growth types:  Linear: For this type, AppConfig processes
-  the deployment by increments of the growth factor evenly distributed over the deployment
-  time. For example, a linear deployment that uses a growth factor of 20 initially makes the
+- `"GrowthType"`: The algorithm used to define how percentage grows over time. AppConfig
+  supports the following growth types:  Linear: For this type, AppConfig processes the
+  deployment by increments of the growth factor evenly distributed over the deployment time.
+  For example, a linear deployment that uses a growth factor of 20 initially makes the
   configuration available to 20 percent of the targets. After 1/5th of the deployment time
   has passed, the system updates the percentage to 40 percent. This continues until 100% of
   the targets are set to receive the deployed configuration.  Exponential: For this type,

@@ -1476,6 +1476,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication. For more information, see Amazon Cognito Authentication for Kibana.
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.
+- `"DryRun"`:  This flag, when set to True, specifies whether the UpdateElasticsearchDomain
+  request should return the results of validation checks without actually applying the
+  change. This flag, when set to True, specifies the deployment mechanism through which the
+  update shall be applied on the domain. This will not actually perform the Update.
 - `"EBSOptions"`: Specify the type and size of the EBS volume that you want to use.
 - `"ElasticsearchClusterConfig"`: The type and number of instances to instantiate for the
   domain cluster.
