@@ -65,7 +65,10 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     # We pass an `input` only when we have content we wish to send.
     input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
-    @repeat 4 try
+    max_attempts = 4
+    attempt = 0
+    @repeat max_attempts try
+        attempt += 1
         downloader = @something(backend.downloader, get_downloader())
         # set the hook so that we don't follow redirects. Only
         # need to do this on per-request downloaders, because we
@@ -79,16 +82,38 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         # but the first will send an empty payload.
         input !== nothing && seekstart(input)
 
-        response = @mock Downloads.request(
-            request.url;
-            input=input,
-            output=output,
-            method=request.request_method,
-            headers=request.headers,
-            verbose=false,
-            throw=true,
-            downloader=downloader,
-        )
+        # Because Downloads will write incomplete stream failures to the provided output buffer
+        # a sacrificial buffer is needed so that incomplete data can be discarded
+        buffer = isnothing(output) ? nothing : Base.BufferStream()
+        should_write = true
+        response = try
+            @mock Downloads.request(
+                request.url;
+                input=input,
+                output=buffer,
+                method=request.request_method,
+                headers=request.headers,
+                verbose=false,
+                throw=true,
+                downloader=downloader,
+            )
+        catch e
+            if e isa Downloads.RequestError && e.code == 18
+                # Downloads.RequestError 18 indicates an incomplete transfer, so don't pass the buffer forward
+                should_write = false
+            end
+            rethrow()
+        finally
+            if !isnothing(output)
+                close(buffer)
+                # Transfer the contents of the `BufferStream` into `response_stream` variable.
+                # but only if no EOFError error because of a broken connection OR it's the final attempt.
+                # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
+                if should_write || attempt == max_attempts
+                    write(response_stream, buffer)
+                end
+            end
+        end
 
         http_response = HTTP.Response(
             response.status, response.headers; body=body_was_streamed, request=nothing
