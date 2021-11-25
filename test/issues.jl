@@ -155,8 +155,8 @@ try
         end
     end
 
+    # https://github.com/JuliaCloud/AWS.jl/issues/515
     @testset "issue 515" begin
-        # https://github.com/JuliaCloud/AWS.jl/issues/515
 
         function _incomplete_patch(; data, num_attempts_to_fail=4)
             attempt_num = 0
@@ -210,22 +210,29 @@ try
 
         n = 100
         data = rand(UInt8, n)
-
+        bucket = "www.invenia.ca"  # use public bucket as dummy
+        key = "index.html"
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
-            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 2)) do
-                retrieved = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+            apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
+                retrieved = S3.get_object(bucket, key; aws_config=config)
 
                 @test length(retrieved) == n
                 @test retrieved == data
             end
         end
         @testset "Fail all 4 attempts then throw" begin
+            err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                HTTP.IOError
+            else
+                Downloads.RequestError
+            end
             io = IOBuffer()
-            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 4)) do
-                err_t = AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend ? HTTP.IOError : Downloads.RequestError
-                @test_throws err_t S3.get_object("www.invenia.ca", "index.html", Dict("response_stream" => io); aws_config=config) # use public bucket as dummy
+
+            apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
+                params = Dict("response_stream" => io)
+                @test_throws err_t S3.get_object(bucket, key, params; aws_config=config)
 
                 seekstart(io)
                 retrieved = read(io)
