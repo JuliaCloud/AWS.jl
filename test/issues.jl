@@ -209,28 +209,28 @@ try
         end
 
         n = 100
-        n_incomplete = n - 1
         data = rand(UInt8, n)
 
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
-            apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
-                resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
-                @test length(resp) == n
-                @test resp == data
+            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 2)) do
+                retrieved = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+
+                @test length(retrieved) == n
+                @test retrieved == data
             end
         end
         @testset "Fail all 4 attempts then throw" begin
-            apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
-                err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    HTTP.IOError
-                else
-                    Downloads.RequestError
-                end
-                @test_throws err_t S3.get_object(
-                    "www.invenia.ca", "index.html"; aws_config=config
-                ) # use public bucket as dummy
+            io = IOBuffer()
+            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 4)) do
+                err_t = AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend ? HTTP.IOError : Downloads.RequestError
+                @test_throws err_t S3.get_object("www.invenia.ca", "index.html", Dict("response_stream" => io); aws_config=config) # use public bucket as dummy
+
+                seekstart(io)
+                retrieved = read(io)
+                @test length(retrieved) == n - 1
+                @test retrieved == data[1:n - 1]
             end
         end
     end
