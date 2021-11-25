@@ -157,10 +157,14 @@ try
 
     # https://github.com/JuliaCloud/AWS.jl/issues/515
     @testset "issue 515" begin
-
         function _incomplete_patch(; data, num_attempts_to_fail=4)
             attempt_num = 0
             n = length(data)
+
+            function _downloads_response(content_length)
+                headers = ["content-length" => string(content_length)]
+                return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", headers)
+            end
 
             patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @patch function HTTP.request(args...; response_stream, kwargs...)
@@ -177,30 +181,13 @@ try
                 @patch function Downloads.request(args...; output, kwargs...)
                     attempt_num += 1
                     if attempt_num <= num_attempts_to_fail
-                        write(output, data[1:(n - 1)]) # an incomplete stream that shouldn't be retained
-                        throw(
-                            Downloads.RequestError(
-                                "",
-                                18,
-                                "transfer closed with 1 bytes remaining to read",
-                                Downloads.Response(
-                                    "http",
-                                    "",
-                                    200,
-                                    "HTTP/1.1 200 OK",
-                                    ["content-length" => string(n)],
-                                ),
-                            ),
-                        )
+                        write(output, data[1:(n - 1)])  # an incomplete stream that shouldn't be retained
+                        message = "transfer closed with 1 bytes remaining to read"
+                        e = Downloads.RequestError("", 18, message, _downloads_response(n))
+                        throw(e)
                     else
                         write(output, data)
-                        return Downloads.Response(
-                            "http",
-                            "",
-                            200,
-                            "HTTP/1.1 200 OK",
-                            ["content-length" => string(n)],
-                        )
+                        return _downloads_response(n)
                     end
                 end
             end
@@ -222,6 +209,7 @@ try
                 @test retrieved == data
             end
         end
+
         @testset "Fail all 4 attempts then throw" begin
             err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 HTTP.IOError
@@ -237,7 +225,7 @@ try
                 seekstart(io)
                 retrieved = read(io)
                 @test length(retrieved) == n - 1
-                @test retrieved == data[1:n - 1]
+                @test retrieved == data[1:(n - 1)]
             end
         end
     end
