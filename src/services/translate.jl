@@ -9,9 +9,9 @@ using AWS.UUIDs
     create_parallel_data(client_token, name, parallel_data_config, params::Dict{String,<:Any})
 
 Creates a parallel data resource in Amazon Translate by importing an input file from Amazon
-S3. Parallel data files contain examples of source phrases and their translations from your
-translation memory. By adding parallel data, you can influence the style, tone, and word
-choice in your translation output.
+S3. Parallel data files contain examples that show how you want segments of text to be
+translated. By adding parallel data, you can influence the style, tone, and word choice in
+your translation output.
 
 # Arguments
 - `client_token`: A unique identifier for the request. This token is automatically
@@ -127,7 +127,7 @@ end
     describe_text_translation_job(job_id)
     describe_text_translation_job(job_id, params::Dict{String,<:Any})
 
-Gets the properties associated with an asycnhronous batch translation job including name,
+Gets the properties associated with an asynchronous batch translation job including name,
 ID, status, source and target languages, input/output S3 buckets, and so on.
 
 # Arguments
@@ -186,44 +186,37 @@ function get_parallel_data(
 end
 
 """
-    get_terminology(name, terminology_data_format)
-    get_terminology(name, terminology_data_format, params::Dict{String,<:Any})
+    get_terminology(name)
+    get_terminology(name, params::Dict{String,<:Any})
 
 Retrieves a custom terminology.
 
 # Arguments
 - `name`: The name of the custom terminology being retrieved.
-- `terminology_data_format`: The data format of the custom terminology being retrieved,
-  either CSV or TMX.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TerminologyDataFormat"`: The data format of the custom terminology being retrieved. If
+  you don't specify this parameter, Amazon Translate returns a file that has the same format
+  as the file that was imported to create the terminology.  If you specify this parameter
+  when you retrieve a multi-directional terminology resource, you must specify the same
+  format as that of the input file that was imported to create it. Otherwise, Amazon
+  Translate throws an error.
 """
-function get_terminology(
-    Name, TerminologyDataFormat; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return translate(
         "GetTerminology",
-        Dict{String,Any}("Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_terminology(
-    Name,
-    TerminologyDataFormat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return translate(
         "GetTerminology",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat
-                ),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -389,7 +382,7 @@ multiple source languages at once.
   using the Amazon Translate SDK.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of an AWS Identity Access and
   Management (IAM) role that grants Amazon Translate read access to your input data. For more
-  nformation, see identity-and-access-management.
+  information, see identity-and-access-management.
 - `input_data_config`: Specifies the format and S3 location of the input documents for the
   translation job.
 - `output_data_config`: Specifies the S3 folder to which your job output will be saved.
@@ -401,11 +394,19 @@ multiple source languages at once.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobName"`: The name of the batch translation job to be performed.
-- `"ParallelDataNames"`: The names of the parallel data resources to use in the batch
-  translation job. For a list of available parallel data resources, use the ListParallelData
-  operation.
-- `"TerminologyNames"`: The name of the terminology to use in the batch translation job.
-  For a list of available terminologies, use the ListTerminologies operation.
+- `"ParallelDataNames"`: The name of a parallel data resource to add to the translation
+  job. This resource consists of examples that show how you want segments of text to be
+  translated. When you add parallel data to a translation job, you create an Active Custom
+  Translation job.  This parameter accepts only one parallel data resource.  Active Custom
+  Translation jobs are priced at a higher rate than other jobs that don't use parallel data.
+  For more information, see Amazon Translate pricing.  For a list of available parallel data
+  resources, use the ListParallelData operation. For more information, see
+  customizing-translations-parallel-data.
+- `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
+  job. This resource lists examples source terms and the desired translation for each term.
+  This parameter accepts only one custom terminology resource. For a list of available custom
+  terminology resources, use the ListTerminologies operation. For more information, see
+  how-custom-terminology.
 """
 function start_text_translation_job(
     ClientToken,

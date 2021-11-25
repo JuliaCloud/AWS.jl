@@ -15,12 +15,19 @@ Create a new FinSpace environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dataBundles"`: The list of Amazon Resource Names (ARN) of the data bundles to install.
+  Currently supported data bundle ARNs:
+  arn:aws:finspace:{Region}::data-bundle/capital-markets-sample - Contains sample Capital
+  Markets datasets, categories and controlled vocabularies.
+  arn:aws:finspace:{Region}::data-bundle/taq (default) - Contains trades and quotes data in
+  addition to sample Capital Markets data.
 - `"description"`: The description of the FinSpace environment to be created.
 - `"federationMode"`: Authentication mode for the environment.    FEDERATED - Users access
   FinSpace through Single Sign On (SSO) via your Identity provider.    LOCAL - Users access
   FinSpace via email and password managed within the FinSpace environment.
 - `"federationParameters"`: Configuration information when authentication mode is FEDERATED.
 - `"kmsKeyId"`: The KMS key id to encrypt your data in the FinSpace environment.
+- `"superuserParameters"`: Configuration information for the superuser.
 - `"tags"`: Add tags to your FinSpace environment.
 """
 function create_environment(name; aws_config::AbstractAWSConfig=global_aws_config())

@@ -257,6 +257,97 @@ function create_location_fsx_windows(
 end
 
 """
+    create_location_hdfs(agent_arns, authentication_type, name_nodes)
+    create_location_hdfs(agent_arns, authentication_type, name_nodes, params::Dict{String,<:Any})
+
+Creates an endpoint for a Hadoop Distributed File System (HDFS).
+
+# Arguments
+- `agent_arns`: The Amazon Resource Names (ARNs) of the agents that are used to connect to
+  the HDFS cluster.
+- `authentication_type`: The type of authentication used to determine the identity of the
+  user.
+- `name_nodes`: The NameNode that manages the HDFS namespace. The NameNode performs
+  operations such as opening, closing, and renaming files and directories. The NameNode
+  contains the information to map blocks of data to the DataNodes. You can use only one
+  NameNode.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BlockSize"`: The size of data blocks to write into the HDFS cluster. The block size
+  must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
+- `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
+  defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
+  providing the file's address. If you're using the CLI, it performs base64 encoding for you.
+  Otherwise, provide the base64-encoded text.   If KERBEROS is specified for
+  AuthenticationType, this parameter is required.
+- `"KerberosKrb5Conf"`: The krb5.conf file that contains the Kerberos configuration
+  information. You can load the krb5.conf file by providing the file's address. If you're
+  using the CLI, it performs the base64 encoding for you. Otherwise, provide the
+  base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is
+  required.
+- `"KerberosPrincipal"`: The Kerberos principal with access to the files and folders on the
+  HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is
+  required.
+- `"KmsKeyProviderUri"`: The URI of the HDFS cluster's Key Management Server (KMS).
+- `"QopConfiguration"`: The Quality of Protection (QOP) configuration specifies the Remote
+  Procedure Call (RPC) and data transfer protection settings configured on the Hadoop
+  Distributed File System (HDFS) cluster. If QopConfiguration isn't specified, RpcProtection
+  and DataTransferProtection default to PRIVACY. If you set RpcProtection or
+  DataTransferProtection, the other parameter assumes the same value.
+- `"ReplicationFactor"`: The number of DataNodes to replicate the data to when writing to
+  the HDFS cluster. By default, data is replicated to three DataNodes.
+- `"SimpleUser"`: The user name used to identify the client on the host operating system.
+  If SIMPLE is specified for AuthenticationType, this parameter is required.
+- `"Subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
+  data from or write data to the HDFS cluster. If the subdirectory isn't specified, it will
+  default to /.
+- `"Tags"`: The key-value pair that represents the tag that you want to add to the
+  location. The value can be an empty string. We recommend using tags to name your resources.
+"""
+function create_location_hdfs(
+    AgentArns,
+    AuthenticationType,
+    NameNodes;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationHdfs",
+        Dict{String,Any}(
+            "AgentArns" => AgentArns,
+            "AuthenticationType" => AuthenticationType,
+            "NameNodes" => NameNodes,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_location_hdfs(
+    AgentArns,
+    AuthenticationType,
+    NameNodes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationHdfs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AgentArns" => AgentArns,
+                    "AuthenticationType" => AuthenticationType,
+                    "NameNodes" => NameNodes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_location_nfs(on_prem_config, server_hostname, subdirectory)
     create_location_nfs(on_prem_config, server_hostname, subdirectory, params::Dict{String,<:Any})
 
@@ -591,9 +682,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
   
 - `"Includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern should contain a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe). For example:
-  \"/folder1|/folder2\"
+  a task. The pattern contains a single filter string that consists of the patterns to
+  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
+  \"/folder1|/folder2\".
 - `"Name"`: The name of a task. This value is a text reference that is used to identify the
   task in the console.
 - `"Options"`: The set of configuration options that control the behavior of a single
@@ -844,6 +935,42 @@ function describe_location_fsx_windows(
 )
     return datasync(
         "DescribeLocationFsxWindows",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_location_hdfs(location_arn)
+    describe_location_hdfs(location_arn, params::Dict{String,<:Any})
+
+Returns metadata, such as the authentication information about the Hadoop Distributed File
+System (HDFS) location.
+
+# Arguments
+- `location_arn`: The Amazon Resource Name (ARN) of the HDFS cluster location to describe.
+
+"""
+function describe_location_hdfs(
+    LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeLocationHdfs",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_location_hdfs(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeLocationHdfs",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
@@ -1227,12 +1354,12 @@ Components and Terminology topic in the DataSync User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
-  The list should contain a single filter string that consists of the patterns to exclude.
-  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
+  The list contains a single filter string that consists of the patterns to exclude. The
+  patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
 - `"Includes"`: A list of filter rules that determines which files to include when running
   a task. The pattern should contain a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe). For example:
-  \"/folder1|/folder2\"
+  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
+  \"/folder1|/folder2\".
 - `"OverrideOptions"`:
 """
 function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1364,6 +1491,71 @@ function update_agent(
         "UpdateAgent",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_location_hdfs(location_arn)
+    update_location_hdfs(location_arn, params::Dict{String,<:Any})
+
+Updates some parameters of a previously created location for a Hadoop Distributed File
+System cluster.
+
+# Arguments
+- `location_arn`: The Amazon Resource Name (ARN) of the source HDFS cluster location.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentArns"`: The ARNs of the agents that are used to connect to the HDFS cluster.
+- `"AuthenticationType"`: The type of authentication used to determine the identity of the
+  user.
+- `"BlockSize"`: The size of the data blocks to write into the HDFS cluster.
+- `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
+  defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
+  providing the file's address. If you use the AWS CLI, it performs base64 encoding for you.
+  Otherwise, provide the base64-encoded text.
+- `"KerberosKrb5Conf"`: The krb5.conf file that contains the Kerberos configuration
+  information. You can load the krb5.conf file by providing the file's address. If you're
+  using the AWS CLI, it performs the base64 encoding for you. Otherwise, provide the
+  base64-encoded text.
+- `"KerberosPrincipal"`: The Kerberos principal with access to the files and folders on the
+  HDFS cluster.
+- `"KmsKeyProviderUri"`: The URI of the HDFS cluster's Key Management Server (KMS).
+- `"NameNodes"`: The NameNode that manages the HDFS namespace. The NameNode performs
+  operations such as opening, closing, and renaming files and directories. The NameNode
+  contains the information to map blocks of data to the DataNodes. You can use only one
+  NameNode.
+- `"QopConfiguration"`: The Quality of Protection (QOP) configuration specifies the Remote
+  Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop
+  Distributed File System (HDFS) cluster.
+- `"ReplicationFactor"`: The number of DataNodes to replicate the data to when writing to
+  the HDFS cluster.
+- `"SimpleUser"`: The user name used to identify the client on the host operating system.
+- `"Subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
+  data from or write data to the HDFS cluster.
+"""
+function update_location_hdfs(
+    LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "UpdateLocationHdfs",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_location_hdfs(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "UpdateLocationHdfs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1550,14 +1742,14 @@ Updates the metadata associated with a task.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogGroupArn"`: The Amazon Resource Name (ARN) of the resource name of the
-  CloudWatch LogGroup.
+  Amazon CloudWatch log group.
 - `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
   The list should contain a single filter string that consists of the patterns to exclude.
-  The patterns are delimited by \"|\" (that is, a pipe), for example: \"/folder1|/folder2\"
+  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
 - `"Includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern should contain a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe). For example:
-  \"/folder1|/folder2\"
+  a task. The pattern contains a single filter string that consists of the patterns to
+  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
+  \"/folder1|/folder2\".
 - `"Name"`: The name of the task to update.
 - `"Options"`:
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a

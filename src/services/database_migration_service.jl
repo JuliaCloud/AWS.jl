@@ -173,9 +173,9 @@ the database only when you specify the schema in the table-mapping rules of the 
 - `endpoint_type`: The type of endpoint. Valid values are source and target.
 - `engine_name`: The type of engine for the endpoint. Valid values, depending on the
   EndpointType value, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"redshift\", \"s3\", \"db2\", \"azuredb\", \"sybase\",
-  \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\", \"docdb\",
-  \"sqlserver\", and \"neptune\".
+  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
+  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
+  \"docdb\", \"sqlserver\", and \"neptune\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -193,15 +193,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
   For information about other available settings, see Using Object Mapping to Migrate Data to
   DynamoDB in the Database Migration Service User Guide.
-- `"ElasticsearchSettings"`: Settings in JSON format for the target Elasticsearch endpoint.
+- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint.
   For more information about the available settings, see Extra Connection Attributes When
-  Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
+  Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
 - `"ExternalTableDefinition"`: The external table definition.
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. Each
   attribute is specified as a name-value pair associated by an equal sign (=). Multiple
   attributes are separated by a semicolon (;) with no additional white space. For information
   on the attributes available for connecting your source or target endpoint, see Working with
   DMS Endpoints in the Database Migration Service User Guide.
+- `"GcpMySQLSettings"`: Settings in JSON format for the source GCP MySQL endpoint.
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see Extra connection attributes when using Db2
   LUW as a source for DMS in the Database Migration Service User Guide.
@@ -674,7 +675,7 @@ end
 Deletes the specified certificate.
 
 # Arguments
-- `certificate_arn`: The Amazon Resource Name (ARN) of the deleted certificate.
+- `certificate_arn`: The Amazon Resource Name (ARN) of the certificate.
 
 """
 function delete_certificate(
@@ -1085,7 +1086,8 @@ Provides a description of the certificate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters applied to the certificates described in the form of key-value pairs.
+- `"Filters"`: Filters applied to the certificates described in the form of key-value
+  pairs. Valid values are certificate-arn and certificate-id.
 - `"Marker"`:  An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
@@ -1294,7 +1296,8 @@ subscription.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters applied to event subscriptions.
+- `"Filters"`: Filters applied to event subscriptions. Valid filter names:
+  event-subscription-arn | event-subscription-id
 - `"Marker"`:  An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
@@ -1333,7 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Duration"`: The duration of the events to be listed.
 - `"EndTime"`: The end time for the events to be listed.
 - `"EventCategories"`: A list of event categories for the source type that you've chosen.
-- `"Filters"`: Filters applied to events.
+- `"Filters"`: Filters applied to events. The only valid filter is replication-instance-id.
 - `"Marker"`:  An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
@@ -1866,7 +1869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificatePem"`: The contents of a .pem file, which contains an X.509 certificate.
 - `"CertificateWallet"`: The location of an imported Oracle Wallet certificate for use with
   SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the
-  certificate inline.
+  certificate inline. Example: filebase64(\"{path.root}/rds-ca-2019-root.sso\")
 - `"Tags"`: The tags associated with the certificate.
 """
 function import_certificate(
@@ -1966,18 +1969,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
   For information about other available settings, see Using Object Mapping to Migrate Data to
   DynamoDB in the Database Migration Service User Guide.
-- `"ElasticsearchSettings"`: Settings in JSON format for the target Elasticsearch endpoint.
+- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint.
   For more information about the available settings, see Extra Connection Attributes When
-  Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
+  Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
 - `"EndpointIdentifier"`: The database endpoint identifier. Identifiers must begin with a
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen or contain two consecutive hyphens.
 - `"EndpointType"`: The type of endpoint. Valid values are source and target.
 - `"EngineName"`: The type of engine for the endpoint. Valid values, depending on the
   EndpointType, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"redshift\", \"s3\", \"db2\", \"azuredb\", \"sybase\",
-  \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\", \"documentdb\",
-  \"sqlserver\", and \"neptune\".
+  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
+  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
+  \"documentdb\", \"sqlserver\", and \"neptune\".
 - `"ExactSettings"`: If this attribute is Y, the current call to ModifyEndpoint replaces
   all existing endpoint settings with the exact settings that you specify in this call. If
   this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any
@@ -1993,6 +1996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExternalTableDefinition"`: The external table definition.
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. To
   reset this parameter, pass the empty string (\"\") as an argument.
+- `"GcpMySQLSettings"`: Settings in JSON format for the source GCP MySQL endpoint.
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see Extra connection attributes when using Db2
   LUW as a source for DMS in the Database Migration Service User Guide.
@@ -2578,7 +2582,12 @@ Migration Tasks  in the Database Migration Service User Guide.
 # Arguments
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task to be
   started.
-- `start_replication_task_type`: A type of replication task.
+- `start_replication_task_type`: The type of replication task to start. When the migration
+  type is full-load or full-load-and-cdc, the only valid value for the first run of the task
+  is start-replication. You use reload-target to restart the task and resume-processing to
+  resume the task. When the migration type is cdc, you use start-replication to start or
+  restart the task, and resume-processing to resume the task. reload-target is not a valid
+  value for a task with migration type of cdc.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2646,6 +2655,11 @@ end
     start_replication_task_assessment(replication_task_arn, params::Dict{String,<:Any})
 
  Starts the replication task assessment for unsupported data types in the source database.
+You can only use this operation for a task if the following conditions are true:   The task
+must be in the stopped state.   The task must have successful connections to the source and
+target.   If either of these conditions are not met, an InvalidResourceStateFault error
+will result.  For information about DMS task assessments, see Creating a task assessment
+report in the Database Migration Service User Guide.
 
 # Arguments
 - `replication_task_arn`:  The Amazon Resource Name (ARN) of the replication task.

@@ -13,9 +13,10 @@ about important DevOps Guru events, such as when an insight is generated.  If yo
 Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru
 permission to it notifications. DevOps Guru adds the required policy on your behalf to send
 notifications using Amazon SNS in your account. For more information, see Permissions for
-cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an AWS
-Key Management Service customer-managed key (CMK), then you must add permissions to the
-CMK. For more information, see Permissions for AWS KMS–encrypted Amazon SNS topics.
+cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an
+Amazon Web Services Key Management Service customer-managed key (CMK), then you must add
+permissions to the CMK. For more information, see Permissions for Amazon Web Services
+KMS–encrypted Amazon SNS topics.
 
 # Arguments
 - `config`:  A NotificationChannelConfig object that specifies what type of notification
@@ -49,8 +50,8 @@ end
     describe_account_health(params::Dict{String,<:Any})
 
  Returns the number of open reactive insights, the number of open proactive insights, and
-the number of metrics analyzed in your AWS account. Use these numbers to gauge the health
-of operations in your AWS account.
+the number of metrics analyzed in your Amazon Web Services account. Use these numbers to
+gauge the health of operations in your Amazon Web Services account.
 
 """
 function describe_account_health(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -125,6 +126,9 @@ end
 # Arguments
 - `id`:  The ID of the anomaly.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The ID of the member account.
 """
 function describe_anomaly(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
@@ -147,7 +151,8 @@ end
     describe_feedback()
     describe_feedback(params::Dict{String,<:Any})
 
- Returns the most recent feedback submitted in the current AWS account and Region.
+ Returns the most recent feedback submitted in the current Amazon Web Services account and
+Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -175,6 +180,9 @@ end
 # Arguments
 - `id`:  The ID of the insight.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The ID of the member account in the organization.
 """
 function describe_insight(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
@@ -194,21 +202,160 @@ function describe_insight(
 end
 
 """
+    describe_organization_health()
+    describe_organization_health(params::Dict{String,<:Any})
+
+Returns active insights, predictive insights, and resource hours analyzed in last hour.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountIds"`: The ID of the Amazon Web Services account.
+- `"OrganizationalUnitIds"`: The ID of the organizational unit.
+"""
+function describe_organization_health(; aws_config::AbstractAWSConfig=global_aws_config())
+    return devops_guru(
+        "POST",
+        "/organization/health";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_organization_health(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/organization/health",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_organization_overview(from_time)
+    describe_organization_overview(from_time, params::Dict{String,<:Any})
+
+Returns an overview of your organization's history based on the specified time range. The
+overview includes the total reactive and proactive insights.
+
+# Arguments
+- `from_time`:  The start of the time range passed in. The start time granularity is at the
+  day level. The floor of the start time is used. Returned information occurred after this
+  day.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountIds"`: The ID of the Amazon Web Services account.
+- `"OrganizationalUnitIds"`: The ID of the organizational unit.
+- `"ToTime"`:  The end of the time range passed in. The start time granularity is at the
+  day level. The floor of the start time is used. Returned information occurred before this
+  day. If this is not specified, then the current day is used.
+"""
+function describe_organization_overview(
+    FromTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/organization/overview",
+        Dict{String,Any}("FromTime" => FromTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_organization_overview(
+    FromTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return devops_guru(
+        "POST",
+        "/organization/overview",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FromTime" => FromTime), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_organization_resource_collection_health(organization_resource_collection_type)
+    describe_organization_resource_collection_health(organization_resource_collection_type, params::Dict{String,<:Any})
+
+Provides an overview of your system's health. If additional member accounts are part of
+your organization, you can filter those accounts using the AccountIds field.
+
+# Arguments
+- `organization_resource_collection_type`:  An Amazon Web Services resource collection
+  type. This type specifies how analyzed Amazon Web Services resources are defined. The one
+  type of Amazon Web Services resource collection supported is Amazon Web Services
+  CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon Web
+  Services resources that are defined in the stacks. You can specify up to 500 Amazon Web
+  Services CloudFormation stacks.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountIds"`: The ID of the Amazon Web Services account.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+- `"OrganizationalUnitIds"`: The ID of the organizational unit.
+"""
+function describe_organization_resource_collection_health(
+    OrganizationResourceCollectionType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/organization/health/resource-collection/",
+        Dict{String,Any}(
+            "OrganizationResourceCollectionType" => OrganizationResourceCollectionType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_organization_resource_collection_health(
+    OrganizationResourceCollectionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return devops_guru(
+        "POST",
+        "/organization/health/resource-collection/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OrganizationResourceCollectionType" =>
+                        OrganizationResourceCollectionType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_resource_collection_health(resource_collection_type)
     describe_resource_collection_health(resource_collection_type, params::Dict{String,<:Any})
 
  Returns the number of open proactive insights, open reactive insights, and the Mean Time
 to Recover (MTTR) for all closed insights in resource collections in your account. You
-specify the type of AWS resources collection. The one type of AWS resource collection
-supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the
-AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation
-stacks.
+specify the type of Amazon Web Services resources collection. The one type of Amazon Web
+Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps
+Guru can be configured to analyze only the Amazon Web Services resources that are defined
+in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
 
 # Arguments
-- `resource_collection_type`:  An AWS resource collection type. This type specifies how
-  analyzed AWS resources are defined. The one type of AWS resource collection supported is
-  AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources
-  that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+- `resource_collection_type`:  An Amazon Web Services resource collection type. This type
+  specifies how analyzed Amazon Web Services resources are defined. The one type of Amazon
+  Web Services resource collection supported is Amazon Web Services CloudFormation stacks.
+  DevOps Guru can be configured to analyze only the Amazon Web Services resources that are
+  defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -244,8 +391,8 @@ end
     describe_service_integration(params::Dict{String,<:Any})
 
  Returns the integration status of services that are integrated with DevOps Guru. The one
-service that can be integrated with DevOps Guru is AWS Systems Manager, which can be used
-to create an OpsItem for each generated insight.
+service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager,
+which can be used to create an OpsItem for each generated insight.
 
 """
 function describe_service_integration(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -272,8 +419,9 @@ end
     get_cost_estimation()
     get_cost_estimation(params::Dict{String,<:Any})
 
-Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources. For
-more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing.
+Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services
+resources. For more information, see Estimate your Amazon DevOps Guru costs and Amazon
+DevOps Guru pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -301,14 +449,16 @@ end
     get_resource_collection(resource_collection_type)
     get_resource_collection(resource_collection_type, params::Dict{String,<:Any})
 
- Returns lists AWS resources that are of the specified resource collection type. The one
-type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be
-configured to analyze only the AWS resources that are defined in the stacks. You can
-specify up to 500 AWS CloudFormation stacks.
+ Returns lists Amazon Web Services resources that are of the specified resource collection
+type. The one type of Amazon Web Services resource collection supported is Amazon Web
+Services CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon
+Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web
+Services CloudFormation stacks.
 
 # Arguments
-- `resource_collection_type`:  The type of AWS resource collections to return. The one
-  valid value is CLOUD_FORMATION for AWS CloudFormation stacks.
+- `resource_collection_type`:  The type of Amazon Web Services resource collections to
+  return. The one valid value is CLOUD_FORMATION for Amazon Web Services CloudFormation
+  stacks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -350,6 +500,7 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The ID of the Amazon Web Services account.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -393,6 +544,7 @@ You can use filters to specify which events are returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The ID of the Amazon Web Services account.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -423,8 +575,8 @@ end
     list_insights(status_filter)
     list_insights(status_filter, params::Dict{String,<:Any})
 
- Returns a list of insights in your AWS account. You can specify which insights are
-returned by their start time and status (ONGOING, CLOSED, or ANY).
+ Returns a list of insights in your Amazon Web Services account. You can specify which
+insights are returned by their start time and status (ONGOING, CLOSED, or ANY).
 
 # Arguments
 - `status_filter`:  A filter used to filter the returned insights by their status. You can
@@ -490,6 +642,51 @@ function list_notification_channels(
 end
 
 """
+    list_organization_insights(status_filter)
+    list_organization_insights(status_filter, params::Dict{String,<:Any})
+
+Returns a list of insights associated with the account or OU Id.
+
+# Arguments
+- `status_filter`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountIds"`: The ID of the Amazon Web Services account.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+- `"OrganizationalUnitIds"`: The ID of the organizational unit.
+"""
+function list_organization_insights(
+    StatusFilter; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/organization/insights",
+        Dict{String,Any}("StatusFilter" => StatusFilter);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_organization_insights(
+    StatusFilter,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return devops_guru(
+        "POST",
+        "/organization/insights",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StatusFilter" => StatusFilter), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_recommendations(insight_id)
     list_recommendations(insight_id, params::Dict{String,<:Any})
 
@@ -501,6 +698,7 @@ list of related metrics and a list of related events.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The ID of the Amazon Web Services account.
 - `"Locale"`: A locale that specifies the language to use for recommendations.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -587,11 +785,11 @@ end
     search_insights(start_time_range, type)
     search_insights(start_time_range, type, params::Dict{String,<:Any})
 
- Returns a list of insights in your AWS account. You can specify which insights are
-returned by their start time, one or more statuses (ONGOING, CLOSED, and CLOSED), one or
-more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE).   Use the
-Filters parameter to specify status and severity search parameters. Use the Type parameter
-to specify REACTIVE or PROACTIVE in your search.
+ Returns a list of insights in your Amazon Web Services account. You can specify which
+insights are returned by their start time, one or more statuses (ONGOING, CLOSED, and
+CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE).
+ Use the Filters parameter to specify status and severity search parameters. Use the Type
+parameter to specify REACTIVE or PROACTIVE in your search.
 
 # Arguments
 - `start_time_range`:  The start of the time range passed in. Returned insights occurred
@@ -640,14 +838,78 @@ function search_insights(
 end
 
 """
+    search_organization_insights(account_ids, start_time_range, type)
+    search_organization_insights(account_ids, start_time_range, type, params::Dict{String,<:Any})
+
+ Returns a list of insights in your organization. You can specify which insights are
+returned by their start time, one or more statuses (ONGOING, CLOSED, and CLOSED), one or
+more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE).   Use the
+Filters parameter to specify status and severity search parameters. Use the Type parameter
+to specify REACTIVE or PROACTIVE in your search.
+
+# Arguments
+- `account_ids`: The ID of the Amazon Web Services account.
+- `start_time_range`:
+- `type`:  The type of insights you are searching for (REACTIVE or PROACTIVE).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  A SearchOrganizationInsightsFilters object that is used to set the severity
+  and status filters on your insight search.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+"""
+function search_organization_insights(
+    AccountIds, StartTimeRange, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/organization/insights/search",
+        Dict{String,Any}(
+            "AccountIds" => AccountIds, "StartTimeRange" => StartTimeRange, "Type" => Type
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_organization_insights(
+    AccountIds,
+    StartTimeRange,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return devops_guru(
+        "POST",
+        "/organization/insights/search",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountIds" => AccountIds,
+                    "StartTimeRange" => StartTimeRange,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_cost_estimation(resource_collection)
     start_cost_estimation(resource_collection, params::Dict{String,<:Any})
 
-Starts the creation of an estimate of the monthly cost to analyze your AWS resources.
+Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
+resources.
 
 # Arguments
-- `resource_collection`: The collection of AWS resources used to create a monthly DevOps
-  Guru cost estimate.
+- `resource_collection`: The collection of Amazon Web Services resources used to create a
+  monthly DevOps Guru cost estimate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -693,11 +955,11 @@ end
     update_resource_collection(action, resource_collection)
     update_resource_collection(action, resource_collection, params::Dict{String,<:Any})
 
- Updates the collection of resources that DevOps Guru analyzes. The one type of AWS
-resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured
-to analyze only the AWS resources that are defined in the stacks. You can specify up to 500
-AWS CloudFormation stacks. This method also creates the IAM role required for you to use
-DevOps Guru.
+ Updates the collection of resources that DevOps Guru analyzes. The one type of Amazon Web
+Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps
+Guru can be configured to analyze only the Amazon Web Services resources that are defined
+in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks. This
+method also creates the IAM role required for you to use DevOps Guru.
 
 # Arguments
 - `action`:  Specifies if the resource collection in the request is added or deleted to the
@@ -744,8 +1006,8 @@ end
     update_service_integration(service_integration, params::Dict{String,<:Any})
 
  Enables or disables integration with a service that can be integrated with DevOps Guru.
-The one service that can be integrated with DevOps Guru is AWS Systems Manager, which can
-be used to create an OpsItem for each generated insight.
+The one service that can be integrated with DevOps Guru is Amazon Web Services Systems
+Manager, which can be used to create an OpsItem for each generated insight.
 
 # Arguments
 - `service_integration`:  An IntegratedServiceConfig object used to specify the integrated

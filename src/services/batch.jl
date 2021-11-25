@@ -81,8 +81,9 @@ to an existing job queue.   Remove the earlier compute environment from your job
 Delete the earlier compute environment.
 
 # Arguments
-- `compute_environment_name`: The name for your compute environment. Up to 128 letters
-  (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `compute_environment_name`: The name for your compute environment. It can be up to 128
+  letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  underscores (_).
 - `type`: The type of the compute environment: MANAGED or UNMANAGED. For more information,
   see Compute Environments in the Batch User Guide.
 
@@ -120,6 +121,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services Resources in Amazon Web Services General
   Reference. These tags can be updated or removed using the TagResource and UntagResource API
   operations. These tags don't propagate to the underlying compute resources.
+- `"unmanagedvCpus"`: The maximum number of vCPUs for an unmanaged compute environment.
+  This parameter is only used for fair share scheduling to reserve vCPU capacity for new
+  share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU
+  capacity is reserved.  This parameter is only supported when the type parameter is set to
+  UNMANAGED/
 """
 function create_compute_environment(
     computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -178,8 +184,8 @@ preference for scheduling jobs to that compute environment.
   can't be mixed.  All compute environments that are associated with a job queue must share
   the same architecture. Batch doesn't support mixing compute environment architecture types
   in a single job queue.
-- `job_queue_name`: The name of the job queue. Up to 128 letters (uppercase and lowercase),
-  numbers, and underscores are allowed.
+- `job_queue_name`: The name of the job queue. It can be up to 128 letters long. It can
+  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
 - `priority`: The priority of the job queue. Job queues with a higher priority (or a higher
   integer value for the priority parameter) are evaluated first when associated with the same
   compute environment. Priority is determined in descending order. For example, a job queue
@@ -189,6 +195,13 @@ preference for scheduling jobs to that compute environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"schedulingPolicyArn"`: The Amazon Resource Name (ARN) of the fair share scheduling
+  policy. If this parameter is specified, the job queue uses a fair share scheduling policy.
+  If this parameter isn't specified, the job queue uses a first in, first out (FIFO)
+  scheduling policy. After a job queue is created, you can replace but can't remove the fair
+  share scheduling policy. The format is
+  aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is
+  aws:aws:batch:us-west-2:012345678910:scheduling-policy/MySchedulingPolicy.
 - `"state"`: The state of the job queue. If the job queue state is ENABLED, it is able to
   accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but
   jobs already in the queue can finish.
@@ -235,6 +248,46 @@ function create_job_queue(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_scheduling_policy(name)
+    create_scheduling_policy(name, params::Dict{String,<:Any})
+
+Creates an Batch scheduling policy.
+
+# Arguments
+- `name`: The name of the scheduling policy. It can be up to 128 letters long. It can
+  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"fairsharePolicy"`: The fair share policy of the scheduling policy.
+- `"tags"`: The tags that you apply to the scheduling policy to help you categorize and
+  organize your resources. Each tag consists of a key and an optional value. For more
+  information, see Tagging Amazon Web Services Resources in Amazon Web Services General
+  Reference. These tags can be updated or removed using the TagResource and UntagResource API
+  operations.
+"""
+function create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/createschedulingpolicy",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_scheduling_policy(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/createschedulingpolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -319,6 +372,38 @@ function delete_job_queue(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_scheduling_policy(arn)
+    delete_scheduling_policy(arn, params::Dict{String,<:Any})
+
+Deletes the specified scheduling policy. You can't delete a scheduling policy that's used
+in any job queues.
+
+# Arguments
+- `arn`: The Amazon Resource Name (ARN) of the scheduling policy to delete.
+
+"""
+function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/deleteschedulingpolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_scheduling_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deleteschedulingpolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -419,7 +504,7 @@ return job definitions that match that status.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"jobDefinitionName"`: The name of the job definition to describe.
 - `"jobDefinitions"`: A list of up to 100 job definitions. Each entry in the list can
-  either be an ARN of the form
+  either be an ARN in the format
   arn:aws:batch:{Region}:{Account}:job-definition/{JobDefinitionName}:{Revision} or a short
   version using the form {JobDefinitionName}:{Revision}.
 - `"maxResults"`: The maximum number of results returned by DescribeJobDefinitions in
@@ -532,6 +617,39 @@ function describe_jobs(
 end
 
 """
+    describe_scheduling_policies(arns)
+    describe_scheduling_policies(arns, params::Dict{String,<:Any})
+
+Describes one or more of your scheduling policies.
+
+# Arguments
+- `arns`: A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
+
+"""
+function describe_scheduling_policies(
+    arns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describeschedulingpolicies",
+        Dict{String,Any}("arns" => arns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_scheduling_policies(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describeschedulingpolicies",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_jobs()
     list_jobs(params::Dict{String,<:Any})
 
@@ -565,10 +683,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the results include jobs that used the specified revision of the job definition. Asterisk
   (*) is not supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is
   the time that's before the job was created. This corresponds to the createdAt value. The
-  value is a string representation of the number of seconds since 00:00:00 UTC (midnight) on
-  January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the
-  job was created. This corresponds to the createdAt value. The value is a string
-  representation of the number of seconds since 00:00:00 UTC (midnight) on January 1, 1970.
+  value is a string representation of the number of milliseconds since 00:00:00 UTC
+  (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time
+  that's after the job was created. This corresponds to the createdAt value. The value is a
+  string representation of the number of milliseconds since 00:00:00 UTC (midnight) on
+  January 1, 1970.
 - `"jobQueue"`: The name or full Amazon Resource Name (ARN) of the job queue used to list
   jobs.
 - `"jobStatus"`: The job status used to filter jobs in the specified queue. If the filters
@@ -608,18 +727,60 @@ function list_jobs(
 end
 
 """
+    list_scheduling_policies()
+    list_scheduling_policies(params::Dict{String,<:Any})
+
+Returns a list of Batch scheduling policies.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results that's returned by ListSchedulingPolicies
+  in paginated output. When this parameter is used, ListSchedulingPolicies only returns
+  maxResults results in a single page and a nextToken response element. You can see the
+  remaining results of the initial request by sending another ListSchedulingPolicies request
+  with the returned nextToken value. This value can be between 1 and 100. If this parameter
+  isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if
+  applicable.
+- `"nextToken"`: The nextToken value that's returned from a previous paginated
+  ListSchedulingPolicies request where maxResults was used and the results exceeded the value
+  of that parameter. Pagination continues from the end of the previous results that returned
+  the nextToken value. This value is null when there are no more results to return.  This
+  token should be treated as an opaque identifier that's only used to retrieve the next items
+  in a list and not for other programmatic purposes.
+"""
+function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/listschedulingpolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_scheduling_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/listschedulingpolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags for an Batch resource. Batch resources that support tags are compute
-environments, jobs, job definitions, and job queues. ARNs for child jobs of array and
-multi-node parallel (MNP) jobs are not supported.
+environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child
+jobs of array and multi-node parallel (MNP) jobs are not supported.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource that tags are
   listed for. Batch resources that support tags are compute environments, jobs, job
-  definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP)
-  jobs are not supported.
+  definitions, job queues, and scheduling policies. ARNs for child jobs of array and
+  multi-node parallel (MNP) jobs are not supported.
 
 """
 function list_tags_for_resource(
@@ -653,8 +814,9 @@ end
 Registers an Batch job definition.
 
 # Arguments
-- `job_definition_name`: The name of the job definition to register. Up to 128 letters
-  (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `job_definition_name`: The name of the job definition to register. It can be up to 128
+  letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  underscores (_).
 - `type`: The type of job definition. For more information about multi-node parallel jobs,
   see Creating a multi-node parallel job definition in the Batch User Guide.  If the job is
   run on Fargate resources, then multinode isn't supported.
@@ -686,6 +848,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retryStrategy"`: The retry strategy to use for failed jobs that are submitted with this
   job definition. Any retry strategy that's specified during a SubmitJob operation overrides
   the retry strategy defined here. If a job is terminated due to a timeout, it isn't retried.
+- `"schedulingPriority"`: The scheduling priority for jobs that are submitted with this job
+  definition. This will only affect jobs in job queues with a fair share policy. Jobs with a
+  higher scheduling priority will be scheduled before jobs with a lower scheduling priority.
+  The minimum supported value is 0 and the maximum supported value is 9999.
 - `"tags"`: The tags that you apply to the job definition to help you categorize and
   organize your resources. Each tag consists of a key and an optional value. For more
   information, see Tagging Amazon Web Services Resources in Batch User Guide.
@@ -734,19 +900,21 @@ end
 
 Submits an Batch job from a job definition. Parameters that are specified during SubmitJob
 override parameters defined in the job definition. vCPU and memory requirements that are
-specified in the ResourceRequirements objects in the job definition are the exception. They
+specified in the resourceRequirements objects in the job definition are the exception. They
 can't be overridden this way using the memory and vcpus parameters. Rather, you must
 specify updates to job definition parameters in a ResourceRequirements object that's
-included in the containerOverrides parameter.  Jobs that run on Fargate resources can't be
-guaranteed to run for more than 14 days. This is because, after 14 days, Fargate resources
-might become unavailable and job might be terminated.
+included in the containerOverrides parameter.  Job queues with a scheduling policy are
+limited to 500 active fair share identifiers at a time.    Jobs that run on Fargate
+resources can't be guaranteed to run for more than 14 days. This is because, after 14 days,
+Fargate resources might become unavailable and job might be terminated.
 
 # Arguments
 - `job_definition`: The job definition used by this job. This value can be one of name,
   name:revision, or the Amazon Resource Name (ARN) for the job definition. If name is
   specified without a revision then the latest active revision is used.
-- `job_name`: The name of the job. The first character must be alphanumeric, and up to 128
-  letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+- `job_name`: The name of the job. It can be up to 128 letters long. The first character
+  must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-),
+  and underscores (_).
 - `job_queue`: The job queue where the job is submitted. You can specify either the name or
   the Amazon Resource Name (ARN) of the queue.
 
@@ -783,6 +951,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retryStrategy"`: The retry strategy to use for failed jobs from this SubmitJob
   operation. When a retry strategy is specified here, it overrides the retry strategy defined
   in the job definition.
+- `"schedulingPriorityOverride"`: The scheduling priority for the job. This will only
+  affect jobs in job queues with a fair share policy. Jobs with a higher scheduling priority
+  will be scheduled before jobs with a lower scheduling priority. This will override any
+  scheduling priority in the job definition. The minimum supported value is 0 and the maximum
+  supported value is 9999.
+- `"shareIdentifier"`: The share identifier for the job.
 - `"tags"`: The tags that you apply to the job request to help you categorize and organize
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
@@ -840,13 +1014,15 @@ end
 Associates the specified tags to a resource with the specified resourceArn. If existing
 tags on a resource aren't specified in the request parameters, they aren't changed. When a
 resource is deleted, the tags that are associated with that resource are deleted as well.
-Batch resources that support tags are compute environments, jobs, job definitions, and job
-queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+Batch resources that support tags are compute environments, jobs, job definitions, job
+queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
+jobs are not supported.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that tags are added to.
-  Batch resources that support tags are compute environments, jobs, job definitions, and job
-  queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+  Batch resources that support tags are compute environments, jobs, job definitions, job
+  queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
+  jobs are not supported.
 - `tags`: The tags that you apply to the resource to help you categorize and organize your
   resources. Each tag consists of a key and an optional value. For more information, see
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
@@ -927,8 +1103,9 @@ Deletes specified tags from an Batch resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to delete tags.
-  Batch resources that support tags are compute environments, jobs, job definitions, and job
-  queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+  Batch resources that support tags are compute environments, jobs, job definitions, job
+  queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
+  jobs are not supported.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
@@ -993,6 +1170,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or
   RUNNING state continue to progress normally. Managed compute environments in the DISABLED
   state don't scale out. However, they scale in to minvCpus value after instances become idle.
+- `"unmanagedvCpus"`: The maximum number of vCPUs expected to be used for an unmanaged
+  compute environment. This parameter should not be specified for a managed compute
+  environment. This parameter is only used for fair share scheduling to reserve vCPU capacity
+  for new share identifiers. If this parameter is not provided for a fair share job queue, no
+  vCPU capacity will be reserved.
 """
 function update_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1048,6 +1230,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job queue with a priority value of 10 is given scheduling preference over a job queue with
   a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or
   Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
+- `"schedulingPolicyArn"`: Amazon Resource Name (ARN) of the fair share scheduling policy.
+  Once a job queue is created, the fair share scheduling policy can be replaced but not
+  removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For
+  example, aws:aws:batch:us-west-2:012345678910:scheduling-policy/MySchedulingPolicy.
 - `"state"`: Describes the queue's ability to accept new jobs. If the job queue state is
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.
@@ -1072,6 +1258,40 @@ function update_job_queue(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_scheduling_policy(arn)
+    update_scheduling_policy(arn, params::Dict{String,<:Any})
+
+Updates a scheduling policy.
+
+# Arguments
+- `arn`: The Amazon Resource Name (ARN) of the scheduling policy to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"fairsharePolicy"`: The fair share policy.
+"""
+function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/updateschedulingpolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_scheduling_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updateschedulingpolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

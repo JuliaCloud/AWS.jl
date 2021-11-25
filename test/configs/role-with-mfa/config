@@ -1,0 +1,10 @@
+[profile test]
+output = json
+region = us-east-1
+
+[profile role_and_mfa]
+role_arn = arn:aws:iam::123456789101:role/SomeRole
+source_profile = test
+region = us-east-1
+mfa_serial = arn:aws:iam::6123456789101:mfa/SomeMFA
+duration_seconds = 1234

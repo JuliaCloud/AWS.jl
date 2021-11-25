@@ -83,7 +83,7 @@ end
     create_classification_job(client_token, job_type, name, s3_job_definition)
     create_classification_job(client_token, job_type, name, s3_job_definition, params::Dict{String,<:Any})
 
- Creates and defines the settings for a classification job.
+Creates and defines the settings for a classification job.
 
 # Arguments
 - `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
@@ -199,26 +199,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the custom data identifier. The description can
   contain as many as 512 characters. We strongly recommend that you avoid including any
   sensitive data in the description of a custom data identifier. Other users of your account
-  might be able to see the identifier's description, depending on the actions that they're
-  allowed to perform in Amazon Macie.
+  might be able to see this description, depending on the actions that they're allowed to
+  perform in Amazon Macie.
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
-  exclude from the results. If the text matched by the regular expression is the same as any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
+  exclude from the results. If the text matched by the regular expression contains any string
+  in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
+  Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
   array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
-  that matches the regex pattern and the character sequences specified by the keywords array.
-  Amazon Macie includes or excludes a result based on the proximity of a keyword to text that
-  matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
+  that matches the regular expression and the character sequences specified by the keywords
+  array. Amazon Macie includes or excludes a result based on the proximity of a keyword to
+  text that matches the regular expression. The distance can be 1-300 characters. The default
+  value is 50.
 - `"name"`: A custom name for the custom data identifier. The name can contain as many as
   128 characters. We strongly recommend that you avoid including any sensitive data in the
-  name of a custom data identifier. Other users of your account might be able to see the
-  identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.
+  name of a custom data identifier. Other users of your account might be able to see this
+  name, depending on the actions that they're allowed to perform in Amazon Macie.
 - `"regex"`: The regular expression (regex) that defines the pattern to match. The
   expression can contain as many as 512 characters.
+- `"severityLevels"`: The severity to assign to findings that the custom data identifier
+  produces, based on the number of occurrences of text that matches the custom data
+  identifier's detection criteria. You can specify as many as three SeverityLevel objects in
+  this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the
+  occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For
+  example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer
+  occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If
+  you don't specify any values for this array, Macie creates findings for S3 objects that
+  contain at least one occurrence of text that matches the detection criteria, and Macie
+  assigns the MEDIUM severity to those findings.
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the custom
   data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists
   of a tag key and an associated tag value. The maximum length of a tag key is 128
@@ -261,7 +272,7 @@ Creates and defines the criteria and other settings for a findings filter.
 - `name`: A custom name for the filter. The name must contain at least 3 characters and can
   contain as many as 64 characters. We strongly recommend that you avoid including any
   sensitive data in the name of a filter. Other users of your account might be able to see
-  the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
+  this name, depending on the actions that they're allowed to perform in Amazon Macie.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -269,8 +280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters. We strongly recommend that you avoid including any sensitive data in the
-  description of a filter. Other users of your account might be able to see the filter's
-  description, depending on the actions that they're allowed to perform in Amazon Macie.
+  description of a filter. Other users of your account might be able to see this description,
+  depending on the actions that they're allowed to perform in Amazon Macie.
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
   console. This value also determines the order in which the filter is applied to findings,
   relative to other filters that are also applied to the findings.
@@ -334,12 +345,12 @@ Sends an Amazon Macie membership invitation to one or more accounts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"disableEmailNotification"`: Specifies whether to send an email notification to the root
-  user of each account that the invitation will be sent to. This notification is in addition
-  to an alert that the root user receives in Personal Health Dashboard. To send an email
-  notification to the root user of each account, set this value to true.
-- `"message"`: A custom message to include in the invitation. Amazon Macie adds this
-  message to the standard content that it sends for an invitation.
+- `"disableEmailNotification"`: Specifies whether to send the invitation as an email
+  message. If this value is false, Amazon Macie sends the invitation (as an email message) to
+  the email address that you specified for the recipient's account when you associated the
+  account with your account. The default value is false.
+- `"message"`: Custom text to include in the email message that contains the invitation.
+  The text can contain as many as 80 alphanumeric characters.
 """
 function create_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config())
     return macie2(
@@ -411,9 +422,9 @@ Creates sample findings.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"findingTypes"`: An array that lists one or more types of findings to include in the set
-  of sample findings. Currently, the only supported value is
-  Policy:IAMUser/S3BucketEncryptionDisabled.
+- `"findingTypes"`: An array of finding types, one for each type of sample finding to
+  create. To create a sample of every type of finding that Amazon Macie supports, don't
+  include this array in your request.
 """
 function create_sample_findings(; aws_config::AbstractAWSConfig=global_aws_config())
     return macie2(
@@ -662,7 +673,7 @@ end
     describe_organization_configuration()
     describe_organization_configuration(params::Dict{String,<:Any})
 
-Retrieves the Amazon Macie configuration settings for an Amazon Web Services organization.
+Retrieves the Amazon Macie configuration settings for an organization in Organizations.
 
 """
 function describe_organization_configuration(;
@@ -691,7 +702,7 @@ end
     disable_macie()
     disable_macie(params::Dict{String,<:Any})
 
-Disables an Amazon Macie account and deletes Macie resources for the account.
+Disables Amazon Macie and deletes all settings and resources for a Macie account.
 
 """
 function disable_macie(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -711,8 +722,8 @@ end
     disable_organization_admin_account(admin_account_id)
     disable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Disables an account as the delegated Amazon Macie administrator account for an Amazon Web
-Services organization.
+Disables an account as the delegated Amazon Macie administrator account for an organization
+in Organizations.
 
 # Arguments
 - `admin_account_id`: The Amazon Web Services account ID of the delegated Amazon Macie
@@ -879,8 +890,8 @@ end
     enable_organization_admin_account(admin_account_id)
     enable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Designates an account as the delegated Amazon Macie administrator account for an Amazon Web
-Services organization.
+Designates an account as the delegated Amazon Macie administrator account for an
+organization in Organizations.
 
 # Arguments
 - `admin_account_id`: The Amazon Web Services account ID for the account to designate as
@@ -954,8 +965,8 @@ end
     get_bucket_statistics()
     get_bucket_statistics(params::Dict{String,<:Any})
 
- Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie
-monitors and analyzes.
+Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors
+and analyzes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1544,8 +1555,8 @@ end
     list_organization_admin_accounts()
     list_organization_admin_accounts(params::Dict{String,<:Any})
 
-Retrieves information about the delegated Amazon Macie administrator account for an Amazon
-Web Services organization.
+Retrieves information about the delegated Amazon Macie administrator account for an
+organization in Organizations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1771,17 +1782,18 @@ Tests a custom data identifier.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
-  exclude from the results. If the text matched by the regular expression is the same as any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
+  exclude from the results. If the text matched by the regular expression contains any string
+  in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
+  Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
   array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
-  that matches the regex pattern and the character sequences specified by the keywords array.
-  Amazon Macie includes or excludes a result based on the proximity of a keyword to text that
-  matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
+  that matches the regular expression and the character sequences specified by the keywords
+  array. Amazon Macie includes or excludes a result based on the proximity of a keyword to
+  text that matches the regular expression. The distance can be 1-300 characters. The default
+  value is 50.
 """
 function test_custom_data_identifier(
     regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1929,12 +1941,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters. We strongly recommend that you avoid including any sensitive data in the
-  description of a filter. Other users might be able to see the filter's description,
-  depending on the actions that they're allowed to perform in Amazon Macie.
+  description of a filter. Other users might be able to see this description, depending on
+  the actions that they're allowed to perform in Amazon Macie.
 - `"findingCriteria"`: The criteria to use to filter findings.
 - `"name"`: A custom name for the filter. The name must contain at least 3 characters and
   can contain as many as 64 characters. We strongly recommend that you avoid including any
-  sensitive data in the name of a filter. Other users might be able to see the filter's name,
+  sensitive data in the name of a filter. Other users might be able to see this name,
   depending on the actions that they're allowed to perform in Amazon Macie.
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
   console. This value also determines the order in which the filter is applied to findings,
@@ -1967,8 +1979,8 @@ end
     update_macie_session()
     update_macie_session(params::Dict{String,<:Any})
 
-Suspends or re-enables an Amazon Macie account, or updates the configuration settings for a
-Macie account.
+Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1994,7 +2006,7 @@ end
     update_member_session(id, status)
     update_member_session(id, status, params::Dict{String,<:Any})
 
-Enables an Amazon Macie administrator to suspend or re-enable a member account.
+Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
 
 # Arguments
 - `id`: The unique identifier for the Amazon Macie resource or account that the request
@@ -2034,11 +2046,11 @@ end
     update_organization_configuration(auto_enable)
     update_organization_configuration(auto_enable, params::Dict{String,<:Any})
 
-Updates the Amazon Macie configuration settings for an Amazon Web Services organization.
+Updates the Amazon Macie configuration settings for an organization in Organizations.
 
 # Arguments
-- `auto_enable`: Specifies whether to enable Amazon Macie automatically for each account,
-  when the account is added to the Amazon Web Services organization.
+- `auto_enable`: Specifies whether to enable Amazon Macie automatically for an account when
+  the account is added to the organization in Organizations.
 
 """
 function update_organization_configuration(

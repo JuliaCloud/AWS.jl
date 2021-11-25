@@ -260,6 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't provide an expiration date, the activation code expires in 24 hours.
 - `"RegistrationLimit"`: Specify the maximum number of managed instances you want to
   register. The default value is 1.
+- `"RegistrationMetadata"`: Reserved for internal use.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag an activation to identify which servers or virtual machines (VMs) in your
@@ -328,9 +329,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify this option if you don't want an association to run immediately after you create
   it. This parameter isn't supported for rate expressions.
 - `"AssociationName"`: Specify a descriptive name for the association.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
+- `"AutomationTargetParameterName"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
 - `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager
@@ -4678,10 +4680,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you create the policy, you specify the expiration date. You can update the expiration
   date and time by updating the policy. Updating the parameter doesn't affect the expiration
   date and time. When the expiration time is reached, Parameter Store deletes the parameter.
-  ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that
+  ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that
   notifies you about the expiration. By using this policy, you can receive notification
   before or after the expiration time is reached, in units of days or hours.
-  NoChangeNotification: This policy triggers a CloudWatch Events event if a parameter hasn't
+  NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't
   been modified for a specified period of time. This policy type is useful when, for example,
   a secret needs to be changed within a period of time, but it hasn't been changed. All
   existing policies are preserved until you send new policies or an empty policy. For more
@@ -5535,6 +5537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GetDocument API to verify the document exists before attempting to start a session. If no
   document name is provided, a shell to the instance is launched by default.
 - `"Parameters"`: Reserved for future use.
+- `"Reason"`: The reason for connecting to the instance. This value is included in the
+  details for the Amazon CloudWatch Events event created when you start the session.
 """
 function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -5713,9 +5717,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationVersion"`: This parameter is provided for concurrency control purposes. You
   must specify the latest association version in the service. If you want to ensure that this
   request succeeds, either specify LATEST, or omit this parameter.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
+- `"AutomationTargetParameterName"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
 - `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager

@@ -5,16 +5,15 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_application(resource_group_name)
-    create_application(resource_group_name, params::Dict{String,<:Any})
+    create_application()
+    create_application(params::Dict{String,<:Any})
 
 Adds an application that is created from a resource group.
 
-# Arguments
-- `resource_group_name`: The name of the resource group.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoConfigEnabled"`:
+- `"AutoCreate"`:
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
@@ -23,34 +22,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
   associated to the created opsItem. Allows you to receive notifications for updates to the
   opsItem.
+- `"ResourceGroupName"`: The name of the resource group.
 - `"Tags"`: List of tags to add to the application. tag key (Key) and an associated tag
   value (Value). The maximum length of a tag key is 128 characters. The maximum length of a
   tag value is 256 characters.
 """
-function create_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_application(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_insights(
-        "CreateApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_insights(
-        "CreateApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "CreateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -863,6 +849,7 @@ Lists the problems with your application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComponentName"`:
 - `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
   problems within the past seven days are returned.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
@@ -1028,6 +1015,7 @@ Updates the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoConfigEnabled"`:
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
@@ -1130,6 +1118,7 @@ DescribeComponentConfigurationRecommendation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoConfigEnabled"`:
 - `"ComponentConfiguration"`: The configuration settings of the component. The value is the
   escaped JSON of the configuration. For more information about the JSON format, see Working
   with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see

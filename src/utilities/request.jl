@@ -144,7 +144,10 @@ end
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
-    @repeat 4 try
+    max_attempts = 4
+    attempt = 0
+    @repeat max_attempts try
+        attempt += 1
         # HTTP options such as `status_exception` need to be used when creating the stack
         http_stack = HTTP.stack(;
             redirect=false, retry=false, aws_authorization=false, http_options...
@@ -156,7 +159,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
         # will keep using the `response_stream` kwarg to ensure we aren't relying on the
         # response's body being populated.
         buffer = Base.BufferStream()
-
+        should_write = true
         r = try
             @mock HTTP.request(
                 http_stack,
@@ -168,14 +171,24 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                 response_stream=buffer,
                 http_options...,
             )
+        catch e
+            if e isa HTTP.IOError && e.e isa EOFError
+                # EOFErrors indicate a broken connection, so don't pass the buffer forward
+                should_write = false
+            end
+            rethrow()
         finally
             # We're unable to read from the `Base.BufferStream` until it has been closed.
             # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
             # is always closed (e.g. HTTP.jl 0.9.15)
             close(buffer)
 
-            # Transfer the contents of the `BufferStream` into `response_stream` variable.
-            write(response_stream, buffer)
+            # Transfer the contents of the `BufferStream` into `response_stream` variable
+            # but only if no EOFError error because of a broken connection OR it's the final attempt.
+            # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
+            if should_write || attempt == max_attempts
+                write(response_stream, buffer)
+            end
         end
 
         return @mock Response(r, response_stream)

@@ -279,20 +279,21 @@ end
     create_event_source_mapping(function_name, params::Dict{String,<:Any})
 
 Creates a mapping between an event source and an Lambda function. Lambda reads items from
-the event source and triggers the function. For details about each event source type, see
-the following topics.      Configuring a Dynamo DB stream as an event source
-Configuring a Kinesis stream as an event source      Configuring an Amazon SQS queue as an
-event source      Configuring an MQ broker as an event source      Configuring MSK as an
-event source      Configuring Self-Managed Apache Kafka as an event source    The following
-error handling options are only available for stream sources (DynamoDB and Kinesis):
-BisectBatchOnFunctionError - If the function returns an error, split the batch in two and
-retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS
-topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The
-default value is infinite (-1). When set to infinite (-1), failed records are retried until
-the record expires    MaximumRetryAttempts - Discard records after the specified number of
-retries. The default value is infinite (-1). When set to infinite (-1), failed records are
-retried until the record expires.    ParallelizationFactor - Process multiple batches from
-each shard concurrently.
+the event source and triggers the function. For details about how to configure different
+event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis
+   Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka    The
+following error handling options are only available for stream sources (DynamoDB and
+Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
+in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
+Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
+age. The default value is infinite (-1). When set to infinite (-1), failed records are
+retried until the record expires    MaximumRetryAttempts - Discard records after the
+specified number of retries. The default value is infinite (-1). When set to infinite (-1),
+failed records are retried until the record expires.    ParallelizationFactor - Process
+multiple batches from each shard concurrently.   For information about which configuration
+parameters apply to each event source, see the following topics.     Amazon DynamoDB
+Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK
+ Apache Kafka
 
 # Arguments
 - `function_name`: The name of the Lambda function.  Name formats     Function name -
@@ -309,7 +310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
   Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
@@ -320,6 +322,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
+- `"FilterCriteria"`: (Streams and Amazon SQS) A object that defines the filter criteria
+  used to determine whether Lambda should process an event. For more information, see Lambda
+  event filtering.
 - `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
   to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: (Streams and Amazon SQS standard queues) The maximum
@@ -427,7 +432,7 @@ other service. For more information, see Invoking Functions.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Architectures"`: The instruction set architecture that the function supports. Enter a
-  string array with one of the valid values. The default value is x86_64.
+  string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
 - `"CodeSigningConfigArn"`: To enable code signing for this function, specify the ARN of a
   code-signing configuration. A code-signing configuration includes a set of signing
   profiles, which define the trusted publishers for this function.
@@ -456,9 +461,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Publish"`: Set to true to publish the first version of the function during creation.
 - `"Runtime"`: The identifier of the function's runtime.
 - `"Tags"`: A list of tags to apply to the function.
-- `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
-  The default is 3 seconds. The maximum allowed value is 900 seconds. For additional
-  information, see Lambda execution environment.
+- `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
+  stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
+  additional information, see Lambda execution environment.
 - `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
   with X-Ray.
 - `"VpcConfig"`: For network connectivity to Amazon Web Services resources in a VPC,
@@ -494,6 +499,51 @@ function create_function(
                     "Code" => Code, "FunctionName" => FunctionName, "Role" => Role
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_function_url_config(authorization_type, function_name)
+    create_function_url_config(authorization_type, function_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `authorization_type`:
+- `function_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cors"`:
+- `"Qualifier"`:
+"""
+function create_function_url_config(
+    AuthorizationType, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        Dict{String,Any}("AuthorizationType" => AuthorizationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_function_url_config(
+    AuthorizationType,
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AuthorizationType" => AuthorizationType), params
             ),
         );
         aws_config=aws_config,
@@ -765,6 +815,43 @@ function delete_function_event_invoke_config(
     return lambda(
         "DELETE",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_function_url_config(function_name)
+    delete_function_url_config(function_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `function_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`:
+"""
+function delete_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "DELETE",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1191,6 +1278,43 @@ function get_function_event_invoke_config(
 end
 
 """
+    get_function_url_config(function_name)
+    get_function_url_config(function_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `function_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`:
+"""
+function get_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_layer_version(layer_name, version_number)
     get_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
@@ -1417,7 +1541,9 @@ permission for the lambda:InvokeFunction action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Payload"`: The JSON that you want to provide to your Lambda function as input.
+- `"Payload"`: The JSON that you want to provide to your Lambda function as input. You can
+  enter the JSON directly. For example, --payload '{ \"key\": \"value\" }'. You can also
+  specify a file path. For example, --payload file://payload.json.
 - `"Qualifier"`: Specify a version or alias to invoke a published version of the function.
 - `"X-Amz-Client-Context"`: Up to 3583 bytes of base64-encoded data about the invoking
   client to pass to the function in the context object.
@@ -1653,6 +1779,44 @@ function list_function_event_invoke_configs(
     return lambda(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_function_url_configs(function_name)
+    list_function_url_configs(function_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `function_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`:
+- `"MaxItems"`:
+"""
+function list_function_url_configs(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/urls";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_function_url_configs(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/urls",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2518,16 +2682,21 @@ end
     update_event_source_mapping(uuid, params::Dict{String,<:Any})
 
 Updates an event source mapping. You can change the function that Lambda invokes, or pause
-invocation and resume later from the same location. The following error handling options
-are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError
-- If the function returns an error, split the batch in two and retry.    DestinationConfig
-- Send discarded records to an Amazon SQS queue or Amazon SNS topic.
-MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value
-is infinite (-1). When set to infinite (-1), failed records are retried until the record
-expires    MaximumRetryAttempts - Discard records after the specified number of retries.
-The default value is infinite (-1). When set to infinite (-1), failed records are retried
-until the record expires.    ParallelizationFactor - Process multiple batches from each
-shard concurrently.
+invocation and resume later from the same location. For details about how to configure
+different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon
+Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
+The following error handling options are only available for stream sources (DynamoDB and
+Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
+in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
+Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
+age. The default value is infinite (-1). When set to infinite (-1), failed records are
+retried until the record expires    MaximumRetryAttempts - Discard records after the
+specified number of retries. The default value is infinite (-1). When set to infinite (-1),
+failed records are retried until the record expires.    ParallelizationFactor - Process
+multiple batches from each shard concurrently.   For information about which configuration
+parameters apply to each event source, see the following topics.     Amazon DynamoDB
+Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK
+ Apache Kafka
 
 # Arguments
 - `uuid`: The identifier of the event source mapping.
@@ -2540,13 +2709,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
   Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
   polling and invocation. Default: True
+- `"FilterCriteria"`: (Streams and Amazon SQS) A object that defines the filter criteria
+  used to determine whether Lambda should process an event. For more information, see Lambda
+  event filtering.
 - `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
@@ -2613,7 +2786,7 @@ update the image tag to a new image, Lambda does not automatically update the fu
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Architectures"`: The instruction set architecture that the function supports. Enter a
-  string array with one of the valid values. The default value is x86_64.
+  string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
 - `"DryRun"`: Set to true to validate the request parameters and access permissions without
   modifying the function code.
 - `"ImageUri"`: URI of a container image in the Amazon ECR registry.
@@ -2704,9 +2877,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   read it.
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
 - `"Runtime"`: The identifier of the function's runtime.
-- `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
-  The default is 3 seconds. The maximum allowed value is 900 seconds. For additional
-  information, see Lambda execution environment.
+- `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
+  stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
+  additional information, see Lambda execution environment.
 - `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
   with X-Ray.
 - `"VpcConfig"`: For network connectivity to Amazon Web Services resources in a VPC,
@@ -2783,6 +2956,45 @@ function update_function_event_invoke_config(
     return lambda(
         "POST",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_function_url_config(function_name)
+    update_function_url_config(function_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `function_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthorizationType"`:
+- `"Cors"`:
+- `"Qualifier"`:
+"""
+function update_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

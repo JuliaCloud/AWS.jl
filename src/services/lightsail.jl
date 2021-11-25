@@ -728,8 +728,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with your container service. Use the CreateCertificate action to create a certificate for
   the public domain names you want to use with your container service.  You can specify
   public domain names using a string to array map as shown in the example later on this page.
-- `"tags"`: The tag keys and optional values to add to the certificate during create. Use
-  the TagResource action to tag a resource after it's created. For more information about
+- `"tags"`: The tag keys and optional values to add to the container service during create.
+  Use the TagResource action to tag a resource after it's created. For more information about
   tags in Lightsail, see the Amazon Lightsail Developer Guide.
 """
 function create_container_service(
@@ -6722,6 +6722,7 @@ access the bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accessLogConfig"`: An object that describes the access log configuration for the bucket.
 - `"accessRules"`: An object that sets the public accessibility of objects in the specified
   bucket.
 - `"readonlyAccessAccounts"`: An array of strings to specify the AWS account IDs that can

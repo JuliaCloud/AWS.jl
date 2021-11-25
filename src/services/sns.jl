@@ -9,12 +9,12 @@ using AWS.UUIDs
     add_permission(awsaccount_id, action_name, label, topic_arn, params::Dict{String,<:Any})
 
 Adds a statement to a topic's access control policy, granting access for the specified
-accounts to the specified actions.
+Amazon Web Services accounts to the specified actions.
 
 # Arguments
-- `awsaccount_id`: The account IDs of the users (principals) who will be given access to
-  the specified actions. The users must have account, but do not need to be signed up for
-  this service.
+- `awsaccount_id`: The Amazon Web Services account IDs of the users (principals) who will
+  be given access to the specified actions. The users must have Amazon Web Services account,
+  but do not need to be signed up for this service.
 - `action_name`: The action you want to allow for the specified principal(s). Valid values:
   Any Amazon SNS action name, for example Publish.
 - `label`: A unique identifier for the new policy statement.
@@ -72,8 +72,9 @@ end
     check_if_phone_number_is_opted_out(phone_number, params::Dict{String,<:Any})
 
 Accepts a phone number and indicates whether the phone holder has opted out of receiving
-SMS messages from your account. You cannot send SMS messages to a number that is opted out.
-To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
+SMS messages from your Amazon Web Services account. You cannot send SMS messages to a
+number that is opted out. To resume sending messages, you can opt in the number by using
+the OptInPhoneNumber action.
 
 # Arguments
 - `phone_number`: The phone number for which you want to check the opt out status.
@@ -162,13 +163,14 @@ register. You must specify PlatformPrincipal and PlatformCredential attributes w
 the CreatePlatformApplication action.  PlatformPrincipal and PlatformCredential are
 received from the notification service.   For ADM, PlatformPrincipal is client id and
 PlatformCredential is client secret.   For Baidu, PlatformPrincipal is API key and
-PlatformCredential is secret key.   For APNS and APNS_SANDBOX, PlatformPrincipal is SSL
-certificate and PlatformCredential is private key.   For GCM (Firebase Cloud Messaging),
-there is no PlatformPrincipal and the PlatformCredential is API key.   For MPNS,
-PlatformPrincipal is TLS certificate and PlatformCredential is private key.   For WNS,
-PlatformPrincipal is Package Security Identifier and PlatformCredential is secret key.
-You can use the returned PlatformApplicationArn as an attribute for the
-CreatePlatformEndpoint action.
+PlatformCredential is secret key.   For APNS and APNS_SANDBOX using certificate
+credentials, PlatformPrincipal is SSL certificate and PlatformCredential is private key.
+For APNS and APNS_SANDBOX using token credentials, PlatformPrincipal is signing key ID and
+PlatformCredential is signing key.   For GCM (Firebase Cloud Messaging), there is no
+PlatformPrincipal and the PlatformCredential is API key.   For MPNS, PlatformPrincipal is
+TLS certificate and PlatformCredential is private key.   For WNS, PlatformPrincipal is
+Package Security Identifier and PlatformCredential is secret key.   You can use the
+returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
 
 # Arguments
 - `attributes`: For a list of attributes, see SetPlatformApplicationAttributes.
@@ -281,14 +283,15 @@ end
     create_smssandbox_phone_number(phone_number)
     create_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
-Adds a destination phone number to an account in the SMS sandbox and sends a one-time
-password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages,
-your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to
-try Amazon SNS features without risking your reputation as an SMS sender. While your
-account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
-can send SMS messages only to verified destination phone numbers. For more information,
-including how to move out of the sandbox to send messages without restrictions, see SMS
-sandbox in the Amazon SNS Developer Guide.
+Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and
+sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to
+send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox
+provides a safe environment for you to try Amazon SNS features without risking your
+reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox,
+you can use all of the features of Amazon SNS. However, you can send SMS messages only to
+verified destination phone numbers. For more information, including how to move out of the
+sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
+Guide.
 
 # Arguments
 - `phone_number`: The destination phone number to verify. On verification, Amazon SNS adds
@@ -464,13 +467,14 @@ end
     delete_smssandbox_phone_number(phone_number)
     delete_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
-Deletes an account's verified or pending phone number from the SMS sandbox. When you start
-using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox
-provides a safe environment for you to try Amazon SNS features without risking your
-reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of
-the features of Amazon SNS. However, you can send SMS messages only to verified destination
-phone numbers. For more information, including how to move out of the sandbox to send
-messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Deletes an Amazon Web Services account's verified or pending phone number from the SMS
+sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services
+account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try
+Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web
+Services account is in the SMS sandbox, you can use all of the features of Amazon SNS.
+However, you can send SMS messages only to verified destination phone numbers. For more
+information, including how to move out of the sandbox to send messages without
+restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 # Arguments
 - `phone_number`: The destination phone number to delete.
@@ -619,8 +623,8 @@ end
     get_smsattributes()
     get_smsattributes(params::Dict{String,<:Any})
 
-Returns the settings for sending SMS messages from your account. These settings are set
-with the SetSMSAttributes action.
+Returns the settings for sending SMS messages from your Amazon Web Services account. These
+settings are set with the SetSMSAttributes action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -643,10 +647,11 @@ end
     get_smssandbox_account_status()
     get_smssandbox_account_status(params::Dict{String,<:Any})
 
-Retrieves the SMS sandbox status for the calling account in the target Region. When you
-start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS
-sandbox provides a safe environment for you to try Amazon SNS features without risking your
-reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of
+Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target
+Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your
+Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe
+environment for you to try Amazon SNS features without risking your reputation as an SMS
+sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of
 the features of Amazon SNS. However, you can send SMS messages only to verified destination
 phone numbers. For more information, including how to move out of the sandbox to send
 messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
@@ -795,9 +800,9 @@ end
     list_origination_numbers()
     list_origination_numbers(params::Dict{String,<:Any})
 
-Lists the calling account's dedicated origination numbers and their metadata. For more
-information about origination numbers, see Origination numbers in the Amazon SNS Developer
-Guide.
+Lists the calling Amazon Web Services account's dedicated origination numbers and their
+metadata. For more information about origination numbers, see Origination numbers in the
+Amazon SNS Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -890,14 +895,14 @@ end
     list_smssandbox_phone_numbers()
     list_smssandbox_phone_numbers(params::Dict{String,<:Any})
 
-Lists the calling account's current verified and pending destination phone numbers in the
-SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the
-SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features
-without risking your reputation as an SMS sender. While your account is in the SMS sandbox,
-you can use all of the features of Amazon SNS. However, you can send SMS messages only to
-verified destination phone numbers. For more information, including how to move out of the
-sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
-Guide.
+Lists the calling Amazon Web Services account's current verified and pending destination
+phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages,
+your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe
+environment for you to try Amazon SNS features without risking your reputation as an SMS
+sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of
+the features of Amazon SNS. However, you can send SMS messages only to verified destination
+phone numbers. For more information, including how to move out of the sandbox to send
+messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1085,13 +1090,14 @@ Sends a message to an Amazon SNS topic, a text message (SMS message) directly to
 number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you
 send a message to a topic, Amazon SNS delivers the message to each endpoint that is
 subscribed to the topic. The format of the message depends on the notification protocol for
-each subscribed endpoint. When a messageId is returned, the message has been saved and
-Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a
+each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS
+immediately deliverers it to subscribers. To use the Publish action for publishing a
 message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must
 specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when
 making a call with the CreatePlatformEndpoint action.  For more information about
 formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile
-Devices.   You can publish messages only to topics and endpoints in the same Region.
+Devices.   You can publish messages only to topics and endpoints in the same Amazon Web
+Services Region.
 
 # Arguments
 - `message`: The message you want to send. If you are publishing to a topic and you want to
@@ -1168,6 +1174,68 @@ function publish(
     return sns(
         "Publish",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Message" => Message), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    publish_batch(publish_batch_request_entries, topic_arn)
+    publish_batch(publish_batch_request_entries, topic_arn, params::Dict{String,<:Any})
+
+Publishes up to ten messages to the specified topic. This is a batch version of Publish.
+For FIFO topics, multiple messages within a single batch are published in the order they
+are sent, and messages are deduplicated within the batch and across batches for 5 minutes.
+The result of publishing each message is reported individually in the response. Because the
+batch request can result in a combination of successful and unsuccessful actions, you
+should check for batch errors even when the call returns an HTTP status code of 200. The
+maximum allowed individual message size and the maximum total payload size (the sum of the
+individual lengths of all of the batched messages) are both 256 KB (262,144 bytes).  Some
+actions take lists of parameters. These lists are specified using the param.n notation.
+Values of n are integers starting from 1. For example, a parameter list with two elements
+looks like this:  &amp;AttributeName.1=first &amp;AttributeName.2=second If you send a
+batch message to a topic, Amazon SNS publishes the batch message to each endpoint that is
+subscribed to the topic. The format of the batch message depends on the notification
+protocol for each subscribed endpoint. When a messageId is returned, the batch message is
+saved and Amazon SNS immediately delivers the message to subscribers.
+
+# Arguments
+- `publish_batch_request_entries`: A list of PublishBatch request entries to be sent to the
+  SNS topic.
+- `topic_arn`: The Amazon resource name (ARN) of the topic you want to batch publish to.
+
+"""
+function publish_batch(
+    PublishBatchRequestEntries, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sns(
+        "PublishBatch",
+        Dict{String,Any}(
+            "PublishBatchRequestEntries" => PublishBatchRequestEntries,
+            "TopicArn" => TopicArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function publish_batch(
+    PublishBatchRequestEntries,
+    TopicArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sns(
+        "PublishBatch",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PublishBatchRequestEntries" => PublishBatchRequestEntries,
+                    "TopicArn" => TopicArn,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1275,20 +1343,26 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
 # Arguments
 - `attributes`: A map of the platform application attributes. Attributes in this map
   include the following:    PlatformCredential – The credential received from the
-  notification service. For APNS and APNS_SANDBOX, PlatformCredential is private key. For GCM
-  (Firebase Cloud Messaging), PlatformCredential is API key. For ADM, PlatformCredential is
-  client secret.    PlatformPrincipal – The principal received from the notification
-  service. For APNS and APNS_SANDBOX, PlatformPrincipal is SSL certificate. For GCM (Firebase
-  Cloud Messaging), there is no PlatformPrincipal. For ADM, PlatformPrincipal is client id.
-   EventEndpointCreated – Topic ARN to which EndpointCreated event notifications are sent.
-    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications are sent.
-     EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
-     EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
+  notification service.   For ADM, PlatformCredentialis client secret.   For Apple Services
+  using certificate credentials, PlatformCredential is private key.   For Apple Services
+  using token credentials, PlatformCredential is signing key.   For GCM (Firebase Cloud
+  Messaging), PlatformCredential is API key.         PlatformPrincipal – The principal
+  received from the notification service.   For ADM, PlatformPrincipalis client id.   For
+  Apple Services using certificate credentials, PlatformPrincipal is SSL certificate.   For
+  Apple Services using token credentials, PlatformPrincipal is signing key ID.   For GCM
+  (Firebase Cloud Messaging), there is no PlatformPrincipal.         EventEndpointCreated –
+  Topic ARN to which EndpointCreated event notifications are sent.    EventEndpointDeleted
+  – Topic ARN to which EndpointDeleted event notifications are sent.
+  EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
+  EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
   upon Direct Publish delivery failure (permanent) to one of the application's endpoints.
   SuccessFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use
   CloudWatch Logs on your behalf.    FailureFeedbackRoleArn – IAM role ARN used to give
   Amazon SNS write access to use CloudWatch Logs on your behalf.    SuccessFeedbackSampleRate
-  – Sample rate percentage (0-100) of successfully delivered messages.
+  – Sample rate percentage (0-100) of successfully delivered messages.   The following
+  attributes only apply to APNs token-based authentication:    ApplePlatformTeamID – The
+  identifier that's assigned to your Apple developer account team.    ApplePlatformBundleID
+  – The bundle identifier that's assigned to your iOS app.
 - `platform_application_arn`: PlatformApplicationArn for SetPlatformApplicationAttributes
   action.
 
@@ -1340,20 +1414,20 @@ you must grant the Amazon SNS service principal (sns.amazonaws.com) permission t
 the s3:ListBucket action.
 
 # Arguments
-- `attributes`: The default settings for sending SMS messages from your account. You can
-  set values for the following attribute names:  MonthlySpendLimit – The maximum amount in
-  USD that you are willing to spend each month to send SMS messages. When Amazon SNS
-  determines that sending an SMS message would incur a cost that exceeds this limit, it stops
-  sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes
-  of the limit being crossed. During that interval, if you continue to send SMS messages, you
-  will incur costs that exceed your limit.  By default, the spend limit is set to the maximum
-  allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case.
-  For New limit value, enter your desired monthly spend limit. In the Use Case Description
-  field, explain that you are requesting an SMS monthly spend limit increase.
-  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs
-  about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS
-  writes a log that includes the message price, the success or failure status, the reason for
-  failure (if the message failed), the message dwell time, and other information.
+- `attributes`: The default settings for sending SMS messages from your Amazon Web Services
+  account. You can set values for the following attribute names:  MonthlySpendLimit – The
+  maximum amount in USD that you are willing to spend each month to send SMS messages. When
+  Amazon SNS determines that sending an SMS message would incur a cost that exceeds this
+  limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages
+  within minutes of the limit being crossed. During that interval, if you continue to send
+  SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is
+  set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS
+  Limit Increase case. For New limit value, enter your desired monthly spend limit. In the
+  Use Case Description field, explain that you are requesting an SMS monthly spend limit
+  increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to
+  write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send,
+  Amazon SNS writes a log that includes the message price, the success or failure status, the
+  reason for failure (if the message failed), the message dwell time, and other information.
   DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which
   Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100.
   For example, to write logs only for failed deliveries, set this value to 0. To write logs
@@ -1369,13 +1443,13 @@ the s3:ListBucket action.
   – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS.
   Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report
   includes the following information for each SMS message that was successfully delivered by
-  your account:   Time that the message was published (in UTC)   Message ID   Destination
-  phone number   Message type   Delivery status   Message price (in USD)   Part number (a
-  message is split into multiple parts if it is too long for a single message)   Total number
-  of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS
-  service principal to perform the s3:PutObject and s3:GetBucketLocation actions. For an
-  example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS
-  Developer Guide.
+  your Amazon Web Services account:   Time that the message was published (in UTC)   Message
+  ID   Destination phone number   Message type   Delivery status   Message price (in USD)
+  Part number (a message is split into multiple parts if it is too long for a single message)
+    Total number of parts   To receive the report, the bucket must have a policy that allows
+  the Amazon SNS service principal to perform the s3:PutObject and s3:GetBucketLocation
+  actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the
+  Amazon SNS Developer Guide.
 
 """
 function set_smsattributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1531,10 +1605,11 @@ end
     subscribe(protocol, topic_arn, params::Dict{String,<:Any})
 
 Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
-if the endpoint and the topic are not in the same account, the endpoint owner must run the
-ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription
-action with the token from the subscription response. Confirmation tokens are valid for
-three days. This action is throttled at 100 transactions per second (TPS).
+if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint
+owner must run the ConfirmSubscription action to confirm the subscription. You call the
+ConfirmSubscription action with the token from the subscription response. Confirmation
+tokens are valid for three days. This action is throttled at 100 transactions per second
+(TPS).
 
 # Arguments
 - `protocol`: The protocol that you want to use. Supported protocols include:    http –
@@ -1622,8 +1697,9 @@ Amazon SNS Developer Guide. When you use topic tags, keep the following guidelin
   Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic
 meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A
 new tag with a key identical to that of an existing tag overwrites the existing tag.
-Tagging actions are limited to 10 TPS per account, per Region. If your application requires
-a higher throughput, file a technical support request.
+Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web
+Services Region. If your application requires a higher throughput, file a technical support
+request.
 
 # Arguments
 - `resource_arn`: The ARN of the topic to which to add tags.
@@ -1745,13 +1821,14 @@ end
     verify_smssandbox_phone_number(one_time_password, phone_number)
     verify_smssandbox_phone_number(one_time_password, phone_number, params::Dict{String,<:Any})
 
-Verifies a destination phone number with a one-time password (OTP) for the calling account.
-When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox.
-The SMS sandbox provides a safe environment for you to try Amazon SNS features without
-risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can
-use all of the features of Amazon SNS. However, you can send SMS messages only to verified
-destination phone numbers. For more information, including how to move out of the sandbox
-to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Verifies a destination phone number with a one-time password (OTP) for the calling Amazon
+Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web
+Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you
+to try Amazon SNS features without risking your reputation as an SMS sender. While your
+Amazon Web Services account is in the SMS sandbox, you can use all of the features of
+Amazon SNS. However, you can send SMS messages only to verified destination phone numbers.
+For more information, including how to move out of the sandbox to send messages without
+restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 # Arguments
 - `one_time_password`: The OTP sent to the destination number from the

@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer-owned address pool (CoIP pool).
 - `"IpAddressType"`: The type of IP addresses used by the subnets for your load balancer.
   The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6
-  addresses). Internal load balancers must use ipv4.
+  addresses).
 - `"Scheme"`: The nodes of an Internet-facing load balancer have public IP addresses. The
   DNS name of an Internet-facing load balancer is publicly resolvable to the public IP
   addresses of the nodes. Therefore, Internet-facing load balancers can route requests from
@@ -1368,8 +1368,8 @@ Balancer or Network Load Balancer.
 
 # Arguments
 - `ip_address_type`: The IP address type. The possible values are ipv4 (for IPv4 addresses)
-  and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. You
-  can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+  and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load
+  balancer with a UDP or TCP_UDP listener.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
@@ -1509,7 +1509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IpAddressType"`: [Network Load Balancers] The type of IP addresses used by the subnets
   for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack
   (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP
-  or TCP_UDP listener. Internal load balancers must use ipv4.
+  or TCP_UDP listener. .
 - `"SubnetMappings"`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. You cannot

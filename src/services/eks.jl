@@ -80,7 +80,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"tags"`: The metadata to apply to the configuration to assist with categorization and
-  organization. Each tag consists of a key and an optional value, both of which you define.
+  organization. Each tag consists of a key and an optional value. You define both.
 """
 function associate_identity_provider_config(
     name, oidc; aws_config::AbstractAWSConfig=global_aws_config()
@@ -120,9 +120,9 @@ end
 
 Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and
 lifecycle management of common operational software for Amazon EKS clusters. Amazon EKS
-add-ons can only be used with Amazon EKS clusters running version 1.18 with platform
-version eks.3 or later because add-ons rely on the Server-side Apply Kubernetes feature,
-which is only available in Kubernetes 1.18 and later.
+add-ons require clusters running version 1.18 or later because Amazon EKS add-ons rely on
+the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and
+later. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide.
 
 # Arguments
 - `addon_name`: The name of the add-on. The name must match one of the names returned by
@@ -145,7 +145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM
   roles for service accounts on your cluster in the Amazon EKS User Guide.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
-  organization. Each tag consists of a key and an optional value, both of which you define.
+  organization. Each tag consists of a key and an optional value. You define both.
 """
 function create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
@@ -186,27 +186,27 @@ end
 Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control
 plane instances that run the Kubernetes software, such as etcd and the API server. The
 control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is
-exposed via the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is
-single-tenant and unique and runs on its own set of Amazon EC2 instances. The cluster
+exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is
+single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster
 control plane is provisioned across multiple Availability Zones and fronted by an Elastic
 Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces
 in your VPC subnets to provide connectivity from the control plane instances to the nodes
 (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in
-your Amazon Web Services account and connect to your cluster's control plane via the
-Kubernetes API server endpoint and a certificate file that is created for your cluster.
-Cluster creation typically takes several minutes. After you create an Amazon EKS cluster,
-you must configure your Kubernetes tooling to communicate with the API server and launch
-nodes into your cluster. For more information, see Managing Cluster Authentication and
-Launching Amazon EKS nodes in the Amazon EKS User Guide.
+your Amazon Web Services account and connect to your cluster's control plane over the
+Kubernetes API server endpoint and a certificate file that is created for your cluster. In
+most cases, it takes several minutes to create a cluster. After you create an Amazon EKS
+cluster, you must configure your Kubernetes tooling to communicate with the API server and
+launch nodes into your cluster. For more information, see Managing Cluster Authentication
+and Launching Amazon EKS nodes in the Amazon EKS User Guide.
 
 # Arguments
 - `name`: The unique name to give to your cluster.
-- `resources_vpc_config`: The VPC configuration used by the cluster control plane. Amazon
-  EKS VPC resources have specific requirements to work properly with Kubernetes. For more
-  information, see Cluster VPC Considerations and Cluster Security Group Considerations in
-  the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to
-  five security groups, but we recommend that you use a dedicated security group for your
-  cluster control plane.
+- `resources_vpc_config`: The VPC configuration that's used by the cluster control plane.
+  Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For
+  more information, see Cluster VPC Considerations and Cluster Security Group Considerations
+  in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to
+  five security groups. However, we recommend that you use a dedicated security group for
+  your cluster control plane.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that provides permissions for
   the Kubernetes control plane to make calls to Amazon Web Services API operations on your
   behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide
@@ -224,7 +224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
-  organization. Each tag consists of a key and an optional value, both of which you define.
+  organization. Each tag consists of a key and an optional value. You define both.
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a
   value here, the latest version available in Amazon EKS is used.
 """
@@ -316,9 +316,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Fargate are not assigned public IP addresses, so only private subnets (with no direct route
   to an Internet Gateway) are accepted for this parameter.
 - `"tags"`: The metadata to apply to the Fargate profile to assist with categorization and
-  organization. Each tag consists of a key and an optional value, both of which you define.
-  Fargate profile tags do not propagate to any other resources associated with the Fargate
-  profile, such as the pods that are scheduled with it.
+  organization. Each tag consists of a key and an optional value. You define both. Fargate
+  profile tags do not propagate to any other resources associated with the Fargate profile,
+  such as the pods that are scheduled with it.
 """
 function create_fargate_profile(
     fargateProfileName,
@@ -439,9 +439,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scalingConfig"`: The scaling configuration details for the Auto Scaling group that is
   created for your node group.
 - `"tags"`: The metadata to apply to the node group to assist with categorization and
-  organization. Each tag consists of a key and an optional value, both of which you define.
-  Node group tags do not propagate to any other resources associated with the node group,
-  such as the Amazon EC2 instances or subnets.
+  organization. Each tag consists of a key and an optional value. You define both. Node group
+  tags do not propagate to any other resources associated with the node group, such as the
+  Amazon EC2 instances or subnets.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
 - `"updateConfig"`: The node group update configuration.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
@@ -1050,8 +1050,9 @@ Lists the Amazon EKS clusters in your Amazon Web Services account in the specifi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"include"`: Indicates whether connected clusters are included in the returned list.
-  Default value is 'ALL'.
+- `"include"`: Indicates whether external clusters are included in the returned list. Use
+  'all' to return connected clusters, or blank to return only Amazon EKS clusters. 'all' must
+  be in lowercase otherwise an error occurs.
 - `"maxResults"`: The maximum number of cluster results returned by ListClusters in
   paginated output. When you use this parameter, ListClusters returns only maxResults results
   in a single page along with a nextToken response element. You can see the remaining results
@@ -1298,18 +1299,21 @@ RegisterClusterRequest  to add it to the Amazon EKS control plane. Second, a Man
 containing the activationID and activationCode must be applied to the Kubernetes cluster
 through it's native provider to provide visibility. After the Manifest is updated and
 applied, then the connected cluster is visible to the Amazon EKS control plane. If the
-Manifest is not applied within a set amount of time, then the connected cluster will no
-longer be visible and must be deregistered. See DeregisterCluster.
+Manifest is not applied within three days, then the connected cluster will no longer be
+visible and must be deregistered. See DeregisterCluster.
 
 # Arguments
 - `connector_config`: The configuration settings required to connect the Kubernetes cluster
   to the Amazon EKS control plane.
-- `name`: Define a unique name for this cluster within your AWS account.
+- `name`: Define a unique name for this cluster for your Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
+- `"tags"`: The metadata that you apply to the cluster to assist with categorization and
+  organization. Each tag consists of a key and an optional value, both of which you define.
+  Cluster tags do not propagate to any other resources associated with the cluster.
 """
 function register_cluster(
     connectorConfig, name; aws_config::AbstractAWSConfig=global_aws_config()

@@ -146,12 +146,75 @@ function create_collection(
 end
 
 """
+    create_dataset(dataset_type, project_arn)
+    create_dataset(dataset_type, project_arn, params::Dict{String,<:Any})
+
+Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using
+an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition
+Custom Labels dataset. To create a training dataset for a project, specify train for the
+value of DatasetType. To create the test dataset for a project, specify test for the value
+of DatasetType.  The response from CreateDataset is the Amazon Resource Name (ARN) for the
+dataset. Creating a dataset takes a while to complete. Use DescribeDataset to check the
+current status. The dataset created successfully if the value of Status is CREATE_COMPLETE.
+ To check if any non-terminal errors occurred, call ListDatasetEntries and check for the
+presence of errors lists in the JSON Lines. Dataset creation fails if a terminal error
+occurs (Status = CREATE_FAILED). Currently, you can't access the terminal error
+information.  For more information, see Creating dataset in the Amazon Rekognition Custom
+Labels Developer Guide. This operation requires permissions to perform the
+rekognition:CreateDataset action. If you want to copy an existing dataset, you also require
+permission to perform the rekognition:ListDatasetEntries action.
+
+# Arguments
+- `dataset_type`:  The type of the dataset. Specify train to create a training dataset.
+  Specify test to create a test dataset.
+- `project_arn`:  The ARN of the Amazon Rekognition Custom Labels project to which you want
+  to asssign the dataset.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatasetSource"`:  The source files for the dataset. You can specify the ARN of an
+  existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
+  manifest file. If you don't specify datasetSource, an empty dataset is created. To add
+  labeled images to the dataset, You can use the console or call UpdateDatasetEntries.
+"""
+function create_dataset(
+    DatasetType, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "CreateDataset",
+        Dict{String,Any}("DatasetType" => DatasetType, "ProjectArn" => ProjectArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_dataset(
+    DatasetType,
+    ProjectArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "CreateDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatasetType" => DatasetType, "ProjectArn" => ProjectArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_project(project_name)
     create_project(project_name, params::Dict{String,<:Any})
 
-Creates a new Amazon Rekognition Custom Labels project. A project is a logical grouping of
-resources (images, Labels, models) and operations (training, evaluation and detection).
-This operation requires permissions to perform the rekognition:CreateProject action.
+Creates a new Amazon Rekognition Custom Labels project. A project is a group of resources
+(datasets, model versions) that you use to create and manage Amazon Rekognition Custom
+Labels models.  This operation requires permissions to perform the
+rekognition:CreateProject action.
 
 # Arguments
 - `project_name`: The name of the project to create.
@@ -181,17 +244,29 @@ function create_project(
 end
 
 """
-    create_project_version(output_config, project_arn, testing_data, training_data, version_name)
-    create_project_version(output_config, project_arn, testing_data, training_data, version_name, params::Dict{String,<:Any})
+    create_project_version(output_config, project_arn, version_name)
+    create_project_version(output_config, project_arn, version_name, params::Dict{String,<:Any})
 
 Creates a new version of a model and begins training. Models are managed as part of an
-Amazon Rekognition Custom Labels project. You can specify one training dataset and one
-testing dataset. The response from CreateProjectVersion is an Amazon Resource Name (ARN)
-for the version of the model.  Training takes a while to complete. You can get the current
-status by calling DescribeProjectVersions. Once training has successfully completed, call
-DescribeProjectVersions to get the training results and evaluate the model.  After
-evaluating the model, you start the model by calling StartProjectVersion. This operation
-requires permissions to perform the rekognition:CreateProjectVersion action.
+Amazon Rekognition Custom Labels project. The response from CreateProjectVersion is an
+Amazon Resource Name (ARN) for the version of the model.  Training uses the training and
+test datasets associated with the project. For more information, see Creating training and
+test dataset in the Amazon Rekognition Custom Labels Developer Guide.   You can train a
+modelin a project that doesn't have associated datasets by specifying manifest files in the
+TrainingData and TestingData fields.  If you open the console after training a model with
+manifest files, Amazon Rekognition Custom Labels creates the datasets for you using the
+most recent manifest files. You can no longer train a model version for the project by
+specifying manifest files.  Instead of training with a project without associated datasets,
+we recommend that you use the manifest files to create training and test datasets for the
+project.  Training takes a while to complete. You can get the current status by calling
+DescribeProjectVersions. Training completed successfully if the value of the Status field
+is TRAINING_COMPLETED. If training fails, see Debugging a failed model training in the
+Amazon Rekognition Custom Labels developer guide.  Once training has successfully
+completed, call DescribeProjectVersions to get the training results and evaluate the model.
+For more information, see Improving a trained Amazon Rekognition Custom Labels model in the
+Amazon Rekognition Custom Labels developers guide.  After evaluating the model, you start
+the model by calling StartProjectVersion. This operation requires permissions to perform
+the rekognition:CreateProjectVersion action.
 
 # Arguments
 - `output_config`: The Amazon S3 bucket location to store the results of training. The S3
@@ -199,38 +274,35 @@ requires permissions to perform the rekognition:CreateProjectVersion action.
   S3 bucket.
 - `project_arn`: The ARN of the Amazon Rekognition Custom Labels project that manages the
   model that you want to train.
-- `testing_data`: The dataset to use for testing.
-- `training_data`: The dataset to use for training.
 - `version_name`: A name for the version of the model. This value must be unique.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KmsKeyId"`: The identifier for your AWS Key Management Service (AWS KMS) customer
-  master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your
-  CMK, an alias for your CMK, or an alias ARN. The key is used to encrypt training and test
-  images copied into the service for model training. Your source images are unaffected. The
-  key is also used to encrypt training results and manifest files written to the output
-  Amazon S3 bucket (OutputConfig). If you choose to use your own CMK, you need the following
-  permissions on the CMK.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey
+- `"KmsKeyId"`: The identifier for your AWS Key Management Service key (AWS KMS key). You
+  can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias
+  for your KMS key, or an alias ARN. The key is used to encrypt training and test images
+  copied into the service for model training. Your source images are unaffected. The key is
+  also used to encrypt training results and manifest files written to the output Amazon S3
+  bucket (OutputConfig). If you choose to use your own KMS key, you need the following
+  permissions on the KMS key.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey
   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are
   encrypted using a key that AWS owns and manages.
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
+- `"TestingData"`: Specifies an external manifest that the service uses to test the model.
+  If you specify TestingData you must also specify TrainingData. The project must not have
+  any associated datasets.
+- `"TrainingData"`: Specifies an external manifest that the services uses to train the
+  model. If you specify TrainingData you must also specify TestingData. The project must not
+  have any associated datasets.
 """
 function create_project_version(
-    OutputConfig,
-    ProjectArn,
-    TestingData,
-    TrainingData,
-    VersionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    OutputConfig, ProjectArn, VersionName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return rekognition(
         "CreateProjectVersion",
         Dict{String,Any}(
             "OutputConfig" => OutputConfig,
             "ProjectArn" => ProjectArn,
-            "TestingData" => TestingData,
-            "TrainingData" => TrainingData,
             "VersionName" => VersionName,
         );
         aws_config=aws_config,
@@ -240,8 +312,6 @@ end
 function create_project_version(
     OutputConfig,
     ProjectArn,
-    TestingData,
-    TrainingData,
     VersionName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -254,8 +324,6 @@ function create_project_version(
                 Dict{String,Any}(
                     "OutputConfig" => OutputConfig,
                     "ProjectArn" => ProjectArn,
-                    "TestingData" => TestingData,
-                    "TrainingData" => TrainingData,
                     "VersionName" => VersionName,
                 ),
                 params,
@@ -387,6 +455,46 @@ function delete_collection(
 end
 
 """
+    delete_dataset(dataset_arn)
+    delete_dataset(dataset_arn, params::Dict{String,<:Any})
+
+Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take
+while. Use DescribeDataset to check the current status. The dataset is still deleting if
+the value of Status is DELETE_IN_PROGRESS. If you try to access the dataset after it is
+deleted, you get a ResourceNotFoundException exception.  You can't delete a dataset while
+it is creating (Status = CREATE_IN_PROGRESS) or if the dataset is updating (Status =
+UPDATE_IN_PROGRESS). This operation requires permissions to perform the
+rekognition:DeleteDataset action.
+
+# Arguments
+- `dataset_arn`:  The ARN of the Amazon Rekognition Custom Labels dataset that you want to
+  delete.
+
+"""
+function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "DeleteDataset",
+        Dict{String,Any}("DatasetArn" => DatasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_dataset(
+    DatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DeleteDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_faces(collection_id, face_ids)
     delete_faces(collection_id, face_ids, params::Dict{String,<:Any})
 
@@ -435,7 +543,10 @@ end
 
 Deletes an Amazon Rekognition Custom Labels project. To delete a project you must first
 delete all models associated with the project. To delete a model, see DeleteProjectVersion.
-This operation requires permissions to perform the rekognition:DeleteProject action.
+ DeleteProject is an asynchronous operation. To check if the project is deleted, call
+DescribeProjects. The project is deleted when the project no longer appears in the
+response. This operation requires permissions to perform the rekognition:DeleteProject
+action.
 
 # Arguments
 - `project_arn`: The Amazon Resource Name (ARN) of the project that you want to delete.
@@ -576,13 +687,48 @@ function describe_collection(
 end
 
 """
+    describe_dataset(dataset_arn)
+    describe_dataset(dataset_arn, params::Dict{String,<:Any})
+
+ Describes an Amazon Rekognition Custom Labels dataset. You can get information such as the
+current status of a dataset and statistics about the images and labels in a dataset.  This
+operation requires permissions to perform the rekognition:DescribeDataset action.
+
+# Arguments
+- `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to describe.
+
+"""
+function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "DescribeDataset",
+        Dict{String,Any}("DatasetArn" => DatasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_dataset(
+    DatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DescribeDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_project_versions(project_arn)
     describe_project_versions(project_arn, params::Dict{String,<:Any})
 
-Lists and describes the models in an Amazon Rekognition Custom Labels project. You can
-specify up to 10 model versions in ProjectVersionArns. If you don't specify a value,
-descriptions for all models are returned. This operation requires permissions to perform
-the rekognition:DescribeProjectVersions action.
+Lists and describes the versions of a model in an Amazon Rekognition Custom Labels project.
+You can specify up to 10 model versions in ProjectVersionArns. If you don't specify a
+value, descriptions for all model versions in the project are returned. This operation
+requires permissions to perform the rekognition:DescribeProjectVersions action.
 
 # Arguments
 - `project_arn`: The Amazon Resource Name (ARN) of the project that contains the models you
@@ -632,8 +778,8 @@ end
     describe_projects()
     describe_projects(params::Dict{String,<:Any})
 
-Lists and gets information about your Amazon Rekognition Custom Labels projects. This
-operation requires permissions to perform the rekognition:DescribeProjects action.
+Gets information about your Amazon Rekognition Custom Labels projects.  This operation
+requires permissions to perform the rekognition:DescribeProjects action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -643,6 +789,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
   can use this pagination token to retrieve the next set of results.
+- `"ProjectNames"`: A list of the projects that you want Amazon Rekognition Custom Labels
+  to describe. If you don't specify a value, the response includes descriptions for all the
+  projects in your AWS account.
 """
 function describe_projects(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -1050,6 +1199,52 @@ function detect_text(
 end
 
 """
+    distribute_dataset_entries(datasets)
+    distribute_dataset_entries(datasets, params::Dict{String,<:Any})
+
+Distributes the entries (images) in a training dataset across the training dataset and the
+test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset
+images to the test dataset. An entry is a JSON Line that describes an image.  You supply
+the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The
+training dataset must contain the images that you want to split. The test dataset must be
+empty. The datasets must belong to the same project. To create training and test datasets
+for a project, call CreateDataset. Distributing a dataset takes a while to complete. To
+check the status call DescribeDataset. The operation is complete when the Status field for
+the training dataset and the test dataset is UPDATE_COMPLETE. If the dataset split fails,
+the value of Status is UPDATE_FAILED. This operation requires permissions to perform the
+rekognition:DistributeDatasetEntries action.
+
+# Arguments
+- `datasets`: The ARNS for the training dataset and test dataset that you want to use. The
+  datasets must belong to the same project. The test dataset must be empty.
+
+"""
+function distribute_dataset_entries(
+    Datasets; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "DistributeDatasetEntries",
+        Dict{String,Any}("Datasets" => Datasets);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function distribute_dataset_entries(
+    Datasets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DistributeDatasetEntries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Datasets" => Datasets), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_celebrity_info(id)
     get_celebrity_info(id, params::Dict{String,<:Any})
 
@@ -1090,7 +1285,7 @@ end
 Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by
 StartCelebrityRecognition. Celebrity recognition in a video is an asynchronous operation.
 Analysis is started by a call to StartCelebrityRecognition which returns a job identifier
-(JobId). When the celebrity recognition operation finishes, Amazon Rekognition Video
+(JobId).  When the celebrity recognition operation finishes, Amazon Rekognition Video
 publishes a completion status to the Amazon Simple Notification Service topic registered in
 the initial call to StartCelebrityRecognition. To get the results of the celebrity
 recognition analysis, first check that the status value published to the Amazon SNS topic
@@ -1100,20 +1295,23 @@ Videos in the Amazon Rekognition Developer Guide.  GetCelebrityRecognition retur
 celebrities and the time(s) they are detected in an array (Celebrities) of
 CelebrityRecognition objects. Each CelebrityRecognition contains information about the
 celebrity in a CelebrityDetail object and the time, Timestamp, the celebrity was detected.
-  GetCelebrityRecognition only returns the default facial attributes (BoundingBox,
-Confidence, Landmarks, Pose, and Quality). The other facial attributes listed in the Face
-object of the following response syntax are not returned. For more information, see
-FaceDetail in the Amazon Rekognition Developer Guide.   By default, the Celebrities array
-is sorted by time (milliseconds from the start of the video). You can also sort the array
-by celebrity by specifying the value ID in the SortBy input parameter. The CelebrityDetail
-object includes the celebrity identifer and additional information urls. If you don't store
-the additional information urls, you can get them later by calling GetCelebrityInfo with
-the celebrity identifer. No information is returned for faces not recognized as
-celebrities. Use MaxResults parameter to limit the number of labels returned. If there are
-more results than specified in MaxResults, the value of NextToken in the operation response
-contains a pagination token for getting the next set of results. To get the next page of
-results, call GetCelebrityDetection and populate the NextToken request parameter with the
-token value returned from the previous call to GetCelebrityRecognition.
+This CelebrityDetail object stores information about the detected celebrity's face
+attributes, a face bounding box, known gender, the celebrity's name, and a confidence
+estimate.   GetCelebrityRecognition only returns the default facial attributes
+(BoundingBox, Confidence, Landmarks, Pose, and Quality). The BoundingBox field only applies
+to the detected face instance. The other facial attributes listed in the Face object of the
+following response syntax are not returned. For more information, see FaceDetail in the
+Amazon Rekognition Developer Guide.   By default, the Celebrities array is sorted by time
+(milliseconds from the start of the video). You can also sort the array by celebrity by
+specifying the value ID in the SortBy input parameter. The CelebrityDetail object includes
+the celebrity identifer and additional information urls. If you don't store the additional
+information urls, you can get them later by calling GetCelebrityInfo with the celebrity
+identifer. No information is returned for faces not recognized as celebrities. Use
+MaxResults parameter to limit the number of labels returned. If there are more results than
+specified in MaxResults, the value of NextToken in the operation response contains a
+pagination token for getting the next set of results. To get the next page of results, call
+GetCelebrityDetection and populate the NextToken request parameter with the token value
+returned from the previous call to GetCelebrityRecognition.
 
 # Arguments
 - `job_id`: Job identifier for the required celebrity recognition analysis. You can get the
@@ -1704,6 +1902,112 @@ function list_collections(
 end
 
 """
+    list_dataset_entries(dataset_arn)
+    list_dataset_entries(dataset_arn, params::Dict{String,<:Any})
+
+ Lists the entries (images) within a dataset. An entry is a JSON Line that contains the
+information for a single image, including the image location, assigned labels, and object
+location bounding boxes. For more information, see Creating a manifest file. JSON Lines in
+the response include information about non-terminal errors found in the dataset. Non
+terminal errors are reported in errors lists within each JSON Line. The same information is
+reported in the training and testing validation result manifests that Amazon Rekognition
+Custom Labels creates during model training.  You can filter the response in variety of
+ways, such as choosing which labels to return and returning JSON Lines created after a
+specific date.  This operation requires permissions to perform the
+rekognition:ListDatasetEntries action.
+
+# Arguments
+- `dataset_arn`:  The Amazon Resource Name (ARN) for the dataset that you want to use.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ContainsLabels"`: Specifies a label filter for the response. The response includes an
+  entry only if one or more of the labels in ContainsLabels exist in the entry.
+- `"HasErrors"`: Specifies an error filter for the response. Specify True to only include
+  entries that have errors.
+- `"Labeled"`:  Specify true to get only the JSON Lines where the image is labeled. Specify
+  false to get only the JSON Lines where the image isn't labeled. If you don't specify
+  Labeled, ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
+- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `"NextToken"`: If the previous response was incomplete (because there is more results to
+  retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of results.
+- `"SourceRefContains"`: If specified, ListDatasetEntries only returns JSON Lines where the
+  value of SourceRefContains is part of the source-ref field. The source-ref field contains
+  the Amazon S3 location of the image. You can use SouceRefContains for tasks such as getting
+  the JSON Line for a single image, or gettting JSON Lines for all images within a specific
+  folder.
+"""
+function list_dataset_entries(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "ListDatasetEntries",
+        Dict{String,Any}("DatasetArn" => DatasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_dataset_entries(
+    DatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "ListDatasetEntries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_dataset_labels(dataset_arn)
+    list_dataset_labels(dataset_arn, params::Dict{String,<:Any})
+
+Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe
+images. For more information, see Labeling images.   Lists the labels in a dataset. Amazon
+Rekognition Custom Labels uses labels to describe images. For more information, see
+Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
+
+# Arguments
+- `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to use.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `"NextToken"`: If the previous response was incomplete (because there is more results to
+  retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of results.
+"""
+function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "ListDatasetLabels",
+        Dict{String,Any}("DatasetArn" => DatasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_dataset_labels(
+    DatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "ListDatasetLabels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_faces(collection_id)
     list_faces(collection_id, params::Dict{String,<:Any})
 
@@ -1820,8 +2124,8 @@ end
 
 Returns an array of celebrities recognized in the input image. For more information, see
 Recognizing Celebrities in the Amazon Rekognition Developer Guide.   RecognizeCelebrities
-returns the 64 largest faces in the image. It lists recognized celebrities in the
-CelebrityFaces array and unrecognized faces in the UnrecognizedFaces array.
+returns the 64 largest faces in the image. It lists the recognized celebrities in the
+CelebrityFaces array and any unrecognized faces in the UnrecognizedFaces array.
 RecognizeCelebrities doesn't return celebrities whose faces aren't among the largest 64
 faces in the image. For each celebrity recognized, RecognizeCelebrities returns a Celebrity
 object. The Celebrity object contains the celebrity name, ID, URL links to additional
@@ -2701,6 +3005,62 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_dataset_entries(changes, dataset_arn)
+    update_dataset_entries(changes, dataset_arn, params::Dict{String,<:Any})
+
+Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which
+contains the information for a single image, including the image location, assigned labels,
+and object location bounding boxes. For more information, see Image-Level labels in
+manifest files and Object localization in manifest files in the Amazon Rekognition Custom
+Labels Developer Guide.  If the source-ref field in the JSON line references an existing
+image, the existing image in the dataset is updated. If source-ref field doesn't reference
+an existing image, the image is added as a new image to the dataset.  You specify the
+changes that you want to make in the Changes input parameter. There isn't a limit to the
+number JSON Lines that you can change, but the size of Changes must be less than 5MB.
+UpdateDatasetEntries returns immediatly, but the dataset update might take a while to
+complete. Use DescribeDataset to check the current status. The dataset updated successfully
+if the value of Status is UPDATE_COMPLETE.  To check if any non-terminal errors occured,
+call ListDatasetEntries and check for the presence of errors lists in the JSON Lines.
+Dataset update fails if a terminal error occurs (Status = UPDATE_FAILED). Currently, you
+can't access the terminal error information from the Amazon Rekognition Custom Labels SDK.
+This operation requires permissions to perform the rekognition:UpdateDatasetEntries action.
+
+# Arguments
+- `changes`:  The changes that you want to make to the dataset.
+- `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to update.
+
+"""
+function update_dataset_entries(
+    Changes, DatasetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "UpdateDatasetEntries",
+        Dict{String,Any}("Changes" => Changes, "DatasetArn" => DatasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_dataset_entries(
+    Changes,
+    DatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "UpdateDatasetEntries",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Changes" => Changes, "DatasetArn" => DatasetArn),
                 params,
             ),
         );

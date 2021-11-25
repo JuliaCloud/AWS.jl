@@ -80,8 +80,15 @@ _assume_role_patch = function (
     secret_key="secret_key",
     session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
+    expiry=duration -> now(UTC) + duration,
+    token_code_ref=nothing,
 )
     @patch function AWSServices.sts(op, params; aws_config, feature_set)
+        duration = Second(parse(Int, get(params, "DurationSeconds", "3600")))
+        expiration = expiry(duration)
+        if token_code_ref !== nothing
+            token_code_ref[] = params["TokenCode"]
+        end
         xml = """
             <$(op)Response xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
               <$(op)Result>
@@ -92,7 +99,7 @@ _assume_role_patch = function (
                   <AccessKeyId>$access_key</AccessKeyId>
                   <SecretAccessKey>$secret_key</SecretAccessKey>
                   <SessionToken>$session_token</SessionToken>
-                  <Expiration>$(now(UTC))</Expiration>
+                  <Expiration>$expiration</Expiration>
                 </Credentials>
               </$(op)Result>
             </$(op)Response>
@@ -100,6 +107,12 @@ _assume_role_patch = function (
 
         r = _response(; body=xml)
         return feature_set.use_response_type ? r : parse(r)::AbstractDict
+    end
+end
+
+_getpass_patch = function (; secret="the_secret")
+    @patch function Base.getpass(prompt)
+        return Base.SecretBuffer(secret)
     end
 end
 
