@@ -69,7 +69,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             # empty payload.
             input !== nothing && seekstart(input)
 
-            response = @mock Downloads.request(
+            r = @mock Downloads.request(
                 request.url;
                 input=input,
                 # Compatibility with Downloads.jl versions below v1.5.2
@@ -81,6 +81,8 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
                 throw=true,
                 downloader=downloader,
             )
+
+            response = _http_response(request, r; throw=true)
         catch e
             @delay_retry if (
                 (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
@@ -95,18 +97,19 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         write(response_stream, buffer)
     end
 
-    http_response = HTTP.Response(
-        response.status, response.headers; body=body_was_streamed, request=nothing
+    return AWS.Response(response, response_stream)
+end
+
+function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
+    response = HTTP.Response(
+        res.status, res.headers; body=body_was_streamed, request=nothing
     )
 
-    if HTTP.iserror(http_response)
-        target = HTTP.resource(HTTP.URI(request.url))
-        throw(
-            HTTP.StatusError(
-                http_response.status, request.request_method, target, http_response
-            ),
-        )
+    if throw && HTTP.iserror(response)
+        target = HTTP.resource(HTTP.URI(req.url))
+        e = HTTP.StatusError(res.status, req.request_method, target, response)
+        Base.throw(e)
     end
 
-    return AWS.Response(http_response, response_stream)
+    return response
 end
