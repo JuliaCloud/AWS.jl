@@ -73,12 +73,12 @@ end
     get_endpoint()
     get_endpoint(params::Dict{String,<:Any})
 
-
+Gets information about an Device Advisor endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"certificateArn"`:
-- `"thingArn"`:
+- `"certificateArn"`: The certificate ARN of the device. This is an optional parameter.
+- `"thingArn"`: The thing ARN of the device. This is an optional parameter.
 """
 function get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotdeviceadvisor(
@@ -238,9 +238,9 @@ end
     list_suite_runs()
     list_suite_runs(params::Dict{String,<:Any})
 
-Lists the runs of the specified Device Advisor test suite. You can list all runs of the
-test suite, or the runs of a specific version of the test suite. Requires permission to
-access the ListSuiteRuns action.
+Lists runs of the specified Device Advisor test suite. You can list all runs of the test
+suite, or the runs of a specific version of the test suite. Requires permission to access
+the ListSuiteRuns action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -67,6 +67,66 @@ function associate_assets(
 end
 
 """
+    associate_time_series_to_asset_property(alias, asset_id, property_id)
+    associate_time_series_to_asset_property(alias, asset_id, property_id, params::Dict{String,<:Any})
+
+Associates a time series (data stream) with an asset property.
+
+# Arguments
+- `alias`: The alias that identifies the time series.
+- `asset_id`: The ID of the asset in which the asset property was created.
+- `property_id`: The ID of the asset property.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function associate_time_series_to_asset_property(
+    alias, assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/timeseries/associate/",
+        Dict{String,Any}(
+            "alias" => alias,
+            "assetId" => assetId,
+            "propertyId" => propertyId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_time_series_to_asset_property(
+    alias,
+    assetId,
+    propertyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsitewise(
+        "POST",
+        "/timeseries/associate/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "alias" => alias,
+                    "assetId" => assetId,
+                    "propertyId" => propertyId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_associate_project_assets(asset_ids, project_id)
     batch_associate_project_assets(asset_ids, project_id, params::Dict{String,<:Any})
 
@@ -564,8 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only
   available in Amazon Web Services Regions other than the China Regions.    IAM – The
   portal uses Identity and Access Management to authenticate users and manage user
-  permissions. This option is only available in the China Regions.   You can't change this
-  value after you create a portal. Default: SSO
+  permissions.   You can't change this value after you create a portal. Default: SSO
 - `"portalDescription"`: A description for the portal.
 - `"portalLogoImageFile"`: A logo image to display in the portal. Upload a square,
   high-resolution image. The image is displayed on a dark background.
@@ -622,7 +681,8 @@ end
     create_project(portal_id, project_name)
     create_project(portal_id, project_name, params::Dict{String,<:Any})
 
-Creates a project in the specified portal.
+Creates a project in the specified portal.  Make sure that the project name and description
+don't contain confidential information.
 
 # Arguments
 - `portal_id`: The ID of the portal in which to create the project.
@@ -950,6 +1010,50 @@ function delete_project(
     return iotsitewise(
         "DELETE",
         "/projects/$(projectId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_time_series()
+    delete_time_series(params::Dict{String,<:Any})
+
+Deletes a time series (data stream). If you delete a time series that's associated with an
+asset property, the asset property still exists, but the time series will no longer be
+associated with this asset property. To identify a time series, do one of the following:
+If the time series isn't associated with an asset property, specify the alias of the time
+series.   If the time series is associated with an asset property, specify one of the
+following:    The alias of the time series.   The assetId and propertyId that identifies
+the asset property.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The alias that identifies the time series.
+- `"assetId"`: The ID of the asset in which the asset property was created.
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"propertyId"`: The ID of the asset property.
+"""
+function delete_time_series(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "POST",
+        "/timeseries/delete/",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_time_series(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/timeseries/delete/",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
@@ -1344,6 +1448,42 @@ function describe_storage_configuration(
 end
 
 """
+    describe_time_series()
+    describe_time_series(params::Dict{String,<:Any})
+
+Retrieves information about a time series (data stream). To identify a time series, do one
+of the following:   If the time series isn't associated with an asset property, specify the
+alias of the time series.   If the time series is associated with an asset property,
+specify one of the following:    The alias of the time series.   The assetId and propertyId
+that identifies the asset property.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The alias that identifies the time series.
+- `"assetId"`: The ID of the asset in which the asset property was created.
+- `"propertyId"`: The ID of the asset property.
+"""
+function describe_time_series(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "GET",
+        "/timeseries/describe/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_time_series(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET",
+        "/timeseries/describe/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_assets(asset_id, child_asset_id, hierarchy_id)
     disassociate_assets(asset_id, child_asset_id, hierarchy_id, params::Dict{String,<:Any})
 
@@ -1395,6 +1535,66 @@ function disassociate_assets(
                 Dict{String,Any}(
                     "childAssetId" => childAssetId,
                     "hierarchyId" => hierarchyId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_time_series_from_asset_property(alias, asset_id, property_id)
+    disassociate_time_series_from_asset_property(alias, asset_id, property_id, params::Dict{String,<:Any})
+
+Disassociates a time series (data stream) from an asset property.
+
+# Arguments
+- `alias`: The alias that identifies the time series.
+- `asset_id`: The ID of the asset in which the asset property was created.
+- `property_id`: The ID of the asset property.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function disassociate_time_series_from_asset_property(
+    alias, assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/timeseries/disassociate/",
+        Dict{String,Any}(
+            "alias" => alias,
+            "assetId" => assetId,
+            "propertyId" => propertyId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_time_series_from_asset_property(
+    alias,
+    assetId,
+    propertyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsitewise(
+        "POST",
+        "/timeseries/disassociate/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "alias" => alias,
+                    "assetId" => assetId,
+                    "propertyId" => propertyId,
                     "clientToken" => string(uuid4()),
                 ),
                 params,
@@ -1593,35 +1793,36 @@ asset property's alias, see UpdateAssetProperty.
 - `type`: The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION
     LINEAR_INTERPOLATION – Estimates missing data using linear interpolation. For example,
   you can use this operation to return the interpolated temperature values for a wind turbine
-  every 24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9
+  every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9
   AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second
   interpolated value on July 3, 2021, at 9 AM, and so on.    LOCF_INTERPOLATION – Estimates
   missing data using last observation carried forward interpolation If no data point is found
   for an interval, IoT SiteWise returns the last observed data point for the previous
   interval and carries forward this interpolated value until a new data point is found. For
   example, you can get the state of an on-off valve every 24 hours over a duration of 7 days.
-  If the interpolation starts on July 1, 2021, at 9 AM, IoT SiteWise returns the last
-  observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first
-  interpolated value. If no data point is found after 9 AM on July 2, 2021, IoT SiteWise uses
-  the same interpolated value for the rest of the days.
+  If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed
+  data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first
+  interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise
+  uses the same interpolated value for the rest of the days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"assetId"`: The ID of the asset.
 - `"endTimeOffsetInNanos"`: The nanosecond offset converted from endTimeInSeconds.
-- `"intervalWindowInSeconds"`: The query interval for the window in seconds. IoT SiteWise
-  computes each interpolated value by using data points from the timestamp of each interval
+- `"intervalWindowInSeconds"`: The query interval for the window, in seconds. IoT SiteWise
+  computes each interpolated value by using data points from the timestamp of each interval,
   minus the window to the timestamp of each interval plus the window. If not specified, the
-  window is between the start time minus the interval and the end time plus the interval.
-  If you specify a value for the intervalWindowInSeconds parameter, the type parameter must
-  be LINEAR_INTERPOLATION.   If no data point is found during the specified query window, IoT
-  SiteWise won't return an interpolated value for the interval. This indicates that there's a
-  gap in the ingested data points.    For example, you can get the interpolated temperature
-  values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation
-  starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points
-  from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2 hours) on July 2, 2021 to compute the first
-  interpolated value, uses the data points from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2
-  hours) on July 3, 2021 to compute the second interpolated value, and so on.
+  window ranges between the start time minus the interval and the end time plus the interval.
+     If you specify a value for the intervalWindowInSeconds parameter, the value for the type
+  parameter must be LINEAR_INTERPOLATION.   If a data point isn't found during the specified
+  query window, IoT SiteWise won't return an interpolated value for the interval. This
+  indicates that there's a gap in the ingested data points.    For example, you can get the
+  interpolated temperature values for a wind turbine every 24 hours over a duration of 7
+  days. If the interpolation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT
+  SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours)
+  on July 2, 2021 to compute the first interpolated value. Next, IoT SiteWise uses the data
+  points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 3, 2021 to
+  compute the second interpolated value, and so on.
 - `"maxResults"`: The maximum number of results to return for each paginated request. If
   not specified, the default value is 10.
 - `"nextToken"`: The token to be used for the next set of paginated results.
@@ -2089,6 +2290,39 @@ function list_tags_for_resource(
 end
 
 """
+    list_time_series()
+    list_time_series(params::Dict{String,<:Any})
+
+Retrieves a paginated list of time series (data streams).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"aliasPrefix"`: The alias prefix of the time series.
+- `"assetId"`: The ID of the asset in which the asset property was created.
+- `"maxResults"`: The maximum number of results to return for each paginated request.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+- `"timeSeriesType"`: The type of the time series. The time series type can be one of the
+  following values:    ASSOCIATED – The time series is associated with an asset property.
+   DISASSOCIATED – The time series isn't associated with any asset property.
+"""
+function list_time_series(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "GET", "/timeseries/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_time_series(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET",
+        "/timeseries/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_default_encryption_configuration(encryption_type)
     put_default_encryption_configuration(encryption_type, params::Dict{String,<:Any})
 
@@ -2100,8 +2334,8 @@ information, see Key management in the IoT SiteWise User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"kmsKeyId"`: The Key ID of the customer managed customer master key (CMK) used for KMS
-  encryption. This is required if you use KMS_BASED_ENCRYPTION.
+- `"kmsKeyId"`: The Key ID of the customer managed key used for KMS encryption. This is
+  required if you use KMS_BASED_ENCRYPTION.
 """
 function put_default_encryption_configuration(
     encryptionType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2174,16 +2408,24 @@ end
 Configures storage settings for IoT SiteWise.
 
 # Arguments
-- `storage_type`: The type of storage that you specified for your data. The storage type
-  can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates
-  your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise
-  replicates your data into a service managed database and saves a copy of your raw data and
-  metadata in an Amazon S3 object that you specified.
+- `storage_type`: The storage tier that you specified for your data. The storageType
+  parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise
+  saves your data into the hot tier. The hot tier is a service-managed database.
+  MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold
+  tier. The cold tier is a customer-managed Amazon S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"disassociatedDataStorage"`: Contains the storage configuration for time series (data
+  streams) that aren't associated with asset properties. The disassociatedDataStorage can be
+  one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't
+  associated with asset properties.  After the disassociatedDataStorage is enabled, you can't
+  disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that
+  aren't associated with asset properties.   For more information, see Data streams in the
+  IoT SiteWise User Guide.
 - `"multiLayerStorage"`: Identifies a storage destination. If you specified
   MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
+- `"retentionPeriod"`:
 """
 function put_storage_configuration(
     storageType; aws_config::AbstractAWSConfig=global_aws_config()

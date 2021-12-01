@@ -168,6 +168,43 @@ function batch_get_image(
 end
 
 """
+    batch_get_repository_scanning_configuration(repository_names)
+    batch_get_repository_scanning_configuration(repository_names, params::Dict{String,<:Any})
+
+Gets the scanning configuration for one or more repositories.
+
+# Arguments
+- `repository_names`: One or more repository names to get the scanning configuration for.
+
+"""
+function batch_get_repository_scanning_configuration(
+    repositoryNames; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "BatchGetRepositoryScanningConfiguration",
+        Dict{String,Any}("repositoryNames" => repositoryNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_repository_scanning_configuration(
+    repositoryNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "BatchGetRepositoryScanningConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("repositoryNames" => repositoryNames), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     complete_layer_upload(layer_digests, repository_name, upload_id)
     complete_layer_upload(layer_digests, repository_name, upload_id, params::Dict{String,<:Any})
 
@@ -233,6 +270,63 @@ function complete_layer_upload(
 end
 
 """
+    create_pull_through_cache_rule(ecr_repository_prefix, upstream_registry_url)
+    create_pull_through_cache_rule(ecr_repository_prefix, upstream_registry_url, params::Dict{String,<:Any})
+
+Creates a pull through cache rule. A pull through cache rule provides a way to cache images
+from an external public registry in your Amazon ECR private registry.
+
+# Arguments
+- `ecr_repository_prefix`: The repository name prefix to use when caching images from the
+  source registry.
+- `upstream_registry_url`: The registry URL of the upstream public registry to use as the
+  source for the pull through cache rule.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to create
+  the pull through cache rule for. If you do not specify a registry, the default registry is
+  assumed.
+"""
+function create_pull_through_cache_rule(
+    ecrRepositoryPrefix,
+    upstreamRegistryUrl;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "CreatePullThroughCacheRule",
+        Dict{String,Any}(
+            "ecrRepositoryPrefix" => ecrRepositoryPrefix,
+            "upstreamRegistryUrl" => upstreamRegistryUrl,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_pull_through_cache_rule(
+    ecrRepositoryPrefix,
+    upstreamRegistryUrl,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "CreatePullThroughCacheRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ecrRepositoryPrefix" => ecrRepositoryPrefix,
+                    "upstreamRegistryUrl" => upstreamRegistryUrl,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_repository(repository_name)
     create_repository(repository_name, params::Dict{String,<:Any})
 
@@ -255,8 +349,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is omitted, the default setting of MUTABLE will be used which will allow image tags to be
   overwritten. If IMMUTABLE is specified, all image tags within the repository will be
   immutable which will prevent them from being overwritten.
-- `"registryId"`: The AWS account ID associated with the registry to create the repository.
-  If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to create
+  the repository. If you do not specify a registry, the default registry is assumed.
 - `"tags"`: The metadata that you apply to the repository to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   Tag keys can have a maximum character length of 128 characters, and tag values can have a
@@ -320,6 +414,51 @@ function delete_lifecycle_policy(
         "DeleteLifecyclePolicy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_pull_through_cache_rule(ecr_repository_prefix)
+    delete_pull_through_cache_rule(ecr_repository_prefix, params::Dict{String,<:Any})
+
+Deletes a pull through cache rule.
+
+# Arguments
+- `ecr_repository_prefix`: The Amazon ECR repository prefix associated with the pull
+  through cache rule to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the pull through cache rule. If you do not specify a registry, the default
+  registry is assumed.
+"""
+function delete_pull_through_cache_rule(
+    ecrRepositoryPrefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DeletePullThroughCacheRule",
+        Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_pull_through_cache_rule(
+    ecrRepositoryPrefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "DeletePullThroughCacheRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -590,6 +729,54 @@ function describe_images(
 end
 
 """
+    describe_pull_through_cache_rules()
+    describe_pull_through_cache_rules(params::Dict{String,<:Any})
+
+Returns the pull through cache rules for a registry.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ecrRepositoryPrefixes"`: The Amazon ECR repository prefixes associated with the pull
+  through cache rules to return. If no repository prefix value is specified, all pull through
+  cache rules are returned.
+- `"maxResults"`: The maximum number of pull through cache rules returned by
+  DescribePullThroughCacheRulesRequest in paginated output. When this parameter is used,
+  DescribePullThroughCacheRulesRequest only returns maxResults results in a single page along
+  with a nextToken response element. The remaining results of the initial request can be seen
+  by sending another DescribePullThroughCacheRulesRequest request with the returned nextToken
+  value. This value can be between 1 and 1000. If this parameter is not used, then
+  DescribePullThroughCacheRulesRequest returns up to 100 results and a nextToken value, if
+  applicable.
+- `"nextToken"`: The nextToken value returned from a previous paginated
+  DescribePullThroughCacheRulesRequest request where maxResults was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the nextToken value. This value is null when there are no more
+  results to return.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to return
+  the pull through cache rules for. If you do not specify a registry, the default registry is
+  assumed.
+"""
+function describe_pull_through_cache_rules(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribePullThroughCacheRules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_pull_through_cache_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribePullThroughCacheRules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_registry()
     describe_registry(params::Dict{String,<:Any})
 
@@ -851,6 +1038,33 @@ function get_registry_policy(
 )
     return ecr(
         "GetRegistryPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_registry_scanning_configuration()
+    get_registry_scanning_configuration(params::Dict{String,<:Any})
+
+Retrieves the scanning configuration for a registry.
+
+"""
+function get_registry_scanning_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "GetRegistryScanningConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_registry_scanning_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "GetRegistryScanningConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1286,6 +1500,43 @@ function put_registry_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyText" => policyText), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_registry_scanning_configuration()
+    put_registry_scanning_configuration(params::Dict{String,<:Any})
+
+Creates or updates the scanning configuration for your private registry.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"rules"`: The scanning rules to use for the registry. A scanning rule is used to
+  determine which repository filters are used and at what frequency scanning will occur.
+- `"scanType"`: The scanning type to set for the registry. By default, the BASIC scan type
+  is used. When basic scanning is set, you may specify filters to determine which individual
+  repositories, or all repositories, are scanned when new images are pushed. Alternatively,
+  you can do manual scans of images with basic scanning. When the ENHANCED scan type is set,
+  Amazon Inspector provides automated, continuous scanning of all repositories in your
+  registry.
+"""
+function put_registry_scanning_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "PutRegistryScanningConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_registry_scanning_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "PutRegistryScanningConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

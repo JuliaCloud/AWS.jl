@@ -9,9 +9,8 @@ using AWS.UUIDs
     create_database(database_name, params::Dict{String,<:Any})
 
 Creates a new Timestream database. If the KMS key is not specified, the database will be
-encrypted with a Timestream managed KMS key located in your account. Refer to AWS managed
-KMS keys for more info. Service quotas apply. For more information, see Access Management
-in the Timestream Developer Guide.
+encrypted with a Timestream managed KMS key located in your account. Refer to Amazon Web
+Services managed KMS keys for more info. Service quotas apply. See code sample for details.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
@@ -19,8 +18,8 @@ in the Timestream Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"KmsKeyId"`: The KMS key for the database. If the KMS key is not specified, the database
-  will be encrypted with a Timestream managed KMS key located in your account. Refer to AWS
-  managed KMS keys for more info.
+  will be encrypted with a Timestream managed KMS key located in your account. Refer to
+  Amazon Web Services managed KMS keys for more info.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
 function create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -51,11 +50,11 @@ end
     create_table(database_name, table_name, params::Dict{String,<:Any})
 
 The CreateTable operation adds a new table to an existing database in your account. In an
-AWS account, table names must be at least unique within each Region if they are in the same
-database. You may have identical table names in the same Region if the tables are in
-seperate databases. While creating the table, you must specify the table name, database
-name, and the retention properties. Service quotas apply. For more information, see Access
-Management in the Timestream Developer Guide.
+Amazon Web Services account, table names must be at least unique within each Region if they
+are in the same database. You may have identical table names in the same Region if the
+tables are in separate databases. While creating the table, you must specify the table
+name, database name, and the retention properties. Service quotas apply. See code sample
+for details.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
@@ -63,6 +62,8 @@ Management in the Timestream Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MagneticStoreWriteProperties"`: Contains properties to set on the table when enabling
+  magnetic store writes.
 - `"RetentionProperties"`: The duration for which your time series data must be stored in
   the memory store and the magnetic store.
 - `"Tags"`:  A list of key-value pairs to label the table.
@@ -102,10 +103,11 @@ end
     delete_database(database_name, params::Dict{String,<:Any})
 
 Deletes a given Timestream database. This is an irreversible operation. After a database is
-deleted, the time series data from its tables cannot be recovered.  All tables in the
+deleted, the time series data from its tables cannot be recovered.   All tables in the
 database must be deleted first, or a ValidationException error will be thrown.  Due to the
 nature of distributed retries, the operation can return either success or a
-ResourceNotFoundException. Clients should consider them equivalent.
+ResourceNotFoundException. Clients should consider them equivalent.  See code sample for
+details.
 
 # Arguments
 - `database_name`: The name of the Timestream database to be deleted.
@@ -141,7 +143,8 @@ end
 Deletes a given Timestream table. This is an irreversible operation. After a Timestream
 database table is deleted, the time series data stored in the table cannot be recovered.
 Due to the nature of distributed retries, the operation can return either success or a
-ResourceNotFoundException. Clients should consider them equivalent.
+ResourceNotFoundException. Clients should consider them equivalent.  See code sample for
+details.
 
 # Arguments
 - `database_name`: The name of the database where the Timestream database is to be deleted.
@@ -184,7 +187,7 @@ end
 
 Returns information about the database, including the database name, time that the database
 was created, and the total number of tables found within the database. Service quotas
-apply. For more information, see Access Management in the Timestream Developer Guide.
+apply. See code sample for details.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
@@ -218,13 +221,13 @@ end
     describe_endpoints(params::Dict{String,<:Any})
 
 DescribeEndpoints returns a list of available endpoints to make Timestream API calls
-against. This API is available through both Write and Query. Because Timestream’s SDKs
+against. This API is available through both Write and Query. Because the Timestream SDKs
 are designed to transparently work with the service’s architecture, including the
 management and mapping of the service endpoints, it is not recommended that you use this
-API unless:   Your application uses a programming language that does not yet have SDK
-support   You require better control over the client-side implementation   For detailed
-information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern and REST
-APIs.
+API unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream
+   Your application uses a programming language that does not yet have SDK support   You
+require better control over the client-side implementation   For detailed information on
+how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -245,8 +248,8 @@ end
     describe_table(database_name, table_name, params::Dict{String,<:Any})
 
 Returns information about the table, including the table name, database name, retention
-duration of the memory store and the magnetic store. Service quotas apply. For more
-information, see Access Management in the Timestream Developer Guide.
+duration of the memory store and the magnetic store. Service quotas apply. See code sample
+for details.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
@@ -287,8 +290,8 @@ end
     list_databases()
     list_databases(params::Dict{String,<:Any})
 
-Returns a list of your Timestream databases. Service quotas apply. For more information,
-see Access Management in the Timestream Developer Guide.
+Returns a list of your Timestream databases. Service quotas apply. See code sample for
+details.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -315,7 +318,8 @@ end
     list_tables()
     list_tables(params::Dict{String,<:Any})
 
-A list of tables, along with the name, status and retention properties of each table.
+A list of tables, along with the name, status and retention properties of each table. See
+code sample for details.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -466,7 +470,8 @@ end
 
  Modifies the KMS key for an existing database. While updating the database, you must
 specify the database name and the identifier of the new KMS key to be used (KmsKeyId). If
-there are any concurrent UpdateDatabase requests, first writer wins.
+there are any concurrent UpdateDatabase requests, first writer wins.  See code sample for
+details.
 
 # Arguments
 - `database_name`:  The name of the database.
@@ -510,43 +515,40 @@ function update_database(
 end
 
 """
-    update_table(database_name, retention_properties, table_name)
-    update_table(database_name, retention_properties, table_name, params::Dict{String,<:Any})
+    update_table(database_name, table_name)
+    update_table(database_name, table_name, params::Dict{String,<:Any})
 
 Modifies the retention duration of the memory store and magnetic store for your Timestream
 table. Note that the change in retention duration takes effect immediately. For example, if
 the retention period of the memory store was initially set to 2 hours and then changed to
 24 hours, the memory store will be capable of holding 24 hours of data, but will be
 populated with 24 hours of data 22 hours after this change was made. Timestream does not
-retrieve data from the magnetic store to populate the memory store.  Service quotas apply.
-For more information, see Access Management in the Timestream Developer Guide.
+retrieve data from the magnetic store to populate the memory store.  See code sample for
+details.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
-- `retention_properties`: The retention duration of the memory store and the magnetic store.
-- `table_name`: The name of the Timesream table.
+- `table_name`: The name of the Timestream table.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MagneticStoreWriteProperties"`: Contains properties to set on the table when enabling
+  magnetic store writes.
+- `"RetentionProperties"`: The retention duration of the memory store and the magnetic
+  store.
 """
 function update_table(
-    DatabaseName,
-    RetentionProperties,
-    TableName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return timestream_write(
         "UpdateTable",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "RetentionProperties" => RetentionProperties,
-            "TableName" => TableName,
-        );
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_table(
     DatabaseName,
-    RetentionProperties,
     TableName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -556,11 +558,7 @@ function update_table(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DatabaseName" => DatabaseName,
-                    "RetentionProperties" => RetentionProperties,
-                    "TableName" => TableName,
-                ),
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
                 params,
             ),
         );
@@ -582,21 +580,41 @@ consistency read semantics. This means that when you query data immediately afte
 batch of data into Timestream, the query results might not reflect the results of a
 recently completed write operation. The results may also include some stale data. If you
 repeat the query request after a short time, the results should return the latest data.
-Service quotas apply. For more information, see Access Management in the Timestream
-Developer Guide.
+Service quotas apply.  See code sample for details.  Upserts  You can use the Version
+parameter in a WriteRecords request to update data points. Timestream tracks a version
+number with each record. Version defaults to 1 when not specified for the record in the
+request. Timestream will update an existing record’s measure value along with its Version
+upon receiving a write request with a higher Version number for that record. Upon receiving
+an update request where the measure value is the same as that of the existing record,
+Timestream still updates Version, if it is greater than the existing value of Version. You
+can update a data point as many times as desired, as long as the value of Version
+continuously increases.   For example, suppose you write a new record without indicating
+Version in the request. Timestream will store this record, and set Version to 1. Now,
+suppose you try to update this record with a WriteRecords request of the same record with a
+different measure value but, like before, do not provide Version. In this case, Timestream
+will reject this update with a RejectedRecordsException since the updated record’s
+version is not greater than the existing value of Version. However, if you were to resend
+the update request with Version set to 2, Timestream would then succeed in updating the
+record’s value, and the Version would be set to 2. Next, suppose you sent a WriteRecords
+request with this same record and an identical measure value, but with Version set to 3. In
+this case, Timestream would only update Version to 3. Any further updates would need to
+send a version number greater than 3, or the update requests would receive a
+RejectedRecordsException.
 
 # Arguments
 - `database_name`: The name of the Timestream database.
-- `records`: An array of records containing the unique dimension and measure attributes for
-  each time series data point.
-- `table_name`: The name of the Timesream table.
+- `records`: An array of records containing the unique measure, dimension, time, and
+  version attributes for each time series data point.
+- `table_name`: The name of the Timestream table.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommonAttributes"`: A record containing the common measure and dimension attributes
-  shared across all the records in the request. The measure and dimension attributes
-  specified in here will be merged with the measure and dimension attributes in the records
-  object when the data is written into Timestream.
+- `"CommonAttributes"`: A record containing the common measure, dimension, time, and
+  version attributes shared across all the records in the request. The measure and dimension
+  attributes specified will be merged with the measure and dimension attributes in the
+  records object when the data is written into Timestream. Dimensions may not overlap, or a
+  ValidationException will be thrown. In other words, a record must contain dimensions with
+  unique names.
 """
 function write_records(
     DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()

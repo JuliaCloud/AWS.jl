@@ -120,9 +120,9 @@ these five node jobs have been created.
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 - `resources`: The resources associated with the cluster job. These resources include
-  Amazon S3 buckets and optional AWS Lambda functions written in the Python language.
+  Amazon S3 buckets and optional Lambda functions written in the Python language.
 - `role_arn`: The RoleARN that you want to associate with this cluster. RoleArn values are
-  created by using the CreateRole API action in AWS Identity and Access Management (IAM).
+  created by using the CreateRole API action in Identity and Access Management (IAM).
 - `shipping_option`: The shipping speed for each node in this cluster. This speed doesn't
   dictate how soon you'll get each Snowball Edge device, rather it represents how quickly
   each device moves to its destination while in transit. Regional shipping speeds are as
@@ -138,9 +138,9 @@ these five node jobs have been created.
   In addition, most countries in the EU have access to standard shipping, which typically
   takes less than a week, one way.   In India, Snow devices are delivered in one to seven
   days.   In the US, you have access to one-day shipping and two-day shipping.
-- `snowball_type`: The type of AWS Snow Family device to use for this cluster.   For
-  cluster jobs, AWS Snow Family currently supports only the EDGE device type.  For more
-  information, see
+- `snowball_type`: The type of Snow Family Devices to use for this cluster.   For cluster
+  jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  For
+  more information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
@@ -153,18 +153,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForwardingAddressId"`: The forwarding address ID for a cluster. This field is not
   supported in most regions.
 - `"KmsKeyARN"`: The KmsKeyARN value that you want to associate with this cluster.
-  KmsKeyARN values are created by using the CreateKey API action in AWS Key Management
-  Service (AWS KMS).
+  KmsKeyARN values are created by using the CreateKey API action in Key Management Service
+  (KMS).
 - `"Notification"`: The Amazon Simple Notification Service (Amazon SNS) notification
   settings for this cluster.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
-  device that your transferred data will be exported from or imported into. AWS Snow Family
-  supports Amazon S3 and NFS (Network File System).
+  device that your transferred data will be exported from or imported into. Amazon Web
+  Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
 - `"RemoteManagement"`: Allows you to securely operate and manage Snow devices in a cluster
   remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
   management will automatically be available when the device arrives at your location.
   Otherwise, you need to use the Snowball Client to manage the device.
-- `"TaxDocuments"`: The tax documents required in your AWS Region.
+- `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
 function create_cluster(
     AddressId,
@@ -225,23 +225,24 @@ end
     create_job(params::Dict{String,<:Any})
 
 Creates a job to import or export data between Amazon S3 and your on-premises data center.
-Your AWS account must have the right trust policies and permissions in place to create a
-job for a Snow device. If you're creating a job for a node in a cluster, you only need to
-provide the clusterId value; the other job attributes are inherited from the cluster.
-Only the Snowball; Edge device type is supported when ordering clustered jobs. The device
-capacity is optional. Availability of device types differ by AWS Region. For more
-information about Region availability, see AWS Regional Services.    AWS Snow Family device
-types and their capacities.    Snow Family device type: SNC1_SSD    Capacity: T14
-Description: Snowcone       Snow Family device type: SNC1_HDD    Capacity: T8
-Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball
-Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42
-Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity:
-T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE
-Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device
-type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is
-only available in the Ningxia, Beijing, and Singapore AWS Regions.        Device type:
-STANDARD    Capacity: T80   Description: Original Snowball device  This device is only
-available in the Ningxia, Beijing, and Singapore AWS Regions.
+Your Amazon Web Services account must have the right trust policies and permissions in
+place to create a job for a Snow device. If you're creating a job for a node in a cluster,
+you only need to provide the clusterId value; the other job attributes are inherited from
+the cluster.   Only the Snowball; Edge device type is supported when ordering clustered
+jobs. The device capacity is optional. Availability of device types differ by Amazon Web
+Services Region. For more information about Region availability, see Amazon Web Services
+Regional Services.    Snow Family Devices and their capacities.    Snow Family device type:
+SNC1_SSD    Capacity: T14   Description: Snowcone       Snow Family device type: SNC1_HDD
+ Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98
+Description: Snowball Edge Storage Optimized for data transfer only       Device type:
+EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU
+Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without
+GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized
+with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original
+Snowball device  This device is only available in the Ningxia, Beijing, and Singapore
+Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description:
+Original Snowball device  This device is only available in the Ningxia, Beijing, and
+Singapore Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -251,8 +252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 - `"Description"`: Defines an optional description of this specific job, for example
   Important Photos 2016-08-11.
-- `"DeviceConfiguration"`: Defines the device configuration for an AWS Snowcone job. For
-  more information, see
+- `"DeviceConfiguration"`: Defines the device configuration for an Snowcone job. For more
+  information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
@@ -261,13 +262,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in most Regions.
 - `"JobType"`: Defines the type of job that you're creating.
 - `"KmsKeyARN"`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
-  created using the CreateKey AWS Key Management Service (KMS) API action.
+  created using the CreateKey Key Management Service (KMS) API action.
 - `"LongTermPricingId"`: The ID of the long-term pricing type for the device.
 - `"Notification"`: Defines the Amazon Simple Notification Service (Amazon SNS)
   notification settings for this job.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
-  device that your transferred data will be exported from or imported into. AWS Snow Family
-  supports Amazon S3 and NFS (Network File System).
+  device that your transferred data will be exported from or imported into. Amazon Web
+  Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
+  Services Storage Gateway service Tape Gateway type.
 - `"RemoteManagement"`: Allows you to securely operate and manage Snowcone devices remotely
   from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management
   will automatically be available when the device arrives at your location. Otherwise, you
@@ -279,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you define the length of the range by providing either an inclusive BeginMarker value, an
   inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
 - `"RoleARN"`: The RoleARN that you want to associate with this job. RoleArns are created
-  using the CreateRole AWS Identity and Access Management (IAM) API action.
+  using the CreateRole Identity and Access Management (IAM) API action.
 - `"ShippingOption"`: The shipping speed for this job. This speed doesn't dictate how soon
   you'll get the Snow device, rather it represents how quickly the Snow device moves to its
   destination while in transit. Regional shipping speeds are as follows:   In Australia, you
@@ -296,16 +298,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"SnowballType"`: The type of AWS Snow Family device to use for this job.   For cluster
-  jobs, AWS Snow Family currently supports only the EDGE device type.  The type of AWS Snow
-  device to use for this job. Currently, the only supported device type for cluster jobs is
-  EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer
-  Guide. For more information, see
+- `"SnowballType"`: The type of Snow Family Devices to use for this job.   For cluster
+  jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The
+  type of Amazon Web Services Snow device to use for this job. Currently, the only supported
+  device type for cluster jobs is EDGE. For more information, see Snowball Edge Device
+  Options in the Snowball Edge Developer Guide. For more information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"TaxDocuments"`: The tax documents required in your AWS Region.
+- `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
 function create_job(; aws_config::AbstractAWSConfig=global_aws_config())
     return snowball("CreateJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -323,8 +325,8 @@ end
     create_long_term_pricing(long_term_pricing_type, params::Dict{String,<:Any})
 
 Creates a job with the long-term usage option for a device. The long-term usage is a 1-year
-or 3-year long-term pricing type for the device. You are billed upfront, and AWS provides
-discounts for long-term pricing.
+or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web
+Services provides discounts for long-term pricing.
 
 # Arguments
 - `long_term_pricing_type`: The type of long-term pricing option you want for the device,
@@ -334,7 +336,7 @@ discounts for long-term pricing.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
   the device should be renewed.
-- `"SnowballType"`: The type of AWS Snow Family device to use for the long-term pricing job.
+- `"SnowballType"`: The type of Snow Family Devices to use for the long-term pricing job.
 """
 function create_long_term_pricing(
     LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -369,7 +371,7 @@ end
     create_return_shipping_label(job_id)
     create_return_shipping_label(job_id, params::Dict{String,<:Any})
 
-Creates a shipping label that will be used to return the Snow device to AWS.
+Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
 
 # Arguments
 - `job_id`: The ID for a job that you want to create the return shipping label for; for
@@ -378,8 +380,8 @@ Creates a shipping label that will be used to return the Snow device to AWS.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ShippingOption"`: The shipping speed for a particular job. This speed doesn't dictate
-  how soon the device is returned to AWS. This speed represents how quickly it moves to its
-  destination while in transit. Regional shipping speeds are as follows:
+  how soon the device is returned to Amazon Web Services. This speed represents how quickly
+  it moves to its destination while in transit. Regional shipping speeds are as follows:
 """
 function create_return_shipping_label(
     JobId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -533,7 +535,8 @@ end
     describe_return_shipping_label(job_id)
     describe_return_shipping_label(job_id, params::Dict{String,<:Any})
 
-Information on the shipping label of a Snow device that is being returned to AWS.
+Information on the shipping label of a Snow device that is being returned to Amazon Web
+Services.
 
 # Arguments
 - `job_id`: The automatically generated ID for a job, for example
@@ -646,7 +649,7 @@ end
 Returns information about the Snow Family service limit for your account, and also the
 number of Snow devices your account has in use. The default service limit for the number of
 Snow devices that you can have at one time is 1. If you want to increase your service
-limit, contact AWS Support.
+limit, contact Amazon Web Services Support.
 
 """
 function get_snowball_usage(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -764,9 +767,10 @@ end
     list_compatible_images(params::Dict{String,<:Any})
 
 This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that
-are owned by your AWS account that would be supported for use on a Snow device. Currently,
-supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04
-LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
+are owned by your Amazon Web Services accountthat would be supported for use on a Snow
+device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM,
+Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the
+Amazon Web Services Marketplace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -868,12 +872,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field is not supported in most regions.
 - `"Notification"`: The new or updated Notification object.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
-  device that your transferred data will be exported from or imported into. AWS Snow Family
-  supports Amazon S3 and NFS (Network File System).
+  device that your transferred data will be exported from or imported into. Amazon Web
+  Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
 - `"Resources"`: The updated arrays of JobResource objects that can include updated
   S3Resource objects or LambdaResource objects.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
-  cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access
+  cluster. To create a role ARN, use the CreateRole API action in Identity and Access
   Management (IAM).
 - `"ShippingOption"`: The updated shipping option value of this cluster's ShippingDetails
   object.
@@ -921,11 +925,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not supported in most regions.
 - `"Notification"`: The new or updated Notification object.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
-  device that your transferred data will be exported from or imported into. AWS Snow Family
-  supports Amazon S3 and NFS (Network File System).
+  device that your transferred data will be exported from or imported into. Amazon Web
+  Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
+  Services Storage Gateway service Tape Gateway type.
 - `"Resources"`: The updated JobResource object, or the updated JobResource object.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
-  job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API
+  job. To create a role ARN, use the CreateRoleIdentity and Access Management (IAM) API
   action.
 - `"ShippingOption"`: The updated shipping option value of this job's ShippingDetails
   object.
@@ -967,7 +972,7 @@ Updates the state when a shipment state changes to a different state.
   JID123e4567-e89b-12d3-a456-426655440000.
 - `shipment_state`: The state of a device when it is being shipped.  Set to RECEIVED when
   the device arrives at your location. Set to RETURNED when you have returned the device to
-  AWS.
+  Amazon Web Services.
 
 """
 function update_job_shipment_state(

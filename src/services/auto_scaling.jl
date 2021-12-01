@@ -64,9 +64,10 @@ the application layer (layer 7) and supports HTTP and HTTPS.     Network Load Ba
 Operates at the transport layer (layer 4) and supports TCP, TLS, and UDP.     Gateway Load
 Balancer - Operates at the network layer (layer 3).   To describe the target groups for an
 Auto Scaling group, call the DescribeLoadBalancerTargetGroups API. To detach the target
-group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. For more
-information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto
-Scaling User Guide.
+group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. This
+operation is additive and does not detach existing target groups or Classic Load Balancers
+from the Auto Scaling group. For more information, see Elastic Load Balancing and Amazon
+EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -120,8 +121,10 @@ use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or m
 Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the
 running instances with these Classic Load Balancers. To describe the load balancers for an
 Auto Scaling group, call the DescribeLoadBalancers API. To detach the load balancer from
-the Auto Scaling group, call the DetachLoadBalancers API. For more information, see Elastic
-Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and
+does not detach existing Classic Load Balancers or target groups from the Auto Scaling
+group. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -316,15 +319,16 @@ end
 
 Completes the lifecycle action for the specified token or instance with the specified
 result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
-group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to
+group:   (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to
 invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
  (Optional) Create a notification target and an IAM role. The target can be either an
 Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
 lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the
 hook is used when the instances launch or terminate.   If you need more time, record the
 lifecycle action heartbeat to keep the instance in a pending state.    If you finish before
-the timeout period ends, complete the lifecycle action.    For more information, see Amazon
-EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide.
+the timeout period ends, send a callback by using the CompleteLifecycleAction API call.
+For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto
+Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -440,10 +444,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, Amazon EC2 Auto Scaling specifies units, which translates into number of
   instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
-  waits before checking the health status of an EC2 instance that has come into service.
-  During this time, any health check failures for the instance are ignored. The default value
-  is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling
-  User Guide. Conditional: Required if you are adding an ELB health check.
+  waits before checking the health status of an EC2 instance that has come into service and
+  marking it unhealthy due to a failed health check. The default value is 0. For more
+  information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide.
+  Conditional: Required if you are adding an ELB health check.
 - `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
   (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health
   checks, it considers the instance unhealthy if it fails either the EC2 status checks or the
@@ -477,8 +481,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon EC2 Auto Scaling User Guide.
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
-  about preventing instances from terminating on scale in, see Instance scale-in protection
-  in the Amazon EC2 Auto Scaling User Guide.
+  about preventing instances from terminating on scale in, see Using instance scale-in
+  protection in the Amazon EC2 Auto Scaling User Guide.
 - `"PlacementGroup"`: The name of an existing placement group into which to launch your
   instances, if any. A placement group is a logical grouping of instances within a single
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.
@@ -862,8 +866,7 @@ Deletes the specified notification.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
-- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
-  (Amazon SNS) topic.
+- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic.
 
 """
 function delete_notification_configuration(
@@ -2312,23 +2315,23 @@ end
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Creates or updates a lifecycle hook for the specified Auto Scaling group. A lifecycle hook
-tells Amazon EC2 Auto Scaling to perform an action on an instance when the instance
-launches (before it is put into service) or as the instance terminates (before it is fully
-terminated). This step is a part of the procedure for adding a lifecycle hook to an Auto
-Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch
-Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates
-instances.   (Optional) Create a notification target and an IAM role. The target can be
-either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
-to publish lifecycle notifications to the target.    Create the lifecycle hook. Specify
-whether the hook is used when the instances launch or terminate.    If you need more time,
-record the lifecycle action heartbeat to keep the instance in a pending state using the
+enables an Auto Scaling group to be aware of events in the Auto Scaling instance lifecycle,
+and then perform a custom action when the corresponding lifecycle event occurs. This step
+is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:
+(Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke
+your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
+(Optional) Create a notification target and an IAM role. The target can be either an Amazon
+SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
+lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the
+hook is used when the instances launch or terminate.    If you need more time, record the
+lifecycle action heartbeat to keep the instance in a pending state using the
 RecordLifecycleActionHeartbeat API call.   If you finish before the timeout period ends,
-complete the lifecycle action using the CompleteLifecycleAction API call.   For more
-information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling
-User Guide. If you exceed your maximum limit of lifecycle hooks, which by default is 50 per
-Auto Scaling group, the call fails. You can view the lifecycle hooks for an Auto Scaling
-group using the DescribeLifecycleHooks API call. If you are no longer using a lifecycle
-hook, you can delete it by calling the DeleteLifecycleHook API.
+send a callback by using the CompleteLifecycleAction API call.   For more information, see
+Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide. If you
+exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling
+group, the call fails. You can view the lifecycle hooks for an Auto Scaling group using the
+DescribeLifecycleHooks API call. If you are no longer using a lifecycle hook, you can
+delete it by calling the DeleteLifecycleHook API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2416,8 +2419,7 @@ which is 10 per Auto Scaling group, the call fails.
 - `notification_types`: The type of event that causes the notification to be sent. To query
   the notification types supported by Amazon EC2 Auto Scaling, call the
   DescribeAutoScalingNotificationTypes API.
-- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
-  (Amazon SNS) topic.
+- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic.
 
 """
 function put_notification_configuration(
@@ -2515,8 +2517,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyType"`: One of the following policy types:     TargetTrackingScaling
   StepScaling     SimpleScaling (default)    PredictiveScaling
 - `"PredictiveScalingConfiguration"`: A predictive scaling policy. Provides support for
-  only predefined metrics. Predictive scaling works with CPU utilization, network in/out, and
-  the Application Load Balancer request count. For more information, see
+  predefined and custom metrics. Predefined metrics include CPU utilization, network in/out,
+  and the Application Load Balancer request count. For more information, see
   PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if
   the policy type is PredictiveScaling.
 - `"ScalingAdjustment"`: The amount by which to scale, based on the specified adjustment
@@ -2527,7 +2529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the alarm breach. Required if the policy type is StepScaling. (Not used with any other
   policy type.)
 - `"TargetTrackingConfiguration"`: A target tracking scaling policy. Provides support for
-  predefined or customized metrics. The following predefined metrics are available:
+  predefined or custom metrics. The following predefined metrics are available:
   ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut
   ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you
   must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more
@@ -2721,16 +2723,16 @@ end
 Records a heartbeat for the lifecycle action associated with the specified token or
 instance. This extends the timeout by the length of time defined using the PutLifecycleHook
 API call. This step is a part of the procedure for adding a lifecycle hook to an Auto
-Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch
-Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates
-instances.   (Optional) Create a notification target and an IAM role. The target can be
-either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
-to publish lifecycle notifications to the target.   Create the lifecycle hook. Specify
-whether the hook is used when the instances launch or terminate.    If you need more time,
-record the lifecycle action heartbeat to keep the instance in a pending state.    If you
-finish before the timeout period ends, complete the lifecycle action.   For more
-information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling
-User Guide.
+Scaling group:   (Optional) Create a Lambda function and a rule that allows Amazon
+EventBridge to invoke your Lambda function when Amazon EC2 Auto Scaling launches or
+terminates instances.   (Optional) Create a notification target and an IAM role. The target
+can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto
+Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook.
+Specify whether the hook is used when the instances launch or terminate.    If you need
+more time, record the lifecycle action heartbeat to keep the instance in a pending state.
+ If you finish before the timeout period ends, send a callback by using the
+CompleteLifecycleAction API call.   For more information, see Amazon EC2 Auto Scaling
+lifecycle hooks in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2944,7 +2946,7 @@ end
 
 Updates the instance protection settings of the specified instances. This operation cannot
 be called on instances in a warm pool. For more information about preventing instances that
-are part of an Auto Scaling group from terminating on scale in, see Instance scale-in
+are part of an Auto Scaling group from terminating on scale in, see Using instance scale-in
 protection in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of
 instance IDs, which is 50 per Auto Scaling group, the call fails.
 
@@ -3232,9 +3234,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, Amazon EC2 Auto Scaling specifies units, which translates into number of
   instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
-  waits before checking the health status of an EC2 instance that has come into service. The
-  default value is 0. For more information, see Health check grace period in the Amazon EC2
-  Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
+  waits before checking the health status of an EC2 instance that has come into service and
+  marking it unhealthy due to a failed health check. The default value is 0. For more
+  information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide.
+  Conditional: Required if you are adding an ELB health check.
 - `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
   and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the
   instance unhealthy if it fails either the EC2 status checks or the load balancer health
@@ -3261,8 +3264,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon EC2 Auto Scaling User Guide.
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
-  about preventing instances from terminating on scale in, see Instance scale-in protection
-  in the Amazon EC2 Auto Scaling User Guide.
+  about preventing instances from terminating on scale in, see Using instance scale-in
+  protection in the Amazon EC2 Auto Scaling User Guide.
 - `"PlacementGroup"`: The name of an existing placement group into which to launch your
   instances, if any. A placement group is a logical grouping of instances within a single
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.

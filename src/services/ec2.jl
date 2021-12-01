@@ -1610,13 +1610,13 @@ end
 
 [VPC only] Adds the specified outbound (egress) rules to a security group for use with a
 VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
-address ranges, or to the instances that are associated with the specified destination
-security groups. You specify a protocol for each rule (for example, TCP). For the TCP and
-UDP protocols, you must also specify the destination port or port range. For the ICMP
-protocol, you must also specify the ICMP type and code. You can use -1 for the type or code
-to mean all types or all codes. Rule changes are propagated to affected instances as
-quickly as possible. However, a small delay might occur. For information about VPC security
-group quotas, see Amazon VPC quotas.
+address ranges, or to the instances that are associated with the specified source security
+groups. You specify a protocol for each rule (for example, TCP). For the TCP and UDP
+protocols, you must also specify the destination port or port range. For the ICMP protocol,
+you must also specify the ICMP type and code. You can use -1 for the type or code to mean
+all types or all codes. Rule changes are propagated to affected instances as quickly as
+possible. However, a small delay might occur. For information about VPC security group
+quotas, see Amazon VPC quotas.
 
 # Arguments
 - `group_id`: The ID of the security group.
@@ -4610,7 +4610,7 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: The ID of the carrier gateway. You can only use this option when
   the VPC contains a subnet which is associated with a Wavelength Zone.
-- `"CoreNetworkArn"`:
+- `"CoreNetworkArn"`: The Amazon Resource Name (ARN) of the core network.
 - `"DestinationPrefixListId"`: The ID of a prefix list used for the destination match.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"TransitGatewayId"`: The ID of a transit gateway.
@@ -7972,7 +7972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key regardless of its value. If you specify a tag key with an empty string as the tag
   value, we delete the tag only if its value is an empty string. If you omit this parameter,
   we delete all user-defined tags for the specified resources. We do not delete Amazon Web
-  Services-generated tags (tags that have the aws: prefix).
+  Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
 """
 function delete_tags(resourceId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -13250,6 +13250,41 @@ function describe_snapshot_attribute(
 end
 
 """
+    describe_snapshot_tier_status()
+    describe_snapshot_tier_status(params::Dict{String,<:Any})
+
+Describes the storage tier status of one or more Amazon EBS snapshots.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: The filters.    snapshot-id - The snapshot ID.    volume-id - The ID of the
+  volume the snapshot is for.    last-tiering-operation - The state of the last archive or
+  restore action. (archiving | archival_error | archival_complete | restoring | restore_error
+  | restore_complete)
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_snapshot_tier_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeSnapshotTierStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_snapshots()
     describe_snapshots(params::Dict{String,<:Any})
 
@@ -13294,14 +13329,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner. We recommend that you use the related parameter instead of this filter.    progress
   - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The
   snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status -
-  The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The
-  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
-  and the tag value as the filter value. For example, to find all resources that have a tag
-  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
-  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
-  to find all resources assigned a tag with a specific key, regardless of the tag value.
-  volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the
-  volume, in GiB.
+  The status of the snapshot (pending | completed | error).    storage-tier - The storage
+  tier of the snapshot (archive | standard).    tag:&lt;key&gt; - The key/value combination
+  of a tag assigned to the resource. Use the tag key in the filter name and the tag value as
+  the filter value. For example, to find all resources that have a tag with the key Owner and
+  the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of
+  the volume the snapshot is for.    volume-size - The size of the volume, in GiB.
 - `"MaxResults"`: The maximum number of snapshot results returned by DescribeSnapshots in
   paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults
   results in a single page along with a NextToken response element. The remaining results of
@@ -18531,6 +18566,39 @@ function import_volume(
 end
 
 """
+    list_snapshots_in_recycle_bin()
+    list_snapshots_in_recycle_bin(params::Dict{String,<:Any})
+
+Lists one or more snapshots that are currently in the Recycle Bin.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+- `"SnapshotId"`: The IDs of the snapshots to list. Omit this parameter to list all of the
+  snapshots that are in the Recycle Bin.
+"""
+function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_snapshots_in_recycle_bin(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ListSnapshotsInRecycleBin",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_address_attribute(allocation_id)
     modify_address_attribute(allocation_id, params::Dict{String,<:Any})
 
@@ -20079,6 +20147,49 @@ function modify_snapshot_attribute(
 end
 
 """
+    modify_snapshot_tier(snapshot_id)
+    modify_snapshot_tier(snapshot_id, params::Dict{String,<:Any})
+
+Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full
+snapshot that includes all of the blocks of data that were written to the volume at the
+time the snapshot was created, and moved from the standard tier to the archive tier. For
+more information, see Archive Amazon EBS snapshots in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"StorageTier"`: The name of the storage tier. You must specify archive.
+"""
+function modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ModifySnapshotTier",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifySnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_spot_fleet_request(spot_fleet_request_id)
     modify_spot_fleet_request(spot_fleet_request_id, params::Dict{String,<:Any})
 
@@ -20150,7 +20261,12 @@ end
     modify_subnet_attribute(subnet_id)
     modify_subnet_attribute(subnet_id, params::Dict{String,<:Any})
 
-Modifies a subnet attribute. You can only modify one attribute at a time.
+Modifies a subnet attribute. You can only modify one attribute at a time. Use this action
+to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack,
+set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as
+a single attribute.   To modify a subnet on an Outpost server, set either
+EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.   For more information about Amazon Web
+Services Outposts, see the following:    Outpost servers     Outpost racks
 
 # Arguments
 - `subnet_id`: The ID of the subnet.
@@ -20165,8 +20281,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2016-11-15 or later of the Amazon EC2 API.
 - `"CustomerOwnedIpv4Pool"`: The customer-owned IPv4 address pool associated with the
   subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
+- `"DisableLniAtDeviceIndex"`:  Specify true to indicate that local network interfaces at
+  the current position should be disabled.
 - `"EnableDns64"`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver
   in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
+- `"EnableLniAtDeviceIndex"`:  Indicates the device position for local network interfaces
+  in this subnet. For example, 1 indicates local network interfaces in this subnet are the
+  secondary network interface (eth1). A local network interface cannot be the primary network
+  interface (eth0).
 - `"EnableResourceNameDnsAAAARecordOnLaunch"`: Indicates whether to respond to DNS queries
   for instance hostnames with DNS AAAA records.
 - `"EnableResourceNameDnsARecordOnLaunch"`: Indicates whether to respond to DNS queries for
@@ -22332,7 +22454,7 @@ For more information, see Route tables in the Amazon Virtual Private Cloud User 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: [IPv4 traffic only] The ID of a carrier gateway.
-- `"CoreNetworkArn"`:
+- `"CoreNetworkArn"`: The Amazon Resource Name (ARN) of the core network.
 - `"DestinationPrefixListId"`: The ID of the prefix list for the route.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"LocalTarget"`: Specifies whether to reset the local route to its default target (local).
@@ -23094,6 +23216,98 @@ function restore_managed_prefix_list_version(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_snapshot_from_recycle_bin(snapshot_id)
+    restore_snapshot_from_recycle_bin(snapshot_id, params::Dict{String,<:Any})
+
+Restores a snapshot from the Recycle Bin. For more information, see Restore snapshots from
+the Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function restore_snapshot_from_recycle_bin(
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "RestoreSnapshotFromRecycleBin",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_snapshot_from_recycle_bin(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotFromRecycleBin",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_snapshot_tier(snapshot_id)
+    restore_snapshot_tier(snapshot_id, params::Dict{String,<:Any})
+
+Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies
+the restore period or restore type for a snapshot that was previously temporarily restored.
+For more information see  Restore an archived snapshot and  modify the restore period or
+restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"PermanentRestore"`: Indicates whether to permanently restore an archived snapshot. To
+  permanently restore an archived snapshot, specify true and omit the
+  RestoreSnapshotTierRequestTemporaryRestoreDays parameter.
+- `"TemporaryRestoreDays"`: Specifies the number of days for which to temporarily restore
+  an archived snapshot. Required for temporary restores only. The snapshot will be
+  automatically re-archived after this period. To temporarily restore an archived snapshot,
+  specify the number of days and omit the PermanentRestore parameter or set it to false.
+"""
+function restore_snapshot_tier(
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "RestoreSnapshotTier",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
