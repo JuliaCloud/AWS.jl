@@ -166,7 +166,7 @@ try
                 @patch function HTTP.request(args...; response_stream, kwargs...)
                     attempt_num += 1
                     if attempt_num <= num_attempts_to_fail
-                        write(response_stream, data[1:n - 1]) # an incomplete stream that shouldn't be retained
+                        write(response_stream, data[1:(n - 1)]) # an incomplete stream that shouldn't be retained
                         throw(HTTP.IOError(EOFError(), "msg"))
                     else
                         write(response_stream, data)
@@ -177,11 +177,30 @@ try
                 @patch function Downloads.request(args...; output, kwargs...)
                     attempt_num += 1
                     if attempt_num <= num_attempts_to_fail
-                        write(output, data[1:n - 1]) # an incomplete stream that shouldn't be retained
-                        throw(Downloads.RequestError("", 18, "transfer closed with 1 bytes remaining to read", Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => string(n)])))
+                        write(output, data[1:(n - 1)]) # an incomplete stream that shouldn't be retained
+                        throw(
+                            Downloads.RequestError(
+                                "",
+                                18,
+                                "transfer closed with 1 bytes remaining to read",
+                                Downloads.Response(
+                                    "http",
+                                    "",
+                                    200,
+                                    "HTTP/1.1 200 OK",
+                                    ["content-length" => string(n)],
+                                ),
+                            ),
+                        )
                     else
                         write(output, data)
-                        return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => string(n)])
+                        return Downloads.Response(
+                            "http",
+                            "",
+                            200,
+                            "HTTP/1.1 200 OK",
+                            ["content-length" => string(n)],
+                        )
                     end
                 end
             end
@@ -196,16 +215,22 @@ try
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
-            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 2)) do
+            apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
                 resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
                 @test length(resp) == n
                 @test resp == data
             end
         end
         @testset "Fail all 4 attempts then throw" begin
-            apply(_incomplete_patch(; data = data, num_attempts_to_fail = 4)) do
-                err_t = AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend ? HTTP.IOError : Downloads.RequestError
-                @test_throws err_t S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+            apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
+                err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                    HTTP.IOError
+                else
+                    Downloads.RequestError
+                end
+                @test_throws err_t S3.get_object(
+                    "www.invenia.ca", "index.html"; aws_config=config
+                ) # use public bucket as dummy
             end
         end
     end

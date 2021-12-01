@@ -224,21 +224,28 @@ default, all objects are private. Only the owner has full access control. When a
 object, you can grant permissions to individual Amazon Web Services accounts or to
 predefined groups defined by Amazon S3. These permissions are then added to the ACL on the
 object. For more information, see Access Control List (ACL) Overview and Managing ACLs
-Using the REST API.   Storage Class Options  You can use the CopyObject action to change
-the storage class of an object that is already stored in Amazon S3 using the StorageClass
-parameter. For more information, see Storage Classes in the Amazon S3 User Guide.
-Versioning  By default, x-amz-copy-source identifies the current version of an object to
-copy. If the current version is a delete marker, Amazon S3 behaves as if the object was
-deleted. To copy a different version, use the versionId subresource. If you enable
-versioning on the target bucket, Amazon S3 generates a unique version ID for the object
-being copied. This version ID is different from the version ID of the source object. Amazon
-S3 returns the version ID of the copied object in the x-amz-version-id response header in
-the response. If you do not enable versioning or suspend it on the target bucket, the
-version ID that Amazon S3 generates is always null. If the source object's storage class is
-GLACIER, you must restore a copy of this object before you can use it as a source object
-for the copy operation. For more information, see RestoreObject. The following operations
-are related to CopyObject:    PutObject     GetObject    For more information, see Copying
-Objects.
+Using the REST API.  If the bucket that you're copying objects to uses the bucket owner
+enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
+permissions. Buckets that use this setting only accept PUT requests that don't specify an
+ACL or PUT requests that specify bucket owner full control ACLs, such as the
+bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML
+format. For more information, see  Controlling ownership of objects and disabling ACLs in
+the Amazon S3 User Guide.  If your bucket uses the bucket owner enforced setting for Object
+Ownership, all objects written to the bucket by any account will be owned by the bucket
+owner.   Storage Class Options  You can use the CopyObject action to change the storage
+class of an object that is already stored in Amazon S3 using the StorageClass parameter.
+For more information, see Storage Classes in the Amazon S3 User Guide.  Versioning  By
+default, x-amz-copy-source identifies the current version of an object to copy. If the
+current version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy
+a different version, use the versionId subresource. If you enable versioning on the target
+bucket, Amazon S3 generates a unique version ID for the object being copied. This version
+ID is different from the version ID of the source object. Amazon S3 returns the version ID
+of the copied object in the x-amz-version-id response header in the response. If you do not
+enable versioning or suspend it on the target bucket, the version ID that Amazon S3
+generates is always null. If the source object's storage class is GLACIER, you must restore
+a copy of this object before you can use it as a source object for the copy operation. For
+more information, see RestoreObject. The following operations are related to CopyObject:
+PutObject     GetObject    For more information, see Copying Objects.
 
 # Arguments
 - `bucket`: The name of the destination bucket. When using this action with an access
@@ -428,35 +435,44 @@ Region. Accordingly, the signature calculations in Signature Version 4 must use 
 as the Region, even if the location constraint in the request specifies another Region
 where the bucket is to be created. If you create a bucket in a Region other than US East
 (N. Virginia), your application must be able to handle 307 redirect. For more information,
-see Virtual hosting of buckets.  When creating a bucket using this operation, you can
-optionally specify the accounts or groups that should be granted specific permissions on
-the bucket. There are two ways to grant the appropriate permissions using the request
-headers.   Specify a canned ACL using the x-amz-acl request header. Amazon S3 supports a
-set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of
-grantees and permissions. For more information, see Canned ACL.   Specify access
-permissions explicitly using the x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp,
-x-amz-grant-write-acp, and x-amz-grant-full-control headers. These headers map to the set
-of permissions Amazon S3 supports in an ACL. For more information, see Access control list
-(ACL) overview. You specify each grantee as a type=value pair, where the type is one of the
-following:    id – if the value specified is the canonical user ID of an Amazon Web
-Services account    uri – if you are granting permissions to a predefined group
-emailAddress – if the value specified is the email address of an Amazon Web Services
-account  Using email addresses to specify a grantee is only supported in the following
-Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)    US West
-(Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)
-Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported
-Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General
-Reference.    For example, the following x-amz-grant-read header grants the Amazon Web
-Services accounts identified by account IDs permissions to read object data and its
-metadata:  x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use
-either a canned ACL or specify access permissions explicitly. You cannot do both.
-Permissions  If your CreateBucket request specifies ACL permissions and the ACL is
-public-read, public-read-write, authenticated-read, or if you specify access permissions
-explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl permissions are
-needed. If the ACL the CreateBucket request is private, only s3:CreateBucket permission is
-needed.  If ObjectLockEnabledForBucket is set to true in your CreateBucket request,
+see Virtual hosting of buckets.   Access control lists (ACLs)  When creating a bucket using
+this operation, you can optionally configure the bucket ACL to specify the accounts or
+groups that should be granted specific permissions on the bucket.  If your CreateBucket
+request includes the BucketOwnerEnforced value for the x-amz-object-ownership header, your
+request can either not specify an ACL or specify bucket owner full control ACLs, such as
+the bucket-owner-full-control canned ACL or an equivalent ACL expressed in the XML format.
+For more information, see Controlling object ownership in the Amazon S3 User Guide.  There
+are two ways to grant the appropriate permissions using the request headers.   Specify a
+canned ACL using the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
+known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For
+more information, see Canned ACL.   Specify access permissions explicitly using the
+x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp, and
+x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3
+supports in an ACL. For more information, see Access control list (ACL) overview. You
+specify each grantee as a type=value pair, where the type is one of the following:    id
+– if the value specified is the canonical user ID of an Amazon Web Services account
+uri – if you are granting permissions to a predefined group    emailAddress – if the
+value specified is the email address of an Amazon Web Services account  Using email
+addresses to specify a grantee is only supported in the following Amazon Web Services
+Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
+Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
+South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
+endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
+example, the following x-amz-grant-read header grants the Amazon Web Services accounts
+identified by account IDs permissions to read object data and its metadata:
+x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use either a canned
+ACL or specify access permissions explicitly. You cannot do both.   Permissions  In
+addition to s3:CreateBucket, the following permissions are required when your CreateBucket
+includes specific headers:    ACLs - If your CreateBucket request specifies ACL permissions
+and the ACL is public-read, public-read-write, authenticated-read, or if you specify access
+permissions explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl
+permissions are needed. If the ACL the CreateBucket request is private or doesn't specify
+any ACLs, only s3:CreateBucket permission is needed.     Object Lock - If
+ObjectLockEnabledForBucket is set to true in your CreateBucket request,
 s3:PutBucketObjectLockConfiguration and s3:PutBucketVersioning permissions are required.
-The following operations are related to CreateBucket:    PutObject     DeleteBucket
+S3 Object Ownership - If your CreateBucket request includes the the x-amz-object-ownership
+header, s3:PutBucketOwnershipControls permission is required.   The following operations
+are related to CreateBucket:    PutObject     DeleteBucket
 
 # Arguments
 - `bucket`: The name of the bucket to create.
@@ -475,6 +491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and object owners of existing objects, also allows deletions and overwrites of those
   objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
+- `"x-amz-object-ownership"`:
 """
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3("PUT", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -862,18 +879,18 @@ end
 Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to DeleteBucketIntelligentTieringConfiguration include:
-GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
-ListBucketIntelligentTieringConfigurations
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to DeleteBucketIntelligentTieringConfiguration
+include:     GetBucketIntelligentTieringConfiguration
+PutBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -1575,8 +1592,11 @@ end
 This implementation of the GET action uses the acl subresource to return the access control
 list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have READ_ACP
 access to the bucket. If READ_ACP permission is granted to the anonymous user, you can
-return the ACL of the bucket without using an authorization header.  Related Resources
-ListObjects
+return the ACL of the bucket without using an authorization header.  If your bucket uses
+the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still
+supported and return the bucket-owner-full-control ACL with the owner being the account
+that created the bucket. For more information, see  Controlling object ownership and
+disabling ACLs in the Amazon S3 User Guide.   Related Resources     ListObjects
 
 # Arguments
 - `bucket`: Specifies the S3 bucket whose ACL is being requested.
@@ -1743,18 +1763,18 @@ end
 Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to GetBucketIntelligentTieringConfiguration include:
-DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
- ListBucketIntelligentTieringConfigurations
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to GetBucketIntelligentTieringConfiguration include:
+  DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
+   ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -2144,7 +2164,7 @@ end
 
 Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have
 the s3:GetBucketOwnershipControls permission. For more information about Amazon S3
-permissions, see Specifying Permissions in a Policy.  For information about Amazon S3
+permissions, see Specifying permissions in a policy.  For information about Amazon S3
 Object Ownership, see Using Object Ownership.  The following operations are related to
 GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwnershipControls
 
@@ -2617,9 +2637,12 @@ end
 Returns the access control list (ACL) of an object. To use this operation, you must have
 READ_ACP access to the object. This action is not supported by Amazon S3 on Outposts.
 Versioning  By default, GET returns ACL information about the current version of an object.
-To return ACL information about a different version, use the versionId subresource. The
-following operations are related to GetObjectAcl:    GetObject     DeleteObject
-PutObject
+To return ACL information about a different version, use the versionId subresource.  If
+your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to
+read ACLs are still supported and return the bucket-owner-full-control ACL with the owner
+being the account that created the bucket. For more information, see  Controlling object
+ownership and disabling ACLs in the Amazon S3 User Guide.  The following operations are
+related to GetObjectAcl:    GetObject     DeleteObject     PutObject
 
 # Arguments
 - `bucket`: The bucket name that contains the object for which to get the ACL information.
@@ -3173,18 +3196,18 @@ end
 Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
 moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
-latency and high throughput access tiers. For data that can be accessed asynchronously, you
-can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
-storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
+latency and high throughput access tiers. To get the lowest storage cost on data that can
+be accessed in minutes to hours, you can choose to activate additional archiving
+capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
 with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to ListBucketIntelligentTieringConfigurations include:
-DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
- GetBucketIntelligentTieringConfiguration
+retention period. If the size of an object is less than 128 KB, it is not monitored and not
+eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
+the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
+information, see Storage class for automatically optimizing frequently and infrequently
+accessed objects. Operations related to ListBucketIntelligentTieringConfigurations include:
+    DeleteBucketIntelligentTieringConfiguration
+PutBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -3757,35 +3780,41 @@ Specify the ACL in the request body   Specify permissions using request headers 
 cannot specify access permission using both the body and the request headers.  Depending on
 your application needs, you may choose to set the ACL on a bucket using either the request
 body or the headers. For example, if you have an existing application that updates a bucket
-ACL using the request body, then you can continue to use that approach.  Access Permissions
- You can set access permissions using one of the following methods:   Specify a canned ACL
-with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as
-canned ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the
-canned ACL name as the value of x-amz-acl. If you use this header, you cannot use other
-access control-specific headers in your request. For more information, see Canned ACL.
-Specify access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
-x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you
-specify explicit access permissions and grantees (Amazon Web Services accounts or Amazon S3
-groups) who will receive the permission. If you use these ACL-specific headers, you cannot
-use the x-amz-acl header to set a canned ACL. These parameters map to the set of
-permissions that Amazon S3 supports in an ACL. For more information, see Access Control
-List (ACL) Overview. You specify each grantee as a type=value pair, where the type is one
-of the following:    id – if the value specified is the canonical user ID of an Amazon
-Web Services account    uri – if you are granting permissions to a predefined group
-emailAddress – if the value specified is the email address of an Amazon Web Services
-account  Using email addresses to specify a grantee is only supported in the following
-Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)    US West
-(Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)
-Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported
-Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General
-Reference.    For example, the following x-amz-grant-write header grants create, overwrite,
-and delete objects permission to LogDelivery group predefined by Amazon S3 and two Amazon
-Web Services accounts identified by their email addresses.  x-amz-grant-write:
-uri=\"http://acs.amazonaws.com/groups/s3/LogDelivery\", id=\"111122223333\",
-id=\"555566667777\"     You can use either a canned ACL or specify access permissions
-explicitly. You cannot do both.  Grantee Values  You can specify the person (grantee) to
-whom you're assigning access rights (using request elements) in the following ways:   By
-the person's ID:  &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+ACL using the request body, then you can continue to use that approach.  If your bucket
+uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no
+longer affect permissions. You must use policies to grant access to your bucket and the
+objects in it. Requests to set ACLs or update ACLs fail and return the
+AccessControlListNotSupported error code. Requests to read ACLs are still supported. For
+more information, see Controlling object ownership in the Amazon S3 User Guide.   Access
+Permissions  You can set access permissions using one of the following methods:   Specify a
+canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
+known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions.
+Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot
+use other access control-specific headers in your request. For more information, see Canned
+ACL.   Specify access permissions explicitly with the x-amz-grant-read,
+x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control headers. When
+using these headers, you specify explicit access permissions and grantees (Amazon Web
+Services accounts or Amazon S3 groups) who will receive the permission. If you use these
+ACL-specific headers, you cannot use the x-amz-acl header to set a canned ACL. These
+parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
+information, see Access Control List (ACL) Overview. You specify each grantee as a
+type=value pair, where the type is one of the following:    id – if the value specified
+is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+permissions to a predefined group    emailAddress – if the value specified is the email
+address of an Amazon Web Services account  Using email addresses to specify a grantee is
+only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
+West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific
+(Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a
+list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the
+Amazon Web Services General Reference.    For example, the following x-amz-grant-write
+header grants create, overwrite, and delete objects permission to LogDelivery group
+predefined by Amazon S3 and two Amazon Web Services accounts identified by their email
+addresses.  x-amz-grant-write: uri=\"http://acs.amazonaws.com/groups/s3/LogDelivery\",
+id=\"111122223333\", id=\"555566667777\"     You can use either a canned ACL or specify
+access permissions explicitly. You cannot do both.  Grantee Values  You can specify the
+person (grantee) to whom you're assigning access rights (using request elements) in the
+following ways:   By the person's ID:  &lt;Grantee
+xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
 and ignored in the request   By URI:  &lt;Grantee
@@ -4073,16 +4102,16 @@ Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can hav
 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage
 class is designed to optimize storage costs by automatically moving data to the most
 cost-effective storage access tier, without performance impact or operational overhead. S3
-Intelligent-Tiering delivers automatic cost savings in two low latency and high throughput
-access tiers. For data that can be accessed asynchronously, you can choose to activate
-automatic archiving capabilities within the S3 Intelligent-Tiering storage class. The S3
+Intelligent-Tiering delivers automatic cost savings in three low latency and high
+throughput access tiers. To get the lowest storage cost on data that can be accessed in
+minutes to hours, you can choose to activate additional archiving capabilities. The S3
 Intelligent-Tiering storage class is the ideal storage class for data with unknown,
 changing, or unpredictable access patterns, independent of object size or retention period.
-If the size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-objects can be stored, but they are always charged at the Frequent Access tier rates in the
-S3 Intelligent-Tiering storage class. For more information, see Storage class for
-automatically optimizing frequently and infrequently accessed objects. Operations related
-to PutBucketIntelligentTieringConfiguration include:
+If the size of an object is less than 128 KB, it is not monitored and not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
+Storage class for automatically optimizing frequently and infrequently accessed objects.
+Operations related to PutBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
  ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering
 enabled on a bucket if you want to automatically move objects stored in the S3
@@ -4354,10 +4383,13 @@ modify the logging parameters. All logs are saved to buckets in the same Amazon 
 Services Region as the source bucket. To set the logging status of a bucket, you must be
 the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You
 use the Grantee request element to grant access to other people. The Permissions request
-element specifies the kind of access the grantee has to the logs.  Grantee Values  You can
-specify the person (grantee) to whom you're assigning access rights (using request
-elements) in the following ways:   By the person's ID:  &lt;Grantee
-xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+element specifies the kind of access the grantee has to the logs.  If the target bucket for
+log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use
+the Grantee request element to grant access to others. Permissions can only be granted
+using policies. For more information, see Permissions for server access log delivery in the
+Amazon S3 User Guide.   Grantee Values  You can specify the person (grantee) to whom you're
+assigning access rights (using request elements) in the following ways:   By the person's
+ID:  &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
 and ignored in the request.   By Email address:   &lt;Grantee
@@ -4370,11 +4402,11 @@ xsi:type=\"Group\"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/
 dUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;    To enable logging, you use LoggingEnabled and
 its children request elements. To disable logging, you use an empty BucketLoggingStatus
 request element:  &lt;BucketLoggingStatus xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\"
-/&gt;  For more information about server access logging, see Server Access Logging.  For
-more information about creating a bucket, see CreateBucket. For more information about
-returning the logging status of a bucket, see GetBucketLogging. The following operations
-are related to PutBucketLogging:    PutObject     DeleteBucket     CreateBucket
-GetBucketLogging
+/&gt;  For more information about server access logging, see Server Access Logging in the
+Amazon S3 User Guide.  For more information about creating a bucket, see CreateBucket. For
+more information about returning the logging status of a bucket, see GetBucketLogging. The
+following operations are related to PutBucketLogging:    PutObject     DeleteBucket
+CreateBucket     GetBucketLogging
 
 # Arguments
 - `bucket`: The name of the bucket for which to set the logging parameters.
@@ -4580,6 +4612,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
+- `"x-amz-skip-destination-validation"`: Skips validation of Amazon SQS, Amazon SNS, and
+  Lambda destinations. True or false value.
 """
 function put_bucket_notification_configuration(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4619,15 +4653,15 @@ end
 
 Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you
 must have the s3:PutBucketOwnershipControls permission. For more information about Amazon
-S3 permissions, see Specifying Permissions in a Policy.  For information about Amazon S3
-Object Ownership, see Using Object Ownership.  The following operations are related to
+S3 permissions, see Specifying permissions in a policy.  For information about Amazon S3
+Object Ownership, see Using object ownership.  The following operations are related to
 PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwnershipControls
 
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to set.
-- `ownership_controls`: The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that
-  you want to apply to this Amazon S3 bucket.
+- `ownership_controls`: The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred,
+  or ObjectWriter) that you want to apply to this Amazon S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5111,18 +5145,28 @@ can use headers to grant ACL- based permissions. By default, all objects are pri
 the owner has full access control. When adding a new object, you can grant permissions to
 individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These
 permissions are then added to the ACL on the object. For more information, see Access
-Control List (ACL) Overview and Managing ACLs Using the REST API.   Storage Class Options
-By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
-STANDARD storage class provides high durability and high availability. Depending on
-performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only
-uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3
-User Guide.  Versioning  If you enable versioning for a bucket, Amazon S3 automatically
-generates a unique version ID for the object being stored. Amazon S3 returns this ID in the
-response. When you enable versioning for a bucket, if Amazon S3 receives multiple write
-requests for the same object simultaneously, it stores all of the objects. For more
-information about versioning, see Adding Objects to Versioning Enabled Buckets. For
-information about returning the versioning state of a bucket, see GetBucketVersioning.
-Related Resources     CopyObject     DeleteObject
+Control List (ACL) Overview and Managing ACLs Using the REST API.  If the bucket that
+you're uploading objects to uses the bucket owner enforced setting for S3 Object Ownership,
+ACLs are disabled and no longer affect permissions. Buckets that use this setting only
+accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner
+full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form
+of this ACL expressed in the XML format. PUT requests that contain other ACLs (for example,
+custom grants to certain Amazon Web Services accounts) fail and return a 400 error with the
+error code AccessControlListNotSupported. For more information, see  Controlling ownership
+of objects and disabling ACLs in the Amazon S3 User Guide.  If your bucket uses the bucket
+owner enforced setting for Object Ownership, all objects written to the bucket by any
+account will be owned by the bucket owner.   Storage Class Options  By default, Amazon S3
+uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class
+provides high durability and high availability. Depending on performance needs, you can
+specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage
+Class. For more information, see Storage Classes in the Amazon S3 User Guide.  Versioning
+If you enable versioning for a bucket, Amazon S3 automatically generates a unique version
+ID for the object being stored. Amazon S3 returns this ID in the response. When you enable
+versioning for a bucket, if Amazon S3 receives multiple write requests for the same object
+simultaneously, it stores all of the objects. For more information about versioning, see
+Adding Objects to Versioning Enabled Buckets. For information about returning the
+versioning state of a bucket, see GetBucketVersioning.   Related Resources     CopyObject
+  DeleteObject
 
 # Arguments
 - `bucket`: The bucket name to which the PUT action was initiated.  When using this action
@@ -5259,11 +5303,16 @@ Guide. This action is not supported by Amazon S3 on Outposts. Depending on your 
 needs, you can choose to set the ACL on an object using either the request body or the
 headers. For example, if you have an existing application that updates a bucket ACL using
 the request body, you can continue to use that approach. For more information, see Access
-Control List (ACL) Overview in the Amazon S3 User Guide.  Access Permissions  You can set
-access permissions using one of the following methods:   Specify a canned ACL with the
-x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
-ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned
-ACL name as the value of x-amz-acl. If you use this header, you cannot use other access
+Control List (ACL) Overview in the Amazon S3 User Guide.  If your bucket uses the bucket
+owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
+permissions. You must use policies to grant access to your bucket and the objects in it.
+Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error
+code. Requests to read ACLs are still supported. For more information, see Controlling
+object ownership in the Amazon S3 User Guide.   Access Permissions  You can set access
+permissions using one of the following methods:   Specify a canned ACL with the x-amz-acl
+request header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each
+canned ACL has a predefined set of grantees and permissions. Specify the canned ACL name as
+the value of x-amz-acl. If you use this header, you cannot use other access
 control-specific headers in your request. For more information, see Canned ACL.   Specify
 access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
 x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you

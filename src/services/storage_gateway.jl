@@ -42,7 +42,8 @@ gateway.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GatewayType"`: A value that defines the type of gateway to activate. The type specified
   is critical to all later functions of the gateway and cannot be changed after activation.
-  The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB|
+  The default value is CACHED. Valid Values: STORED | CACHED | VTL | VTL_SNOW | FILE_S3 |
+  FILE_FSX_SMB
 - `"MediumChangerType"`: The value that indicates the type of medium changer to use for
   tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL |
   IBM-03584L32-0402

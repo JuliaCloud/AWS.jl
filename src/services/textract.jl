@@ -74,11 +74,11 @@ end
     analyze_expense(document)
     analyze_expense(document, params::Dict{String,<:Any})
 
-Analyzes an input document for financially related relationships between text. Information
-is returned as ExpenseDocuments and seperated as follows.    LineItemGroups- A data set
-containing LineItems which store information about the lines of text, such as an item
-purchased and its price on a receipt.    SummaryFields- Contains all other information a
-receipt, such as header information or the vendors name.
+ AnalyzeExpense synchronously analyzes an input document for financially related
+relationships between text. Information is returned as ExpenseDocuments and seperated as
+follows.    LineItemGroups- A data set containing LineItems which store information about
+the lines of text, such as an item purchased and its price on a receipt.    SummaryFields-
+Contains all other information a receipt, such as header information or the vendors name.
 
 # Arguments
 - `document`:
@@ -101,6 +101,41 @@ function analyze_expense(
         "AnalyzeExpense",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Document" => Document), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    analyze_id(document_pages)
+    analyze_id(document_pages, params::Dict{String,<:Any})
+
+Analyzes identity documents for relevant information. This information is extracted and
+returned as IdentityDocumentFields, which records both the normalized field and value of
+the extracted text.
+
+# Arguments
+- `document_pages`: The document being passed to AnalyzeID.
+
+"""
+function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "AnalyzeID",
+        Dict{String,Any}("DocumentPages" => DocumentPages);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function analyze_id(
+    DocumentPages,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "AnalyzeID",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DocumentPages" => DocumentPages), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

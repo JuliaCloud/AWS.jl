@@ -184,6 +184,7 @@ BatchDeletePartition, to delete any resources that belong to the table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
 function batch_delete_table(
     DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1605,6 +1606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, the Amazon Web Services account ID is used by default.
 - `"PartitionIndexes"`: A list of partition indexes, PartitionIndex structures, to create
   in the table.
+- `"TransactionId"`: The ID of the transaction.
 """
 function create_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2495,6 +2497,7 @@ DeletePartition or BatchDeletePartition, to delete any resources that belong to 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
 function delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -3803,7 +3806,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of partitions to return in a single response.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   partitions.
+- `"QueryAsOfTime"`: The time as of when to read the partition contents. If not set, the
+  most recent transaction commit time will be used. Cannot be specified along with
+  TransactionId.
 - `"Segment"`: The segment of the table's partitions to scan in this request.
+- `"TransactionId"`: The transaction ID at which to read the partition contents.
 """
 function get_partitions(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4221,6 +4228,9 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `"TransactionId"`: The transaction ID at which to read the table contents.
 """
 function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -4366,6 +4376,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match the pattern are returned.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
+- `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `"TransactionId"`: The transaction ID at which to read the table contents.
 """
 function get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -6828,6 +6841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkipArchive"`: By default, UpdateTable always creates an archived version of the table
   before updating it. However, if skipArchive is set to true, UpdateTable does not create the
   archived version.
+- `"TransactionId"`: The transaction ID at which to update the table contents.
 """
 function update_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()

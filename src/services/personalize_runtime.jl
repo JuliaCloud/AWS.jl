@@ -76,20 +76,22 @@ function get_personalized_ranking(
 end
 
 """
-    get_recommendations(campaign_arn)
-    get_recommendations(campaign_arn, params::Dict{String,<:Any})
+    get_recommendations()
+    get_recommendations(params::Dict{String,<:Any})
 
-Returns a list of recommended items. The required input depends on the recipe type used to
-create the solution backing the campaign, as follows:   RELATED_ITEMS - itemId required,
-userId not used   USER_PERSONALIZATION - itemId optional, userId required    Campaigns that
-are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API.
-
-# Arguments
-- `campaign_arn`: The Amazon Resource Name (ARN) of the campaign to use for getting
-  recommendations.
+Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name
+(ARN) is required and the required user and item input depends on the recipe type used to
+create the solution backing the campaign as follows:   USER_PERSONALIZATION - userId
+required, itemId not used   RELATED_ITEMS - itemId required, userId not used    Campaigns
+that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the
+API.   For recommenders, the recommender's ARN is required and the required item and user
+input depends on the use case (domain-based recipe) backing the recommender. For
+information on use case requirements see Choosing recommender use cases.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"campaignArn"`: The Amazon Resource Name (ARN) of the campaign to use for getting
+  recommendations.
 - `"context"`: The contextual metadata to use when getting recommendations. Contextual
   metadata includes any interaction information that might be relevant when getting a user's
   recommendations, such as the user's current location or device type.
@@ -107,29 +109,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"itemId"`: The item ID to provide recommendations for. Required for RELATED_ITEMS recipe
   type.
 - `"numResults"`: The number of results to return. The default is 25. The maximum is 500.
+- `"recommenderArn"`: The Amazon Resource Name (ARN) of the recommender to use to get
+  recommendations. Provide a recommender ARN if you created a Domain dataset group with a
+  recommender for a domain use case.
 - `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
   recipe type.
 """
-function get_recommendations(campaignArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize_runtime(
-        "POST",
-        "/recommendations",
-        Dict{String,Any}("campaignArn" => campaignArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_recommendations(
-    campaignArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return personalize_runtime(
         "POST",
         "/recommendations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

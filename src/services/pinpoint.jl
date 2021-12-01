@@ -3648,6 +3648,55 @@ function send_messages(
 end
 
 """
+    send_otpmessage(send_otpmessage_request_parameters, application-id)
+    send_otpmessage(send_otpmessage_request_parameters, application-id, params::Dict{String,<:Any})
+
+Send an OTP message
+
+# Arguments
+- `send_otpmessage_request_parameters`:
+- `application-id`: The unique ID of your Amazon Pinpoint application.
+
+"""
+function send_otpmessage(
+    SendOTPMessageRequestParameters,
+    application_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "POST",
+        "/v1/apps/$(application-id)/otp",
+        Dict{String,Any}(
+            "SendOTPMessageRequestParameters" => SendOTPMessageRequestParameters
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_otpmessage(
+    SendOTPMessageRequestParameters,
+    application_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "POST",
+        "/v1/apps/$(application-id)/otp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SendOTPMessageRequestParameters" => SendOTPMessageRequestParameters
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     send_users_messages(send_users_message_request, application-id)
     send_users_messages(send_users_message_request, application-id, params::Dict{String,<:Any})
 
@@ -4988,6 +5037,55 @@ function update_voice_template(
             mergewith(
                 _merge,
                 Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    verify_otpmessage(verify_otpmessage_request_parameters, application-id)
+    verify_otpmessage(verify_otpmessage_request_parameters, application-id, params::Dict{String,<:Any})
+
+Verify an OTP
+
+# Arguments
+- `verify_otpmessage_request_parameters`:
+- `application-id`: The unique ID of your Amazon Pinpoint application.
+
+"""
+function verify_otpmessage(
+    VerifyOTPMessageRequestParameters,
+    application_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "POST",
+        "/v1/apps/$(application-id)/verify-otp",
+        Dict{String,Any}(
+            "VerifyOTPMessageRequestParameters" => VerifyOTPMessageRequestParameters
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function verify_otpmessage(
+    VerifyOTPMessageRequestParameters,
+    application_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "POST",
+        "/v1/apps/$(application-id)/verify-otp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VerifyOTPMessageRequestParameters" => VerifyOTPMessageRequestParameters
+                ),
                 params,
             ),
         );

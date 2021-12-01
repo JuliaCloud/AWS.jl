@@ -8,7 +8,12 @@ using AWS.UUIDs
     associate_lenses(lens_aliases, workload_id)
     associate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Associate a lens to a workload.
+Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a
+single API operation. A maximum of 20 lenses can be associated with a workload.
+Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web
+Services user or account, you acknowledge that custom lenses created by other users and
+shared with you are Third Party Content as defined in the Amazon Web Services Customer
+Agreement.
 
 # Arguments
 - `lens_aliases`:
@@ -37,6 +42,122 @@ function associate_lenses(
         "/workloads/$(WorkloadId)/associateLenses",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_lens_share(client_request_token, lens_alias, shared_with)
+    create_lens_share(client_request_token, lens_alias, shared_with, params::Dict{String,<:Any})
+
+Create a lens share. The owner of a lens can share it with other Amazon Web Services
+accounts and IAM users in the same Amazon Web Services Region. Shared access to a lens is
+not removed until the lens invitation is deleted.   Disclaimer  By sharing your custom
+lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services
+will make your custom lenses available to those other accounts. Those other accounts may
+continue to access and use your shared custom lenses even if you delete the custom lenses
+from your own Amazon Web Services account or terminate your Amazon Web Services account.
+
+# Arguments
+- `client_request_token`:
+- `lens_alias`:
+- `shared_with`:
+
+"""
+function create_lens_share(
+    ClientRequestToken,
+    LensAlias,
+    SharedWith;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/lenses/$(LensAlias)/shares",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_lens_share(
+    ClientRequestToken,
+    LensAlias,
+    SharedWith,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/lenses/$(LensAlias)/shares",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_lens_version(client_request_token, lens_alias, lens_version)
+    create_lens_version(client_request_token, lens_alias, lens_version, params::Dict{String,<:Any})
+
+Create a new lens version. A lens can have up to 100 versions. After a lens has been
+imported, create a new lens version to publish it. The owner of a lens can share the lens
+with other Amazon Web Services accounts and IAM users in the same Amazon Web Services
+Region. Only the owner of a lens can delete it.
+
+# Arguments
+- `client_request_token`:
+- `lens_alias`:
+- `lens_version`: The version of the lens being created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IsMajorVersion"`: Set to true if this new major lens version.
+"""
+function create_lens_version(
+    ClientRequestToken,
+    LensAlias,
+    LensVersion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/lenses/$(LensAlias)/versions",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "LensVersion" => LensVersion
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_lens_version(
+    ClientRequestToken,
+    LensAlias,
+    LensVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/lenses/$(LensAlias)/versions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "LensVersion" => LensVersion
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -100,9 +221,10 @@ end
     create_workload(client_request_token, description, environment, lenses, review_owner, workload_name)
     create_workload(client_request_token, description, environment, lenses, review_owner, workload_name, params::Dict{String,<:Any})
 
-Create a new workload. The owner of a workload can share the workload with other AWS
-accounts and IAM users in the same AWS Region. Only the owner of a workload can delete it.
-For more information, see Defining a Workload in the AWS Well-Architected Tool User Guide.
+Create a new workload. The owner of a workload can share the workload with other Amazon Web
+Services accounts and IAM users in the same Amazon Web Services Region. Only the owner of a
+workload can delete it. For more information, see Defining a Workload in the
+Well-Architected Tool User Guide.
 
 # Arguments
 - `client_request_token`:
@@ -184,10 +306,10 @@ end
     create_workload_share(client_request_token, permission_type, shared_with, workload_id)
     create_workload_share(client_request_token, permission_type, shared_with, workload_id, params::Dict{String,<:Any})
 
-Create a workload share. The owner of a workload can share it with other AWS accounts and
-IAM users in the same AWS Region. Shared access to a workload is not removed until the
-workload invitation is deleted. For more information, see Sharing a Workload in the AWS
-Well-Architected Tool User Guide.
+Create a workload share. The owner of a workload can share it with other Amazon Web
+Services accounts and IAM users in the same Amazon Web Services Region. Shared access to a
+workload is not removed until the workload invitation is deleted. For more information, see
+Sharing a Workload in the Well-Architected Tool User Guide.
 
 # Arguments
 - `client_request_token`:
@@ -235,6 +357,117 @@ function create_workload_share(
                     "SharedWith" => SharedWith,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lens(client_request_token, lens_alias, lens_status)
+    delete_lens(client_request_token, lens_alias, lens_status, params::Dict{String,<:Any})
+
+Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted,
+Amazon Web Services accounts and IAM users that you shared the lens with can continue to
+use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By
+sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that
+Amazon Web Services will make your custom lenses available to those other accounts. Those
+other accounts may continue to access and use your shared custom lenses even if you delete
+the custom lenses from your own Amazon Web Services account or terminate your Amazon Web
+Services account.
+
+# Arguments
+- `client_request_token`:
+- `lens_alias`:
+- `lens_status`: The status of the lens to be deleted.
+
+"""
+function delete_lens(
+    ClientRequestToken,
+    LensAlias,
+    LensStatus;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/lenses/$(LensAlias)",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "LensStatus" => LensStatus
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_lens(
+    ClientRequestToken,
+    LensAlias,
+    LensStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/lenses/$(LensAlias)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "LensStatus" => LensStatus
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lens_share(client_request_token, lens_alias, share_id)
+    delete_lens_share(client_request_token, lens_alias, share_id, params::Dict{String,<:Any})
+
+Delete a lens share. After the lens share is deleted, Amazon Web Services accounts and IAM
+users that you shared the lens with can continue to use it, but they will no longer be able
+to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon
+Web Services accounts, you acknowledge that Amazon Web Services will make your custom
+lenses available to those other accounts. Those other accounts may continue to access and
+use your shared custom lenses even if you delete the custom lenses from your own Amazon Web
+Services account or terminate your Amazon Web Services account.
+
+# Arguments
+- `client_request_token`:
+- `lens_alias`:
+- `share_id`:
+
+"""
+function delete_lens_share(
+    ClientRequestToken,
+    LensAlias,
+    ShareId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/lenses/$(LensAlias)/shares/$(ShareId)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_lens_share(
+    ClientRequestToken,
+    LensAlias,
+    ShareId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/lenses/$(LensAlias)/shares/$(ShareId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
             ),
         );
         aws_config=aws_config,
@@ -333,7 +566,8 @@ end
     disassociate_lenses(lens_aliases, workload_id)
     disassociate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Disassociate a lens from a workload.  The AWS Well-Architected Framework lens
+Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload
+in a single API operation.  The Amazon Web Services Well-Architected Framework lens
 (wellarchitected) cannot be removed from a workload.
 
 # Arguments
@@ -364,6 +598,48 @@ function disassociate_lenses(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    export_lens(lens_alias)
+    export_lens(lens_alias, params::Dict{String,<:Any})
+
+Export an existing lens. Lenses are defined in JSON. For more information, see JSON format
+specification in the Well-Architected Tool User Guide. Only the owner of a lens can export
+it.    Disclaimer  Do not include or gather personal identifiable information (PII) of end
+users or other identifiable individuals in or via your custom lenses. If your custom lens
+or those shared with you and used in your account do include or collect PII you are
+responsible for: ensuring that the included PII is processed in accordance with applicable
+law, providing adequate privacy notices, and obtaining necessary consents for processing
+such data.
+
+# Arguments
+- `lens_alias`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensVersion"`: The lens version to be exported.
+"""
+function export_lens(LensAlias; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/export";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function export_lens(
+    LensAlias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/export",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -404,6 +680,41 @@ function get_answer(
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lens(lens_alias)
+    get_lens(lens_alias, params::Dict{String,<:Any})
+
+Get an existing lens.
+
+# Arguments
+- `lens_alias`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensVersion"`: The lens version to be retrieved.
+"""
+function get_lens(LensAlias; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lens(
+    LensAlias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -489,29 +800,30 @@ function get_lens_review_report(
 end
 
 """
-    get_lens_version_difference(base_lens_version, lens_alias)
-    get_lens_version_difference(base_lens_version, lens_alias, params::Dict{String,<:Any})
+    get_lens_version_difference(lens_alias)
+    get_lens_version_difference(lens_alias, params::Dict{String,<:Any})
 
 Get lens version differences.
 
 # Arguments
-- `base_lens_version`: The base version of the lens.
 - `lens_alias`:
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BaseLensVersion"`: The base version of the lens.
+- `"TargetLensVersion"`: The lens version to target a difference for.
 """
 function get_lens_version_difference(
-    BaseLensVersion, LensAlias; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return wellarchitected(
         "GET",
-        "/lenses/$(LensAlias)/versionDifference",
-        Dict{String,Any}("BaseLensVersion" => BaseLensVersion);
+        "/lenses/$(LensAlias)/versionDifference";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_lens_version_difference(
-    BaseLensVersion,
     LensAlias,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -519,11 +831,7 @@ function get_lens_version_difference(
     return wellarchitected(
         "GET",
         "/lenses/$(LensAlias)/versionDifference",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("BaseLensVersion" => BaseLensVersion), params
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -592,6 +900,65 @@ function get_workload(
         "GET",
         "/workloads/$(WorkloadId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    import_lens(client_request_token, jsonstring)
+    import_lens(client_request_token, jsonstring, params::Dict{String,<:Any})
+
+Import a new lens. The lens cannot be applied to workloads or shared with other Amazon Web
+Services accounts until it's published with CreateLensVersion  Lenses are defined in JSON.
+For more information, see JSON format specification in the Well-Architected Tool User
+Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather
+personal identifiable information (PII) of end users or other identifiable individuals in
+or via your custom lenses. If your custom lens or those shared with you and used in your
+account do include or collect PII you are responsible for: ensuring that the included PII
+is processed in accordance with applicable law, providing adequate privacy notices, and
+obtaining necessary consents for processing such data.
+
+# Arguments
+- `client_request_token`:
+- `jsonstring`: The JSON representation of a lens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensAlias"`:
+- `"Tags"`: Tags to associate to a lens.
+"""
+function import_lens(
+    ClientRequestToken, JSONString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PUT",
+        "/importLens",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "JSONString" => JSONString
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_lens(
+    ClientRequestToken,
+    JSONString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PUT",
+        "/importLens",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "JSONString" => JSONString
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -719,6 +1086,44 @@ function list_lens_reviews(
 end
 
 """
+    list_lens_shares(lens_alias)
+    list_lens_shares(lens_alias, params::Dict{String,<:Any})
+
+List the lens shares associated with the lens.
+
+# Arguments
+- `lens_alias`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return for this request.
+- `"NextToken"`:
+- `"SharedWithPrefix"`: The Amazon Web Services account ID or IAM role with which the lens
+  is shared.
+"""
+function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/shares";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_lens_shares(
+    LensAlias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/shares",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_lenses()
     list_lenses(params::Dict{String,<:Any})
 
@@ -726,6 +1131,9 @@ List the available lenses.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensName"`:
+- `"LensStatus"`: The status of lenses to be returned.
+- `"LensType"`: The type of lenses to be returned.
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -815,8 +1223,11 @@ List the workload invitations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensNamePrefix"`: An optional string added to the beginning of each lens name returned
+  in the results.
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
+- `"ShareResourceType"`: The type of share invitations to be returned.
 - `"WorkloadNamePrefix"`:
 """
 function list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -883,7 +1294,8 @@ List the workload shares associated with the workload.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"SharedWithPrefix"`: The AWS account ID or IAM role with which the workload is shared.
+- `"SharedWithPrefix"`: The Amazon Web Services account ID or IAM role with which the
+  workload is shared.
 """
 function list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(

@@ -402,6 +402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Amazon Translate pricing.  For a list of available parallel data
   resources, use the ListParallelData operation. For more information, see
   customizing-translations-parallel-data.
+- `"Settings"`: Settings to configure your translation output, including the option to mask
+  profane words and phrases.
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
   job. This resource lists examples source terms and the desired translation for each term.
   This parameter accepts only one custom terminology resource. For a list of available custom
@@ -517,6 +519,8 @@ available languages and language codes, see what-is-languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Settings"`: Settings to configure your translation output, including the option to mask
+  profane words and phrases.
 - `"TerminologyNames"`: The name of the terminology list file to be used in the
   TranslateText request. You can use 1 terminology list at most in a TranslateText request.
   Terminology lists can contain a maximum of 256 terms.

@@ -178,6 +178,51 @@ function create_cluster(
 end
 
 """
+    create_cluster_v2(cluster_name)
+    create_cluster_v2(cluster_name, params::Dict{String,<:Any})
+
+
+            Creates a new MSK cluster.
+
+# Arguments
+- `cluster_name`: 
+            The name of the cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"provisioned"`: 
+            Information about the provisioned cluster.
+- `"serverless"`: 
+            Information about the serverless cluster.
+- `"tags"`: 
+            A map of tags that you want the cluster to have.
+"""
+function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "POST",
+        "/api/v2/clusters",
+        Dict{String,Any}("clusterName" => clusterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_cluster_v2(
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/api/v2/clusters",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clusterName" => clusterName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_configuration(name, server_properties)
     create_configuration(name, server_properties, params::Dict{String,<:Any})
 
@@ -374,6 +419,42 @@ function describe_cluster_operation(
     return kafka(
         "GET",
         "/v1/operations/$(clusterOperationArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster_v2(cluster_arn)
+    describe_cluster_v2(cluster_arn, params::Dict{String,<:Any})
+
+
+            Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is
+specified in the request.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) that uniquely identifies the
+  cluster.
+
+"""
+function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET",
+        "/api/v2/clusters/$(clusterArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_cluster_v2(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/api/v2/clusters/$(clusterArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -606,6 +687,47 @@ function list_clusters(
     return kafka(
         "GET",
         "/v1/clusters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_clusters_v2()
+    list_clusters_v2(params::Dict{String,<:Any})
+
+
+            Returns a list of all the MSK clusters in the current Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clusterNameFilter"`: 
+            Specify a prefix of the names of the clusters that
+  you want to list. The service lists all the clusters whose names start with this prefix.
+  
+- `"clusterTypeFilter"`: 
+            Specify either PROVISIONED or SERVERLESS.
+- `"maxResults"`: 
+            The maximum number of results to return in the response. If
+  there are more results, the response includes a NextToken parameter.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
+"""
+function list_clusters_v2(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET", "/api/v2/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_clusters_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/api/v2/clusters",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

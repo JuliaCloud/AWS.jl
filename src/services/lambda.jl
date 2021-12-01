@@ -322,11 +322,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
-- `"FilterCriteria"`: (Streams and Amazon SQS) A object that defines the filter criteria
-  used to determine whether Lambda should process an event. For more information, see Lambda
+- `"FilterCriteria"`: (Streams and Amazon SQS) An object that defines the filter criteria
+  that determine whether Lambda should process an event. For more information, see Lambda
   event filtering.
-- `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
-  to the event source mapping.
+- `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
+  applied to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: (Streams and Amazon SQS standard queues) The maximum
   amount of time, in seconds, that Lambda spends gathering records before invoking the
   function. Default: 0 Related setting: When you set BatchSize to a value greater than 10,
@@ -444,8 +444,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution.
 - `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
 - `"Handler"`: The name of the method within your code that Lambda calls to execute your
-  function. The format includes the file name. It can also include namespaces and other
-  qualifiers, depending on the runtime. For more information, see Programming Model.
+  function. Handler is required if the deployment package is a .zip file archive. The format
+  includes the file name. It can also include namespaces and other qualifiers, depending on
+  the runtime. For more information, see Programming Model.
 - `"ImageConfig"`: Container image configuration values that override the values in the
   container image Dockerfile.
 - `"KMSKeyArn"`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
@@ -459,7 +460,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PackageType"`: The type of deployment package. Set to Image for container image and set
   Zip for ZIP archive.
 - `"Publish"`: Set to true to publish the first version of the function during creation.
-- `"Runtime"`: The identifier of the function's runtime.
+- `"Runtime"`: The identifier of the function's runtime. Runtime is required if the
+  deployment package is a .zip file archive.
 - `"Tags"`: A list of tags to apply to the function.
 - `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
@@ -499,51 +501,6 @@ function create_function(
                     "Code" => Code, "FunctionName" => FunctionName, "Role" => Role
                 ),
                 params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_function_url_config(authorization_type, function_name)
-    create_function_url_config(authorization_type, function_name, params::Dict{String,<:Any})
-
-
-
-# Arguments
-- `authorization_type`:
-- `function_name`:
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Cors"`:
-- `"Qualifier"`:
-"""
-function create_function_url_config(
-    AuthorizationType, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lambda(
-        "POST",
-        "/2021-10-31/functions/$(FunctionName)/url",
-        Dict{String,Any}("AuthorizationType" => AuthorizationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_function_url_config(
-    AuthorizationType,
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return lambda(
-        "POST",
-        "/2021-10-31/functions/$(FunctionName)/url",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AuthorizationType" => AuthorizationType), params
             ),
         );
         aws_config=aws_config,
@@ -815,43 +772,6 @@ function delete_function_event_invoke_config(
     return lambda(
         "DELETE",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_function_url_config(function_name)
-    delete_function_url_config(function_name, params::Dict{String,<:Any})
-
-
-
-# Arguments
-- `function_name`:
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Qualifier"`:
-"""
-function delete_function_url_config(
-    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lambda(
-        "DELETE",
-        "/2021-10-31/functions/$(FunctionName)/url";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_function_url_config(
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return lambda(
-        "DELETE",
-        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1271,43 +1191,6 @@ function get_function_event_invoke_config(
     return lambda(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_function_url_config(function_name)
-    get_function_url_config(function_name, params::Dict{String,<:Any})
-
-
-
-# Arguments
-- `function_name`:
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Qualifier"`:
-"""
-function get_function_url_config(
-    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lambda(
-        "GET",
-        "/2021-10-31/functions/$(FunctionName)/url";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_function_url_config(
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return lambda(
-        "GET",
-        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1779,44 +1662,6 @@ function list_function_event_invoke_configs(
     return lambda(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    list_function_url_configs(function_name)
-    list_function_url_configs(function_name, params::Dict{String,<:Any})
-
-
-
-# Arguments
-- `function_name`:
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`:
-- `"MaxItems"`:
-"""
-function list_function_url_configs(
-    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lambda(
-        "GET",
-        "/2021-10-31/functions/$(FunctionName)/urls";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_function_url_configs(
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return lambda(
-        "GET",
-        "/2021-10-31/functions/$(FunctionName)/urls",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2717,16 +2562,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for discarded records.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
   polling and invocation. Default: True
-- `"FilterCriteria"`: (Streams and Amazon SQS) A object that defines the filter criteria
-  used to determine whether Lambda should process an event. For more information, see Lambda
+- `"FilterCriteria"`: (Streams and Amazon SQS) An object that defines the filter criteria
+  that determine whether Lambda should process an event. For more information, see Lambda
   event filtering.
 - `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
-- `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
-  to the event source mapping.
+- `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
+  applied to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: (Streams and Amazon SQS standard queues) The maximum
   amount of time, in seconds, that Lambda spends gathering records before invoking the
   function. Default: 0 Related setting: When you set BatchSize to a value greater than 10,
@@ -2860,8 +2705,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution.
 - `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
 - `"Handler"`: The name of the method within your code that Lambda calls to execute your
-  function. The format includes the file name. It can also include namespaces and other
-  qualifiers, depending on the runtime. For more information, see Programming Model.
+  function. Handler is required if the deployment package is a .zip file archive. The format
+  includes the file name. It can also include namespaces and other qualifiers, depending on
+  the runtime. For more information, see Programming Model.
 - `"ImageConfig"`:  Container image configuration values that override the values in the
   container image Docker file.
 - `"KMSKeyArn"`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
@@ -2876,7 +2722,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
-- `"Runtime"`: The identifier of the function's runtime.
+- `"Runtime"`: The identifier of the function's runtime. Runtime is required if the
+  deployment package is a .zip file archive.
 - `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For
   additional information, see Lambda execution environment.
@@ -2956,45 +2803,6 @@ function update_function_event_invoke_config(
     return lambda(
         "POST",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_function_url_config(function_name)
-    update_function_url_config(function_name, params::Dict{String,<:Any})
-
-
-
-# Arguments
-- `function_name`:
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AuthorizationType"`:
-- `"Cors"`:
-- `"Qualifier"`:
-"""
-function update_function_url_config(
-    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lambda(
-        "PUT",
-        "/2021-10-31/functions/$(FunctionName)/url";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_function_url_config(
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return lambda(
-        "PUT",
-        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
