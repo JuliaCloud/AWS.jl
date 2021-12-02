@@ -155,12 +155,16 @@ try
         end
     end
 
+    # https://github.com/JuliaCloud/AWS.jl/issues/515
     @testset "issue 515" begin
-        # https://github.com/JuliaCloud/AWS.jl/issues/515
-
         function _incomplete_patch(; data, num_attempts_to_fail=4)
             attempt_num = 0
             n = length(data)
+
+            function _downloads_response(content_length)
+                headers = ["content-length" => string(content_length)]
+                return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", headers)
+            end
 
             patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @patch function HTTP.request(args...; response_stream, kwargs...)
@@ -177,30 +181,13 @@ try
                 @patch function Downloads.request(args...; output, kwargs...)
                     attempt_num += 1
                     if attempt_num <= num_attempts_to_fail
-                        write(output, data[1:(n - 1)]) # an incomplete stream that shouldn't be retained
-                        throw(
-                            Downloads.RequestError(
-                                "",
-                                18,
-                                "transfer closed with 1 bytes remaining to read",
-                                Downloads.Response(
-                                    "http",
-                                    "",
-                                    200,
-                                    "HTTP/1.1 200 OK",
-                                    ["content-length" => string(n)],
-                                ),
-                            ),
-                        )
+                        write(output, data[1:(n - 1)])  # an incomplete stream that shouldn't be retained
+                        message = "transfer closed with 1 bytes remaining to read"
+                        e = Downloads.RequestError("", 18, message, _downloads_response(n))
+                        throw(e)
                     else
                         write(output, data)
-                        return Downloads.Response(
-                            "http",
-                            "",
-                            200,
-                            "HTTP/1.1 200 OK",
-                            ["content-length" => string(n)],
-                        )
+                        return _downloads_response(n)
                     end
                 end
             end
@@ -209,28 +196,36 @@ try
         end
 
         n = 100
-        n_incomplete = n - 1
         data = rand(UInt8, n)
-
+        bucket = "www.invenia.ca"  # use public bucket as dummy
+        key = "index.html"
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
             apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
-                resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
-                @test length(resp) == n
-                @test resp == data
+                retrieved = S3.get_object(bucket, key; aws_config=config)
+
+                @test length(retrieved) == n
+                @test retrieved == data
             end
         end
+
         @testset "Fail all 4 attempts then throw" begin
+            err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                HTTP.IOError
+            else
+                Downloads.RequestError
+            end
+            io = IOBuffer()
+
             apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
-                err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    HTTP.IOError
-                else
-                    Downloads.RequestError
-                end
-                @test_throws err_t S3.get_object(
-                    "www.invenia.ca", "index.html"; aws_config=config
-                ) # use public bucket as dummy
+                params = Dict("response_stream" => io)
+                @test_throws err_t S3.get_object(bucket, key, params; aws_config=config)
+
+                seekstart(io)
+                retrieved = read(io)
+                @test length(retrieved) == n - 1
+                @test retrieved == data[1:(n - 1)]
             end
         end
     end
