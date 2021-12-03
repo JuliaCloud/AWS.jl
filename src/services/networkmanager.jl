@@ -5,6 +5,93 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_attachment(attachment_id)
+    accept_attachment(attachment_id, params::Dict{String,<:Any})
+
+Accepts a core network attachment request.  Once the attachment request is accepted by a
+core network owner, the attachment is created and connected to a core network.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function accept_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/accept";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function accept_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/accept",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_connect_peer(connect_peer_id, device_id, global_network_id)
+    associate_connect_peer(connect_peer_id, device_id, global_network_id, params::Dict{String,<:Any})
+
+Associates a core network Connect peer with a device and optionally, with a link.  If you
+specify a link, it must be associated with the specified device. You can only associate
+core network Connect peers that have been created on a core network Connect attachment on a
+core network.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer.
+- `device_id`: The ID of the device.
+- `global_network_id`: The ID of your global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LinkId"`: The ID of the link.
+"""
+function associate_connect_peer(
+    ConnectPeerId,
+    DeviceId,
+    globalNetworkId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations",
+        Dict{String,Any}("ConnectPeerId" => ConnectPeerId, "DeviceId" => DeviceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_connect_peer(
+    ConnectPeerId,
+    DeviceId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectPeerId" => ConnectPeerId, "DeviceId" => DeviceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_customer_gateway(customer_gateway_arn, device_id, global_network_id)
     associate_customer_gateway(customer_gateway_arn, device_id, global_network_id, params::Dict{String,<:Any})
 
@@ -173,6 +260,142 @@ function associate_transit_gateway_connect_peer(
 end
 
 """
+    create_connect_attachment(core_network_id, edge_location, options, transport_attachment_id)
+    create_connect_attachment(core_network_id, edge_location, options, transport_attachment_id, params::Dict{String,<:Any})
+
+Creates a core network Connect attachment from a specified core network attachment.  A core
+network Connect attachment is a GRE-based tunnel attachment that you can use to establish a
+connection between a core network and an appliance. A core network Connect attachment uses
+an existing VPC attachment as the underlying transport mechanism.
+
+# Arguments
+- `core_network_id`: The ID of a core network where you want to create the attachment.
+- `edge_location`: The Region where the edge is located.
+- `options`: Options for creating an attachment.
+- `transport_attachment_id`: The ID of the attachment between the two connections.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Tags"`: The list of key-value tags associated with the request.
+"""
+function create_connect_attachment(
+    CoreNetworkId,
+    EdgeLocation,
+    Options,
+    TransportAttachmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-attachments",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "EdgeLocation" => EdgeLocation,
+            "Options" => Options,
+            "TransportAttachmentId" => TransportAttachmentId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_connect_attachment(
+    CoreNetworkId,
+    EdgeLocation,
+    Options,
+    TransportAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "EdgeLocation" => EdgeLocation,
+                    "Options" => Options,
+                    "TransportAttachmentId" => TransportAttachmentId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address)
+    create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address, params::Dict{String,<:Any})
+
+Creates a core network connect peer for a specified core network connect attachment between
+a core network and an appliance. The peer address and transit gateway address must be the
+same IP address family (IPv4 or IPv6).
+
+# Arguments
+- `connect_attachment_id`: The ID of the connection attachment.
+- `inside_cidr_blocks`: The inside IP addresses used for BGP peering.
+- `peer_address`: The Connect peer address.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BgpOptions"`: The Connect peer BGP options.
+- `"ClientToken"`: The client token associated with the request.
+- `"CoreNetworkAddress"`: A Connect peer core network address.
+- `"Tags"`: The tags associated with the peer request.
+"""
+function create_connect_peer(
+    ConnectAttachmentId,
+    InsideCidrBlocks,
+    PeerAddress;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-peers",
+        Dict{String,Any}(
+            "ConnectAttachmentId" => ConnectAttachmentId,
+            "InsideCidrBlocks" => InsideCidrBlocks,
+            "PeerAddress" => PeerAddress,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_connect_peer(
+    ConnectAttachmentId,
+    InsideCidrBlocks,
+    PeerAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/connect-peers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectAttachmentId" => ConnectAttachmentId,
+                    "InsideCidrBlocks" => InsideCidrBlocks,
+                    "PeerAddress" => PeerAddress,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_connection(connected_device_id, device_id, global_network_id)
     create_connection(connected_device_id, device_id, global_network_id, params::Dict{String,<:Any})
 
@@ -222,6 +445,58 @@ function create_connection(
                 _merge,
                 Dict{String,Any}(
                     "ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_core_network(global_network_id)
+    create_core_network(global_network_id, params::Dict{String,<:Any})
+
+Creates a core network as part of your global network, and optionally, with a core network
+policy.
+
+# Arguments
+- `global_network_id`: The ID of the global network that a core network will be a part of.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with a core network request.
+- `"Description"`: The description of a core network.
+- `"PolicyDocument"`: The policy document for creating a core network.
+- `"Tags"`: Key-value tags associated with a core network request.
+"""
+function create_core_network(
+    GlobalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/core-networks",
+        Dict{String,Any}(
+            "GlobalNetworkId" => GlobalNetworkId, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_core_network(
+    GlobalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalNetworkId" => GlobalNetworkId, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -402,6 +677,188 @@ function create_site(
 end
 
 """
+    create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn)
+    create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn, params::Dict{String,<:Any})
+
+Creates a site-to-site VPN attachment on an edge location of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network where you're creating a site-to-site VPN
+  attachment.
+- `vpn_connection_arn`: The ARN identifying the VPN attachment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Tags"`: The tags associated with the request.
+"""
+function create_site_to_site_vpn_attachment(
+    CoreNetworkId, VpnConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/site-to-site-vpn-attachments",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "VpnConnectionArn" => VpnConnectionArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_site_to_site_vpn_attachment(
+    CoreNetworkId,
+    VpnConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/site-to-site-vpn-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "VpnConnectionArn" => VpnConnectionArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_vpc_attachment(core_network_id, subnet_arns, vpc_arn)
+    create_vpc_attachment(core_network_id, subnet_arns, vpc_arn, params::Dict{String,<:Any})
+
+Creates a VPC attachment on an edge location of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network for the VPC attachment.
+- `subnet_arns`: The subnet ARN of the VPC attachment.
+- `vpc_arn`: The ARN of the VPC.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Options"`: Options for the VPC attachment.
+- `"Tags"`: The key-value tags associated with the request.
+"""
+function create_vpc_attachment(
+    CoreNetworkId, SubnetArns, VpcArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/vpc-attachments",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "SubnetArns" => SubnetArns,
+            "VpcArn" => VpcArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpc_attachment(
+    CoreNetworkId,
+    SubnetArns,
+    VpcArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/vpc-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "SubnetArns" => SubnetArns,
+                    "VpcArn" => VpcArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_attachment(attachment_id)
+    delete_attachment(attachment_id, params::Dict{String,<:Any})
+
+Deletes an attachment. Supports all attachment types.
+
+# Arguments
+- `attachment_id`: The ID of the attachment to delete.
+
+"""
+function delete_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "DELETE",
+        "/attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_connect_peer(connect_peer_id)
+    delete_connect_peer(connect_peer_id, params::Dict{String,<:Any})
+
+Deletes a Connect peer.
+
+# Arguments
+- `connect_peer_id`: The ID of the deleted Connect peer.
+
+"""
+function delete_connect_peer(
+    connectPeerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/connect-peers/$(connectPeerId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_connect_peer(
+    connectPeerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/connect-peers/$(connectPeerId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_connection(connection_id, global_network_id)
     delete_connection(connection_id, global_network_id, params::Dict{String,<:Any})
 
@@ -431,6 +888,77 @@ function delete_connection(
     return networkmanager(
         "DELETE",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_core_network(core_network_id)
+    delete_core_network(core_network_id, params::Dict{String,<:Any})
+
+Deletes a core network along with all core network policies. This can only be done if there
+are no attachments on a core network.
+
+# Arguments
+- `core_network_id`: The network ID of the deleted core network.
+
+"""
+function delete_core_network(
+    coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_core_network_policy_version(core_network_id, policy_version_id)
+    delete_core_network_policy_version(core_network_id, policy_version_id, params::Dict{String,<:Any})
+
+Deletes a policy version from a core network. You can't delete the current LIVE policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network for the deleted policy.
+- `policy_version_id`: The version ID of the deleted policy.
+
+"""
+function delete_core_network_policy_version(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_core_network_policy_version(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -547,6 +1075,41 @@ function delete_link(
 end
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes a resource policy for the specified resource. This revokes the access of the
+principals specified in the resource policy.
+
+# Arguments
+- `resource_arn`: The ARN of the policy to delete.
+
+"""
+function delete_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/resource-policy/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_site(global_network_id, site_id)
     delete_site(global_network_id, site_id, params::Dict{String,<:Any})
 
@@ -646,6 +1209,42 @@ function describe_global_networks(
     return networkmanager(
         "GET",
         "/global-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_connect_peer(connect_peer_id, global_network_id)
+    disassociate_connect_peer(connect_peer_id, global_network_id, params::Dict{String,<:Any})
+
+Disassociates a core network Connect peer from a device and a link.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer to disassociate from a device.
+- `global_network_id`: The ID of the global network.
+
+"""
+function disassociate_connect_peer(
+    connectPeerId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_connect_peer(
+    connectPeerId,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -772,6 +1371,148 @@ function disassociate_transit_gateway_connect_peer(
 end
 
 """
+    execute_core_network_change_set(core_network_id, policy_version_id)
+    execute_core_network_change_set(core_network_id, policy_version_id, params::Dict{String,<:Any})
+
+Executes a change set on your core network. Deploys changes globally based on the policy
+submitted..
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version.
+
+"""
+function execute_core_network_change_set(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function execute_core_network_change_set(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connect_attachment(attachment_id)
+    get_connect_attachment(attachment_id, params::Dict{String,<:Any})
+
+Returns information about a core network Connect attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_connect_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/connect-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_connect_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/connect-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connect_peer(connect_peer_id)
+    get_connect_peer(connect_peer_id, params::Dict{String,<:Any})
+
+Returns information about a core network Connect peer.
+
+# Arguments
+- `connect_peer_id`: The ID of the Connect peer.
+
+"""
+function get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET",
+        "/connect-peers/$(connectPeerId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_connect_peer(
+    connectPeerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/connect-peers/$(connectPeerId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connect_peer_associations(global_network_id)
+    get_connect_peer_associations(global_network_id, params::Dict{String,<:Any})
+
+Returns information about a core network Connect peer associations.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectPeerIds"`: The IDs of the Connect peers.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function get_connect_peer_associations(
+    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_connect_peer_associations(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/connect-peer-associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_connections(global_network_id)
     get_connections(global_network_id, params::Dict{String,<:Any})
 
@@ -803,6 +1544,117 @@ function get_connections(
     return networkmanager(
         "GET",
         "/global-networks/$(globalNetworkId)/connections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_core_network(core_network_id)
+    get_core_network(core_network_id, params::Dict{String,<:Any})
+
+Returns information about a core network. By default it returns the LIVE policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+"""
+function get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_core_network_change_set(core_network_id, policy_version_id)
+    get_core_network_change_set(core_network_id, policy_version_id, params::Dict{String,<:Any})
+
+Returns a change set between the LIVE core network policy and a submitted policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function get_core_network_change_set(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_core_network_change_set(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_core_network_policy(core_network_id)
+    get_core_network_policy(core_network_id, params::Dict{String,<:Any})
+
+Gets details about a core network policy. You can get details about your current live
+policy or any previous policy version.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The alias of a core network policy
+- `"policyVersionId"`: The ID of a core network policy version.
+"""
+function get_core_network_policy(
+    coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_core_network_policy(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1028,6 +1880,7 @@ Gets the network resource relationships for the specified global network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountId"`: The Amazon Web Services account ID.
 - `"awsRegion"`: The Amazon Web Services Region.
+- `"coreNetworkId"`: The ID of a core network.
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 - `"registeredGatewayArn"`: The ARN of the registered gateway.
@@ -1078,6 +1931,7 @@ information such as pre-shared keys.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountId"`: The Amazon Web Services account ID.
 - `"awsRegion"`: The Amazon Web Services Region.
+- `"coreNetworkId"`: The ID of a core network.
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 - `"registeredGatewayArn"`: The ARN of the gateway.
@@ -1188,6 +2042,7 @@ Gets the network telemetry of the specified global network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountId"`: The Amazon Web Services account ID.
 - `"awsRegion"`: The Amazon Web Services Region.
+- `"coreNetworkId"`: The ID of a core network.
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 - `"registeredGatewayArn"`: The ARN of the gateway.
@@ -1224,6 +2079,38 @@ function get_network_telemetry(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Returns information about a resource policy.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+
+"""
+function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET",
+        "/resource-policy/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_route_analysis(global_network_id, route_analysis_id)
     get_route_analysis(global_network_id, route_analysis_id, params::Dict{String,<:Any})
 
@@ -1253,6 +2140,40 @@ function get_route_analysis(
     return networkmanager(
         "GET",
         "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_site_to_site_vpn_attachment(attachment_id)
+    get_site_to_site_vpn_attachment(attachment_id, params::Dict{String,<:Any})
+
+Returns information about a site-to-site VPN attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_site_to_site_vpn_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/site-to-site-vpn-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_site_to_site_vpn_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/site-to-site-vpn-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1378,6 +2299,166 @@ function get_transit_gateway_registrations(
 end
 
 """
+    get_vpc_attachment(attachment_id)
+    get_vpc_attachment(attachment_id, params::Dict{String,<:Any})
+
+Returns information about a VPC attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function get_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET",
+        "/vpc-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_vpc_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/vpc-attachments/$(attachmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_attachments()
+    list_attachments(params::Dict{String,<:Any})
+
+Returns a list of core network attachments.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attachmentType"`: The type of attachment.
+- `"coreNetworkId"`: The ID of a core network.
+- `"edgeLocation"`: The Region where the edge is located.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"state"`: The state of the attachment.
+"""
+function list_attachments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/attachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connect_peers()
+    list_connect_peers(params::Dict{String,<:Any})
+
+Returns a list of core network Connect peers.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectAttachmentId"`: The ID of the attachment.
+- `"coreNetworkId"`: The ID of a core network.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_connect_peers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_connect_peers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/connect-peers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_core_network_policy_versions(core_network_id)
+    list_core_network_policy_versions(core_network_id, params::Dict{String,<:Any})
+
+Returns a list of core network policy versions.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_core_network_policy_versions(
+    coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_core_network_policy_versions(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_core_networks()
+    list_core_networks(params::Dict{String,<:Any})
+
+Returns a list of owned and shared core networks.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_core_networks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_core_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1406,6 +2487,98 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_core_network_policy(policy_document, core_network_id)
+    put_core_network_policy(policy_document, core_network_id, params::Dict{String,<:Any})
+
+Creates a new, immutable version of a core network policy. A subsequent change set is
+created showing the differences between the LIVE policy and the submitted policy.
+
+# Arguments
+- `policy_document`: The policy document.
+- `core_network_id`: The ID of a core network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Description"`: a core network policy description.
+- `"LatestVersionId"`: The ID of a core network policy.
+"""
+function put_core_network_policy(
+    PolicyDocument, coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy",
+        Dict{String,Any}(
+            "PolicyDocument" => PolicyDocument, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_core_network_policy(
+    PolicyDocument,
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyDocument" => PolicyDocument, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy_document, resource_arn)
+    put_resource_policy(policy_document, resource_arn, params::Dict{String,<:Any})
+
+Creates or updates a resource policy.
+
+# Arguments
+- `policy_document`: The JSON resource policy document.
+- `resource_arn`: The ARN of the resource policy.
+
+"""
+function put_resource_policy(
+    PolicyDocument, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/resource-policy/$(resourceArn)",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    PolicyDocument,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/resource-policy/$(resourceArn)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyDocument" => PolicyDocument), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1450,6 +2623,76 @@ function register_transit_gateway(
                 _merge, Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reject_attachment(attachment_id)
+    reject_attachment(attachment_id, params::Dict{String,<:Any})
+
+Rejects a core network attachment request.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+"""
+function reject_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/reject";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reject_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/attachments/$(attachmentId)/reject",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_core_network_policy_version(core_network_id, policy_version_id)
+    restore_core_network_policy_version(core_network_id, policy_version_id, params::Dict{String,<:Any})
+
+Restores a previous policy version as a new, immutable version of a core network policy. A
+subsequent change set is created showing the differences between the LIVE policy and
+restored policy.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version to restore.
+
+"""
+function restore_core_network_policy_version(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_core_network_policy_version(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1615,6 +2858,43 @@ function update_connection(
     return networkmanager(
         "PATCH",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_core_network(core_network_id)
+    update_core_network(core_network_id, params::Dict{String,<:Any})
+
+Updates the description of a core network.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the update.
+"""
+function update_core_network(
+    coreNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "PATCH",
+        "/core-networks/$(coreNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_core_network(
+    coreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/core-networks/$(coreNetworkId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1834,6 +3114,45 @@ function update_site(
     return networkmanager(
         "PATCH",
         "/global-networks/$(globalNetworkId)/sites/$(siteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_vpc_attachment(attachment_id)
+    update_vpc_attachment(attachment_id, params::Dict{String,<:Any})
+
+Updates a VPC attachment.
+
+# Arguments
+- `attachment_id`: The ID of the attachment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AddSubnetArns"`: Adds a subnet ARN to the VPC attachment.
+- `"Options"`: Additional options for updating the VPC attachment.
+- `"RemoveSubnetArns"`: Removes a subnet ARN from the attachment.
+"""
+function update_vpc_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "PATCH",
+        "/vpc-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_vpc_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/vpc-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

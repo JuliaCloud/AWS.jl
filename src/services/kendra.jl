@@ -5,6 +5,103 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_entities_to_experience(entity_list, id, index_id)
+    associate_entities_to_experience(entity_list, id, index_id, params::Dict{String,<:Any})
+
+Grants users or groups in your Amazon Web Services SSO identity source access to your
+Amazon Kendra experience. You can create an Amazon Kendra experience such as a search
+application. For more information on creating a search application experience, see Building
+a search experience with no code.
+
+# Arguments
+- `entity_list`: Lists users or groups in your Amazon Web Services SSO identity source.
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+"""
+function associate_entities_to_experience(
+    EntityList, Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "AssociateEntitiesToExperience",
+        Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_entities_to_experience(
+    EntityList,
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "AssociateEntitiesToExperience",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_personas_to_entities(id, index_id, personas)
+    associate_personas_to_entities(id, index_id, personas, params::Dict{String,<:Any})
+
+Defines the specific permissions of users or groups in your Amazon Web Services SSO
+identity source with access to your Amazon Kendra experience. You can create an Amazon
+Kendra experience such as a search application. For more information on creating a search
+application experience, see Building a search experience with no code.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+- `personas`: The personas that define the specific permissions of users or groups in your
+  Amazon Web Services SSO identity source. The available personas or access roles are Owner
+  and Viewer. For more information on these personas, see Providing access to your search
+  page.
+
+"""
+function associate_personas_to_entities(
+    Id, IndexId, Personas; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "AssociatePersonasToEntities",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId, "Personas" => Personas);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_personas_to_entities(
+    Id,
+    IndexId,
+    Personas,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "AssociatePersonasToEntities",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "IndexId" => IndexId, "Personas" => Personas),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_delete_document(document_id_list, index_id)
     batch_delete_document(document_id_list, index_id, params::Dict{String,<:Any})
 
@@ -129,6 +226,11 @@ to your Amazon Web Services CloudWatch log.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomDocumentEnrichmentConfiguration"`: Configuration information for altering your
+  document metadata and content during the document ingestion process when you use the
+  BatchPutDocument operation. For more information on how to create, modify and delete
+  document metadata, or make other content alterations when you ingest documents into Amazon
+  Kendra, see Customizing document metadata during the ingestion process.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role that is allowed to run the
   BatchPutDocument operation. For more information, see IAM Roles for Amazon Kendra.
 """
@@ -170,7 +272,8 @@ Clears existing query suggestions from an index. This deletes existing suggestio
 not the queries in the query log. After you clear suggestions, Amazon Kendra learns new
 suggestions based on new queries added to the query log from the time you cleared
 suggestions. If you do not see any new suggestions, then please allow Amazon Kendra to
-collect enough queries to learn new suggestions.
+collect enough queries to learn new suggestions.  ClearQuerySuggestions is currently not
+supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index you want to clear query suggestions from.
@@ -203,7 +306,8 @@ Creates a data source that you want to use with an Amazon Kendra index.  You spe
 name, data source connector type and description for your data source. You also specify
 configuration information for the data source connector.  CreateDataSource is a synchronous
 operation. The operation returns 200 if the data source was successfully created.
-Otherwise, an exception is raised.
+Otherwise, an exception is raised. Amazon S3 and custom data sources are the only supported
+data sources in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index that should be associated with this data source.
@@ -220,6 +324,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository. You can't specify the Configuration parameter when the Type parameter is set to
   CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter
   is required for all other data sources.
+- `"CustomDocumentEnrichmentConfiguration"`: Configuration information for altering
+  document metadata and content during the document ingestion process when you create a data
+  source. For more information on how to create, modify and delete document metadata, or make
+  other content alterations when you ingest documents into Amazon Kendra, see Customizing
+  document metadata during the ingestion process.
 - `"Description"`: A description for the data source.
 - `"LanguageCode"`: The code for a language. This allows you to support a language for all
   documents when creating the data source. English is supported by default. For more
@@ -269,6 +378,64 @@ function create_data_source(
                     "Name" => Name,
                     "Type" => Type,
                     "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_experience(index_id, name)
+    create_experience(index_id, name, params::Dict{String,<:Any})
+
+Creates an Amazon Kendra experience such as a search application. For more information on
+creating a search application experience, see Building a search experience with no code.
+
+# Arguments
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+- `name`: A name for your Amazon Kendra experience.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A token that you provide to identify the request to create your Amazon
+  Kendra experience. Multiple calls to the CreateExperience operation with the same client
+  token creates only one Amazon Kendra experience.
+- `"Configuration"`: Provides the configuration information for your Amazon Kendra
+  experience. This includes ContentSourceConfiguration, which specifies the data source IDs
+  and/or FAQ IDs, and UserIdentityConfiguration, which specifies the user or group
+  information to grant access to your Amazon Kendra experience.
+- `"Description"`: A description for your Amazon Kendra experience.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access Query
+  operations, QuerySuggestions operations, SubmitFeedback operations, and Amazon Web Services
+  SSO that stores your user and group information. For more information, see IAM roles for
+  Amazon Kendra.
+"""
+function create_experience(IndexId, Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "CreateExperience",
+        Dict{String,Any}(
+            "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_experience(
+    IndexId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateExperience",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -391,7 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control to filter search results on user context. All documents with no access control and
   all documents accessible to the user will be searchable and displayable.
 - `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an AWS Single Sign-On identity source. To configure this, see
+  from an Amazon Web Services Single Sign On identity source. To configure this, see
   UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
@@ -436,6 +603,8 @@ words or phrases specified in the block list is blocked or filtered out from bei
 a suggestion. You need to provide the file location of your block list text file in your S3
 bucket. In your text file, enter each block word or phrase on a separate line. For
 information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+CreateQuerySuggestionsBlockList is currently not supported in the Amazon Web Services
+GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index you want to create a query suggestions block list
@@ -513,8 +682,8 @@ Creates a thesaurus for an index. The thesaurus contains a list of synonyms in S
 # Arguments
 - `index_id`: The unique identifier of the index for the new thesaurus.
 - `name`: The name for the new thesaurus.
-- `role_arn`: An AWS Identity and Access Management (IAM) role that gives Amazon Kendra
-  permissions to access thesaurus file specified in SourceS3Path.
+- `role_arn`: An IAM role that gives Amazon Kendra permissions to access thesaurus file
+  specified in SourceS3Path.
 - `source_s3_path`: The thesaurus file Amazon S3 source path.
 
 # Optional Parameters
@@ -609,6 +778,43 @@ function delete_data_source(
 end
 
 """
+    delete_experience(id, index_id)
+    delete_experience(id, index_id, params::Dict{String,<:Any})
+
+Deletes your Amazon Kendra experience such as a search application. For more information on
+creating a search application experience, see Building a search experience with no code.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience you want to delete.
+- `index_id`: The identifier of the index for your Amazon Kendra experience you want to
+  delete.
+
+"""
+function delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DeleteExperience",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_experience(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeleteExperience",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_faq(id, index_id)
     delete_faq(id, index_id, params::Dict{String,<:Any})
 
@@ -686,7 +892,8 @@ a group, you need to use the PutPrincipalMapping operation. For example, if a us
 group \"Engineering\" leaves the engineering team and another user takes their place, you
 provide an updated list of users or sub groups that belong to the \"Engineering\" group
 when calling PutPrincipalMapping. You can update your internal list of users or sub groups
-and input this list when calling PutPrincipalMapping.
+and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently
+not supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `group_id`: The identifier of the group you want to delete.
@@ -747,7 +954,8 @@ end
 
 Deletes a block list used for query suggestions for an index. A deleted block list might
 not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to
-add back the queries that were previously blocked.
+add back the queries that were previously blocked.  DeleteQuerySuggestionsBlockList is
+currently not supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `id`: The unique identifier of the block list that needs to be deleted.
@@ -853,6 +1061,44 @@ function describe_data_source(
 end
 
 """
+    describe_experience(id, index_id)
+    describe_experience(id, index_id, params::Dict{String,<:Any})
+
+Gets information about your Amazon Kendra experience such as a search application. For more
+information on creating a search application experience, see Building a search experience
+with no code.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience you want to get information on.
+- `index_id`: The identifier of the index for your Amazon Kendra experience you want to get
+  information on.
+
+"""
+function describe_experience(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DescribeExperience",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_experience(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeExperience",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_faq(id, index_id)
     describe_faq(id, index_id, params::Dict{String,<:Any})
 
@@ -924,7 +1170,8 @@ Describes the processing of PUT and DELETE actions for mapping users to their gr
 includes information on the status of actions currently processing or yet to be processed,
 when actions were last updated, when actions were received by Amazon Kendra, the latest
 action that should process and apply after other actions, and useful error messages if an
-action could not be processed.
+action could not be processed.  DescribePrincipalMapping is currently not supported in the
+Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `group_id`: The identifier of the group required to check the processing of PUT and
@@ -970,7 +1217,8 @@ end
     describe_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
 
 Describes a block list used for query suggestions for an index. This is used to check the
-current settings that are applied to a block list.
+current settings that are applied to a block list.  DescribeQuerySuggestionsBlockList is
+currently not supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `id`: The unique identifier of the block list.
@@ -1008,7 +1256,8 @@ end
     describe_query_suggestions_config(index_id, params::Dict{String,<:Any})
 
 Describes the settings of query suggestions for an index. This is used to check the current
-settings applied to query suggestions.
+settings applied to query suggestions.  DescribeQuerySuggestionsConfig is currently not
+supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index you want to describe query suggestions settings
@@ -1072,10 +1321,108 @@ function describe_thesaurus(
 end
 
 """
+    disassociate_entities_from_experience(entity_list, id, index_id)
+    disassociate_entities_from_experience(entity_list, id, index_id, params::Dict{String,<:Any})
+
+Prevents users or groups in your Amazon Web Services SSO identity source from accessing
+your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search
+application. For more information on creating a search application experience, see Building
+a search experience with no code.
+
+# Arguments
+- `entity_list`: Lists users or groups in your Amazon Web Services SSO identity source.
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+"""
+function disassociate_entities_from_experience(
+    EntityList, Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DisassociateEntitiesFromExperience",
+        Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_entities_from_experience(
+    EntityList,
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DisassociateEntitiesFromExperience",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_personas_from_entities(entity_ids, id, index_id)
+    disassociate_personas_from_entities(entity_ids, id, index_id, params::Dict{String,<:Any})
+
+Removes the specific permissions of users or groups in your Amazon Web Services SSO
+identity source with access to your Amazon Kendra experience. You can create an Amazon
+Kendra experience such as a search application. For more information on creating a search
+application experience, see Building a search experience with no code.
+
+# Arguments
+- `entity_ids`: The identifiers of users or groups in your Amazon Web Services SSO identity
+  source. For example, user IDs could be user emails.
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+"""
+function disassociate_personas_from_entities(
+    EntityIds, Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DisassociatePersonasFromEntities",
+        Dict{String,Any}("EntityIds" => EntityIds, "Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_personas_from_entities(
+    EntityIds,
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DisassociatePersonasFromEntities",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityIds" => EntityIds, "Id" => Id, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_query_suggestions(index_id, query_text)
     get_query_suggestions(index_id, query_text, params::Dict{String,<:Any})
 
-Fetches the queries that are suggested to your users.
+Fetches the queries that are suggested to your users.  GetQuerySuggestions is currently not
+supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index you want to get query suggestions from.
@@ -1112,6 +1459,71 @@ function get_query_suggestions(
             mergewith(
                 _merge,
                 Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_snapshots(index_id, interval, metric_type)
+    get_snapshots(index_id, interval, metric_type, params::Dict{String,<:Any})
+
+Retrieves search metrics data. The data provides a snapshot of how your users interact with
+your search application and how effective the application is.
+
+# Arguments
+- `index_id`: The identifier of the index to get search metrics data.
+- `interval`: The time interval or time window to get search metrics data. The time
+  interval uses the time zone of your index. You can view data in the following time windows:
+     THIS_WEEK: The current week, starting on the Sunday and ending on the day before the
+  current date.    ONE_WEEK_AGO: The previous week, starting on the Sunday and ending on the
+  following Saturday.    TWO_WEEKS_AGO: The week before the previous week, starting on the
+  Sunday and ending on the following Saturday.    THIS_MONTH: The current month, starting on
+  the first day of the month and ending on the day before the current date.    ONE_MONTH_AGO:
+  The previous month, starting on the first day of the month and ending on the last day of
+  the month.    TWO_MONTHS_AGO: The month before the previous month, starting on the first
+  day of the month and ending on last day of the month.
+- `metric_type`: The metric you want to retrieve. You can specify only one metric per call.
+  For more information about the metrics you can view, see Gaining insights with search
+  analytics.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of returned data for the metric.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of search metrics data.
+"""
+function get_snapshots(
+    IndexId, Interval, MetricType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "GetSnapshots",
+        Dict{String,Any}(
+            "IndexId" => IndexId, "Interval" => Interval, "MetricType" => MetricType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_snapshots(
+    IndexId,
+    Interval,
+    MetricType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "GetSnapshots",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId, "Interval" => Interval, "MetricType" => MetricType
+                ),
                 params,
             ),
         );
@@ -1204,6 +1616,131 @@ function list_data_sources(
 end
 
 """
+    list_entity_personas(id, index_id)
+    list_entity_personas(id, index_id, params::Dict{String,<:Any})
+
+Lists specific permissions of users and groups with access to your Amazon Kendra experience.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of returned users or groups.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of users or groups.
+"""
+function list_entity_personas(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListEntityPersonas",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_entity_personas(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "ListEntityPersonas",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_experience_entities(id, index_id)
+    list_experience_entities(id, index_id, params::Dict{String,<:Any})
+
+Lists users or groups in your Amazon Web Services SSO identity source that are granted
+access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as
+a search application. For more information on creating a search application experience, see
+Building a search experience with no code.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience.
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of users or groups.
+"""
+function list_experience_entities(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListExperienceEntities",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_experience_entities(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "ListExperienceEntities",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_experiences(index_id)
+    list_experiences(index_id, params::Dict{String,<:Any})
+
+Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience
+such as a search application. For more information on creating a search application
+experience, see Building a search experience with no code.
+
+# Arguments
+- `index_id`: The identifier of the index for your Amazon Kendra experience.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of returned Amazon Kendra experiences.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of Amazon Kendra experiences.
+"""
+function list_experiences(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "ListExperiences",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_experiences(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListExperiences",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_faqs(index_id)
     list_faqs(index_id, params::Dict{String,<:Any})
 
@@ -1244,7 +1781,8 @@ end
     list_groups_older_than_ordering_id(index_id, ordering_id, params::Dict{String,<:Any})
 
 Provides a list of groups that are mapped to users before a given ordering or timestamp
-identifier.
+identifier.  ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web
+Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index for getting a list of groups mapped to users
@@ -1323,6 +1861,8 @@ end
 
 Lists the block lists used for query suggestions for an index. For information on the
 current quota limits for block lists, see Quotas for Amazon Kendra.
+ListQuerySuggestionsBlockLists is currently not supported in the Amazon Web Services
+GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index for a list of all block lists that exist for that
@@ -1442,7 +1982,8 @@ top-secret company documents in their search results. You map users to their gro
 you want to filter search results for different users based on their group’s access to
 documents. For more information on filtering search results for different users, see
 Filtering on user context. If more than five PUT actions for a group are currently
-processing, a validation exception is thrown.
+processing, a validation exception is thrown.  PutPrincipalMapping is currently not
+supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `group_id`: The identifier of the group you want to map its users to.
@@ -1681,6 +2222,8 @@ end
     submit_feedback(index_id, query_id, params::Dict{String,<:Any})
 
 Enables you to provide feedback to Amazon Kendra to improve the performance of your index.
+SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West)
+region.
 
 # Arguments
 - `index_id`: The identifier of the index that was queried.
@@ -1818,7 +2361,12 @@ Updates an existing Amazon Kendra data source.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`:
+- `"Configuration"`: Configuration information for an Amazon Kendra data source.
+- `"CustomDocumentEnrichmentConfiguration"`: Configuration information for altering
+  document metadata and content during the document ingestion process when you update a data
+  source. For more information on how to create, modify and delete document metadata, or make
+  other content alterations when you ingest documents into Amazon Kendra, see Customizing
+  document metadata during the ingestion process.
 - `"Description"`: The new description for the data source.
 - `"LanguageCode"`: The code for a language. This allows you to support a language for all
   documents when updating the data source. English is supported by default. For more
@@ -1855,6 +2403,54 @@ function update_data_source(
 end
 
 """
+    update_experience(id, index_id)
+    update_experience(id, index_id, params::Dict{String,<:Any})
+
+Updates your Amazon Kendra experience such as a search application. For more information on
+creating a search application experience, see Building a search experience with no code.
+
+# Arguments
+- `id`: The identifier of your Amazon Kendra experience you want to update.
+- `index_id`: The identifier of the index for your Amazon Kendra experience you want to
+  update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Configuration"`: Provides the user configuration information. This includes the Amazon
+  Web Services SSO field name that contains the identifiers of your users, such as their
+  emails.
+- `"Description"`: The description of your Amazon Kendra experience you want to update.
+- `"Name"`: The name of your Amazon Kendra experience you want to update.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access Query
+  operations, QuerySuggestions operations, SubmitFeedback operations, and Amazon Web Services
+  SSO that stores your user and group information. For more information, see IAM roles for
+  Amazon Kendra.
+"""
+function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "UpdateExperience",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_experience(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UpdateExperience",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_index(id)
     update_index(id, params::Dict{String,<:Any})
 
@@ -1876,7 +2472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudWatch logs.
 - `"UserContextPolicy"`: The user context policy.
 - `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an AWS Single Sign-On identity source. To configure this, see
+  from an Amazon Web Services Single Sign On identity source. To configure this, see
   UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
@@ -1908,7 +2504,8 @@ not take effect right away. Amazon Kendra needs to refresh the entire suggestion
 apply any updates to the block list. Other changes not related to the block list apply
 immediately. If a block list is updating, then you need to wait for the first update to
 finish before submitting another update. Amazon Kendra supports partial updates, so you
-only need to provide the fields you want to update.
+only need to provide the fields you want to update.  UpdateQuerySuggestionsBlockList is
+currently not supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Arguments
 - `id`: The unique identifier of a block list.
@@ -1964,7 +2561,8 @@ currently processing (i.e. 'happening'), you need to wait for the update to fini
 making another update. Updates to query suggestions settings might not take effect right
 away. The time for your updated settings to take effect depends on the updates made and the
 number of search queries in your index. You can still enable/disable query suggestions at
-any time.
+any time.  UpdateQuerySuggestionsConfig is currently not supported in the Amazon Web
+Services GovCloud (US-West) region.
 
 # Arguments
 - `index_id`: The identifier of the index you want to update query suggestions settings for.

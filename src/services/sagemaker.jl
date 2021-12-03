@@ -639,8 +639,8 @@ function create_code_repository(
 end
 
 """
-    create_compilation_job(compilation_job_name, input_config, output_config, role_arn, stopping_condition)
-    create_compilation_job(compilation_job_name, input_config, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
+    create_compilation_job(compilation_job_name, output_config, role_arn, stopping_condition)
+    create_compilation_job(compilation_job_name, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
 
 Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves
 the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that
@@ -660,9 +660,6 @@ ListCompilationJobs.
 # Arguments
 - `compilation_job_name`: A name for the model compilation job. The name must be unique
   within the Amazon Web Services Region and within your Amazon Web Services account.
-- `input_config`: Provides information about the location of input model artifacts, the
-  name and shape of the expected data inputs, and the framework in which the model was
-  trained.
 - `output_config`: Provides information about the output location for the compiled model
   and the target device the model runs on.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
@@ -678,6 +675,12 @@ ListCompilationJobs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InputConfig"`: Provides information about the location of input model artifacts, the
+  name and shape of the expected data inputs, and the framework in which the model was
+  trained.
+- `"ModelPackageVersionArn"`: The Amazon Resource Name (ARN) of a versioned model package.
+  Provide either a ModelPackageVersionArn or an InputConfig object in the request syntax. The
+  presence of both objects in the CreateCompilationJob request will return an exception.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources.
@@ -687,7 +690,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_compilation_job(
     CompilationJobName,
-    InputConfig,
     OutputConfig,
     RoleArn,
     StoppingCondition;
@@ -697,7 +699,6 @@ function create_compilation_job(
         "CreateCompilationJob",
         Dict{String,Any}(
             "CompilationJobName" => CompilationJobName,
-            "InputConfig" => InputConfig,
             "OutputConfig" => OutputConfig,
             "RoleArn" => RoleArn,
             "StoppingCondition" => StoppingCondition,
@@ -708,7 +709,6 @@ function create_compilation_job(
 end
 function create_compilation_job(
     CompilationJobName,
-    InputConfig,
     OutputConfig,
     RoleArn,
     StoppingCondition,
@@ -722,7 +722,6 @@ function create_compilation_job(
                 _merge,
                 Dict{String,Any}(
                     "CompilationJobName" => CompilationJobName,
-                    "InputConfig" => InputConfig,
                     "OutputConfig" => OutputConfig,
                     "RoleArn" => RoleArn,
                     "StoppingCondition" => StoppingCondition,
@@ -1771,6 +1770,80 @@ function create_image_version(
 end
 
 """
+    create_inference_recommendations_job(input_config, job_name, job_type, role_arn)
+    create_inference_recommendations_job(input_config, job_name, job_type, role_arn, params::Dict{String,<:Any})
+
+Starts a recommendation job. You can create either an instance recommendation or load test
+job.
+
+# Arguments
+- `input_config`: Provides information about the versioned model package Amazon Resource
+  Name (ARN), the traffic pattern, and endpoint configurations.
+- `job_name`: A name for the recommendation job. The name must be unique within the Amazon
+  Web Services Region and within your Amazon Web Services account.
+- `job_type`: Defines the type of recommendation job. Specify Default to initiate an
+  instance recommendation and Advanced to initiate a load test. If left unspecified, Amazon
+  SageMaker Inference Recommender will run an instance recommendation (DEFAULT) job.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
+  to perform tasks on your behalf.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JobDescription"`: Description of the recommendation job.
+- `"StoppingConditions"`: A set of conditions for stopping a recommendation job. If any of
+  the conditions are met, the job is automatically stopped.
+- `"Tags"`: The metadata that you apply to Amazon Web Services resources to help you
+  categorize and organize them. Each tag consists of a key and a value, both of which you
+  define. For more information, see Tagging Amazon Web Services Resources in the Amazon Web
+  Services General Reference.
+"""
+function create_inference_recommendations_job(
+    InputConfig,
+    JobName,
+    JobType,
+    RoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateInferenceRecommendationsJob",
+        Dict{String,Any}(
+            "InputConfig" => InputConfig,
+            "JobName" => JobName,
+            "JobType" => JobType,
+            "RoleArn" => RoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_inference_recommendations_job(
+    InputConfig,
+    JobName,
+    JobType,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateInferenceRecommendationsJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InputConfig" => InputConfig,
+                    "JobName" => JobName,
+                    "JobType" => JobType,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_labeling_job(human_task_config, input_config, label_attribute_name, labeling_job_name, output_config, role_arn)
     create_labeling_job(human_task_config, input_config, label_attribute_name, labeling_job_name, output_config, role_arn, params::Dict{String,<:Any})
 
@@ -2191,12 +2264,22 @@ is not part of a model group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdditionalInferenceSpecifications"`: An array of additional Inference Specification
+  objects. Each additional Inference Specification specifies artifacts based on this model
+  package that can be used on inference endpoints. Generally used with SageMaker Neo to store
+  the compiled artifacts.
 - `"CertifyForMarketplace"`: Whether to certify the model package for listing on Amazon Web
   Services Marketplace. This parameter is optional for unversioned models, and does not apply
   to versioned models.
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"CustomerMetadataProperties"`: The metadata properties associated with the model package
   versions.
+- `"Domain"`: The machine learning domain of your model package and its components. Common
+  machine learning domains include computer vision and natural language processing.
+- `"DriftCheckBaselines"`: Represents the drift check baselines that can be used when the
+  model monitor is set using the model package. For more information, see the topic on Drift
+  Detection against Previous Baselines in SageMaker Pipelines in the Amazon SageMaker
+  Developer Guide.
 - `"InferenceSpecification"`: Specifies details about inference jobs that can be run with
   models based on this model package, including the following:   The Amazon ECR paths of
   containers that contain the inference code and model artifacts.   The instance types that
@@ -2214,10 +2297,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelPackageName"`: The name of the model package. The name must have 1 to 63
   characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required
   for unversioned models. It is not applicable to versioned models.
+- `"SamplePayloadUrl"`: The Amazon Simple Storage Service (Amazon S3) path where the sample
+  payload are stored. This path must point to a single gzip compressed tar archive (.tar.gz
+  suffix).
 - `"SourceAlgorithmSpecification"`: Details about the algorithm that was used to create the
   model package.
 - `"Tags"`: A list of key value pairs associated with the model. For more information, see
   Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+- `"Task"`: The machine learning task your model package accomplishes. Common machine
+  learning tasks include object detection and image classification.
 - `"ValidationSpecification"`: Specifies configurations for one or more transform jobs that
   Amazon SageMaker runs to test the model package.
 """
@@ -5979,6 +6067,39 @@ function describe_image_version(
 end
 
 """
+    describe_inference_recommendations_job(job_name)
+    describe_inference_recommendations_job(job_name, params::Dict{String,<:Any})
+
+Provides the results of the Inference Recommender job. One or more recommendation jobs are
+returned.
+
+# Arguments
+- `job_name`: The name of the job. The name must be unique within an Amazon Web Services
+  Region in the Amazon Web Services account.
+
+"""
+function describe_inference_recommendations_job(
+    JobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeInferenceRecommendationsJob",
+        Dict{String,Any}("JobName" => JobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_inference_recommendations_job(
+    JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeInferenceRecommendationsJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_labeling_job(labeling_job_name)
     describe_labeling_job(labeling_job_name, params::Dict{String,<:Any})
 
@@ -6008,6 +6129,44 @@ function describe_labeling_job(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("LabelingJobName" => LabelingJobName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_lineage_group(lineage_group_name)
+    describe_lineage_group(lineage_group_name, params::Dict{String,<:Any})
+
+Provides a list of properties for the requested lineage group. For more information, see
+Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
+
+# Arguments
+- `lineage_group_name`: The name of the lineage group.
+
+"""
+function describe_lineage_group(
+    LineageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeLineageGroup",
+        Dict{String,Any}("LineageGroupName" => LineageGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_lineage_group(
+    LineageGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeLineageGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
             ),
         );
         aws_config=aws_config,
@@ -7028,6 +7187,43 @@ function get_device_fleet_report(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("DeviceFleetName" => DeviceFleetName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lineage_group_policy(lineage_group_name)
+    get_lineage_group_policy(lineage_group_name, params::Dict{String,<:Any})
+
+The resource policy for the lineage group.
+
+# Arguments
+- `lineage_group_name`: The name or Amazon Resource Name (ARN) of the lineage group.
+
+"""
+function get_lineage_group_policy(
+    LineageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "GetLineageGroupPolicy",
+        Dict{String,Any}("LineageGroupName" => LineageGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lineage_group_policy(
+    LineageGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "GetLineageGroupPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
             ),
         );
         aws_config=aws_config,
@@ -8058,6 +8254,53 @@ function list_images(
 end
 
 """
+    list_inference_recommendations_jobs()
+    list_inference_recommendations_jobs(params::Dict{String,<:Any})
+
+Lists recommendation jobs that satisfy various filters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`: A filter that returns only jobs created after the specified time
+  (timestamp).
+- `"CreationTimeBefore"`: A filter that returns only jobs created before the specified time
+  (timestamp).
+- `"LastModifiedTimeAfter"`: A filter that returns only jobs that were last modified after
+  the specified time (timestamp).
+- `"LastModifiedTimeBefore"`: A filter that returns only jobs that were last modified
+  before the specified time (timestamp).
+- `"MaxResults"`: The maximum number of recommendations to return in the response.
+- `"NameContains"`: A string in the job name. This filter returns only recommendations
+  whose name contains the specified string.
+- `"NextToken"`: If the response to a previous ListInferenceRecommendationsJobsRequest
+  request was truncated, the response includes a NextToken. To retrieve the next set of
+  recommendations, use the token in the next request.
+- `"SortBy"`: The parameter by which to sort the results.
+- `"SortOrder"`: The sort order for the results.
+- `"StatusEquals"`: A filter that retrieves only inference recommendations jobs with a
+  specific status.
+"""
+function list_inference_recommendations_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListInferenceRecommendationsJobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_inference_recommendations_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListInferenceRecommendationsJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_labeling_jobs()
     list_labeling_jobs(params::Dict{String,<:Any})
 
@@ -8149,6 +8392,39 @@ function list_labeling_jobs_for_workteam(
 end
 
 """
+    list_lineage_groups()
+    list_lineage_groups(params::Dict{String,<:Any})
+
+A list of lineage groups shared with your Amazon Web Services account. For more
+information, see  Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatedAfter"`: A timestamp to filter against lineage groups created after a certain
+  point in time.
+- `"CreatedBefore"`: A timestamp to filter against lineage groups created before a certain
+  point in time.
+- `"MaxResults"`: The maximum number of endpoints to return in the response. This value
+  defaults to 10.
+- `"NextToken"`: If the response is truncated, SageMaker returns this token. To retrieve
+  the next set of algorithms, use it in the subsequent request.
+- `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
+- `"SortOrder"`: The sort order for the results. The default is Ascending.
+"""
+function list_lineage_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "ListLineageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_lineage_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListLineageGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_model_bias_job_definitions()
     list_model_bias_job_definitions(params::Dict{String,<:Any})
 
@@ -8232,6 +8508,37 @@ function list_model_explainability_job_definitions(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_model_metadata()
+    list_model_metadata(params::Dict{String,<:Any})
+
+Lists the domain, framework, task, and model name of standard machine learning models found
+in common model zoos.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of models to return in the response.
+- `"NextToken"`: If the response to a previous ListModelMetadataResponse request was
+  truncated, the response includes a NextToken. To retrieve the next set of model metadata,
+  use the token in the next request.
+- `"SearchExpression"`: One or more filters that searches for the specified resource or
+  resources in a search. All resource objects that satisfy the expression's condition are
+  included in the search results. Specify the Framework, FrameworkVersion, Domain or Task to
+  filter supported. Filter names and values are case-sensitive.
+"""
+function list_model_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "ListModelMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_model_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListModelMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -9291,6 +9598,61 @@ function put_model_package_group_policy(
 end
 
 """
+    query_lineage(start_arns)
+    query_lineage(start_arns, params::Dict{String,<:Any})
+
+Use this action to inspect your lineage and discover relationships between entities. For
+more information, see  Querying Lineage Entities in the Amazon SageMaker Developer Guide.
+
+# Arguments
+- `start_arns`: A list of resource Amazon Resource Name (ARN) that represent the starting
+  point for your lineage query.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Direction"`: Associations between lineage entities are directed. This parameter
+  determines the direction from the StartArn(s) the query will look.
+- `"Filters"`: A set of filtering parameters that allow you to specify which entities
+  should be returned.   Properties - Key-value pairs to match on the lineage entities'
+  properties.   LineageTypes - A set of lineage entity types to match on. For example:
+  TrialComponent, Artifact, or Context.   CreatedBefore - Filter entities created before this
+  date.   ModifiedBefore - Filter entities modified before this date.   ModifiedAfter -
+  Filter entities modified after this date.
+- `"IncludeEdges"`:  Setting this value to True will retrieve not only the entities of
+  interest but also the Associations and lineage entities on the path. Set to False to only
+  return lineage entities that match your query.
+- `"MaxDepth"`: The maximum depth in lineage relationships from the StartArns that will be
+  traversed. Depth is a measure of the number of Associations from the StartArn entity to the
+  matched results.
+- `"MaxResults"`: Limits the number of vertices in the results. Use the NextToken in a
+  response to to retrieve the next page of results.
+- `"NextToken"`: Limits the number of vertices in the request. Use the NextToken in a
+  response to to retrieve the next page of results.
+"""
+function query_lineage(StartArns; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "QueryLineage",
+        Dict{String,Any}("StartArns" => StartArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function query_lineage(
+    StartArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "QueryLineage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StartArns" => StartArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_devices(device_fleet_name, devices)
     register_devices(device_fleet_name, devices, params::Dict{String,<:Any})
 
@@ -9872,6 +10234,37 @@ function stop_hyper_parameter_tuning_job(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_inference_recommendations_job(job_name)
+    stop_inference_recommendations_job(job_name, params::Dict{String,<:Any})
+
+Stops an Inference Recommender job.
+
+# Arguments
+- `job_name`: The name of the job you want to stop.
+
+"""
+function stop_inference_recommendations_job(
+    JobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "StopInferenceRecommendationsJob",
+        Dict{String,Any}("JobName" => JobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_inference_recommendations_job(
+    JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "StopInferenceRecommendationsJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -10733,6 +11126,11 @@ Updates a versioned model.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdditionalInferenceSpecificationsToAdd"`: An array of additional Inference
+  Specification objects to be added to the existing array additional Inference Specification.
+  Total number of additional Inference Specifications can not exceed 15. Each additional
+  Inference Specification specifies artifacts based on this model package that can be used on
+  inference endpoints. Generally used with SageMaker Neo to store the compiled artifacts.
 - `"ApprovalDescription"`: A description for the approval status of the model.
 - `"CustomerMetadataProperties"`: The metadata properties associated with the model package
   versions.
