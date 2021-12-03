@@ -53,15 +53,16 @@ enables the SRT to inspect your WAF configuration and create or update WAF rules
 ACLs. You can associate only one RoleArn with your subscription. If you submit an
 AssociateDRTRole request for an account that already has an associated role, the new
 RoleArn will replace the existing RoleArn.  Prior to making the AssociateDRTRole request,
-you must attach the AWSShieldDRTAccessPolicy managed policy to the role you will specify in
-the request. For more information see Attaching and Detaching IAM Policies. The role must
-also trust the service principal  drt.shield.amazonaws.com. For more information, see IAM
-JSON Policy Elements: Principal. The SRT will have access only to your WAF and Shield
-resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield
+you must attach the AWSShieldDRTAccessPolicy managed policy to the role that you'll specify
+in the request. You can access this policy in the IAM console at AWSShieldDRTAccessPolicy.
+For more information see Adding and removing IAM identity permissions. The role must also
+trust the service principal drt.shield.amazonaws.com. For more information, see IAM JSON
+policy elements: Principal. The SRT will have access only to your WAF and Shield resources.
+By submitting this request, you authorize the SRT to inspect your WAF and Shield
 configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes
 these actions only if explicitly authorized by you. You must have the iam:PassRole
-permission to make an AssociateDRTRole request. For more information, see Granting a User
-Permissions to Pass a Role to an Amazon Web Services Service.  To use the services of the
+permission to make an AssociateDRTRole request. For more information, see Granting a user
+permissions to pass a role to an Amazon Web Services service.  To use the services of the
 SRT and make an AssociateDRTRole request, you must be subscribed to the Business Support
 plan or the Enterprise Support plan.
 
@@ -97,8 +98,8 @@ end
 
 Adds health-based detection to the Shield Advanced protection for a resource. Shield
 Advanced health-based detection uses the health of your Amazon Web Services resource to
-improve responsiveness and accuracy in attack detection and mitigation.  You define the
-health check in Route 53 and then associate it with your Shield Advanced protection. For
+improve responsiveness and accuracy in attack detection and response.  You define the
+health check in Route 53 and then associate it with your Shield Advanced protection. For
 more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide.
 
 # Arguments
@@ -201,11 +202,11 @@ end
 
 Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an
 Amazon CloudFront distribution, Elastic Load Balancing load balancer, Global Accelerator
-accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection
-to only a single resource with each CreateProtection request. If you want to add protection
-to multiple resources at once, use the WAF console. For more information see Getting
-Started with Shield Advanced and Add Shield Advanced Protection to more Amazon Web Services
-Resources.
+accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection
+to only a single resource with each CreateProtection request. You can add protection to
+multiple resources at once through the Shield Advanced console at
+https://console.aws.amazon.com/wafv2/shieldv2#/. For more information see Getting Started
+with Shield Advanced and Adding Shield Advanced protection to Amazon Web Services resources.
 
 # Arguments
 - `name`: Friendly name for the Protection you are creating.
@@ -216,7 +217,7 @@ Resources.
   arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an
   Amazon CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id
       For an Global Accelerator accelerator:
-  arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53:
+  arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53:
   arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address:
   arn:aws:ec2:region:account-id:eip-allocation/allocation-id
 
@@ -453,7 +454,7 @@ end
 Describes the details of a DDoS attack.
 
 # Arguments
-- `attack_id`: The unique identifier (ID) for the attack that to be described.
+- `attack_id`: The unique identifier (ID) for the attack.
 
 """
 function describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -650,6 +651,43 @@ function describe_subscription(
 end
 
 """
+    disable_application_layer_automatic_response(resource_arn)
+    disable_application_layer_automatic_response(resource_arn, params::Dict{String,<:Any})
+
+Disable the Shield Advanced automatic application layer DDoS mitigation feature for the
+resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for
+attacks that it detects for the resource.
+
+# Arguments
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource.
+
+"""
+function disable_application_layer_automatic_response(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "DisableApplicationLayerAutomaticResponse",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disable_application_layer_automatic_response(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DisableApplicationLayerAutomaticResponse",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disable_proactive_engagement()
     disable_proactive_engagement(params::Dict{String,<:Any})
 
@@ -678,11 +716,7 @@ end
     disassociate_drtlog_bucket(log_bucket, params::Dict{String,<:Any})
 
 Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket
-containing the logs that you shared previously. To make a DisassociateDRTLogBucket request,
-you must be subscribed to the Business Support plan or the Enterprise Support plan.
-However, if you are not subscribed to one of these support plans, but had been previously
-and had granted the SRT access to your account, you can submit a DisassociateDRTLogBucket
-request to remove this access.
+containing the logs that you shared previously.
 
 # Arguments
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
@@ -717,11 +751,7 @@ end
     disassociate_drtrole()
     disassociate_drtrole(params::Dict{String,<:Any})
 
-Removes the Shield Response Team's (SRT) access to your Amazon Web Services account. To
-make a DisassociateDRTRole request, you must be subscribed to the Business Support plan or
-the Enterprise Support plan. However, if you are not subscribed to one of these support
-plans, but had been previously and had granted the SRT access to your account, you can
-submit a DisassociateDRTRole request to remove this access.
+Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
 
 """
 function disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -746,8 +776,8 @@ end
 
 Removes health-based detection from the Shield Advanced protection for a resource. Shield
 Advanced health-based detection uses the health of your Amazon Web Services resource to
-improve responsiveness and accuracy in attack detection and mitigation.  You define the
-health check in Route 53 and then associate or disassociate it with your Shield Advanced
+improve responsiveness and accuracy in attack detection and response.  You define the
+health check in Route 53 and then associate or disassociate it with your Shield Advanced
 protection. For more information, see Shield Advanced Health-Based Detection in the WAF
 Developer Guide.
 
@@ -784,6 +814,65 @@ function disassociate_health_check(
                 Dict{String,Any}(
                     "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_application_layer_automatic_response(action, resource_arn)
+    enable_application_layer_automatic_response(action, resource_arn, params::Dict{String,<:Any})
+
+Enable the Shield Advanced automatic application layer DDoS mitigation for the resource.
+This feature is available for Amazon CloudFront distributions only.  This causes Shield
+Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the
+resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that
+you've associated with the resource. For information about how automatic mitigation works
+and the requirements for using it, see Shield Advanced automatic application layer DDoS
+mitigation. Don't use this action to make changes to automatic mitigation settings when
+it's already enabled for a resource. Instead, use UpdateApplicationLayerAutomaticResponse.
+To use this feature, you must associate a web ACL with the protected resource. The web ACL
+must be created using the latest version of WAF (v2). You can associate the web ACL through
+the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/. For more
+information, see Getting Started with Shield Advanced. You can also do this through the WAF
+console or the WAF API, but you must manage Shield Advanced automatic mitigation through
+Shield Advanced. For information about WAF, see WAF Developer Guide.
+
+# Arguments
+- `action`: Specifies the action setting that Shield Advanced should use in the WAF rules
+  that it creates on behalf of the protected resource in response to DDoS attacks. You
+  specify this as part of the configuration for the automatic application layer DDoS
+  mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates
+  the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have
+  associated with the resource.
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource.
+
+"""
+function enable_application_layer_automatic_response(
+    Action, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "EnableApplicationLayerAutomaticResponse",
+        Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function enable_application_layer_automatic_response(
+    Action,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "EnableApplicationLayerAutomaticResponse",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn),
                 params,
             ),
         );
@@ -848,21 +937,28 @@ Returns all ongoing DDoS attacks or all DDoS attacks during a specified time per
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EndTime"`: The end of the time period for the attacks. This is a timestamp type. The
-  sample request above indicates a number type because the default used by WAF is Unix time
-  in seconds. However any valid timestamp format is allowed.
-- `"MaxResults"`: The maximum number of AttackSummary objects to return. If you leave this
-  blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
-  Advanced might return the results in smaller batches. That is, the number of objects
-  returned could be less than MaxResults, even if there are still more objects yet to return.
-  If there are more objects to return, Shield Advanced returns a value in NextToken that you
-  can use in your next request, to get the next batch of objects.
-- `"NextToken"`: The ListAttacksRequest.NextMarker value from a previous call to
-  ListAttacksRequest. Pass null if this is the first call.
-- `"ResourceArns"`: The ARN (Amazon Resource Name) of the resource that was attacked. If
-  this is left blank, all applicable resources for this account will be included.
+  request syntax listing for this call indicates a number type, but you can provide the time
+  in any valid timestamp format setting.
+- `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
+  the list request. Shield Advanced might return fewer objects than you indicate in this
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a NextToken value in the response. The default setting is
+  20.
+- `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
+  does not include all of the remaining available objects, Shield Advanced includes a
+  NextToken value in the response. You can retrieve the next batch of objects by requesting
+  the list again and providing the token that was returned by the prior call in your request.
+   You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the MaxResults setting. Shield Advanced will not return more than
+  MaxResults objects, but may return fewer, even if more objects are still available.
+  Whenever more objects remain that Shield Advanced has not yet returned to you, the response
+  will include a NextToken value. On your first call to a list operation, leave this setting
+  empty.
+- `"ResourceArns"`: The ARNs (Amazon Resource Names) of the resources that were attacked.
+  If you leave this blank, all applicable resources for this account will be included.
 - `"StartTime"`: The start of the time period for the attacks. This is a timestamp type.
-  The sample request above indicates a number type because the default used by WAF is Unix
-  time in seconds. However any valid timestamp format is allowed.
+  The request syntax listing for this call indicates a number type, but you can provide the
+  time in any valid timestamp format setting.
 """
 function list_attacks(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -883,14 +979,21 @@ Retrieves the ProtectionGroup objects for the account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of ProtectionGroup objects to return. If you leave
-  this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
-  Advanced might return the results in smaller batches. That is, the number of objects
-  returned could be less than MaxResults, even if there are still more objects yet to return.
-  If there are more objects to return, Shield Advanced returns a value in NextToken that you
-  can use in your next request, to get the next batch of objects.
-- `"NextToken"`: The next token value from a previous call to ListProtectionGroups. Pass
-  null if this is the first call.
+- `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
+  the list request. Shield Advanced might return fewer objects than you indicate in this
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a NextToken value in the response. The default setting is
+  20.
+- `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
+  does not include all of the remaining available objects, Shield Advanced includes a
+  NextToken value in the response. You can retrieve the next batch of objects by requesting
+  the list again and providing the token that was returned by the prior call in your request.
+   You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the MaxResults setting. Shield Advanced will not return more than
+  MaxResults objects, but may return fewer, even if more objects are still available.
+  Whenever more objects remain that Shield Advanced has not yet returned to you, the response
+  will include a NextToken value. On your first call to a list operation, leave this setting
+  empty.
 """
 function list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
@@ -916,14 +1019,21 @@ Lists all Protection objects for the account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of Protection objects to return. If you leave this
-  blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
-  Advanced might return the results in smaller batches. That is, the number of objects
-  returned could be less than MaxResults, even if there are still more objects yet to return.
-  If there are more objects to return, Shield Advanced returns a value in NextToken that you
-  can use in your next request, to get the next batch of objects.
-- `"NextToken"`: The ListProtectionsRequest.NextToken value from a previous call to
-  ListProtections. Pass null if this is the first call.
+- `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
+  the list request. Shield Advanced might return fewer objects than you indicate in this
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a NextToken value in the response. The default setting is
+  20.
+- `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
+  does not include all of the remaining available objects, Shield Advanced includes a
+  NextToken value in the response. You can retrieve the next batch of objects by requesting
+  the list again and providing the token that was returned by the prior call in your request.
+   You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the MaxResults setting. Shield Advanced will not return more than
+  MaxResults objects, but may return fewer, even if more objects are still available.
+  Whenever more objects remain that Shield Advanced has not yet returned to you, the response
+  will include a NextToken value. On your first call to a list operation, leave this setting
+  empty.
 """
 function list_protections(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield("ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -949,14 +1059,21 @@ Retrieves the resources that are included in the protection group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of resource ARN objects to return. If you leave this
-  blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
-  Advanced might return the results in smaller batches. That is, the number of objects
-  returned could be less than MaxResults, even if there are still more objects yet to return.
-  If there are more objects to return, Shield Advanced returns a value in NextToken that you
-  can use in your next request, to get the next batch of objects.
-- `"NextToken"`: The next token value from a previous call to
-  ListResourcesInProtectionGroup. Pass null if this is the first call.
+- `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
+  the list request. Shield Advanced might return fewer objects than you indicate in this
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a NextToken value in the response. The default setting is
+  20.
+- `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
+  does not include all of the remaining available objects, Shield Advanced includes a
+  NextToken value in the response. You can retrieve the next batch of objects by requesting
+  the list again and providing the token that was returned by the prior call in your request.
+   You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the MaxResults setting. Shield Advanced will not return more than
+  MaxResults objects, but may return fewer, even if more objects are still available.
+  Whenever more objects remain that Shield Advanced has not yet returned to you, the response
+  will include a NextToken value. On your first call to a list operation, leave this setting
+  empty.
 """
 function list_resources_in_protection_group(
     ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1095,6 +1212,53 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_application_layer_automatic_response(action, resource_arn)
+    update_application_layer_automatic_response(action, resource_arn, params::Dict{String,<:Any})
+
+Updates an existing Shield Advanced automatic application layer DDoS mitigation
+configuration for the specified resource.
+
+# Arguments
+- `action`: Specifies the action setting that Shield Advanced should use in the WAF rules
+  that it creates on behalf of the protected resource in response to DDoS attacks. You
+  specify this as part of the configuration for the automatic application layer DDoS
+  mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates
+  the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have
+  associated with the resource.
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource.
+
+"""
+function update_application_layer_automatic_response(
+    Action, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "UpdateApplicationLayerAutomaticResponse",
+        Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_application_layer_automatic_response(
+    Action,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "UpdateApplicationLayerAutomaticResponse",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn),
                 params,
             ),
         );

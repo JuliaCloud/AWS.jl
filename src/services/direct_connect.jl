@@ -2778,8 +2778,10 @@ DescribeVirtualInterfaces.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableSiteLink"`: Indicates whether to enable or disable SiteLink.
 - `"mtu"`: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and
   9001. The default value is 1500.
+- `"virtualInterfaceName"`: The name of the virtual private interface.
 """
 function update_virtual_interface_attributes(
     virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()

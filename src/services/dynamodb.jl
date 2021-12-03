@@ -449,6 +449,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was
   modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item
   images of the item are written to the stream.
+- `"TableClass"`: The table class of the new table. Valid values are STANDARD and
+  STANDARD_INFREQUENT_ACCESS.
 - `"Tags"`: A list of key-value pairs to label the table. For more information, see Tagging
   for DynamoDB.
 """
@@ -2872,6 +2874,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamSpecification"`: Represents the DynamoDB Streams configuration for the table.
   You receive a ResourceInUseException if you try to enable a stream on a table that already
   has a stream, or if you try to disable a stream on a table that doesn't have a stream.
+- `"TableClass"`: The table class of the table to be updated. Valid values are STANDARD and
+  STANDARD_INFREQUENT_ACCESS.
 """
 function update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(

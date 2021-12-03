@@ -288,11 +288,12 @@ your organization, you can filter those accounts using the AccountIds field.
 
 # Arguments
 - `organization_resource_collection_type`:  An Amazon Web Services resource collection
-  type. This type specifies how analyzed Amazon Web Services resources are defined. The one
-  type of Amazon Web Services resource collection supported is Amazon Web Services
-  CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon Web
-  Services resources that are defined in the stacks. You can specify up to 500 Amazon Web
-  Services CloudFormation stacks.
+  type. This type specifies how analyzed Amazon Web Services resources are defined. The two
+  types of Amazon Web Services resource collections supported are Amazon Web Services
+  CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web
+  Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources
+  that are defined in the stacks or that are tagged using the same tag key. You can specify
+  up to 500 Amazon Web Services CloudFormation stacks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -308,7 +309,7 @@ function describe_organization_resource_collection_health(
 )
     return devops_guru(
         "POST",
-        "/organization/health/resource-collection/",
+        "/organization/health/resource-collection",
         Dict{String,Any}(
             "OrganizationResourceCollectionType" => OrganizationResourceCollectionType
         );
@@ -323,7 +324,7 @@ function describe_organization_resource_collection_health(
 )
     return devops_guru(
         "POST",
-        "/organization/health/resource-collection/",
+        "/organization/health/resource-collection",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -345,17 +346,21 @@ end
 
  Returns the number of open proactive insights, open reactive insights, and the Mean Time
 to Recover (MTTR) for all closed insights in resource collections in your account. You
-specify the type of Amazon Web Services resources collection. The one type of Amazon Web
-Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps
-Guru can be configured to analyze only the Amazon Web Services resources that are defined
-in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+specify the type of Amazon Web Services resources collection. The two types of Amazon Web
+Services resource collections supported are Amazon Web Services CloudFormation stacks and
+Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru
+can be configured to analyze the Amazon Web Services resources that are defined in the
+stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web
+Services CloudFormation stacks.
 
 # Arguments
 - `resource_collection_type`:  An Amazon Web Services resource collection type. This type
-  specifies how analyzed Amazon Web Services resources are defined. The one type of Amazon
-  Web Services resource collection supported is Amazon Web Services CloudFormation stacks.
-  DevOps Guru can be configured to analyze only the Amazon Web Services resources that are
-  defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+  specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon
+  Web Services resource collections supported are Amazon Web Services CloudFormation stacks
+  and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps
+  Guru can be configured to analyze the Amazon Web Services resources that are defined in the
+  stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web
+  Services CloudFormation stacks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -450,10 +455,11 @@ end
     get_resource_collection(resource_collection_type, params::Dict{String,<:Any})
 
  Returns lists Amazon Web Services resources that are of the specified resource collection
-type. The one type of Amazon Web Services resource collection supported is Amazon Web
-Services CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon
-Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web
-Services CloudFormation stacks.
+type. The two types of Amazon Web Services resource collections supported are Amazon Web
+Services CloudFormation stacks and Amazon Web Services resources that contain the same
+Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services
+resources that are defined in the stacks or that are tagged using the same tag key. You can
+specify up to 500 Amazon Web Services CloudFormation stacks.
 
 # Arguments
 - `resource_collection_type`:  The type of Amazon Web Services resource collections to
@@ -955,11 +961,13 @@ end
     update_resource_collection(action, resource_collection)
     update_resource_collection(action, resource_collection, params::Dict{String,<:Any})
 
- Updates the collection of resources that DevOps Guru analyzes. The one type of Amazon Web
-Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps
-Guru can be configured to analyze only the Amazon Web Services resources that are defined
-in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks. This
-method also creates the IAM role required for you to use DevOps Guru.
+ Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web
+Services resource collections supported are Amazon Web Services CloudFormation stacks and
+Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru
+can be configured to analyze the Amazon Web Services resources that are defined in the
+stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web
+Services CloudFormation stacks. This method also creates the IAM role required for you to
+use DevOps Guru.
 
 # Arguments
 - `action`:  Specifies if the resource collection in the request is added or deleted to the

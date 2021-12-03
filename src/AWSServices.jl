@@ -17,6 +17,9 @@ const alexa_for_business = AWS.JSONService(
 const amp = AWS.RestJSONService("aps", "aps", "2020-08-01")
 const amplify = AWS.RestJSONService("amplify", "amplify", "2017-07-25")
 const amplifybackend = AWS.RestJSONService("amplifybackend", "amplifybackend", "2020-08-11")
+const amplifyuibuilder = AWS.RestJSONService(
+    "amplifyuibuilder", "amplifyuibuilder", "2021-08-11"
+)
 const api_gateway = AWS.RestJSONService("apigateway", "apigateway", "2015-07-09")
 const apigatewaymanagementapi = AWS.RestJSONService(
     "execute-api", "execute-api", "2018-11-29"
