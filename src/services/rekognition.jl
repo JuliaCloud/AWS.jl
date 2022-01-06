@@ -22,7 +22,7 @@ as base64-encoded image bytes or as references to images in an Amazon S3 bucket.
 the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The
 image must be formatted as a PNG or JPEG file.  In response, the operation returns an array
 of face matches ordered by similarity score in descending order. For each face match, the
-response provides a bounding box of the face, facial landmarks, pose details (pitch, role,
+response provides a bounding box of the face, facial landmarks, pose details (pitch, roll,
 and yaw), quality (brightness and sharpness), and confidence value (indicating the level of
 confidence that the bounding box contains a face). The response also provides a similarity
 score, which indicates how closely the faces match.   By default, only faces with a
@@ -1154,15 +1154,15 @@ reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image byt
 supported. The image must be either a .png or .jpeg formatted file.  The DetectText
 operation returns text in an array of TextDetection elements, TextDetections. Each
 TextDetection element provides information about a single word or line of text that was
-detected in the image.  A word is one or more ISO basic latin script characters that are
-not separated by spaces. DetectText can detect up to 100 words in an image. A line is a
-string of equally spaced words. A line isn't necessarily a complete sentence. For example,
-a driver's license number is detected as a line. A line ends when there is no aligned text
-after it. Also, a line ends when there is a large gap between words, relative to the length
-of the words. This means, depending on the gap between words, Amazon Rekognition may detect
-multiple lines in text aligned in the same direction. Periods don't represent the end of a
-line. If a sentence spans multiple lines, the DetectText operation returns multiple lines.
-To determine whether a TextDetection element is a line of text or a word, use the
+detected in the image.  A word is one or more script characters that are not separated by
+spaces. DetectText can detect up to 100 words in an image. A line is a string of equally
+spaced words. A line isn't necessarily a complete sentence. For example, a driver's license
+number is detected as a line. A line ends when there is no aligned text after it. Also, a
+line ends when there is a large gap between words, relative to the length of the words.
+This means, depending on the gap between words, Amazon Rekognition may detect multiple
+lines in text aligned in the same direction. Periods don't represent the end of a line. If
+a sentence spans multiple lines, the DetectText operation returns multiple lines. To
+determine whether a TextDetection element is a line of text or a word, use the
 TextDetection object Type field.  To be detected, text must be within +/- 90 degrees
 orientation of the horizontal axis. For more information, see DetectText in the Amazon
 Rekognition Developer Guide.
@@ -1798,12 +1798,12 @@ assigned by the service for each face that's detected and stored.   An image ID,
 assigned by the service for the input image.   If you request all facial attributes (by
 using the detectionAttributes parameter), Amazon Rekognition returns detailed facial
 attributes, such as facial landmarks (for example, location of eye and mouth) and other
-facial attributes. If you provide the same image, specify the same collection, and use the
-same external ID in the IndexFaces operation, Amazon Rekognition doesn't save duplicate
-face metadata.  The input image is passed either as base64-encoded image bytes, or as a
-reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon
-Rekognition operations, passing image bytes isn't supported. The image must be formatted as
-a PNG or JPEG file.  This operation requires permissions to perform the
+facial attributes. If you provide the same image, specify the same collection, use the same
+external ID, and use the same model version in the IndexFaces operation, Amazon Rekognition
+doesn't save duplicate face metadata.  The input image is passed either as base64-encoded
+image bytes, or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI
+to call Amazon Rekognition operations, passing image bytes isn't supported. The image must
+be formatted as a PNG or JPEG file.  This operation requires permissions to perform the
 rekognition:IndexFaces action.
 
 # Arguments

@@ -12,7 +12,7 @@ Gets the properties associated with a medical entities detection job. Use this o
 get the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+- `job_id`: The identifier that Comprehend Medical; generated for the job. The
   StartEntitiesDetectionV2Job operation returns this identifier in its response.
 
 """
@@ -78,7 +78,7 @@ Gets the properties associated with a protected health information (PHI) detecti
 this operation to get the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+- `job_id`: The identifier that Comprehend Medical; generated for the job. The
   StartPHIDetectionJob operation returns this identifier in its response.
 
 """
@@ -128,6 +128,39 @@ function describe_rx_norm_inference_job(
 )
     return comprehendmedical(
         "DescribeRxNormInferenceJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_snomedctinference_job(job_id)
+    describe_snomedctinference_job(job_id, params::Dict{String,<:Any})
+
+ Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the
+status of an inference job.
+
+# Arguments
+- `job_id`:  The identifier that Amazon Comprehend Medical generated for the job. The
+  StartSNOMEDCTInferenceJob operation returns this identifier in its response.
+
+"""
+function describe_snomedctinference_job(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "DescribeSNOMEDCTInferenceJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_snomedctinference_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "DescribeSNOMEDCTInferenceJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -303,6 +336,37 @@ function infer_rx_norm(
 end
 
 """
+    infer_snomedct(text)
+    infer_snomedct(text, params::Dict{String,<:Any})
+
+ InferSNOMEDCT detects possible medical concepts as entities and links them to codes from
+the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+
+# Arguments
+- `text`:  The input text to be analyzed using InferSNOMEDCT. The text should be a string
+  with 1 to 10000 characters.
+
+"""
+function infer_snomedct(Text; aws_config::AbstractAWSConfig=global_aws_config())
+    return comprehendmedical(
+        "InferSNOMEDCT",
+        Dict{String,Any}("Text" => Text);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function infer_snomedct(
+    Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "InferSNOMEDCT",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_entities_detection_v2_jobs()
     list_entities_detection_v2_jobs(params::Dict{String,<:Any})
 
@@ -427,6 +491,35 @@ function list_rx_norm_inference_jobs(
 end
 
 """
+    list_snomedctinference_jobs()
+    list_snomedctinference_jobs(params::Dict{String,<:Any})
+
+ Gets a list of InferSNOMEDCT jobs a user has submitted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`:
+- `"MaxResults"`:  The maximum number of results to return in each page. The default is
+  100.
+- `"NextToken"`:  Identifies the next page of InferSNOMEDCT results to return.
+"""
+function list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return comprehendmedical(
+        "ListSNOMEDCTInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_snomedctinference_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "ListSNOMEDCTInferenceJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_entities_detection_v2_job(data_access_role_arn, input_data_config, language_code, output_data_config)
     start_entities_detection_v2_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
@@ -435,17 +528,19 @@ DescribeEntitiesDetectionV2Job operation to track the status of a job.
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
-- `input_data_config`: Specifies the format and location of the input data for the job.
+  Management (IAM) role that grants Comprehend Medical; read access to your input data. For
+  more information, see  Role-Based Permissions Required for Asynchronous Operations.
+- `input_data_config`: The input configuration that specifies the format and location of
+  the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
-  language.
-- `output_data_config`: Specifies where to send the output files.
+  language. Comprehend Medical; processes files in US English (en).
+- `output_data_config`: The output configuration that specifies where to send the output
+  files.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
-  request token, Amazon Comprehend Medical generates one.
+  request token, Comprehend Medical; generates one for you.
 - `"JobName"`: The identifier of the job.
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
@@ -507,8 +602,8 @@ ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Comprehend Medical; read access to your input data. For
+  more information, see  Role-Based Permissions Required for Asynchronous Operations.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -517,7 +612,7 @@ ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
-  request token, Amazon Comprehend Medical generates one.
+  request token, Comprehend Medical; generates one.
 - `"JobName"`: The identifier of the job.
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
@@ -579,8 +674,8 @@ DescribePHIDetectionJob operation to track the status of a job.
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Comprehend Medical; read access to your input data. For
+  more information, see  Role-Based Permissions Required for Asynchronous Operations.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -589,7 +684,7 @@ DescribePHIDetectionJob operation to track the status of a job.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
-  request token, Amazon Comprehend Medical generates one.
+  request token, Comprehend Medical; generates one.
 - `"JobName"`: The identifier of the job.
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
@@ -651,8 +746,8 @@ ontology. Use the DescribeRxNormInferenceJob operation to track the status of a 
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Comprehend Medical; read access to your input data. For
+  more information, see  Role-Based Permissions Required for Asynchronous Operations.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
@@ -661,7 +756,7 @@ ontology. Use the DescribeRxNormInferenceJob operation to track the status of a 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
-  request token, Amazon Comprehend Medical generates one.
+  request token, Comprehend Medical; generates one.
 - `"JobName"`: The identifier of the job.
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
@@ -696,6 +791,77 @@ function start_rx_norm_inference_job(
 )
     return comprehendmedical(
         "StartRxNormInferenceJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataAccessRoleArn" => DataAccessRoleArn,
+                    "InputDataConfig" => InputDataConfig,
+                    "LanguageCode" => LanguageCode,
+                    "OutputDataConfig" => OutputDataConfig,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_snomedctinference_job(data_access_role_arn, input_data_config, language_code, output_data_config)
+    start_snomedctinference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
+
+ Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT
+ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
+
+# Arguments
+- `data_access_role_arn`:  The Amazon Resource Name (ARN) of the AWS Identity and Access
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
+- `input_data_config`:
+- `language_code`:  The language of the input documents. All documents must be in the same
+  language.
+- `output_data_config`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:  A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend Medical generates one.
+- `"JobName"`:  The user generated name the asynchronous InferSNOMEDCT job.
+- `"KMSKey"`:  An AWS Key Management Service key used to encrypt your output files. If you
+  do not specify a key, the files are written in plain text.
+"""
+function start_snomedctinference_job(
+    DataAccessRoleArn,
+    InputDataConfig,
+    LanguageCode,
+    OutputDataConfig;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehendmedical(
+        "StartSNOMEDCTInferenceJob",
+        Dict{String,Any}(
+            "DataAccessRoleArn" => DataAccessRoleArn,
+            "InputDataConfig" => InputDataConfig,
+            "LanguageCode" => LanguageCode,
+            "OutputDataConfig" => OutputDataConfig,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_snomedctinference_job(
+    DataAccessRoleArn,
+    InputDataConfig,
+    LanguageCode,
+    OutputDataConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehendmedical(
+        "StartSNOMEDCTInferenceJob",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -830,6 +996,37 @@ function stop_rx_norm_inference_job(
 )
     return comprehendmedical(
         "StopRxNormInferenceJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_snomedctinference_job(job_id)
+    stop_snomedctinference_job(job_id, params::Dict{String,<:Any})
+
+ Stops an InferSNOMEDCT inference job in progress.
+
+# Arguments
+- `job_id`:  The job id of the asynchronous InferSNOMEDCT job to be stopped.
+
+"""
+function stop_snomedctinference_job(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "StopSNOMEDCTInferenceJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_snomedctinference_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehendmedical(
+        "StopSNOMEDCTInferenceJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

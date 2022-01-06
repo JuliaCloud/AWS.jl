@@ -734,6 +734,10 @@ Creates an authorizer. Requires permission to access the CreateAuthorizer action
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for clients that use persistent HTTP connections. The results are cached for the
+  time specified by the Lambda function in refreshAfterInSeconds. This value does not affect
+  authorization of clients that use MQTT connections. The default value is false.
 - `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
 - `"status"`: The status of the create authorizer request.
@@ -1204,7 +1208,7 @@ Creates a job. Requires permission to access the CreateJob action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"abortConfig"`: Allows you to create criteria to abort a job.
+- `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
 - `"documentParameters"`: Parameters of a managed template that you can specify to create
@@ -1214,6 +1218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when specifying the document. The placeholder link is of the following form:
   {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket
   name and key is the object in the bucket to which you are linking.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"jobTemplateArn"`: The ARN of the job template used to create the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
@@ -1278,6 +1283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
   bucket is your bucket name and key is the object in the bucket to which you are linking.
 - `"jobArn"`: The ARN of the job to use as the basis for the job template.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`:
 - `"presignedUrlConfig"`:
 - `"tags"`: Metadata that can be used to manage the job template.
@@ -6024,6 +6030,7 @@ ListJobExecutionsForThing action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobId"`: The unique identifier you assigned to this job when it was created.
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -8563,6 +8570,9 @@ Updates an authorizer. Requires permission to access the UpdateAuthorizer action
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorizerFunctionArn"`: The ARN of the authorizer's Lambda function.
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for the time specified in refreshAfterInSeconds. The cached result is used while
+  the device reuses the same HTTP connection.
 - `"status"`: The status of the update authorizer request.
 - `"tokenKeyName"`: The key used to extract the token from the HTTP headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the token signature.
@@ -9040,6 +9050,7 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`: Allows you to create criteria to abort a job.
 - `"description"`: A short text description of the job.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs

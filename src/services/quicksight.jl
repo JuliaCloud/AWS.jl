@@ -272,7 +272,8 @@ end
     create_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map)
     create_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map, params::Dict{String,<:Any})
 
-Creates a dataset.
+Creates a dataset. This operation doesn't support datasets that include uploaded files as a
+source.
 
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
@@ -679,11 +680,14 @@ end
     create_ingestion(aws_account_id, data_set_id, ingestion_id)
     create_ingestion(aws_account_id, data_set_id, ingestion_id, params::Dict{String,<:Any})
 
-Creates and starts a new SPICE ingestion on a dataset Any ingestions operating on tagged
-datasets inherit the same tags automatically for use in access control. For an example, see
-How do I create an IAM policy to control access to Amazon EC2 resources using tags? in the
-Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on
-the ingestion resource.
+Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets
+in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
+datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is
+measured starting 24 hours before the current date and time. Any ingestions operating on
+tagged datasets inherit the same tags automatically for use in access control. For an
+example, see How do I create an IAM policy to control access to Amazon EC2 resources using
+tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset,
+but not on the ingestion resource.
 
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
@@ -2008,7 +2012,8 @@ end
     describe_data_set(aws_account_id, data_set_id)
     describe_data_set(aws_account_id, data_set_id, params::Dict{String,<:Any})
 
-Describes a dataset.
+Describes a dataset. This operation doesn't support datasets that include uploaded files as
+a source.
 
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
@@ -4671,7 +4676,8 @@ end
     update_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map)
     update_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map, params::Dict{String,<:Any})
 
-Updates a dataset.
+Updates a dataset. This operation doesn't support datasets that include uploaded files as a
+source.
 
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.

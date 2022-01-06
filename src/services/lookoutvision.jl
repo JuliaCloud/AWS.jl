@@ -31,12 +31,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asynchronous and might take a while to complete. To find out the current status, Check the
   value of Status returned in a call to DescribeDataset.
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  CreateDataset completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from CreateDataset. In
-  this case, safely retry your call to CreateDataset by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to CreateDataset.
-  An idempotency token is active for 8 hours.
+  CreateDataset completes only once. You choose the value to pass. For example, An issue
+  might prevent you from getting a response from CreateDataset. In this case, safely retry
+  your call to CreateDataset by using the same ClientToken parameter value. If you don't
+  supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This
+  prevents retries after a network error from making multiple dataset creation requests.
+  You'll need to provide your own value for other use cases.  An error occurs if the other
+  input parameters are not the same as in the first request. Using a different value for
+  ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8
+  hours.
 """
 function create_dataset(
     DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -96,18 +99,20 @@ require permission to the lookoutvision:TagResource operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the version of the model.
-- `"KmsKeyId"`: The identifier for your AWS Key Management Service (AWS KMS) customer
-  master key (CMK). The key is used to encrypt training and test images copied into the
-  service for model training. Your source images are unaffected. If this parameter is not
-  specified, the copied images are encrypted by a key that AWS owns and manages.
+- `"KmsKeyId"`: The identifier for your AWS KMS key. The key is used to encrypt training
+  and test images copied into the service for model training. Your source images are
+  unaffected. If this parameter is not specified, the copied images are encrypted by a key
+  that AWS owns and manages.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the model.
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  CreateModel completes only once. You choose the value to pass. For example, An issue, such
-  as an network outage, might prevent you from getting a response from CreateModel. In this
-  case, safely retry your call to CreateModel by using the same ClientToken parameter value.
-  An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for ClientToken is considered a new call to CreateModel. An
-  idempotency token is active for 8 hours.
+  CreateModel completes only once. You choose the value to pass. For example, An issue might
+  prevent you from getting a response from CreateModel. In this case, safely retry your call
+  to CreateModel by using the same ClientToken parameter value.  If you don't supply a value
+  for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries
+  after a network error from starting multiple training jobs. You'll need to provide your own
+  value for other use cases.  An error occurs if the other input parameters are not the same
+  as in the first request. Using a different value for ClientToken is considered a new call
+  to CreateModel. An idempotency token is active for 8 hours.
 """
 function create_model(
     OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -159,12 +164,15 @@ lookoutvision:CreateProject operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  CreateProject completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from CreateProject. In
-  this case, safely retry your call to CreateProject by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to CreateProject.
-  An idempotency token is active for 8 hours.
+  CreateProject completes only once. You choose the value to pass. For example, An issue
+  might prevent you from getting a response from CreateProject. In this case, safely retry
+  your call to CreateProject by using the same ClientToken parameter value.  If you don't
+  supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This
+  prevents retries after a network error from making multiple project creation requests.
+  You'll need to provide your own value for other use cases.  An error occurs if the other
+  input parameters are not the same as in the first request. Using a different value for
+  ClientToken is considered a new call to CreateProject. An idempotency token is active for 8
+  hours.
 """
 function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutvision(
@@ -221,12 +229,15 @@ lookoutvision:DeleteDataset operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  DeleteDataset completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from DeleteDataset. In
-  this case, safely retry your call to DeleteDataset by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to DeleteDataset.
-  An idempotency token is active for 8 hours.
+  DeleteDataset completes only once. You choose the value to pass. For example, An issue
+  might prevent you from getting a response from DeleteDataset. In this case, safely retry
+  your call to DeleteDataset by using the same ClientToken parameter value.  If you don't
+  supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This
+  prevents retries after a network error from making multiple deletetion requests. You'll
+  need to provide your own value for other use cases.  An error occurs if the other input
+  parameters are not the same as in the first request. Using a different value for
+  ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8
+  hours.
 """
 function delete_dataset(
     datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -264,8 +275,8 @@ end
 
 Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a
 running model, use the StopModel operation. It might take a few seconds to delete a model.
-To determine if a model has been deleted, call ListProjects and check if the version of the
-model (ModelVersion) is in the Models array.  This operation requires permissions to
+To determine if a model has been deleted, call ListModels and check if the version of the
+model (ModelVersion) is in the Models array.   This operation requires permissions to
 perform the lookoutvision:DeleteModel operation.
 
 # Arguments
@@ -275,12 +286,14 @@ perform the lookoutvision:DeleteModel operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  DeleteModel completes only once. You choose the value to pass. For example, An issue, such
-  as an network outage, might prevent you from getting a response from DeleteModel. In this
-  case, safely retry your call to DeleteModel by using the same ClientToken parameter value.
-  An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for ClientToken is considered a new call to DeleteModel. An
-  idempotency token is active for 8 hours.
+  DeleteModel completes only once. You choose the value to pass. For example, an issue might
+  prevent you from getting a response from DeleteModel. In this case, safely retry your call
+  to DeleteModel by using the same ClientToken parameter value. If you don't supply a value
+  for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries
+  after a network error from making multiple model deletion requests. You'll need to provide
+  your own value for other use cases.  An error occurs if the other input parameters are not
+  the same as in the first request. Using a different value for ClientToken is considered a
+  new call to DeleteModel. An idempotency token is active for 8 hours.
 """
 function delete_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -329,12 +342,15 @@ lookoutvision:DeleteProject operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  DeleteProject completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from DeleteProject. In
-  this case, safely retry your call to DeleteProject by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to DeleteProject.
-  An idempotency token is active for 8 hours.
+  DeleteProject completes only once. You choose the value to pass. For example, An issue
+  might prevent you from getting a response from DeleteProject. In this case, safely retry
+  your call to DeleteProject by using the same ClientToken parameter value.  If you don't
+  supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This
+  prevents retries after a network error from making multiple project deletion requests.
+  You'll need to provide your own value for other use cases.  An error occurs if the other
+  input parameters are not the same as in the first request. Using a different value for
+  ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8
+  hours.
 """
 function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutvision(
@@ -435,6 +451,46 @@ function describe_model(
     return lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_model_packaging_job(job_name, project_name)
+    describe_model_packaging_job(job_name, project_name, params::Dict{String,<:Any})
+
+Describes an Amazon Lookout for Vision model packaging job.  This operation requires
+permissions to perform the lookoutvision:DescribeModelPackagingJob operation. For more
+information, see Using your Amazon Lookout for Vision model on an edge device in the Amazon
+Lookout for Vision Developer Guide.
+
+# Arguments
+- `job_name`: The job name for the model packaging job.
+- `project_name`: The name of the project that contains the model packaging job that you
+  want to describe.
+
+"""
+function describe_model_packaging_job(
+    jobName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutvision(
+        "GET",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_model_packaging_job(
+    jobName,
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutvision(
+        "GET",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -600,11 +656,59 @@ function list_dataset_entries(
 end
 
 """
+    list_model_packaging_jobs(project_name)
+    list_model_packaging_jobs(project_name, params::Dict{String,<:Any})
+
+ Lists the model packaging jobs created for an Amazon Lookout for Vision project.  This
+operation requires permissions to perform the lookoutvision:ListModelPackagingJobs
+operation.  For more information, see Using your Amazon Lookout for Vision model on an edge
+device in the Amazon Lookout for Vision Developer Guide.
+
+# Arguments
+- `project_name`:  The name of the project for which you want to list the model packaging
+  jobs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `"nextToken"`: If the previous response was incomplete (because there is more results to
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
+  use this pagination token to retrieve the next set of results.
+"""
+function list_model_packaging_jobs(
+    projectName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutvision(
+        "GET",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_model_packaging_jobs(
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutvision(
+        "GET",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_models(project_name)
     list_models(project_name, params::Dict{String,<:Any})
 
-Lists the versions of a model in an Amazon Lookout for Vision project. This operation
-requires permissions to perform the lookoutvision:ListModels operation.
+Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels
+operation is eventually consistent. Recent calls to CreateModel might take a while to
+appear in the response from ListProjects. This operation requires permissions to perform
+the lookoutvision:ListModels operation.
 
 # Arguments
 - `project_name`: The name of the project that contains the model versions that you want to
@@ -645,7 +749,9 @@ end
     list_projects()
     list_projects(params::Dict{String,<:Any})
 
-Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires
+Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects
+operation is eventually consistent. Recent calls to CreateProject and DeleteProject might
+take a while to appear in the response from ListProjects. This operation requires
 permissions to perform the lookoutvision:ListProjects operation.
 
 # Optional Parameters
@@ -726,21 +832,22 @@ requires permissions to perform the lookoutvision:StartModel operation.
 
 # Arguments
 - `min_inference_units`: The minimum number of inference units to use. A single inference
-  unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS).
-  Use a higher number to increase the TPS throughput of your model. You are charged for the
-  number of inference units that you use.
+  unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of
+  your model. You are charged for the number of inference units that you use.
 - `model_version`: The version of the model that you want to start.
 - `project_name`: The name of the project that contains the model that you want to start.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  StartModel completes only once. You choose the value to pass. For example, An issue, such
-  as an network outage, might prevent you from getting a response from StartModel. In this
-  case, safely retry your call to StartModel by using the same ClientToken parameter value.
-  An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for ClientToken is considered a new call to StartModel. An
-  idempotency token is active for 8 hours.
+  StartModel completes only once. You choose the value to pass. For example, An issue might
+  prevent you from getting a response from StartModel. In this case, safely retry your call
+  to StartModel by using the same ClientToken parameter value.  If you don't supply a value
+  for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries
+  after a network error from making multiple start requests. You'll need to provide your own
+  value for other use cases.  An error occurs if the other input parameters are not the same
+  as in the first request. Using a different value for ClientToken is considered a new call
+  to StartModel. An idempotency token is active for 8 hours.
 """
 function start_model(
     MinInferenceUnits,
@@ -785,6 +892,89 @@ function start_model(
 end
 
 """
+    start_model_packaging_job(configuration, model_version, project_name)
+    start_model_packaging_job(configuration, model_version, project_name, params::Dict{String,<:Any})
+
+Starts an Amazon Lookout for Vision model packaging job. A model packaging job creates an
+AWS IoT Greengrass component for a Lookout for Vision model. You can use the component to
+deploy your model to an edge device managed by Greengrass.  Use the
+DescribeModelPackagingJob API to determine the current status of the job. The model
+packaging job is complete if the value of Status is SUCCEEDED. To deploy the component to
+the target device, use the component name and component version with the AWS IoT Greengrass
+CreateDeployment API. This operation requires the following permissions:
+lookoutvision:StartModelPackagingJobs     s3:PutObject     s3:GetBucketLocation
+greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional)
+greengrass:TagResource. Only required if you want to tag the component.   For more
+information, see Using your Amazon Lookout for Vision model on an edge device in the Amazon
+Lookout for Vision Developer Guide.
+
+# Arguments
+- `configuration`: The configuration for the model packaging job.
+- `model_version`:  The version of the model within the project that you want to package.
+- `project_name`:  The name of the project which contains the version of the model that you
+  want to package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description for the model packaging job.
+- `"JobName"`: A name for the model packaging job. If you don't supply a value, the service
+  creates a job name for you.
+- `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
+  StartModelPackagingJob completes only once. You choose the value to pass. For example, An
+  issue might prevent you from getting a response from StartModelPackagingJob. In this case,
+  safely retry your call to StartModelPackagingJob by using the same ClientToken parameter
+  value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple dataset
+  creation requests. You'll need to provide your own value for other use cases.  An error
+  occurs if the other input parameters are not the same as in the first request. Using a
+  different value for ClientToken is considered a new call to StartModelPackagingJob. An
+  idempotency token is active for 8 hours.
+"""
+function start_model_packaging_job(
+    Configuration,
+    ModelVersion,
+    projectName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutvision(
+        "POST",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        Dict{String,Any}(
+            "Configuration" => Configuration,
+            "ModelVersion" => ModelVersion,
+            "X-Amzn-Client-Token" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_model_packaging_job(
+    Configuration,
+    ModelVersion,
+    projectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutvision(
+        "POST",
+        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Configuration" => Configuration,
+                    "ModelVersion" => ModelVersion,
+                    "X-Amzn-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_model(model_version, project_name)
     stop_model(model_version, project_name, params::Dict{String,<:Any})
 
@@ -800,12 +990,14 @@ lookoutvision:StopModel operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  StopModel completes only once. You choose the value to pass. For example, An issue, such as
-  an network outage, might prevent you from getting a response from StopModel. In this case,
-  safely retry your call to StopModel by using the same ClientToken parameter value. An error
-  occurs if the other input parameters are not the same as in the first request. Using a
-  different value for ClientToken is considered a new call to StopModel. An idempotency token
-  is active for 8 hours.
+  StopModel completes only once. You choose the value to pass. For example, An issue might
+  prevent you from getting a response from StopModel. In this case, safely retry your call to
+  StopModel by using the same ClientToken parameter value. If you don't supply a value for
+  ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after
+  a network error from making multiple stop requests. You'll need to provide your own value
+  for other use cases.  An error occurs if the other input parameters are not the same as in
+  the first request. Using a different value for ClientToken is considered a new call to
+  StopModel. An idempotency token is active for 8 hours.
 """
 function stop_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -918,11 +1110,17 @@ end
     update_dataset_entries(changes, dataset_type, project_name)
     update_dataset_entries(changes, dataset_type, project_name, params::Dict{String,<:Any})
 
-Adds one or more JSON Line entries to a dataset. A JSON Line includes information about an
-image used for training or testing an Amazon Lookout for Vision model. The following is an
-example JSON Line. Updating a dataset might take a while to complete. To check the current
-status, call DescribeDataset and check the Status field in the response. This operation
-requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
+Adds or updates one or more JSON Line entries in a dataset. A JSON Line includes
+information about an image used for training or testing an Amazon Lookout for Vision model.
+To update an existing JSON Line, use the source-ref field to identify the JSON Line. The
+JSON line that you supply replaces the existing JSON line. Any existing annotations that
+are not in the new JSON line are removed from the dataset.  For more information, see
+Defining JSON lines for anomaly classification in the Amazon Lookout for Vision Developer
+Guide.   The images you reference in the source-ref field of a JSON line, must be in the
+same S3 bucket as the existing images in the dataset.   Updating a dataset might take a
+while to complete. To check the current status, call DescribeDataset and check the Status
+field in the response. This operation requires permissions to perform the
+lookoutvision:UpdateDatasetEntries operation.
 
 # Arguments
 - `changes`: The entries to add to the dataset.
@@ -935,11 +1133,14 @@ requires permissions to perform the lookoutvision:UpdateDatasetEntries operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
   UpdateDatasetEntries completes only once. You choose the value to pass. For example, An
-  issue, such as an network outage, might prevent you from getting a response from
-  UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using
-  the same ClientToken parameter value. An error occurs if the other input parameters are not
-  the same as in the first request. Using a different value for ClientToken is considered a
-  new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
+  issue might prevent you from getting a response from UpdateDatasetEntries. In this case,
+  safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter
+  value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple updates
+  with the same dataset entries. You'll need to provide your own value for other use cases.
+  An error occurs if the other input parameters are not the same as in the first request.
+  Using a different value for ClientToken is considered a new call to UpdateDatasetEntries.
+  An idempotency token is active for 8 hours.
 """
 function update_dataset_entries(
     Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()

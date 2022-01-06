@@ -5,6 +5,41 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_api(api_id, domain_name)
+    associate_api(api_id, domain_name, params::Dict{String,<:Any})
+
+Maps an endpoint to your custom domain.
+
+# Arguments
+- `api_id`: The API ID.
+- `domain_name`: The domain name.
+
+"""
+function associate_api(apiId, domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "POST",
+        "/v1/domainnames/$(domainName)/apiassociation",
+        Dict{String,Any}("apiId" => apiId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_api(
+    apiId,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/domainnames/$(domainName)/apiassociation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("apiId" => apiId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_api_cache(api_caching_behavior, api_id, ttl, type)
     create_api_cache(api_caching_behavior, api_id, ttl, type, params::Dict{String,<:Any})
 
@@ -13,8 +48,8 @@ Creates a cache for the GraphQL API.
 # Arguments
 - `api_caching_behavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully
   cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
-- `api_id`: The GraphQL API Id.
-- `ttl`: TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+- `api_id`: The GraphQL API ID.
+- `ttl`: TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
 - `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE
   XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X
    Historically, instance types were identified by an EC2-style value. As of July 2020, this
@@ -26,10 +61,10 @@ Creates a cache for the GraphQL API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"atRestEncryptionEnabled"`: At rest encryption flag for cache. This setting cannot be
-  updated after creation.
-- `"transitEncryptionEnabled"`: Transit encryption flag when connecting to cache. This
-  setting cannot be updated after creation.
+- `"atRestEncryptionEnabled"`: At-rest encryption flag for cache. You cannot update this
+  setting after creation.
+- `"transitEncryptionEnabled"`: Transit encryption flag when connecting to cache. You
+  cannot update this setting after creation.
 """
 function create_api_cache(
     apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -73,7 +108,7 @@ end
     create_api_key(api_id)
     create_api_key(api_id, params::Dict{String,<:Any})
 
-Creates a unique key that you can distribute to clients who are executing your API.
+Creates a unique key that you can distribute to clients who invoke your API.
 
 # Arguments
 - `api_id`: The ID for your GraphQL API.
@@ -81,9 +116,9 @@ Creates a unique key that you can distribute to clients who are executing your A
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the purpose of the API key.
-- `"expires"`: The time from creation time after which the API key expires. The date is
-  represented as seconds since the epoch, rounded down to the nearest hour. The default value
-  for this parameter is 7 days from creation time. For more information, see .
+- `"expires"`: From the creation time, the time after which the API key expires. The date
+  is represented as seconds since the epoch, rounded down to the nearest hour. The default
+  value for this parameter is 7 days from creation time. For more information, see .
 """
 function create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -125,11 +160,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new data sources, use CreateDataSourceRequestopenSearchServiceConfig to create an
   OpenSearch data source.
 - `"httpConfig"`: HTTP endpoint settings.
-- `"lambdaConfig"`: Amazon Web Services Lambda settings.
+- `"lambdaConfig"`: Lambda settings.
 - `"openSearchServiceConfig"`: Amazon OpenSearch Service settings.
 - `"relationalDatabaseConfig"`: Relational database settings.
-- `"serviceRoleArn"`: The Identity and Access Management service role ARN for the data
-  source. The system assumes this role when accessing the data source.
+- `"serviceRoleArn"`: The Identity and Access Management (IAM) service role Amazon Resource
+  Name (ARN) for the data source. The system assumes this role when accessing the data source.
 """
 function create_data_source(
     apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -161,16 +196,66 @@ function create_data_source(
 end
 
 """
+    create_domain_name(certificate_arn, domain_name)
+    create_domain_name(certificate_arn, domain_name, params::Dict{String,<:Any})
+
+Creates a custom DomainName object.
+
+# Arguments
+- `certificate_arn`: The Amazon Resource Name (ARN) of the certificate. This can be an
+  Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server
+  certificate.
+- `domain_name`: The domain name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the DomainName.
+"""
+function create_domain_name(
+    certificateArn, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/domainnames",
+        Dict{String,Any}("certificateArn" => certificateArn, "domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_domain_name(
+    certificateArn,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/domainnames",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateArn" => certificateArn, "domainName" => domainName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_function(api_id, data_source_name, function_version, name)
     create_function(api_id, data_source_name, function_version, name, params::Dict{String,<:Any})
 
-Creates a Function object. A function is a reusable entity. Multiple functions can be used
+Creates a Function object. A function is a reusable entity. You can use multiple functions
 to compose the resolver logic.
 
 # Arguments
 - `api_id`: The GraphQL API ID.
 - `data_source_name`: The Function DataSource name.
-- `function_version`: The version of the request mapping template. Currently the supported
+- `function_version`: The version of the request mapping template. Currently, the supported
   value is 2018-05-29.
 - `name`: The Function name. The function name does not have to be unique.
 
@@ -235,21 +320,20 @@ end
 Creates a GraphqlApi object.
 
 # Arguments
-- `authentication_type`: The authentication type: API key, Identity and Access Management,
-  OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
+- `authentication_type`: The authentication type: API key, Identity and Access Management
+  (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
 - `name`: A user-supplied name for the GraphqlApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
-- `"lambdaAuthorizerConfig"`: Configuration for Amazon Web Services Lambda function
-  authorization.
+- `"lambdaAuthorizerConfig"`: Configuration for Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration.
-- `"openIDConnectConfig"`: The OpenID Connect configuration.
+- `"openIDConnectConfig"`: The OIDC configuration.
 - `"tags"`: A TagMap object.
 - `"userPoolConfig"`: The Amazon Cognito user pool configuration.
-- `"xrayEnabled"`: A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+- `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function create_graphql_api(
     authenticationType, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -290,7 +374,7 @@ end
     create_resolver(api_id, field_name, type_name, params::Dict{String,<:Any})
 
 Creates a Resolver object. A resolver converts incoming requests into a format that a data
-source can understand and converts the data source's responses into GraphQL.
+source can understand, and converts the data source's responses into GraphQL.
 
 # Arguments
 - `api_id`: The ID for the GraphQL API for which the resolver is being created.
@@ -302,19 +386,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cachingConfig"`: The caching configuration for the resolver.
 - `"dataSourceName"`: The name of the data source for which the resolver is being created.
 - `"kind"`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the
-  default resolver type. A UNIT resolver enables you to execute a GraphQL query against a
-  single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you
-  to execute a series of Function in a serial manner. You can use a pipeline resolver to
-  execute a GraphQL query against multiple data sources.
+  default resolver type. You can use a UNIT resolver to run a GraphQL query against a single
+  data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to
+  invoke a series of Function objects in a serial manner. You can use a pipeline resolver to
+  run a GraphQL query against multiple data sources.
 - `"pipelineConfig"`: The PipelineConfig.
-- `"requestMappingTemplate"`: The mapping template to be used for requests. A resolver uses
-  a request mapping template to convert a GraphQL expression into a format that a data source
+- `"requestMappingTemplate"`: The mapping template to use for requests. A resolver uses a
+  request mapping template to convert a GraphQL expression into a format that a data source
   can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
-  VTL request mapping templates are optional when using a Lambda data source. For all other
+  VTL request mapping templates are optional when using an Lambda data source. For all other
   data sources, VTL request and response mapping templates are required.
-- `"responseMappingTemplate"`: The mapping template to be used for responses from the data
+- `"responseMappingTemplate"`: The mapping template to use for responses from the data
   source.
-- `"syncConfig"`: The SyncConfig for a resolver attached to a versioned datasource.
+- `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function create_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -490,6 +574,38 @@ function delete_data_source(
 end
 
 """
+    delete_domain_name(domain_name)
+    delete_domain_name(domain_name, params::Dict{String,<:Any})
+
+Deletes a custom DomainName object.
+
+# Arguments
+- `domain_name`: The domain name.
+
+"""
+function delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "DELETE",
+        "/v1/domainnames/$(domainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_domain_name(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE",
+        "/v1/domainnames/$(domainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_function(api_id, function_id)
     delete_function(api_id, function_id, params::Dict{String,<:Any})
 
@@ -628,6 +744,38 @@ function delete_type(
 end
 
 """
+    disassociate_api(domain_name)
+    disassociate_api(domain_name, params::Dict{String,<:Any})
+
+Removes an ApiAssociation object from a custom domain.
+
+# Arguments
+- `domain_name`: The domain name.
+
+"""
+function disassociate_api(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "DELETE",
+        "/v1/domainnames/$(domainName)/apiassociation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_api(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE",
+        "/v1/domainnames/$(domainName)/apiassociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     flush_api_cache(api_id)
     flush_api_cache(api_id, params::Dict{String,<:Any})
 
@@ -651,6 +799,38 @@ function flush_api_cache(
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/FlushCache",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_api_association(domain_name)
+    get_api_association(domain_name, params::Dict{String,<:Any})
+
+Retrieves an ApiAssociation object.
+
+# Arguments
+- `domain_name`: The domain name.
+
+"""
+function get_api_association(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET",
+        "/v1/domainnames/$(domainName)/apiassociation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_api_association(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/domainnames/$(domainName)/apiassociation",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -715,6 +895,38 @@ function get_data_source(
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/datasources/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_domain_name(domain_name)
+    get_domain_name(domain_name, params::Dict{String,<:Any})
+
+Retrieves a custom DomainName object.
+
+# Arguments
+- `domain_name`: The domain name.
+
+"""
+function get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET",
+        "/v1/domainnames/$(domainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_domain_name(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -946,9 +1158,9 @@ automatically deleted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -981,9 +1193,9 @@ Lists the data sources for a given API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1006,6 +1218,34 @@ function list_data_sources(
 end
 
 """
+    list_domain_names()
+    list_domain_names(params::Dict{String,<:Any})
+
+Lists multiple custom domain names.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results that you want the request to return.
+- `"nextToken"`: The API token.
+"""
+function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET", "/v1/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_domain_names(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v1/domainnames",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_functions(api_id)
     list_functions(api_id, params::Dict{String,<:Any})
 
@@ -1016,9 +1256,9 @@ List multiple functions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1048,9 +1288,9 @@ Lists your GraphQL APIs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1077,9 +1317,9 @@ Lists the resolvers for a given API and type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1112,11 +1352,11 @@ List the resolvers that are associated with a specific function.
 
 # Arguments
 - `api_id`: The API ID.
-- `function_id`: The Function ID.
+- `function_id`: The function ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
@@ -1152,7 +1392,7 @@ end
 Lists the tags for a resource.
 
 # Arguments
-- `resource_arn`: The GraphqlApi ARN.
+- `resource_arn`: The GraphqlApi Amazon Resource Name (ARN).
 
 """
 function list_tags_for_resource(
@@ -1191,9 +1431,9 @@ Lists the types for a given API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results you want the request to return.
+- `"maxResults"`: The maximum number of results that you want the request to return.
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
-  which can be used to return the next set of items in the list.
+  which you can use to return the next set of items in the list.
 """
 function list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1266,7 +1506,7 @@ end
 Tags a resource with user-supplied tags.
 
 # Arguments
-- `resource_arn`: The GraphqlApi ARN.
+- `resource_arn`: The GraphqlApi Amazon Resource Name (ARN).
 - `tags`: A TagMap object.
 
 """
@@ -1301,7 +1541,7 @@ end
 Untags a resource.
 
 # Arguments
-- `resource_arn`: The GraphqlApi ARN.
+- `resource_arn`: The GraphqlApi Amazon Resource Name (ARN).
 - `tag_keys`: A list of TagKey objects.
 
 """
@@ -1340,8 +1580,8 @@ Updates the cache for the GraphQL API.
 # Arguments
 - `api_caching_behavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully
   cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
-- `api_id`: The GraphQL API Id.
-- `ttl`: TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+- `api_id`: The GraphQL API ID.
+- `ttl`: TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
 - `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE
   XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X
    Historically, instance types were identified by an EC2-style value. As of July 2020, this
@@ -1394,7 +1634,7 @@ end
     update_api_key(api_id, id)
     update_api_key(api_id, id, params::Dict{String,<:Any})
 
-Updates an API key. The key can be updated while it is not deleted.
+Updates an API key. You can update the key as long as it's not deleted.
 
 # Arguments
 - `api_id`: The ID for the GraphQL API.
@@ -1403,7 +1643,7 @@ Updates an API key. The key can be updated while it is not deleted.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the purpose of the API key.
-- `"expires"`: The time from update time after which the API key expires. The date is
+- `"expires"`: From the update time, the time after which the API key expires. The date is
   represented as seconds since the epoch. For more information, see .
 """
 function update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1449,10 +1689,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, use UpdateDataSourceRequestopenSearchServiceConfig to update an OpenSearch data
   source.
 - `"httpConfig"`: The new HTTP endpoint configuration.
-- `"lambdaConfig"`: The new Amazon Web Services Lambda configuration.
+- `"lambdaConfig"`: The new Lambda configuration.
 - `"openSearchServiceConfig"`: The new OpenSearch configuration.
 - `"relationalDatabaseConfig"`: The new relational database configuration.
-- `"serviceRoleArn"`: The new service role ARN for the data source.
+- `"serviceRoleArn"`: The new service role Amazon Resource Name (ARN) for the data source.
 """
 function update_data_source(
     apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1482,6 +1722,41 @@ function update_data_source(
 end
 
 """
+    update_domain_name(domain_name)
+    update_domain_name(domain_name, params::Dict{String,<:Any})
+
+Updates a custom DomainName object.
+
+# Arguments
+- `domain_name`: The domain name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the DomainName.
+"""
+function update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "POST",
+        "/v1/domainnames/$(domainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_domain_name(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/domainnames/$(domainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_function(api_id, data_source_name, function_id, function_version, name)
     update_function(api_id, data_source_name, function_id, function_version, name, params::Dict{String,<:Any})
 
@@ -1491,7 +1766,7 @@ Updates a Function object.
 - `api_id`: The GraphQL API ID.
 - `data_source_name`: The Function DataSource name.
 - `function_id`: The function ID.
-- `function_version`: The version of the request mapping template. Currently the supported
+- `function_version`: The version of the request mapping template. Currently, the supported
   value is 2018-05-29.
 - `name`: The Function name.
 
@@ -1566,13 +1841,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
 - `"authenticationType"`: The new authentication type for the GraphqlApi object.
-- `"lambdaAuthorizerConfig"`: Configuration for Amazon Web Services Lambda function
-  authorization.
+- `"lambdaAuthorizerConfig"`: Configuration for Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration for the GraphqlApi object.
 - `"openIDConnectConfig"`: The OpenID Connect configuration for the GraphqlApi object.
-- `"userPoolConfig"`: The new Amazon Cognito user pool configuration for the GraphqlApi
+- `"userPoolConfig"`: The new Amazon Cognito user pool configuration for the ~GraphqlApi
   object.
-- `"xrayEnabled"`: A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+- `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function update_graphql_api(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
@@ -1614,18 +1888,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cachingConfig"`: The caching configuration for the resolver.
 - `"dataSourceName"`: The new data source name.
 - `"kind"`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the
-  default resolver type. A UNIT resolver enables you to execute a GraphQL query against a
-  single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you
-  to execute a series of Function in a serial manner. You can use a pipeline resolver to
-  execute a GraphQL query against multiple data sources.
+  default resolver type. You can use a UNIT resolver to run a GraphQL query against a single
+  data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to
+  invoke a series of Function objects in a serial manner. You can use a pipeline resolver to
+  run a GraphQL query against multiple data sources.
 - `"pipelineConfig"`: The PipelineConfig.
 - `"requestMappingTemplate"`: The new request mapping template. A resolver uses a request
   mapping template to convert a GraphQL expression into a format that a data source can
   understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL
-  request mapping templates are optional when using a Lambda data source. For all other data
+  request mapping templates are optional when using an Lambda data source. For all other data
   sources, VTL request and response mapping templates are required.
 - `"responseMappingTemplate"`: The new response mapping template.
-- `"syncConfig"`: The SyncConfig for a resolver attached to a versioned datasource.
+- `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function update_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()

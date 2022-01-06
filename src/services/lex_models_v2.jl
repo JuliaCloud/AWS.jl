@@ -694,8 +694,8 @@ function create_slot(
 end
 
 """
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting)
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    create_slot_type(bot_id, bot_version, locale_id, slot_type_name)
+    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, params::Dict{String,<:Any})
 
 Creates a custom slot type  To create a custom slot type, specify a name for the slot type
 and a set of enumeration values, the values that a slot of this type can assume.
@@ -709,38 +709,37 @@ and a set of enumeration values, the values that a slot of this type can assume.
   languages.
 - `slot_type_name`: The name for the slot. A slot type name must be unique within the
   account.
-- `value_selection_setting`: Determines the strategy that Amazon Lex uses to select a value
-  from the list of possible values. The field can be set to one of the following values:
-  OriginalValue - Returns the value entered by the user, if the user value is similar to the
-  slot value.    TopResolution - If there is a resolution list for the slot, return the first
-  value in the resolution list. If there is no resolution list, return null.   If you don't
-  specify the valueSelectionSetting parameter, the default is OriginalValue.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the slot type. Use the description to help identify the
   slot type in lists.
+- `"externalSourceSetting"`: Sets the type of external information used to create the slot
+  type.
 - `"parentSlotTypeSignature"`: The built-in slot type used as a parent of this slot type.
   When you define a parent slot type, the new slot type has the configuration of the parent
   slot type. Only AMAZON.AlphaNumeric is supported.
 - `"slotTypeValues"`: A list of SlotTypeValue objects that defines the values that the slot
   type can take. Each value can have a list of synonyms, additional values that help train
   the machine learning model about the values that it resolves for a slot.
+- `"valueSelectionSetting"`: Determines the strategy that Amazon Lex uses to select a value
+  from the list of possible values. The field can be set to one of the following values:
+  OriginalValue - Returns the value entered by the user, if the user value is similar to the
+  slot value.    TopResolution - If there is a resolution list for the slot, return the first
+  value in the resolution list. If there is no resolution list, return null.   If you don't
+  specify the valueSelectionSetting parameter, the default is OriginalValue.
 """
 function create_slot_type(
     botId,
     botVersion,
     localeId,
-    slotTypeName,
-    valueSelectionSetting;
+    slotTypeName;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
+        Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -750,7 +749,6 @@ function create_slot_type(
     botVersion,
     localeId,
     slotTypeName,
-    valueSelectionSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -758,14 +756,7 @@ function create_slot_type(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "slotTypeName" => slotTypeName,
-                    "valueSelectionSetting" => valueSelectionSetting,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3163,8 +3154,8 @@ function update_slot(
 end
 
 """
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting)
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name)
+    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, params::Dict{String,<:Any})
 
 Updates the configuration of an existing slot type.
 
@@ -3176,32 +3167,30 @@ Updates the configuration of an existing slot type.
   languages.
 - `slot_type_id`: The unique identifier of the slot type to update.
 - `slot_type_name`: The new name of the slot type.
-- `value_selection_setting`: The strategy that Amazon Lex should use when deciding on a
-  value from the list of slot type values.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new description of the slot type.
+- `"externalSourceSetting"`:
 - `"parentSlotTypeSignature"`: The new built-in slot type that should be used as the parent
   of this slot type.
 - `"slotTypeValues"`: A new list of values and their optional synonyms that define the
   values that the slot type can take.
+- `"valueSelectionSetting"`: The strategy that Amazon Lex should use when deciding on a
+  value from the list of slot type values.
 """
 function update_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeId,
-    slotTypeName,
-    valueSelectionSetting;
+    slotTypeName;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
+        Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3212,7 +3201,6 @@ function update_slot_type(
     localeId,
     slotTypeId,
     slotTypeName,
-    valueSelectionSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -3220,14 +3208,7 @@ function update_slot_type(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "slotTypeName" => slotTypeName,
-                    "valueSelectionSetting" => valueSelectionSetting,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

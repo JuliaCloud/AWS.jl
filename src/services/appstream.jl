@@ -49,6 +49,60 @@ function associate_application_fleet(
 end
 
 """
+    associate_application_to_entitlement(application_identifier, entitlement_name, stack_name)
+    associate_application_to_entitlement(application_identifier, entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Associates an application to entitle.
+
+# Arguments
+- `application_identifier`: The identifier of the application.
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack.
+
+"""
+function associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationToEntitlement",
+        Dict{String,Any}(
+            "ApplicationIdentifier" => ApplicationIdentifier,
+            "EntitlementName" => EntitlementName,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationToEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_fleet(fleet_name, stack_name)
     associate_fleet(fleet_name, stack_name, params::Dict{String,<:Any})
 
@@ -427,6 +481,72 @@ function create_directory_config(
                     "DirectoryName" => DirectoryName,
                     "OrganizationalUnitDistinguishedNames" =>
                         OrganizationalUnitDistinguishedNames,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_entitlement(app_visibility, attributes, name, stack_name)
+    create_entitlement(app_visibility, attributes, name, stack_name, params::Dict{String,<:Any})
+
+Creates a new entitlement. Entitlements control access to specific applications within a
+stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities.
+Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in
+a stack. Entitlements don't apply to the desktop stream view application, or to
+applications managed by a dynamic app provider using the Dynamic Application Framework.
+
+# Arguments
+- `app_visibility`: Specifies whether all or selected apps are entitled.
+- `attributes`: The attributes of the entitlement.
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the entitlement.
+"""
+function create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateEntitlement",
+        Dict{String,Any}(
+            "AppVisibility" => AppVisibility,
+            "Attributes" => Attributes,
+            "Name" => Name,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppVisibility" => AppVisibility,
+                    "Attributes" => Attributes,
+                    "Name" => Name,
+                    "StackName" => StackName,
                 ),
                 params,
             ),
@@ -1035,6 +1155,45 @@ function delete_directory_config(
 end
 
 """
+    delete_entitlement(name, stack_name)
+    delete_entitlement(name, stack_name, params::Dict{String,<:Any})
+
+Deletes the specified entitlement.
+
+# Arguments
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+"""
+function delete_entitlement(
+    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_fleet(name)
     delete_fleet(name, params::Dict{String,<:Any})
 
@@ -1388,6 +1547,45 @@ function describe_directory_configs(
     return appstream(
         "DescribeDirectoryConfigs",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_entitlements(stack_name)
+    describe_entitlements(stack_name, params::Dict{String,<:Any})
+
+Retrieves a list that describes one of more entitlements.
+
+# Arguments
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of each page of results.
+- `"Name"`: The name of the entitlement.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_entitlements(StackName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_entitlements(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1801,6 +1999,61 @@ function disassociate_application_fleet(
 end
 
 """
+    disassociate_application_from_entitlement(application_identifier, entitlement_name, stack_name)
+    disassociate_application_from_entitlement(application_identifier, entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Deletes the specified application from the specified entitlement.
+
+# Arguments
+- `application_identifier`: The identifier of the application to remove from the
+  entitlement.
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+"""
+function disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFromEntitlement",
+        Dict{String,Any}(
+            "ApplicationIdentifier" => ApplicationIdentifier,
+            "EntitlementName" => EntitlementName,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFromEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_fleet(fleet_name, stack_name)
     disassociate_fleet(fleet_name, stack_name, params::Dict{String,<:Any})
 
@@ -1995,6 +2248,54 @@ function list_associated_stacks(
         "ListAssociatedStacks",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_entitled_applications(entitlement_name, stack_name)
+    list_entitled_applications(entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Retrieves a list of entitled applications.
+
+# Arguments
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_entitled_applications(
+    EntitlementName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "ListEntitledApplications",
+        Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_entitled_applications(
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ListEntitledApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntitlementName" => EntitlementName, "StackName" => StackName
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2327,6 +2628,50 @@ function update_directory_config(
         "UpdateDirectoryConfig",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_entitlement(name, stack_name)
+    update_entitlement(name, stack_name, params::Dict{String,<:Any})
+
+Updates the specified entitlement.
+
+# Arguments
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppVisibility"`: Specifies whether all or only selected apps are entitled.
+- `"Attributes"`: The attributes of the entitlement.
+- `"Description"`: The description of the entitlement.
+"""
+function update_entitlement(
+    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

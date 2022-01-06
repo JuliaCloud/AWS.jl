@@ -12,7 +12,7 @@ Creates a Savings Plan.
 
 # Arguments
 - `commitment`: The hourly commitment, in USD. This is a value between 0.001 and 1 million.
-  You cannot specify more than three digits after the decimal point.
+  You cannot specify more than five digits after the decimal point.
 - `savings_plan_offering_id`: The ID of the offering.
 
 # Optional Parameters

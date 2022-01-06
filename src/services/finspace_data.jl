@@ -139,14 +139,12 @@ function create_data_view(
 end
 
 """
-    create_dataset(alias, dataset_description, dataset_title, kind, permission_group_params)
-    create_dataset(alias, dataset_description, dataset_title, kind, permission_group_params, params::Dict{String,<:Any})
+    create_dataset(dataset_title, kind, permission_group_params)
+    create_dataset(dataset_title, kind, permission_group_params, params::Dict{String,<:Any})
 
 Creates a new FinSpace Dataset.
 
 # Arguments
-- `alias`: The unique resource identifier for a Dataset.
-- `dataset_description`: Description of a Dataset.
 - `dataset_title`: Display title for a FinSpace Dataset.
 - `kind`: The format in which Dataset data is structured.    TABULAR - Data is structured
   in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
@@ -154,13 +152,13 @@ Creates a new FinSpace Dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The unique resource identifier for a Dataset.
 - `"clientToken"`: A token used to ensure idempotency.
+- `"datasetDescription"`: Description of a Dataset.
 - `"ownerInfo"`: Contact information for a Dataset owner.
 - `"schemaDefinition"`: Definition for a schema on a tabular Dataset.
 """
 function create_dataset(
-    alias,
-    datasetDescription,
     datasetTitle,
     kind,
     permissionGroupParams;
@@ -170,8 +168,6 @@ function create_dataset(
         "POST",
         "/datasetsv2",
         Dict{String,Any}(
-            "alias" => alias,
-            "datasetDescription" => datasetDescription,
             "datasetTitle" => datasetTitle,
             "kind" => kind,
             "permissionGroupParams" => permissionGroupParams,
@@ -182,8 +178,6 @@ function create_dataset(
     )
 end
 function create_dataset(
-    alias,
-    datasetDescription,
     datasetTitle,
     kind,
     permissionGroupParams,
@@ -197,8 +191,6 @@ function create_dataset(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "alias" => alias,
-                    "datasetDescription" => datasetDescription,
                     "datasetTitle" => datasetTitle,
                     "kind" => kind,
                     "permissionGroupParams" => permissionGroupParams,
@@ -588,13 +580,12 @@ function update_changeset(
 end
 
 """
-    update_dataset(alias, dataset_id, dataset_title, kind)
-    update_dataset(alias, dataset_id, dataset_title, kind, params::Dict{String,<:Any})
+    update_dataset(dataset_id, dataset_title, kind)
+    update_dataset(dataset_id, dataset_title, kind, params::Dict{String,<:Any})
 
 Updates a FinSpace Dataset.
 
 # Arguments
-- `alias`: The unique resource identifier for a Dataset.
 - `dataset_id`: The unique identifier for the Dataset to update.
 - `dataset_title`: A display title for the Dataset.
 - `kind`: The format in which the Dataset data is structured.    TABULAR - Data is
@@ -603,28 +594,25 @@ Updates a FinSpace Dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The unique resource identifier for a Dataset.
 - `"clientToken"`: A token used to ensure idempotency.
 - `"datasetDescription"`: A description for the Dataset.
 - `"schemaDefinition"`: Definition for a schema on a tabular Dataset.
 """
 function update_dataset(
-    alias, datasetId, datasetTitle, kind; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetId, datasetTitle, kind; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return finspace_data(
         "PUT",
         "/datasetsv2/$(datasetId)",
         Dict{String,Any}(
-            "alias" => alias,
-            "datasetTitle" => datasetTitle,
-            "kind" => kind,
-            "clientToken" => string(uuid4()),
+            "datasetTitle" => datasetTitle, "kind" => kind, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_dataset(
-    alias,
     datasetId,
     datasetTitle,
     kind,
@@ -638,7 +626,6 @@ function update_dataset(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "alias" => alias,
                     "datasetTitle" => datasetTitle,
                     "kind" => kind,
                     "clientToken" => string(uuid4()),
