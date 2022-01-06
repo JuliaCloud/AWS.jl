@@ -5,10 +5,49 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_service_role_to_account(role_arn)
+    associate_service_role_to_account(role_arn, params::Dict{String,<:Any})
+
+Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services
+account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the
+identity of client devices and manage core device connectivity information. The role must
+include the AWSGreengrassResourceAccessRolePolicy managed policy or a custom policy that
+defines equivalent permissions for the IoT Greengrass features that you use. For more
+information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
+
+# Arguments
+- `role_arn`: The Amazon Resource Name (ARN) of the service role to associate with IoT
+  Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+
+"""
+function associate_service_role_to_account(
+    RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/servicerole",
+        Dict{String,Any}("RoleArn" => RoleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_service_role_to_account(
+    RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/servicerole",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_associate_client_device_with_core_device(core_device_thing_name)
     batch_associate_client_device_with_core_device(core_device_thing_name, params::Dict{String,<:Any})
 
-Associate a list of client devices with a core device. Use this API operation to specify
+Associates a list of client devices with a core device. Use this API operation to specify
 which client devices can discover a core device through cloud discovery. With cloud
 discovery, client devices connect to IoT Greengrass to retrieve associated core devices'
 connectivity information and certificates. For more information, see Configure cloud
@@ -54,7 +93,7 @@ end
     batch_disassociate_client_device_from_core_device(core_device_thing_name)
     batch_disassociate_client_device_from_core_device(core_device_thing_name, params::Dict{String,<:Any})
 
-Disassociate a list of client devices from a core device. After you disassociate a client
+Disassociates a list of client devices from a core device. After you disassociate a client
 device from a core device, the client device won't be able to use cloud discovery to
 retrieve the core device's connectivity information and certificates.
 
@@ -355,6 +394,39 @@ function describe_component(
 end
 
 """
+    disassociate_service_role_from_account()
+    disassociate_service_role_from_account(params::Dict{String,<:Any})
+
+Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services
+account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't
+verify the identity of client devices or manage core device connectivity information. For
+more information, see Greengrass service role in the IoT Greengrass Version 2 Developer
+Guide.
+
+"""
+function disassociate_service_role_from_account(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/servicerole";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_service_role_from_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "DELETE",
+        "/greengrass/servicerole",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_component(arn)
     get_component(arn, params::Dict{String,<:Any})
 
@@ -429,6 +501,43 @@ function get_component_version_artifact(
 end
 
 """
+    get_connectivity_info(thing_name)
+    get_connectivity_info(thing_name, params::Dict{String,<:Any})
+
+Retrieves connectivity information for a Greengrass core device. Connectivity information
+includes endpoints and ports where client devices can connect to an MQTT broker on the core
+device. When a client device calls the Greengrass discovery API, IoT Greengrass returns
+connectivity information for all of the core devices where the client device can connect.
+For more information, see Connect client devices to core devices in the IoT Greengrass
+Version 2 Developer Guide.
+
+# Arguments
+- `thing_name`: The name of the core device. This is also the name of the IoT thing.
+
+"""
+function get_connectivity_info(thingName; aws_config::AbstractAWSConfig=global_aws_config())
+    return greengrassv2(
+        "GET",
+        "/greengrass/things/$(thingName)/connectivityInfo";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_connectivity_info(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/things/$(thingName)/connectivityInfo",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_core_device(core_device_thing_name)
     get_core_device(core_device_thing_name, params::Dict{String,<:Any})
 
@@ -489,6 +598,36 @@ function get_deployment(
     return greengrassv2(
         "GET",
         "/greengrass/v2/deployments/$(deploymentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_service_role_for_account()
+    get_service_role_for_account(params::Dict{String,<:Any})
+
+Gets the service role associated with IoT Greengrass for your Amazon Web Services account
+in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of
+client devices and manage core device connectivity information. For more information, see
+Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
+
+"""
+function get_service_role_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
+    return greengrassv2(
+        "GET",
+        "/greengrass/servicerole";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_service_role_for_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "GET",
+        "/greengrass/servicerole",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -915,6 +1054,52 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_connectivity_info(connectivity_info, thing_name)
+    update_connectivity_info(connectivity_info, thing_name, params::Dict{String,<:Any})
+
+Updates connectivity information for a Greengrass core device. Connectivity information
+includes endpoints and ports where client devices can connect to an MQTT broker on the core
+device. When a client device calls the Greengrass discovery API, IoT Greengrass returns
+connectivity information for all of the core devices where the client device can connect.
+For more information, see Connect client devices to core devices in the IoT Greengrass
+Version 2 Developer Guide.
+
+# Arguments
+- `connectivity_info`: The connectivity information for the core device.
+- `thing_name`: The name of the core device. This is also the name of the IoT thing.
+
+"""
+function update_connectivity_info(
+    ConnectivityInfo, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/things/$(thingName)/connectivityInfo",
+        Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_connectivity_info(
+    ConnectivityInfo,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return greengrassv2(
+        "PUT",
+        "/greengrass/things/$(thingName)/connectivityInfo",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

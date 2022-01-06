@@ -101,7 +101,7 @@ Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
 
 # Arguments
 - `name`:
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -189,7 +189,7 @@ end
 Deletes the Outpost.
 
 # Arguments
-- `outpost_id`:  The ID of the Outpost.
+- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 """
 function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -221,7 +221,7 @@ end
 Deletes the site.
 
 # Arguments
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 """
 function delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -307,7 +307,7 @@ end
 Gets information about the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID of the Outpost.
+- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 """
 function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -339,7 +339,7 @@ end
 Lists the instance types for the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID of the Outpost.
+- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -377,7 +377,7 @@ end
  Gets information about the specified Outpost site.
 
 # Arguments
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 """
 function get_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -405,7 +405,7 @@ end
 
 # Arguments
 - `address_type`:  The type of the address you request.
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 """
 function get_site_address(
@@ -677,13 +677,50 @@ function untag_resource(
 end
 
 """
+    update_outpost(outpost_id)
+    update_outpost(outpost_id, params::Dict{String,<:Any})
+
+ Updates an Outpost.
+
+# Arguments
+- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`:
+- `"Name"`:
+- `"SupportedHardwareType"`:  The type of hardware for this Outpost.
+"""
+function update_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
+    return outposts(
+        "PATCH",
+        "/outposts/$(OutpostId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_outpost(
+    OutpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "PATCH",
+        "/outposts/$(OutpostId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_site(site_id)
     update_site(site_id, params::Dict{String,<:Any})
 
  Updates the site.
 
 # Arguments
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -720,7 +757,7 @@ been deactivated.
 # Arguments
 - `address`:  The address for the site.
 - `address_type`:  The type of the address.
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 """
 function update_site_address(
@@ -766,7 +803,7 @@ Outposts User Guide.  To update a rack at a site with an order of IN_PROGRESS, y
 wait for the order to complete or cancel the order.
 
 # Arguments
-- `site_id`:
+- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

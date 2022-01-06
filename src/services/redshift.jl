@@ -228,12 +228,13 @@ end
     authorize_data_share(consumer_identifier, data_share_arn, params::Dict{String,<:Any})
 
 From a data producer account, authorizes the sharing of a datashare with one or more
-consumer accounts. To authorize a datashare for a data consumer, the producer account must
-have the correct access privileges.
+consumer accounts or managing entities. To authorize a datashare for a data consumer, the
+producer account must have the correct access privileges.
 
 # Arguments
 - `consumer_identifier`: The identifier of the data consumer that is authorized to access
-  the datashare. This identifier is an Amazon Web Services account ID.
+  the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as
+  ADX.
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that producers are to
   authorize sharing for.
 
@@ -1615,7 +1616,8 @@ From the producer account, removes authorization from the specified datashare.
 
 # Arguments
 - `consumer_identifier`: The identifier of the data consumer that is to have authorization
-  removed from the datashare. This identifier is an Amazon Web Services account ID.
+  removed from the datashare. This identifier is an Amazon Web Services account ID or a
+  keyword, such as ADX.
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to remove authorization
   from.
 

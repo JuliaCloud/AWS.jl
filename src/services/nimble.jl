@@ -1459,7 +1459,7 @@ end
     list_studio_members(studio_id)
     list_studio_members(studio_id, params::Dict{String,<:Any})
 
-Get all users in a given studio membership.
+Get all users in a given studio membership.   ListStudioMembers only returns admin members.
 
 # Arguments
 - `studio_id`: The studio ID.

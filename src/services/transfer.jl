@@ -171,14 +171,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This option also requires you to provide a Directory ID using the IdentityProviderDetails
   parameter. Use the API_GATEWAY value to integrate with an identity provider of your
   choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to
-  call for authentication using the IdentityProviderDetails parameter. Use the LAMBDA value
-  to directly use a Lambda function as your identity provider. If you choose this value, you
-  must specify the ARN for the lambda function in the Function parameter for the
+  call for authentication using the IdentityProviderDetails parameter. Use the AWS_LAMBDA
+  value to directly use a Lambda function as your identity provider. If you choose this
+  value, you must specify the ARN for the lambda function in the Function parameter for the
   IdentityProviderDetails data type.
 - `"LoggingRole"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
   Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch
   logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your
   CloudWatch logs.
+- `"ProtocolDetails"`: The protocol settings that are configured for your server.  Use the
+  PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single
+  dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load
+  balancer.  Use the TlsSessionResumptionMode parameter to determine whether or not your
+  Transfer server resumes recent, negotiated sessions through a unique session ID.
 - `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
   transfer protocol client can connect to your server's endpoint. The available protocols
   are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS
@@ -275,7 +280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in Amazon EFS determine the level of access your users get when transferring files into and
   out of your Amazon EFS file systems.
 - `"SshPublicKeyBody"`: The public portion of the Secure Shell (SSH) key used to
-  authenticate the user to the server.
+  authenticate the user to the server.   Currently, Transfer Family does not accept
+  elliptical curve keys (keys beginning with ecdsa).
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
@@ -1550,7 +1556,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProtocolDetails"`:  The protocol settings that are configured for your server.   Use
   the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a
   single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or
-  load balancer.
+  load balancer.  Use the TlsSessionResumptionMode parameter to determine whether or not your
+  Transfer server resumes recent, negotiated sessions through a unique session ID.
 - `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
   transfer protocol client can connect to your server's endpoint. The available protocols
   are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File

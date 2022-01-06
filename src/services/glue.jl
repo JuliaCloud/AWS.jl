@@ -885,6 +885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are written, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
+- `"LakeFormationConfiguration"`:
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.
@@ -4490,6 +4491,201 @@ function get_triggers(
 end
 
 """
+    get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name)
+    get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `partition_values`:
+- `supported_permission_types`:
+- `table_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+"""
+function get_unfiltered_partition_metadata(
+    CatalogId,
+    DatabaseName,
+    PartitionValues,
+    SupportedPermissionTypes,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "PartitionValues" => PartitionValues,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_partition_metadata(
+    CatalogId,
+    DatabaseName,
+    PartitionValues,
+    SupportedPermissionTypes,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "PartitionValues" => PartitionValues,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name)
+    get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `supported_permission_types`:
+- `table_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+- `"Expression"`:
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"Segment"`:
+"""
+function get_unfiltered_partitions_metadata(
+    CatalogId,
+    DatabaseName,
+    SupportedPermissionTypes,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionsMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_partitions_metadata(
+    CatalogId,
+    DatabaseName,
+    SupportedPermissionTypes,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionsMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types)
+    get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `name`:
+- `supported_permission_types`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+"""
+function get_unfiltered_table_metadata(
+    CatalogId,
+    DatabaseName,
+    Name,
+    SupportedPermissionTypes;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredTableMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "Name" => Name,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_table_metadata(
+    CatalogId,
+    DatabaseName,
+    Name,
+    SupportedPermissionTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "Name" => Name,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_user_defined_function(database_name, function_name)
     get_user_defined_function(database_name, function_name, params::Dict{String,<:Any})
 
@@ -6390,6 +6586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are stored, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
+- `"LakeFormationConfiguration"`:
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.

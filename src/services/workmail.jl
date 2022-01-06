@@ -576,6 +576,42 @@ function delete_alias(
 end
 
 """
+    delete_email_monitoring_configuration(organization_id)
+    delete_email_monitoring_configuration(organization_id, params::Dict{String,<:Any})
+
+Deletes the email monitoring configuration for a specified organization.
+
+# Arguments
+- `organization_id`: The ID of the organization from which the email monitoring
+  configuration is deleted.
+
+"""
+function delete_email_monitoring_configuration(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeleteEmailMonitoringConfiguration",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_email_monitoring_configuration(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeleteEmailMonitoringConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_group(group_id, organization_id)
     delete_group(group_id, organization_id, params::Dict{String,<:Any})
 
@@ -1048,6 +1084,42 @@ function deregister_mail_domain(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_email_monitoring_configuration(organization_id)
+    describe_email_monitoring_configuration(organization_id, params::Dict{String,<:Any})
+
+Describes the current email monitoring configuration for a specified organization.
+
+# Arguments
+- `organization_id`: The ID of the organization for which the email monitoring
+  configuration is described.
+
+"""
+function describe_email_monitoring_configuration(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DescribeEmailMonitoringConfiguration",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_email_monitoring_configuration(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DescribeEmailMonitoringConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2301,6 +2373,60 @@ function put_access_control_rule(
                     "Effect" => Effect,
                     "Name" => Name,
                     "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_email_monitoring_configuration(log_group_arn, organization_id, role_arn)
+    put_email_monitoring_configuration(log_group_arn, organization_id, role_arn, params::Dict{String,<:Any})
+
+Creates or updates the email monitoring configuration for a specified organization.
+
+# Arguments
+- `log_group_arn`: The Amazon Resource Name (ARN) of the CloudWatch Log group associated
+  with the email monitoring configuration.
+- `organization_id`: The ID of the organization for which the email monitoring
+  configuration is set.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  monitoring configuration.
+
+"""
+function put_email_monitoring_configuration(
+    LogGroupArn, OrganizationId, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "PutEmailMonitoringConfiguration",
+        Dict{String,Any}(
+            "LogGroupArn" => LogGroupArn,
+            "OrganizationId" => OrganizationId,
+            "RoleArn" => RoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_email_monitoring_configuration(
+    LogGroupArn,
+    OrganizationId,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutEmailMonitoringConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LogGroupArn" => LogGroupArn,
+                    "OrganizationId" => OrganizationId,
+                    "RoleArn" => RoleArn,
                 ),
                 params,
             ),

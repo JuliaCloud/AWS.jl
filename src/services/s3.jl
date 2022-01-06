@@ -438,14 +438,14 @@ where the bucket is to be created. If you create a bucket in a Region other than
 see Virtual hosting of buckets.   Access control lists (ACLs)  When creating a bucket using
 this operation, you can optionally configure the bucket ACL to specify the accounts or
 groups that should be granted specific permissions on the bucket.  If your CreateBucket
-request includes the BucketOwnerEnforced value for the x-amz-object-ownership header, your
-request can either not specify an ACL or specify bucket owner full control ACLs, such as
-the bucket-owner-full-control canned ACL or an equivalent ACL expressed in the XML format.
-For more information, see Controlling object ownership in the Amazon S3 User Guide.  There
-are two ways to grant the appropriate permissions using the request headers.   Specify a
-canned ACL using the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
-known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For
-more information, see Canned ACL.   Specify access permissions explicitly using the
+request sets bucket owner enforced for S3 Object Ownership and specifies a bucket ACL that
+provides access to an external Amazon Web Services account, your request fails with a 400
+error and returns the InvalidBucketAclWithObjectOwnership error code. For more information,
+see Controlling object ownership in the Amazon S3 User Guide.  There are two ways to grant
+the appropriate permissions using the request headers.   Specify a canned ACL using the
+x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
+ACLs. Each canned ACL has a predefined set of grantees and permissions. For more
+information, see Canned ACL.   Specify access permissions explicitly using the
 x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp, and
 x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3
 supports in an ACL. For more information, see Access control list (ACL) overview. You
@@ -3094,9 +3094,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one specified, otherwise return a 304 (not modified).
 - `"If-Unmodified-Since"`: Return the object only if it has not been modified since the
   specified time, otherwise return a 412 (precondition failed).
-- `"Range"`: Downloads the specified range bytes of an object. For more information about
-  the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-   Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+- `"Range"`: Because HeadObject returns only the metadata for an object, this parameter has
+  no effect.
 - `"partNumber"`: Part number of the object being read. This is a positive integer between
   1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
@@ -5910,33 +5909,33 @@ specify a data serialization format (JSON, CSV, or Apache Parquet) of the object
 uses this format to parse object data into records, and returns only records that match the
 specified SQL expression. You must also specify the data serialization format for the
 response. This action is not supported by Amazon S3 on Outposts. For more information about
-Amazon S3 Select, see Selecting Content from Objects in the Amazon S3 User Guide. For more
-information about using SQL with Amazon S3 Select, see  SQL Reference for Amazon S3 Select
-and S3 Glacier Select in the Amazon S3 User Guide.   Permissions  You must have
-s3:GetObject permission for this operation. Amazon S3 Select does not support anonymous
-access. For more information about permissions, see Specifying Permissions in a Policy in
-the Amazon S3 User Guide.   Object Data Formats  You can use Amazon S3 Select to query
-objects that have the following format properties:    CSV, JSON, and Parquet - Objects must
-be in CSV, JSON, or Parquet format.    UTF-8 - UTF-8 is the only encoding type Amazon S3
-Select supports.    GZIP or BZIP2 - CSV and JSON files can be compressed using GZIP or
-BZIP2. GZIP and BZIP2 are the only compression formats that Amazon S3 Select supports for
-CSV and JSON files. Amazon S3 Select supports columnar compression for Parquet using GZIP
-or Snappy. Amazon S3 Select does not support whole-object compression for Parquet objects.
-  Server-side encryption - Amazon S3 Select supports querying objects that are protected
-with server-side encryption. For objects that are encrypted with customer-provided
-encryption keys (SSE-C), you must use HTTPS, and you must use the headers that are
-documented in the GetObject. For more information about SSE-C, see Server-Side Encryption
-(Using Customer-Provided Encryption Keys) in the Amazon S3 User Guide. For objects that are
-encrypted with Amazon S3 managed encryption keys (SSE-S3) and Amazon Web Services KMS keys
-(SSE-KMS), server-side encryption is handled transparently, so you don't need to specify
-anything. For more information about server-side encryption, including SSE-S3 and SSE-KMS,
-see Protecting Data Using Server-Side Encryption in the Amazon S3 User Guide.    Working
-with the Response Body  Given the response size is unknown, Amazon S3 Select streams the
-response as a series of messages and includes a Transfer-Encoding header with chunked as
-its value in the response. For more information, see Appendix: SelectObjectContent
-Response.   GetObject Support  The SelectObjectContent action does not support the
-following GetObject functionality. For more information, see GetObject.    Range: Although
-you can specify a scan range for an Amazon S3 Select request (see
+Amazon S3 Select, see Selecting Content from Objects and SELECT Command in the Amazon S3
+User Guide. For more information about using SQL with Amazon S3 Select, see  SQL Reference
+for Amazon S3 Select and S3 Glacier Select in the Amazon S3 User Guide.   Permissions  You
+must have s3:GetObject permission for this operation. Amazon S3 Select does not support
+anonymous access. For more information about permissions, see Specifying Permissions in a
+Policy in the Amazon S3 User Guide.   Object Data Formats  You can use Amazon S3 Select to
+query objects that have the following format properties:    CSV, JSON, and Parquet -
+Objects must be in CSV, JSON, or Parquet format.    UTF-8 - UTF-8 is the only encoding type
+Amazon S3 Select supports.    GZIP or BZIP2 - CSV and JSON files can be compressed using
+GZIP or BZIP2. GZIP and BZIP2 are the only compression formats that Amazon S3 Select
+supports for CSV and JSON files. Amazon S3 Select supports columnar compression for Parquet
+using GZIP or Snappy. Amazon S3 Select does not support whole-object compression for
+Parquet objects.    Server-side encryption - Amazon S3 Select supports querying objects
+that are protected with server-side encryption. For objects that are encrypted with
+customer-provided encryption keys (SSE-C), you must use HTTPS, and you must use the headers
+that are documented in the GetObject. For more information about SSE-C, see Server-Side
+Encryption (Using Customer-Provided Encryption Keys) in the Amazon S3 User Guide. For
+objects that are encrypted with Amazon S3 managed encryption keys (SSE-S3) and Amazon Web
+Services KMS keys (SSE-KMS), server-side encryption is handled transparently, so you don't
+need to specify anything. For more information about server-side encryption, including
+SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side Encryption in the Amazon S3 User
+Guide.    Working with the Response Body  Given the response size is unknown, Amazon S3
+Select streams the response as a series of messages and includes a Transfer-Encoding header
+with chunked as its value in the response. For more information, see Appendix:
+SelectObjectContent Response.   GetObject Support  The SelectObjectContent action does not
+support the following GetObject functionality. For more information, see GetObject.
+Range: Although you can specify a scan range for an Amazon S3 Select request (see
 SelectObjectContentRequest - ScanRange in the request parameters), you cannot specify the
 range of bytes of an object to return.    GLACIER, DEEP_ARCHIVE and REDUCED_REDUNDANCY
 storage classes: You cannot specify the GLACIER, DEEP_ARCHIVE, or REDUCED_REDUNDANCY

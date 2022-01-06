@@ -977,7 +977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateDomain.AppNetworkAccessType is VPCOnly and
   DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
 - `"DomainSettings"`: A collection of Domain settings.
-- `"HomeEfsFileSystemKmsKeyId"`: This member is deprecated and replaced with KmsKeyId.
+- `"HomeEfsFileSystemKmsKeyId"`: Use KmsKeyId.
 - `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
   to the domain with an Amazon Web Services managed key by default. For more control, specify
   a customer managed key.
@@ -2699,28 +2699,31 @@ function create_notebook_instance_lifecycle_config(
 end
 
 """
-    create_pipeline(client_request_token, pipeline_definition, pipeline_name, role_arn)
-    create_pipeline(client_request_token, pipeline_definition, pipeline_name, role_arn, params::Dict{String,<:Any})
+    create_pipeline(client_request_token, pipeline_name, role_arn)
+    create_pipeline(client_request_token, pipeline_name, role_arn, params::Dict{String,<:Any})
 
 Creates a pipeline using a JSON pipeline definition.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than one time.
-- `pipeline_definition`: The JSON pipeline definition of the pipeline.
 - `pipeline_name`: The name of the pipeline.
 - `role_arn`: The Amazon Resource Name (ARN) of the role used by the pipeline to access and
   create resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ParallelismConfiguration"`: This is the configuration that controls the parallelism of
+  the pipeline. If specified, it applies to all runs of this pipeline by default.
+- `"PipelineDefinition"`: The JSON pipeline definition of the pipeline.
+- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in
+  Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this location.
 - `"PipelineDescription"`: A description of the pipeline.
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"Tags"`: A list of tags to apply to the created pipeline.
 """
 function create_pipeline(
     ClientRequestToken,
-    PipelineDefinition,
     PipelineName,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2729,7 +2732,6 @@ function create_pipeline(
         "CreatePipeline",
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken,
-            "PipelineDefinition" => PipelineDefinition,
             "PipelineName" => PipelineName,
             "RoleArn" => RoleArn,
         );
@@ -2739,7 +2741,6 @@ function create_pipeline(
 end
 function create_pipeline(
     ClientRequestToken,
-    PipelineDefinition,
     PipelineName,
     RoleArn,
     params::AbstractDict{String};
@@ -2752,7 +2753,6 @@ function create_pipeline(
                 _merge,
                 Dict{String,Any}(
                     "ClientRequestToken" => ClientRequestToken,
-                    "PipelineDefinition" => PipelineDefinition,
                     "PipelineName" => PipelineName,
                     "RoleArn" => RoleArn,
                 ),
@@ -9755,6 +9755,10 @@ Retry the execution of the pipeline.
   the idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ParallelismConfiguration"`: This configuration, if specified, overrides the parallelism
+  configuration of the parent pipeline.
 """
 function retry_pipeline_execution(
     ClientRequestToken,
@@ -10042,6 +10046,8 @@ Starts a pipeline execution.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ParallelismConfiguration"`: This configuration, if specified, overrides the parallelism
+  configuration of the parent pipeline for this specific run.
 - `"PipelineExecutionDescription"`: The description of the pipeline execution.
 - `"PipelineExecutionDisplayName"`: The display name of the pipeline execution.
 - `"PipelineParameters"`: Contains a list of pipeline parameters. This list can be empty.
@@ -10398,13 +10404,13 @@ end
 
 Stops a pipeline execution.  Callback Step  A pipeline execution won't stop while a
 callback step is running. When you call StopPipelineExecution on a pipeline execution with
-a running callback step, SageMaker Pipelines sends an additional Amazon SQS message to the
-specified SQS queue. The body of the SQS message contains a \"Status\" field which is set
-to \"Stopping\". You should add logic to your Amazon SQS message consumer to take any
-needed action (for example, resource cleanup) upon receipt of the message followed by a
+a running callback step, Amazon SageMaker Pipelines sends an additional Amazon SQS message
+to the specified SQS queue. The body of the SQS message contains a \"Status\" field which
+is set to \"Stopping\". You should add logic to your Amazon SQS message consumer to take
+any needed action (for example, resource cleanup) upon receipt of the message followed by a
 call to SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when
-SageMaker Pipelines receives one of these calls will it stop the pipeline execution.
-Lambda Step  A pipeline execution can't be stopped while a lambda step is running because
+Amazon SageMaker Pipelines receives one of these calls will it stop the pipeline execution.
+ Lambda Step  A pipeline execution can't be stopped while a lambda step is running because
 the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the
 execution while the Lambda function is running, the pipeline waits for the Lambda function
 to finish or until the timeout is hit, whichever occurs first, and then stops. If the
@@ -10537,13 +10543,13 @@ end
     stop_transform_job(transform_job_name)
     stop_transform_job(transform_job_name, params::Dict{String,<:Any})
 
-Stops a transform job. When Amazon SageMaker receives a StopTransformJob request, the
+Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the
 status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is
-set to Stopped. When you stop a transform job before it is completed, Amazon SageMaker
-doesn't store the job's output in Amazon S3.
+set to Stopped. When you stop a batch transform job before it is completed, Amazon
+SageMaker doesn't store the job's output in Amazon S3.
 
 # Arguments
-- `transform_job_name`: The name of the transform job to stop.
+- `transform_job_name`: The name of the batch transform job to stop.
 
 """
 function stop_transform_job(
@@ -11371,7 +11377,11 @@ Updates a pipeline.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ParallelismConfiguration"`: If specified, it applies to all executions of this pipeline
+  by default.
 - `"PipelineDefinition"`: The JSON pipeline definition.
+- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in
+  Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this location.
 - `"PipelineDescription"`: The description of the pipeline.
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"RoleArn"`: The Amazon Resource Name (ARN) that the pipeline uses to execute.
@@ -11410,6 +11420,8 @@ Updates a pipeline execution.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ParallelismConfiguration"`: This configuration, if specified, overrides the parallelism
+  configuration of the parent pipeline for this specific run.
 - `"PipelineExecutionDescription"`: The description of the pipeline execution.
 - `"PipelineExecutionDisplayName"`: The display name of the pipeline execution.
 """

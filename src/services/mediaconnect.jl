@@ -1079,7 +1079,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"destination"`: The IP address where you want to send the output.
 - `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
   service will use the default setting (static-key).
-- `"maxLatency"`: The maximum latency in milliseconds for Zixi-based streams.
+- `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to
+  RIST-based, Zixi-based, and Fujitsu-based streams.
 - `"mediaStreamOutputConfigurations"`: The media streams that are associated with the
   output, and the parameters for those associations.
 - `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
@@ -1090,6 +1091,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"port"`: The port to use when content is distributed to this output.
 - `"protocol"`: The protocol to use for the output.
 - `"remoteId"`: The remote ID for the Zixi-pull stream.
+- `"senderControlPort"`: The port that the flow uses to send outbound requests to initiate
+  connection with the sender.
+- `"senderIpAddress"`: The IP address that the flow communicates with to initiate
+  connection with the sender.
 - `"smoothingLatency"`: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
   streams.
 - `"streamId"`: The stream ID that you want to use for this transport. This parameter
@@ -1143,7 +1148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ingestPort"`: The port that the flow will be listening on for incoming content.
 - `"maxBitrate"`: The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
 - `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to
-  RIST-based and Zixi-based streams.
+  RIST-based, Zixi-based, and Fujitsu-based streams.
 - `"maxSyncBuffer"`: The size of the buffer (in milliseconds) to use to sync incoming
   source data.
 - `"mediaStreamSourceConfigurations"`: The media streams that are associated with the
@@ -1154,6 +1159,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to the highest number between the sender’s minimum latency and the receiver’s
   minimum latency.
 - `"protocol"`: The protocol that is used by the source.
+- `"senderControlPort"`: The port that the flow uses to send outbound requests to initiate
+  connection with the sender.
+- `"senderIpAddress"`: The IP address that the flow communicates with to initiate
+  connection with the sender.
 - `"streamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.
 - `"vpcInterfaceName"`: The name of the VPC interface to use for this source.

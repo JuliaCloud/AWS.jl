@@ -12,14 +12,16 @@ Create a new cluster. A cluster is a set of redundant Regional endpoints against
 can run API calls to update or get the state of one or more routing controls. Each cluster
 has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints
 (one for each supported Amazon Web Services Region) that you can use with API calls to the
-Amazon Route 53 Application Recovery Controller cluster data plane.
+cluster data plane.
 
 # Arguments
 - `cluster_name`: The name of the cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
+- `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
+  idempotent API request with an action, specify a client token in the request.
+- `"Tags"`: The tags associated with the cluster.
 """
 function create_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config())
     return route53_recovery_control_config(
@@ -59,8 +61,8 @@ end
 Creates a new control panel. A control panel represents a group of routing controls that
 can be changed together in a single transaction. You can use a control panel to centrally
 view the operational status of applications across your organization, and trigger multi-app
-failovers in a single transaction, for example, to fail over an Availability Zone or AWS
-Region.
+failovers in a single transaction, for example, to fail over an Availability Zone or Amazon
+Web Services Region.
 
 # Arguments
 - `cluster_arn`: The Amazon Resource Name (ARN) of the cluster for the control panel.
@@ -68,7 +70,9 @@ Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
+- `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
+  idempotent API request with an action, specify a client token in the request.
+- `"Tags"`: The tags associated with the control panel.
 """
 function create_control_panel(
     ClusterArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -127,7 +131,8 @@ Controller.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
+- `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
+  idempotent API request with an action, specify a client token in the request.
 - `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes
   the routing control.
 """
@@ -176,20 +181,25 @@ end
     create_safety_rule(params::Dict{String,<:Any})
 
 Creates a safety rule in a control panel. Safety rules let you add safeguards around
-enabling and disabling routing controls, to help prevent unexpected outcomes. There are two
-types of safety rules: assertion rules and gating rules. Assertion rule: An assertion rule
-enforces that, when a routing control state is changed, the criteria set by the rule
-configuration is met. Otherwise, the change to the routing control is not accepted. Gating
-rule: A gating rule verifies that a set of gating controls evaluates as true, based on a
-rule configuration that you specify. If the gating rule evaluates to true, Amazon Route 53
-Application Recovery Controller allows a set of routing control state changes to run and
-complete against the set of target controls.
+changing routing control states, and for enabling and disabling routing controls, to help
+prevent unexpected outcomes. There are two types of safety rules: assertion rules and
+gating rules. Assertion rule: An assertion rule enforces that, when you change a routing
+control state, that a certain criteria is met. For example, the criteria might be that at
+least one routing control state is On after the transation so that traffic continues to
+flow to at least one cell for the application. This ensures that you avoid a fail-open
+scenario. Gating rule: A gating rule lets you configure a gating routing control as an
+overall \"on/off\" switch for a group of routing controls. Or, you can configure more
+complex gating scenarios, for example by configuring multiple gating routing controls. For
+more information, see Safety rules in the Amazon Route 53 Application Recovery Controller
+Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssertionRule"`:
-- `"ClientToken"`: Unique client idempotency token.
-- `"GatingRule"`:
+- `"AssertionRule"`: The assertion rule requested.
+- `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
+  idempotent API request with an action, specify a client token in the request.
+- `"GatingRule"`: The gating rule requested.
+- `"Tags"`: The tags associated with the safety rule.
 """
 function create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
     return route53_recovery_control_config(
@@ -253,8 +263,7 @@ end
 Deletes a control panel.
 
 # Arguments
-- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel that you're
-  deleting.
+- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 
 """
 function delete_control_panel(
@@ -323,7 +332,7 @@ end
 Deletes a safety rule./&gt;
 
 # Arguments
-- `safety_rule_arn`: The request body that you include when you update a safety rule.
+- `safety_rule_arn`: The ARN of the safety rule.
 
 """
 function delete_safety_rule(
@@ -358,8 +367,7 @@ Display the details about a cluster. The response includes the cluster name, end
 status, and Amazon Resource Name (ARN).
 
 # Arguments
-- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster that you're getting details
-  for.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
 
 """
 function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -391,8 +399,7 @@ end
 Displays details about a control panel.
 
 # Arguments
-- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel that you're
-  getting details for.
+- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 
 """
 function describe_control_panel(
@@ -430,8 +437,7 @@ Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recove
 Controller.
 
 # Arguments
-- `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control that you're
-  getting details for.
+- `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control.
 
 """
 function describe_routing_control(
@@ -462,11 +468,10 @@ end
     describe_safety_rule(safety_rule_arn)
     describe_safety_rule(safety_rule_arn, params::Dict{String,<:Any})
 
-Describes the safety rules (that is, the assertion rules and gating rules) for the routing
-controls in a control panel.
+Returns information about a safety rule.
 
 # Arguments
-- `safety_rule_arn`: The request body that you include when you update a safety rule.
+- `safety_rule_arn`: The ARN of the safety rule.
 
 """
 function describe_safety_rule(
@@ -501,8 +506,7 @@ Returns an array of all Amazon Route 53 health checks associated with a specific
 control.
 
 # Arguments
-- `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control that you're
-  getting details for.
+- `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -561,7 +565,7 @@ end
     list_control_panels()
     list_control_panels(params::Dict{String,<:Any})
 
-Returns an array of control panels for a cluster.
+Returns an array of control panels in an account or in a cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -596,8 +600,7 @@ You can map the routing control state to the state of an Amazon Route 53 health 
 which can be used to control routing.
 
 # Arguments
-- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel that you're
-  getting routing control details for.
+- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -636,8 +639,7 @@ List the safety rules (the assertion rules and gating rules) that you've defined
 routing controls in a control panel.
 
 # Arguments
-- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel that you're
-  getting details for.
+- `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -663,6 +665,112 @@ function list_safety_rules(
         "GET",
         "/controlpanel/$(ControlPanelArn)/safetyrules",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists the tags for a resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
+
+"""
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds a tag to a resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
+- `tags`: The tags associated with the resource.
+
+"""
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes a tag from a resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
+- `tag_keys`: Keys for the tags to be removed.
+
+"""
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -772,14 +880,14 @@ end
     update_safety_rule()
     update_safety_rule(params::Dict{String,<:Any})
 
-Update a safety rule (an assertion rule or gating rule) for the routing controls in a
-control panel. You can only update the name and the waiting period for a safety rule. To
-make other updates, delete the safety rule and create a new safety rule.
+Update a safety rule (an assertion rule or gating rule). You can only update the name and
+the waiting period for a safety rule. To make other updates, delete the safety rule and
+create a new one.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssertionRuleUpdate"`:
-- `"GatingRuleUpdate"`:
+- `"AssertionRuleUpdate"`: The assertion rule to update.
+- `"GatingRuleUpdate"`: The gating rule to update.
 """
 function update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
     return route53_recovery_control_config(

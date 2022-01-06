@@ -182,6 +182,61 @@ function create_location_efs(
 end
 
 """
+    create_location_fsx_lustre(fsx_filesystem_arn, security_group_arns)
+    create_location_fsx_lustre(fsx_filesystem_arn, security_group_arns, params::Dict{String,<:Any})
+
+Creates an endpoint for an Amazon FSx for Lustre file system.
+
+# Arguments
+- `fsx_filesystem_arn`: The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+- `security_group_arns`: The Amazon Resource Names (ARNs) of the security groups that are
+  used to configure the FSx for Lustre file system.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Subdirectory"`: A subdirectory in the location's path. This subdirectory in the FSx for
+  Lustre file system is used to read data from the FSx for Lustre source location or write
+  data to the FSx for Lustre destination.
+- `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
+  The value can be an empty string. This value helps you manage, filter, and search for your
+  resources. We recommend that you create a name tag for your location.
+"""
+function create_location_fsx_lustre(
+    FsxFilesystemArn, SecurityGroupArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "CreateLocationFsxLustre",
+        Dict{String,Any}(
+            "FsxFilesystemArn" => FsxFilesystemArn, "SecurityGroupArns" => SecurityGroupArns
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_location_fsx_lustre(
+    FsxFilesystemArn,
+    SecurityGroupArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationFsxLustre",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FsxFilesystemArn" => FsxFilesystemArn,
+                    "SecurityGroupArns" => SecurityGroupArns,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user)
     create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user, params::Dict{String,<:Any})
 
@@ -193,7 +248,7 @@ Creates an endpoint for an Amazon FSx for Windows File Server file system.
 - `password`: The password of the user who has the permissions to access files and folders
   in the FSx for Windows File Server file system.
 - `security_group_arns`: The Amazon Resource Names (ARNs) of the security groups that are
-  to use to configure the FSx for Windows File Server file system.
+  used to configure the FSx for Windows File Server file system.
 - `user`: The user who has the permissions to access files and folders in the FSx for
   Windows File Server file system. For information about choosing a user name that ensures
   sufficient permissions to files, folders, and metadata, see user.
@@ -202,8 +257,8 @@ Creates an endpoint for an Amazon FSx for Windows File Server file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The name of the Windows domain that the FSx for Windows File Server belongs
   to.
-- `"Subdirectory"`: A subdirectory in the location’s path. This subdirectory in the
-  Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for
+- `"Subdirectory"`: A subdirectory in the location's path. This subdirectory in the Amazon
+  FSx for Windows File Server file system is used to read data from the Amazon FSx for
   Windows File Server source location or write data to the FSx for Windows File Server
   destination.
 - `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
@@ -898,6 +953,42 @@ function describe_location_efs(
 )
     return datasync(
         "DescribeLocationEfs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_location_fsx_lustre(location_arn)
+    describe_location_fsx_lustre(location_arn, params::Dict{String,<:Any})
+
+Returns metadata, such as the path information about an Amazon FSx for Lustre location.
+
+# Arguments
+- `location_arn`: The Amazon Resource Name (ARN) of the FSx for Lustre location to
+  describe.
+
+"""
+function describe_location_fsx_lustre(
+    LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeLocationFsxLustre",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_location_fsx_lustre(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeLocationFsxLustre",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );

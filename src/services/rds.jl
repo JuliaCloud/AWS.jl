@@ -980,18 +980,18 @@ engine and specific AMI. The only supported engine is Oracle Database 19c Enterp
 Edition with the January 2021 or later RU/RUR. Amazon RDS, which is a fully managed
 service, supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS
 database software is preinstalled, so you need only select a DB engine and version, and
-create your database. With Amazon RDS Custom, you upload your database installation files
-in Amazon S3. When you create a custom engine version, you specify the files in a JSON
-document called a CEV manifest. This document describes installation .zip files stored in
-Amazon S3. RDS Custom creates your CEV from the installation files that you provided. This
-service model is called Bring Your Own Media (BYOM). Creation takes approximately two
-hours. If creation fails, RDS Custom issues RDS-EVENT-0196 with the message Creation failed
-for custom engine version, and includes details about the failure. For example, the event
-prints missing files. After you create the CEV, it is available for use. You can create
-multiple CEVs, and create multiple RDS Custom instances from any CEV. You can also change
-the status of a CEV to make it available or inactive.  The MediaImport service that imports
-files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail.
-If you turn on data logging for Amazon RDS in CloudTrail, calls to the
+create your database. With Amazon RDS Custom for Oracle, you upload your database
+installation files in Amazon S3. When you create a custom engine version, you specify the
+files in a JSON document called a CEV manifest. This document describes installation .zip
+files stored in Amazon S3. RDS Custom creates your CEV from the installation files that you
+provided. This service model is called Bring Your Own Media (BYOM). Creation takes
+approximately two hours. If creation fails, RDS Custom issues RDS-EVENT-0196 with the
+message Creation failed for custom engine version, and includes details about the failure.
+For example, the event prints missing files. After you create the CEV, it is available for
+use. You can create multiple CEVs, and create multiple RDS Custom instances from any CEV.
+You can also change the status of a CEV to make it available or inactive.  The MediaImport
+service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web
+Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the
 CreateCustomDbEngineVersion event aren't logged. However, you might see calls from the API
 gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport
 service for the CreateCustomDbEngineVersion event.  For more information, see  Creating a
@@ -1004,9 +1004,9 @@ CEV in the Amazon RDS User Guide.
 - `engine`: The database engine to use for your custom engine version (CEV). The only
   supported value is custom-oracle-ee.
 - `engine_version`: The name of your CEV. The name format is 19.customized_string . For
-  example, a valid name is 19.my_cev1. This setting is required for RDS Custom, but optional
-  for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per
-  Region.
+  example, a valid name is 19.my_cev1. This setting is required for RDS Custom for Oracle,
+  but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per
+  customer per Region.
 - `kmskey_id`: The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric
   KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an existing
   symmetric KMS key in your account, you can use it with RDS Custom. No further action is
@@ -1105,9 +1105,9 @@ to change.
   First character must be a letter.   Can't end with a hyphen or contain two consecutive
   hyphens.   Example: my-cluster1  Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `engine`: The name of the database engine to be used for this DB cluster. Valid Values:
-   aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
-     aurora-postgresql     mysql     postgres    Valid for: Aurora DB clusters and Multi-AZ
-  DB clusters
+   aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and
+  MySQL 8.0-compatible Aurora)    aurora-postgresql     mysql     postgres    Valid for:
+  Aurora DB clusters and Multi-AZ DB clusters
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1204,7 +1204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available engine versions for MySQL 5.6-compatible Aurora, use the following command:  aws
   rds describe-db-engine-versions --engine aurora --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
-  MySQL 5.7-compatible Aurora, use the following command:  aws rds
+  MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command:  aws rds
   describe-db-engine-versions --engine aurora-mysql --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
   Aurora PostgreSQL, use the following command:  aws rds describe-db-engine-versions --engine
@@ -1342,9 +1342,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StorageEncrypted"`: A value that indicates whether the DB cluster is encrypted. Valid
   for: Aurora DB clusters and Multi-AZ DB clusters
 - `"StorageType"`: Specifies the storage type to be associated with the DB cluster. This
-  setting is required to create a Multi-AZ DB cluster.  Valid values: standard | gp2 | io1
-  If you specify io1, also include a value for the Iops parameter.   Default: io1 if the Iops
-  parameter is specified, otherwise gp2  Valid for: Multi-AZ DB clusters only
+  setting is required to create a Multi-AZ DB cluster.  Valid values: io1   When specified, a
+  value for the Iops parameter is required.   Default: io1  Valid for: Multi-AZ DB clusters
+  only
 - `"Tags"`: Tags to assign to the DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
@@ -1483,16 +1483,17 @@ preview and is subject to change.
   parameter group can be associated with one and only one DB cluster parameter group family,
   and can be applied only to a DB cluster running a database engine and engine version
   compatible with that DB cluster parameter group family.  Aurora MySQL  Example: aurora5.6,
-  aurora-mysql5.7   Aurora PostgreSQL  Example: aurora-postgresql9.6   RDS for MySQL
-  Example: mysql8.0   RDS for PostgreSQL  Example: postgres12  To list all of the available
-  parameter group families for a DB engine, use the following command:  aws rds
+  aurora-mysql5.7, aurora-mysql8.0   Aurora PostgreSQL  Example: aurora-postgresql9.6   RDS
+  for MySQL  Example: mysql8.0   RDS for PostgreSQL  Example: postgres12  To list all of the
+  available parameter group families for a DB engine, use the following command:  aws rds
   describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine
   &lt;engine&gt;  For example, to list all of the available parameter group families for the
   Aurora PostgreSQL DB engine, use the following command:  aws rds
   describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine
   aurora-postgresql   The output contains duplicates.  The following are the valid DB engine
   values:    aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL
-  5.7-compatible Aurora)    aurora-postgresql     mysql     postgres
+  5.7-compatible and MySQL 8.0-compatible Aurora)    aurora-postgresql     mysql     postgres
+  
 - `description`: The description for the DB cluster parameter group.
 
 # Optional Parameters
@@ -1618,10 +1619,13 @@ Creates a new DB instance.
   hyphens.   Example: mydbinstance
 - `engine`: The name of the database engine to be used for this instance.  Not every
   database engine is available for every Amazon Web Services Region.  Valid Values:
-  aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
-    aurora-postgresql     custom-oracle-ee (for RDS Custom instances)     mariadb     mysql
-    oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres
-  sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+  aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and
+  MySQL 8.0-compatible Aurora)    aurora-postgresql     custom-oracle-ee (for RDS Custom for
+  Oracle instances)     custom-sqlserver-ee (for RDS Custom for SQL Server instances)
+  custom-sqlserver-se (for RDS Custom for SQL Server instances)     custom-sqlserver-web (for
+  RDS Custom for SQL Server instances)     mariadb     mysql     oracle-ee     oracle-ee-cdb
+     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
+  sqlserver-ex     sqlserver-web
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1630,48 +1634,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically grow as the amount of data in your database increases, though you are only
   charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom
   Constraints to the amount of storage for each storage type are the following:    General
-  Purpose (SSD) storage (gp2): Must be an integer from 40 to 65536.   Provisioned IOPS
-  storage (io1): Must be an integer from 40 to 65536.    MySQL  Constraints to the amount of
-  storage for each storage type are the following:    General Purpose (SSD) storage (gp2):
-  Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer
-  from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.
-  MariaDB  Constraints to the amount of storage for each storage type are the following:
-  General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned
-  IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard):
-  Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for
-  each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an
-  integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to
-  65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle
+  Purpose (SSD) storage (gp2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,
+  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an integer
+  from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.    MySQL
   Constraints to the amount of storage for each storage type are the following:    General
   Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS
   storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be
-  an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each
-  storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and
-  Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must
-  be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and
-  Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must
-  be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard
-  editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an
-  integer from 20 to 1024.
+  an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each
+  storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer
+  from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+  Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints
+  to the amount of storage for each storage type are the following:    General Purpose (SSD)
+  storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must
+  be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5
+  to 3072.    Oracle  Constraints to the amount of storage for each storage type are the
+  following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.
+  Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage
+  (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of
+  storage for each storage type are the following:    General Purpose (SSD) storage (gp2):
+  Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express
+  editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):
+  Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express
+  editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):
+  Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express
+  editions: Must be an integer from 20 to 1024.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the DB instance during the maintenance window. By default, minor
   engine upgrades are applied automatically. If you create an RDS Custom DB instance, you
   must set AutoMinorVersionUpgrade to false.
 - `"AvailabilityZone"`:  The Availability Zone (AZ) where the database will be created. For
   information on Amazon Web Services Regions and Availability Zones, see Regions and
-  Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's
-  Amazon Web Services Region.  Example: us-east-1d   Constraint: The AvailabilityZone
-  parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified
-  Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
-  If you're creating a DB instance in an RDS on VMware environment, specify the identifier of
-  the custom Availability Zone to create the DB instance in. For more information about RDS
-  on VMware, see the  RDS on VMware User Guide.
+  Availability Zones.   Amazon Aurora  Not applicable. Availability Zones are managed by the
+  DB cluster.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon
+  Web Services Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter
+  can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability
+  Zone must be in the same Amazon Web Services Region as the current endpoint.   If you're
+  creating a DB instance in an RDS on VMware environment, specify the identifier of the
+  custom Availability Zone to create the DB instance in. For more information about RDS on
+  VMware, see the  RDS on VMware User Guide.
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   Setting this parameter to a positive number enables backups. Setting this parameter to 0
   disables automated backups.  Amazon Aurora  Not applicable. The retention period for
   automated backups is managed by the DB cluster. Default: 1 Constraints:   Must be a value
   from 0 to 35   Can't be set to 0 if the DB instance is a source to read replicas   Can't be
-  set to 0 or 35 for an RDS Custom DB instance
+  set to 0 or 35 for an RDS Custom for Oracle DB instance
 - `"BackupTarget"`: Specifies where automated backups and manual snapshots are stored.
   Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services
   Region). The default is region. For more information, see Working with Amazon RDS on Amazon
@@ -1711,20 +1717,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the
   default value ORCL is used. You can't specify the string NULL, or any other reserved word,
   for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    Amazon RDS
-  Custom  The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't
-  specify a value, the default value is ORCL.  Default: ORCL  Constraints:   It must contain
-  1 to 8 alphanumeric characters.   It must contain a letter.   It can't be a word reserved
-  by the database engine.    SQL Server  Not applicable. Must be null.  Amazon Aurora MySQL
-  The name of the database to create when the primary DB instance of the Aurora MySQL DB
-  cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no
-  database is created in the DB cluster. Constraints:   It must contain 1 to 64 alphanumeric
-  characters.   It can't be a word reserved by the database engine.    Amazon Aurora
-  PostgreSQL  The name of the database to create when the primary DB instance of the Aurora
-  PostgreSQL DB cluster is created. If this parameter isn't specified for an Aurora
-  PostgreSQL DB cluster, a database named postgres is created in the DB cluster. Constraints:
-    It must contain 1 to 63 alphanumeric characters.   It must begin with a letter or an
-  underscore. Subsequent characters can be letters, underscores, or digits (0 to 9).   It
-  can't be a word reserved by the database engine.
+  Custom for Oracle  The Oracle System ID (SID) of the created RDS Custom DB instance. If you
+  don't specify a value, the default value is ORCL.  Default: ORCL  Constraints:   It must
+  contain 1 to 8 alphanumeric characters.   It must contain a letter.   It can't be a word
+  reserved by the database engine.    Amazon RDS Custom for SQL Server  Not applicable. Must
+  be null.  SQL Server  Not applicable. Must be null.  Amazon Aurora MySQL  The name of the
+  database to create when the primary DB instance of the Aurora MySQL DB cluster is created.
+  If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in
+  the DB cluster. Constraints:   It must contain 1 to 64 alphanumeric characters.   It can't
+  be a word reserved by the database engine.    Amazon Aurora PostgreSQL  The name of the
+  database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is
+  created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, a database
+  named postgres is created in the DB cluster. Constraints:   It must contain 1 to 63
+  alphanumeric characters.   It must begin with a letter or an underscore. Subsequent
+  characters can be letters, underscores, or digits (0 to 9).   It can't be a word reserved
+  by the database engine.
 - `"DBParameterGroupName"`: The name of the DB parameter group to associate with this DB
   instance. If you do not specify a value, then the default DB parameter group for the
   specified DB engine and version is used. This setting doesn't apply to RDS Custom.
@@ -1778,16 +1785,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   engines and links to information about the major and minor versions that are available with
   Amazon RDS. Not every database engine is available for every Amazon Web Services Region.
   Amazon Aurora  Not applicable. The version number of the database engine to be used by the
-  DB instance is managed by the DB cluster.  Amazon RDS Custom  A custom engine version (CEV)
-  that you have previously created. This setting is required for RDS Custom. The CEV name has
-  the following format: 19.customized_string . An example identifier is 19.my_cev1. For more
-  information, see  Creating an RDS Custom DB instance in the Amazon RDS User Guide..
-  MariaDB  For information, see MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.
-   Microsoft SQL Server  For information, see Microsoft SQL Server Versions on Amazon RDS in
-  the Amazon RDS User Guide.   MySQL  For information, see MySQL on Amazon RDS Versions in
-  the Amazon RDS User Guide.   Oracle  For information, see Oracle Database Engine Release
-  Notes in the Amazon RDS User Guide.   PostgreSQL  For information, see Amazon RDS for
-  PostgreSQL versions and extensions in the Amazon RDS User Guide.
+  DB instance is managed by the DB cluster.  Amazon RDS Custom for Oracle  A custom engine
+  version (CEV) that you have previously created. This setting is required for RDS Custom for
+  Oracle. The CEV name has the following format: 19.customized_string . An example identifier
+  is 19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in
+  the Amazon RDS User Guide..  Amazon RDS Custom for SQL Server  See RDS Custom for SQL
+  Server general requirements in the Amazon RDS User Guide.   MariaDB  For information, see
+  MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  For
+  information, see Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide.
+   MySQL  For information, see MySQL on Amazon RDS Versions in the Amazon RDS User Guide.
+  Oracle  For information, see Oracle Database Engine Release Notes in the Amazon RDS User
+  Guide.   PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions
+  in the Amazon RDS User Guide.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for the DB instance. For information about valid Iops values, see
   Amazon RDS Provisioned IOPS storage to improve performance in the Amazon RDS User Guide.
@@ -1802,10 +1811,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter,
   then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web
   Services account. Your Amazon Web Services account has a different default KMS key for each
-  Amazon Web Services Region.  Amazon RDS Custom  A KMS key is required for RDS Custom Oracle
+  Amazon Web Services Region.  Amazon RDS Custom  A KMS key is required for RDS Custom
   instances. For most RDS engines, if you leave this parameter empty while enabling
-  StorageEncrypted, the engine uses the default KMS key. However, RDS Custom for Oracle
-  doesn't use the default key when this parameter is empty. You must explicitly specify a key.
+  StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the
+  default key when this parameter is empty. You must explicitly specify a key.
 - `"LicenseModel"`: License model information for this DB instance.  Valid values:
   license-included | bring-your-own-license | general-public-license  This setting doesn't
   apply to RDS Custom.
@@ -1899,9 +1908,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have an internet gateway attached to it, the DB instance is private.   If the subnets are
   part of a VPC that has an internet gateway attached to it, the DB instance is public.
 - `"StorageEncrypted"`: A value that indicates whether the DB instance is encrypted. By
-  default, it isn't encrypted. For RDS Custom Oracle instances, either set this parameter to
-  true or leave it unset. If you set this parameter to false, RDS reports an error.  Amazon
-  Aurora  Not applicable. The encryption for DB instances is managed by the DB cluster.
+  default, it isn't encrypted. For RDS Custom instances, either set this parameter to true or
+  leave it unset. If you set this parameter to false, RDS reports an error.  Amazon Aurora
+  Not applicable. The encryption for DB instances is managed by the DB cluster.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance.  Valid
   values: standard | gp2 | io1   If you specify io1, you must also include a value for the
   Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
@@ -2245,10 +2254,10 @@ modified.
   command:  aws rds describe-db-engine-versions --query
   \"DBEngineVersions[].DBParameterGroupFamily\" --engine mysql   The output contains
   duplicates.  The following are the valid DB engine values:    aurora (for MySQL
-  5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
-  aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2
-  oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex
-  sqlserver-web
+  5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible
+  Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb
+  oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
+  sqlserver-ex     sqlserver-web
 - `dbparameter_group_name`: The name of the DB parameter group. Constraints:   Must be 1 to
   255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a
   hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
@@ -4169,10 +4178,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultOnly"`: A value that indicates whether only the default version of the specified
   engine or engine and major version combination is returned.
 - `"Engine"`: The database engine to return. Valid Values:     aurora (for MySQL
-  5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
-  aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2
-  oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex
-  sqlserver-web
+  5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible
+  Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb
+  oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
+  sqlserver-ex     sqlserver-web
 - `"EngineVersion"`: The database engine version to return. Example: 5.1.49
 - `"Filters"`: This parameter isn't currently supported.
 - `"IncludeAll"`: A value that indicates whether to include engine versions that aren't
@@ -5265,10 +5274,10 @@ version, and DB instance class.
 
 # Arguments
 - `engine`: The name of the engine to retrieve DB instance options for. Valid Values:
-  aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
-    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2
-   oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex
-  sqlserver-web
+  aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and
+  MySQL 8.0-compatible Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee
+  oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee
+  sqlserver-se     sqlserver-ex     sqlserver-web
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5976,8 +5985,8 @@ Amazon RDS User Guide.
 # Arguments
 - `engine`: The DB engine. The only supported value is custom-oracle-ee.
 - `engine_version`: The custom engine version (CEV) that you want to modify. This option is
-  required for RDS Custom, but optional for Amazon RDS. The combination of Engine and
-  EngineVersion is unique per customer per Amazon Web Services Region.
+  required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine
+  and EngineVersion is unique per customer per Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6125,16 +6134,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next maintenance window unless ApplyImmediately is enabled. To list all of the available
   engine versions for MySQL 5.6-compatible Aurora, use the following command:  aws rds
   describe-db-engine-versions --engine aurora --query \"DBEngineVersions[].EngineVersion\"
-  To list all of the available engine versions for MySQL 5.7-compatible Aurora, use the
-  following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query
-  \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
-  Aurora PostgreSQL, use the following command:  aws rds describe-db-engine-versions --engine
-  aurora-postgresql --query \"DBEngineVersions[].EngineVersion\"  To list all of the
-  available engine versions for RDS for MySQL, use the following command:  aws rds
-  describe-db-engine-versions --engine mysql --query \"DBEngineVersions[].EngineVersion\"  To
-  list all of the available engine versions for RDS for PostgreSQL, use the following
-  command:  aws rds describe-db-engine-versions --engine postgres --query
-  \"DBEngineVersions[].EngineVersion\"  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  To list all of the available engine versions for MySQL 5.7-compatible and MySQL
+  8.0-compatible Aurora, use the following command:  aws rds describe-db-engine-versions
+  --engine aurora-mysql --query \"DBEngineVersions[].EngineVersion\"  To list all of the
+  available engine versions for Aurora PostgreSQL, use the following command:  aws rds
+  describe-db-engine-versions --engine aurora-postgresql --query
+  \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for RDS
+  for MySQL, use the following command:  aws rds describe-db-engine-versions --engine mysql
+  --query \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions
+  for RDS for PostgreSQL, use the following command:  aws rds describe-db-engine-versions
+  --engine postgres --query \"DBEngineVersions[].EngineVersion\"  Valid for: Aurora DB
+  clusters and Multi-AZ DB clusters
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
   valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the
@@ -6194,9 +6204,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scaling properties for DB clusters in serverless DB engine mode. Valid for: Aurora DB
   clusters only
 - `"StorageType"`: Specifies the storage type to be associated with the DB cluster.  Valid
-  values: standard | gp2 | io1   If you specify io1, you must also include a value for the
-  Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2  Valid
-  for: Multi-AZ DB clusters only
+  values: io1   When specified, a value for the Iops parameter is required.   Default: io1
+  Valid for: Multi-AZ DB clusters only
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong
   to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 """
@@ -6475,12 +6484,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplyImmediately"`: A value that indicates whether the modifications in this request
   and any pending modifications are asynchronously applied as soon as possible, regardless of
   the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is
-  disabled.   If this parameter is disabled, changes to the DB instance are applied during
-  the next maintenance window. Some parameter changes can cause an outage and are applied on
-  the next call to RebootDBInstance, or the next failure reboot. Review the table of
-  parameters in Modifying a DB Instance in the Amazon RDS User Guide. to see the impact of
-  enabling or disabling ApplyImmediately for each modified parameter and to determine when
-  the changes are applied.
+  disabled.  If this parameter is disabled, changes to the DB instance are applied during the
+  next maintenance window. Some parameter changes can cause an outage and are applied on the
+  next call to RebootDBInstance, or the next failure reboot. Review the table of parameters
+  in Modifying a DB Instance in the Amazon RDS User Guide to see the impact of enabling or
+  disabling ApplyImmediately for each modified parameter and to determine when the changes
+  are applied.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor version upgrades are
   applied automatically to the DB instance during the maintenance window. An outage occurs
   when all the following conditions are met:   The automatic upgrade is enabled for the
@@ -6504,9 +6513,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
   existing setting Constraints:   It must be a value from 0 to 35. It can't be set to 0 if
   the DB instance is a source to read replicas. It can't be set to 0 or 35 for an RDS Custom
-  DB instance.   It can be specified for a MySQL read replica only if the source is running
-  MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if the source
-  is running PostgreSQL 9.3.5.
+  for Oracle DB instance.   It can be specified for a MySQL read replica only if the source
+  is running MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if
+  the source is running PostgreSQL 9.3.5.
 - `"CACertificateIdentifier"`: Specifies the certificate to associate with the DB instance.
   This setting doesn't apply to RDS Custom.
 - `"CertificateRotationRestart"`: A value that indicates whether the DB instance is
@@ -6535,7 +6544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your engine, see DB Instance Class in the Amazon RDS User Guide.  If you modify the DB
   instance class, an outage occurs during the change. The change is applied during the next
   maintenance window, unless ApplyImmediately is enabled for this request.  This setting
-  doesn't apply to RDS Custom. Default: Uses existing setting
+  doesn't apply to RDS Custom for Oracle. Default: Uses existing setting
 - `"DBParameterGroupName"`: The name of the DB parameter group to apply to the DB instance.
   Changing this setting doesn't result in an outage. The parameter group name itself is
   changed immediately, but the actual parameter changes are not applied until you reboot the
@@ -6603,9 +6612,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. The new DB parameter group can be the default for that DB parameter group
   family. If you specify only a major version, Amazon RDS will update the DB instance to the
   default minor version if the current minor version is lower. For information about valid
-  engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom,
-  this parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE
-  lifecycle.
+  engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom for
+  Oracle, this parameter is supported for read replicas only if they are in the
+  PATCH_DB_FAILURE lifecycle.
 - `"Iops"`: The new Provisioned IOPS (I/O operations per second) value for the RDS
   instance.  Changing this setting doesn't result in an outage and the change is applied
   during the next maintenance window unless the ApplyImmediately parameter is enabled for
@@ -6725,7 +6734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DB instances in a VPC. The DB instance must be part of a public subnet and
   PubliclyAccessible must be enabled for it to be publicly accessible.  Changes to the
   PubliclyAccessible parameter are applied immediately regardless of the value of the
-  ApplyImmediately parameter. This setting doesn't apply to RDS Custom.
+  ApplyImmediately parameter.
 - `"ReplicaMode"`: A value that sets the open mode of a replica database to either mounted
   or read-only.  Currently, this parameter is only supported for Oracle DB instances.
   Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for
@@ -6813,28 +6822,32 @@ been created or modified.
 - `dbparameter_group_name`: The name of the DB parameter group. Constraints:   If supplied,
   must match the name of an existing DBParameterGroup.
 - `parameter`: An array of parameter names, values, and the application methods for the
-  parameter update. At least one parameter name, value, and application method method must be
+  parameter update. At least one parameter name, value, and application method must be
   supplied; later arguments are optional. A maximum of 20 parameters can be modified in a
-  single request. Valid Values (for the application method): immediate | pending-reboot   You
+  single request. Valid Values (for the application method): immediate | pending-reboot  You
   can use the immediate value with dynamic parameters only. You can use the pending-reboot
   value for both dynamic and static parameters. When the application method is immediate,
   changes to dynamic parameters are applied immediately to the DB instances associated with
   the parameter group. When the application method is pending-reboot, changes to dynamic and
   static parameters are applied after a reboot without failover to the DB instances
-  associated with the parameter group.
+  associated with the parameter group.  You can't use pending-reboot with dynamic parameters
+  on RDS for SQL Server DB instances. Use immediate.  For more information on modifying DB
+  parameters, see Working with DB parameter groups in the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Parameters"`: An array of parameter names, values, and the application methods for the
-  parameter update. At least one parameter name, value, and application method method must be
+  parameter update. At least one parameter name, value, and application method must be
   supplied; later arguments are optional. A maximum of 20 parameters can be modified in a
-  single request. Valid Values (for the application method): immediate | pending-reboot   You
+  single request. Valid Values (for the application method): immediate | pending-reboot  You
   can use the immediate value with dynamic parameters only. You can use the pending-reboot
   value for both dynamic and static parameters. When the application method is immediate,
   changes to dynamic parameters are applied immediately to the DB instances associated with
   the parameter group. When the application method is pending-reboot, changes to dynamic and
   static parameters are applied after a reboot without failover to the DB instances
-  associated with the parameter group.
+  associated with the parameter group.  You can't use pending-reboot with dynamic parameters
+  on RDS for SQL Server DB instances. Use immediate.  For more information on modifying DB
+  parameters, see Working with DB parameter groups in the Amazon RDS User Guide.
 """
 function modify_dbparameter_group(
     DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7286,11 +7299,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:
   aws rds describe-db-engine-versions --engine aurora --query '*[]|[?SupportsGlobalDatabases
   == `true`].[EngineVersion]'  To list all of the available engine versions for aurora-mysql
-  (for MySQL 5.7-compatible Aurora), use the following command:  aws rds
-  describe-db-engine-versions --engine aurora-mysql --query '*[]|[?SupportsGlobalDatabases ==
-  `true`].[EngineVersion]'  To list all of the available engine versions for
-  aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine
-  aurora-postgresql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
+  (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use the following command:  aws
+  rds describe-db-engine-versions --engine aurora-mysql --query
+  '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'  To list all of the available
+  engine versions for aurora-postgresql, use the following command:  aws rds
+  describe-db-engine-versions --engine aurora-postgresql --query
+  '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
 - `"GlobalClusterIdentifier"`:  The DB cluster identifier for the global cluster being
   modified. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of
   an existing global database cluster.
@@ -8027,8 +8041,8 @@ information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora U
   to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a
   hyphen or contain two consecutive hyphens.   Example: my-cluster1
 - `engine`: The name of the database engine to be used for this DB cluster. Valid Values:
-  aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora),
-  and aurora-postgresql
+  aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible and MySQL
+  8.0-compatible Aurora), and aurora-postgresql
 - `master_user_password`: The password for the master database user. This password can
   contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
   contain from 8 to 41 characters.
@@ -8088,13 +8102,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following
   command:  aws rds describe-db-engine-versions --engine aurora --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
-  aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds
-  describe-db-engine-versions --engine aurora-mysql --query
+  aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use the following
+  command:  aws rds describe-db-engine-versions --engine aurora-mysql --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
   aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine
   aurora-postgresql --query \"DBEngineVersions[].EngineVersion\"   Aurora MySQL  Example:
-  5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL
-  Example: 9.6.3, 10.7
+  5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5, 8.0.mysql_aurora.3.01.0
+   Aurora PostgreSQL  Example: 9.6.3, 10.7
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB cluster. The
   Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
   the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key
@@ -8275,7 +8289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all of the available engine versions for MySQL 5.6-compatible Aurora, use the
   following command:  aws rds describe-db-engine-versions --engine aurora --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
-  MySQL 5.7-compatible Aurora, use the following command:  aws rds
+  MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command:  aws rds
   describe-db-engine-versions --engine aurora-mysql --query
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
   Aurora PostgreSQL, use the following command:  aws rds describe-db-engine-versions --engine
@@ -8330,9 +8344,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
 - `"StorageType"`: Specifies the storage type to be associated with the each DB instance in
-  the Multi-AZ DB cluster.  Valid values: standard | gp2 | io1   If you specify io1, you must
-  also include a value for the Iops parameter.   Default: io1 if the Iops parameter is
-  specified, otherwise gp2  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  the Multi-AZ DB cluster.  Valid values: io1   When specified, a value for the Iops
+  parameter is required.   Default: io1  Valid for: Aurora DB clusters and Multi-AZ DB
+  clusters
 - `"Tags"`: The tags to be assigned to the restored DB cluster. Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster will
@@ -8508,9 +8522,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
 - `"StorageType"`: Specifies the storage type to be associated with the each DB instance in
-  the Multi-AZ DB cluster.  Valid values: standard | gp2 | io1   If you specify io1, also
-  include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified,
-  otherwise gp2  Valid for: Multi-AZ DB clusters only
+  the Multi-AZ DB cluster.  Valid values: io1   When specified, a value for the Iops
+  parameter is required.   Default: io1  Valid for: Multi-AZ DB clusters only
 - `"Tags"`:
 - `"UseLatestRestorableTime"`: A value that indicates whether to restore the DB cluster to
   the latest restorable backup time. By default, the DB cluster isn't restored to the latest

@@ -650,6 +650,42 @@ function describe_rule_group(
 end
 
 """
+    describe_rule_group_metadata()
+    describe_rule_group_metadata(params::Dict{String,<:Any})
+
+High-level information about a rule group, returned by operations like create and describe.
+You can use the information provided in the metadata to retrieve and manage a rule group.
+You can retrieve all objects for a rule group by calling DescribeRuleGroup.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuleGroupArn"`: The descriptive name of the rule group. You can't change the name of a
+  rule group after you create it. You must specify the ARN or the name, and you can specify
+  both.
+- `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
+  rule group after you create it. You must specify the ARN or the name, and you can specify
+  both.
+- `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
+  stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
+  This setting is required for requests that do not include the RuleGroupARN.
+"""
+function describe_rule_group_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall(
+        "DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_rule_group_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DescribeRuleGroupMetadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_subnets(subnet_ids)
     disassociate_subnets(subnet_ids, params::Dict{String,<:Any})
 
@@ -787,6 +823,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of objects that are still available for retrieval exceeds the maximum you requested,
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
+- `"Scope"`: The scope of the request. The default setting of ACCOUNT or a setting of NULL
+  returns all of the rule groups in your account. A setting of MANAGED returns all available
+  managed rule groups.
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return network_firewall(
@@ -1177,7 +1216,9 @@ end
     update_firewall_policy_change_protection(firewall_policy_change_protection)
     update_firewall_policy_change_protection(firewall_policy_change_protection, params::Dict{String,<:Any})
 
-
+Modifies the flag, ChangeProtection, which indicates whether it is possible to change the
+firewall. If the flag is set to TRUE, the firewall is protected from changes. This setting
+helps protect against accidentally changing a firewall that's in use.
 
 # Arguments
 - `firewall_policy_change_protection`: A setting indicating whether the firewall is

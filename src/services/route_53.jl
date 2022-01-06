@@ -343,8 +343,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element, omit HostedZoneConfig and the other elements.
 - `"VPC"`: (Private hosted zones only) A complex type that contains information about the
   Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon
-  VPC when you create a private hosted zone. To associate additional Amazon VPCs with the
-  hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
+  VPC when you create a private hosted zone. If you are associating a VPC with a hosted zone
+  with this request, the paramaters VPCId and VPCRegion are also required. To associate
+  additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you
+  create a hosted zone.
 """
 function create_hosted_zone(
     CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -388,16 +390,16 @@ KSKs per hosted zone.
 # Arguments
 - `caller_reference`: A unique string that identifies the request.
 - `hosted_zone_id`: The unique string (ID) used to identify a hosted zone.
-- `key_management_service_arn`: The Amazon resource name (ARN) for a customer managed
-  customer master key (CMK) in Key Management Service (KMS). The KeyManagementServiceArn must
-  be unique for each key-signing key (KSK) in a single hosted zone. To see an example of
-  KeyManagementServiceArn that grants the correct permissions for DNSSEC, scroll down to
-  Example.  You must configure the customer managed CMK as follows:  Status  Enabled  Key
-  spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give
-  permission for the following actions:   DescribeKey   GetPublicKey   Sign   The key policy
-  must also include the Amazon Route 53 service in the principal for your account. Specify
-  the following:    \"Service\": \"dnssec-route53.amazonaws.com\"      For more information
-  about working with a customer managed CMK in KMS, see Key Management Service concepts.
+- `key_management_service_arn`: The Amazon resource name (ARN) for a customer managed key
+  in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each
+  key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn
+  that grants the correct permissions for DNSSEC, scroll down to Example.  You must configure
+  the customer managed customer managed key as follows:  Status  Enabled  Key spec
+  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission
+  for the following actions:   DescribeKey   GetPublicKey   Sign   The key policy must also
+  include the Amazon Route 53 service in the principal for your account. Specify the
+  following:    \"Service\": \"dnssec-route53.amazonaws.com\"      For more information about
+  working with a customer managed key in KMS, see Key Management Service concepts.
 - `name`: A string used to identify a key-signing key (KSK). Name can include numbers,
   letters, and underscores (_). Name must be unique for each key-signing key in the same
   hosted zone.
@@ -990,7 +992,8 @@ end
 
 Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The
 KSK must be deactivated before you can delete it regardless of whether the hosted zone is
-enabled for DNSSEC signing.
+enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key
+before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status.
 
 # Arguments
 - `hosted_zone_id`: A unique string used to identify a hosted zone.
@@ -3008,9 +3011,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InsufficientDataHealthStatus"`: When CloudWatch has insufficient data about the metric
   to determine the alarm state, the status that you want Amazon Route 53 to assign to the
   health check:    Healthy: Route 53 considers the health check to be healthy.    Unhealthy:
-  Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route 53 uses the
-  status of the health check from the last time CloudWatch had sufficient data to determine
-  the alarm state. For new health checks that have no last known status, the default status
+  Route 53 considers the health check to be unhealthy.    LastKnownStatus: By default, Route
+  53 uses the status of the health check from the last time CloudWatch had sufficient data to
+  determine the alarm state. For new health checks that have no last known status, the status
   for the health check is healthy.
 - `"Inverted"`: Specify whether you want Amazon Route 53 to invert the status of a health
   check, for example, to consider a health check unhealthy when it otherwise would be
