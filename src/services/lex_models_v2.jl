@@ -13,7 +13,7 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 
 # Arguments
 - `bot_id`: The identifier of the bot to build. The identifier is returned in the response
-  from the operation.
+  from the CreateBot operation.
 - `bot_version`: The version of the bot to build. This can only be the draft version of the
   bot.
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
@@ -143,7 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this parameter to specify a specific Lambda function to run different functions in
   different locales.
 - `"botVersion"`: The version of the bot that this alias points to. You can use the
-  operation to change the bot version associated with the alias.
+  UpdateBotAlias operation to change the bot version associated with the alias.
 - `"conversationLogSettings"`: Specifies whether Amazon Lex logs text and audio for a
   conversation with the bot. When you enable conversation logs, text logs store text input,
   transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs
@@ -694,8 +694,8 @@ function create_slot(
 end
 
 """
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting)
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    create_slot_type(bot_id, bot_version, locale_id, slot_type_name)
+    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, params::Dict{String,<:Any})
 
 Creates a custom slot type  To create a custom slot type, specify a name for the slot type
 and a set of enumeration values, the values that a slot of this type can assume.
@@ -709,38 +709,37 @@ and a set of enumeration values, the values that a slot of this type can assume.
   languages.
 - `slot_type_name`: The name for the slot. A slot type name must be unique within the
   account.
-- `value_selection_setting`: Determines the strategy that Amazon Lex uses to select a value
-  from the list of possible values. The field can be set to one of the following values:
-  OriginalValue - Returns the value entered by the user, if the user value is similar to the
-  slot value.    TopResolution - If there is a resolution list for the slot, return the first
-  value in the resolution list. If there is no resolution list, return null.   If you don't
-  specify the valueSelectionSetting parameter, the default is OriginalValue.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the slot type. Use the description to help identify the
   slot type in lists.
+- `"externalSourceSetting"`: Sets the type of external information used to create the slot
+  type.
 - `"parentSlotTypeSignature"`: The built-in slot type used as a parent of this slot type.
   When you define a parent slot type, the new slot type has the configuration of the parent
   slot type. Only AMAZON.AlphaNumeric is supported.
 - `"slotTypeValues"`: A list of SlotTypeValue objects that defines the values that the slot
   type can take. Each value can have a list of synonyms, additional values that help train
   the machine learning model about the values that it resolves for a slot.
+- `"valueSelectionSetting"`: Determines the strategy that Amazon Lex uses to select a value
+  from the list of possible values. The field can be set to one of the following values:
+  OriginalValue - Returns the value entered by the user, if the user value is similar to the
+  slot value.    TopResolution - If there is a resolution list for the slot, return the first
+  value in the resolution list. If there is no resolution list, return null.   If you don't
+  specify the valueSelectionSetting parameter, the default is OriginalValue.
 """
 function create_slot_type(
     botId,
     botVersion,
     localeId,
-    slotTypeName,
-    valueSelectionSetting;
+    slotTypeName;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
+        Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -750,7 +749,6 @@ function create_slot_type(
     botVersion,
     localeId,
     slotTypeName,
-    valueSelectionSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -758,14 +756,7 @@ function create_slot_type(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "slotTypeName" => slotTypeName,
-                    "valueSelectionSetting" => valueSelectionSetting,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1258,12 +1249,12 @@ end
     delete_utterances(bot_id, params::Dict{String,<:Any})
 
 Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot.
-Utterances are stored for 15 days for use with the operation, and then stored indefinitely
-for use in improving the ability of your bot to respond to user input.. Use the
-DeleteUtterances operation to manually delete utterances for a specific session. When you
-use the DeleteUtterances operation, utterances stored for improving your bot's ability to
-respond to user input are deleted immediately. Utterances stored for use with the
-ListAggregatedUtterances operation are deleted after 15 days.
+Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and
+then stored indefinitely for use in improving the ability of your bot to respond to user
+input.. Use the DeleteUtterances operation to manually delete utterances for a specific
+session. When you use the DeleteUtterances operation, utterances stored for improving your
+bot's ability to respond to user input are deleted immediately. Utterances stored for use
+with the ListAggregatedUtterances operation are deleted after 15 days.
 
 # Arguments
 - `bot_id`: The unique identifier of the bot that contains the utterances.
@@ -1274,7 +1265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   collected. The string must match one of the supported locales. For more information, see
   Supported languages.
 - `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
-  the response from the and operations.
+  the response from the RecognizeText and RecognizeUtterance operations.
 """
 function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_models_v2(
@@ -1392,6 +1383,55 @@ function describe_bot_locale(
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id)
+    describe_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Provides metadata information about a bot recommendation. This information will enable you
+to get a description on the request inputs, to download associated transcripts after
+processing is complete, and to download intents and slot-types generated by the bot
+recommendation.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot associated with the bot recommendation.
+- `bot_recommendation_id`: The identifier of the bot recommendation to describe.
+- `bot_version`: The version of the bot associated with the bot recommendation.
+- `locale_id`: The identifier of the language and locale of the bot recommendation to
+  describe. The string must match one of the supported locales. For more information, see
+  Supported languages.
+
+"""
+function describe_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1833,6 +1873,52 @@ function list_bot_locales(
 end
 
 """
+    list_bot_recommendations(bot_id, bot_version, locale_id)
+    list_bot_recommendations(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Get a list of bot recommendations that meet the specified criteria.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot that contains the bot recommendation list.
+- `bot_version`: The version of the bot that contains the bot recommendation list.
+- `locale_id`: The identifier of the language and locale of the bot recommendation list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of bot recommendations to return in each page of
+  results. If there are fewer results than the max page size, only the actual number of
+  results are returned.
+- `"nextToken"`: If the response from the ListBotRecommendation operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
+"""
+function list_bot_recommendations(
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_bot_recommendations(
+    botId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_bot_versions(bot_id)
     list_bot_versions(bot_id, params::Dict{String,<:Any})
 
@@ -2124,6 +2210,60 @@ function list_intents(
 end
 
 """
+    list_recommended_intents(bot_id, bot_recommendation_id, bot_version, locale_id)
+    list_recommended_intents(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Gets a list of recommended intents provided by the bot recommendation that you can use in
+your bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot associated with the recommended intents.
+- `bot_recommendation_id`: The identifier of the bot recommendation that contains the
+  recommended intents.
+- `bot_version`: The version of the bot that contains the recommended intents.
+- `locale_id`: The identifier of the language and locale of the recommended intents.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of bot recommendations to return in each page of
+  results. If there are fewer results than the max page size, only the actual number of
+  results are returned.
+- `"nextToken"`: If the response from the ListRecommendedIntents operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
+"""
+function list_recommended_intents(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/intents";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_recommended_intents(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/intents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_slot_types(bot_id, bot_version, locale_id)
     list_slot_types(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -2267,6 +2407,127 @@ function list_tags_for_resource(
 end
 
 """
+    search_associated_transcripts(bot_id, bot_recommendation_id, bot_version, filters, locale_id)
+    search_associated_transcripts(bot_id, bot_recommendation_id, bot_version, filters, locale_id, params::Dict{String,<:Any})
+
+Search for associated transcripts that meet the specified criteria.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot associated with the transcripts that you are
+  searching.
+- `bot_recommendation_id`: The unique identifier of the bot recommendation associated with
+  the transcripts to search.
+- `bot_version`: The version of the bot containing the transcripts that you are searching.
+- `filters`: A list of filter objects.
+- `locale_id`: The identifier of the language and locale of the transcripts to search. The
+  string must match one of the supported locales. For more information, see Supported
+  languages
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of bot recommendations to return in each page of
+  results. If there are fewer results than the max page size, only the actual number of
+  results are returned.
+- `"nextIndex"`: If the response from the SearchAssociatedTranscriptsRequest operation
+  contains more results than specified in the maxResults parameter, an index is returned in
+  the response. Use that index in the nextIndex parameter to return the next page of results.
+- `"searchOrder"`: How SearchResults are ordered. Valid values are Ascending or Descending.
+  The default is Descending.
+"""
+function search_associated_transcripts(
+    botId,
+    botRecommendationId,
+    botVersion,
+    filters,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/associatedtranscripts",
+        Dict{String,Any}("filters" => filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_associated_transcripts(
+    botId,
+    botRecommendationId,
+    botVersion,
+    filters,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/associatedtranscripts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_bot_recommendation(bot_id, bot_version, locale_id, transcript_source_setting)
+    start_bot_recommendation(bot_id, bot_version, locale_id, transcript_source_setting, params::Dict{String,<:Any})
+
+Use this to provide your transcript data, and to start the bot recommendation process.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot containing the bot recommendation.
+- `bot_version`: The version of the bot containing the bot recommendation.
+- `locale_id`: The identifier of the language and locale of the bot recommendation to
+  start. The string must match one of the supported locales. For more information, see
+  Supported languages
+- `transcript_source_setting`: The object representing the Amazon S3 bucket containing the
+  transcript, as well as the associated metadata.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"encryptionSetting"`: The object representing the passwords that will be used to encrypt
+  the data related to the bot recommendation results, as well as the KMS key ARN used to
+  encrypt the associated metadata.
+"""
+function start_bot_recommendation(
+    botId,
+    botVersion,
+    localeId,
+    transcriptSourceSetting;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        Dict{String,Any}("transcriptSourceSetting" => transcriptSourceSetting);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_bot_recommendation(
+    botId,
+    botVersion,
+    localeId,
+    transcriptSourceSetting,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("transcriptSourceSetting" => transcriptSourceSetting),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_import(import_id, merge_strategy, resource_specification)
     start_import(import_id, merge_strategy, resource_specification, params::Dict{String,<:Any})
 
@@ -2274,7 +2535,7 @@ Starts importing a bot or bot locale from a zip archive that you uploaded to an 
 
 # Arguments
 - `import_id`: The unique identifier for the import. It is included in the response from
-  the operation.
+  the CreateUploadUrl operation.
 - `merge_strategy`: The strategy to use when there is a name conflict between the imported
   resource and an existing resource. When the merge strategy is FailOnConflict existing
   resources are not overwritten and the import fails.
@@ -2594,13 +2855,70 @@ function update_bot_locale(
 end
 
 """
+    update_bot_recommendation(bot_id, bot_recommendation_id, bot_version, encryption_setting, locale_id)
+    update_bot_recommendation(bot_id, bot_recommendation_id, bot_version, encryption_setting, locale_id, params::Dict{String,<:Any})
+
+Updates an existing bot recommendation request.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot containing the bot recommendation to be
+  updated.
+- `bot_recommendation_id`: The unique identifier of the bot recommendation to be updated.
+- `bot_version`: The version of the bot containing the bot recommendation to be updated.
+- `encryption_setting`: The object representing the passwords that will be used to encrypt
+  the data related to the bot recommendation results, as well as the KMS key ARN used to
+  encrypt the associated metadata.
+- `locale_id`: The identifier of the language and locale of the bot recommendation to
+  update. The string must match one of the supported locales. For more information, see
+  Supported languages
+
+"""
+function update_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    encryptionSetting,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        Dict{String,Any}("encryptionSetting" => encryptionSetting);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    encryptionSetting,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("encryptionSetting" => encryptionSetting), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_export(export_id)
     update_export(export_id, params::Dict{String,<:Any})
 
 Updates the password used to protect an export zip archive. The password is not required.
 If you don't supply a password, Amazon Lex generates a zip file that is not protected by a
 password. This is the archive that is available at the pre-signed S3 URL provided by the
-operation.
+DescribeExport operation.
 
 # Arguments
 - `export_id`: The unique identifier Amazon Lex assigned to the export.
@@ -2836,8 +3154,8 @@ function update_slot(
 end
 
 """
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting)
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name)
+    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, params::Dict{String,<:Any})
 
 Updates the configuration of an existing slot type.
 
@@ -2849,32 +3167,30 @@ Updates the configuration of an existing slot type.
   languages.
 - `slot_type_id`: The unique identifier of the slot type to update.
 - `slot_type_name`: The new name of the slot type.
-- `value_selection_setting`: The strategy that Amazon Lex should use when deciding on a
-  value from the list of slot type values.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new description of the slot type.
+- `"externalSourceSetting"`:
 - `"parentSlotTypeSignature"`: The new built-in slot type that should be used as the parent
   of this slot type.
 - `"slotTypeValues"`: A new list of values and their optional synonyms that define the
   values that the slot type can take.
+- `"valueSelectionSetting"`: The strategy that Amazon Lex should use when deciding on a
+  value from the list of slot type values.
 """
 function update_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeId,
-    slotTypeName,
-    valueSelectionSetting;
+    slotTypeName;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
+        Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2885,7 +3201,6 @@ function update_slot_type(
     localeId,
     slotTypeId,
     slotTypeName,
-    valueSelectionSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -2893,14 +3208,7 @@ function update_slot_type(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "slotTypeName" => slotTypeName,
-                    "valueSelectionSetting" => valueSelectionSetting,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

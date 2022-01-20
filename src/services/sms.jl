@@ -17,8 +17,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of application creation.
 - `"description"`: The description of the new application
 - `"name"`: The name of the new application.
-- `"roleName"`: The name of the service role in the customer's account to be used by AWS
-  SMS.
+- `"roleName"`: The name of the service role in the customer's account to be used by Server
+  Migration Service.
 - `"serverGroups"`: The server groups to include in the application.
 - `"tags"`: The tags to be associated with the application.
 """
@@ -36,7 +36,8 @@ end
     create_replication_job(seed_replication_time, server_id, params::Dict{String,<:Any})
 
 Creates a replication job. The replication job schedules periodic replication runs to
-replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
+replicate your server to Amazon Web Services. Each replication run creates an Amazon
+Machine Image (AMI).
 
 # Arguments
 - `seed_replication_time`: The seed replication time.
@@ -55,7 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication run.
 - `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
   oldest is deleted after the maximum number is reached and a new AMI is created.
-- `"roleName"`: The name of the IAM role to be used by the AWS SMS.
+- `"roleName"`: The name of the IAM role to be used by the Server Migration Service.
 - `"runOnce"`: Indicates whether to run the replication job one time.
 """
 function create_replication_job(
@@ -97,7 +98,8 @@ end
     delete_app(params::Dict{String,<:Any})
 
 Deletes the specified application. Optionally deletes the launched stack associated with
-the application and all AWS SMS replication jobs for servers in the application.
+the application and all Server Migration Service replication jobs for servers in the
+application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -212,8 +214,9 @@ end
     delete_replication_job(replication_job_id, params::Dict{String,<:Any})
 
 Deletes the specified replication job. After you delete a replication job, there are no
-further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store
-AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
+further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket
+used to store Server Migration Service artifacts. The AMIs created by the replication runs
+are not deleted.
 
 # Arguments
 - `replication_job_id`: The ID of the replication job.
@@ -273,8 +276,8 @@ end
     disassociate_connector(connector_id)
     disassociate_connector(connector_id, params::Dict{String,<:Any})
 
-Disassociates the specified connector from AWS SMS. After you disassociate a connector, it
-is no longer available to support replication jobs.
+Disassociates the specified connector from Server Migration Service. After you disassociate
+a connector, it is no longer available to support replication jobs.
 
 # Arguments
 - `connector_id`: The ID of the connector.
@@ -332,13 +335,13 @@ end
     generate_template()
     generate_template(params::Dict{String,<:Any})
 
-Generates an AWS CloudFormation template based on the current launch configuration and
-writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+Generates an CloudFormation template based on the current launch configuration and writes
+it to an Amazon S3 object in the customer’s Amazon S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"appId"`: The ID of the application associated with the AWS CloudFormation template.
-- `"templateFormat"`: The format for generating the AWS CloudFormation template.
+- `"appId"`: The ID of the application associated with the CloudFormation template.
+- `"templateFormat"`: The format for generating the CloudFormation template.
 """
 function generate_template(; aws_config::AbstractAWSConfig=global_aws_config())
     return sms("GenerateTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -491,7 +494,7 @@ end
     get_connectors()
     get_connectors(params::Dict{String,<:Any})
 
-Describes the connectors registered with the AWS SMS.
+Describes the connectors registered with the Server Migration Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -607,13 +610,13 @@ end
     import_app_catalog()
     import_app_catalog(params::Dict{String,<:Any})
 
-Allows application import from AWS Migration Hub.
+Allows application import from Migration Hub.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"roleName"`: The name of the service role. If you omit this parameter, we create a
-  service-linked role for AWS Migration Hub in your account. Otherwise, the role that you
-  provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
+  service-linked role for Migration Hub in your account. Otherwise, the role that you provide
+  must have the policy and trust policy described in the Migration Hub User Guide.
 """
 function import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config())
     return sms("ImportAppCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -655,7 +658,7 @@ end
     launch_app()
     launch_app(params::Dict{String,<:Any})
 
-Launches the specified application as a stack in AWS CloudFormation.
+Launches the specified application as a stack in CloudFormation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -697,7 +700,8 @@ end
     notify_app_validation_output(app_id)
     notify_app_validation_output(app_id, params::Dict{String,<:Any})
 
-Provides information to AWS SMS about whether application validation is successful.
+Provides information to Server Migration Service about whether application validation is
+successful.
 
 # Arguments
 - `app_id`: The ID of the application.
@@ -738,8 +742,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 - `"autoLaunch"`: Indicates whether the application is configured to launch automatically
   after replication is complete.
-- `"roleName"`: The name of service role in the customer's account that AWS CloudFormation
-  uses to launch the application.
+- `"roleName"`: The name of service role in the customer's account that CloudFormation uses
+  to launch the application.
 - `"serverGroupLaunchConfigurations"`: Information about the launch configurations for
   server groups in the application.
 """
@@ -984,7 +988,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 - `"description"`: The new description of the application.
 - `"name"`: The new name of the application.
-- `"roleName"`: The name of the service role in the customer's account used by AWS SMS.
+- `"roleName"`: The name of the service role in the customer's account used by Server
+  Migration Service.
 - `"serverGroups"`: The server groups in the application to update.
 - `"tags"`: The tags to associate with the application.
 """
@@ -1021,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextReplicationRunStartTime"`: The start time of the next replication run.
 - `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
   oldest is deleted after the maximum number is reached and a new AMI is created.
-- `"roleName"`: The name of the IAM role to be used by AWS SMS.
+- `"roleName"`: The name of the IAM role to be used by Server Migration Service.
 """
 function update_replication_job(
     replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()

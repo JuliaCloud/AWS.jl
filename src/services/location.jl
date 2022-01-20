@@ -143,7 +143,8 @@ geofenced area, and then publishes one of the following events to Amazon EventBr
 ENTER if Amazon Location determines that the tracked device has entered a geofenced area.
  EXIT if Amazon Location determines that the tracked device has exited a geofenced area.
 The last geofence that a device was observed within is tracked for 30 days after the most
-recent device position update.
+recent device position update.   Geofence evaluation uses the given device position. It
+does not account for the optional Accuracy of a DevicePositionUpdate.
 
 # Arguments
 - `collection_name`: The geofence collection used in evaluating the position of devices
@@ -275,6 +276,13 @@ maximum of one position per 30 second interval. If your update frequency is more
 every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When
 PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated
 against linked geofence collections only if the device has moved more than 30 m (98.4 ft).
+When PositionFiltering is set to AccuracyBased filtering, location data is stored and
+evaluated against linked geofence collections only if the device has moved more than the
+measured accuracy. For example, if two consecutive updates from a device have a horizontal
+accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device
+has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon
+Location uses the default value { \"Horizontal\": 0} when accuracy is not provided on a
+DevicePositionUpdate.
 
 # Arguments
 - `tracker_name`: The name of the tracker resource to update.
@@ -312,19 +320,19 @@ end
     calculate_route(calculator_name, departure_position, destination_position, params::Dict{String,<:Any})
 
  Calculates a route given the following required parameters: DeparturePostiton and
-DestinationPosition. Requires that you first create a route calculator resource  By
+DestinationPosition. Requires that you first create a route calculator resource. By
 default, a request that doesn't specify a departure time uses the best time of day to
 travel with the best traffic conditions when calculating the route. Additional options
 include:    Specifying a departure time using either DepartureTime or DepartureNow. This
 calculates a route based on predictive traffic data at the given time.   You can't specify
 both DepartureTime and DepartureNow in a single request. Specifying both parameters returns
-an error message.     Specifying a travel mode using TravelMode. This lets you specify an
+a validation error.     Specifying a travel mode using TravelMode. This lets you specify an
 additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions
 if traveling by Truck.
 
 # Arguments
 - `calculator_name`: The name of the route calculator resource that you want to use to
-  calculate a route.
+  calculate the route.
 - `departure_position`: The start position for the route. Defined in WGS 84 format:
   [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure
   that's not located on a road, Amazon Location moves the position to the nearest road. If
@@ -343,7 +351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calculate a route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route. Default Value: false  Valid Values: false | true
 - `"DepartureTime"`: Specifies the desired time of departure. Uses the given time to
-  calculate a route. Otherwise, the best time of day to travel with the best traffic
+  calculate the route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route.  Setting a departure time in the past returns a
   400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For
   example, 2020–07-2T12:15:20.000Z+01:00
@@ -410,8 +418,8 @@ function calculate_route(
 end
 
 """
-    create_geofence_collection(collection_name, pricing_plan)
-    create_geofence_collection(collection_name, pricing_plan, params::Dict{String,<:Any})
+    create_geofence_collection(collection_name)
+    create_geofence_collection(collection_name, params::Dict{String,<:Any})
 
 Creates a geofence collection, which manages and stores geofences.
 
@@ -420,15 +428,15 @@ Creates a geofence collection, which manages and stores geofences.
   only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and
   underscores (_).    Must be a unique geofence collection name.   No spaces allowed. For
   example, ExampleGeofenceCollection.
-- `pricing_plan`: Specifies the pricing plan for the geofence collection. For additional
-  details and restrictions on each pricing plan option, see the Amazon Location Service
-  pricing page.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the geofence collection.
 - `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
   ARN, alias name, or alias ARN.
+- `"PricingPlan"`: Optionally specifies the pricing plan for the geofence collection.
+  Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan
+  option, see the Amazon Location Service pricing page.
 - `"PricingPlanDataSource"`: Specifies the data provider for the geofence collection.
   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement
      For more information about Data Providers, and Pricing plans, see the Amazon Location
@@ -440,22 +448,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
   be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
+  use \"aws:\" as a prefix for a key.
 """
 function create_geofence_collection(
-    CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return location(
         "POST",
         "/geofencing/v0/collections",
-        Dict{String,Any}("CollectionName" => CollectionName, "PricingPlan" => PricingPlan);
+        Dict{String,Any}("CollectionName" => CollectionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_geofence_collection(
     CollectionName,
-    PricingPlan,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -463,13 +471,7 @@ function create_geofence_collection(
         "POST",
         "/geofencing/v0/collections",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CollectionName" => CollectionName, "PricingPlan" => PricingPlan
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("CollectionName" => CollectionName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -477,8 +479,8 @@ function create_geofence_collection(
 end
 
 """
-    create_map(configuration, map_name, pricing_plan)
-    create_map(configuration, map_name, pricing_plan, params::Dict{String,<:Any})
+    create_map(configuration, map_name)
+    create_map(configuration, map_name, params::Dict{String,<:Any})
 
 Creates a map resource in your AWS account, which provides map tiles of different styles
 sourced from global location data providers.
@@ -488,30 +490,28 @@ sourced from global location data providers.
 - `map_name`: The name for the map resource. Requirements:   Must contain only alphanumeric
   characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be
   a unique map resource name.    No spaces allowed. For example, ExampleMap.
-- `pricing_plan`: Specifies the pricing plan for your map resource. For additional details
-  and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the map resource.
+- `"PricingPlan"`: Optionally specifies the pricing plan for the map resource. Defaults to
+  RequestBasedUsage. For additional details and restrictions on each pricing plan option, see
+  Amazon Location Service pricing.
 - `"Tags"`: Applies one or more tags to the map resource. A tag is a key-value pair helps
   manage, identify, search, and filter your resources by labelling them. Format: \"key\" :
   \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique
   with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8
   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters
-  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use
+  \"aws:\" as a prefix for a key.
 """
 function create_map(
-    Configuration, MapName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+    Configuration, MapName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return location(
         "POST",
         "/maps/v0/maps",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "MapName" => MapName,
-            "PricingPlan" => PricingPlan,
-        );
+        Dict{String,Any}("Configuration" => Configuration, "MapName" => MapName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -519,7 +519,6 @@ end
 function create_map(
     Configuration,
     MapName,
-    PricingPlan,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -529,11 +528,7 @@ function create_map(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "Configuration" => Configuration,
-                    "MapName" => MapName,
-                    "PricingPlan" => PricingPlan,
-                ),
+                Dict{String,Any}("Configuration" => Configuration, "MapName" => MapName),
                 params,
             ),
         );
@@ -543,51 +538,51 @@ function create_map(
 end
 
 """
-    create_place_index(data_source, index_name, pricing_plan)
-    create_place_index(data_source, index_name, pricing_plan, params::Dict{String,<:Any})
+    create_place_index(data_source, index_name)
+    create_place_index(data_source, index_name, params::Dict{String,<:Any})
 
-Creates a place index resource in your AWS account, which supports functions with
-geospatial data sourced from your chosen data provider.
+Creates a place index resource in your AWS account. Use a place index resource to geocode
+addresses and other text queries by using the SearchPlaceIndexForText operation, and
+reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable
+autosuggestions by using the SearchPlaceIndexForSuggestions operation.
 
 # Arguments
-- `data_source`: Specifies the data provider of geospatial data.  This field is
-  case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
-  error.  Valid values include:    Esri – For additional information about Esri's coverage
-  in your region of interest, see Esri details on geocoding coverage.    Here – For
-  additional information about HERE Technologies' coverage in your region of interest, see
-  HERE details on goecoding coverage.  Place index resources using HERE Technologies as a
-  data provider can't store results for locations in Japan. For more information, see the AWS
-  Service Terms for Amazon Location Service.    For additional information , see Data
-  providers on the Amazon Location Service Developer Guide.
+- `data_source`: Specifies the geospatial data provider for the new place index.  This
+  field is case-sensitive. Enter the valid values as shown. For example, entering HERE
+  returns an error.  Valid values include:    Esri – For additional information about
+  Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here
+  – For additional information about HERE Technologies' coverage in your region of
+  interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here)
+  as the data provider, you may not store results for locations in Japan. For more
+  information, see the AWS Service Terms for Amazon Location Service.    For additional
+  information , see Data providers on the Amazon Location Service Developer Guide.
 - `index_name`: The name of the place index resource.  Requirements:   Contain only
   alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores
   (_).   Must be a unique place index resource name.   No spaces allowed. For example,
   ExamplePlaceIndex.
-- `pricing_plan`: Specifies the pricing plan for your place index resource. For additional
-  details and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataSourceConfiguration"`: Specifies the data storage option requesting Places.
 - `"Description"`: The optional description for the place index resource.
+- `"PricingPlan"`: Optionally specifies the pricing plan for the place index resource.
+  Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan
+  option, see Amazon Location Service pricing.
 - `"Tags"`: Applies one or more tags to the place index resource. A tag is a key-value pair
-  helps manage, identify, search, and filter your resources by labelling them. Format:
-  \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
-  be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
-  UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  that helps you manage, identify, search, and filter your resources. Format: \"key\" :
+  \"value\"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and
+  must have exactly one associated value.   Maximum key length: 128 Unicode characters in
+  UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot
+  use \"aws:\" as a prefix for a key.
 """
 function create_place_index(
-    DataSource, IndexName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSource, IndexName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return location(
         "POST",
         "/places/v0/indexes",
-        Dict{String,Any}(
-            "DataSource" => DataSource,
-            "IndexName" => IndexName,
-            "PricingPlan" => PricingPlan,
-        );
+        Dict{String,Any}("DataSource" => DataSource, "IndexName" => IndexName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -595,7 +590,6 @@ end
 function create_place_index(
     DataSource,
     IndexName,
-    PricingPlan,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -605,11 +599,7 @@ function create_place_index(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DataSource" => DataSource,
-                    "IndexName" => IndexName,
-                    "PricingPlan" => PricingPlan,
-                ),
+                Dict{String,Any}("DataSource" => DataSource, "IndexName" => IndexName),
                 params,
             ),
         );
@@ -619,8 +609,8 @@ function create_place_index(
 end
 
 """
-    create_route_calculator(calculator_name, data_source, pricing_plan)
-    create_route_calculator(calculator_name, data_source, pricing_plan, params::Dict{String,<:Any})
+    create_route_calculator(calculator_name, data_source)
+    create_route_calculator(calculator_name, data_source, params::Dict{String,<:Any})
 
 Creates a route calculator resource in your AWS account. You can send requests to a route
 calculator resource to estimate travel time, distance, and get directions. A route
@@ -639,35 +629,29 @@ calculator sources traffic and road network data from your chosen data provider.
   coverage.    Here – For additional information about HERE Technologies' coverage in your
   region of interest, see HERE car routing coverage and HERE truck routing coverage.   For
   additional information , see Data providers on the Amazon Location Service Developer Guide.
-- `pricing_plan`: Specifies the pricing plan for your route calculator resource. For
-  additional details and restrictions on each pricing plan option, see Amazon Location
-  Service pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The optional description for the route calculator resource.
+- `"PricingPlan"`: Optionally specifies the pricing plan for the route calculator resource.
+  Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan
+  option, see Amazon Location Service pricing.
 - `"Tags"`: Applies one or more tags to the route calculator resource. A tag is a key-value
   pair helps manage, identify, search, and filter your resources by labelling them.   For
   example: { \"tag1\" : \"value1\", \"tag2\" : \"value2\"}   Format: \"key\" : \"value\"
   Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a
   maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value
   length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z,
-  0–9), and the following characters: + - = . _ : / @.
+  0–9), and the following characters: + - = . _ : / @.    Cannot use \"aws:\" as a prefix
+  for a key.
 """
 function create_route_calculator(
-    CalculatorName,
-    DataSource,
-    PricingPlan;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CalculatorName, DataSource; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return location(
         "POST",
         "/routes/v0/calculators",
-        Dict{String,Any}(
-            "CalculatorName" => CalculatorName,
-            "DataSource" => DataSource,
-            "PricingPlan" => PricingPlan,
-        );
+        Dict{String,Any}("CalculatorName" => CalculatorName, "DataSource" => DataSource);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -675,7 +659,6 @@ end
 function create_route_calculator(
     CalculatorName,
     DataSource,
-    PricingPlan,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -686,9 +669,7 @@ function create_route_calculator(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "CalculatorName" => CalculatorName,
-                    "DataSource" => DataSource,
-                    "PricingPlan" => PricingPlan,
+                    "CalculatorName" => CalculatorName, "DataSource" => DataSource
                 ),
                 params,
             ),
@@ -699,15 +680,13 @@ function create_route_calculator(
 end
 
 """
-    create_tracker(pricing_plan, tracker_name)
-    create_tracker(pricing_plan, tracker_name, params::Dict{String,<:Any})
+    create_tracker(tracker_name)
+    create_tracker(tracker_name, params::Dict{String,<:Any})
 
 Creates a tracker resource in your AWS account, which lets you retrieve current and
 historical location of devices.
 
 # Arguments
-- `pricing_plan`: Specifies the pricing plan for the tracker resource. For additional
-  details and restrictions on each pricing plan option, see Amazon Location Service pricing.
 - `tracker_name`: The name for the tracker resource. Requirements:   Contain only
   alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).
   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
@@ -722,11 +701,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but not every location update is stored. If your update frequency is more often than 30
   seconds, only one update per 30 seconds is stored for each unique device ID.
   DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are
-  ignored. Location updates within this distance are neither evaluated against linked
-  geofence collections, nor stored. This helps control costs by reducing the number of
-  geofence evaluations and device positions to retrieve. Distance-based filtering can also
-  reduce the jitter effect when displaying device trajectory on a map.    This field is
-  optional. If not specified, the default value is TimeBased.
+  ignored. Location updates within this area are neither evaluated against linked geofence
+  collections, nor stored. This helps control costs by reducing the number of geofence
+  evaluations and historical device positions to paginate through. Distance-based filtering
+  can also reduce the effects of GPS noise when displaying device trajectories on a map.
+  AccuracyBased - If the device has moved less than the measured accuracy, location updates
+  are ignored. For example, if two consecutive updates from a device have a horizontal
+  accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15
+  m. Ignored location updates are neither evaluated against linked geofence collections, nor
+  stored. This can reduce the effects of GPS noise when displaying device trajectories on a
+  map, and can help control your costs by reducing the number of geofence evaluations.
+  This field is optional. If not specified, the default value is TimeBased.
+- `"PricingPlan"`: Optionally specifies the pricing plan for the tracker resource. Defaults
+  to RequestBasedUsage. For additional details and restrictions on each pricing plan option,
+  see Amazon Location Service pricing.
 - `"PricingPlanDataSource"`: Specifies the data provider for the tracker resource.
   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement
      For more information about Data Providers, and Pricing plans, see the Amazon Location
@@ -738,21 +726,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
   be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
+  use \"aws:\" as a prefix for a key.
 """
-function create_tracker(
-    PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
     return location(
         "POST",
         "/tracking/v0/trackers",
-        Dict{String,Any}("PricingPlan" => PricingPlan, "TrackerName" => TrackerName);
+        Dict{String,Any}("TrackerName" => TrackerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_tracker(
-    PricingPlan,
     TrackerName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -761,13 +747,7 @@ function create_tracker(
         "POST",
         "/tracking/v0/trackers",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PricingPlan" => PricingPlan, "TrackerName" => TrackerName
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("TrackerName" => TrackerName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1801,14 +1781,20 @@ Places or points of interest near a given position.
 
 # Arguments
 - `index_name`: The name of the place index resource you want to use for the search.
-- `position`: Specifies a coordinate for the query defined by a longitude, and latitude.
-  The first position is the X coordinate, or longitude.   The second position is the Y
-  coordinate, or latitude.    For example, position=xLongitude&amp;position=yLatitude .
+- `position`: Specifies the longitude and latitude of the position to query.  This
+  parameter must contain a pair of numbers. The first number represents the X coordinate, or
+  longitude; the second number represents the Y coordinate, or latitude. For example,
+  [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional paramer. The maximum number of results returned per request.
-  Default value: 50
+- `"Language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results. It does not change which results are returned. If the language is not
+  specified, or not supported for a particular result, the partner automatically chooses a
+  language for the result.
+- `"MaxResults"`: An optional parameter. The maximum number of results returned per
+  request. Default value: 50
 """
 function search_place_index_for_position(
     IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1839,38 +1825,119 @@ function search_place_index_for_position(
 end
 
 """
+    search_place_index_for_suggestions(index_name, text)
+    search_place_index_for_suggestions(index_name, text, params::Dict{String,<:Any})
+
+Generates suggestions for addresses and points of interest based on partial or misspelled
+free-form text. This operation is also known as autocomplete, autosuggest, or fuzzy
+matching. Optional parameters let you narrow your search results by bounding box or
+country, or bias your search toward a specific position on the globe.  You can search for
+suggested place names near a specified position by using BiasPosition, or filter results
+within a bounding box by using FilterBBox. These parameters are mutually exclusive; using
+both BiasPosition and FilterBBox in the same command returns an error.
+
+# Arguments
+- `index_name`: The name of the place index resource you want to use for the search.
+- `text`: The free-form partial text to use to generate place suggestions. For example,
+  eiffel tow.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BiasPosition"`: An optional parameter that indicates a preference for place suggestions
+  that are closer to a specified position.  If provided, this parameter must contain a pair
+  of numbers. The first number represents the X coordinate, or longitude; the second number
+  represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the
+  position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are
+  mutually exclusive. Specifying both options results in an error.
+- `"FilterBBox"`: An optional parameter that limits the search results by returning only
+  suggestions within a specified bounding box.  If provided, this parameter must contain a
+  total of four consecutive numbers in two pairs. The first pair of numbers represents the X
+  and Y coordinates (longitude and latitude, respectively) of the southwest corner of the
+  bounding box; the second pair of numbers represents the X and Y coordinates (longitude and
+  latitude, respectively) of the northeast corner of the bounding box. For example,
+  [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest
+  corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude
+  -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive.
+  Specifying both options results in an error.
+- `"FilterCountries"`: An optional parameter that limits the search results by returning
+  only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country
+  code. For example, Australia uses three upper-case characters: AUS.
+- `"Language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results. It does not change which results are returned. If the language is not
+  specified, or not supported for a particular result, the partner automatically chooses a
+  language for the result. Used only when the partner selected is Here.
+- `"MaxResults"`: An optional parameter. The maximum number of results returned per
+  request.  The default: 5
+"""
+function search_place_index_for_suggestions(
+    IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/suggestions",
+        Dict{String,Any}("Text" => Text);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_place_index_for_suggestions(
+    IndexName,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/suggestions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_place_index_for_text(index_name, text)
     search_place_index_for_text(index_name, text, params::Dict{String,<:Any})
 
 Geocodes free-form text, such as an address, name, city, or region to allow you to search
-for Places or points of interest.  Includes the option to apply additional parameters to
-narrow your list of results.  You can search for places near a given position using
-BiasPosition, or filter results within a bounding box using FilterBBox. Providing both
-parameters simultaneously returns an error.
+for Places or points of interest.  Optional parameters let you narrow your search results
+by bounding box or country, or bias your search toward a specific position on the globe.
+You can search for places near a given position using BiasPosition, or filter results
+within a bounding box using FilterBBox. Providing both parameters simultaneously returns an
+error.  Search results are returned in order of highest to lowest relevance.
 
 # Arguments
 - `index_name`: The name of the place index resource you want to use for the search.
-- `text`: The address, name, city, or region to be used in the search. In free-form text
+- `text`: The address, name, city, or region to be used in the search in free-form text
   format. For example, 123 Any Street.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BiasPosition"`: Searches for results closest to the given position. An optional
-  parameter defined by longitude, and latitude.   The first bias position is the X
-  coordinate, or longitude.   The second bias position is the Y coordinate, or latitude.
-  For example, bias=xLongitude&amp;bias=yLatitude.
-- `"FilterBBox"`: Filters the results by returning only Places within the provided bounding
-  box. An optional parameter. The first 2 bbox parameters describe the lower southwest
-  corner:   The first bbox position is the X coordinate or longitude of the lower southwest
-  corner.   The second bbox position is the Y coordinate or latitude of the lower southwest
-  corner.   For example, bbox=xLongitudeSW&amp;bbox=yLatitudeSW. The next bbox parameters
-  describe the upper northeast corner:   The third bbox position is the X coordinate, or
-  longitude of the upper northeast corner.   The fourth bbox position is the Y coordinate, or
-  longitude of the upper northeast corner.   For example,
-  bbox=xLongitudeNE&amp;bbox=yLatitudeNE
-- `"FilterCountries"`: Limits the search to the given a list of countries/regions. An
-  optional parameter.   Use the ISO 3166 3-digit country code. For example, Australia uses
-  three upper-case characters: AUS.
+- `"BiasPosition"`: An optional parameter that indicates a preference for places that are
+  closer to a specified position.  If provided, this parameter must contain a pair of
+  numbers. The first number represents the X coordinate, or longitude; the second number
+  represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the
+  position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are
+  mutually exclusive. Specifying both options results in an error.
+- `"FilterBBox"`: An optional parameter that limits the search results by returning only
+  places that are within the provided bounding box.  If provided, this parameter must contain
+  a total of four consecutive numbers in two pairs. The first pair of numbers represents the
+  X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the
+  bounding box; the second pair of numbers represents the X and Y coordinates (longitude and
+  latitude, respectively) of the northeast corner of the bounding box. For example,
+  [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest
+  corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude
+  -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive.
+  Specifying both options results in an error.
+- `"FilterCountries"`: An optional parameter that limits the search results by returning
+  only places that are in a specified list of countries.   Valid values include ISO 3166
+  3-digit country codes. For example, Australia uses three upper-case characters: AUS.
+- `"Language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results. It does not change which results are returned. If the language is not
+  specified, or not supported for a particular result, the partner automatically chooses a
+  language for the result.
 - `"MaxResults"`: An optional parameter. The maximum number of results returned per
   request.  The default: 50
 """
@@ -1918,9 +1985,13 @@ resource.&lt;/p&gt;
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
   update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
-- `tags`: Tags that have been applied to the specified resource. Tags are mapped from the
-  tag key to the tag value: \"TagKey\" : \"TagValue\".   Format example: {\"tag1\" :
-  \"value1\", \"tag2\" : \"value2\"}
+- `tags`: Applies one or more tags to specific resource. A tag is a key-value pair that
+  helps you manage, identify, search, and filter your resources. Format: \"key\" : \"value\"
+  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have
+  exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.
+  Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters
+  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use \"aws:\"
+  as a prefix for a key.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2165,8 +2236,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are
   ignored. Location updates within this distance are neither evaluated against linked
   geofence collections, nor stored. This helps control costs by reducing the number of
-  geofence evaluations and device positions to retrieve. Distance-based filtering can also
-  reduce the jitter effect when displaying device trajectory on a map.
+  geofence evaluations and historical device positions to paginate through. Distance-based
+  filtering can also reduce the effects of GPS noise when displaying device trajectories on a
+  map.     AccuracyBased - If the device has moved less than the measured accuracy, location
+  updates are ignored. For example, if two consecutive updates from a device have a
+  horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved
+  less than 15 m. Ignored location updates are neither evaluated against linked geofence
+  collections, nor stored. This helps educe the effects of GPS noise when displaying device
+  trajectories on a map, and can help control costs by reducing the number of geofence
+  evaluations.
 - `"PricingPlan"`: Updates the pricing plan for the tracker resource. For more information
   about each pricing plan option restrictions, see Amazon Location Service pricing.
 - `"PricingPlanDataSource"`: Updates the data provider for the tracker resource.  A

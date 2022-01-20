@@ -12,7 +12,8 @@ CancelImageCreation cancels the creation of Image. This operation can only be us
 images in a non-terminal state.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `image_build_version_arn`: The Amazon Resource Name (ARN) of the image whose creation you
   want to cancel.
 
@@ -554,7 +555,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
-- `"snsTopicArn"`: The SNS topic on which to send image build events.
+- `"snsTopicArn"`: The Amazon Resource Name (ARN) for the SNS topic to which we send image
+  build event notifications.  EC2 Image Builder is unable to send notifications to SNS topics
+  that are encrypted using keys from other accounts. The key that is used to encrypt the SNS
+  topic must reside in the account that the Image Builder service runs under.
 - `"subnetId"`: The subnet ID in which to place the instance used to customize your Amazon
   EC2 AMI.
 - `"tags"`: The tags of the infrastructure configuration.
@@ -1435,6 +1439,93 @@ function import_component(
 end
 
 """
+    import_vm_image(client_token, name, platform, semantic_version, vm_import_task_id)
+    import_vm_image(client_token, name, platform, semantic_version, vm_import_task_id, params::Dict{String,<:Any})
+
+When you export your virtual machine (VM) from its virtualization environment, that process
+creates a set of one or more disk container files that act as snapshots of your VM’s
+environment, settings, and data. The Amazon EC2 API ImportImage action uses those files to
+import your VM and create an AMI. To import using the CLI command, see import-image  You
+can reference the task ID from the VM import to pull in the AMI that the import created as
+the base image for your Image Builder recipe.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `name`: The name of the base image that is created by the import process.
+- `platform`: The operating system platform for the imported VM.
+- `semantic_version`: The semantic version to attach to the base image that was created
+  during the import process. This version follows the semantic version syntax.  The semantic
+  version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can
+  assign values for the first three, and can filter on all of them.  Assignment: For the
+  first three nodes you can assign any positive integer value, including zero, with an upper
+  limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build
+  number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the
+  assignment requirements for the nodes that you can assign. For example, you might choose a
+  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+- `vm_import_task_id`: The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM
+  import process. Image Builder retrieves information from the import process to pull in the
+  AMI that is created from the VM source as the base image for your recipe.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description for the base image that is created by the import process.
+- `"osVersion"`: The operating system version for the imported VM.
+- `"tags"`: Tags that are attached to the import resources.
+"""
+function import_vm_image(
+    clientToken,
+    name,
+    platform,
+    semanticVersion,
+    vmImportTaskId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportVmImage",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "name" => name,
+            "platform" => platform,
+            "semanticVersion" => semanticVersion,
+            "vmImportTaskId" => vmImportTaskId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_vm_image(
+    clientToken,
+    name,
+    platform,
+    semanticVersion,
+    vmImportTaskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportVmImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "name" => name,
+                    "platform" => platform,
+                    "semanticVersion" => semanticVersion,
+                    "vmImportTaskId" => vmImportTaskId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_component_build_versions(component_version_arn)
     list_component_build_versions(component_version_arn, params::Dict{String,<:Any})
 
@@ -1973,11 +2064,11 @@ end
 
 Applies a policy to a container image. We recommend that you call the RAM API
 CreateResourceShare
-(https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share
-resources. If you call the Image Builder API PutContainerImagePolicy, you must also call
-the RAM API PromoteResourceShareCreatedFromPolicy
-(https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPoli
-cy.html) in order for the resource to be visible to all principals with whom the resource
+(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to
+share resources. If you call the Image Builder API PutContainerImagePolicy, you must also
+call the RAM API PromoteResourceShareCreatedFromPolicy
+(https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPol
+icy.html) in order for the resource to be visible to all principals with whom the resource
 is shared.
 
 # Arguments
@@ -2402,7 +2493,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
-- `"snsTopicArn"`: The SNS topic on which to send image build events.
+- `"snsTopicArn"`: The Amazon Resource Name (ARN) for the SNS topic to which we send image
+  build event notifications.  EC2 Image Builder is unable to send notifications to SNS topics
+  that are encrypted using keys from other accounts. The key that is used to encrypt the SNS
+  topic must reside in the account that the Image Builder service runs under.
 - `"subnetId"`: The subnet ID to place the instance used to customize your Amazon EC2 AMI
   in.
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the

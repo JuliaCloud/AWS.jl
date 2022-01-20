@@ -5,6 +5,104 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_application_fleet(application_arn, fleet_name)
+    associate_application_fleet(application_arn, fleet_name, params::Dict{String,<:Any})
+
+Associates the specified application with the specified fleet. This is only supported for
+Elastic fleets.
+
+# Arguments
+- `application_arn`: The ARN of the application.
+- `fleet_name`: The name of the fleet.
+
+"""
+function associate_application_fleet(
+    ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "AssociateApplicationFleet",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_application_fleet(
+    ApplicationArn,
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "FleetName" => FleetName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_application_to_entitlement(application_identifier, entitlement_name, stack_name)
+    associate_application_to_entitlement(application_identifier, entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Associates an application to entitle.
+
+# Arguments
+- `application_identifier`: The identifier of the application.
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack.
+
+"""
+function associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationToEntitlement",
+        Dict{String,Any}(
+            "ApplicationIdentifier" => ApplicationIdentifier,
+            "EntitlementName" => EntitlementName,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_application_to_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateApplicationToEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_fleet(fleet_name, stack_name)
     associate_fleet(fleet_name, stack_name, params::Dict{String,<:Any})
 
@@ -186,6 +284,155 @@ function copy_image(
 end
 
 """
+    create_app_block(name, setup_script_details, source_s3_location)
+    create_app_block(name, setup_script_details, source_s3_location, params::Dict{String,<:Any})
+
+Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the
+details about the virtual hard disk in an S3 bucket. It also stores the setup script with
+details about how to mount the virtual hard disk. The virtual hard disk includes the
+application binaries and other files necessary to launch your applications. Multiple
+applications can be assigned to a single app block. This is only supported for Elastic
+fleets.
+
+# Arguments
+- `name`: The name of the app block.
+- `setup_script_details`: The setup script details of the app block.
+- `source_s3_location`: The source S3 location of the app block.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the app block.
+- `"DisplayName"`: The display name of the app block. This is not displayed to the user.
+- `"Tags"`: The tags assigned to the app block.
+"""
+function create_app_block(
+    Name,
+    SetupScriptDetails,
+    SourceS3Location;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateAppBlock",
+        Dict{String,Any}(
+            "Name" => Name,
+            "SetupScriptDetails" => SetupScriptDetails,
+            "SourceS3Location" => SourceS3Location,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_app_block(
+    Name,
+    SetupScriptDetails,
+    SourceS3Location,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "SetupScriptDetails" => SetupScriptDetails,
+                    "SourceS3Location" => SourceS3Location,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_application(app_block_arn, icon_s3_location, instance_families, launch_path, name, platforms)
+    create_application(app_block_arn, icon_s3_location, instance_families, launch_path, name, platforms, params::Dict{String,<:Any})
+
+Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the
+details about how to launch applications on Elastic fleet streaming instances. An
+application consists of the launch details, icon, and display name. Applications are
+associated with an app block that contains the application binaries and other files. The
+applications assigned to an Elastic fleet are the applications users can launch.  This is
+only supported for Elastic fleets.
+
+# Arguments
+- `app_block_arn`: The app block ARN to which the application should be associated
+- `icon_s3_location`: The location in S3 of the application icon.
+- `instance_families`: The instance families the application supports. Valid values are
+  GENERAL_PURPOSE and GRAPHICS_G4.
+- `launch_path`: The launch path of the application.
+- `name`: The name of the application. This name is visible to users when display name is
+  not specified.
+- `platforms`: The platforms the application supports. WINDOWS_SERVER_2019 and
+  AMAZON_LINUX2 are supported for Elastic fleets.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the application.
+- `"DisplayName"`: The display name of the application. This name is visible to users in
+  the application catalog.
+- `"LaunchParameters"`: The launch parameters of the application.
+- `"Tags"`: The tags assigned to the application.
+- `"WorkingDirectory"`: The working directory of the application.
+"""
+function create_application(
+    AppBlockArn,
+    IconS3Location,
+    InstanceFamilies,
+    LaunchPath,
+    Name,
+    Platforms;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateApplication",
+        Dict{String,Any}(
+            "AppBlockArn" => AppBlockArn,
+            "IconS3Location" => IconS3Location,
+            "InstanceFamilies" => InstanceFamilies,
+            "LaunchPath" => LaunchPath,
+            "Name" => Name,
+            "Platforms" => Platforms,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_application(
+    AppBlockArn,
+    IconS3Location,
+    InstanceFamilies,
+    LaunchPath,
+    Name,
+    Platforms,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "IconS3Location" => IconS3Location,
+                    "InstanceFamilies" => InstanceFamilies,
+                    "LaunchPath" => LaunchPath,
+                    "Name" => Name,
+                    "Platforms" => Platforms,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_directory_config(directory_name, organizational_unit_distinguished_names)
     create_directory_config(directory_name, organizational_unit_distinguished_names, params::Dict{String,<:Any})
 
@@ -244,13 +491,79 @@ function create_directory_config(
 end
 
 """
-    create_fleet(compute_capacity, instance_type, name)
-    create_fleet(compute_capacity, instance_type, name, params::Dict{String,<:Any})
+    create_entitlement(app_visibility, attributes, name, stack_name)
+    create_entitlement(app_visibility, attributes, name, stack_name, params::Dict{String,<:Any})
 
-Creates a fleet. A fleet consists of streaming instances that run a specified image.
+Creates a new entitlement. Entitlements control access to specific applications within a
+stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities.
+Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in
+a stack. Entitlements don't apply to the desktop stream view application, or to
+applications managed by a dynamic app provider using the Dynamic Application Framework.
 
 # Arguments
-- `compute_capacity`: The desired capacity for the fleet.
+- `app_visibility`: Specifies whether all or selected apps are entitled.
+- `attributes`: The attributes of the entitlement.
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the entitlement.
+"""
+function create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateEntitlement",
+        Dict{String,Any}(
+            "AppVisibility" => AppVisibility,
+            "Attributes" => Attributes,
+            "Name" => Name,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_entitlement(
+    AppVisibility,
+    Attributes,
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppVisibility" => AppVisibility,
+                    "Attributes" => Attributes,
+                    "Name" => Name,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_fleet(instance_type, name)
+    create_fleet(instance_type, name, params::Dict{String,<:Any})
+
+Creates a fleet. A fleet consists of streaming instances that run a specified image when
+using Always-On or On-Demand.
+
+# Arguments
 - `instance_type`: The instance type to use when launching fleet instances. The following
   instance types are available:   stream.standard.small   stream.standard.medium
   stream.standard.large   stream.compute.large   stream.compute.xlarge
@@ -264,10 +577,14 @@ Creates a fleet. A fleet consists of streaming instances that run a specified im
   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
    stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+  The following instance types are available for Elastic fleets:   stream.standard.small
+  stream.standard.medium
 - `name`: A unique name for the fleet.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComputeCapacity"`: The desired capacity for the fleet. This is not allowed for Elastic
+  fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
 - `"Description"`: The description to display.
 - `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains
   active after users disconnect. If users try to reconnect to the streaming session after a
@@ -276,7 +593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.  Specify a value between 60 and 360000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
-  the fleet to a Microsoft Active Directory domain.
+  the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the
   fleet.
 - `"FleetType"`: The fleet type.  ALWAYS_ON  Provides users with instant-on access to their
@@ -310,11 +627,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
+- `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
+  required for Elastic fleets, and not allowed for other fleet types.
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
   new instance. Specify a value between 600 and 360000.
+- `"Platform"`: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for
+  Elastic fleets.
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
   from the fleet. When APP is specified, only the windows of applications opened by users
   display. When DESKTOP is specified, the standard desktop that is provided by the operating
@@ -325,24 +646,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters are: letters, numbers, and spaces representable in UTF-8, and the following
   special characters:  _ . : / = +  - @ For more information, see Tagging Your Resources in
   the Amazon AppStream 2.0 Administration Guide.
-- `"VpcConfig"`: The VPC configuration for the fleet.
+- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices
+  a user can redirect to the fleet streaming session, when using the Windows native client.
+  This is allowed but not required for Elastic fleets.
+- `"VpcConfig"`: The VPC configuration for the fleet. This is required for Elastic fleets,
+  but not required for other fleet types. Elastic fleets require that you specify at least
+  two subnets in different availability zones.
 """
-function create_fleet(
-    ComputeCapacity, InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
         "CreateFleet",
-        Dict{String,Any}(
-            "ComputeCapacity" => ComputeCapacity,
-            "InstanceType" => InstanceType,
-            "Name" => Name,
-        );
+        Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_fleet(
-    ComputeCapacity,
     InstanceType,
     Name,
     params::AbstractDict{String};
@@ -353,11 +672,7 @@ function create_fleet(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "ComputeCapacity" => ComputeCapacity,
-                    "InstanceType" => InstanceType,
-                    "Name" => Name,
-                ),
+                Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name),
                 params,
             ),
         );
@@ -746,6 +1061,64 @@ function create_user(
 end
 
 """
+    delete_app_block(name)
+    delete_app_block(name, params::Dict{String,<:Any})
+
+Deletes an app block.
+
+# Arguments
+- `name`: The name of the app block.
+
+"""
+function delete_app_block(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DeleteAppBlock",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_app_block(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteAppBlock",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application(name)
+    delete_application(name, params::Dict{String,<:Any})
+
+Deletes an application.
+
+# Arguments
+- `name`: The name of the application.
+
+"""
+function delete_application(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DeleteApplication",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_directory_config(directory_name)
     delete_directory_config(directory_name, params::Dict{String,<:Any})
 
@@ -775,6 +1148,45 @@ function delete_directory_config(
         "DeleteDirectoryConfig",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_entitlement(name, stack_name)
+    delete_entitlement(name, stack_name, params::Dict{String,<:Any})
+
+Deletes the specified entitlement.
+
+# Arguments
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+"""
+function delete_entitlement(
+    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1017,6 +1429,96 @@ function delete_user(
 end
 
 """
+    describe_app_blocks()
+    describe_app_blocks(params::Dict{String,<:Any})
+
+Retrieves a list that describes one or more app blocks.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Arns"`: The ARNs of the app blocks.
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_app_blocks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_app_blocks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeAppBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_application_fleet_associations()
+    describe_application_fleet_associations(params::Dict{String,<:Any})
+
+Retrieves a list that describes one or more application fleet associations. Either
+ApplicationArn or FleetName must be specified.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationArn"`: The ARN of the application.
+- `"FleetName"`: The name of the fleet.
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_application_fleet_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeApplicationFleetAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_application_fleet_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeApplicationFleetAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_applications()
+    describe_applications(params::Dict{String,<:Any})
+
+Retrieves a list that describes one or more applications.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Arns"`: The ARNs for the applications.
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_directory_configs()
     describe_directory_configs(params::Dict{String,<:Any})
 
@@ -1045,6 +1547,45 @@ function describe_directory_configs(
     return appstream(
         "DescribeDirectoryConfigs",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_entitlements(stack_name)
+    describe_entitlements(stack_name, params::Dict{String,<:Any})
+
+Retrieves a list that describes one of more entitlements.
+
+# Arguments
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of each page of results.
+- `"Name"`: The name of the entitlement.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_entitlements(StackName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_entitlements(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeEntitlements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1415,6 +1956,104 @@ function disable_user(
 end
 
 """
+    disassociate_application_fleet(application_arn, fleet_name)
+    disassociate_application_fleet(application_arn, fleet_name, params::Dict{String,<:Any})
+
+Disassociates the specified application from the fleet.
+
+# Arguments
+- `application_arn`: The ARN of the application.
+- `fleet_name`: The name of the fleet.
+
+"""
+function disassociate_application_fleet(
+    ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DisassociateApplicationFleet",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_application_fleet(
+    ApplicationArn,
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "FleetName" => FleetName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_application_from_entitlement(application_identifier, entitlement_name, stack_name)
+    disassociate_application_from_entitlement(application_identifier, entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Deletes the specified application from the specified entitlement.
+
+# Arguments
+- `application_identifier`: The identifier of the application to remove from the
+  entitlement.
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+"""
+function disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFromEntitlement",
+        Dict{String,Any}(
+            "ApplicationIdentifier" => ApplicationIdentifier,
+            "EntitlementName" => EntitlementName,
+            "StackName" => StackName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_application_from_entitlement(
+    ApplicationIdentifier,
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateApplicationFromEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationIdentifier" => ApplicationIdentifier,
+                    "EntitlementName" => EntitlementName,
+                    "StackName" => StackName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_fleet(fleet_name, stack_name)
     disassociate_fleet(fleet_name, stack_name, params::Dict{String,<:Any})
 
@@ -1609,6 +2248,54 @@ function list_associated_stacks(
         "ListAssociatedStacks",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_entitled_applications(entitlement_name, stack_name)
+    list_entitled_applications(entitlement_name, stack_name, params::Dict{String,<:Any})
+
+Retrieves a list of entitled applications.
+
+# Arguments
+- `entitlement_name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_entitled_applications(
+    EntitlementName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "ListEntitledApplications",
+        Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_entitled_applications(
+    EntitlementName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ListEntitledApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntitlementName" => EntitlementName, "StackName" => StackName
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1864,6 +2551,47 @@ function untag_resource(
 end
 
 """
+    update_application(name)
+    update_application(name, params::Dict{String,<:Any})
+
+Updates the specified application.
+
+# Arguments
+- `name`: The name of the application. This name is visible to users when display name is
+  not specified.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppBlockArn"`: The ARN of the app block.
+- `"AttributesToDelete"`: The attributes to delete for an application.
+- `"Description"`: The description of the application.
+- `"DisplayName"`: The display name of the application. This name is visible to users in
+  the application catalog.
+- `"IconS3Location"`: The icon S3 location of the application.
+- `"LaunchParameters"`: The launch parameters of the application.
+- `"LaunchPath"`: The launch path of the application.
+- `"WorkingDirectory"`: The working directory of the application.
+"""
+function update_application(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "UpdateApplication",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_directory_config(directory_name)
     update_directory_config(directory_name, params::Dict{String,<:Any})
 
@@ -1907,19 +2635,67 @@ function update_directory_config(
 end
 
 """
+    update_entitlement(name, stack_name)
+    update_entitlement(name, stack_name, params::Dict{String,<:Any})
+
+Updates the specified entitlement.
+
+# Arguments
+- `name`: The name of the entitlement.
+- `stack_name`: The name of the stack with which the entitlement is associated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppVisibility"`: Specifies whether all or only selected apps are entitled.
+- `"Attributes"`: The attributes of the entitlement.
+- `"Description"`: The description of the entitlement.
+"""
+function update_entitlement(
+    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}("Name" => Name, "StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_entitlement(
+    Name,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateEntitlement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "StackName" => StackName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_fleet()
     update_fleet(params::Dict{String,<:Any})
 
 Updates the specified fleet. If the fleet is in the STOPPED state, you can update any
 attribute except the fleet name. If the fleet is in the RUNNING state, you can update the
+following based on the fleet type:   Always-On and On-Demand fleet types You can update the
 DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and
-DisconnectTimeoutInSeconds attributes. If the fleet is in the STARTING or STOPPING state,
-you can't update it.
+DisconnectTimeoutInSeconds attributes.   Elastic fleet type You can update the DisplayName,
+IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions, and
+UsbDeviceFilterStrings attributes.   If the fleet is in the STARTING or STOPPED state, you
+can't update it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AttributesToDelete"`: The fleet attributes to delete.
-- `"ComputeCapacity"`: The desired capacity for the fleet.
+- `"ComputeCapacity"`: The desired capacity for the fleet. This is not allowed for Elastic
+  fleets.
 - `"DeleteVpcConfig"`: Deletes the VPC association for the specified fleet.
 - `"Description"`: The description to display.
 - `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains
@@ -1971,17 +2747,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
    stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+  The following instance types are available for Elastic fleets:   stream.standard.small
+  stream.standard.medium
+- `"MaxConcurrentSessions"`: The maximum number of concurrent sessions for a fleet.
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
   new instance. Specify a value between 600 and 360000.
 - `"Name"`: A unique name for the fleet.
+- `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
+  supported for Elastic fleets.
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
   from the fleet. When APP is specified, only the windows of applications opened by users
   display. When DESKTOP is specified, the standard desktop that is provided by the operating
   system displays. The default value is APP.
-- `"VpcConfig"`: The VPC configuration for the fleet.
+- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices
+  a user can redirect to the fleet streaming session, when using the Windows native client.
+  This is allowed but not required for Elastic fleets.
+- `"VpcConfig"`: The VPC configuration for the fleet. This is required for Elastic fleets,
+  but not required for other fleet types. Elastic fleets require that you specify at least
+  two subnets in different availability zones.
 """
 function update_fleet(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

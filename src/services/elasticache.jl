@@ -364,25 +364,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   special characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special
   characters cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
+- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `"CacheNodeType"`: The compute and memory capacity of the nodes in the node group
   (shard). The following node types are supported by ElastiCache. Generally speaking, the
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
   generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for
-  Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge,
+  Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge,
   cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge,
   cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types:
   cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge,
   cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge,
-  cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small,
+  cache.m4.4xlarge, cache.m4.10xlarge   T4g node types (available only for Redis engine
+  version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
+  cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
   Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
   cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized:   Current generation:   R6g node types (available only for Redis engine version
-  5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+  optimized with data tiering:   Current generation:   R6gd node types (available only for
+  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
+  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
+  Memory optimized:   Current generation:   R6g node types (available only for Redis engine
+  version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
   cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see Supported Node Types
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
@@ -515,7 +522,7 @@ Groups in the ElastiCache User Guide.
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family that the
   cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 |
-  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |
+  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.2
 - `cache_parameter_group_name`: A user-specified name for the cache parameter group.
 - `description`: A user-specified description for the cache parameter group.
 
@@ -799,7 +806,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special characters
   cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
+- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `"AutomaticFailoverEnabled"`: Specifies whether a read-only replica is automatically
   promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled
   must be enabled for Redis (cluster mode enabled) replication groups. Default: false
@@ -808,19 +817,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
   generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for
-  Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge,
+  Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge,
   cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge,
   cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types:
   cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge,
   cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge,
-  cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small,
+  cache.m4.4xlarge, cache.m4.10xlarge   T4g node types (available only for Redis engine
+  version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
+  cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
   Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
   cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized:   Current generation:   R6g node types (available only for Redis engine version
-  5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+  optimized with data tiering:   Current generation:   R6gd node types (available only for
+  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
+  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
+  Memory optimized:   Current generation:   R6g node types (available only for Redis engine
+  version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
   cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see Supported Node Types
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
@@ -846,6 +860,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication group.  If you're going to launch your cluster in an Amazon VPC, you need to
   create a subnet group before you start creating a cluster. For more information, see
   Subnets and Subnet Groups.
+- `"DataTieringEnabled"`: Enables data tiering. Data tiering is only supported for
+  replication groups using the r6gd node type. This parameter must be set to true when using
+  r6gd nodes. For more information, see Data tiering.
 - `"Engine"`: The name of the cache engine to be used for the clusters in this replication
   group. Must be Redis.
 - `"EngineVersion"`: The version number of the cache engine to be used for the clusters in
@@ -1024,7 +1041,7 @@ end
     create_user(access_string, engine, user_id, user_name)
     create_user(access_string, engine, user_id, user_name, params::Dict{String,<:Any})
 
-For Redis engine version 6.x onwards: Creates a Redis user. For more information, see Using
+For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see Using
 Role Based Access Control (RBAC).
 
 # Arguments
@@ -1091,7 +1108,7 @@ end
     create_user_group(engine, user_group_id)
     create_user_group(engine, user_group_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.x onwards: Creates a Redis user group. For more information, see
+For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see
 Using Role Based Access Control (RBAC)
 
 # Arguments
@@ -1592,7 +1609,7 @@ end
     delete_user(user_id)
     delete_user(user_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.x onwards: Deletes a user. The user will be removed from all
+For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all
 user groups and in turn removed from all replication groups. For more information, see
 Using Role Based Access Control (RBAC).
 
@@ -1623,7 +1640,7 @@ end
     delete_user_group(user_group_id)
     delete_user_group(user_group_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.x onwards: Deletes a user group. The user group must first be
+For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be
 disassociated from the replication group before it can be deleted. For more information,
 see Using Role Based Access Control (RBAC).
 
@@ -1714,9 +1731,9 @@ Returns a list of the available cache engines and their versions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CacheParameterGroupFamily"`: The name of a specific cache parameter group family to
   return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6
-  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |  Constraints:   Must be 1 to 255
-  alphanumeric characters   First character must be a letter   Cannot end with a hyphen or
-  contain two consecutive hyphens
+  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2  Constraints:   Must be 1
+  to 255 alphanumeric characters   First character must be a letter   Cannot end with a
+  hyphen or contain two consecutive hyphens
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
 - `"Engine"`: The cache engine to return. Valid values: memcached | redis
@@ -1912,7 +1929,7 @@ Returns the default engine and system parameter information for the specified ca
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family. Valid
   values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 |
-  redis4.0 | redis5.0 | redis6.x |
+  redis4.0 | redis5.0 | redis6.x | redis6.2
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2080,19 +2097,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   those reservations matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types
+  generation counterparts.   General purpose:   Current generation:   M6g node types:
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
+  1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
-  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types:
+  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
+  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
+  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
   cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
   cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
   cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types
+  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
+  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
+  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
+  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
   cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
@@ -2154,19 +2176,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available offerings matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types
+  generation counterparts.   General purpose:   Current generation:   M6g node types:
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
+  1.5.16 onward) cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
-  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types:
+  cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
+  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
+  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
   cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
   cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
   cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types
+  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
+  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
+  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
+  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
   cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
@@ -2741,7 +2768,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthTokenUpdateStrategy"`: Specifies the strategy to use to update the AUTH token. This
   parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set
     For more information, see Authenticating Users with Redis AUTH
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
+- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `"CacheNodeIdsToRemove"`: A list of cache node IDs to be removed. A node ID is a numeric
   identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than
   the existing number of cache nodes. The number of cache node IDs supplied in this parameter
@@ -3050,7 +3079,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthTokenUpdateStrategy"`: Specifies the strategy to use to update the AUTH token. This
   parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set
     For more information, see Authenticating Users with Redis AUTH
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
+- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
+  this parameter to yes if you want to opt-in to the next auto minor version upgrade
+  campaign. This parameter is disabled for previous versions.
 - `"AutomaticFailoverEnabled"`: Determines whether a read replica is automatically promoted
   to read/write primary if the existing primary encounters a failure. Valid values: true |
   false
@@ -3659,23 +3690,27 @@ end
 
 Represents the input of a TestFailover operation which test automatic failover on a
 specified node group (called shard in the console) in a replication group (called cluster
-in the console).  Note the following    A customer can use this operation to test automatic
-failover on up to 5 shards (called node groups in the ElastiCache API and Amazon CLI) in
-any rolling 24-hour period.   If calling this operation on shards in different clusters
-(called replication groups in the API and CLI), the calls can be made concurrently.     If
-calling this operation multiple times on different shards in the same Redis (cluster mode
-enabled) replication group, the first node replacement must complete before a subsequent
-call can be made.   To determine whether the node replacement is complete you can check
-Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look
-for the following automatic failover related events, listed here in order of occurrance:
-Replication group message: Test Failover API called for node group &lt;node-group-id&gt;
-Cache cluster message: Failover from primary node &lt;primary-node-id&gt; to replica node
-&lt;node-id&gt; completed    Replication group message: Failover from primary node
-&lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message:
-Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for
-cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in
-the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also
-see, Testing Multi-AZ  in the ElastiCache User Guide.
+in the console). This API is designed for testing the behavior of your application in case
+of ElastiCache failover. It is not designed to be an operational tool for initiating a
+failover to overcome a problem you may have with the cluster. Moreover, in certain
+conditions such as large-scale operational events, Amazon may block this API.   Note the
+following    A customer can use this operation to test automatic failover on up to 5 shards
+(called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.
+If calling this operation on shards in different clusters (called replication groups in the
+API and CLI), the calls can be made concurrently.     If calling this operation multiple
+times on different shards in the same Redis (cluster mode enabled) replication group, the
+first node replacement must complete before a subsequent call can be made.   To determine
+whether the node replacement is complete you can check Events using the Amazon ElastiCache
+console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover
+related events, listed here in order of occurrance:   Replication group message: Test
+Failover API called for node group &lt;node-group-id&gt;    Cache cluster message: Failover
+from primary node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed
+Replication group message: Failover from primary node &lt;primary-node-id&gt; to replica
+node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes
+&lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;
+   For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide
+ DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the
+ElastiCache User Guide.
 
 # Arguments
 - `node_group_id`: The name of the node group (called shard in the console) in this

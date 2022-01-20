@@ -2162,19 +2162,19 @@ tasks for you, or you can customize how Amazon ECS places tasks using placement 
 and placement strategies. For more information, see Scheduling Tasks in the Amazon Elastic
 Container Service Developer Guide. Alternatively, you can use StartTask to use your own
 scheduler or place tasks manually on specific container instances. The Amazon ECS API
-follows an eventual consistency model. This is because the distributed nature of the system
-supporting the API. This means that the result of an API command you run that affects your
-Amazon ECS resources might not be immediately visible to all subsequent commands you run.
-Keep this in mind when you carry out an API command that immediately follows a previous API
-command. To manage eventual consistency, you can do the following:   Confirm the state of
-the resource before you run a command to modify it. Run the DescribeTasks command using an
-exponential backoff algorithm to ensure that you allow enough time for the previous command
-to propagate through the system. To do this, run the DescribeTasks command repeatedly,
-starting with a couple of seconds of wait time and increasing gradually up to five minutes
-of wait time.   Add wait time between subsequent commands, even if the DescribeTasks
-command returns an accurate response. Apply an exponential backoff algorithm starting with
-a couple of seconds of wait time, and increase gradually up to about five minutes of wait
-time.
+follows an eventual consistency model. This is because of the distributed nature of the
+system supporting the API. This means that the result of an API command you run that
+affects your Amazon ECS resources might not be immediately visible to all subsequent
+commands you run. Keep this in mind when you carry out an API command that immediately
+follows a previous API command. To manage eventual consistency, you can do the following:
+Confirm the state of the resource before you run a command to modify it. Run the
+DescribeTasks command using an exponential backoff algorithm to ensure that you allow
+enough time for the previous command to propagate through the system. To do this, run the
+DescribeTasks command repeatedly, starting with a couple of seconds of wait time and
+increasing gradually up to five minutes of wait time.   Add wait time between subsequent
+commands, even if the DescribeTasks command returns an accurate response. Apply an
+exponential backoff algorithm starting with a couple of seconds of wait time, and increase
+gradually up to about five minutes of wait time.
 
 # Arguments
 - `task_definition`: The family and revision (family:revision) or full ARN of the task
@@ -2848,7 +2848,7 @@ instance to ACTIVE status and once it has reached that status the Amazon ECS sch
 begin scheduling tasks on the instance again.
 
 # Arguments
-- `container_instances`: A list of container instance IDs or full ARN entries.
+- `container_instances`: A list of up to 10 container instance IDs or full ARN entries.
 - `status`: The container instance state to update the container instance with. The only
   valid values for this action are ACTIVE and DRAINING. A container instance can only be
   updated to DRAINING status once it has reached an ACTIVE state. If a container instance is

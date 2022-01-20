@@ -435,6 +435,72 @@ function allocate_hosts(
 end
 
 """
+    allocate_ipam_pool_cidr(ipam_pool_id)
+    allocate_ipam_pool_cidr(ipam_pool_id, params::Dict{String,<:Any})
+
+Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM
+pool to another resource or IPAM pool. For more information, see Allocate CIDRs in the
+Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool from which you would like to allocate a CIDR.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cidr"`: The CIDR you would like to allocate from the IPAM pool. Note the following:
+  If there is no DefaultNetmaskLength allocation rule set on the pool, you must specify
+  either the NetmaskLength or the CIDR.   If the DefaultNetmaskLength allocation rule is set
+  on the pool, you can specify either the NetmaskLength or the CIDR and the
+  DefaultNetmaskLength allocation rule will be ignored.   Possible values: Any available IPv4
+  or IPv6 CIDR.
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Description"`: A description for the allocation.
+- `"DisallowedCidr"`: Exclude a particular CIDR range from being returned by the pool.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetmaskLength"`: The netmask length of the CIDR you would like to allocate from the
+  IPAM pool. Note the following:   If there is no DefaultNetmaskLength allocation rule set on
+  the pool, you must specify either the NetmaskLength or the CIDR.   If the
+  DefaultNetmaskLength allocation rule is set on the pool, you can specify either the
+  NetmaskLength or the CIDR and the DefaultNetmaskLength allocation rule will be ignored.
+  Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6
+  addresses are 0 - 128.
+- `"PreviewNextCidr"`: A preview of the next available CIDR in a pool.
+"""
+function allocate_ipam_pool_cidr(
+    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "AllocateIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function allocate_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "AllocateIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamPoolId" => IpamPoolId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     apply_security_groups_to_client_vpn_target_network(client_vpn_endpoint_id, security_group_id, vpc_id)
     apply_security_groups_to_client_vpn_target_network(client_vpn_endpoint_id, security_group_id, vpc_id, params::Dict{String,<:Any})
 
@@ -1216,6 +1282,12 @@ Virtual Private Cloud User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CidrBlock"`: An IPv4 CIDR block to associate with the VPC.
+- `"Ipv4IpamPoolId"`: Associate a CIDR allocated from an IPv4 IPAM pool to a VPC. For more
+  information about Amazon VPC IP Address Manager (IPAM), see What is IPAM? in the Amazon VPC
+  IPAM User Guide.
+- `"Ipv4NetmaskLength"`: The netmask length of the IPv4 CIDR you would like to associate
+  from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `"Ipv6CidrBlock"`: An IPv6 CIDR block from the IPv6 address pool. You must also specify
   Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this
   parameter.
@@ -1223,6 +1295,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IPV6 CIDR block. Use this parameter to limit the CIDR block to this location.  You must set
   AmazonProvidedIpv6CidrBlock to true to use this parameter.  You can have one IPv6 CIDR
   block association per network border group.
+- `"Ipv6IpamPoolId"`: Associates a CIDR allocated from an IPv6 IPAM pool to a VPC. For more
+  information about Amazon VPC IP Address Manager (IPAM), see What is IPAM? in the Amazon VPC
+  IPAM User Guide.
+- `"Ipv6NetmaskLength"`: The netmask length of the IPv6 CIDR you would like to associate
+  from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `"Ipv6Pool"`: The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
 - `"amazonProvidedIpv6CidrBlock"`: Requests an Amazon-provided IPv6 CIDR block with a /56
   prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of
@@ -1610,13 +1688,13 @@ end
 
 [VPC only] Adds the specified outbound (egress) rules to a security group for use with a
 VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
-address ranges, or to the instances that are associated with the specified destination
-security groups. You specify a protocol for each rule (for example, TCP). For the TCP and
-UDP protocols, you must also specify the destination port or port range. For the ICMP
-protocol, you must also specify the ICMP type and code. You can use -1 for the type or code
-to mean all types or all codes. Rule changes are propagated to affected instances as
-quickly as possible. However, a small delay might occur. For information about VPC security
-group quotas, see Amazon VPC quotas.
+address ranges, or to the instances that are associated with the specified source security
+groups. You specify a protocol for each rule (for example, TCP). For the TCP and UDP
+protocols, you must also specify the destination port or port range. For the ICMP protocol,
+you must also specify the ICMP type and code. You can use -1 for the type or code to mean
+all types or all codes. Rule changes are propagated to affected instances as quickly as
+possible. However, a small delay might occur. For information about VPC security group
+quotas, see Amazon VPC quotas.
 
 # Arguments
 - `group_id`: The ID of the security group.
@@ -2979,6 +3057,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Ipv6Native"`: Indicates whether to create an IPv6 only subnet. If you already have a
+  default subnet for this Availability Zone, you must delete it before you can create an IPv6
+  only subnet.
 """
 function create_default_subnet(
     AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3604,6 +3685,202 @@ function create_internet_gateway(
 end
 
 """
+    create_ipam()
+    create_ipam(params::Dict{String,<:Any})
+
+Create an IPAM. Amazon VCP IP Address Manager (IPAM) is a VPC feature that you can use to
+automate your IP address management workflows including assigning, tracking,
+troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts
+throughout your Amazon Web Services Organization. For more information, see Create an IPAM
+in the Amazon VPC IPAM User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Description"`: A description for the IPAM.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"OperatingRegion"`: The operating Regions for the IPAM. Operating Regions are Amazon Web
+  Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers
+  and monitors resources in the Amazon Web Services Regions you select as operating Regions.
+  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM
+  User Guide.
+- `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "CreateIpam",
+        Dict{String,Any}("ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ipam(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpam",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ipam_pool(ipam_scope_id)
+    create_ipam_pool(ipam_scope_id, params::Dict{String,<:Any})
+
+Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a
+collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses
+according to your routing and security needs. For example, if you have separate routing and
+security needs for development and production applications, you can create a pool for each.
+For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope in which you would like to create the IPAM pool.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AddressFamily"`: The IP protocol assigned to this IPAM pool. You must choose either
+  IPv4 or IPv6 protocol for a pool.
+- `"AllocationDefaultNetmaskLength"`: The default netmask length for allocations added to
+  this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  here, new allocations will default to 10.0.0.0/16.
+- `"AllocationMaxNetmaskLength"`: The maximum netmask length possible for CIDR allocations
+  in this IPAM pool to be compliant. The maximum netmask length must be greater than the
+  minimum netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible
+  netmask lengths for IPv6 addresses are 0 - 128.
+- `"AllocationMinNetmaskLength"`: The minimum netmask length required for CIDR allocations
+  in this IPAM pool to be compliant. The minimum netmask length must be less than the maximum
+  netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask
+  lengths for IPv6 addresses are 0 - 128.
+- `"AllocationResourceTag"`: Tags that are required for resources that use CIDRs from this
+  IPAM pool. Resources that do not have these tags will not be allowed to allocate space from
+  the pool. If the resources have their tags changed after they have allocated space or if
+  the allocation tagging requirements are changed on the pool, the resource may be marked as
+  noncompliant.
+- `"AutoImport"`: If selected, IPAM will continuously look for resources within the CIDR
+  range of this pool and automatically import them as allocations into your IPAM. The CIDRs
+  that will be allocated for these resources must not already be allocated to other resources
+  in order for the import to succeed. IPAM will import a CIDR regardless of its compliance
+  with the pool's allocation rules, so a resource might be imported and subsequently marked
+  as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the
+  largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly
+  import one of them only.  A locale must be set on the pool for this feature to work.
+- `"AwsService"`: Limits which service in Amazon Web Services that the pool can be used in.
+  \"ec2\", for example, allows users to use space for Elastic IP addresses and VPCs.
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Description"`: A description for the IPAM pool.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Locale"`: In IPAM, the locale is the Amazon Web Services Region where you want to make
+  an IPAM pool available for allocations. Only resources in the same Region as the locale of
+  the pool can get IP address allocations from the pool. You can only allocate a CIDR for a
+  VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that
+  once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale,
+  resources in Regions others than the IPAM's home region cannot use CIDRs from this pool.
+  Possible values: Any Amazon Web Services Region, such as us-east-1.
+- `"PubliclyAdvertisable"`: Determines if the pool is publicly advertisable. This option is
+  not available for pools with AddressFamily set to ipv4.
+- `"SourceIpamPoolId"`: The ID of the source IPAM pool. Use this option to create a pool
+  within an existing pool. Note that the CIDR you provision for the pool within the source
+  pool must be available in the source pool's CIDR range.
+- `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam_pool(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "CreateIpamPool",
+        Dict{String,Any}("IpamScopeId" => IpamScopeId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ipam_pool(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateIpamPool",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamScopeId" => IpamScopeId, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ipam_scope(ipam_id)
+    create_ipam_scope(ipam_id, params::Dict{String,<:Any})
+
+Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM
+contains two default scopes. Each scope represents the IP space for a single network. The
+private scope is intended for all private IP address space. The public scope is intended
+for all public IP address space. Scopes enable you to reuse IP addresses across multiple
+unconnected networks without causing IP address overlap or conflict. For more information,
+see Add a scope in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM for which you're creating this scope.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Description"`: A description for the scope you're creating.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "CreateIpamScope",
+        Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ipam_scope(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpamScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_key_pair(key_name)
     create_key_pair(key_name, params::Dict{String,<:Any})
 
@@ -4143,6 +4420,53 @@ function create_network_acl_entry(
 end
 
 """
+    create_network_insights_access_scope(client_token)
+    create_network_insights_access_scope(client_token, params::Dict{String,<:Any})
+
+Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud
+networking and cloud operations teams to verify that their networks on Amazon Web Services
+conform to their network security and governance objectives. For more information, see the
+Amazon Web Services Network Access Analyzer Guide.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to ensure idempotency.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"ExcludePath"`: The paths to exclude.
+- `"MatchPath"`: The paths to match.
+- `"TagSpecification"`: The tags to apply.
+"""
+function create_network_insights_access_scope(
+    ClientToken; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateNetworkInsightsAccessScope",
+        Dict{String,Any}("ClientToken" => ClientToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_network_insights_access_scope(
+    ClientToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateNetworkInsightsAccessScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => ClientToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_network_insights_path(client_token, destination, protocol, source)
     create_network_insights_path(client_token, destination, protocol, source, params::Dict{String,<:Any})
 
@@ -4395,6 +4719,41 @@ function create_placement_group(
 end
 
 """
+    create_public_ipv4_pool()
+    create_public_ipv4_pool(params::Dict{String,<:Any})
+
+Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required
+for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with
+IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To
+monitor the status of pool creation, use DescribePublicIpv4Pools.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
+  the tag key in the filter name and the tag value as the filter value. For example, to find
+  all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
+  the filter name and TeamA for the filter value.
+"""
+function create_public_ipv4_pool(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "CreatePublicIpv4Pool"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function create_public_ipv4_pool(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreatePublicIpv4Pool",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_replace_root_volume_task(instance_id)
     create_replace_root_volume_task(instance_id, params::Dict{String,<:Any})
 
@@ -4607,6 +4966,7 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: The ID of the carrier gateway. You can only use this option when
   the VPC contains a subnet which is associated with a Wavelength Zone.
+- `"CoreNetworkArn"`: The Amazon Resource Name (ARN) of the core network.
 - `"DestinationPrefixListId"`: The ID of a prefix list used for the destination match.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"TransitGatewayId"`: The ID of a transit gateway.
@@ -4987,8 +5347,8 @@ function create_store_image_task(
 end
 
 """
-    create_subnet(cidr_block, vpc_id)
-    create_subnet(cidr_block, vpc_id, params::Dict{String,<:Any})
+    create_subnet(vpc_id)
+    create_subnet(vpc_id, params::Dict{String,<:Any})
 
 Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet.
 After you create a subnet, you can't change its CIDR block. The allowed block size is
@@ -5004,9 +5364,6 @@ but no remaining IP addresses available. For more information about subnets, see
 and subnets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
-- `cidr_block`: The IPv4 network range for the subnet, in CIDR notation. For example,
-  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
-  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
 - `vpc_id`: The ID of the VPC.
 
 # Optional Parameters
@@ -5019,8 +5376,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cloud User Guide. To create a subnet in an Outpost, set this value to the Availability Zone
   for the Outpost and specify the Outpost ARN.
 - `"AvailabilityZoneId"`: The AZ ID or the Local Zone ID of the subnet.
+- `"CidrBlock"`: The IPv4 network range for the subnet, in CIDR notation. For example,
+  10.0.0.0/24. We modify the specified CIDR block to its canonical form; for example, if you
+  specify 100.68.0.18/18, we modify it to 100.68.0.0/18. This parameter is not supported for
+  an IPv6 only subnet.
 - `"Ipv6CidrBlock"`: The IPv6 network range for the subnet, in CIDR notation. The subnet
-  size must use a /64 prefix length.
+  size must use a /64 prefix length. This parameter is required for an IPv6 only subnet.
+- `"Ipv6Native"`: Indicates whether to create an IPv6 only subnet.
 - `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost
   ARN, you must also specify the Availability Zone of the Outpost subnet.
 - `"TagSpecification"`: The tags to assign to the subnet.
@@ -5028,27 +5390,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_subnet(CidrBlock, VpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_subnet(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
         "CreateSubnet",
-        Dict{String,Any}("CidrBlock" => CidrBlock, "VpcId" => VpcId);
+        Dict{String,Any}("VpcId" => VpcId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_subnet(
-    CidrBlock,
-    VpcId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ec2(
         "CreateSubnet",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CidrBlock" => CidrBlock, "VpcId" => VpcId), params
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VpcId" => VpcId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6047,8 +6402,8 @@ function create_volume(
 end
 
 """
-    create_vpc(cidr_block)
-    create_vpc(cidr_block, params::Dict{String,<:Any})
+    create_vpc()
+    create_vpc(params::Dict{String,<:Any})
 
 Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a
 /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
@@ -6063,19 +6418,30 @@ Private Cloud User Guide. You can specify the instance tenancy value for the VPC
 create it. You can't change this value for the VPC after you create it. For more
 information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
 
-# Arguments
-- `cidr_block`: The IPv4 network range for the VPC, in CIDR notation. For example,
-  10.0.0.0/16. We modify the specified CIDR block to its canonical form; for example, if you
-  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CidrBlock"`: The IPv4 network range for the VPC, in CIDR notation. For example,
+  10.0.0.0/16. We modify the specified CIDR block to its canonical form; for example, if you
+  specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
+- `"Ipv4IpamPoolId"`: The ID of an IPv4 IPAM pool you want to use for allocating this VPC's
+  CIDR. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+- `"Ipv4NetmaskLength"`: The netmask length of the IPv4 CIDR you want to allocate to this
+  VPC from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `"Ipv6CidrBlock"`: The IPv6 CIDR block from the IPv6 address pool. You must also specify
   Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this
   parameter.
 - `"Ipv6CidrBlockNetworkBorderGroup"`: The name of the location from which we advertise the
   IPV6 CIDR block. Use this parameter to limit the address to this location.  You must set
   AmazonProvidedIpv6CidrBlock to true to use this parameter.
+- `"Ipv6IpamPoolId"`: The ID of an IPv6 IPAM pool which will be used to allocate this VPC
+  an IPv6 CIDR. IPAM is a VPC feature that you can use to automate your IP address management
+  workflows including assigning, tracking, troubleshooting, and auditing IP addresses across
+  Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization.
+  For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+- `"Ipv6NetmaskLength"`: The netmask length of the IPv6 CIDR you want to allocate to this
+  VPC from an Amazon VPC IP Address Manager (IPAM) pool. For more information about IPAM, see
+  What is IPAM? in the Amazon VPC IPAM User Guide.
 - `"Ipv6Pool"`: The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
 - `"TagSpecification"`: The tags to assign to the VPC.
 - `"amazonProvidedIpv6CidrBlock"`: Requests an Amazon-provided IPv6 CIDR block with a /56
@@ -6091,27 +6457,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used
   with this parameter. Use the default or dedicated values only. Default: default
 """
-function create_vpc(CidrBlock; aws_config::AbstractAWSConfig=global_aws_config())
-    return ec2(
-        "CreateVpc",
-        Dict{String,Any}("CidrBlock" => CidrBlock);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function create_vpc(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2("CreateVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_vpc(
-    CidrBlock,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ec2(
-        "CreateVpc",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CidrBlock" => CidrBlock), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ec2("CreateVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7020,6 +7372,125 @@ function delete_internet_gateway(
 end
 
 """
+    delete_ipam(ipam_id)
+    delete_ipam(ipam_id, params::Dict{String,<:Any})
+
+Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM
+including the historical data for CIDRs.  You cannot delete an IPAM if there are CIDRs
+provisioned to pools or if there are allocations in the pools within the IPAM. To
+deprovision pool CIDRs, see DeprovisionIpamPoolCidr. To release allocations, see
+ReleaseIpamPoolAllocation.   For more information, see Delete an IPAM in the Amazon VPC
+IPAM User Guide.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DeleteIpam",
+        Dict{String,Any}("IpamId" => IpamId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ipam(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeleteIpam",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IpamId" => IpamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_ipam_pool(ipam_pool_id)
+    delete_ipam_pool(ipam_pool_id, params::Dict{String,<:Any})
+
+Delete an IPAM pool.  You cannot delete an IPAM pool if there are allocations in it or
+CIDRs provisioned to it. To release allocations, see ReleaseIpamPoolAllocation. To
+deprovision pool CIDRs, see DeprovisionIpamPoolCidr.  For more information, see Delete a
+pool in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the pool to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DeleteIpamPool",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ipam_pool(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamPool",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_ipam_scope(ipam_scope_id)
+    delete_ipam_scope(ipam_scope_id, params::Dict{String,<:Any})
+
+Delete the scope for an IPAM. You cannot delete the default scopes. For more information,
+see Delete a scope in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DeleteIpamScope",
+        Dict{String,Any}("IpamScopeId" => IpamScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ipam_scope(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_key_pair()
     delete_key_pair(params::Dict{String,<:Any})
 
@@ -7409,6 +7880,101 @@ function delete_network_acl_entry(
 end
 
 """
+    delete_network_insights_access_scope(network_insights_access_scope_id)
+    delete_network_insights_access_scope(network_insights_access_scope_id, params::Dict{String,<:Any})
+
+Deletes the specified Network Access Scope.
+
+# Arguments
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_network_insights_access_scope(
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScope",
+        Dict{String,Any}("NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_network_insights_access_scope(
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_network_insights_access_scope_analysis(network_insights_access_scope_analysis_id)
+    delete_network_insights_access_scope_analysis(network_insights_access_scope_analysis_id, params::Dict{String,<:Any})
+
+Deletes the specified Network Access Scope analysis.
+
+# Arguments
+- `network_insights_access_scope_analysis_id`: The ID of the Network Access Scope analysis.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_network_insights_access_scope_analysis(
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            "NetworkInsightsAccessScopeAnalysisId" => NetworkInsightsAccessScopeAnalysisId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_network_insights_access_scope_analysis(
+    NetworkInsightsAccessScopeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeAnalysisId" =>
+                        NetworkInsightsAccessScopeAnalysisId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_network_insights_analysis(network_insights_analysis_id)
     delete_network_insights_analysis(network_insights_analysis_id, params::Dict{String,<:Any})
 
@@ -7626,6 +8192,42 @@ function delete_placement_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("groupName" => groupName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_public_ipv4_pool(pool_id)
+    delete_public_ipv4_pool(pool_id, params::Dict{String,<:Any})
+
+Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the
+public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6
+addresses you bring to Amazon Web Services, however, use IPAM pools only.
+
+# Arguments
+- `pool_id`: The ID of the public IPv4 pool you want to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DeletePublicIpv4Pool",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_public_ipv4_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeletePublicIpv4Pool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -7973,7 +8575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key regardless of its value. If you specify a tag key with an empty string as the tag
   value, we delete the tag only if its value is an empty string. If you omit this parameter,
   we delete all user-defined tags for the specified resources. We do not delete Amazon Web
-  Services-generated tags (tags that have the aws: prefix).
+  Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
 """
 function delete_tags(resourceId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -9040,6 +9642,91 @@ function deprovision_byoip_cidr(
     return ec2(
         "DeprovisionByoipCidr",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deprovision_ipam_pool_cidr(ipam_pool_id)
+    deprovision_ipam_pool_cidr(ipam_pool_id, params::Dict{String,<:Any})
+
+Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool
+that has a source pool, the CIDR is recycled back into the source pool. For more
+information, see Deprovision pool CIDRs in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the pool that has the CIDR you want to deprovision.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cidr"`: The CIDR which you want to deprovision from the pool.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function deprovision_ipam_pool_cidr(
+    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeprovisionIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deprovision_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeprovisionIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deprovision_public_ipv4_pool_cidr(cidr, pool_id)
+    deprovision_public_ipv4_pool_cidr(cidr, pool_id, params::Dict{String,<:Any})
+
+Deprovision a CIDR from a public IPv4 pool.
+
+# Arguments
+- `cidr`: The CIDR you want to deprovision from the pool.
+- `pool_id`: The ID of the pool that you want to deprovision the CIDR from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function deprovision_public_ipv4_pool_cidr(
+    Cidr, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeprovisionPublicIpv4PoolCidr",
+        Dict{String,Any}("Cidr" => Cidr, "PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deprovision_public_ipv4_pool_cidr(
+    Cidr,
+    PoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeprovisionPublicIpv4PoolCidr",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Cidr" => Cidr, "PoolId" => PoolId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -11188,7 +11875,7 @@ Describes the status of the specified instances or all of your instances. By def
 running instances are described, unless you specifically indicate to return the status of
 all instances. Instance status includes the following components:    Status checks - Amazon
 EC2 performs status checks on running EC2 instances to identify hardware and software
-issues. For more information, see Status checks for your instances and Troubleshooting
+issues. For more information, see Status checks for your instances and Troubleshoot
 instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events -
 Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances
 related to hardware issues, software updates, or system maintenance. For more information,
@@ -11577,6 +12264,91 @@ function describe_internet_gateways(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_ipam_pools()
+    describe_ipam_pools(params::Dict{String,<:Any})
+
+Get information about your IPAM pools.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"IpamPoolId"`: The IDs of the IPAM pools you would like information on.
+- `"MaxResults"`: The maximum number of results to return in the request.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_ipam_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2("DescribeIpamPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function describe_ipam_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_ipam_scopes()
+    describe_ipam_scopes(params::Dict{String,<:Any})
+
+Get information about your IPAM scopes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"IpamScopeId"`: The IDs of the scopes you want information on.
+- `"MaxResults"`: The maximum number of results to return in the request.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_ipam_scopes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2("DescribeIpamScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function describe_ipam_scopes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_ipams()
+    describe_ipams(params::Dict{String,<:Any})
+
+Get information about your IPAM pools. For more information, see What is IPAM? in the
+Amazon VPC IPAM User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"IpamId"`: The IDs of the IPAMs you want information on.
+- `"MaxResults"`: The maximum number of results to return in the request.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_ipams(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2("DescribeIpams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function describe_ipams(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12150,6 +12922,85 @@ function describe_network_acls(
 )
     return ec2(
         "DescribeNetworkAcls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_network_insights_access_scope_analyses()
+    describe_network_insights_access_scope_analyses(params::Dict{String,<:Any})
+
+Describes the specified Network Access Scope analyses.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalysisStartTimeBegin"`: Filters the results based on the start time. The analysis
+  must have started on or after this time.
+- `"AnalysisStartTimeEnd"`: Filters the results based on the start time. The analysis must
+  have started on or before this time.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: There are no supported filters.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NetworkInsightsAccessScopeAnalysisId"`: The IDs of the Network Access Scope analyses.
+- `"NetworkInsightsAccessScopeId"`: The ID of the Network Access Scope.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_network_insights_access_scope_analyses(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopeAnalyses";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_network_insights_access_scope_analyses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopeAnalyses",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_network_insights_access_scopes()
+    describe_network_insights_access_scopes(params::Dict{String,<:Any})
+
+Describes the specified Network Access Scopes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: There are no supported filters.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NetworkInsightsAccessScopeId"`: The IDs of the Network Access Scopes.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_network_insights_access_scopes(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_network_insights_access_scopes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeNetworkInsightsAccessScopes",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -13251,6 +14102,41 @@ function describe_snapshot_attribute(
 end
 
 """
+    describe_snapshot_tier_status()
+    describe_snapshot_tier_status(params::Dict{String,<:Any})
+
+Describes the storage tier status of one or more Amazon EBS snapshots.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: The filters.    snapshot-id - The snapshot ID.    volume-id - The ID of the
+  volume the snapshot is for.    last-tiering-operation - The state of the last archive or
+  restore action. (archiving | archival_error | archival_complete | restoring | restore_error
+  | restore_complete)
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_snapshot_tier_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeSnapshotTierStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_snapshots()
     describe_snapshots(params::Dict{String,<:Any})
 
@@ -13295,14 +14181,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner. We recommend that you use the related parameter instead of this filter.    progress
   - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The
   snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status -
-  The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The
-  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
-  and the tag value as the filter value. For example, to find all resources that have a tag
-  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
-  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
-  to find all resources assigned a tag with a specific key, regardless of the tag value.
-  volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the
-  volume, in GiB.
+  The status of the snapshot (pending | completed | error).    storage-tier - The storage
+  tier of the snapshot (archive | standard).    tag:&lt;key&gt; - The key/value combination
+  of a tag assigned to the resource. Use the tag key in the filter name and the tag value as
+  the filter value. For example, to find all resources that have a tag with the key Owner and
+  the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of
+  the volume the snapshot is for.    volume-size - The size of the volume, in GiB.
 - `"MaxResults"`: The maximum number of snapshot results returned by DescribeSnapshots in
   paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults
   results in a single page along with a NextToken response element. The remaining results of
@@ -13757,21 +14643,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you
   specify must exactly match the subnet's CIDR block for information to be returned for the
   subnet. You can also use cidr or cidrBlock as the filter names.    default-for-az -
-  Indicates whether this is the default subnet for the Availability Zone. You can also use
-  defaultForAz as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6
-  CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An
-  association ID for an IPv6 CIDR block associated with the subnet.
-  ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
-  subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
-  ID of the Amazon Web Services account that owns the subnet.    state - The state of the
-  subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.
-     subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a
-  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
-  VPC for the subnet.
+  Indicates whether this is the default subnet for the Availability Zone (true | false). You
+  can also use defaultForAz as the filter name.
+  ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the
+  subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR
+  block associated with the subnet.    ipv6-cidr-block-association.state - The state of an
+  IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an
+  IPv6 only subnet (true | false).    outpost-arn - The Amazon Resource Name (ARN) of the
+  Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.
+  state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource
+  Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  vpc-id - The ID of the VPC for the subnet.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -15548,6 +16435,52 @@ function disable_image_deprecation(
 end
 
 """
+    disable_ipam_organization_admin_account(delegated_admin_account_id)
+    disable_ipam_organization_admin_account(delegated_admin_account_id, params::Dict{String,<:Any})
+
+Disable the IPAM account. For more information, see Enable integration with Organizations
+in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `delegated_admin_account_id`: The Organizations member account ID that you want to
+  disable as IPAM account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function disable_ipam_organization_admin_account(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DisableIpamOrganizationAdminAccount",
+        Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disable_ipam_organization_admin_account(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DisableIpamOrganizationAdminAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disable_serial_console_access()
     disable_serial_console_access(params::Dict{String,<:Any})
 
@@ -16368,6 +17301,53 @@ function enable_image_deprecation(
             mergewith(
                 _merge,
                 Dict{String,Any}("DeprecateAt" => DeprecateAt, "ImageId" => ImageId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_ipam_organization_admin_account(delegated_admin_account_id)
+    enable_ipam_organization_admin_account(delegated_admin_account_id, params::Dict{String,<:Any})
+
+Enable an Organizations member account as the IPAM admin account. You cannot select the
+Organizations management account as the IPAM admin account. For more information, see
+Enable integration with Organizations in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `delegated_admin_account_id`: The Organizations member account ID that you want to enable
+  as the IPAM account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function enable_ipam_organization_admin_account(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "EnableIpamOrganizationAdminAccount",
+        Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function enable_ipam_organization_admin_account(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "EnableIpamOrganizationAdminAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
                 params,
             ),
         );
@@ -17448,6 +18428,199 @@ function get_instance_types_from_instance_requirements(
 end
 
 """
+    get_ipam_address_history(cidr, ipam_scope_id)
+    get_ipam_address_history(cidr, ipam_scope_id, params::Dict{String,<:Any})
+
+Retrieve historical information about a CIDR within an IPAM scope. For more information,
+see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `cidr`: The CIDR you want the history of. The CIDR can be an IPv4 or IPv6 IP address
+  range. If you enter a /16 IPv4 CIDR, you will get records that match it exactly. You will
+  not get records for any subnets within the /16 CIDR.
+- `ipam_scope_id`: The ID of the IPAM scope that the CIDR is in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EndTime"`: The end of the time period for which you are looking for history. If you
+  omit this option, it will default to the current time.
+- `"MaxResults"`: The maximum number of historical results you would like returned per
+  page. Defaults to 100.
+- `"NextToken"`: The token for the next page of results.
+- `"StartTime"`: The start of the time period for which you are looking for history. If you
+  omit this option, it will default to the value of EndTime.
+- `"VpcId"`: The ID of the VPC you want your history records filtered by.
+"""
+function get_ipam_address_history(
+    Cidr, IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetIpamAddressHistory",
+        Dict{String,Any}("Cidr" => Cidr, "IpamScopeId" => IpamScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ipam_address_history(
+    Cidr,
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetIpamAddressHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Cidr" => Cidr, "IpamScopeId" => IpamScopeId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_ipam_pool_allocations(ipam_pool_id)
+    get_ipam_pool_allocations(ipam_pool_id, params::Dict{String,<:Any})
+
+Get a list of all the CIDR allocations in an IPAM pool.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want to see the allocations for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"IpamPoolAllocationId"`: The ID of the allocation.
+- `"MaxResults"`: The maximum number of results you would like returned per page.
+- `"NextToken"`: The token for the next page of results.
+"""
+function get_ipam_pool_allocations(
+    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetIpamPoolAllocations",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ipam_pool_allocations(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetIpamPoolAllocations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_ipam_pool_cidrs(ipam_pool_id)
+    get_ipam_pool_cidrs(ipam_pool_id, params::Dict{String,<:Any})
+
+Get the CIDRs provisioned to an IPAM pool.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want the CIDR for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"MaxResults"`: The maximum number of results to return in the request.
+- `"NextToken"`: The token for the next page of results.
+"""
+function get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "GetIpamPoolCidrs",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ipam_pool_cidrs(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetIpamPoolCidrs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_ipam_resource_cidrs(ipam_scope_id)
+    get_ipam_resource_cidrs(ipam_scope_id, params::Dict{String,<:Any})
+
+Get information about the resources in a scope.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope that the resource is in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output.
+- `"IpamPoolId"`: The ID of the IPAM pool that the resource is in.
+- `"MaxResults"`: The maximum number of results to return in the request.
+- `"NextToken"`: The token for the next page of results.
+- `"ResourceId"`: The ID of the resource.
+- `"ResourceOwner"`: The ID of the Amazon Web Services account that owns the resource.
+- `"ResourceTag"`:
+- `"ResourceType"`: The resource type.
+"""
+function get_ipam_resource_cidrs(
+    IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetIpamResourceCidrs",
+        Dict{String,Any}("IpamScopeId" => IpamScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ipam_resource_cidrs(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetIpamResourceCidrs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_launch_template_data(instance_id)
     get_launch_template_data(instance_id, params::Dict{String,<:Any})
 
@@ -17575,6 +18748,104 @@ function get_managed_prefix_list_entries(
         "GetManagedPrefixListEntries",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PrefixListId" => PrefixListId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_insights_access_scope_analysis_findings(network_insights_access_scope_analysis_id)
+    get_network_insights_access_scope_analysis_findings(network_insights_access_scope_analysis_id, params::Dict{String,<:Any})
+
+Gets the findings for the specified Network Access Scope analysis.
+
+# Arguments
+- `network_insights_access_scope_analysis_id`: The ID of the Network Access Scope analysis.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function get_network_insights_access_scope_analysis_findings(
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeAnalysisFindings",
+        Dict{String,Any}(
+            "NetworkInsightsAccessScopeAnalysisId" => NetworkInsightsAccessScopeAnalysisId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_insights_access_scope_analysis_findings(
+    NetworkInsightsAccessScopeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeAnalysisFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeAnalysisId" =>
+                        NetworkInsightsAccessScopeAnalysisId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_insights_access_scope_content(network_insights_access_scope_id)
+    get_network_insights_access_scope_content(network_insights_access_scope_id, params::Dict{String,<:Any})
+
+Gets the content for the specified Network Access Scope.
+
+# Arguments
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function get_network_insights_access_scope_content(
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeContent",
+        Dict{String,Any}("NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_insights_access_scope_content(
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetNetworkInsightsAccessScopeContent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -18531,6 +19802,39 @@ function import_volume(
 end
 
 """
+    list_snapshots_in_recycle_bin()
+    list_snapshots_in_recycle_bin(params::Dict{String,<:Any})
+
+Lists one or more snapshots that are currently in the Recycle Bin.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+- `"SnapshotId"`: The IDs of the snapshots to list. Omit this parameter to list all of the
+  snapshots that are in the Recycle Bin.
+"""
+function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_snapshots_in_recycle_bin(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ListSnapshotsInRecycleBin",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_address_attribute(allocation_id)
     modify_address_attribute(allocation_id, params::Dict{String,<:Any})
 
@@ -19300,8 +20604,7 @@ an elastic network interface (ENI) attached to an instance in a VPC can result i
 if the instance has more than one ENI. To change the security groups associated with an ENI
 attached to an instance that has multiple ENIs, we recommend that you use the
 ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be
-stopped. For more information, see Modifying attributes of a stopped instance in the Amazon
-EC2 User Guide.
+stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -19322,7 +20625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently attached. The volume must be owned by the caller. If no value is specified for
   DeleteOnTermination, the default is true and the volume is deleted when the instance is
   terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add
-  them when you launch the instance. For more information, see Updating the block device
+  them when you launch the instance. For more information, see Update the block device
   mapping when launching an instance in the Amazon EC2 User Guide.
 - `"disableApiTermination"`: If the value is true, you can't terminate the instance using
   the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for
@@ -19627,11 +20930,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"HttpEndpoint"`: This parameter enables or disables the HTTP metadata endpoint on your
-  instances. If the parameter is not specified, the existing state is maintained.  If you
-  specify a value of disabled, you will not be able to access your instance metadata.
+- `"HttpEndpoint"`: Enables or disables the HTTP metadata endpoint on your instances. If
+  the parameter is not specified, the existing state is maintained. If you specify a value of
+  disabled, you cannot access your instance metadata.
 - `"HttpProtocolIpv6"`: Enables or disables the IPv6 endpoint for the instance metadata
-  service.
+  service. This setting applies only if you have enabled the HTTP metadata endpoint.
 - `"HttpPutResponseHopLimit"`: The desired HTTP PUT response hop limit for instance
   metadata requests. The larger the number, the further instance metadata requests can
   travel. If no parameter is specified, the existing state is maintained. Possible values:
@@ -19697,7 +21000,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance from a placement group, specify an empty string (\"\").
 - `"HostResourceGroupArn"`: The ARN of the host resource group in which to place the
   instance.
-- `"PartitionNumber"`: Reserved for future use.
+- `"PartitionNumber"`: The number of the partition in which to place the instance. Valid
+  only if the placement group strategy is set to partition.
 - `"affinity"`: The affinity setting for the instance.
 - `"hostId"`: The ID of the Dedicated Host with which to associate the instance.
 - `"tenancy"`: The tenancy for the instance.  For T3 instances, you can't change the
@@ -19723,6 +21027,226 @@ function modify_instance_placement(
         "ModifyInstancePlacement",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("instanceId" => instanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_ipam(ipam_id)
+    modify_ipam(ipam_id, params::Dict{String,<:Any})
+
+Modify the configurations of an IPAM.
+
+# Arguments
+- `ipam_id`: The ID of the IPAM you want to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AddOperatingRegion"`: Choose the operating Regions for the IPAM. Operating Regions are
+  Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only
+  discovers and monitors resources in the Amazon Web Services Regions you select as operating
+  Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC
+  IPAM User Guide.
+- `"Description"`: The description of the IPAM you want to modify.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"RemoveOperatingRegion"`: The operating Regions to remove.
+"""
+function modify_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ModifyIpam",
+        Dict{String,Any}("IpamId" => IpamId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_ipam(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyIpam",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IpamId" => IpamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_ipam_pool(ipam_pool_id)
+    modify_ipam_pool(ipam_pool_id, params::Dict{String,<:Any})
+
+Modify the configurations of an IPAM pool. For more information, see Modify a pool in the
+Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you want to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AddAllocationResourceTag"`: Add tag allocation rules to a pool. For more information
+  about allocation rules, see Create a top-level pool in the Amazon VPC IPAM User Guide.
+- `"AllocationDefaultNetmaskLength"`: The default netmask length for allocations added to
+  this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  here, new allocations will default to 10.0.0.0/16.
+- `"AllocationMaxNetmaskLength"`: The maximum netmask length possible for CIDR allocations
+  in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  Possible netmask lengths for IPv6 addresses are 0 - 128.The maximum netmask length must be
+  greater than the minimum netmask length.
+- `"AllocationMinNetmaskLength"`: The minimum netmask length required for CIDR allocations
+  in this IPAM pool to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  Possible netmask lengths for IPv6 addresses are 0 - 128. The minimum netmask length must be
+  less than the maximum netmask length.
+- `"AutoImport"`: If true, IPAM will continuously look for resources within the CIDR range
+  of this pool and automatically import them as allocations into your IPAM. The CIDRs that
+  will be allocated for these resources must not already be allocated to other resources in
+  order for the import to succeed. IPAM will import a CIDR regardless of its compliance with
+  the pool's allocation rules, so a resource might be imported and subsequently marked as
+  noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest
+  CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly import
+  one of them only.  A locale must be set on the pool for this feature to work.
+- `"ClearAllocationDefaultNetmaskLength"`: Clear the default netmask length allocation rule
+  for this pool.
+- `"Description"`: The description of the IPAM pool you want to modify.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"RemoveAllocationResourceTag"`: Remove tag allocation rules from a pool.
+"""
+function modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ModifyIpamPool",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_ipam_pool(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyIpamPool",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_ipam_resource_cidr(current_ipam_scope_id, monitored, resource_cidr, resource_id, resource_region)
+    modify_ipam_resource_cidr(current_ipam_scope_id, monitored, resource_cidr, resource_id, resource_region, params::Dict{String,<:Any})
+
+Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes
+and ignore resource CIDRs that you do not want to manage. If set to false, the resource
+will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be
+removed from any pool it has an allocation in. For more information, see Move resource
+CIDRs between scopes and Change the monitoring state of resource CIDRs in the Amazon VPC
+IPAM User Guide.
+
+# Arguments
+- `current_ipam_scope_id`: The ID of the current scope that the resource CIDR is in.
+- `monitored`: Determines if the resource is monitored by IPAM. If a resource is monitored,
+  the resource is discovered by IPAM and you can view details about the resource’s CIDR.
+- `resource_cidr`: The CIDR of the resource you want to modify.
+- `resource_id`: The ID of the resource you want to modify.
+- `resource_region`: The Amazon Web Services Region of the resource you want to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationIpamScopeId"`: The ID of the scope you want to transfer the resource CIDR to.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function modify_ipam_resource_cidr(
+    CurrentIpamScopeId,
+    Monitored,
+    ResourceCidr,
+    ResourceId,
+    ResourceRegion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyIpamResourceCidr",
+        Dict{String,Any}(
+            "CurrentIpamScopeId" => CurrentIpamScopeId,
+            "Monitored" => Monitored,
+            "ResourceCidr" => ResourceCidr,
+            "ResourceId" => ResourceId,
+            "ResourceRegion" => ResourceRegion,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_ipam_resource_cidr(
+    CurrentIpamScopeId,
+    Monitored,
+    ResourceCidr,
+    ResourceId,
+    ResourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyIpamResourceCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentIpamScopeId" => CurrentIpamScopeId,
+                    "Monitored" => Monitored,
+                    "ResourceCidr" => ResourceCidr,
+                    "ResourceId" => ResourceId,
+                    "ResourceRegion" => ResourceRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_ipam_scope(ipam_scope_id)
+    modify_ipam_scope(ipam_scope_id, params::Dict{String,<:Any})
+
+Modify an IPAM scope.
+
+# Arguments
+- `ipam_scope_id`: The ID of the scope you want to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the scope you want to modify.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ModifyIpamScope",
+        Dict{String,Any}("IpamScopeId" => IpamScopeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_ipam_scope(
+    IpamScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyIpamScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamScopeId" => IpamScopeId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -19871,6 +21395,47 @@ function modify_network_interface_attribute(
                 _merge, Dict{String,Any}("networkInterfaceId" => networkInterfaceId), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_private_dns_name_options()
+    modify_private_dns_name_options(params::Dict{String,<:Any})
+
+Modifies the options for instance hostnames for the specified instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnableResourceNameDnsAAAARecord"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS AAAA records.
+- `"EnableResourceNameDnsARecord"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS A records.
+- `"InstanceId"`: The ID of the instance.
+- `"PrivateDnsHostnameType"`: The type of hostname for EC2 instances. For IPv4 only
+  subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only
+  subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you
+  can specify whether DNS names use the instance IPv4 address or the instance ID.
+"""
+function modify_private_dns_name_options(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyPrivateDnsNameOptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_private_dns_name_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyPrivateDnsNameOptions",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -20038,6 +21603,49 @@ function modify_snapshot_attribute(
 end
 
 """
+    modify_snapshot_tier(snapshot_id)
+    modify_snapshot_tier(snapshot_id, params::Dict{String,<:Any})
+
+Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full
+snapshot that includes all of the blocks of data that were written to the volume at the
+time the snapshot was created, and moved from the standard tier to the archive tier. For
+more information, see Archive Amazon EBS snapshots in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"StorageTier"`: The name of the storage tier. You must specify archive.
+"""
+function modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "ModifySnapshotTier",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifySnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_spot_fleet_request(spot_fleet_request_id)
     modify_spot_fleet_request(spot_fleet_request_id, params::Dict{String,<:Any})
 
@@ -20109,7 +21717,12 @@ end
     modify_subnet_attribute(subnet_id)
     modify_subnet_attribute(subnet_id, params::Dict{String,<:Any})
 
-Modifies a subnet attribute. You can only modify one attribute at a time.
+Modifies a subnet attribute. You can only modify one attribute at a time. Use this action
+to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack,
+set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as
+a single attribute.   To modify a subnet on an Outpost server, set either
+EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.   For more information about Amazon Web
+Services Outposts, see the following:    Outpost servers     Outpost racks
 
 # Arguments
 - `subnet_id`: The ID of the subnet.
@@ -20124,12 +21737,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2016-11-15 or later of the Amazon EC2 API.
 - `"CustomerOwnedIpv4Pool"`: The customer-owned IPv4 address pool associated with the
   subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
+- `"DisableLniAtDeviceIndex"`:  Specify true to indicate that local network interfaces at
+  the current position should be disabled.
+- `"EnableDns64"`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver
+  in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
+- `"EnableLniAtDeviceIndex"`:  Indicates the device position for local network interfaces
+  in this subnet. For example, 1 indicates local network interfaces in this subnet are the
+  secondary network interface (eth1). A local network interface cannot be the primary network
+  interface (eth0).
+- `"EnableResourceNameDnsAAAARecordOnLaunch"`: Indicates whether to respond to DNS queries
+  for instance hostnames with DNS AAAA records.
+- `"EnableResourceNameDnsARecordOnLaunch"`: Indicates whether to respond to DNS queries for
+  instance hostnames with DNS A records.
 - `"MapCustomerOwnedIpOnLaunch"`: Specify true to indicate that network interfaces attached
   to instances created in the specified subnet should be assigned a customer-owned IPv4
   address. When this value is true, you must specify the customer-owned IP pool using
   CustomerOwnedIpv4Pool.
 - `"MapPublicIpOnLaunch"`: Specify true to indicate that network interfaces attached to
   instances created in the specified subnet should be assigned a public IPv4 address.
+- `"PrivateDnsHostnameTypeOnLaunch"`: The type of hostnames to assign to instances in the
+  subnet at launch. For IPv4 only subnets, an instance DNS name must be based on the instance
+  IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID.
+  For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or
+  the instance ID.
 """
 function modify_subnet_attribute(
     subnetId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -20811,6 +22441,58 @@ function modify_vpc_endpoint_service_configuration(
 end
 
 """
+    modify_vpc_endpoint_service_payer_responsibility(payer_responsibility, service_id)
+    modify_vpc_endpoint_service_payer_responsibility(payer_responsibility, service_id, params::Dict{String,<:Any})
+
+Modifies the payer responsibility for your VPC endpoint service.
+
+# Arguments
+- `payer_responsibility`: The entity that is responsible for the endpoint costs. The
+  default is the endpoint owner. If you set the payer responsibility to the service owner,
+  you cannot set it back to the endpoint owner.
+- `service_id`: The ID of the service.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function modify_vpc_endpoint_service_payer_responsibility(
+    PayerResponsibility, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyVpcEndpointServicePayerResponsibility",
+        Dict{String,Any}(
+            "PayerResponsibility" => PayerResponsibility, "ServiceId" => ServiceId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_vpc_endpoint_service_payer_responsibility(
+    PayerResponsibility,
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyVpcEndpointServicePayerResponsibility",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PayerResponsibility" => PayerResponsibility, "ServiceId" => ServiceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_vpc_endpoint_service_permissions(service_id)
     modify_vpc_endpoint_service_permissions(service_id, params::Dict{String,<:Any})
 
@@ -21214,7 +22896,7 @@ end
     monitor_instances(instance_id, params::Dict{String,<:Any})
 
 Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled.
-For more information, see Monitoring your instances and volumes in the Amazon EC2 User
+For more information, see Monitor your instances using CloudWatch in the Amazon EC2 User
 Guide. To disable detailed monitoring, see .
 
 # Arguments
@@ -21293,6 +22975,37 @@ function move_address_to_vpc(
 end
 
 """
+    move_byoip_cidr_to_ipam()
+    move_byoip_cidr_to_ipam(params::Dict{String,<:Any})
+
+Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cidr"`: The BYOIP CIDR.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"IpamPoolId"`: The IPAM pool ID.
+- `"IpamPoolOwner"`: The Amazon Web Services account ID of the owner of the IPAM pool.
+"""
+function move_byoip_cidr_to_ipam(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ec2(
+        "MoveByoipCidrToIpam"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function move_byoip_cidr_to_ipam(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "MoveByoipCidrToIpam",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     provision_byoip_cidr(cidr)
     provision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
@@ -21343,6 +23056,108 @@ function provision_byoip_cidr(
     return ec2(
         "ProvisionByoipCidr",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    provision_ipam_pool_cidr(ipam_pool_id)
+    provision_ipam_pool_cidr(ipam_pool_id, params::Dict{String,<:Any})
+
+Provision a CIDR to an IPAM pool. You can use thsi action to provision new CIDRs to a
+top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more
+information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool to which you want to assign a CIDR.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cidr"`: The CIDR you want to assign to the IPAM pool.
+- `"CidrAuthorizationContext"`: A signed document that proves that you are authorized to
+  bring a specified IP address range to Amazon using BYOIP. This option applies to public
+  pools only.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function provision_ipam_pool_cidr(
+    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ProvisionIpamPoolCidr",
+        Dict{String,Any}("IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function provision_ipam_pool_cidr(
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ProvisionIpamPoolCidr",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IpamPoolId" => IpamPoolId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    provision_public_ipv4_pool_cidr(ipam_pool_id, netmask_length, pool_id)
+    provision_public_ipv4_pool_cidr(ipam_pool_id, netmask_length, pool_id, params::Dict{String,<:Any})
+
+Provision a CIDR to a public IPv4 pool. For more information about IPAM, see What is IPAM?
+in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `ipam_pool_id`: The ID of the IPAM pool you would like to use to allocate this CIDR.
+- `netmask_length`: The netmask length of the CIDR you would like to allocate to the public
+  IPv4 pool.
+- `pool_id`: The ID of the public IPv4 pool you would like to use for this CIDR.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function provision_public_ipv4_pool_cidr(
+    IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ProvisionPublicIpv4PoolCidr",
+        Dict{String,Any}(
+            "IpamPoolId" => IpamPoolId, "NetmaskLength" => NetmaskLength, "PoolId" => PoolId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function provision_public_ipv4_pool_cidr(
+    IpamPoolId,
+    NetmaskLength,
+    PoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ProvisionPublicIpv4PoolCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamPoolId" => IpamPoolId,
+                    "NetmaskLength" => NetmaskLength,
+                    "PoolId" => PoolId,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -21532,8 +23347,8 @@ Requests a reboot of the specified instances. This operation is asynchronous; it
 queues a request to reboot the specified instances. The operation succeeds if the instances
 are valid and belong to you. Requests to reboot terminated instances are ignored. If an
 instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard
-reboot. For more information about troubleshooting, see Getting console output and
-rebooting instances in the Amazon EC2 User Guide.
+reboot. For more information about troubleshooting, see Troubleshoot an unreachable
+instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The instance IDs.
@@ -22081,6 +23896,54 @@ function release_hosts(
 end
 
 """
+    release_ipam_pool_allocation(cidr, ipam_pool_id)
+    release_ipam_pool_allocation(cidr, ipam_pool_id, params::Dict{String,<:Any})
+
+Release an allocation within an IPAM pool. You can only use this action to release manual
+allocations. To remove an allocation for a resource without deleting the resource, set its
+monitored state to false using ModifyIpamResourceCidr. For more information, see Release an
+allocation in the Amazon VPC IPAM User Guide.
+
+# Arguments
+- `cidr`: The CIDR of the allocation you want to release.
+- `ipam_pool_id`: The ID of the IPAM pool which contains the allocation you want to release.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"IpamPoolAllocationId"`: The ID of the allocation.
+"""
+function release_ipam_pool_allocation(
+    Cidr, IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ReleaseIpamPoolAllocation",
+        Dict{String,Any}("Cidr" => Cidr, "IpamPoolId" => IpamPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function release_ipam_pool_allocation(
+    Cidr,
+    IpamPoolId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ReleaseIpamPoolAllocation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Cidr" => Cidr, "IpamPoolId" => IpamPoolId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     replace_iam_instance_profile_association(association_id, iam_instance_profile)
     replace_iam_instance_profile_association(association_id, iam_instance_profile, params::Dict{String,<:Any})
 
@@ -22280,6 +24143,7 @@ For more information, see Route tables in the Amazon Virtual Private Cloud User 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CarrierGatewayId"`: [IPv4 traffic only] The ID of a carrier gateway.
+- `"CoreNetworkArn"`: The Amazon Resource Name (ARN) of the core network.
 - `"DestinationPrefixListId"`: The ID of the prefix list for the route.
 - `"LocalGatewayId"`: The ID of the local gateway.
 - `"LocalTarget"`: Specifies whether to reset the local route to its default target (local).
@@ -23048,6 +24912,98 @@ function restore_managed_prefix_list_version(
 end
 
 """
+    restore_snapshot_from_recycle_bin(snapshot_id)
+    restore_snapshot_from_recycle_bin(snapshot_id, params::Dict{String,<:Any})
+
+Restores a snapshot from the Recycle Bin. For more information, see Restore snapshots from
+the Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function restore_snapshot_from_recycle_bin(
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "RestoreSnapshotFromRecycleBin",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_snapshot_from_recycle_bin(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotFromRecycleBin",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_snapshot_tier(snapshot_id)
+    restore_snapshot_tier(snapshot_id, params::Dict{String,<:Any})
+
+Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies
+the restore period or restore type for a snapshot that was previously temporarily restored.
+For more information see  Restore an archived snapshot and  modify the restore period or
+restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User
+Guide.
+
+# Arguments
+- `snapshot_id`: The ID of the snapshot to restore.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"PermanentRestore"`: Indicates whether to permanently restore an archived snapshot. To
+  permanently restore an archived snapshot, specify true and omit the
+  RestoreSnapshotTierRequestTemporaryRestoreDays parameter.
+- `"TemporaryRestoreDays"`: Specifies the number of days for which to temporarily restore
+  an archived snapshot. Required for temporary restores only. The snapshot will be
+  automatically re-archived after this period. To temporarily restore an archived snapshot,
+  specify the number of days and omit the PermanentRestore parameter or set it to false.
+"""
+function restore_snapshot_tier(
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "RestoreSnapshotTier",
+        Dict{String,Any}("SnapshotId" => SnapshotId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_snapshot_tier(
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "RestoreSnapshotTier",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotId" => SnapshotId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     revoke_client_vpn_ingress(client_vpn_endpoint_id, target_network_cidr)
     revoke_client_vpn_ingress(client_vpn_endpoint_id, target_network_cidr, params::Dict{String,<:Any})
 
@@ -23284,8 +25240,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting option. If you do not specify this parameter, the instance's Capacity Reservation
   preference defaults to open, which enables it to run in any open Capacity Reservation that
   has matching attributes (instance type, platform, Availability Zone).
-- `"CpuOptions"`: The CPU options for the instance. For more information, see Optimizing
-  CPU options in the Amazon EC2 User Guide.
+- `"CpuOptions"`: The CPU options for the instance. For more information, see Optimize CPU
+  options in the Amazon EC2 User Guide.
 - `"CreditSpecification"`: The credit option for CPU usage of the burstable performance
   instance. Valid values are standard and unlimited. To change this attribute after launch,
   use  ModifyInstanceCreditSpecification. For more information, see Burstable performance
@@ -23337,6 +25293,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance metadata and user data.
 - `"Monitoring"`: Specifies whether detailed monitoring is enabled for the instance.
 - `"Placement"`: The placement for the instance.
+- `"PrivateDnsNameOptions"`: The options for the instance hostname. The default values are
+  inherited from the subnet.
 - `"RamdiskId"`: The ID of the RAM disk to select. Some kernels require additional drivers
   at launch. Check the kernel requirements for information about whether you need to specify
   a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
@@ -23355,10 +25313,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances and volumes on launch. The specified tags are applied to all instances or volumes
   that are created during launch. To tag a resource after it has been created, see CreateTags.
 - `"UserData"`: The user data to make available to the instance. For more information, see
-  Running commands on your Linux instance at launch (Linux) and Adding User Data (Windows).
-  If you are using a command line tool, base64-encoding is performed for you, and you can
-  load the text from a file. Otherwise, you must provide base64-encoded text. User data is
-  limited to 16 KB.
+  Run commands on your Linux instance at launch and Run commands on your Windows instance at
+  launch. If you are using a command line tool, base64-encoding is performed for you, and you
+  can load the text from a file. Otherwise, you must provide base64-encoded text. User data
+  is limited to 16 KB.
 - `"additionalInfo"`: Reserved.
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used
@@ -23662,8 +25620,8 @@ tasks, such as generating a memory dump file, loading a secondary kernel, or obt
 call trace. Before sending a diagnostic interrupt to your instance, ensure that its
 operating system is configured to perform the required diagnostic tasks. For more
 information about configuring your operating system to generate a crash dump when a kernel
-panic or stop error occurs, see Send a diagnostic interrupt (Linux instances) or Send a
-Diagnostic Interrupt (Windows instances).
+panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux
+instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -23716,7 +25674,7 @@ instance store as its root device returns an error. If you attempt to start a T3
 with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU
 credit option is not supported on Dedicated Hosts. Before you start the instance, either
 change its CPU credit option to standard, or change its tenancy to default or dedicated.
-For more information, see Stopping instances in the Amazon EC2 User Guide.
+For more information, see Stop and start your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -23745,6 +25703,62 @@ function start_instances(
         "StartInstances",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_insights_access_scope_analysis(client_token, network_insights_access_scope_id)
+    start_network_insights_access_scope_analysis(client_token, network_insights_access_scope_id, params::Dict{String,<:Any})
+
+Starts analyzing the specified Network Access Scope.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to ensure idempotency.
+- `network_insights_access_scope_id`: The ID of the Network Access Scope.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: The tags to apply.
+"""
+function start_network_insights_access_scope_analysis(
+    ClientToken,
+    NetworkInsightsAccessScopeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "StartNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_network_insights_access_scope_analysis(
+    ClientToken,
+    NetworkInsightsAccessScopeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "StartNetworkInsightsAccessScopeAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "NetworkInsightsAccessScopeId" => NetworkInsightsAccessScopeId,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -23878,7 +25892,7 @@ differences between rebooting, stopping, hibernating, and terminating instances,
 Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to
 shut it down forcibly after a short while. If your instance appears stuck in the stopping
 state after a period of time, there may be an issue with the underlying host computer. For
-more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
+more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.

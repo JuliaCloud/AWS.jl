@@ -715,6 +715,61 @@ function list_anomaly_detectors(
 end
 
 """
+    list_anomaly_group_related_metrics(anomaly_detector_arn, anomaly_group_id)
+    list_anomaly_group_related_metrics(anomaly_detector_arn, anomaly_group_id, params::Dict{String,<:Any})
+
+Returns a list of measures that are potential causes or effects of an anomaly group.
+
+# Arguments
+- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
+- `anomaly_group_id`: The ID of the anomaly group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"RelationshipTypeFilter"`: Filter for potential causes (CAUSE_OF_INPUT_ANOMALY_GROUP) or
+  downstream effects (EFFECT_OF_INPUT_ANOMALY_GROUP) of the anomaly group.
+"""
+function list_anomaly_group_related_metrics(
+    AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutmetrics(
+        "POST",
+        "/ListAnomalyGroupRelatedMetrics",
+        Dict{String,Any}(
+            "AnomalyDetectorArn" => AnomalyDetectorArn, "AnomalyGroupId" => AnomalyGroupId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_anomaly_group_related_metrics(
+    AnomalyDetectorArn,
+    AnomalyGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/ListAnomalyGroupRelatedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnomalyDetectorArn" => AnomalyDetectorArn,
+                    "AnomalyGroupId" => AnomalyGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_anomaly_group_summaries(anomaly_detector_arn, sensitivity_threshold)
     list_anomaly_group_summaries(anomaly_detector_arn, sensitivity_threshold, params::Dict{String,<:Any})
 

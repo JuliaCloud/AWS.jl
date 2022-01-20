@@ -281,6 +281,45 @@ function delete_source_server(
 end
 
 """
+    delete_vcenter_client(vcenter_client_id)
+    delete_vcenter_client(vcenter_client_id, params::Dict{String,<:Any})
+
+Deletes a single vCenter client by ID.
+
+# Arguments
+- `vcenter_client_id`: ID of resource to be deleted.
+
+"""
+function delete_vcenter_client(
+    vcenterClientID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/DeleteVcenterClient",
+        Dict{String,Any}("vcenterClientID" => vcenterClientID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vcenter_client(
+    vcenterClientID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/DeleteVcenterClient",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("vcenterClientID" => vcenterClientID), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_job_log_items(job_id)
     describe_job_log_items(job_id, params::Dict{String,<:Any})
 
@@ -435,6 +474,37 @@ function describe_source_servers(
         "POST",
         "/DescribeSourceServers",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_vcenter_clients()
+    describe_vcenter_clients(params::Dict{String,<:Any})
+
+Lists all vCenter clients.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum results to be returned in DescribeVcenterClients.
+- `"nextToken"`: Next pagination token to be provided for DescribeVcenterClients.
+"""
+function describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "GET",
+        "/DescribeVcenterClients";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vcenter_clients(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "GET",
+        "/DescribeVcenterClients",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -781,6 +851,43 @@ function start_cutover(
 end
 
 """
+    start_replication(source_server_id)
+    start_replication(source_server_id, params::Dict{String,<:Any})
+
+Starts replication on source server by ID.
+
+# Arguments
+- `source_server_id`: ID of source server on which to start replication.
+
+"""
+function start_replication(
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/StartReplication",
+        Dict{String,Any}("sourceServerID" => sourceServerID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_replication(
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/StartReplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_test(source_server_ids)
     start_test(source_server_ids, params::Dict{String,<:Any})
 
@@ -1108,6 +1215,53 @@ function update_replication_configuration_template(
                 Dict{String,Any}(
                     "replicationConfigurationTemplateID" =>
                         replicationConfigurationTemplateID,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_source_server_replication_type(replication_type, source_server_id)
+    update_source_server_replication_type(replication_type, source_server_id, params::Dict{String,<:Any})
+
+Updates source server Replication Type by ID.
+
+# Arguments
+- `replication_type`: Replication type to which to update source server.
+- `source_server_id`: ID of source server on which to update replication type.
+
+"""
+function update_source_server_replication_type(
+    replicationType, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/UpdateSourceServerReplicationType",
+        Dict{String,Any}(
+            "replicationType" => replicationType, "sourceServerID" => sourceServerID
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_source_server_replication_type(
+    replicationType,
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/UpdateSourceServerReplicationType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "replicationType" => replicationType, "sourceServerID" => sourceServerID
                 ),
                 params,
             ),

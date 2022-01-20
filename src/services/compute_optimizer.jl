@@ -5,6 +5,70 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    delete_recommendation_preferences(recommendation_preference_names, resource_type)
+    delete_recommendation_preferences(recommendation_preference_names, resource_type, params::Dict{String,<:Any})
+
+Deletes a recommendation preference, such as enhanced infrastructure metrics. For more
+information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+Guide.
+
+# Arguments
+- `recommendation_preference_names`: The name of the recommendation preference to delete.
+  Enhanced infrastructure metrics (EnhancedInfrastructureMetrics) is the only feature that
+  can be activated through preferences. Therefore, it is also the only recommendation
+  preference that can be deleted.
+- `resource_type`: The target resource type of the recommendation preference to delete. The
+  Ec2Instance option encompasses standalone instances and instances that are part of Auto
+  Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an
+  Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"scope"`: An object that describes the scope of the recommendation preference to delete.
+  You can delete recommendation preferences that are created at the organization level (for
+  management accounts of an organization only), account level, and resource level. For more
+  information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+  Guide.
+"""
+function delete_recommendation_preferences(
+    recommendationPreferenceNames,
+    resourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "DeleteRecommendationPreferences",
+        Dict{String,Any}(
+            "recommendationPreferenceNames" => recommendationPreferenceNames,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_recommendation_preferences(
+    recommendationPreferenceNames,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "DeleteRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "recommendationPreferenceNames" => recommendationPreferenceNames,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_recommendation_export_jobs()
     describe_recommendation_export_jobs(params::Dict{String,<:Any})
 
@@ -211,11 +275,11 @@ Services Region.
   Service (Amazon S3) bucket name and key prefix for the export job. You must create the
   destination Amazon S3 bucket for your recommendations export before you create the export
   job. Compute Optimizer does not create the S3 bucket for you. After you create the S3
-  bucket, ensure that it has the required permissions policy policy to allow Compute
-  Optimizer to write the export file to it. If you plan to specify an object prefix when you
-  create the export job, you must include the object prefix in the that you add to the S3
-  bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the
-  Compute Optimizer User Guide.
+  bucket, ensure that it has the required permissions policy to allow Compute Optimizer to
+  write the export file to it. If you plan to specify an object prefix when you create the
+  export job, you must include the object prefix in the policy that you add to the S3 bucket.
+  For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute
+  Optimizer User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -553,6 +617,47 @@ function get_ec2_recommendation_projected_metrics(
 end
 
 """
+    get_effective_recommendation_preferences(resource_arn)
+    get_effective_recommendation_preferences(resource_arn, params::Dict{String,<:Any})
+
+Returns the recommendation preferences that are in effect for a given resource, such as
+enhanced infrastructure metrics. Considers all applicable preferences that you might have
+set at the resource, account, and organization level. When you create a recommendation
+preference, you can set its status to Active or Inactive. Use this action to view the
+recommendation preferences that are in effect, or Active.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to confirm
+  effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are
+  currently supported.
+
+"""
+function get_effective_recommendation_preferences(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "GetEffectiveRecommendationPreferences",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_effective_recommendation_preferences(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "GetEffectiveRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_enrollment_status()
     get_enrollment_status(params::Dict{String,<:Any})
 
@@ -665,6 +770,59 @@ function get_lambda_function_recommendations(
 end
 
 """
+    get_recommendation_preferences(resource_type)
+    get_recommendation_preferences(resource_type, params::Dict{String,<:Any})
+
+Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use
+the scope parameter to specify which preferences to return. You can specify to return
+preferences for an organization, a specific account ID, or a specific EC2 instance or Auto
+Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced
+infrastructure metrics in the Compute Optimizer User Guide.
+
+# Arguments
+- `resource_type`: The target resource type of the recommendation preference for which to
+  return preferences. The Ec2Instance option encompasses standalone instances and instances
+  that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only
+  instances that are part of an Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of recommendation preferences to return with a single
+  request. To retrieve the remaining results, make another request with the returned
+  nextToken value.
+- `"nextToken"`: The token to advance to the next page of recommendation preferences.
+- `"scope"`: An object that describes the scope of the recommendation preference to return.
+  You can return recommendation preferences that are created at the organization level (for
+  management accounts of an organization only), account level, and resource level. For more
+  information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
+  Guide.
+"""
+function get_recommendation_preferences(
+    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "GetRecommendationPreferences",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_recommendation_preferences(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "GetRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_recommendation_summaries()
     get_recommendation_summaries(params::Dict{String,<:Any})
 
@@ -696,6 +854,61 @@ function get_recommendation_summaries(
     return compute_optimizer(
         "GetRecommendationSummaries",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_recommendation_preferences(resource_type)
+    put_recommendation_preferences(resource_type, params::Dict{String,<:Any})
+
+Creates a new recommendation preference or updates an existing recommendation preference,
+such as enhanced infrastructure metrics. For more information, see Activating enhanced
+infrastructure metrics in the Compute Optimizer User Guide.
+
+# Arguments
+- `resource_type`: The target resource type of the recommendation preference to create. The
+  Ec2Instance option encompasses standalone instances and instances that are part of Auto
+  Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an
+  Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enhancedInfrastructureMetrics"`: The status of the enhanced infrastructure metrics
+  recommendation preference to create or update. A status of Active confirms that the
+  preference is applied in the latest recommendation refresh, and a status of Inactive
+  confirms that it's not yet applied.
+- `"scope"`: An object that describes the scope of the recommendation preference to create.
+  You can create recommendation preferences at the organization level (for management
+  accounts of an organization only), account level, and resource level. For more information,
+  see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You
+  cannot create recommendation preferences for Auto Scaling groups at the organization and
+  account levels. You can create recommendation preferences for Auto Scaling groups only at
+  the resource level by specifying a scope name of ResourceArn and a scope value of the Auto
+  Scaling group Amazon Resource Name (ARN). This will configure the preference for all
+  instances that are part of the specified the Auto Scaling group.
+"""
+function put_recommendation_preferences(
+    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "PutRecommendationPreferences",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_recommendation_preferences(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "PutRecommendationPreferences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

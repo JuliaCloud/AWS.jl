@@ -9,20 +9,20 @@ using AWS.UUIDs
     add_tags_to_resource(resource_id, resource_type, tags, params::Dict{String,<:Any})
 
 Adds or overwrites one or more tags for the specified resource. Tags are metadata that you
-can assign to your documents, managed instances, maintenance windows, Parameter Store
+can assign to your documents, managed nodes, maintenance windows, Parameter Store
 parameters, and patch baselines. Tags enable you to categorize your resources in different
 ways, for example, by purpose, owner, or environment. Each tag consists of a key and an
 optional value, both of which you define. For example, you could define a set of tags for
-your account's managed instances that helps you track each instance's owner and stack
-level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin
-Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production
-Key=Stack,Value=Test    Each resource can have a maximum of 50 tags. We recommend that you
-devise a set of tag keys that meets your needs for each resource type. Using a consistent
-set of tag keys makes it easier for you to manage your resources. You can search and filter
-the resources based on the tags you add. Tags don't have any semantic meaning to and are
-interpreted strictly as a string of characters.  For more information about using tags with
-Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources
-in the Amazon EC2 User Guide.
+your account's managed nodes that helps you track each node's owner and stack level. For
+example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev
+ Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test
+Each resource can have a maximum of 50 tags. We recommend that you devise a set of tag keys
+that meets your needs for each resource type. Using a consistent set of tag keys makes it
+easier for you to manage your resources. You can search and filter the resources based on
+the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a
+string of characters.  For more information about using tags with Amazon Elastic Compute
+Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User
+Guide.
 
 # Arguments
 - `resource_id`: The resource ID you want to tag. Use the ID of the resource. Here are some
@@ -33,13 +33,12 @@ in the Amazon EC2 User Guide.
   arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of
   either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and
   Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The
-  ManagedInstance type for this API operation is only for on-premises managed instances. You
-  must specify the name of the managed instance in the following format: mi-ID_number . For
-  example, mi-1a2b3c4d5e6f.
-- `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
-  type for this API operation is for on-premises managed instances. You must specify the name
-  of the managed instance in the following format: mi-ID_number . For example,
+  ManagedInstance type for this API operation is only for on-premises managed nodes. You must
+  specify the name of the managed node in the following format: mi-ID_number . For example,
   mi-1a2b3c4d5e6f.
+- `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
+  type for this API operation is for on-premises managed nodes. You must specify the name of
+  the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
 - `tags`: One or more tags. The value parameter is required.  Don't enter personally
   identifiable information in this field.
 
@@ -159,9 +158,8 @@ command will be terminated and the underlying process stopped.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceIds"`: (Optional) A list of instance IDs on which you want to cancel the
-  command. If not provided, the command is canceled on every instance on which it was
-  requested.
+- `"InstanceIds"`: (Optional) A list of managed node IDs on which you want to cancel the
+  command. If not provided, the command is canceled on every node on which it was requested.
 """
 function cancel_command(CommandId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -230,27 +228,26 @@ end
     create_activation(iam_role, params::Dict{String,<:Any})
 
 Generates an activation code and activation ID you can use to register your on-premises
-server or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these
-machines with Systems Manager makes it possible to manage them using Systems Manager
-capabilities. You use the activation code and ID when installing SSM Agent on machines in
-your hybrid environment. For more information about requirements for managing on-premises
-instances and VMs using Systems Manager, see Setting up Amazon Web Services Systems Manager
-for hybrid environments in the Amazon Web Services Systems Manager User Guide.
-On-premises servers or VMs that are registered with Systems Manager and Amazon Elastic
-Compute Cloud (Amazon EC2) instances that you manage with Systems Manager are all called
-managed instances.
+servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager.
+Registering these machines with Systems Manager makes it possible to manage them using
+Systems Manager capabilities. You use the activation code and ID when installing SSM Agent
+on machines in your hybrid environment. For more information about requirements for
+managing on-premises machines using Systems Manager, see Setting up Amazon Web Services
+Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User
+Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises
+servers and VMs that are configured for Systems Manager are all called managed nodes.
 
 # Arguments
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
-  assign to the managed instance. This IAM role must provide AssumeRole permissions for the
+  assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
   information, see Create an IAM service role for a hybrid environment in the Amazon Web
   Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DefaultInstanceName"`: The name of the registered, managed instance as it will appear
-  in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
+- `"DefaultInstanceName"`: The name of the registered, managed node as it will appear in
+  the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
   command line tools to list Systems Manager resources.  Don't enter personally identifiable
   information in this field.
 - `"Description"`: A user-defined description of the resource that you want to register
@@ -258,8 +255,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpirationDate"`: The date by which this activation request should expire, in timestamp
   format, such as \"2021-07-07T00:00:00\". You can specify a date up to 30 days in advance.
   If you don't provide an expiration date, the activation code expires in 24 hours.
-- `"RegistrationLimit"`: Specify the maximum number of managed instances you want to
-  register. The default value is 1.
+- `"RegistrationLimit"`: Specify the maximum number of managed nodes you want to register.
+  The default value is 1.
+- `"RegistrationMetadata"`: Reserved for internal use.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag an activation to identify which servers or virtual machines (VMs) in your
@@ -268,12 +266,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you install SSM Agent on your on-premises servers and VMs, you specify an activation
   ID and code. When you specify the activation ID and code, tags assigned to the activation
   are automatically applied to the on-premises servers or VMs.  You can't add tags to or
-  delete tags from an existing activation. You can tag your on-premises servers and VMs after
-  they connect to Systems Manager for the first time and are assigned a managed instance ID.
-  This means they are listed in the Amazon Web Services Systems Manager console with an ID
-  that is prefixed with \"mi-\". For information about how to add tags to your managed
-  instances, see AddTagsToResource. For information about how to remove tags from your
-  managed instances, see RemoveTagsFromResource.
+  delete tags from an existing activation. You can tag your on-premises servers, edge
+  devices, and VMs after they connect to Systems Manager for the first time and are assigned
+  a managed node ID. This means they are listed in the Amazon Web Services Systems Manager
+  console with an ID that is prefixed with \"mi-\". For information about how to add tags to
+  your managed nodes, see AddTagsToResource. For information about how to remove tags from
+  your managed nodes, see RemoveTagsFromResource.
 """
 function create_activation(IamRole; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -298,26 +296,26 @@ end
     create_association(name)
     create_association(name, params::Dict{String,<:Any})
 
-A State Manager association defines the state that you want to maintain on your instances.
-For example, an association can specify that anti-virus software must be installed and
-running on your instances, or that certain ports must be closed. For static targets, the
-association specifies a schedule for when the configuration is reapplied. For dynamic
-targets, such as an Amazon Web Services resource group or an Amazon Web Services
+A State Manager association defines the state that you want to maintain on your managed
+nodes. For example, an association can specify that anti-virus software must be installed
+and running on your managed nodes, or that certain ports must be closed. For static
+targets, the association specifies a schedule for when the configuration is reapplied. For
+dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services
 autoscaling group, State Manager, a capability of Amazon Web Services Systems Manager
-applies the configuration when new instances are added to the group. The association also
-specifies actions to take when applying the configuration. For example, an association for
-anti-virus software might run once a day. If the software isn't installed, then State
+applies the configuration when new managed nodes are added to the group. The association
+also specifies actions to take when applying the configuration. For example, an association
+for anti-virus software might run once a day. If the software isn't installed, then State
 Manager installs it. If the software is installed, but the service isn't running, then the
 association might instruct State Manager to start the service.
 
 # Arguments
 - `name`: The name of the SSM Command document or Automation runbook that contains the
-  configuration information for the instance. You can specify Amazon Web Services-predefined
-  documents, documents you created, or a document that is shared with you from another
-  account. For Systems Manager documents (SSM documents) that are shared with you from other
-  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
-  following format:  arn:partition:ssm:region:account-id:document/document-name   For
-  example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
+  configuration information for the managed node. You can specify Amazon Web
+  Services-predefined documents, documents you created, or a document that is shared with you
+  from another account. For Systems Manager documents (SSM documents) that are shared with
+  you from other Amazon Web Services accounts, you must specify the complete SSM document
+  ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name
+  For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
@@ -328,9 +326,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify this option if you don't want an association to run immediately after you create
   it. This parameter isn't supported for rate expressions.
 - `"AssociationName"`: Specify a descriptive name for the association.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
+- `"AutomationTargetParameterName"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
 - `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager
@@ -338,25 +337,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 - `"DocumentVersion"`: The document version you want to associate with the target(s). Can
   be a specific version or the default version.
-- `"InstanceId"`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+- `"InstanceId"`: The managed node ID.   InstanceId has been deprecated. To specify a
+  managed node ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
-  same time. If a new instance starts and attempts to run an association while Systems
+  same time. If a new managed node starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
-  the next association interval, the new instance will process its association within the
+  the next association interval, the new managed node will process its association within the
   limit specified for MaxConcurrency.
 - `"MaxErrors"`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
   received. If you specify 0, then the system stops sending requests after the first error is
-  returned. If you run an association on 50 instances and set MaxError to 10%, then the
+  returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the
   system stops sending the request when the sixth error is received. Executions that are
   already running an association when MaxErrors is reached are allowed to complete, but some
   of these executions may fail as well. If you need to ensure that there won't be more than
@@ -378,11 +377,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   create an association in multiple Regions and multiple accounts.
-- `"Targets"`: The targets for the association. You can target instances by using tags,
-  Amazon Web Services resource groups, all instances in an Amazon Web Services account, or
-  individual instance IDs. You can target all instances in an Amazon Web Services account by
-  specifying the InstanceIds key with a value of *. For more information about choosing
-  targets for an association, see Using targets and rate controls with State Manager
+- `"Targets"`: The targets for the association. You can target managed nodes by using tags,
+  Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
+  or individual managed node IDs. You can target all managed nodes in an Amazon Web Services
+  account by specifying the InstanceIds key with a value of *. For more information about
+  choosing targets for an association, see Using targets and rate controls with State Manager
   associations in the Amazon Web Services Systems Manager User Guide.
 """
 function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -409,10 +408,10 @@ end
     create_association_batch(entries, params::Dict{String,<:Any})
 
 Associates the specified Amazon Web Services Systems Manager document (SSM document) with
-the specified instances or targets. When you associate a document with one or more
-instances using instance IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent)
-running on the instance processes the document and configures the instance as specified. If
-you associate a document with an instance that already has an associated document, the
+the specified managed nodes or targets. When you associate a document with one or more
+managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent)
+running on the managed node processes the document and configures the node as specified. If
+you associate a document with a managed node that already has an associated document, the
 system returns the AssociationAlreadyExists exception.
 
 # Arguments
@@ -445,10 +444,10 @@ end
     create_document(content, name, params::Dict{String,<:Any})
 
 Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the
-actions that Systems Manager performs on your managed instances. For more information about
-SSM documents, including information about supported schemas, features, and syntax, see
-Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager
-User Guide.
+actions that Systems Manager performs on your managed nodes. For more information about SSM
+documents, including information about supported schemas, features, and syntax, see Amazon
+Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User
+Guide.
 
 # Arguments
 - `content`: The content for the new SSM document in JSON or YAML format. We recommend
@@ -530,11 +529,11 @@ is three hours, and the value you specify for Cutoff is one hour, no maintenance
 tasks can start after 5 PM.
 
 # Arguments
-- `allow_unassociated_targets`: Enables a maintenance window task to run on managed
-  instances, even if you haven't registered those instances as targets. If enabled, then you
-  must specify the unregistered instances (by instance ID) when you register a task with the
-  maintenance window. If you don't enable this option, then you must specify
-  previously-registered targets when you register a task with the maintenance window.
+- `allow_unassociated_targets`: Enables a maintenance window task to run on managed nodes,
+  even if you haven't registered those nodes as targets. If enabled, then you must specify
+  the unregistered managed nodes (by node ID) when you register a task with the maintenance
+  window. If you don't enable this option, then you must specify previously-registered
+  targets when you register a task with the maintenance window.
 - `cutoff`: The number of hours before the end of the maintenance window that Amazon Web
   Services Systems Manager stops scheduling new tasks for execution.
 - `duration`: The duration of the maintenance window in hours.
@@ -783,8 +782,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When an approved patch is reported as missing, this value describes the severity of the
   compliance violation. The default value is UNSPECIFIED.
 - `"ApprovedPatchesEnableNonSecurity"`: Indicates whether the list of approved patches
-  includes non-security updates that should be applied to the instances. The default value is
-  false. Applies to Linux instances only.
+  includes non-security updates that should be applied to the managed nodes. The default
+  value is false. Applies to Linux managed nodes only.
 - `"ClientToken"`: User-provided idempotency token.
 - `"Description"`: A description of the patch baseline.
 - `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
@@ -802,8 +801,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   packages that include them as dependencies, aren't installed under any circumstances. If a
   package was installed before it was added to the Rejected patches list, it is considered
   non-compliant with the patch baseline, and its status is reported as InstalledRejected.
-- `"Sources"`: Information about the patches to use to update the instances, including
-  target operating systems and source repositories. Applies to Linux instances only.
+- `"Sources"`: Information about the patches to use to update the managed nodes, including
+  target operating systems and source repositories. Applies to Linux managed nodes only.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a patch baseline to identify the severity level of patches it specifies
@@ -905,9 +904,8 @@ end
     delete_activation(activation_id, params::Dict{String,<:Any})
 
 Deletes an activation. You aren't required to delete an activation. If you delete an
-activation, you can no longer use it to register additional managed instances. Deleting an
-activation doesn't de-register managed instances. You must manually de-register managed
-instances.
+activation, you can no longer use it to register additional managed nodes. Deleting an
+activation doesn't de-register managed nodes. You must manually de-register managed nodes.
 
 # Arguments
 - `activation_id`: The ID of the activation that you want to delete.
@@ -941,19 +939,20 @@ end
     delete_association(params::Dict{String,<:Any})
 
 Disassociates the specified Amazon Web Services Systems Manager document (SSM document)
-from the specified instance. If you created the association by using the Targets parameter,
-then you must delete the association by using the association ID. When you disassociate a
-document from an instance, it doesn't change the configuration of the instance. To change
-the configuration state of an instance after you disassociate a document, you must create a
-new document with the desired configuration and associate it with the instance.
+from the specified managed node. If you created the association by using the Targets
+parameter, then you must delete the association by using the association ID. When you
+disassociate a document from a managed node, it doesn't change the configuration of the
+node. To change the configuration state of a managed node after you disassociate a
+document, you must create a new document with the desired configuration and associate it
+with the node.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationId"`: The association ID that you want to delete.
-- `"InstanceId"`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+- `"InstanceId"`: The managed node ID.   InstanceId has been deprecated. To specify a
+  managed node ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `"Name"`: The name of the SSM document.
@@ -973,9 +972,10 @@ end
     delete_document(name)
     delete_document(name, params::Dict{String,<:Any})
 
-Deletes the Amazon Web Services Systems Manager document (SSM document) and all instance
-associations to the document. Before you delete the document, we recommend that you use
-DeleteAssociation to disassociate all instances that are associated with the document.
+Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed
+node associations to the document. Before you delete the document, we recommend that you
+use DeleteAssociation to disassociate all managed nodes that are associated with the
+document.
 
 # Arguments
 - `name`: The name of the document.
@@ -1235,7 +1235,7 @@ end
     delete_resource_data_sync(sync_name, params::Dict{String,<:Any})
 
 Deletes a resource data sync configuration. After the configuration is deleted, changes to
-data on managed instances are no longer synced to or from the target. Deleting a sync
+data on managed nodes are no longer synced to or from the target. Deleting a sync
 configuration doesn't delete data.
 
 # Arguments
@@ -1275,11 +1275,11 @@ end
     deregister_managed_instance(instance_id, params::Dict{String,<:Any})
 
 Removes the server or virtual machine from the list of registered servers. You can
-reregister the instance again at any time. If you don't plan to use Run Command on the
-server, we suggest uninstalling SSM Agent first.
+reregister the node again at any time. If you don't plan to use Run Command on the server,
+we suggest uninstalling SSM Agent first.
 
 # Arguments
-- `instance_id`: The ID assigned to the managed instance when you registered it using the
+- `instance_id`: The ID assigned to the managed node when you registered it using the
   activation process.
 
 """
@@ -1445,7 +1445,7 @@ end
 
 Describes details about the activation, such as the date and time the activation was
 created, its expiration date, the Identity and Access Management (IAM) role assigned to the
-instances in the activation, and the number of instances registered by using this
+managed nodes in the activation, and the number of nodes registered by using this
 activation.
 
 # Optional Parameters
@@ -1475,7 +1475,7 @@ end
     describe_association()
     describe_association(params::Dict{String,<:Any})
 
-Describes the association for the specified target or instance. If you created the
+Describes the association for the specified target or managed node. If you created the
 association by using the Targets parameter, then you must retrieve the association by using
 the association ID.
 
@@ -1484,9 +1484,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationId"`: The association ID for which you want information.
 - `"AssociationVersion"`: Specify the association version to retrieve. To view the latest
   version, either specify LATEST for this parameter, or omit this parameter. To view a list
-  of all associations for an instance, use ListAssociations. To get a list of versions for a
-  specific association, use ListAssociationVersions.
-- `"InstanceId"`: The instance ID.
+  of all associations for a managed node, use ListAssociations. To get a list of versions for
+  a specific association, use ListAssociationVersions.
+- `"InstanceId"`: The managed node ID.
 - `"Name"`: The name of the SSM document.
 """
 function describe_association(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1689,8 +1689,8 @@ Lists all patches eligible to be included in a patch baseline.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Each element in the array is a structure containing a key-value pair.
-  Windows Server  Supported keys for Windows Server instance patches include the following:
-    PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values:
+  Windows Server  Supported keys for Windows Server managed node patches include the
+  following:     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values:
   WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample
   values: Windows | Office      MSRC_SEVERITY   Sample values: ServicePacks | Important |
   Moderate      CLASSIFICATION   Sample values: ServicePacks | SecurityUpdates |
@@ -1700,7 +1700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615  However, the
   following command succeeds:  aws ssm describe-available-patches --filters
   Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615   Supported keys for
-  Linux instance patches include the following:     PRODUCT   Sample values:
+  Linux managed node patches include the following:     PRODUCT   Sample values:
   AmazonLinux2018.03 | AmazonLinux2.0      NAME   Sample values: kernel-headers |
   samba-python | php      SEVERITY   Sample values: Critical | Important | Medium | Low
   EPOCH   Sample values: 0 | 1      VERSION   Sample values: 78.6.1 | 4.10.16      RELEASE
@@ -1818,10 +1818,10 @@ end
     describe_effective_instance_associations(instance_id)
     describe_effective_instance_associations(instance_id, params::Dict{String,<:Any})
 
-All associations for the instance(s).
+All associations for the managed node(s).
 
 # Arguments
-- `instance_id`: The instance ID for which you want to view all associations.
+- `instance_id`: The managed node ID for which you want to view all associations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1900,10 +1900,10 @@ end
     describe_instance_associations_status(instance_id)
     describe_instance_associations_status(instance_id, params::Dict{String,<:Any})
 
-The status of the associations for the instance(s).
+The status of the associations for the managed node(s).
 
 # Arguments
-- `instance_id`: The instance IDs for which you want association status information.
+- `instance_id`: The managed node IDs for which you want association status information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1941,22 +1941,23 @@ end
     describe_instance_information()
     describe_instance_information(params::Dict{String,<:Any})
 
-Describes one or more of your instances, including information about the operating system
-platform, the version of SSM Agent installed on the instance, instance status, and so on.
-If you specify one or more instance IDs, it returns information for those instances. If you
-don't specify instance IDs, it returns information for all your instances. If you specify
-an instance ID that isn't valid or an instance that you don't own, you receive an error.
-The IamRole field for this API operation is the Identity and Access Management (IAM) role
-assigned to on-premises instances. This call doesn't return the IAM role for EC2 instances.
+Describes one or more of your managed nodes, including information about the operating
+system platform, the version of SSM Agent installed on the managed node, node status, and
+so on. If you specify one or more managed node IDs, it returns information for those
+managed nodes. If you don't specify node IDs, it returns information for all your managed
+nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive
+an error.  The IamRole field for this API operation is the Identity and Access Management
+(IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for
+EC2 instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters. Use a filter to return a more specific list of
-  instances. You can filter based on tags applied to EC2 instances. Use this Filters data
-  type instead of InstanceInformationFilterList, which is deprecated.
+- `"Filters"`: One or more filters. Use a filter to return a more specific list of managed
+  nodes. You can filter based on tags applied to EC2 instances. Use this Filters data type
+  instead of InstanceInformationFilterList, which is deprecated.
 - `"InstanceInformationFilterList"`: This is a legacy method. We recommend that you don't
-  use this method. Instead, use the Filters data type. Filters enables you to return instance
-  information by filtering based on tags applied to managed instances.  Attempting to use
+  use this method. Instead, use the Filters data type. Filters enables you to return node
+  information by filtering based on tags applied to managed nodes.  Attempting to use
   InstanceInformationFilterList and Filters leads to an exception error.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1985,15 +1986,15 @@ end
     describe_instance_patch_states(instance_ids)
     describe_instance_patch_states(instance_ids, params::Dict{String,<:Any})
 
-Retrieves the high-level patch state of one or more instances.
+Retrieves the high-level patch state of one or more managed nodes.
 
 # Arguments
-- `instance_ids`: The ID of the instance for which patch state information should be
+- `instance_ids`: The ID of the managed node for which patch state information should be
   retrieved.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of instances to return (per page).
+- `"MaxResults"`: The maximum number of managed nodes to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2026,7 +2027,7 @@ end
     describe_instance_patch_states_for_patch_group(patch_group)
     describe_instance_patch_states_for_patch_group(patch_group, params::Dict{String,<:Any})
 
-Retrieves the high-level patch state for the instances in the specified patch group.
+Retrieves the high-level patch state for the managed nodes in the specified patch group.
 
 # Arguments
 - `patch_group`: The name of the patch group for which the patch state information should
@@ -2070,11 +2071,12 @@ end
     describe_instance_patches(instance_id)
     describe_instance_patches(instance_id, params::Dict{String,<:Any})
 
-Retrieves information about the patches on the specified instance and their state relative
-to the patch baseline being used for the instance.
+Retrieves information about the patches on the specified managed node and their state
+relative to the patch baseline being used for the node.
 
 # Arguments
-- `instance_id`: The ID of the instance whose patch state information should be retrieved.
+- `instance_id`: The ID of the managed node whose patch state information should be
+  retrieved.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2307,7 +2309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 - `"ResourceType"`: The type of resource you want to retrieve information about. For
   example, INSTANCE.
-- `"Targets"`: The instance ID or key-value pair to retrieve information about.
+- `"Targets"`: The managed node ID or key-value pair to retrieve information about.
 - `"WindowId"`: The ID of the maintenance window to retrieve information about.
 """
 function describe_maintenance_window_schedule(;
@@ -2455,13 +2457,13 @@ end
     describe_maintenance_windows_for_target(resource_type, targets)
     describe_maintenance_windows_for_target(resource_type, targets, params::Dict{String,<:Any})
 
-Retrieves information about the maintenance window targets or tasks that an instance is
+Retrieves information about the maintenance window targets or tasks that a managed node is
 associated with.
 
 # Arguments
 - `resource_type`: The type of resource you want to retrieve information about. For
   example, INSTANCE.
-- `targets`: The instance ID or key-value pair to retrieve information about.
+- `targets`: The managed node ID or key-value pair to retrieve information about.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2919,15 +2921,15 @@ end
 
 Returns detailed information about command execution for an invocation or plugin.
 GetCommandInvocation only gives the execution status of a plugin in a document. To get the
-command execution status on a specific instance, use ListCommandInvocations. To get the
-command execution status across instances, use ListCommands.
+command execution status on a specific managed node, use ListCommandInvocations. To get the
+command execution status across managed nodes, use ListCommands.
 
 # Arguments
 - `command_id`: (Required) The parent command ID of the invocation plugin.
-- `instance_id`: (Required) The ID of the managed instance targeted by the command. A
-  managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2) instance or an
-  instance in your hybrid environment that is configured for Amazon Web Services Systems
-  Manager.
+- `instance_id`: (Required) The ID of the managed node targeted by the command. A managed
+  node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and
+  on-premises server or VM in your hybrid environment that is configured for Amazon Web
+  Services Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2974,11 +2976,11 @@ end
     get_connection_status(target)
     get_connection_status(target, params::Dict{String,<:Any})
 
-Retrieves the Session Manager connection status for an instance to determine whether it is
-running and ready to receive Session Manager connections.
+Retrieves the Session Manager connection status for a managed node to determine whether it
+is running and ready to receive Session Manager connections.
 
 # Arguments
-- `target`: The instance ID.
+- `target`: The managed node ID.
 
 """
 function get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3034,18 +3036,18 @@ end
     get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id)
     get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id, params::Dict{String,<:Any})
 
-Retrieves the current snapshot for the patch baseline the instance uses. This API is
+Retrieves the current snapshot for the patch baseline the managed node uses. This API is
 primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you
 run the command locally, such as with the Command Line Interface (CLI), the system attempts
 to use your local Amazon Web Services credentials and the operation fails. To avoid this,
 you can run the command in the Amazon Web Services Systems Manager console. Use Run
 Command, a capability of Amazon Web Services Systems Manager, with an SSM document that
-enables you to target an instance with a script or command. For example, run the command
+enables you to target a managed node with a script or command. For example, run the command
 using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
 
 # Arguments
-- `instance_id`: The ID of the instance for which the appropriate patch snapshot should be
-  retrieved.
+- `instance_id`: The ID of the managed node for which the appropriate patch snapshot should
+  be retrieved.
 - `snapshot_id`: The snapshot ID provided by the user when running AWS-RunPatchBaseline.
 
 # Optional Parameters
@@ -3124,14 +3126,15 @@ end
     get_inventory()
     get_inventory(params::Dict{String,<:Any})
 
-Query inventory information. This includes instance status, such as Stopped or Terminated.
+Query inventory information. This includes managed node status, such as Stopped or
+Terminated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Aggregators"`: Returns counts of inventory types based on one or more expressions. For
   example, if you aggregate by using an expression that uses the
   AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and
-  Linux instances exist in your inventoried fleet.
+  Linux managed nodes exist in your inventoried fleet.
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
@@ -3894,15 +3897,15 @@ end
 
 Returns all State Manager associations in the current Amazon Web Services account and
 Amazon Web Services Region. You can limit the results to a specific State Manager
-association document or instance by specifying a filter. State Manager is a capability of
-Amazon Web Services Systems Manager.
+association document or managed node by specifying a filter. State Manager is a capability
+of Amazon Web Services Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationFilterList"`: One or more filters. Use a filter to return a more specific
   list of results.  Filtering associations using the InstanceID attribute only returns legacy
-  associations created using the InstanceID attribute. Associations targeting the instance
-  that are part of the Target Attributes ResourceGroup or Tags aren't returned.
+  associations created using the InstanceID attribute. Associations targeting the managed
+  node that are part of the Target Attributes ResourceGroup or Tags aren't returned.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
@@ -3923,10 +3926,11 @@ end
     list_command_invocations()
     list_command_invocations(params::Dict{String,<:Any})
 
-An invocation is copy of a command sent to a specific instance. A command can apply to one
-or more instances. A command invocation applies to one instance. For example, if a user
-runs SendCommand against three instances, then a command invocation is created for each
-requested instance ID. ListCommandInvocations provide status about command execution.
+An invocation is copy of a command sent to a specific managed node. A command can apply to
+one or more managed nodes. A command invocation applies to one managed node. For example,
+if a user runs SendCommand against three managed nodes, then a command invocation is
+created for each requested managed node ID. ListCommandInvocations provide status about
+command execution.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3935,7 +3939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any command output. The default value is false.
 - `"Filters"`: (Optional) One or more filters. Use a filter to return a more specific list
   of results.
-- `"InstanceId"`: (Optional) The command execution details for a specific instance ID.
+- `"InstanceId"`: (Optional) The command execution details for a specific managed node ID.
 - `"MaxResults"`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
@@ -3969,9 +3973,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CommandId"`: (Optional) If provided, lists only the specified command.
 - `"Filters"`: (Optional) One or more filters. Use a filter to return a more specific list
   of results.
-- `"InstanceId"`: (Optional) Lists commands issued against this instance ID.  You can't
-  specify an instance ID in the same command that you specify Status = Pending. This is
-  because the command hasn't reached the instance yet.
+- `"InstanceId"`: (Optional) Lists commands issued against this managed node ID.  You can't
+  specify a managed node ID in the same command that you specify Status = Pending. This is
+  because the command hasn't reached the managed node yet.
 - `"MaxResults"`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
@@ -4181,7 +4185,7 @@ end
 A list of inventory items returned by the request.
 
 # Arguments
-- `instance_id`: The instance ID for which you want inventory information.
+- `instance_id`: The managed node ID for which you want inventory information.
 - `type_name`: The type of inventory item for which you want information.
 
 # Optional Parameters
@@ -4492,10 +4496,10 @@ compliance items each time that you send the request. ComplianceType can be one 
 following:   ExecutionId: The execution ID when the patch, association, or custom
 compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.
   ExecutionTime. The time the patch, association, or custom compliance item was applied to
-the instance.   Id: The patch, association, or custom compliance ID.   Title: A title.
-Status: The status of the compliance item. For example, approved for patches, or Failed for
-associations.   Severity: A patch severity. For example, critical.   DocumentName: An SSM
-document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document
+the managed node.   Id: The patch, association, or custom compliance ID.   Title: A title.
+ Status: The status of the compliance item. For example, approved for patches, or Failed
+for associations.   Severity: A patch severity. For example, critical.   DocumentName: An
+SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document
 version number. For example, 4.   Classification: A patch classification. For example,
 security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch
 severity. For example, Critical.   PatchState: A patch state. For example,
@@ -4512,8 +4516,7 @@ the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
 - `items`: Information about the compliance as defined by the resource type. For example,
   for a patch compliance type, Items includes information about the PatchSeverity,
   Classification, and so on.
-- `resource_id`: Specify an ID for this resource. For a managed instance, this is the
-  instance ID.
+- `resource_id`: Specify an ID for this resource. For a managed node, this is the node ID.
 - `resource_type`: Specify the type of resource. ManagedInstance is currently the only
   supported resource type.
 
@@ -4584,12 +4587,12 @@ end
     put_inventory(instance_id, items)
     put_inventory(instance_id, items, params::Dict{String,<:Any})
 
-Bulk update custom inventory items on one more instance. The request adds an inventory
-item, if it doesn't already exist, or updates an inventory item, if it does exist.
+Bulk update custom inventory items on one or more managed nodes. The request adds an
+inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
 
 # Arguments
-- `instance_id`: An instance ID where you want to add or update inventory items.
-- `items`: The inventory items that you want to add or update on instances.
+- `instance_id`: An managed node ID where you want to add or update inventory items.
+- `items`: The inventory items that you want to add or update on managed nodes.
 
 """
 function put_inventory(InstanceId, Items; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4678,10 +4681,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you create the policy, you specify the expiration date. You can update the expiration
   date and time by updating the policy. Updating the parameter doesn't affect the expiration
   date and time. When the expiration time is reached, Parameter Store deletes the parameter.
-  ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that
+  ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that
   notifies you about the expiration. By using this policy, you can receive notification
   before or after the expiration time is reached, in units of days or hours.
-  NoChangeNotification: This policy triggers a CloudWatch Events event if a parameter hasn't
+  NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't
   been modified for a specified period of time. This policy type is useful when, for example,
   a secret needs to be changed within a period of time, but it hasn't been changed. All
   existing policies are preserved until you send new policies or an empty policy. For more
@@ -4848,23 +4851,25 @@ Registers a target with a maintenance window.
 # Arguments
 - `resource_type`: The type of target being registered with the maintenance window.
 - `targets`: The targets to register with the maintenance window. In other words, the
-  instances to run commands on when the maintenance window runs.  If a single maintenance
+  managed nodes to run commands on when the maintenance window runs.  If a single maintenance
   window task is registered with multiple targets, its task invocations occur sequentially
   and not in parallel. If your task must run on multiple targets at the same time, register a
   task for each target individually and assign each task the same priority level.  You can
-  specify targets using instance IDs, resource group names, or tags that have been applied to
-  instances.  Example 1: Specify instance IDs
-  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag
-  key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2
-  Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2
-    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name
-    Example 5: Use filters for resource group types
-  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For
-  Key=resource-groups:ResourceTypeFilters, specify resource types in the following format
-  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more
-  information about these examples formats, including the best use case for each one, see
-  Examples: Register targets with a maintenance window in the Amazon Web Services Systems
-  Manager User Guide.
+  specify targets using managed node IDs, resource group names, or tags that have been
+  applied to managed nodes.  Example 1: Specify managed node IDs
+  Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-3&gt;
+  Example 2: Use tag key-pairs applied to managed nodes
+  Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;   Example
+  3: Use tag-keys applied to managed nodes
+  Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;   Example 4: Use resource
+  group names  Key=resource-groups:Name,Values=&lt;resource-group-name&gt;   Example 5: Use
+  filters for resource group types
+  Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-type-2&g
+  t;   For Key=resource-groups:ResourceTypeFilters, specify resource types in the following
+  format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC
+  For more information about these examples formats, including the best use case for each
+  one, see Examples: Register targets with a maintenance window in the Amazon Web Services
+  Systems Manager User Guide.
 - `window_id`: The ID of the maintenance window the target should be registered with.
 
 # Optional Parameters
@@ -4941,7 +4946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status for tasks that are not completed is TIMED_OUT.
 - `"Description"`: An optional description for the task.
 - `"LoggingInfo"`: A structure containing information about an Amazon Simple Storage
-  Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been
+  Service (Amazon S3) bucket to write managed node-level logs to.    LoggingInfo has been
   deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs,
   instead use the OutputS3BucketName and OutputS3KeyPrefix options in the
   TaskInvocationParameters structure. For information about how Amazon Web Services Systems
@@ -4967,12 +4972,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
   Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `"Targets"`: The targets (either instances or maintenance window targets).  One or more
-  targets must be specified for maintenance window Run Command-type tasks. Depending on the
-  task, targets are optional for other maintenance window task types (Automation, Lambda, and
-  Step Functions). For more information about running tasks that don't specify targets, see
-  Registering maintenance window tasks without targets in the Amazon Web Services Systems
-  Manager User Guide.  Specify instances using the following format:
+- `"Targets"`: The targets (either managed nodes or maintenance window targets).  One or
+  more targets must be specified for maintenance window Run Command-type tasks. Depending on
+  the task, targets are optional for other maintenance window task types (Automation, Lambda,
+  and Step Functions). For more information about running tasks that don't specify targets,
+  see Registering maintenance window tasks without targets in the Amazon Web Services Systems
+  Manager User Guide.  Specify managed nodes using the following format:
   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance
   window targets using the following format:
   Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
@@ -5040,12 +5045,12 @@ Removes tag keys from the specified resource.
   ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a
   ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the
   Document and Parameter values, use the name of the resource.  The ManagedInstance type for
-  this API operation is only for on-premises managed instances. Specify the name of the
-  managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  this API operation is only for on-premises managed nodes. Specify the name of the managed
+  node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 - `resource_type`: The type of resource from which you want to remove a tag.  The
-  ManagedInstance type for this API operation is only for on-premises managed instances.
-  Specify the name of the managed instance in the following format: mi-ID_number . For
-  example, mi-1a2b3c4d5e6f.
+  ManagedInstance type for this API operation is only for on-premises managed nodes. Specify
+  the name of the managed node in the following format: mi-ID_number . For example,
+  mi-1a2b3c4d5e6f.
 - `tag_keys`: Tag keys that you want to remove from the specified resource.
 
 """
@@ -5139,7 +5144,7 @@ end
     resume_session(session_id)
     resume_session(session_id, params::Dict{String,<:Any})
 
-Reconnects a session to an instance after it has been disconnected. Connections can be
+Reconnects a session to a managed node after it has been disconnected. Connections can be
 resumed for disconnected sessions, but not terminated sessions.  This command is primarily
 for use by client machines to automatically reconnect during intermittent network issues.
 It isn't intended for any other use.
@@ -5232,7 +5237,7 @@ end
     send_command(document_name)
     send_command(document_name, params::Dict{String,<:Any})
 
-Runs commands on one or more managed instances.
+Runs commands on one or more managed nodes.
 
 # Arguments
 - `document_name`: The name of the Amazon Web Services Systems Manager document (SSM
@@ -5258,17 +5263,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using a backslash. If you specify a version number, then you don't need to use the
   backslash. For example: --document-version \"DEFAULT\" --document-version \"LATEST\"
   --document-version \"3\"
-- `"InstanceIds"`: The IDs of the instances where the command should run. Specifying
-  instance IDs is most useful when you are targeting a limited number of instances, though
-  you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not
-  to list individual instance IDs, we recommend using the Targets option instead. Using
-  Targets, which accepts tag key-value pairs to identify the instances to send commands to,
-  you can a send command to tens, hundreds, or thousands of instances at once. For more
-  information about how to use targets, see Using targets and rate controls to send commands
-  to a fleet in the Amazon Web Services Systems Manager User Guide.
-- `"MaxConcurrency"`: (Optional) The maximum number of instances that are allowed to run
-  the command at the same time. You can specify a number such as 10 or a percentage such as
-  10%. The default value is 50. For more information about how to use MaxConcurrency, see
+- `"InstanceIds"`: The IDs of the managed nodes where the command should run. Specifying
+  managed node IDs is most useful when you are targeting a limited number of managed nodes,
+  though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you
+  prefer not to list individual node IDs, we recommend using the Targets option instead.
+  Using Targets, which accepts tag key-value pairs to identify the managed nodes to send
+  commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For
+  more information about how to use targets, see Using targets and rate controls to send
+  commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+- `"MaxConcurrency"`: (Optional) The maximum number of managed nodes that are allowed to
+  run the command at the same time. You can specify a number such as 10 or a percentage such
+  as 10%. The default value is 50. For more information about how to use MaxConcurrency, see
   Using concurrency controls in the Amazon Web Services Systems Manager User Guide.
 - `"MaxErrors"`: The maximum number of errors allowed without the command failing. When the
   command fails one more time beyond the value of MaxErrors, the systems stops sending the
@@ -5287,13 +5292,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceRoleArn"`: The ARN of the Identity and Access Management (IAM) service role to
   use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run
   Command commands.
-- `"Targets"`: An array of search criteria that targets instances using a Key,Value
+- `"Targets"`: An array of search criteria that targets managed nodes using a Key,Value
   combination that you specify. Specifying targets is most useful when you want to send a
-  command to a large number of instances at once. Using Targets, which accepts tag key-value
-  pairs to identify instances, you can send a command to tens, hundreds, or thousands of
-  instances at once. To send a command to a smaller number of instances, you can use the
-  InstanceIds option instead. For more information about how to use targets, see Sending
-  commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+  command to a large number of managed nodes at once. Using Targets, which accepts tag
+  key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or
+  thousands of nodes at once. To send a command to a smaller number of managed nodes, you can
+  use the InstanceIds option instead. For more information about how to use targets, see
+  Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
 - `"TimeoutSeconds"`: If this time is reached and the command hasn't already started
   running, it won't run.
 """
@@ -5516,7 +5521,7 @@ end
     start_session(target)
     start_session(target, params::Dict{String,<:Any})
 
-Initiates a connection to a target (for example, an instance) for a Session Manager
+Initiates a connection to a target (for example, a managed node) for a Session Manager
 session. Returns a URL and token that can be used to open a WebSocket connection for
 sending input and receiving outputs.  Amazon Web Services CLI usage: start-session is an
 interactive command that requires the Session Manager plugin to be installed on the client
@@ -5526,15 +5531,17 @@ Services Tools for PowerShell usage: Start-SSMSession isn't currently supported 
 Web Services Tools for PowerShell on Windows local machines.
 
 # Arguments
-- `target`: The instance to connect to for the session.
+- `target`: The managed node to connect to for the session.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DocumentName"`: The name of the SSM document to define the parameters and plugin
   settings for the session. For example, SSM-SessionManagerRunShell. You can call the
   GetDocument API to verify the document exists before attempting to start a session. If no
-  document name is provided, a shell to the instance is launched by default.
+  document name is provided, a shell to the managed node is launched by default.
 - `"Parameters"`: Reserved for future use.
+- `"Reason"`: The reason for connecting to the instance. This value is included in the
+  details for the Amazon CloudWatch Events event created when you start the session.
 """
 function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -5603,7 +5610,7 @@ end
     terminate_session(session_id, params::Dict{String,<:Any})
 
 Permanently ends a session and closes the data connection between the Session Manager
-client and SSM Agent on the instance. A terminated session isn't be resumed.
+client and SSM Agent on the managed node. A terminated session isn't be resumed.
 
 # Arguments
 - `session_id`: The ID of the session to terminate.
@@ -5713,9 +5720,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationVersion"`: This parameter is provided for concurrency control purposes. You
   must specify the latest association version in the service. If you want to ensure that this
   request succeeds, either specify LATEST, or omit this parameter.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
+- `"AutomationTargetParameterName"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
 - `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager
@@ -5725,27 +5733,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
-  same time. If a new instance starts and attempts to run an association while Systems
+  same time. If a new managed node starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
-  the next association interval, the new instance will process its association within the
+  the next association interval, the new managed node will process its association within the
   limit specified for MaxConcurrency.
 - `"MaxErrors"`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
   received. If you specify 0, then the system stops sending requests after the first error is
-  returned. If you run an association on 50 instances and set MaxError to 10%, then the
+  returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the
   system stops sending the request when the sixth error is received. Executions that are
   already running an association when MaxErrors is reached are allowed to complete, but some
   of these executions may fail as well. If you need to ensure that there won't be more than
   max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a
   time.
 - `"Name"`: The name of the SSM Command document or Automation runbook that contains the
-  configuration information for the instance. You can specify Amazon Web Services-predefined
-  documents, documents you created, or a document that is shared with you from another
-  account. For Systems Manager document (SSM document) that are shared with you from other
-  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
-  following format:  arn:aws:ssm:region:account-id:document/document-name   For example:
+  configuration information for the managed node. You can specify Amazon Web
+  Services-predefined documents, documents you created, or a document that is shared with you
+  from another account. For Systems Manager document (SSM document) that are shared with you
+  from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in
+  the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:
   arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
@@ -5799,13 +5807,14 @@ end
     update_association_status(association_status, instance_id, name, params::Dict{String,<:Any})
 
 Updates the status of the Amazon Web Services Systems Manager document (SSM document)
-associated with the specified instance.  UpdateAssociationStatus is primarily used by the
-Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your
-associations and is only used for associations created with the InstanceId legacy parameter.
+associated with the specified managed node.  UpdateAssociationStatus is primarily used by
+the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about
+your associations and is only used for associations created with the InstanceId legacy
+parameter.
 
 # Arguments
 - `association_status`: The association status.
-- `instance_id`: The instance ID.
+- `instance_id`: The managed node ID.
 - `name`: The name of the SSM document.
 
 """
@@ -6186,13 +6195,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
   Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `"Targets"`: The targets (either instances or tags) to modify. Instances are specified
-  using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using
-  the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for
-  maintenance window Run Command-type tasks. Depending on the task, targets are optional for
-  other maintenance window task types (Automation, Lambda, and Step Functions). For more
-  information about running tasks that don't specify targets, see Registering maintenance
-  window tasks without targets in the Amazon Web Services Systems Manager User Guide.
+- `"Targets"`: The targets (either managed nodes or tags) to modify. Managed nodes are
+  specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are
+  specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be
+  specified for maintenance window Run Command-type tasks. Depending on the task, targets are
+  optional for other maintenance window task types (Automation, Lambda, and Step Functions).
+  For more information about running tasks that don't specify targets, see Registering
+  maintenance window tasks without targets in the Amazon Web Services Systems Manager User
+  Guide.
 - `"TaskArn"`: The task ARN to modify.
 - `"TaskInvocationParameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.  When
@@ -6246,12 +6256,12 @@ end
     update_managed_instance_role(iam_role, instance_id, params::Dict{String,<:Any})
 
 Changes the Identity and Access Management (IAM) role that is assigned to the on-premises
-instance or virtual machines (VM). IAM roles are first assigned to these hybrid instances
-during the activation process. For more information, see CreateActivation.
+server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid
+nodes during the activation process. For more information, see CreateActivation.
 
 # Arguments
 - `iam_role`: The IAM role you want to assign or change.
-- `instance_id`: The ID of the managed instance where you want to update the role.
+- `instance_id`: The ID of the managed node where you want to update the role.
 
 """
 function update_managed_instance_role(
@@ -6425,8 +6435,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApprovedPatchesComplianceLevel"`: Assigns a new compliance severity level to an
   existing patch baseline.
 - `"ApprovedPatchesEnableNonSecurity"`: Indicates whether the list of approved patches
-  includes non-security updates that should be applied to the instances. The default value is
-  false. Applies to Linux instances only.
+  includes non-security updates that should be applied to the managed nodes. The default
+  value is false. Applies to Linux managed nodes only.
 - `"Description"`: A description of the patch baseline.
 - `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
 - `"Name"`: The name of the patch baseline.
@@ -6445,8 +6455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Replace"`: If True, then all fields that are required by the CreatePatchBaseline
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.
-- `"Sources"`: Information about the patches to use to update the instances, including
-  target operating systems and source repositories. Applies to Linux instances only.
+- `"Sources"`: Information about the patches to use to update the managed nodes, including
+  target operating systems and source repositories. Applies to Linux managed nodes only.
 """
 function update_patch_baseline(
     BaselineId; aws_config::AbstractAWSConfig=global_aws_config()

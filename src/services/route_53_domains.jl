@@ -8,15 +8,18 @@ using AWS.UUIDs
     accept_domain_transfer_from_another_aws_account(domain_name, password)
     accept_domain_transfer_from_another_aws_account(domain_name, password, params::Dict{String,<:Any})
 
-Accepts the transfer of a domain from another AWS account to the current AWS account. You
-initiate a transfer between AWS accounts using TransferDomainToAnotherAwsAccount.  Use
-either ListOperations or GetOperationDetail to determine whether the operation succeeded.
-GetOperationDetail provides additional information, for example, Domain Transfer from Aws
-Account 111122223333 has been cancelled.
+Accepts the transfer of a domain from another Amazon Web Services account to the
+currentAmazon Web Services account. You initiate a transfer between Amazon Web Services
+accounts using TransferDomainToAnotherAwsAccount. If you use the CLI command at
+accept-domain-transfer-from-another-aws-account, use JSON format as input instead of text
+because otherwise CLI will throw an error from domain transfer input that includes single
+quotes. Use either ListOperations or GetOperationDetail to determine whether the operation
+succeeded. GetOperationDetail provides additional information, for example, Domain Transfer
+from Aws Account 111122223333 has been cancelled.
 
 # Arguments
-- `domain_name`: The name of the domain that was specified when another AWS account
-  submitted a TransferDomainToAnotherAwsAccount request.
+- `domain_name`: The name of the domain that was specified when another Amazon Web Services
+  account submitted a TransferDomainToAnotherAwsAccount request.
 - `password`: The password that was returned by the TransferDomainToAnotherAwsAccount
   request.
 
@@ -55,16 +58,17 @@ end
     cancel_domain_transfer_to_another_aws_account(domain_name)
     cancel_domain_transfer_to_another_aws_account(domain_name, params::Dict{String,<:Any})
 
-Cancels the transfer of a domain from the current AWS account to another AWS account. You
-initiate a transfer between AWS accounts using TransferDomainToAnotherAwsAccount.   You
-must cancel the transfer before the other AWS account accepts the transfer using
+Cancels the transfer of a domain from the current Amazon Web Services account to another
+Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts
+using TransferDomainToAnotherAwsAccount.   You must cancel the transfer before the other
+Amazon Web Services account accepts the transfer using
 AcceptDomainTransferFromAnotherAwsAccount.  Use either ListOperations or GetOperationDetail
 to determine whether the operation succeeded. GetOperationDetail provides additional
 information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
 
 # Arguments
 - `domain_name`: The name of the domain for which you want to cancel the transfer to
-  another AWS account.
+  another Amazon Web Services account.
 
 """
 function cancel_domain_transfer_to_another_aws_account(
@@ -179,6 +183,47 @@ function check_domain_transferability(
 )
     return route_53_domains(
         "CheckDomainTransferability",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_domain(domain_name)
+    delete_domain(domain_name, params::Dict{String,<:Any})
+
+This operation deletes the specified domain. This action is permanent. For more
+information, see Deleting a domain name registration. To transfer the domain registration
+to another registrar, use the transfer process that’s provided by the registrar to which
+you want to transfer the registration. Otherwise, the following apply:   You can’t get a
+refund for the cost of a deleted domain registration.   The registry for the top-level
+domain might hold the domain name for a brief time before releasing it for other users to
+register (varies by registry).    When the registration has been deleted, we'll send you a
+confirmation to the registrant contact. The email will come from
+noreply@domainnameverification.net or noreply@registrar.amazon.com.
+
+# Arguments
+- `domain_name`: Name of the domain to be deleted.
+
+"""
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return route_53_domains(
+        "DeleteDomain",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53_domains(
+        "DeleteDomain",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
@@ -312,10 +357,11 @@ end
 
 This operation configures Amazon Route 53 to automatically renew the specified domain
 before the domain registration expires. The cost of renewing your domain registration is
-billed to your AWS account. The period during which you can renew a domain name varies by
-TLD. For a list of TLDs and their renewal policies, see Domains That You Can Register with
-Amazon Route 53 in the Amazon Route 53 Developer Guide. Route 53 requires that you renew
-before the end of the renewal period so we can complete processing before the deadline.
+billed to your Amazon Web Services account. The period during which you can renew a domain
+name varies by TLD. For a list of TLDs and their renewal policies, see Domains That You Can
+Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Route 53 requires
+that you renew before the end of the renewal period so we can complete processing before
+the deadline.
 
 # Arguments
 - `domain_name`: The name of the domain that you want to enable automatic renewal for.
@@ -423,8 +469,8 @@ end
     get_domain_detail(domain_name, params::Dict{String,<:Any})
 
 This operation returns detailed information about a specified domain that is associated
-with the current AWS account. Contact information for the domain is also returned as part
-of the output.
+with the current Amazon Web Services account. Contact information for the domain is also
+returned as part of the output.
 
 # Arguments
 - `domain_name`: The name of the domain that you want to get detailed information about.
@@ -561,17 +607,22 @@ end
     list_domains(params::Dict{String,<:Any})
 
 This operation returns all the domain names registered with Amazon Route 53 for the current
-AWS account.
+Amazon Web Services account if no filtering conditions are used.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FilterConditions"`: A complex type that contains information about the filters applied
+  during the ListDomains request. The filter conditions can include domain name and domain
+  expiration.
 - `"Marker"`: For an initial request for a list of domains, omit this element. If the
-  number of domains that are associated with the current AWS account is greater than the
-  value that you specified for MaxItems, you can use Marker to return additional domains. Get
-  the value of NextPageMarker from the previous response, and submit another request that
-  includes the value of NextPageMarker in the Marker element. Constraints: The marker must
-  match the value specified in the previous request.
+  number of domains that are associated with the current Amazon Web Services account is
+  greater than the value that you specified for MaxItems, you can use Marker to return
+  additional domains. Get the value of NextPageMarker from the previous response, and submit
+  another request that includes the value of NextPageMarker in the Marker element.
+  Constraints: The marker must match the value specified in the previous request.
 - `"MaxItems"`: Number of domains to be returned. Default: 20
+- `"SortCondition"`: A complex type that contains information about the requested ordering
+  of domains in the returned list.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
     return route_53_domains(
@@ -591,7 +642,8 @@ end
     list_operations(params::Dict{String,<:Any})
 
 Returns information about all of the operations that return an operation ID and that have
-ever been performed on domains that were registered by the current account.
+ever been performed on domains that were registered by the current account.  This command
+runs only in the us-east-1 Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -615,6 +667,40 @@ function list_operations(
 )
     return route_53_domains(
         "ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_prices()
+    list_prices(params::Dict{String,<:Any})
+
+Lists the following prices for either all the TLDs supported by Route 53, or the specified
+TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: For an initial request for a list of prices, omit this element. If the number
+  of prices that are not yet complete is greater than the value that you specified for
+  MaxItems, you can use Marker to return additional prices. Get the value of NextPageMarker
+  from the previous response, and submit another request that includes the value of
+  NextPageMarker in the Marker element.  Used only for all TLDs. If you specify a TLD, don't
+  specify a Marker.
+- `"MaxItems"`: Number of Prices to be returned. Used only for all TLDs. If you specify a
+  TLD, don't specify a MaxItems.
+- `"Tld"`: The TLD for which you want to receive the pricing information. For example.
+  .net. If a Tld value is not provided, a list of prices for all TLDs supported by Route 53
+  is returned.
+"""
+function list_prices(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route_53_domains(
+        "ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_prices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53_domains(
+        "ListPrices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -668,11 +754,13 @@ year. We'll notify you in advance of the renewal date so you can choose whether 
 the registration.   Optionally enables privacy protection, so WHOIS queries return contact
 information either for Amazon Registrar (for .com, .net, and .org domains) or for our
 registrar associate, Gandi (for all other TLDs). If you don't enable privacy protection,
-WHOIS queries return the information that you entered for the registrant, admin, and tech
-contacts.   If registration is successful, returns an operation ID that you can use to
-track the progress and completion of the action. If the request is not completed
-successfully, the domain registrant is notified by email.   Charges your AWS account an
-amount based on the top-level domain. For more information, see Amazon Route 53 Pricing.
+WHOIS queries return the information that you entered for the administrative, registrant,
+and technical contacts.  You must specify the same privacy setting for the administrative,
+registrant, and technical contacts.    If registration is successful, returns an operation
+ID that you can use to track the progress and completion of the action. If the request is
+not completed successfully, the domain registrant is notified by email.   Charges your
+Amazon Web Services account an amount based on the top-level domain. For more information,
+see Amazon Route 53 Pricing.
 
 # Arguments
 - `admin_contact`: Provides detailed contact information. For information about the values
@@ -705,17 +793,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact. Default: true
+  information that you entered for the admin contact.  You must specify the same privacy
+  setting for the administrative, registrant, and technical contacts.  Default: true
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (the domain owner). Default: true
+  information that you entered for the registrant contact (the domain owner).  You must
+  specify the same privacy setting for the administrative, registrant, and technical
+  contacts.  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
   for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
   Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact. Default: true
+  you entered for the technical contact.  You must specify the same privacy setting for the
+  administrative, registrant, and technical contacts.  Default: true
 """
 function register_domain(
     AdminContact,
@@ -771,15 +863,15 @@ end
     reject_domain_transfer_from_another_aws_account(domain_name)
     reject_domain_transfer_from_another_aws_account(domain_name, params::Dict{String,<:Any})
 
-Rejects the transfer of a domain from another AWS account to the current AWS account. You
-initiate a transfer between AWS accounts using TransferDomainToAnotherAwsAccount.  Use
-either ListOperations or GetOperationDetail to determine whether the operation succeeded.
-GetOperationDetail provides additional information, for example, Domain Transfer from Aws
-Account 111122223333 has been cancelled.
+Rejects the transfer of a domain from another Amazon Web Services account to the current
+Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts
+using TransferDomainToAnotherAwsAccount.  Use either ListOperations or GetOperationDetail
+to determine whether the operation succeeded. GetOperationDetail provides additional
+information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
 
 # Arguments
-- `domain_name`: The name of the domain that was specified when another AWS account
-  submitted a TransferDomainToAnotherAwsAccount request.
+- `domain_name`: The name of the domain that was specified when another Amazon Web Services
+  account submitted a TransferDomainToAnotherAwsAccount request.
 
 """
 function reject_domain_transfer_from_another_aws_account(
@@ -812,10 +904,11 @@ end
     renew_domain(current_expiry_year, domain_name, params::Dict{String,<:Any})
 
 This operation renews a domain for the specified number of years. The cost of renewing your
-domain is billed to your AWS account. We recommend that you renew your domain several weeks
-before the expiration date. Some TLD registries delete domains before the expiration date
-if you haven't renewed far enough in advance. For more information about renewing domain
-registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide.
+domain is billed to your Amazon Web Services account. We recommend that you renew your
+domain several weeks before the expiration date. Some TLD registries delete domains before
+the expiration date if you haven't renewed far enough in advance. For more information
+about renewing domain registration, see Renewing Registration for a Domain in the Amazon
+Route 53 Developer Guide.
 
 # Arguments
 - `current_expiry_year`: The year when the registration for the domain is set to expire.
@@ -943,14 +1036,14 @@ about transferring domains, see the following topics:   For transfer requirement
 detailed procedure, and information about viewing the status of a domain that you're
 transferring to Route 53, see Transferring Registration for a Domain to Amazon Route 53 in
 the Amazon Route 53 Developer Guide.   For information about how to transfer a domain from
-one AWS account to another, see TransferDomainToAnotherAwsAccount.    For information about
-how to transfer a domain to another domain registrar, see Transferring a Domain from Amazon
-Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.   If the registrar
-for your domain is also the DNS service provider for the domain, we highly recommend that
-you transfer your DNS service to Route 53 or to another DNS service provider before you
-transfer your registration. Some registrars provide free DNS service when you purchase a
-domain registration. When you transfer the registration, the previous registrar will not
-renew your domain registration and could end your DNS service at any time.  If the
+one Amazon Web Services account to another, see TransferDomainToAnotherAwsAccount.    For
+information about how to transfer a domain to another domain registrar, see Transferring a
+Domain from Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.
+If the registrar for your domain is also the DNS service provider for the domain, we highly
+recommend that you transfer your DNS service to Route 53 or to another DNS service provider
+before you transfer your registration. Some registrars provide free DNS service when you
+purchase a domain registration. When you transfer the registration, the previous registrar
+will not renew your domain registration and could end your DNS service at any time.  If the
 registrar for your domain is also the DNS service provider for the domain and you don't
 transfer DNS service to another provider, your website, email, and the web applications
 associated with the domain might become unavailable.  If the transfer is successful, this
@@ -985,17 +1078,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact. Default: true
+  information that you entered for the admin contact.  You must specify the same privacy
+  setting for the administrative, registrant, and technical contacts.  Default: true
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (domain owner). Default: true
+  information that you entered for the registrant contact (domain owner).  You must specify
+  the same privacy setting for the administrative, registrant, and technical contacts.
+  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
   for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
   Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact. Default: true
+  you entered for the technical contact.  You must specify the same privacy setting for the
+  administrative, registrant, and technical contacts.  Default: true
 """
 function transfer_domain(
     AdminContact,
@@ -1051,26 +1148,27 @@ end
     transfer_domain_to_another_aws_account(account_id, domain_name)
     transfer_domain_to_another_aws_account(account_id, domain_name, params::Dict{String,<:Any})
 
-Transfers a domain from the current AWS account to another AWS account. Note the following:
-  The AWS account that you're transferring the domain to must accept the transfer. If the
-other account doesn't accept the transfer within 3 days, we cancel the transfer. See
+Transfers a domain from the current Amazon Web Services account to another Amazon Web
+Services account. Note the following:   The Amazon Web Services account that you're
+transferring the domain to must accept the transfer. If the other account doesn't accept
+the transfer within 3 days, we cancel the transfer. See
 AcceptDomainTransferFromAnotherAwsAccount.    You can cancel the transfer before the other
 account accepts it. See CancelDomainTransferToAnotherAwsAccount.    The other account can
 reject the transfer. See RejectDomainTransferFromAnotherAwsAccount.     When you transfer a
-domain from one AWS account to another, Route 53 doesn't transfer the hosted zone that is
-associated with the domain. DNS resolution isn't affected if the domain and the hosted zone
-are owned by separate accounts, so transferring the hosted zone is optional. For
-information about transferring the hosted zone to another AWS account, see Migrating a
-Hosted Zone to a Different AWS Account in the Amazon Route 53 Developer Guide.  Use either
-ListOperations or GetOperationDetail to determine whether the operation succeeded.
-GetOperationDetail provides additional information, for example, Domain Transfer from Aws
-Account 111122223333 has been cancelled.
+domain from one Amazon Web Services account to another, Route 53 doesn't transfer the
+hosted zone that is associated with the domain. DNS resolution isn't affected if the domain
+and the hosted zone are owned by separate accounts, so transferring the hosted zone is
+optional. For information about transferring the hosted zone to another Amazon Web Services
+account, see Migrating a Hosted Zone to a Different Amazon Web Services Account in the
+Amazon Route 53 Developer Guide.  Use either ListOperations or GetOperationDetail to
+determine whether the operation succeeded. GetOperationDetail provides additional
+information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
 
 # Arguments
-- `account_id`: The account ID of the AWS account that you want to transfer the domain to,
-  for example, 111122223333.
-- `domain_name`: The name of the domain that you want to transfer from the current AWS
-  account to another account.
+- `account_id`: The account ID of the Amazon Web Services account that you want to transfer
+  the domain to, for example, 111122223333.
+- `domain_name`: The name of the domain that you want to transfer from the current Amazon
+  Web Services account to another account.
 
 """
 function transfer_domain_to_another_aws_account(
@@ -1154,11 +1252,12 @@ end
 This operation updates the specified domain contact's privacy setting. When privacy
 protection is enabled, contact information such as email address is replaced either with
 contact information for Amazon Registrar (for .com, .net, and .org domains) or with contact
-information for our registrar associate, Gandi. This operation affects only the contact
-information for the specified contact type (registrant, administrator, or tech). If the
-request succeeds, Amazon Route 53 returns an operation ID that you can use with
-GetOperationDetail to track the progress and completion of the action. If the request
-doesn't complete successfully, the domain registrant will be notified by email.  By
+information for our registrar associate, Gandi.  You must specify the same privacy setting
+for the administrative, registrant, and technical contacts.  This operation affects only
+the contact information for the specified contact type (administrative, registrant, or
+technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can
+use with GetOperationDetail to track the progress and completion of the action. If the
+request doesn't complete successfully, the domain registrant will be notified by email.  By
 disabling the privacy service via API, you consent to the publication of the contact
 information provided for this domain via the public WHOIS database. You certify that you
 are the registrant of this domain name and have the authority to make this decision. You
@@ -1176,17 +1275,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
   Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
   other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the admin contact.
+  for the admin contact.  You must specify the same privacy setting for the administrative,
+  registrant, and technical contacts.
 - `"RegistrantPrivacy"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
   for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
   Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the registrant contact (domain owner).
+  you entered for the registrant contact (domain owner).  You must specify the same privacy
+  setting for the administrative, registrant, and technical contacts.
 - `"TechPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
   Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
   other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the technical contact.
+  for the technical contact.  You must specify the same privacy setting for the
+  administrative, registrant, and technical contacts.
 """
 function update_domain_contact_privacy(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1307,20 +1409,20 @@ end
     view_billing()
     view_billing(params::Dict{String,<:Any})
 
-Returns all the domain-related billing records for the current AWS account for a specified
-period
+Returns all the domain-related billing records for the current Amazon Web Services account
+for a specified period
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"End"`: The end date and time for the time period for which you want a list of billing
   records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
 - `"Marker"`: For an initial request for a list of billing records, omit this element. If
-  the number of billing records that are associated with the current AWS account during the
-  specified period is greater than the value that you specified for MaxItems, you can use
-  Marker to return additional billing records. Get the value of NextPageMarker from the
-  previous response, and submit another request that includes the value of NextPageMarker in
-  the Marker element.  Constraints: The marker must match the value of NextPageMarker that
-  was returned in the previous response.
+  the number of billing records that are associated with the current Amazon Web Services
+  account during the specified period is greater than the value that you specified for
+  MaxItems, you can use Marker to return additional billing records. Get the value of
+  NextPageMarker from the previous response, and submit another request that includes the
+  value of NextPageMarker in the Marker element.  Constraints: The marker must match the
+  value of NextPageMarker that was returned in the previous response.
 - `"MaxItems"`: The number of billing records to be returned. Default: 20
 - `"Start"`: The beginning date and time for the time period for which you want a list of
   billing records. Specify the date and time in Unix time format and Coordinated Universal

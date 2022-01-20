@@ -144,21 +144,25 @@ end
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
-    @repeat 4 try
-        # HTTP options such as `status_exception` need to be used when creating the stack
-        http_stack = HTTP.stack(;
-            redirect=false, retry=false, aws_authorization=false, http_options...
-        )
+    # HTTP options such as `status_exception` need to be used when creating the stack
+    http_stack = HTTP.stack(;
+        redirect=false, retry=false, aws_authorization=false, http_options...
+    )
 
-        # To work around around issue where HTTP.jl closes the `response_stream`
-        # (https://github.com/JuliaWeb/HTTP.jl/issues/543) we'll use a sacrificial I/O
-        # stream. Effectively, this works as if we're not using streaming I/O at all but we
-        # will keep using the `response_stream` kwarg to ensure we aren't relying on the
-        # response's body being populated.
-        buffer = Base.BufferStream()
+    local buffer
+    local response
+    try
+        @repeat 4 try
+            # Use a sacrificial I/O stream so that we only write to the `response_stream`
+            # once even with multiple attempted requests. Additionally this works around the
+            # HTTP.jl issue (https://github.com/JuliaWeb/HTTP.jl/issues/543) where the
+            # `response_stream` is closed automatically. Effectively, this works as if we're
+            # not using streaming I/O at all, as we write all data at once, but only
+            # returning data via I/O ensures we aren't relying on response's body being
+            # populated.
+            buffer = Base.BufferStream()
 
-        r = try
-            @mock HTTP.request(
+            response = @mock HTTP.request(
                 http_stack,
                 request.request_method,
                 HTTP.URI(request.url),
@@ -168,28 +172,28 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                 response_stream=buffer,
                 http_options...,
             )
-        finally
-            # We're unable to read from the `Base.BufferStream` until it has been closed.
-            # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
-            # is always closed (e.g. HTTP.jl 0.9.15)
-            close(buffer)
-
-            # Transfer the contents of the `BufferStream` into `response_stream` variable.
-            write(response_stream, buffer)
+        catch e
+            # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
+            # caught and wrapped in an `HTTP.IOError`
+            # https://github.com/JuliaWeb/HTTP.jl/issues/382
+            @delay_retry if isa(e, Sockets.DNSError) ||
+                isa(e, HTTP.ParseError) ||
+                isa(e, HTTP.IOError) ||
+                isa(e, Base.IOError) ||
+                (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+            end
         end
+    finally
+        # We're unable to read from the `Base.BufferStream` until it has been closed.
+        # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
+        # is always closed (e.g. HTTP.jl 0.9.15)
+        close(buffer)
 
-        return @mock Response(r, response_stream)
-    catch e
-        # Base.IOError is needed because HTTP.jl can often have errors that aren't
-        # caught and wrapped in an HTTP.IOError
-        # https://github.com/JuliaWeb/HTTP.jl/issues/382
-        @delay_retry if isa(e, Sockets.DNSError) ||
-            isa(e, HTTP.ParseError) ||
-            isa(e, HTTP.IOError) ||
-            isa(e, Base.IOError) ||
-            (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
-        end
+        # Transfer the contents of the `BufferStream` into `response_stream` variable.
+        write(response_stream, buffer)
     end
+
+    return @mock Response(response, response_stream)
 end
 
 _http_status(e::HTTP.StatusError) = e.status

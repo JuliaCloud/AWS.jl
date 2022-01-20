@@ -49,6 +49,8 @@ using AWS: @service
 S3.list_objects("/your-bucket")
 ```
 
+The high-level function calls are wrapped around the low-level function calls, meaning you can still pass along any low-level `kwargs` such as `aws_config` when making these requests.
+
 **Note:** When calling the `@service` macro you **CANNOT** match the predefined constant for the low level API. The low level API constants are named in all lowercase, and spaces are replaced with underscores.
 
 ```julia

@@ -54,7 +54,8 @@ action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"billingGroupArn"`: The ARN of the billing group.
-- `"billingGroupName"`: The name of the billing group.
+- `"billingGroupName"`: The name of the billing group.  This call is asynchronous. It might
+  take several seconds for the detachment to propagate.
 - `"thingArn"`: The ARN of the thing to be added to the billing group.
 - `"thingName"`: The name of the thing to be added to the billing group.
 """
@@ -733,6 +734,10 @@ Creates an authorizer. Requires permission to access the CreateAuthorizer action
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for clients that use persistent HTTP connections. The results are cached for the
+  time specified by the Lambda function in refreshAfterInSeconds. This value does not affect
+  authorization of clients that use MQTT connections. The default value is false.
 - `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
 - `"status"`: The status of the create authorizer request.
@@ -821,19 +826,20 @@ end
 
 Creates an X.509 certificate using the specified certificate signing request.  Note: The
 CSR must include a public key that is either an RSA key with a length of at least 2048 bits
-or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate
-signing request (CSR) results in a distinct certificate. Requires permission to access the
-CreateCertificateFromCsr action. You can create multiple certificates in a batch by
-creating a directory, copying multiple .csr files into that directory, and then specifying
-that directory on the command line. The following commands show how to create a batch of
-certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the
-directory my-csr-directory: On Linux and OS X, the command is:  ls my-csr-directory/ |
-xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request
-file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes
-each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI
-command to create a certificate for the corresponding CSR. The aws iot
-create-certificate-from-csr part of the command can also be run in parallel to speed up the
-certificate creation process:  ls my-csr-directory/ | xargs -P 10 -I {} aws iot
+or an ECC key from NIST P-256, NIST P-384, or NIST P-512 curves. For supported
+certificates, consult  Certificate signing algorithms supported by IoT.  Note: Reusing the
+same certificate signing request (CSR) results in a distinct certificate. Requires
+permission to access the CreateCertificateFromCsr action. You can create multiple
+certificates in a batch by creating a directory, copying multiple .csr files into that
+directory, and then specifying that directory on the command line. The following commands
+show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs
+are located inside of the directory my-csr-directory: On Linux and OS X, the command is:
+ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
+--certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs
+in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr
+Amazon Web Services CLI command to create a certificate for the corresponding CSR. The aws
+iot create-certificate-from-csr part of the command can also be run in parallel to speed up
+the certificate creation process:  ls my-csr-directory/ | xargs -P 10 -I {} aws iot
 create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On
 Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:
 &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr
@@ -1202,14 +1208,17 @@ Creates a job. Requires permission to access the CreateJob action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"abortConfig"`: Allows you to create criteria to abort a job.
+- `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
+- `"documentParameters"`: Parameters of a managed template that you can specify to create
+  the job document.
 - `"documentSource"`: An S3 link to the job document. Required if you don't specify a value
   for document.  If the job document resides in an S3 bucket, you must use a placeholder link
   when specifying the document. The placeholder link is of the following form:
   {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket
   name and key is the object in the bucket to which you are linking.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"jobTemplateArn"`: The ARN of the job template used to create the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
@@ -1274,6 +1283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
   bucket is your bucket name and key is the object in the bucket to which you are linking.
 - `"jobArn"`: The ARN of the job to use as the basis for the job template.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`:
 - `"presignedUrlConfig"`:
 - `"tags"`: Metadata that can be used to manage the job template.
@@ -1885,8 +1895,7 @@ CreateStream action.
 
 # Arguments
 - `files`: The files to stream.
-- `role_arn`: An IAM role that allows the IoT service principal assumes to access your S3
-  files.
+- `role_arn`: An IAM role that allows the IoT service principal to access your S3 files.
 - `stream_id`: The stream ID.
 
 # Optional Parameters
@@ -4036,6 +4045,44 @@ function describe_job_template(
 end
 
 """
+    describe_managed_job_template(template_name)
+    describe_managed_job_template(template_name, params::Dict{String,<:Any})
+
+View details of a managed job template.
+
+# Arguments
+- `template_name`: The unique name of a managed job template, which is required.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"templateVersion"`: An optional parameter to specify version of a managed template. If
+  not specified, the pre-defined default version is returned.
+"""
+function describe_managed_job_template(
+    templateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/managed-job-templates/$(templateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_managed_job_template(
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/managed-job-templates/$(templateName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_mitigation_action(action_name)
     describe_mitigation_action(action_name, params::Dict{String,<:Any})
 
@@ -5983,6 +6030,7 @@ ListJobExecutionsForThing action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobId"`: The unique identifier you assigned to this job when it was created.
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -6079,6 +6127,40 @@ function list_jobs(
 )
     return iot(
         "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_managed_job_templates()
+    list_managed_job_templates(params::Dict{String,<:Any})
+
+Returns a list of managed job templates.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum number of entries that can be returned.
+- `"nextToken"`: The token to retrieve the next set of results.
+- `"templateName"`: An optional parameter for template name. If specified, only the
+  versions of the managed job templates that have the specified template name will be
+  returned.
+"""
+function list_managed_job_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "GET",
+        "/managed-job-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_managed_job_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/managed-job-templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -7396,7 +7478,8 @@ end
     register_certificate_without_ca(certificate_pem)
     register_certificate_without_ca(certificate_pem, params::Dict{String,<:Any})
 
-Register a certificate that does not have a certificate authority (CA).
+Register a certificate that does not have a certificate authority (CA). For supported
+certificates, consult  Certificate signing algorithms supported by IoT.
 
 # Arguments
 - `certificate_pem`: The certificate data, in PEM format.
@@ -7523,7 +7606,8 @@ end
     remove_thing_from_billing_group(params::Dict{String,<:Any})
 
 Removes the given thing from the billing group. Requires permission to access the
-RemoveThingFromBillingGroup action.
+RemoveThingFromBillingGroup action.  This call is asynchronous. It might take several
+seconds for the detachment to propagate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8486,6 +8570,9 @@ Updates an authorizer. Requires permission to access the UpdateAuthorizer action
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorizerFunctionArn"`: The ARN of the authorizer's Lambda function.
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for the time specified in refreshAfterInSeconds. The cached result is used while
+  the device reuses the same HTTP connection.
 - `"status"`: The status of the update authorizer request.
 - `"tokenKeyName"`: The key used to extract the token from the HTTP headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the token signature.
@@ -8963,6 +9050,7 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`: Allows you to create criteria to abort a job.
 - `"description"`: A short text description of the job.
+- `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs

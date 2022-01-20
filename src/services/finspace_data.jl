@@ -5,42 +5,48 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_changeset(change_type, dataset_id, source_params, source_type)
-    create_changeset(change_type, dataset_id, source_params, source_type, params::Dict{String,<:Any})
+    create_changeset(change_type, dataset_id, format_params, source_params)
+    create_changeset(change_type, dataset_id, format_params, source_params, params::Dict{String,<:Any})
 
-Creates a new changeset in a FinSpace dataset.
+Creates a new Changeset in a FinSpace Dataset.
 
 # Arguments
-- `change_type`: Option to indicate how a changeset will be applied to a dataset.
-  REPLACE - Changeset will be considered as a replacement to all prior loaded changesets.
+- `change_type`: Option to indicate how a Changeset will be applied to a Dataset.
+  REPLACE - Changeset will be considered as a replacement to all prior loaded Changesets.
   APPEND - Changeset will be considered as an addition to the end of all prior loaded
-  changesets.
-- `dataset_id`: The unique identifier for the FinSpace dataset in which the changeset will
-  be created.
-- `source_params`: Source path from which the files to create the changeset will be sourced.
-- `source_type`: Type of the data source from which the files to create the changeset will
-  be sourced.    S3 - Amazon S3.
+  Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior
+  ingested Changeset.
+- `dataset_id`: The unique identifier for the FinSpace Dataset where the Changeset will be
+  created.
+- `format_params`: Options that define the structure of the source file(s) including the
+  format type (formatType), header row (withHeader), data separation character (separator)
+  and the type of compression (compression).   formatType is a required attribute and can
+  have the following values:     PARQUET - Parquet source file format.    CSV - CSV source
+  file format.    JSON - JSON source file format.    XML - XML source file format.    For
+  example, you could specify the following for formatParams:  \"formatParams\": {
+  \"formatType\": \"CSV\", \"withHeader\": \"true\", \"separator\": \",\",
+  \"compression\":\"None\" }
+- `source_params`: Options that define the location of the data being ingested.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"formatParams"`: Options that define the structure of the source file(s).
-- `"formatType"`: Format type of the input files being loaded into the changeset.
-- `"tags"`: Metadata tags to apply to this changeset.
+- `"clientToken"`: A token used to ensure idempotency.
 """
 function create_changeset(
     changeType,
     datasetId,
-    sourceParams,
-    sourceType;
+    formatParams,
+    sourceParams;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return finspace_data(
         "POST",
-        "/datasets/$(datasetId)/changesets",
+        "/datasets/$(datasetId)/changesetsv2",
         Dict{String,Any}(
             "changeType" => changeType,
+            "formatParams" => formatParams,
             "sourceParams" => sourceParams,
-            "sourceType" => sourceType,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -49,21 +55,22 @@ end
 function create_changeset(
     changeType,
     datasetId,
+    formatParams,
     sourceParams,
-    sourceType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return finspace_data(
         "POST",
-        "/datasets/$(datasetId)/changesets",
+        "/datasets/$(datasetId)/changesetsv2",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
                     "changeType" => changeType,
+                    "formatParams" => formatParams,
                     "sourceParams" => sourceParams,
-                    "sourceType" => sourceType,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -74,13 +81,280 @@ function create_changeset(
 end
 
 """
+    create_data_view(dataset_id, destination_type_params)
+    create_data_view(dataset_id, destination_type_params, params::Dict{String,<:Any})
+
+Creates a Dataview for a Dataset.
+
+# Arguments
+- `dataset_id`: The unique Dataset identifier that is used to create a Dataview.
+- `destination_type_params`: Options that define the destination type for the Dataview.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"asOfTimestamp"`: Beginning time to use for the Dataview. The value is determined as
+  Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM
+  UTC is specified as 1635768000000.
+- `"autoUpdate"`: Flag to indicate Dataview should be updated automatically.
+- `"clientToken"`: A token used to ensure idempotency.
+- `"partitionColumns"`: Ordered set of column names used to partition data.
+- `"sortColumns"`: Columns to be used for sorting the data.
+"""
+function create_data_view(
+    datasetId, destinationTypeParams; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "POST",
+        "/datasets/$(datasetId)/dataviewsv2",
+        Dict{String,Any}(
+            "destinationTypeParams" => destinationTypeParams,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_view(
+    datasetId,
+    destinationTypeParams,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "POST",
+        "/datasets/$(datasetId)/dataviewsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationTypeParams" => destinationTypeParams,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_dataset(dataset_title, kind, permission_group_params)
+    create_dataset(dataset_title, kind, permission_group_params, params::Dict{String,<:Any})
+
+Creates a new FinSpace Dataset.
+
+# Arguments
+- `dataset_title`: Display title for a FinSpace Dataset.
+- `kind`: The format in which Dataset data is structured.    TABULAR - Data is structured
+  in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+- `permission_group_params`: Permission group parameters for Dataset permissions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The unique resource identifier for a Dataset.
+- `"clientToken"`: A token used to ensure idempotency.
+- `"datasetDescription"`: Description of a Dataset.
+- `"ownerInfo"`: Contact information for a Dataset owner.
+- `"schemaDefinition"`: Definition for a schema on a tabular Dataset.
+"""
+function create_dataset(
+    datasetTitle,
+    kind,
+    permissionGroupParams;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "POST",
+        "/datasetsv2",
+        Dict{String,Any}(
+            "datasetTitle" => datasetTitle,
+            "kind" => kind,
+            "permissionGroupParams" => permissionGroupParams,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_dataset(
+    datasetTitle,
+    kind,
+    permissionGroupParams,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "POST",
+        "/datasetsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "datasetTitle" => datasetTitle,
+                    "kind" => kind,
+                    "permissionGroupParams" => permissionGroupParams,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_dataset(dataset_id)
+    delete_dataset(dataset_id, params::Dict{String,<:Any})
+
+Deletes a FinSpace Dataset.
+
+# Arguments
+- `dataset_id`: The unique identifier of the Dataset to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token used to ensure idempotency.
+"""
+function delete_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data(
+        "DELETE",
+        "/datasetsv2/$(datasetId)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_dataset(
+    datasetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "DELETE",
+        "/datasetsv2/$(datasetId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_changeset(changeset_id, dataset_id)
+    get_changeset(changeset_id, dataset_id, params::Dict{String,<:Any})
+
+Get information about a Changeset.
+
+# Arguments
+- `changeset_id`: The unique identifier of the Changeset for which to get data.
+- `dataset_id`: The unique identifier for the FinSpace Dataset where the Changeset is
+  created.
+
+"""
+function get_changeset(
+    changesetId, datasetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/changesetsv2/$(changesetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_changeset(
+    changesetId,
+    datasetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/changesetsv2/$(changesetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_view(dataset_id, dataview_id)
+    get_data_view(dataset_id, dataview_id, params::Dict{String,<:Any})
+
+Gets information about a Dataview.
+
+# Arguments
+- `dataset_id`: The unique identifier for the Dataset used in the Dataview.
+- `dataview_id`: The unique identifier for the Dataview.
+
+"""
+function get_data_view(
+    datasetId, dataviewId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_view(
+    datasetId,
+    dataviewId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_dataset(dataset_id)
+    get_dataset(dataset_id, params::Dict{String,<:Any})
+
+Returns information about a Dataset.
+
+# Arguments
+- `dataset_id`: The unique identifier for a Dataset.
+
+"""
+function get_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data(
+        "GET",
+        "/datasetsv2/$(datasetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_dataset(
+    datasetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/datasetsv2/$(datasetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_programmatic_access_credentials(environment_id)
     get_programmatic_access_credentials(environment_id, params::Dict{String,<:Any})
 
-Request programmatic credentials to use with Habanero SDK.
+Request programmatic credentials to use with FinSpace SDK.
 
 # Arguments
-- `environment_id`: The habanero environment identifier.
+- `environment_id`: The FinSpace environment identifier.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -117,15 +391,15 @@ end
     get_working_location()
     get_working_location(params::Dict{String,<:Any})
 
-A temporary Amazon S3 location to copy your files from a source location to stage or use as
-a scratch space in Habanero notebook.
+A temporary Amazon S3 location, where you can copy your files from a source location to
+stage or use as a scratch space in FinSpace notebook.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"locationType"`: Specify the type of the working location.    SAGEMAKER - Use the Amazon
   S3 location as a temporary location to store data content when working with FinSpace
   Notebooks that run on SageMaker studio.    INGESTION - Use the Amazon S3 location as a
-  staging location to copy your data content and then use the location with the changeset
+  staging location to copy your data content and then use the location with the Changeset
   creation operation.
 """
 function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -140,6 +414,225 @@ function get_working_location(
         "POST",
         "/workingLocationV1",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_changesets(dataset_id)
+    list_changesets(dataset_id, params::Dict{String,<:Any})
+
+Lists the FinSpace Changesets for a Dataset.
+
+# Arguments
+- `dataset_id`: The unique identifier for the FinSpace Dataset to which the Changeset
+  belongs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results per page.
+- `"nextToken"`: A token indicating where a results page should begin.
+"""
+function list_changesets(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/changesetsv2";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_changesets(
+    datasetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/changesetsv2",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_views(dataset_id)
+    list_data_views(dataset_id, params::Dict{String,<:Any})
+
+Lists all available Dataviews for a Dataset.
+
+# Arguments
+- `dataset_id`: The unique identifier of the Dataset for which to retrieve Dataviews.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results per page.
+- `"nextToken"`: A token indicating where a results page should begin.
+"""
+function list_data_views(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/dataviewsv2";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_views(
+    datasetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/datasets/$(datasetId)/dataviewsv2",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_datasets()
+    list_datasets(params::Dict{String,<:Any})
+
+Lists all of the active Datasets that a user has access to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results per page.
+- `"nextToken"`: A token indicating where a results page should begin.
+"""
+function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data(
+        "GET", "/datasetsv2"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_datasets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "GET", "/datasetsv2", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    update_changeset(changeset_id, dataset_id, format_params, source_params)
+    update_changeset(changeset_id, dataset_id, format_params, source_params, params::Dict{String,<:Any})
+
+Updates a FinSpace Changeset.
+
+# Arguments
+- `changeset_id`: The unique identifier for the Changeset to update.
+- `dataset_id`: The unique identifier for the FinSpace Dataset in which the Changeset is
+  created.
+- `format_params`: Options that define the structure of the source file(s).
+- `source_params`: Options that define the location of the data being ingested.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token used to ensure idempotency.
+"""
+function update_changeset(
+    changesetId,
+    datasetId,
+    formatParams,
+    sourceParams;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "PUT",
+        "/datasets/$(datasetId)/changesetsv2/$(changesetId)",
+        Dict{String,Any}(
+            "formatParams" => formatParams,
+            "sourceParams" => sourceParams,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_changeset(
+    changesetId,
+    datasetId,
+    formatParams,
+    sourceParams,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "PUT",
+        "/datasets/$(datasetId)/changesetsv2/$(changesetId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "formatParams" => formatParams,
+                    "sourceParams" => sourceParams,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_dataset(dataset_id, dataset_title, kind)
+    update_dataset(dataset_id, dataset_title, kind, params::Dict{String,<:Any})
+
+Updates a FinSpace Dataset.
+
+# Arguments
+- `dataset_id`: The unique identifier for the Dataset to update.
+- `dataset_title`: A display title for the Dataset.
+- `kind`: The format in which the Dataset data is structured.    TABULAR - Data is
+  structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular
+  format.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias"`: The unique resource identifier for a Dataset.
+- `"clientToken"`: A token used to ensure idempotency.
+- `"datasetDescription"`: A description for the Dataset.
+- `"schemaDefinition"`: Definition for a schema on a tabular Dataset.
+"""
+function update_dataset(
+    datasetId, datasetTitle, kind; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "PUT",
+        "/datasetsv2/$(datasetId)",
+        Dict{String,Any}(
+            "datasetTitle" => datasetTitle, "kind" => kind, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_dataset(
+    datasetId,
+    datasetTitle,
+    kind,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "PUT",
+        "/datasetsv2/$(datasetId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "datasetTitle" => datasetTitle,
+                    "kind" => kind,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -186,44 +186,37 @@ function get_parallel_data(
 end
 
 """
-    get_terminology(name, terminology_data_format)
-    get_terminology(name, terminology_data_format, params::Dict{String,<:Any})
+    get_terminology(name)
+    get_terminology(name, params::Dict{String,<:Any})
 
 Retrieves a custom terminology.
 
 # Arguments
 - `name`: The name of the custom terminology being retrieved.
-- `terminology_data_format`: The data format of the custom terminology being retrieved,
-  either CSV or TMX.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TerminologyDataFormat"`: The data format of the custom terminology being retrieved. If
+  you don't specify this parameter, Amazon Translate returns a file that has the same format
+  as the file that was imported to create the terminology.  If you specify this parameter
+  when you retrieve a multi-directional terminology resource, you must specify the same
+  format as that of the input file that was imported to create it. Otherwise, Amazon
+  Translate throws an error.
 """
-function get_terminology(
-    Name, TerminologyDataFormat; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return translate(
         "GetTerminology",
-        Dict{String,Any}("Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_terminology(
-    Name,
-    TerminologyDataFormat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return translate(
         "GetTerminology",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "TerminologyDataFormat" => TerminologyDataFormat
-                ),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -409,6 +402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Amazon Translate pricing.  For a list of available parallel data
   resources, use the ListParallelData operation. For more information, see
   customizing-translations-parallel-data.
+- `"Settings"`: Settings to configure your translation output, including the option to mask
+  profane words and phrases.
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
   job. This resource lists examples source terms and the desired translation for each term.
   This parameter accepts only one custom terminology resource. For a list of available custom
@@ -524,6 +519,8 @@ available languages and language codes, see what-is-languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Settings"`: Settings to configure your translation output, including the option to mask
+  profane words and phrases.
 - `"TerminologyNames"`: The name of the terminology list file to be used in the
   TranslateText request. You can use 1 terminology list at most in a TranslateText request.
   Terminology lists can contain a maximum of 256 terms.

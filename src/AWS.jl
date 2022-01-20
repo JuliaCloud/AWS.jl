@@ -228,7 +228,7 @@ end
 """
     (service::RestXMLService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=aws_config
     )
 
 Perform a RestXML request to AWS.
@@ -239,7 +239,7 @@ Perform a RestXML request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
@@ -287,7 +287,7 @@ end
 """
     (service::QueryService)(
         operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=aws_config
     )
 
 Perform a Query request to AWS.
@@ -297,7 +297,7 @@ Perform a Query request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
@@ -334,7 +334,7 @@ end
 """
     (service::JSONService)(
         operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=aws_config
     )
 
 Perform a JSON request to AWS.
@@ -344,7 +344,7 @@ Perform a JSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
@@ -379,7 +379,7 @@ end
 """
     (service::RestJSONService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=aws_config
     )
 
 Perform a RestJSON request to AWS.
@@ -390,7 +390,7 @@ Perform a RestJSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns

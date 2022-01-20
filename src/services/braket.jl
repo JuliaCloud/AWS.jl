@@ -5,6 +5,36 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    cancel_job(job_arn)
+    cancel_job(job_arn, params::Dict{String,<:Any})
+
+Cancels an Amazon Braket job.
+
+# Arguments
+- `job_arn`: The ARN of the Amazon Braket job to cancel.
+
+"""
+function cancel_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "PUT",
+        "/job/$(jobArn)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_job(
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "PUT",
+        "/job/$(jobArn)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_quantum_task(client_token, quantum_task_arn)
     cancel_quantum_task(client_token, quantum_task_arn, params::Dict{String,<:Any})
 
@@ -44,6 +74,101 @@ function cancel_quantum_task(
 end
 
 """
+    create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn)
+    create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn, params::Dict{String,<:Any})
+
+Creates an Amazon Braket job.
+
+# Arguments
+- `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
+  the container image the job uses and information about the Python scripts used for entry
+  and training.
+- `client_token`: A unique token that guarantees that the call to this API is idempotent.
+- `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
+  Braket job.
+- `instance_config`: Configuration of the resource instances to use while running the
+  hybrid job on Amazon Braket.
+- `job_name`: The name of the Amazon Braket job.
+- `output_data_config`: The path to the S3 location where you want to store job artifacts
+  and the encryption key used to store them.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume
+  to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket
+  job container on behalf of user, and output resources to the users' s3 buckets.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"checkpointConfig"`: Information about the output locations for job checkpoint data.
+- `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket job that
+  influence the quality of the training job. The values are set with a string of JSON
+  key:value pairs, where the key is the name of the hyperparameter and the value is the value
+  of th hyperparameter.
+- `"inputDataConfig"`: A list of parameters that specify the name and type of input data
+  and where it is located.
+- `"stoppingCondition"`:  The user-defined criteria that specifies when a job stops running.
+- `"tags"`: A tag object that consists of a key and an optional value, used to manage
+  metadata for Amazon Braket resources.
+"""
+function create_job(
+    algorithmSpecification,
+    clientToken,
+    deviceConfig,
+    instanceConfig,
+    jobName,
+    outputDataConfig,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "POST",
+        "/job",
+        Dict{String,Any}(
+            "algorithmSpecification" => algorithmSpecification,
+            "clientToken" => clientToken,
+            "deviceConfig" => deviceConfig,
+            "instanceConfig" => instanceConfig,
+            "jobName" => jobName,
+            "outputDataConfig" => outputDataConfig,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_job(
+    algorithmSpecification,
+    clientToken,
+    deviceConfig,
+    instanceConfig,
+    jobName,
+    outputDataConfig,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "POST",
+        "/job",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "algorithmSpecification" => algorithmSpecification,
+                    "clientToken" => clientToken,
+                    "deviceConfig" => deviceConfig,
+                    "instanceConfig" => instanceConfig,
+                    "jobName" => jobName,
+                    "outputDataConfig" => outputDataConfig,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_quantum_task(action, client_token, device_arn, output_s3_bucket, output_s3_key_prefix, shots)
     create_quantum_task(action, client_token, device_arn, output_s3_bucket, output_s3_key_prefix, shots, params::Dict{String,<:Any})
 
@@ -61,6 +186,7 @@ Creates a quantum task.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"deviceParameters"`: The parameters for the device to run the task on.
+- `"jobToken"`: The token for an Amazon Braket job that associates it with the quantum task.
 - `"tags"`: Tags to be added to the quantum task you're creating.
 """
 function create_quantum_task(
@@ -145,6 +271,33 @@ function get_device(
     return braket(
         "GET",
         "/device/$(deviceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_job(job_arn)
+    get_job(job_arn, params::Dict{String,<:Any})
+
+Retrieves the specified Amazon Braket job.
+
+# Arguments
+- `job_arn`: The ARN of the job to retrieve.
+
+"""
+function get_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_job(
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "GET",
+        "/job/$(jobArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -247,6 +400,43 @@ function search_devices(
     return braket(
         "POST",
         "/devices",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_jobs(filters)
+    search_jobs(filters, params::Dict{String,<:Any})
+
+Searches for Amazon Braket jobs that match the specified filter values.
+
+# Arguments
+- `filters`: The filter values to use when searching for a job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned in the response. Use the
+  token returned from the previous request to continue results where the previous request
+  ended.
+"""
+function search_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "POST",
+        "/jobs",
+        Dict{String,Any}("filters" => filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_jobs(
+    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "POST",
+        "/jobs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

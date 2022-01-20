@@ -719,6 +719,82 @@ function list_tags_for_resource(
 end
 
 """
+    send_api_asset(x-amzn-dataexchange-asset-id, x-amzn-dataexchange-data-set-id, x-amzn-dataexchange-revision-id)
+    send_api_asset(x-amzn-dataexchange-asset-id, x-amzn-dataexchange-data-set-id, x-amzn-dataexchange-revision-id, params::Dict{String,<:Any})
+
+This operation invokes an API Gateway API asset. The request is proxied to the provider’s
+API Gateway API.
+
+# Arguments
+- `x-amzn-dataexchange-asset-id`: Asset ID value for the API request.
+- `x-amzn-dataexchange-data-set-id`: Data set ID value for the API request.
+- `x-amzn-dataexchange-revision-id`: Revision ID value for the API request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Body"`: The request body.
+- `"QueryStringParameters"`: Attach query string parameters to the end of the URI (for
+  example, /v1/examplePath?exampleParam=exampleValue).
+- `"x-amzn-dataexchange-header-"`: Any header value prefixed with
+  x-amzn-dataexchange-header- will have that stripped before sending the Asset API request.
+  Use this when you want to override a header that AWS Data Exchange uses. Alternatively, you
+  can use the header without a prefix to the HTTP request.
+- `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request.
+  Alternatively, you can use the appropriate verb in your request.
+- `"x-amzn-dataexchange-path"`: URI path value for the API request. Alternatively, you can
+  set the URI path directly by invoking /v1/{pathValue}
+"""
+function send_api_asset(
+    x_amzn_dataexchange_asset_id,
+    x_amzn_dataexchange_data_set_id,
+    x_amzn_dataexchange_revision_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}(
+                "x-amzn-dataexchange-asset-id" => x_amzn_dataexchange_asset_id,
+                "x-amzn-dataexchange-data-set-id" => x_amzn_dataexchange_data_set_id,
+                "x-amzn-dataexchange-revision-id" => x_amzn_dataexchange_revision_id,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_api_asset(
+    x_amzn_dataexchange_asset_id,
+    x_amzn_dataexchange_data_set_id,
+    x_amzn_dataexchange_revision_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}(
+                        "x-amzn-dataexchange-asset-id" => x_amzn_dataexchange_asset_id,
+                        "x-amzn-dataexchange-data-set-id" =>
+                            x_amzn_dataexchange_data_set_id,
+                        "x-amzn-dataexchange-revision-id" =>
+                            x_amzn_dataexchange_revision_id,
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_job(job_id)
     start_job(job_id, params::Dict{String,<:Any})
 
@@ -828,7 +904,8 @@ This operation updates an asset.
 - `data_set_id`: The unique identifier for a data set.
 - `name`: The name of the asset. When importing from Amazon S3, the S3 object key is used
   as the asset name. When exporting to Amazon S3, the asset name is used as default target S3
-  object key.
+  object key. When importing from Amazon API Gateway API, the API name is used as the asset
+  name. When importing from Amazon Redshift, the datashare name is used as the asset name.
 - `revision_id`: The unique identifier for a revision.
 
 """

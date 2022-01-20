@@ -48,12 +48,13 @@ end
     create_ledger(name, permissions_mode)
     create_ledger(name, permissions_mode, params::Dict{String,<:Any})
 
-Creates a new ledger in your account in the current Region.
+Creates a new ledger in your Amazon Web Services account in the current Region.
 
 # Arguments
 - `name`: The name of the ledger that you want to create. The name must be unique among all
-  of the ledgers in your account in the current Region. Naming constraints for ledger names
-  are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
+  of the ledgers in your Amazon Web Services account in the current Region. Naming
+  constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB
+  Developer Guide.
 - `permissions_mode`: The permissions mode to assign to the ledger that you want to create.
   This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions
   mode that enables access control with API-level granularity for ledgers. This mode allows
@@ -85,8 +86,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
   customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
   or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
-  different account, you must use the key ARN or alias ARN. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   For more information, see Key identifiers (KeyId) in the Key Management Service Developer
@@ -271,8 +272,13 @@ end
     export_journal_to_s3(exclusive_end_time, inclusive_start_time, role_arn, s3_export_configuration, name, params::Dict{String,<:Any})
 
 Exports journal contents within a date and time range from a ledger into a specified Amazon
-Simple Storage Service (Amazon S3) bucket. The data is written as files in Amazon Ion
-format. If the ledger with the given Name doesn't exist, then throws
+Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects
+in either the text or binary representation of Amazon Ion format, or in JSON Lines text
+format. In JSON Lines format, each journal block in the exported data object is a valid
+JSON object that is delimited by a newline. You can use this format to easily integrate
+JSON exports with analytics tools such as Glue and Amazon Athena because these services can
+parse newline-delimited JSON automatically. For more information about the format, see JSON
+Lines. If the ledger with the given Name doesn't exist, then throws
 ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then
 throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal
 export requests for each ledger. Beyond this limit, journal export requests throw
@@ -290,12 +296,19 @@ LimitExceededException.
   ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
   for a journal export job to do the following:   Write objects into your Amazon Simple
-  Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key
-  Management Service (KMS) for server-side encryption of your exported data.
+  Storage Service (Amazon S3) bucket.   (Optional) Use your customer managed key in Key
+  Management Service (KMS) for server-side encryption of your exported data.   To pass a role
+  to QLDB when requesting a journal export, you must have permissions to perform the
+  iam:PassRole action on the IAM role resource. This is required for all journal export
+  requests.
 - `s3_export_configuration`: The configuration settings of the Amazon S3 bucket destination
   for your export request.
 - `name`: The name of the ledger.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OutputFormat"`: The output format of your exported journal data. If this parameter is
+  not specified, the exported data defaults to ION_TEXT format.
 """
 function export_journal_to_s3(
     ExclusiveEndTime,
@@ -534,10 +547,10 @@ end
     list_journal_s3_exports(params::Dict{String,<:Any})
 
 Returns an array of journal export job descriptions for all ledgers that are associated
-with the current account and Region. This action returns a maximum of MaxResults items, and
-is paginated so that you can retrieve all the items by calling ListJournalS3Exports
-multiple times. This action does not return any expired export jobs. For more information,
-see Export job expiration in the Amazon QLDB Developer Guide.
+with the current Amazon Web Services account and Region. This action returns a maximum of
+MaxResults items, and is paginated so that you can retrieve all the items by calling
+ListJournalS3Exports multiple times. This action does not return any expired export jobs.
+For more information, see Export job expiration in the Amazon QLDB Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -612,9 +625,9 @@ end
     list_ledgers()
     list_ledgers(params::Dict{String,<:Any})
 
-Returns an array of ledger summaries that are associated with the current account and
-Region. This action returns a maximum of 100 items and is paginated so that you can
-retrieve all the items by calling ListLedgers multiple times.
+Returns an array of ledger summaries that are associated with the current Amazon Web
+Services account and Region. This action returns a maximum of 100 items and is paginated so
+that you can retrieve all the items by calling ListLedgers multiple times.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -688,7 +701,10 @@ Amazon Kinesis Data Streams resource.
 - `kinesis_configuration`: The configuration settings of the Kinesis Data Streams
   destination for your stream request.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
-  for a journal stream to write data records to a Kinesis Data Streams resource.
+  for a journal stream to write data records to a Kinesis Data Streams resource. To pass a
+  role to QLDB when requesting a journal stream, you must have permissions to perform the
+  iam:PassRole action on the IAM role resource. This is required for all journal stream
+  requests.
 - `stream_name`: The name that you want to assign to the QLDB journal stream. User-defined
   names can help identify and indicate the purpose of a stream. Your stream name must be
   unique among other active streams for a given ledger. Stream names have the same naming
@@ -859,8 +875,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
   customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
   or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
-  different account, you must use the key ARN or alias ARN. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   For more information, see Key identifiers (KeyId) in the Key Management Service Developer

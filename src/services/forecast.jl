@@ -5,6 +5,92 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_auto_predictor(predictor_name)
+    create_auto_predictor(predictor_name, params::Dict{String,<:Any})
+
+Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with
+AutoPredictor, which involves applying the optimal combination of algorithms to each time
+series in your datasets. You can use CreateAutoPredictor to create new predictors or
+upgrade/retrain existing predictors.  Creating new predictors  The following parameters are
+required when creating a new predictor:    PredictorName - A unique name for the predictor.
+   DatasetGroupArn - The ARN of the dataset group used to train the predictor.
+ForecastFrequency - The granularity of your forecasts (hourly, daily, weekly, etc).
+ForecastHorizon - The number of time steps being forecasted.   When creating a new
+predictor, do not specify a value for ReferencePredictorArn.  Upgrading and retraining
+predictors  The following parameters are required when retraining or upgrading a predictor:
+   PredictorName - A unique name for the predictor.    ReferencePredictorArn - The ARN of
+the predictor to retrain or upgrade.   When upgrading or retraining a predictor, only
+specify values for the ReferencePredictorArn and PredictorName.
+
+# Arguments
+- `predictor_name`: A unique name for the predictor
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataConfig"`: The data configuration for your dataset group and any additional datasets.
+- `"EncryptionConfig"`:
+- `"ExplainPredictor"`: Create an Explainability resource for the predictor.
+- `"ForecastDimensions"`: An array of dimension (field) names that specify how to group the
+  generated forecast. For example, if you are generating forecasts for item sales across all
+  your stores, and your dataset contains a store_id field, you would specify store_id as a
+  dimension to group sales forecasts for each store.
+- `"ForecastFrequency"`: The frequency of predictions in a forecast. Valid intervals are Y
+  (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes),
+  10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, \"Y\" indicates
+  every year and \"5min\" indicates every five minutes. The frequency must be greater than or
+  equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is
+  provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+- `"ForecastHorizon"`: The number of time-steps that the model predicts. The forecast
+  horizon is also called the prediction length.
+- `"ForecastTypes"`: The forecast types used to train a predictor. You can specify up to
+  five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of
+  0.01 or higher. You can also specify the mean forecast with mean.
+- `"OptimizationMetric"`: The accuracy metric used to optimize the predictor.
+- `"ReferencePredictorArn"`: The ARN of the predictor to retrain or upgrade. This parameter
+  is only used when retraining or upgrading a predictor. When creating a new predictor, do
+  not specify a value for this parameter. When upgrading or retraining a predictor, only
+  specify values for the ReferencePredictorArn and PredictorName. The value for PredictorName
+  must be a unique predictor name.
+- `"Tags"`: Optional metadata to help you categorize and organize your predictors. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_auto_predictor(
+    PredictorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "CreateAutoPredictor",
+        Dict{String,Any}("PredictorName" => PredictorName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_auto_predictor(
+    PredictorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "CreateAutoPredictor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PredictorName" => PredictorName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_dataset(dataset_name, dataset_type, domain, schema)
     create_dataset(dataset_name, dataset_type, domain, schema, params::Dict{String,<:Any})
 
@@ -294,6 +380,192 @@ function create_dataset_import_job(
 end
 
 """
+    create_explainability(explainability_config, explainability_name, resource_arn)
+    create_explainability(explainability_config, explainability_name, resource_arn, params::Dict{String,<:Any})
+
+ Explainability is only available for Forecasts and Predictors generated from an
+AutoPredictor (CreateAutoPredictor)  Creates an Amazon Forecast Explainability.
+Explainability helps you better understand how the attributes in your datasets impact
+forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative
+impact of each attribute and determine whether they increase or decrease forecast values.
+To enable Forecast Explainability, your predictor must include at least one of the
+following: related time series, item metadata, or additional datasets like Holidays and the
+Weather Index. CreateExplainability accepts either a Predictor ARN or Forecast ARN. To
+receive aggregated Impact scores for all time series and time points in your datasets,
+provide a Predictor ARN. To receive Impact scores for specific time series and time points,
+provide a Forecast ARN.  CreateExplainability with a Predictor ARN   You can only have one
+Explainability resource per predictor. If you already enabled ExplainPredictor in
+CreateAutoPredictor, that predictor already has an Explainability resource.  The following
+parameters are required when providing a Predictor ARN:    ExplainabilityName - A unique
+name for the Explainability.    ResourceArn - The Arn of the predictor.
+TimePointGranularity - Must be set to “ALL”.    TimeSeriesGranularity - Must be set to
+“ALL”.   Do not specify a value for the following parameters:    DataSource - Only
+valid when TimeSeriesGranularity is “SPECIFIC”.    Schema - Only valid when
+TimeSeriesGranularity is “SPECIFIC”.    StartDateTime - Only valid when
+TimePointGranularity is “SPECIFIC”.    EndDateTime - Only valid when
+TimePointGranularity is “SPECIFIC”.    CreateExplainability with a Forecast ARN   You
+can specify a maximum of 50 time series and 500 time points.  The following parameters are
+required when providing a Predictor ARN:    ExplainabilityName - A unique name for the
+Explainability.    ResourceArn - The Arn of the forecast.    TimePointGranularity - Either
+“ALL” or “SPECIFIC”.    TimeSeriesGranularity - Either “ALL” or “SPECIFIC”.
+  If you set TimeSeriesGranularity to “SPECIFIC”, you must also provide the following:
+  DataSource - The S3 location of the CSV file specifying your time series.    Schema - The
+Schema defines the attributes and attribute types listed in the Data Source.   If you set
+TimePointGranularity to “SPECIFIC”, you must also provide the following:
+StartDateTime - The first timestamp in the range of time points.    EndDateTime - The last
+timestamp in the range of time points.
+
+# Arguments
+- `explainability_config`: The configuration settings that define the granularity of time
+  series and time points for the Explainability.
+- `explainability_name`: A unique name for the Explainability.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Predictor or Forecast used to
+  create the Explainability.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSource"`:
+- `"EnableVisualization"`: Create an Expainability visualization that is viewable within
+  the AWS console.
+- `"EndDateTime"`: If TimePointGranularity is set to SPECIFIC, define the last time point
+  for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example:
+  2015-01-01T20:00:00)
+- `"Schema"`:
+- `"StartDateTime"`: If TimePointGranularity is set to SPECIFIC, define the first point for
+  the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example:
+  2015-01-01T20:00:00)
+- `"Tags"`: Optional metadata to help you categorize and organize your resources. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_explainability(
+    ExplainabilityConfig,
+    ExplainabilityName,
+    ResourceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "CreateExplainability",
+        Dict{String,Any}(
+            "ExplainabilityConfig" => ExplainabilityConfig,
+            "ExplainabilityName" => ExplainabilityName,
+            "ResourceArn" => ResourceArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_explainability(
+    ExplainabilityConfig,
+    ExplainabilityName,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "CreateExplainability",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExplainabilityConfig" => ExplainabilityConfig,
+                    "ExplainabilityName" => ExplainabilityName,
+                    "ResourceArn" => ResourceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_explainability_export(destination, explainability_arn, explainability_export_name)
+    create_explainability_export(destination, explainability_arn, explainability_export_name, params::Dict{String,<:Any})
+
+Exports an Explainability resource created by the CreateExplainability operation. Exported
+files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify
+a DataDestination object that includes an Amazon S3 bucket and an AWS Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For
+more information, see aws-forecast-iam-roles.  The Status of the export job must be ACTIVE
+before you can access the export in your Amazon S3 bucket. To get the status, use the
+DescribeExplainabilityExport operation.
+
+# Arguments
+- `destination`:
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explainability to export.
+- `explainability_export_name`: A unique name for the Explainability export.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Optional metadata to help you categorize and organize your resources. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_explainability_export(
+    Destination,
+    ExplainabilityArn,
+    ExplainabilityExportName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "CreateExplainabilityExport",
+        Dict{String,Any}(
+            "Destination" => Destination,
+            "ExplainabilityArn" => ExplainabilityArn,
+            "ExplainabilityExportName" => ExplainabilityExportName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_explainability_export(
+    Destination,
+    ExplainabilityArn,
+    ExplainabilityExportName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "CreateExplainabilityExport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destination" => Destination,
+                    "ExplainabilityArn" => ExplainabilityArn,
+                    "ExplainabilityExportName" => ExplainabilityExportName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_forecast(forecast_name, predictor_arn)
     create_forecast(forecast_name, predictor_arn, params::Dict{String,<:Any})
 
@@ -456,29 +728,32 @@ end
     create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name)
     create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name, params::Dict{String,<:Any})
 
-Creates an Amazon Forecast predictor. In the request, provide a dataset group and either
-specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If
-you specify an algorithm, you also can override algorithm-specific hyperparameters. Amazon
-Forecast uses the algorithm to train a predictor using the latest version of the datasets
-in the specified dataset group. You can then generate a forecast using the CreateForecast
-operation.  To see the evaluation metrics, use the GetAccuracyMetrics operation.  You can
-specify a featurization configuration to fill and aggregate the data fields in the
-TARGET_TIME_SERIES dataset to improve model training. For more information, see
-FeaturizationConfig. For RELATED_TIME_SERIES datasets, CreatePredictor verifies that the
-DataFrequency specified when the dataset was created matches the ForecastFrequency.
-TARGET_TIME_SERIES datasets don't have this restriction. Amazon Forecast also verifies the
-delimiter and timestamp format. For more information, see howitworks-datasets-groups. By
-default, predictors are trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90)
-quantiles. You can choose custom forecast types to train and evaluate your predictor by
-setting the ForecastTypes.   AutoML  If you want Amazon Forecast to evaluate each algorithm
-and choose the one that minimizes the objective function, set PerformAutoML to true. The
-objective function is defined as the mean of the weighted losses over the forecast types.
-By default, these are the p10, p50, and p90 quantile losses. For more information, see
-EvaluationResult. When AutoML is enabled, the following properties are disallowed:
-AlgorithmArn     HPOConfig     PerformHPO     TrainingParameters    To get a list of all of
-your predictors, use the ListPredictors operation.  Before you can use the predictor to
-create a forecast, the Status of the predictor must be ACTIVE, signifying that training has
-completed. To get the status, use the DescribePredictor operation.
+  This operation creates a legacy predictor that does not include all the predictor
+functionalities provided by Amazon Forecast. To create a predictor that is compatible with
+all aspects of Forecast, use CreateAutoPredictor.  Creates an Amazon Forecast predictor. In
+the request, provide a dataset group and either specify an algorithm or let Amazon Forecast
+choose an algorithm for you using AutoML. If you specify an algorithm, you also can
+override algorithm-specific hyperparameters. Amazon Forecast uses the algorithm to train a
+predictor using the latest version of the datasets in the specified dataset group. You can
+then generate a forecast using the CreateForecast operation.  To see the evaluation
+metrics, use the GetAccuracyMetrics operation.  You can specify a featurization
+configuration to fill and aggregate the data fields in the TARGET_TIME_SERIES dataset to
+improve model training. For more information, see FeaturizationConfig. For
+RELATED_TIME_SERIES datasets, CreatePredictor verifies that the DataFrequency specified
+when the dataset was created matches the ForecastFrequency. TARGET_TIME_SERIES datasets
+don't have this restriction. Amazon Forecast also verifies the delimiter and timestamp
+format. For more information, see howitworks-datasets-groups. By default, predictors are
+trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90) quantiles. You can choose
+custom forecast types to train and evaluate your predictor by setting the ForecastTypes.
+AutoML  If you want Amazon Forecast to evaluate each algorithm and choose the one that
+minimizes the objective function, set PerformAutoML to true. The objective function is
+defined as the mean of the weighted losses over the forecast types. By default, these are
+the p10, p50, and p90 quantile losses. For more information, see EvaluationResult. When
+AutoML is enabled, the following properties are disallowed:    AlgorithmArn     HPOConfig
+  PerformHPO     TrainingParameters    To get a list of all of your predictors, use the
+ListPredictors operation.  Before you can use the predictor to create a forecast, the
+Status of the predictor must be ACTIVE, signifying that training has completed. To get the
+status, use the DescribePredictor operation.
 
 # Arguments
 - `featurization_config`: The featurization configuration.
@@ -604,9 +879,9 @@ end
     create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name)
     create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name, params::Dict{String,<:Any})
 
-Exports backtest forecasts and accuracy metrics generated by the CreatePredictor operation.
-Two folders containing CSV files are exported to your specified S3 bucket.  The export file
-names will match the following conventions:
+Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or
+CreatePredictor operations. Two folders containing CSV files are exported to your specified
+S3 bucket.  The export file names will match the following conventions:
 &lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv  The
 &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You
 must specify a DataDestination object that includes an Amazon S3 bucket and an AWS Identity
@@ -798,6 +1073,85 @@ function delete_dataset_import_job(
 end
 
 """
+    delete_explainability(explainability_arn)
+    delete_explainability(explainability_arn, params::Dict{String,<:Any})
+
+Deletes an Explainability resource. You can delete only predictor that have a status of
+ACTIVE or CREATE_FAILED. To get the status, use the DescribeExplainability operation.
+
+# Arguments
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explainability resource to
+  delete.
+
+"""
+function delete_explainability(
+    ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "DeleteExplainability",
+        Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_explainability(
+    ExplainabilityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "DeleteExplainability",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_explainability_export(explainability_export_arn)
+    delete_explainability_export(explainability_export_arn, params::Dict{String,<:Any})
+
+Deletes an Explainability export.
+
+# Arguments
+- `explainability_export_arn`: The Amazon Resource Name (ARN) of the Explainability export
+  to delete.
+
+"""
+function delete_explainability_export(
+    ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "DeleteExplainabilityExport",
+        Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_explainability_export(
+    ExplainabilityExportArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "DeleteExplainabilityExport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_forecast(forecast_arn)
     delete_forecast(forecast_arn, params::Dict{String,<:Any})
 
@@ -879,9 +1233,9 @@ end
     delete_predictor(predictor_arn)
     delete_predictor(predictor_arn, params::Dict{String,<:Any})
 
-Deletes a predictor created using the CreatePredictor operation. You can delete only
-predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the
-DescribePredictor operation.
+Deletes a predictor created using the DescribePredictor or CreatePredictor operations. You
+can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status,
+use the DescribePredictor operation.
 
 # Arguments
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to delete.
@@ -990,6 +1344,41 @@ function delete_resource_tree(
         "DeleteResourceTree",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_auto_predictor(predictor_arn)
+    describe_auto_predictor(predictor_arn, params::Dict{String,<:Any})
+
+Describes a predictor created using the CreateAutoPredictor operation.
+
+# Arguments
+- `predictor_arn`: The Amazon Resource Name (ARN) of the predictor.
+
+"""
+function describe_auto_predictor(
+    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "DescribeAutoPredictor",
+        Dict{String,Any}("PredictorArn" => PredictorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_auto_predictor(
+    PredictorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "DescribeAutoPredictor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PredictorArn" => PredictorArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1115,6 +1504,82 @@ function describe_dataset_import_job(
 end
 
 """
+    describe_explainability(explainability_arn)
+    describe_explainability(explainability_arn, params::Dict{String,<:Any})
+
+Describes an Explainability resource created using the CreateExplainability operation.
+
+# Arguments
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explaianability to describe.
+
+"""
+function describe_explainability(
+    ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "DescribeExplainability",
+        Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_explainability(
+    ExplainabilityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "DescribeExplainability",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_explainability_export(explainability_export_arn)
+    describe_explainability_export(explainability_export_arn, params::Dict{String,<:Any})
+
+Describes an Explainability export created using the CreateExplainabilityExport operation.
+
+# Arguments
+- `explainability_export_arn`: The Amazon Resource Name (ARN) of the Explainability export.
+
+"""
+function describe_explainability_export(
+    ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "DescribeExplainabilityExport",
+        Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_explainability_export(
+    ExplainabilityExportArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecast(
+        "DescribeExplainabilityExport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_forecast(forecast_arn)
     describe_forecast(forecast_arn, params::Dict{String,<:Any})
 
@@ -1198,10 +1663,12 @@ end
     describe_predictor(predictor_arn)
     describe_predictor(predictor_arn, params::Dict{String,<:Any})
 
-Describes a predictor created using the CreatePredictor operation. In addition to listing
-the properties provided in the CreatePredictor request, this operation lists the following
-properties:    DatasetImportJobArns - The dataset import jobs used to import training data.
-   AutoMLAlgorithmArns - If AutoML is performed, the algorithms that were evaluated.
+  This operation is only valid for legacy predictors created with CreatePredictor. If you
+are not using a legacy predictor, use DescribeAutoPredictor.  Describes a predictor created
+using the CreatePredictor operation. In addition to listing the properties provided in the
+CreatePredictor request, this operation lists the following properties:
+DatasetImportJobArns - The dataset import jobs used to import training data.
+AutoMLAlgorithmArns - If AutoML is performed, the algorithms that were evaluated.
 CreationTime     LastModificationTime     Status     Message - If an error occurred,
 information about the error.
 
@@ -1424,6 +1891,82 @@ function list_datasets(
 end
 
 """
+    list_explainabilities()
+    list_explainabilities(params::Dict{String,<:Any})
+
+Returns a list of Explainability resources created using the CreateExplainability
+operation. This operation returns a summary for each Explainability. You can filter the
+list using an array of Filter objects. To retrieve the complete set of properties for a
+particular Explainability resource, use the ARN with the DescribeExplainability operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: An array of filters. For each filter, provide a condition and a match
+  statement. The condition is either IS or IS_NOT, which specifies whether to include or
+  exclude the resources that match the statement from the list. The match statement consists
+  of a key and a value.  Filter properties     Condition - The condition to apply. Valid
+  values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are
+  ResourceArn and Status.    Value - The value to match.
+- `"MaxResults"`: The number of items returned in the response.
+- `"NextToken"`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+"""
+function list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config())
+    return forecast(
+        "ListExplainabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_explainabilities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "ListExplainabilities",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_explainability_exports()
+    list_explainability_exports(params::Dict{String,<:Any})
+
+Returns a list of Explainability exports created using the CreateExplainabilityExport
+operation. This operation returns a summary for each Explainability export. You can filter
+the list using an array of Filter objects. To retrieve the complete set of properties for a
+particular Explainability export, use the ARN with the DescribeExplainability operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: An array of filters. For each filter, provide a condition and a match
+  statement. The condition is either IS or IS_NOT, which specifies whether to include or
+  exclude resources that match the statement from the list. The match statement consists of a
+  key and a value.  Filter properties     Condition - The condition to apply. Valid values
+  are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are
+  ResourceArn and Status.    Value - The value to match.
+- `"MaxResults"`: The number of items to return in the response.
+- `"NextToken"`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+"""
+function list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return forecast(
+        "ListExplainabilityExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_explainability_exports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecast(
+        "ListExplainabilityExports",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_forecast_export_jobs()
     list_forecast_export_jobs(params::Dict{String,<:Any})
 
@@ -1553,10 +2096,11 @@ end
     list_predictors()
     list_predictors(params::Dict{String,<:Any})
 
-Returns a list of predictors created using the CreatePredictor operation. For each
-predictor, this operation returns a summary of its properties, including its Amazon
-Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with
-the DescribePredictor operation. You can filter the list using an array of Filter objects.
+Returns a list of predictors created using the CreateAutoPredictor or CreatePredictor
+operations. For each predictor, this operation returns a summary of its properties,
+including its Amazon Resource Name (ARN).  You can retrieve the complete set of properties
+by using the ARN with the DescribeAutoPredictor and DescribePredictor operations. You can
+filter the list using an array of Filter objects.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1596,8 +2140,7 @@ Lists the tags for an Amazon Forecast resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are Forecast dataset groups, datasets,
-  dataset import jobs, predictors, forecasts, and forecast export jobs.
+  list the tags.
 
 """
 function list_tags_for_resource(
@@ -1633,12 +2176,12 @@ Stops a resource. The resource undergoes the following states: CREATE_STOPPING a
 CREATE_STOPPED. You cannot resume a resource once it has been stopped. This operation can
 be applied to the following resources (and their corresponding child resources):   Dataset
 Import Job   Predictor Job   Forecast Job   Forecast Export Job   Predictor Backtest Export
-Job
+Job   Explainability Job   Explainability Export Job
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource to stop. The
   supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn,
-  ForecastArn, and ForecastExportJobArn.
+  ForecastArn, ForecastExportJobArn, ExplainabilityArn, and ExplainabilityExportArn.
 
 """
 function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1674,8 +2217,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are Forecast dataset groups, datasets,
-  dataset import jobs, predictors, forecasts, and forecast export jobs.
+  list the tags.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. The
   following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
   For each resource, each tag key must be unique, and each tag key can have only one value.
@@ -1727,8 +2269,7 @@ Deletes the specified tags from a resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are Forecast dataset groups, datasets,
-  dataset import jobs, predictors, forecasts, and forecast exports.
+  list the tags.
 - `tag_keys`: The keys of the tags to be removed.
 
 """

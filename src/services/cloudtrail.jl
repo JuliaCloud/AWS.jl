@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    add_tags(resource_id)
-    add_tags(resource_id, params::Dict{String,<:Any})
+    add_tags(resource_id, tags_list)
+    add_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
 Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing tag's value
 when a new value is specified for an existing tag key. Tag key names must be unique for a
@@ -18,29 +18,122 @@ which the trail was created (also known as its home region).
 # Arguments
 - `resource_id`: Specifies the ARN of the trail to which one or more tags will be added.
   The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `tags_list`: Contains a list of tags, up to a limit of 50
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagsList"`: Contains a list of tags, up to a limit of 50
 """
-function add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
         "AddTags",
-        Dict{String,Any}("ResourceId" => ResourceId);
+        Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags(
     ResourceId,
+    TagsList,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return cloudtrail(
         "AddTags",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList),
+                params,
+            ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_query(event_data_store, query_id)
+    cancel_query(event_data_store, query_id, params::Dict{String,<:Any})
+
+Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED or
+FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you
+want to cancel is also required. When you run CancelQuery, the query status might show as
+CANCELLED even if the operation is not yet finished.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
+  the specified query is running.
+- `query_id`: The ID of the query that you want to cancel. The QueryId comes from the
+  response of a StartQuery operation.
+
+"""
+function cancel_query(
+    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "CancelQuery",
+        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_query(
+    EventDataStore,
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "CancelQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_event_data_store(name)
+    create_event_data_store(name, params::Dict{String,<:Any})
+
+Creates a new event data store.
+
+# Arguments
+- `name`: The name of the event data store.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdvancedEventSelectors"`: The advanced event selectors to use to select the events for
+  the data store. For more information about how to use advanced event selectors, see Log
+  events by using advanced event selectors in the CloudTrail User Guide.
+- `"MultiRegionEnabled"`: Specifies whether the event data store includes events from all
+  regions, or only from the region in which the event data store is created.
+- `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
+  an organization in Organizations.
+- `"RetentionPeriod"`: The retention period of the event data store, in days. You can set a
+  retention period of up to 2555 days, the equivalent of seven years.
+- `"TagsList"`:
+- `"TerminationProtectionEnabled"`: Specifies whether termination protection is enabled for
+  the event data store. If termination protection is enabled, you cannot delete the event
+  data store until termination protection is disabled.
+"""
+function create_event_data_store(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "CreateEventDataStore",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_event_data_store(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "CreateEventDataStore",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -131,6 +224,48 @@ function create_trail(
 end
 
 """
+    delete_event_data_store(event_data_store)
+    delete_event_data_store(event_data_store, params::Dict{String,<:Any})
+
+Disables the event data store specified by EventDataStore, which accepts an event data
+store ARN. After you run DeleteEventDataStore, the event data store is automatically
+deleted after a wait period of seven days. TerminationProtectionEnabled must be set to
+False on the event data store; this operation cannot work if TerminationProtectionEnabled
+is True. After you run DeleteEventDataStore on an event data store, you cannot run
+ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data
+store in a PENDING_DELETION state.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store to
+  delete.
+
+"""
+function delete_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DeleteEventDataStore",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "DeleteEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_trail(name)
     delete_trail(name, params::Dict{String,<:Any})
 
@@ -158,6 +293,50 @@ function delete_trail(
     return cloudtrail(
         "DeleteTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_query(event_data_store, query_id)
+    describe_query(event_data_store, query_id, params::Dict{String,<:Any})
+
+Returns metadata about a query, including query run time in milliseconds, number of events
+scanned and matched, and query status. You must specify an ARN for EventDataStore, and a
+value for QueryID.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
+  the specified query was run.
+- `query_id`: The query ID.
+
+"""
+function describe_query(
+    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DescribeQuery",
+        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_query(
+    EventDataStore,
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "DescribeQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -199,6 +378,43 @@ function describe_trails(
 )
     return cloudtrail(
         "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_event_data_store(event_data_store)
+    get_event_data_store(event_data_store, params::Dict{String,<:Any})
+
+Returns information about an event data store specified as either an ARN or the ID portion
+of the ARN.
+
+# Arguments
+- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store about which
+  you want information.
+
+"""
+function get_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "GetEventDataStore",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "GetEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -292,6 +508,53 @@ function get_insight_selectors(
 end
 
 """
+    get_query_results(event_data_store, query_id)
+    get_query_results(event_data_store, query_id, params::Dict{String,<:Any})
+
+Gets event data results of a query. You must specify the QueryID value returned by the
+StartQuery operation, and an ARN for EventDataStore.
+
+# Arguments
+- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store against
+  which the query was run.
+- `query_id`: The ID of the query for which you want to get results.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxQueryResults"`: The maximum number of query results to display on a single page.
+- `"NextToken"`: A token you can use to get the next page of query results.
+"""
+function get_query_results(
+    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "GetQueryResults",
+        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_query_results(
+    EventDataStore,
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "GetQueryResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_trail(name)
     get_trail(name, params::Dict{String,<:Any})
 
@@ -357,6 +620,33 @@ function get_trail_status(
 end
 
 """
+    list_event_data_stores()
+    list_event_data_stores(params::Dict{String,<:Any})
+
+Returns information about all event data stores in the account, in the current region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of event data stores to display on a single page.
+- `"NextToken"`: A token you can use to get the next page of event data store results.
+"""
+function list_event_data_stores(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_event_data_stores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "ListEventDataStores",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_public_keys()
     list_public_keys(params::Dict{String,<:Any})
 
@@ -386,6 +676,54 @@ function list_public_keys(
 )
     return cloudtrail(
         "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_queries(event_data_store)
+    list_queries(event_data_store, params::Dict{String,<:Any})
+
+Returns a list of queries and query statuses for the past seven days. You must specify an
+ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a
+time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a
+QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED,
+or CANCELLED.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
+  queries were run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndTime"`: Use with StartTime to bound a ListQueries request, and limit its results to
+  only those queries run within a specified time period.
+- `"MaxResults"`: The maximum number of queries to show on a page.
+- `"NextToken"`: A token you can use to get the next page of results.
+- `"QueryStatus"`: The status of queries that you want to return in results. Valid values
+  for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, or CANCELLED.
+- `"StartTime"`: Use with EndTime to bound a ListQueries request, and limit its results to
+  only those queries run within a specified time period.
+"""
+function list_queries(EventDataStore; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "ListQueries",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_queries(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "ListQueries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -575,12 +913,12 @@ end
 
 Lets you enable Insights event logging by specifying the Insights selectors that you want
 to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event
-logging, by passing an empty list of insight types. The valid Insights event type in this
-release is ApiCallRateInsight.
+logging, by passing an empty list of insight types. The valid Insights event types in this
+release are ApiErrorRateInsight and ApiCallRateInsight.
 
 # Arguments
-- `insight_selectors`: A JSON string that contains the Insights types that you want to log
-  on a trail. The valid Insights type in this release is ApiCallRateInsight.
+- `insight_selectors`: A JSON string that contains the insight types you want to log on a
+  trail. ApiCallRateInsight and ApiErrorRateInsight are valid insight types.
 - `trail_name`: The name of the CloudTrail trail for which you want to change or add
   Insights selectors.
 
@@ -618,36 +956,80 @@ function put_insight_selectors(
 end
 
 """
-    remove_tags(resource_id)
-    remove_tags(resource_id, params::Dict{String,<:Any})
+    remove_tags(resource_id, tags_list)
+    remove_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
 Removes the specified tags from a trail.
 
 # Arguments
 - `resource_id`: Specifies the ARN of the trail from which tags should be removed. The
   format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `tags_list`: Specifies a list of tags to be removed.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagsList"`: Specifies a list of tags to be removed.
 """
-function remove_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_tags(
+    ResourceId, TagsList; aws_config::AbstractAWSConfig=global_aws_config()
+)
     return cloudtrail(
         "RemoveTags",
-        Dict{String,Any}("ResourceId" => ResourceId);
+        Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_tags(
     ResourceId,
+    TagsList,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return cloudtrail(
         "RemoveTags",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_event_data_store(event_data_store)
+    restore_event_data_store(event_data_store, params::Dict{String,<:Any})
+
+Restores a deleted event data store specified by EventDataStore, which accepts an event
+data store ARN. You can only restore a deleted event data store within the seven-day wait
+period after deletion. Restoring an event data store can take several minutes, depending on
+the size of the event data store.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that
+  you want to restore.
+
+"""
+function restore_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "RestoreEventDataStore",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "RestoreEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -689,6 +1071,40 @@ function start_logging(
 end
 
 """
+    start_query(query_statement)
+    start_query(query_statement, params::Dict{String,<:Any})
+
+Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL
+query, enclosed in single quotation marks.
+
+# Arguments
+- `query_statement`: The SQL code of your query.
+
+"""
+function start_query(QueryStatement; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "StartQuery",
+        Dict{String,Any}("QueryStatement" => QueryStatement);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_query(
+    QueryStatement,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "StartQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("QueryStatement" => QueryStatement), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_logging(name)
     stop_logging(name, params::Dict{String,<:Any})
 
@@ -720,6 +1136,60 @@ function stop_logging(
     return cloudtrail(
         "StopLogging",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_data_store(event_data_store)
+    update_event_data_store(event_data_store, params::Dict{String,<:Any})
+
+Updates an event data store. The required EventDataStore value is an ARN or the ID portion
+of the ARN. Other parameters are optional, but at least one optional parameter must be
+specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are
+integers between 90 and 2555. By default, TerminationProtection is enabled.
+AdvancedEventSelectors includes or excludes management and data events in your event data
+store; for more information about AdvancedEventSelectors, see
+PutEventSelectorsRequestAdvancedEventSelectors.
+
+# Arguments
+- `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that
+  you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdvancedEventSelectors"`: The advanced event selectors used to select events for the
+  event data store.
+- `"MultiRegionEnabled"`: Specifies whether an event data store collects events from all
+  regions, or only from the region in which it was created.
+- `"Name"`: The event data store name.
+- `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
+  an organization in Organizations.
+- `"RetentionPeriod"`: The retention period, in days.
+- `"TerminationProtectionEnabled"`: Indicates that termination protection is enabled and
+  the event data store cannot be automatically deleted.
+"""
+function update_event_data_store(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "UpdateEventDataStore",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_data_store(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "UpdateEventDataStore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -1561,9 +1561,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of channel memberships that you want returned.
 - `"next-token"`: The token passed by previous API calls until all requested channel
   memberships are returned.
-- `"type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
-  returned as part of ListChannelMemberships. Hidden members are only returned if the type
-  filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+- `"type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are returned
+  as part of ListChannelMemberships if no type is specified. Hidden members are only returned
+  if the type filter in ListChannelMemberships equals HIDDEN.
 """
 function list_channel_memberships(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()

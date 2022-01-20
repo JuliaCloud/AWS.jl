@@ -184,6 +184,7 @@ BatchDeletePartition, to delete any resources that belong to the table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
 function batch_delete_table(
     DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=global_aws_config()
@@ -884,6 +885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are written, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
+- `"LakeFormationConfiguration"`:
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.
@@ -1605,6 +1607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, the Amazon Web Services account ID is used by default.
 - `"PartitionIndexes"`: A list of partition indexes, PartitionIndex structures, to create
   in the table.
+- `"TransactionId"`: The ID of the transaction.
 """
 function create_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2495,6 +2498,7 @@ DeletePartition or BatchDeletePartition, to delete any resources that belong to 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
 function delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -3803,7 +3807,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of partitions to return in a single response.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   partitions.
+- `"QueryAsOfTime"`: The time as of when to read the partition contents. If not set, the
+  most recent transaction commit time will be used. Cannot be specified along with
+  TransactionId.
 - `"Segment"`: The segment of the table's partitions to scan in this request.
+- `"TransactionId"`: The transaction ID at which to read the partition contents.
 """
 function get_partitions(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4221,6 +4229,9 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `"TransactionId"`: The transaction ID at which to read the table contents.
 """
 function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -4366,6 +4377,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match the pattern are returned.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
+- `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
+  recent transaction commit time will be used. Cannot be specified along with TransactionId.
+- `"TransactionId"`: The transaction ID at which to read the table contents.
 """
 function get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -4473,6 +4487,201 @@ function get_triggers(
 )
     return glue(
         "GetTriggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name)
+    get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `partition_values`:
+- `supported_permission_types`:
+- `table_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+"""
+function get_unfiltered_partition_metadata(
+    CatalogId,
+    DatabaseName,
+    PartitionValues,
+    SupportedPermissionTypes,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "PartitionValues" => PartitionValues,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_partition_metadata(
+    CatalogId,
+    DatabaseName,
+    PartitionValues,
+    SupportedPermissionTypes,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "PartitionValues" => PartitionValues,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name)
+    get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `supported_permission_types`:
+- `table_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+- `"Expression"`:
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"Segment"`:
+"""
+function get_unfiltered_partitions_metadata(
+    CatalogId,
+    DatabaseName,
+    SupportedPermissionTypes,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionsMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_partitions_metadata(
+    CatalogId,
+    DatabaseName,
+    SupportedPermissionTypes,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredPartitionsMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types)
+    get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `catalog_id`:
+- `database_name`:
+- `name`:
+- `supported_permission_types`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditContext"`:
+"""
+function get_unfiltered_table_metadata(
+    CatalogId,
+    DatabaseName,
+    Name,
+    SupportedPermissionTypes;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredTableMetadata",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "Name" => Name,
+            "SupportedPermissionTypes" => SupportedPermissionTypes,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_unfiltered_table_metadata(
+    CatalogId,
+    DatabaseName,
+    Name,
+    SupportedPermissionTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetUnfilteredTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "Name" => Name,
+                    "SupportedPermissionTypes" => SupportedPermissionTypes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -6377,6 +6586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are stored, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
+- `"LakeFormationConfiguration"`:
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.
@@ -6828,6 +7038,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkipArchive"`: By default, UpdateTable always creates an archived version of the table
   before updating it. However, if skipArchive is set to true, UpdateTable does not create the
   archived version.
+- `"TransactionId"`: The transaction ID at which to update the table contents.
 """
 function update_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
