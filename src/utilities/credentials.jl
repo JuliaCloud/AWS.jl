@@ -163,3 +163,28 @@ function _ec2_metadata(metadata_endpoint::String)
 
     return nothing
 end
+
+"""
+Retrieve the SSO access token from cache.
+"""
+function _sso_cache_access_token(sso_start_url::AbstractString)
+
+
+    if isnothing(sso_start_url)
+        return nothing
+    end
+
+    cache_path=joinpath(homedir(),".aws","sso","cache")
+    cache_file = joinpath(cache_path,bytes2hex(sha1(sso_start_url))*".json")
+
+    if !isfile(cache_file)
+        return nothing
+    end
+    
+    _cache = JSON.parsefile(cache_file)
+    token = get(_cache,"accessToken",nothing)
+
+    return token
+
+end
+

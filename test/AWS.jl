@@ -49,6 +49,7 @@ end
 
     aws.credentials.access_key_id = access_key
     aws.credentials.secret_key = secret_key
+    aws.credentials.token = ""
 
     time = DateTime(2020)
     date = Dates.format(time, dateformat"yyyymmdd")

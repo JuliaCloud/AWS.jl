@@ -6,3 +6,5 @@
 /docs/src/services/*
 /docs/build/*
 /docs/site/*
+.gitignore
+my_notes.txt

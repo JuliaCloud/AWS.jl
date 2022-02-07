@@ -27,10 +27,11 @@ end
 
     @test_ecode("ValidationError", AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!")))
 
-    @test_ecode(
-        ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
-    )
+    # If testing in a managed Corporate AWS environment, this can set off alarms...
+    #@test_ecode(
+    #    ["AccessDenied", "EntityAlreadyExists"],
+    #    AWSServices.iam("CreateUser", Dict("UserName" => "root"))
+    #)
 end
 
 @testset "_role_session_name" begin
@@ -282,6 +283,7 @@ end
             "AWS_SHARED_CREDENTIALS_FILE" => creds_file,
             "AWS_CONFIG_FILE" => config_file,
             "AWS_DEFAULT_PROFILE" => "test",
+            "AWS_PROFILE" => nothing,
             "AWS_ACCESS_KEY_ID" => nothing,
         ) do
             @testset "Loading" begin
@@ -404,7 +406,7 @@ end
         "Default-Profile" => "default",
         "Test-Profile" => "test",
         "Test-Config-Profile" => "profile test",
-
+        "Test-SSO-Config-Profile" => "sso-test",
         # Default profile values, needs to match due to AWSCredentials.jl check_credentials()
         "AccessKeyId" => "Default-Key",
         "SecretAccessKey" => "Default-Secret",
@@ -416,6 +418,8 @@ end
         "Expiration" => now(UTC),
         "URI" => "/Test-URI/",
         "Security-Credentials" => "Test-Security-Credentials",
+        "Test-SSO-start-url" => "https://test-sso.com/start",
+        "Test-SSO-Role" => "SSORoleName"
     )
 
     _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
@@ -452,7 +456,7 @@ end
             close(config_io)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-                default_profile = dot_aws_config()
+                default_profile = dot_aws_config(test_values["Default-Profile"])
 
                 @test default_profile.access_key_id == test_values["AccessKeyId"]
                 @test default_profile.secret_key == test_values["SecretAccessKey"]
@@ -481,6 +485,31 @@ end
         end
     end
 
+    @testset "~/.aws/config - Specified SSO Profile" begin
+        mktemp() do config_file, config_io
+            write(
+                config_io,
+                """
+                [profile $(test_values["Test-SSO-Config-Profile"])]
+                sso_start_url=$(test_values["Test-SSO-start-url"])
+                sso_role_name=$(test_values["Test-SSO-Role"])
+                """,
+            )
+            close(config_io)
+
+            withenv("AWS_CONFIG_FILE" => config_file) do
+
+                apply(Patches.sso_service_patches(test_values["AccessKeyId"], test_values["SecretAccessKey"])) do 
+
+                    specified_result = dot_aws_config_sso(test_values["Test-SSO-Config-Profile"])
+              
+                    @test specified_result.access_key_id == test_values["AccessKeyId"]
+                    @test specified_result.secret_key == test_values["SecretAccessKey"]
+                end
+            end
+        end
+    end
+    
     @testset "~/.aws/creds - Default Profile" begin
         mktemp() do creds_file, creds_io
             write(
@@ -494,7 +523,7 @@ end
             close(creds_io)
 
             withenv("AWS_SHARED_CREDENTIALS_FILE" => creds_file) do
-                specified_result = dot_aws_credentials()
+                specified_result = dot_aws_credentials(test_values["Default-Profile"])
 
                 @test specified_result.access_key_id == test_values["AccessKeyId"]
                 @test specified_result.secret_key == test_values["SecretAccessKey"]

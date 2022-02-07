@@ -13,6 +13,7 @@ using Sockets
 using URIs
 using UUIDs: UUIDs
 using XMLDict
+using SHA
 
 export @service
 export _merge
