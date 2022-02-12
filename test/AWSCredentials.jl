@@ -27,11 +27,11 @@ end
 
     @test_ecode("ValidationError", AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!")))
 
-    # If testing in a managed Corporate AWS environment, this can set off alarms...
-    #@test_ecode(
-    #    ["AccessDenied", "EntityAlreadyExists"],
-    #    AWSServices.iam("CreateUser", Dict("UserName" => "root"))
-    #)
+    # Please note: If testing in a managed Corporate AWS environment, this can set off alarms...
+    @test_ecode(
+        ["AccessDenied", "EntityAlreadyExists"],
+        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
+    )
 end
 
 @testset "_role_session_name" begin
