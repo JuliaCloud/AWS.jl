@@ -405,9 +405,7 @@ end
     test_values = Dict{String,Any}(
         "Default-Profile" => "default",
         "Test-Profile" => "test",
-        "Test-Config-Profile" => "profile test",
-        "Test-SSO-Config-Profile" => "sso-test",
-        # Default profile values, needs to match due to AWSCredentials.jl check_credentials()
+        "Test-Config-Profile" => "test",
         "AccessKeyId" => "Default-Key",
         "SecretAccessKey" => "Default-Secret",
         "Test-AccessKeyId" => "Test-Key",
@@ -418,6 +416,7 @@ end
         "Expiration" => now(UTC),
         "URI" => "/Test-URI/",
         "Security-Credentials" => "Test-Security-Credentials",
+        "Test-SSO-Profile" => "sso-test",
         "Test-SSO-start-url" => "https://test-sso.com/start",
         "Test-SSO-Role" => "SSORoleName"
     )
@@ -469,7 +468,7 @@ end
             write(
                 config_io,
                 """
-                [$(test_values["Test-Config-Profile"])]
+                [profile $(test_values["Test-Config-Profile"])]
                 aws_access_key_id=$(test_values["Test-AccessKeyId"])
                 aws_secret_access_key=$(test_values["Test-SecretAccessKey"])
                 """,
@@ -490,7 +489,7 @@ end
             write(
                 config_io,
                 """
-                [profile $(test_values["Test-SSO-Config-Profile"])]
+                [profile $(test_values["Test-SSO-Profile"])]
                 sso_start_url=$(test_values["Test-SSO-start-url"])
                 sso_role_name=$(test_values["Test-SSO-Role"])
                 """,
@@ -501,7 +500,7 @@ end
 
                 apply(Patches.sso_service_patches(test_values["AccessKeyId"], test_values["SecretAccessKey"])) do 
 
-                    specified_result = dot_aws_config_sso(test_values["Test-SSO-Config-Profile"])
+                    specified_result = dot_aws_config(test_values["Test-SSO-Profile"])
               
                     @test specified_result.access_key_id == test_values["AccessKeyId"]
                     @test specified_result.secret_key == test_values["SecretAccessKey"]

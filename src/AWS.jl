@@ -9,11 +9,11 @@ using MbedTLS
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Retry
+using SHA
 using Sockets
 using URIs
 using UUIDs: UUIDs
 using XMLDict
-using SHA
 
 export @service
 export _merge

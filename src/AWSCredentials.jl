@@ -13,7 +13,6 @@ export AWSCredentials,
     aws_user_arn,
     check_credentials,
     dot_aws_config,
-    dot_aws_config_sso,
     dot_aws_credentials,
     dot_aws_credentials_file,
     dot_aws_config_file,
@@ -47,10 +46,9 @@ The order of precedence for this search is as follows:
 1. Passing credentials directly to the `AWSCredentials` constructor
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
 3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
-4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
+4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html). This includes [single sign-on (sso)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
 5. Assume Role provider via the aws config file
 6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
-7. Single sign-on (sso) credentials in the AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
 and the DateTime at which they will expire is stored in the `expiry` field.
@@ -120,7 +118,6 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
         credentials_from_webtoken,
         ecs_instance_credentials,
         () -> ec2_instance_credentials(profile),
-        () -> dot_aws_config_sso(profile),
     ]
 
     # Loop through our search locations until we get credentials back
@@ -401,8 +398,8 @@ end
 """
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
 
-Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
-If this fails try to retrieve credentials from `_aws_get_role()`, otherwise return `nothing`
+Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file. Single sign-on profiles are also valid.
+If this fails, try to retrieve credentials from `_aws_get_role()`, otherwise return `nothing`
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -413,66 +410,31 @@ function dot_aws_config(profile=nothing)
     if isfile(config_file)
         ini = read(Inifile(), config_file)
         p = @something profile _aws_get_profile()
-        access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
-        if access_key !== nothing
-            return AWSCredentials(access_key, secret_key, token)
+        # get all the fields for that profile
+        settings = _aws_profile_config(ini,p)
+
+        if isempty(settings)
+            return nothing
+        end
+
+        access_key = get(settings, "aws_access_key_id", nothing)
+        sso_start_url = get(settings, "sso_start_url", nothing)
+   
+        if !isnothing(access_key)
+            access_key, secret_key, token = _aws_get_credential_details(p, ini)
+            return AWSCredentials(access_key,secret_key,token)
+
+        elseif !isnothing(sso_start_url)
+            access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
+            return AWSCredentials(access_key, secret_key, token, expiry=expiry)
+
         else
             return _aws_get_role(p, ini)
         end
     end
 
     return nothing
-end
-
-"""
-    dot_aws_config_sso(profile=nothing) -> Union{AWSCredential, Nothing}
-
-Retrieve AWSCredentials for the default or specified single sign-on (SSO) profile from the `~/.aws/config` file.
-
-# Arguments
-- `profile`: Specific profile used to get AWSCredentials, default is `nothing`
-"""
-function dot_aws_config_sso(profile=nothing)
-
-    config_file = @mock dot_aws_config_file()
-    sso_profile = nothing
-
-    if isfile(config_file)
-        ini = read(Inifile(), config_file)
-        p = @something profile _aws_get_profile()
-        sso_profile = aws_get_profile_settings(p,ini)
-    end
-
-    if isnothing(sso_profile)
-        return nothing
-    end
-
-    sso_start_url =get(sso_profile,"sso_start_url",nothing)
-    sso_account_id = get(sso_profile,"sso_account_id",nothing)
-    sso_role_name = get(sso_profile,"sso_role_name","default")
-    sso_region = get(sso_profile,"sso_region","us-east-1")
-
-    # sso cache access token
-    access_token = @mock _sso_cache_access_token(sso_start_url)
-
-    headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
-    tmp_config = AWSConfig(nothing, sso_region, "json")
-
-    sso_creds = @mock AWSServices.sso(
-        "GET","/federation/credentials?\
-        account_id=$(sso_account_id)&role_name=$(sso_role_name)", 
-        Dict{String,Any}(
-            "headers" => headers
-            ),
-        aws_config=tmp_config)
-
-    return AWSCredentials(
-        sso_creds["roleCredentials"]["accessKeyId"],
-        sso_creds["roleCredentials"]["secretAccessKey"],
-        sso_creds["roleCredentials"]["sessionToken"],
-        expiry=DateTime(Dates.UTM(Dates.UNIXEPOCH+sso_creds["roleCredentials"]["expiration"])))
-
 end
 
 function dot_aws_config_file()
