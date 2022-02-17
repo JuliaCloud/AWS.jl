@@ -418,7 +418,7 @@ end
         "Security-Credentials" => "Test-Security-Credentials",
         "Test-SSO-Profile" => "sso-test",
         "Test-SSO-start-url" => "https://test-sso.com/start",
-        "Test-SSO-Role" => "SSORoleName"
+        "Test-SSO-Role" => "SSORoleName",
     )
 
     _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
@@ -497,18 +497,20 @@ end
             close(config_io)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-
-                apply(Patches.sso_service_patches(test_values["AccessKeyId"], test_values["SecretAccessKey"])) do 
-
+                apply(
+                    Patches.sso_service_patches(
+                        test_values["AccessKeyId"], test_values["SecretAccessKey"]
+                    ),
+                ) do
                     specified_result = dot_aws_config(test_values["Test-SSO-Profile"])
-              
+
                     @test specified_result.access_key_id == test_values["AccessKeyId"]
                     @test specified_result.secret_key == test_values["SecretAccessKey"]
                 end
             end
         end
     end
-    
+
     @testset "~/.aws/creds - Default Profile" begin
         mktemp() do creds_file, creds_io
             write(

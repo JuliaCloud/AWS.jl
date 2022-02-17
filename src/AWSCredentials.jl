@@ -412,22 +412,19 @@ function dot_aws_config(profile=nothing)
         p = @something profile _aws_get_profile()
 
         # get all the fields for that profile
-        settings = _aws_profile_config(ini,p)
-
-        if isempty(settings)
-            return nothing
-        end
+        settings = _aws_profile_config(ini, p)
+        isempty(settings) && return nothing
 
         access_key = get(settings, "aws_access_key_id", nothing)
         sso_start_url = get(settings, "sso_start_url", nothing)
-   
+
         if !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
-            return AWSCredentials(access_key,secret_key,token)
+            return AWSCredentials(access_key, secret_key, token)
 
         elseif !isnothing(sso_start_url)
             access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
-            return AWSCredentials(access_key, secret_key, token, expiry=expiry)
+            return AWSCredentials(access_key, secret_key, token; expiry=expiry)
 
         else
             return _aws_get_role(p, ini)
