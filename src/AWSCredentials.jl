@@ -421,11 +421,9 @@ function dot_aws_config(profile=nothing)
         if !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
-
         elseif !isnothing(sso_start_url)
             access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token; expiry=expiry)
-
         else
             return _aws_get_role(p, ini)
         end
