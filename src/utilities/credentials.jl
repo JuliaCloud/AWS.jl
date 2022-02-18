@@ -167,10 +167,8 @@ end
 """
 Retrieve the SSO access token from cache.
 """
-function _sso_cache_access_token(sso_start_url::AbstractString)
-    if isnothing(sso_start_url)
-        return nothing
-    end
+function _sso_cache_access_token(sso_start_url::Union{AbstractString,Nothing})
+    isnothing(sso_start_url) && return nothing
 
     cache_path = joinpath(homedir(), ".aws", "sso", "cache")
     cache_file = joinpath(cache_path, bytes2hex(sha1(sso_start_url)) * ".json")
