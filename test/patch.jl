@@ -205,7 +205,8 @@ function sso_service_patches(access_key_id, secret_access_key)
                 "accessKeyId" => access_key_id,
                 "secretAccessKey" => secret_access_key,
                 "sessionToken" => "",
-                "expiration" => Int(floor(datetime2unix(now()))),
+                "expiration" =>
+                    floor(Int, Dates.datetime2unix(Dates.now(UTC) + Dates.Second(3600))) * 1000,
             ),
         )
     end
