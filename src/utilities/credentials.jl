@@ -188,7 +188,7 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     sso_start_url = _get_ini_value(ini, profile, "sso_start_url")
     sso_account_id = _get_ini_value(ini, profile, "sso_account_id")
     sso_role_name = _get_ini_value(ini, profile, "sso_role_name"; default_value="default")
-    sso_region = _get_ini_value(ini, profile, "sso_region"; default_value="us-east-1")
+    sso_region = _get_ini_value(ini, profile, "sso_region"; default_value=DEFAULT_REGION)
 
     # sso cache access token
     access_token = @mock _sso_cache_access_token(sso_start_url)

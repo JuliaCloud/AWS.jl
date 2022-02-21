@@ -46,7 +46,8 @@ The order of precedence for this search is as follows:
 1. Passing credentials directly to the `AWSCredentials` constructor
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
 3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
-4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html). This includes [single sign-on (sso)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
+4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html).
+   This includes [single sign-on (sso)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
 5. Assume Role provider via the aws config file
 6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
 
@@ -398,8 +399,9 @@ end
 """
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
 
-Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file. Single sign-on profiles are also valid.
-If this fails, try to retrieve credentials from `_aws_get_role()`, otherwise return `nothing`
+Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
+Single sign-on profiles are also valid. If this fails, try to retrieve credentials from
+`_aws_get_role()`, otherwise return `nothing`
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
