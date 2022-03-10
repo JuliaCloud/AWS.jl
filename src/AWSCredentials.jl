@@ -339,7 +339,8 @@ function ecs_instance_credentials()
         new_creds["AccessKeyId"],
         new_creds["SecretAccessKey"],
         new_creds["Token"],
-        new_creds["RoleArn"];
+        # The RoleArn field may not be present for Amazon SageMaker jobs
+        get(new_creds, "RoleArn", "");
         expiry=expiry,
         renew=ecs_instance_credentials,
     )
