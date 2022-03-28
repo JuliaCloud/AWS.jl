@@ -69,6 +69,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Backends" => "backends.md",
         "AWS" => "aws.md",
         "Services" => _generate_high_level_services_docs(),
     ],
