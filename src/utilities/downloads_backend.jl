@@ -1,5 +1,18 @@
 using HTTP.MessageRequest: body_was_streamed
 
+"""
+    DownloadsBackend <: AWS.AbstractBackend
+
+This backend uses the Downloads.jl stdlib to use libcurl
+as an HTTP client to connect to the AWS REST API.
+
+It has one field,
+
+- `downloader::Union{Nothing,Downloads.Downloader}`
+
+which is the `Downloads.Downloader` to use. If set to `nothing`, the default,
+then a global downloader object will be used.
+"""
 struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
 end

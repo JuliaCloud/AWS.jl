@@ -1,12 +1,23 @@
 # Used to allow custom dispatches to `_http_request`
+"""
+    AWS.AbstractBackend
+
+An abstract type representing a "backend" to use as an HTTP client
+to connect to the AWS REST API.
+"""
 abstract type AbstractBackend end
 
 """
     AWS.HTTPBackend <: AWS.AbstractBackend
 
-An `HTTPBackend` can hold default `http_options::AbstractDict{Symbol,<:Any}`
-to pass to HTTP.jl, which can be overwritten per-request by any `http_options`
-supplied there.
+This backend uses HTTP.jl as an HTTP client to connect to the AWS
+REST API, and has one field:
+
+- `http_options::AbstractDict{Symbol,<:Any}`
+
+which defaults to an empty dictionary. This field provides
+default options to use, which can be any of the keyword
+arguments to [`HTTP.request`](https://juliaweb.github.io/HTTP.jl/stable/public_interface/#HTTP.request). These options are overwritten by any per-request options.
 """
 struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
@@ -20,6 +31,21 @@ function HTTPBackend(; kwargs...)
     end
 end
 # populated in `__init__`
+"""
+    AWS.DEFAULT_BACKEND = Ref{AbstractBackend}()
+
+This specifies the default backend to use. This can be modified
+to change the default backend used by AWS.jl:
+
+```julia
+using AWS
+AWS.DEFAULT_BACKEND[] = AWS.DownloadsBackend()
+```
+
+As an alternative, the `backend` can be specified on a per-request basis, by
+adding a pair `"backend" => AWS.DownloadsBackend()` to the `params` argument of
+AWS.jl functions.
+"""
 const DEFAULT_BACKEND = Ref{AbstractBackend}()
 
 Base.@kwdef mutable struct Request
