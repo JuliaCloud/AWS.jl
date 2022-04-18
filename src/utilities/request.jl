@@ -186,7 +186,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     local buffer
     local response
     try
-        @repeat 4 try
+        @repeat 10 try
             # Use a sacrificial I/O stream so that we only write to the `response_stream`
             # once even with multiple attempted requests. Additionally this works around the
             # HTTP.jl issue (https://github.com/JuliaWeb/HTTP.jl/issues/543) where the
