@@ -77,7 +77,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     local buffer
     local response
     try
-        @repeat 4 try
+        @repeat 10 try
             # Use a sacrificial I/O stream so that we only write the `response_stream` once
             # even with multiple attempts.
             buffer = Base.BufferStream()
