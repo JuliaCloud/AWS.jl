@@ -150,6 +150,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     check =
         (s, e) -> begin
+            # Pass on non-AWS exceptions.
+            if !(e isa AWSException)
+                return false
+            end
+
             occursin("Signature expired", e.message) && return true
 
             # Handle ExpiredToken...
