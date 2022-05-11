@@ -230,13 +230,11 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
             # caught and wrapped in an `HTTP.IOError`
             # https://github.com/JuliaWeb/HTTP.jl/issues/382
-            if isa(e, Sockets.DNSError) ||
-                isa(e, HTTP.ParseError) ||
-                isa(e, HTTP.IOError) ||
-                isa(e, Base.IOError) ||
-                (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
-                return true
-            end
+            return isa(e, Sockets.DNSError) ||
+                   isa(e, HTTP.ParseError) ||
+                   isa(e, HTTP.IOError) ||
+                   isa(e, Base.IOError) ||
+                   (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
 
     try
