@@ -202,12 +202,18 @@ try
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
-            apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
-                retrieved = S3.get_object(bucket, key; aws_config=config)
+            logger = Test.TestLogger()
+            with_logger(logger) do
+                apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
+                    retrieved = S3.get_object(bucket, key; aws_config=config)
 
-                @test length(retrieved) == n
-                @test retrieved == data
+                    @test length(retrieved) == n
+                    @test retrieved == data
+                end
             end
+            logs = logger.logs
+            @test logs[1].level == Logging.Debug
+            @test logs[1].kwargs.retry
         end
 
         @testset "Fail all 4 attempts then throw" begin

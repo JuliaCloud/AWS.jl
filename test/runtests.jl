@@ -25,16 +25,17 @@ using GitHub
 using HTTP
 using IniFile: Inifile
 using JSON
-using OrderedCollections: LittleDict, OrderedDict
+using Logging
 using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking
+using OrderedCollections: LittleDict, OrderedDict
 using Pkg
 using Random
+using StableRNGs
 using Suppressor
 using Test
 using UUIDs
 using XMLDict
-using StableRNGs
 
 Mocking.activate()
 
