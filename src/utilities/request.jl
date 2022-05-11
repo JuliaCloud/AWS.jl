@@ -147,6 +147,10 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             if e isa HTTP.StatusError
                 e = AWSException(e, stream)
                 rethrow(e)
+            elseif !(e isa AWSException)
+                @debug "AWS.jl declined to retry non-AWSException" retry = false reason = "Non-AWSException" exception =
+                    e
+                return false
             end
             rethrow()
         end
@@ -158,11 +162,17 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-        occursin("Signature expired", e.message) && return true
+        if occursin("Signature expired", e.message)
+            @debug "AWS.jl retry for signature expired" retry = true reason = "Signature expired" exception =
+                e
+            return true
+        end
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
         if e isa AWSException && e.code in EXPIRED_ERROR_CODES
+            @debug "AWS.jl retry for expired credentials" retry = true reason = "Credentials expired" exception =
+                e
             check_credentials(credentials(aws); force_refresh=true)
             return true
         end
@@ -170,24 +180,42 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         # Throttle handling
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        if _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
+        if _http_status(e.cause) == TOO_MANY_REQUESTS
+            @debug "AWS.jl retry too many requests" retry = true reason = "too many requests" exception =
+                e
+            return true
+        elseif e.code in THROTTLING_ERROR_CODES
+            @debug "AWS.jl retry for throttling" retry = true reason = "throttled" exception =
+                e
             return true
         end
 
         # Handle BadDigest error and CRC32 check sum failure
-        if _header(e.cause, "crc32body") == "x-amz-crc32" ||
-            e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+        if _header(e.cause, "crc32body") == "x-amz-crc32"
+            @debug "AWS.jl retry for check sum failure" retry = true reason = "Check sum failure" exception =
+                e
+            return true
+        end
+
+        if e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+            @debug "AWS.jl retry for $(e.code)" retry = true reason = "$(e.code)" exception =
+                e
             return true
         end
 
         if occursin("Missing Authentication Token", e.message) &&
             aws.credentials === nothing
+            @debug "AWS.jl declined to retry request without credentials" retry = false reason = "No credentials" exception = e
+
             return throw(
                 NoCredentials(
-                    "You're attempting to perform a request without credentials set."
+                    "You're attempting to perform a request without credentials set.",
                 ),
             )
         end
+
+        @debug "AWS.jl declined to retry uncaught error" retry = false reason = "Error unhandled" exception =
+            e
         return false
     end
 
