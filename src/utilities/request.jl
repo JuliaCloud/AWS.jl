@@ -197,8 +197,9 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
 
     local buffer
     local response
-    try
-        @repeat 4 try
+
+    get_response =
+        () -> begin
             # Use a sacrificial I/O stream so that we only write to the `response_stream`
             # once even with multiple attempted requests. Additionally this works around the
             # HTTP.jl issue (https://github.com/JuliaWeb/HTTP.jl/issues/543) where the
@@ -218,17 +219,28 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                 response_stream=buffer,
                 http_options...,
             )
-        catch e
+
+            # We'll rely on lexical scoping; `buffer` and `response`
+            # are bindings in the outer scope, so we don't need to return here.
+            return nothing
+        end
+
+    check =
+        (s, e) -> begin
             # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
             # caught and wrapped in an `HTTP.IOError`
             # https://github.com/JuliaWeb/HTTP.jl/issues/382
-            @delay_retry if isa(e, Sockets.DNSError) ||
+            if isa(e, Sockets.DNSError) ||
                 isa(e, HTTP.ParseError) ||
                 isa(e, HTTP.IOError) ||
                 isa(e, Base.IOError) ||
                 (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+                return true
             end
         end
+
+    try
+        retry(get_response; check=check, delays=Base.ExponentialBackOff(; n=4))
     finally
         # We're unable to read from the `Base.BufferStream` until it has been closed.
         # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
