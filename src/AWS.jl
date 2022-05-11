@@ -8,7 +8,6 @@ using HTTP
 using MbedTLS
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
-using Retry
 using Sockets
 using URIs
 using UUIDs: UUIDs

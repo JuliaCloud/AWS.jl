@@ -76,8 +76,9 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 
     local buffer
     local response
-    try
-        @repeat 4 try
+
+    get_response =
+        () -> begin
             # Use a sacrificial I/O stream so that we only write the `response_stream` once
             # even with multiple attempts.
             buffer = Base.BufferStream()
@@ -100,13 +101,19 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             )
 
             response = _http_response(request, r; throw=true)
-        catch e
-            @delay_retry if (
-                (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
-                isa(e, Downloads.RequestError)
-            )
-            end
+            # We'll rely on lexical scoping; `buffer` and `response`
+            # are bindings in the outer scope, so we don't need to return here.
+            return nothing
         end
+
+    check =
+        (s, e) -> begin
+            return (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
+                   isa(e, Downloads.RequestError)
+        end
+
+    try
+        retry(get_response; check=check, delays=Base.ExponentialBackOff(; n=4))
     finally
         close(buffer)
 

@@ -116,57 +116,69 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     request.headers["Host"] = HTTP.URI(request.url).host
     stream = @something request.response_stream IOBuffer()
 
-    @repeat 3 try
-        credentials(aws) === nothing || sign!(aws, request)
+    local aws_response
+    local response
 
-        aws_response = @mock _http_request(request.backend, request, stream)
-        response = aws_response.response
+    get_response =
+        () -> begin
+            credentials(aws) === nothing || sign!(aws, request)
 
-        if response.status in REDIRECT_ERROR_CODES
-            if HTTP.header(response, "Location") != ""
-                request.url = HTTP.header(response, "Location")
-            else
-                e = HTTP.StatusError(response.status, response)
-                throw(AWSException(e, stream))
+            aws_response = @mock _http_request(request.backend, request, stream)
+            response = aws_response.response
+
+            if response.status in REDIRECT_ERROR_CODES
+                if HTTP.header(response, "Location") != ""
+                    request.url = HTTP.header(response, "Location")
+                else
+                    e = HTTP.StatusError(response.status, response)
+                    throw(AWSException(e, stream))
+                end
             end
         end
-    catch e
-        if e isa HTTP.StatusError
-            e = AWSException(e, stream)
-        elseif !(e isa AWSException)
-            rethrow(e)
+
+    check =
+        (s, e) -> begin
+            if e isa HTTP.StatusError
+                e = AWSException(e, stream)
+            elseif !(e isa AWSException)
+                rethrow(e)
+            end
+
+            occursin("Signature expired", e.message) && return true
+
+            # Handle ExpiredToken...
+            # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
+            if e isa AWSException && e.code in EXPIRED_ERROR_CODES
+                check_credentials(credentials(aws); force_refresh=true)
+                return true
+            end
+
+            # Throttle handling
+            # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
+            # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
+            if _http_status(e.cause) == TOO_MANY_REQUESTS ||
+                e.code in THROTTLING_ERROR_CODES
+                return true
+            end
+
+            # Handle BadDigest error and CRC32 check sum failure
+            if _header(e.cause, "crc32body") == "x-amz-crc32" ||
+                e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+                return true
+            end
+
+            if occursin("Missing Authentication Token", e.message) &&
+                aws.credentials === nothing
+                return throw(
+                    NoCredentials(
+                        "You're attempting to perform a request without credentials set.",
+                    ),
+                )
+            end
+            return false
         end
 
-        @retry if occursin("Signature expired", e.message)
-        end
-
-        # Handle ExpiredToken...
-        # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
-        @retry if e isa AWSException && e.code in EXPIRED_ERROR_CODES
-            check_credentials(credentials(aws); force_refresh=true)
-        end
-
-        # Throttle handling
-        # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
-        # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        @delay_retry if _http_status(e.cause) == TOO_MANY_REQUESTS ||
-            e.code in THROTTLING_ERROR_CODES
-        end
-
-        # Handle BadDigest error and CRC32 check sum failure
-        @retry if _header(e.cause, "crc32body") == "x-amz-crc32" ||
-            e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
-        end
-
-        if occursin("Missing Authentication Token", e.message) &&
-            aws.credentials === nothing
-            return throw(
-                NoCredentials(
-                    "You're attempting to perform a request without credentials set."
-                ),
-            )
-        end
-    end
+    retry(get_response; delays=Base.ExponentialBackOff(; n=3), check=check)
 
     if request.use_response_type
         return aws_response
