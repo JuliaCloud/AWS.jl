@@ -136,14 +136,20 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             end
         end
 
-    check =
-        (s, e) -> begin
+    function upgrade_error(f)
+        () -> try
+            return f()
+        catch e
             if e isa HTTP.StatusError
                 e = AWSException(e, stream)
-            elseif !(e isa AWSException)
                 rethrow(e)
             end
+            rethrow()
+        end
+    end
 
+    check =
+        (s, e) -> begin
             occursin("Signature expired", e.message) && return true
 
             # Handle ExpiredToken...
@@ -178,7 +184,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-    retry(get_response; delays=Base.ExponentialBackOff(; n=3), check=check)()
+    retry(upgrade_error(get_response); delays=Base.ExponentialBackOff(; n=3), check=check)()
 
     if request.use_response_type
         return aws_response
