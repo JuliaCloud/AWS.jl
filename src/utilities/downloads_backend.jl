@@ -113,7 +113,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         end
 
     get_response_with_retry = retry(
-        get_response; check=check, delays=Base.ExponentialBackOff(; n=4)
+        get_response; check=check, delays=Base.ExponentialBackOff(; n=3)
     )
     try
         get_response_with_retry()
