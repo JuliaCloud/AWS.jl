@@ -156,9 +156,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
     end
 
-    check = function (s, e)
+    check = (s, e) -> begin
         # Pass on non-AWS exceptions.
         if !(e isa AWSException)
+            @debug "AWS.jl declined to retry non-AWSException" retry = false reason = "Non-AWSException" exception =
+                e
             return false
         end
 
@@ -220,7 +222,6 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     end
 
     delays = AWSExponentialBackoff(; max_attempts=max_attempts(aws))
-
     retry(upgrade_error(get_response); check=check, delays=delays)()
 
     if request.use_response_type
