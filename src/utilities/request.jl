@@ -178,7 +178,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-    retry(get_response; delays=Base.ExponentialBackOff(; n=3), check=check)
+    retry(get_response; delays=Base.ExponentialBackOff(; n=3), check=check)()
 
     if request.use_response_type
         return aws_response
@@ -237,8 +237,12 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                    (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
 
+    get_response_with_retry = retry(
+        get_response; check=check, delays=Base.ExponentialBackOff(; n=4)
+    )
+
     try
-        retry(get_response; check=check, delays=Base.ExponentialBackOff(; n=4))
+        get_response_with_retry()
     finally
         # We're unable to read from the `Base.BufferStream` until it has been closed.
         # HTTP.jl will close passed in `response_stream` keyword. This ensures that it

@@ -112,8 +112,11 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
                    isa(e, Downloads.RequestError)
         end
 
+    get_response_with_retry = retry(
+        get_response; check=check, delays=Base.ExponentialBackOff(; n=4)
+    )
     try
-        retry(get_response; check=check, delays=Base.ExponentialBackOff(; n=4))
+        get_response_with_retry()
     finally
         close(buffer)
 
