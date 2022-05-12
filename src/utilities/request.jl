@@ -189,7 +189,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-    retry(upgrade_error(get_response); delays=Base.ExponentialBackOff(; n=2), check=check)()
+    retry(
+        upgrade_error(get_response);
+        delays=AWSExponentialBackoff(; max_attempts=3),
+        check=check,
+    )()
 
     if request.use_response_type
         return aws_response
@@ -249,7 +253,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
         end
 
     get_response_with_retry = retry(
-        get_response; check=check, delays=Base.ExponentialBackOff(; n=3)
+        get_response; check=check, delays=AWSExponentialBackoff(; max_attempts=4)
     )
 
     try
