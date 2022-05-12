@@ -79,3 +79,25 @@ end
         @test ex == Expr(:kw, :a, true)
     end
 end
+
+# Are we iterating the right number of times?
+function count_len(itr)
+    c = 0
+    result = iterate(itr)
+    while result !== nothing
+        c += 1
+        state = result[2]
+        result = iterate(itr, state)
+    end
+    return c
+end
+
+@testset "AWSExponentialBackoff" begin
+    for (n, max_backoff) in [(3, 5.0), (10, 20.0)]
+        itr = AWS.AWSExponentialBackoff(; max_attempts=n, max_backoff=max_backoff)
+        @test count_len(itr) == n - 1
+        @test length(collect(itr)) == n - 1
+        @test all(>(0), itr)
+        @test all(<=(max_backoff), itr)
+    end
+end

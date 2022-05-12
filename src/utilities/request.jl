@@ -189,7 +189,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-    retry(upgrade_error(get_response); delays=AWSExponentialBackoff(; max_attempts=3), check=check)()
+    retry(
+        upgrade_error(get_response);
+        delays=AWSExponentialBackoff(; max_attempts=3),
+        check=check,
+    )()
 
     if request.use_response_type
         return aws_response
