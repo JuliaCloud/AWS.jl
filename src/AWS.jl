@@ -23,22 +23,23 @@ export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
 const DEFAULT_REGION = "us-east-1"
 
-include(joinpath("utilities", "utilities.jl"))
-
 include("AWSExceptions.jl")
+
+using ..AWSExceptions
+using ..AWSExceptions: AWSException
+
+
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include("AWSMetadata.jl")
 
+include(joinpath("utilities", "utilities.jl"))
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "response.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
 
 include("deprecated.jl")
-
-using ..AWSExceptions
-using ..AWSExceptions: AWSException
 
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
