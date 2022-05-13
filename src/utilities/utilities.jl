@@ -164,7 +164,9 @@ function Base.iterate(exp::AWSExponentialBackoff, i=1)
 end
 
 # https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
-is_transient_error(e::HTTP.StatusError) = AWS._http_status(e) in (400, 408, 500, 502, 503, 504)
+function is_transient_error(e::HTTP.StatusError)
+    return AWS._http_status(e) in (400, 408, 500, 502, 503, 504)
+end
 
 # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/retries.html?highlight=retry
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-retries.html#cli-usage-retries-modes-standard.title
@@ -173,9 +175,11 @@ const TRANSIENT_ERROR_CODES = (
     "RequestTimeoutException",
     "PriorRequestNotComplete",
     "ConnectionError",
-    "HTTPClientError"
+    "HTTPClientError",
 )
 
-is_transient_error(e::AWSException) =  e.code in TRANSIENT_ERROR_CODES || is_transient_error(e.cause)
+function is_transient_error(e::AWSException)
+    return e.code in TRANSIENT_ERROR_CODES || is_transient_error(e.cause)
+end
 
 is_transient_error(::Downloads.RequestError) = true

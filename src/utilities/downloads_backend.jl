@@ -59,7 +59,9 @@ function read_body(x::IO)
     return read(x)
 end
 
-function _http_request(backend::DownloadsBackend, request::Request, response_stream::IO; transient_retry=false)
+function _http_request(
+    backend::DownloadsBackend, request::Request, response_stream::IO; transient_retry=false
+)
     # HTTP.jl sets this header automatically.
     request.headers["Content-Length"] = string(body_length(request.content))
 
