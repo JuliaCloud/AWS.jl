@@ -6,12 +6,11 @@ using HTTP.MessageRequest: body_was_streamed
 This backend uses the Downloads.jl stdlib to use libcurl
 as an HTTP client to connect to the AWS REST API.
 
-It has one field,
+It has two fields,
 
-- `downloader::Union{Nothing,Downloads.Downloader}`
-
-which is the `Downloads.Downloader` to use. If set to `nothing`, the default,
-then a global downloader object will be used.
+- `downloader::Union{Nothing,Downloads.Downloader}`: if `nothing`, use a global Downloader object. Otherwise, uses the given Downloader.
+- `create_new_downloader::Any`: a zero-argument function which returns a new Downloader object to use.
+  Defaults to creating a new global downloader. This is called when a transient error occurs.
 
 Downloads.jl tends to perform better under concurrent operation than HTTP.jl,
 particularly with `@async` / `asyncmap`. As of March 2022, threading (e.g. `@spawn` or `@threads`) with Downloads.jl is broken on all releases of Julia ([Downloads.jl#110](https://github.com/JuliaLang/Downloads.jl/issues/110)), and there are still reported issues on the upcoming
@@ -19,9 +18,11 @@ particularly with `@async` / `asyncmap`. As of March 2022, threading (e.g. `@spa
 """
 struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
+    create_new_downloader::Any
 end
 
-DownloadsBackend() = DownloadsBackend(nothing)
+DownloadsBackend() = DownloadsBackend(nothing, () -> get_downloader(; fresh=true))
+DownloadsBackend(D::Downloader) = DownloadsBackend(D, () -> get_downloader(; fresh=true))
 
 const AWS_DOWNLOADER = Ref{Union{Nothing,Downloader}}(nothing)
 const AWS_DOWNLOAD_LOCK = ReentrantLock()
@@ -31,13 +32,14 @@ const AWS_DOWNLOAD_LOCK = ReentrantLock()
 # because we add a hook to avoid redirects in order to try to match the HTTPBackend's
 # implementation, and we don't want to mutate the global downloader from Downloads.jl.
 # https://github.com/JuliaLang/Downloads.jl/blob/84e948c02b8a0625552a764bf90f7d2ee97c949c/src/Downloads.jl#L293-L301
-function get_downloader(downloader=nothing)
+function get_downloader(; fresh=false)
+    downloader = nothing
     lock(AWS_DOWNLOAD_LOCK) do
         yield() # let other downloads finish
         downloader isa Downloader && return nothing
         while true
             downloader = AWS_DOWNLOADER[]
-            downloader isa Downloader && return nothing
+            !fresh && downloader isa Downloader && return nothing
             D = Downloader()
             D.easy_hook =
                 (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
@@ -57,14 +59,18 @@ function read_body(x::IO)
     return read(x)
 end
 
-function _http_request(backend::DownloadsBackend, request::Request, response_stream::IO)
+function _http_request(backend::DownloadsBackend, request::Request, response_stream::IO; transient_retry=false)
     # HTTP.jl sets this header automatically.
     request.headers["Content-Length"] = string(body_length(request.content))
 
     # We pass an `input` only when we have content we wish to send.
     input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
-    downloader = @something(backend.downloader, get_downloader())
+    if transient_retry
+        downloader = backend.create_new_downloader()
+    else
+        downloader = @something(backend.downloader, get_downloader())
+    end
 
     # set the hook so that we don't follow redirects. Only
     # need to do this on per-request downloaders, because we
@@ -108,6 +114,11 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 
     check =
         (s, e) -> begin
+            if is_transient_error(e)
+                # We want a new one, ref https://github.com/JuliaCloud/AWS.jl/issues/552
+                downloader = backend.create_new_downloader()
+                return true
+            end
             return (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
                    isa(e, Downloads.RequestError)
         end

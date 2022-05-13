@@ -100,6 +100,9 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
     REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
+
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/retries.html?highlight=retry
+    # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-retries.html#cli-usage-retries-modes-standard.title
     THROTTLING_ERROR_CODES = [
         "Throttling",
         "ThrottlingException",
@@ -107,9 +110,13 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "RequestThrottledException",
         "TooManyRequestsException",
         "ProvisionedThroughputExceededException",
+        "TransactionInProgressException",
+        "RequestLimitExceeded",
+        "BandwidthLimitExceeded",
         "LimitExceededException",
         "RequestThrottled",
-        "PriorRequestNotComplete",
+        "SlowDown",
+        "EC2ThrottledException",
     ]
 
     request.headers["User-Agent"] = user_agent[]
@@ -119,11 +126,15 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     local aws_response
     local response
 
+    transient_retry = false
+
     get_response =
         () -> begin
             credentials(aws) === nothing || sign!(aws, request)
 
-            aws_response = @mock _http_request(request.backend, request, stream)
+            aws_response = @mock _http_request(
+                request.backend, request, stream; transient_retry=transient_retry
+            )
             response = aws_response.response
 
             if response.status in REDIRECT_ERROR_CODES
@@ -153,6 +164,10 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             # Pass on non-AWS exceptions.
             if !(e isa AWSException)
                 return false
+            end
+            if is_transient_error(e)
+                transient_retry = true
+                return true
             end
 
             occursin("Signature expired", e.message) && return true
@@ -202,7 +217,9 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     end
 end
 
-function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
+function _http_request(
+    http_backend::HTTPBackend, request::Request, response_stream::IO; transient_retry=false
+)
     http_options = merge(http_backend.http_options, request.http_options)
 
     # HTTP options such as `status_exception` need to be used when creating the stack
