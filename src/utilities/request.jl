@@ -187,6 +187,12 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
                 return true
             end
 
+            if e.code == "PriorRequestNotComplete"
+                # Retry this transient error, because the
+                # HTTP backend currently doesn't have a check for it.
+                return true
+            end
+
             # Handle BadDigest error and CRC32 check sum failure
             if _header(e.cause, "crc32body") == "x-amz-crc32" ||
                 e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
