@@ -218,14 +218,33 @@ try
             end
             io = IOBuffer()
 
-            apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
-                params = Dict("response_stream" => io)
-                @test_throws err_t S3.get_object(bucket, key, params; aws_config=config)
+            if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
+                # We'll use a different `DownloadsBackend` with an extra test.
+                called_make_new_downloader = false
+                make_new_downloader = () -> begin
+                    called_make_new_downloader = true
+                    return AWS.get_downloader(; fresh=true)
+                end
+                AWS.DEFAULT_BACKEND[] = DownloadsBackend(nothing, make_new_downloader)
+            end
+            try
+                apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
+                    params = Dict("response_stream" => io)
+                    @test_throws err_t S3.get_object(bucket, key, params; aws_config=config)
 
-                seekstart(io)
-                retrieved = read(io)
-                @test length(retrieved) == n - 1
-                @test retrieved == data[1:(n - 1)]
+                    seekstart(io)
+                    retrieved = read(io)
+                    @test length(retrieved) == n - 1
+                    @test retrieved == data[1:(n - 1)]
+                end
+            finally
+                # Reset the downloader
+                if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
+                    DEFAULT_BACKEND[] = DownloadsBackend()
+                end
+            end
+            if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
+                @test called_make_new_downloader
             end
         end
     end
