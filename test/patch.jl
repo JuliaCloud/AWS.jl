@@ -62,7 +62,11 @@ function _response(;
 end
 
 function _aws_http_request_patch(response::AWS.Response=_response())
-    p = @patch AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO; transient_retry=false) = response
+    p = @patch function AWS._http_request(
+        ::AWS.AbstractBackend, request::Request, ::IO; transient_retry=false
+    )
+        return response
+    end
     return p
 end
 
