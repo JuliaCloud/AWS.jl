@@ -145,6 +145,7 @@ end
 Base.@kwdef struct AWSExponentialBackoff
     max_attempts::Int = 3
     max_backoff::Float64 = 20.0
+    rng::AbstractRNG = Random.GLOBAL_RNG
 end
 
 # We make one more attempt than the number of delays

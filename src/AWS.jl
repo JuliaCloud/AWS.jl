@@ -1,6 +1,6 @@
 module AWS
 
-using Compat: Compat, @something
+using Compat: Compat, @something, @compat
 using Base64
 using Dates
 using Downloads: Downloads, Downloader, Curl
@@ -12,6 +12,7 @@ using Sockets
 using URIs
 using UUIDs: UUIDs
 using XMLDict
+using Random
 
 export @service
 export _merge
