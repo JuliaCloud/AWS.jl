@@ -198,8 +198,7 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
 
     sso_creds = @mock AWSServices.sso(
         "GET",
-        "/federation/credentials?\
-  account_id=$(sso_account_id)&role_name=$(sso_role_name)",
+        "/federation/credentials?account_id=$(sso_account_id)&role_name=$(sso_role_name)",
         Dict{String,Any}("headers" => headers),
         aws_config=tmp_config,
     )
