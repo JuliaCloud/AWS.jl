@@ -94,7 +94,9 @@ end
 
 @testset "AWSExponentialBackoff" begin
     for (n, max_backoff) in [(3, 5.0), (10, 20.0)]
-        itr = AWS.AWSExponentialBackoff(; max_attempts=n, max_backoff=max_backoff, rng=StableRNG(1))
+        itr = AWS.AWSExponentialBackoff(;
+            max_attempts=n, max_backoff=max_backoff, rng=StableRNG(1)
+        )
         @test count_len(itr) == n - 1
         @test length(collect(itr)) == n - 1
         @test all(>(0), itr)
