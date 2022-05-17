@@ -148,8 +148,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
     end
 
-    check =
-        (s, e) -> begin
+    check = function (s, e)
             # Pass on non-AWS exceptions.
             if !(e isa AWSException)
                 return false
@@ -189,11 +188,14 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             return false
         end
 
-    retry(
-        upgrade_error(get_response);
-        delays=AWSExponentialBackoff(; max_attempts=3),
-        check=check,
-    )()
+    delays = AWSExponentialBackoff(; max_attempts=3)
+    
+    retry(; check, delays) do
+        # Inline both of these functions
+        upgrade_error() do
+            get_response()
+        end
+    end
 
     if request.use_response_type
         return aws_response
@@ -240,8 +242,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             return nothing
         end
 
-    check =
-        (s, e) -> begin
+    check = function (s, e)
             # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
             # caught and wrapped in an `HTTP.IOError`
             # https://github.com/JuliaWeb/HTTP.jl/issues/382
@@ -252,12 +253,12 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                    (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
 
-    get_response_with_retry = retry(
-        get_response; check=check, delays=AWSExponentialBackoff(; max_attempts=4)
-    )
-
+    delays=AWSExponentialBackoff(; max_attempts=4)
+    
     try
-        get_response_with_retry()
+        retry(; check, delays) do
+            get_response()   # Inline this function
+        end
     finally
         # We're unable to read from the `Base.BufferStream` until it has been closed.
         # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
