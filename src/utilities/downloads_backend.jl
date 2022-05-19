@@ -87,6 +87,13 @@ function _http_request(
 
     check = function (s, e)
         if is_transient_error(e)
+
+            # TODO: remove this restriction. These valid transient errors
+            # are currently not supported by our tests.
+            if (isa(e, HTTP.StatusError) && AWS._http_status(e) < 500)
+                return false
+            end
+
             # We want a new one, ref https://github.com/JuliaCloud/AWS.jl/issues/552
             downloader = backend.create_new_downloader()
             return true
