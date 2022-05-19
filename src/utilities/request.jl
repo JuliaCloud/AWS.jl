@@ -159,62 +159,58 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
     end
 
-    check =
-        (s, e) -> begin
-            # Pass on non-AWS exceptions.
-            if !(e isa AWSException)
-                return false
-            end
-            if is_transient_error(e)
-                transient_retry = true
-                return true
-            end
-
-            occursin("Signature expired", e.message) && return true
-
-            # Handle ExpiredToken...
-            # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
-            if e isa AWSException && e.code in EXPIRED_ERROR_CODES
-                check_credentials(credentials(aws); force_refresh=true)
-                return true
-            end
-
-            # Throttle handling
-            # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
-            # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-            if _http_status(e.cause) == TOO_MANY_REQUESTS ||
-                e.code in THROTTLING_ERROR_CODES
-                return true
-            end
-
-            if e.code == "PriorRequestNotComplete"
-                # Retry this transient error, because the
-                # HTTP backend currently doesn't have a check for it.
-                return true
-            end
-
-            # Handle BadDigest error and CRC32 check sum failure
-            if _header(e.cause, "crc32body") == "x-amz-crc32" ||
-                e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
-                return true
-            end
-
-            if occursin("Missing Authentication Token", e.message) &&
-                aws.credentials === nothing
-                return throw(
-                    NoCredentials(
-                        "You're attempting to perform a request without credentials set.",
-                    ),
-                )
-            end
+    check = function (s, e)
+        # Pass on non-AWS exceptions.
+        if !(e isa AWSException)
             return false
         end
+        if is_transient_error(e)
+            transient_retry = true
+            return true
+        end
 
-    retry(
-        upgrade_error(get_response);
-        delays=AWSExponentialBackoff(; max_attempts=3),
-        check=check,
-    )()
+        occursin("Signature expired", e.message) && return true
+
+        # Handle ExpiredToken...
+        # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
+        if e isa AWSException && e.code in EXPIRED_ERROR_CODES
+            check_credentials(credentials(aws); force_refresh=true)
+            return true
+        end
+
+        # Throttle handling
+        # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
+        # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
+        if _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
+            return true
+        end
+
+        if e.code == "PriorRequestNotComplete"
+            # Retry this transient error, because the
+            # HTTP backend currently doesn't have a check for it.
+            return true
+        end
+
+        # Handle BadDigest error and CRC32 check sum failure
+        if _header(e.cause, "crc32body") == "x-amz-crc32" ||
+            e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+            return true
+        end
+
+        if occursin("Missing Authentication Token", e.message) &&
+            aws.credentials === nothing
+            return throw(
+                NoCredentials(
+                    "You're attempting to perform a request without credentials set."
+                ),
+            )
+        end
+        return false
+    end
+
+    delays = AWSExponentialBackoff(; max_attempts=3)
+
+    @compat retry(upgrade_error(get_response); check, delays)()
 
     if request.use_response_type
         return aws_response
@@ -236,51 +232,47 @@ function _http_request(
     local buffer
     local response
 
-    get_response =
-        () -> begin
-            # Use a sacrificial I/O stream so that we only write to the `response_stream`
-            # once even with multiple attempted requests. Additionally this works around the
-            # HTTP.jl issue (https://github.com/JuliaWeb/HTTP.jl/issues/543) where the
-            # `response_stream` is closed automatically. Effectively, this works as if we're
-            # not using streaming I/O at all, as we write all data at once, but only
-            # returning data via I/O ensures we aren't relying on response's body being
-            # populated.
-            buffer = Base.BufferStream()
+    get_response = function ()
+        # Use a sacrificial I/O stream so that we only write to the `response_stream`
+        # once even with multiple attempted requests. Additionally this works around the
+        # HTTP.jl issue (https://github.com/JuliaWeb/HTTP.jl/issues/543) where the
+        # `response_stream` is closed automatically. Effectively, this works as if we're
+        # not using streaming I/O at all, as we write all data at once, but only
+        # returning data via I/O ensures we aren't relying on response's body being
+        # populated.
+        buffer = Base.BufferStream()
 
-            response = @mock HTTP.request(
-                http_stack,
-                request.request_method,
-                HTTP.URI(request.url),
-                HTTP.mkheaders(request.headers),
-                request.content;
-                require_ssl_verification=false,
-                response_stream=buffer,
-                http_options...,
-            )
+        response = @mock HTTP.request(
+            http_stack,
+            request.request_method,
+            HTTP.URI(request.url),
+            HTTP.mkheaders(request.headers),
+            request.content;
+            require_ssl_verification=false,
+            response_stream=buffer,
+            http_options...,
+        )
 
-            # We'll rely on lexical scoping; `buffer` and `response`
-            # are bindings in the outer scope, so we don't need to return here.
-            return nothing
-        end
+        # We'll rely on lexical scoping; `buffer` and `response`
+        # are bindings in the outer scope, so we don't need to return here.
+        return nothing
+    end
 
-    check =
-        (s, e) -> begin
-            # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
-            # caught and wrapped in an `HTTP.IOError`
-            # https://github.com/JuliaWeb/HTTP.jl/issues/382
-            return isa(e, Sockets.DNSError) ||
-                   isa(e, HTTP.ParseError) ||
-                   isa(e, HTTP.IOError) ||
-                   isa(e, Base.IOError) ||
-                   (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
-        end
+    check = function (s, e)
+        # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
+        # caught and wrapped in an `HTTP.IOError`
+        # https://github.com/JuliaWeb/HTTP.jl/issues/382
+        return isa(e, Sockets.DNSError) ||
+               isa(e, HTTP.ParseError) ||
+               isa(e, HTTP.IOError) ||
+               isa(e, Base.IOError) ||
+               (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+    end
 
-    get_response_with_retry = retry(
-        get_response; check=check, delays=AWSExponentialBackoff(; max_attempts=4)
-    )
+    delays = AWSExponentialBackoff(; max_attempts=4)
 
     try
-        get_response_with_retry()
+        @compat retry(get_response; check, delays)()
     finally
         # We're unable to read from the `Base.BufferStream` until it has been closed.
         # HTTP.jl will close passed in `response_stream` keyword. This ensures that it

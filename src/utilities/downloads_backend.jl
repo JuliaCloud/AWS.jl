@@ -85,37 +85,7 @@ function _http_request(
     local buffer
     local response
 
-    get_response =
-        () -> begin
-            # Use a sacrificial I/O stream so that we only write the `response_stream` once
-            # even with multiple attempts.
-            buffer = Base.BufferStream()
-
-            # Rewind the input on each attempt otherwise every subsequent attempt will send an
-            # empty payload.
-            input !== nothing && seekstart(input)
-
-            r = @mock Downloads.request(
-                request.url;
-                input=input,
-                # Compatibility with Downloads.jl versions below v1.5.2
-                # See: https://github.com/JuliaLang/Downloads.jl/issues/131
-                output=request.request_method != "HEAD" ? buffer : nothing,
-                method=request.request_method,
-                headers=request.headers,
-                verbose=false,
-                throw=true,
-                downloader=downloader,
-            )
-
-            response = _http_response(request, r; throw=true)
-            # We'll rely on lexical scoping; `buffer` and `response`
-            # are bindings in the outer scope, so we don't need to return here.
-            return nothing
-        end
-
-    check =
-        (s, e) -> begin
+    check = function (s, e)
             if is_transient_error(e)
                 # We want a new one, ref https://github.com/JuliaCloud/AWS.jl/issues/552
                 downloader = backend.create_new_downloader()
@@ -125,11 +95,38 @@ function _http_request(
                    isa(e, Downloads.RequestError)
         end
 
-    get_response_with_retry = retry(
-        get_response; check=check, delays=AWSExponentialBackoff(; max_attempts=4)
-    )
+    delays = AWSExponentialBackoff(; max_attempts=4)
+
+    get_response = function ()
+        # Use a sacrificial I/O stream so that we only write the `response_stream` once
+        # even with multiple attempts.
+        buffer = Base.BufferStream()
+
+        # Rewind the input on each attempt otherwise every subsequent attempt will send an
+        # empty payload.
+        input !== nothing && seekstart(input)
+
+        r = @mock Downloads.request(
+            request.url;
+            input=input,
+            # Compatibility with Downloads.jl versions below v1.5.2
+            # See: https://github.com/JuliaLang/Downloads.jl/issues/131
+            output=request.request_method != "HEAD" ? buffer : nothing,
+            method=request.request_method,
+            headers=request.headers,
+            verbose=false,
+            throw=true,
+            downloader=downloader,
+        )
+
+        response = _http_response(request, r; throw=true)
+        # We'll rely on lexical scoping; `buffer` and `response`
+        # are bindings in the outer scope, so we don't need to return here.
+        return nothing
+    end
+
     try
-        get_response_with_retry()
+        @compat retry(get_response; check, delays)()
     finally
         close(buffer)
 

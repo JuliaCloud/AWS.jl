@@ -34,6 +34,7 @@ using Suppressor
 using Test
 using UUIDs
 using XMLDict
+using StableRNGs
 
 Mocking.activate()
 
