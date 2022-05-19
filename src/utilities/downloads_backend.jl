@@ -28,14 +28,16 @@ mutable struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
     # `downloader_lock===nothing` signals that we don't want to replace
     # the existing `downloader` field. 
-    downloader_lock::Union{Nothing, ReentrantLock}
+    downloader_lock::Union{Nothing,ReentrantLock}
     create_new_downloader::Any
 end
 
 # Use global downloader; don't replace `downloader` field on transient errors
 DownloadsBackend() = DownloadsBackend(nothing, nothing, () -> get_downloader(; fresh=true))
 # Use `create_new_downloader` to create a new `downloader`; DO replace the `downloader` field on transient errors
-DownloadsBackend(create_new_downloader) = DownloadsBackend(create_new_downloader(), ReentrantLock(), create_new_downloader)
+function DownloadsBackend(create_new_downloader)
+    return DownloadsBackend(create_new_downloader(), ReentrantLock(), create_new_downloader)
+end
 # Use provided downloader `D`; don't replace `downloader` on transient errors
 DownloadsBackend(D::Downloader) = DownloadsBackend(D, nothing, () -> D)
 
