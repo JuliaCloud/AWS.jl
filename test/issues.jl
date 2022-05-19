@@ -218,14 +218,14 @@ try
             end
             io = IOBuffer()
 
-            if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
+            if AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
                 # We'll use a different `DownloadsBackend` with an extra test.
                 called_make_new_downloader = false
                 make_new_downloader = () -> begin
                     called_make_new_downloader = true
                     return AWS.get_downloader(; fresh=true)
                 end
-                AWS.DEFAULT_BACKEND[] = DownloadsBackend(nothing, make_new_downloader)
+                AWS.DEFAULT_BACKEND[] = AWS.DownloadsBackend(nothing, make_new_downloader)
             end
             try
                 apply(_incomplete_patch(; data=data, num_attempts_to_fail=4)) do
@@ -239,11 +239,11 @@ try
                 end
             finally
                 # Reset the downloader
-                if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
-                    DEFAULT_BACKEND[] = DownloadsBackend()
+                if AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
+                    DEFAULT_BACKEND[] = AWS.DownloadsBackend()
                 end
             end
-            if AWS.DEFAULT_BACKEND[] isa DownloadsBackend
+            if AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
                 @test called_make_new_downloader
             end
         end
