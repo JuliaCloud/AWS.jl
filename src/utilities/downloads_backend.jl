@@ -133,7 +133,7 @@ function _http_request(
     end
 
     try
-        @compat retry(get_response; check, delays)()
+        retry(get_response; check=check, delays=delays)()
     finally
         close(buffer)
 
