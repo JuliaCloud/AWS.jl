@@ -86,14 +86,14 @@ function _http_request(
     local response
 
     check = function (s, e)
-            if is_transient_error(e)
-                # We want a new one, ref https://github.com/JuliaCloud/AWS.jl/issues/552
-                downloader = backend.create_new_downloader()
-                return true
-            end
-            return (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
-                   isa(e, Downloads.RequestError)
+        if is_transient_error(e)
+            # We want a new one, ref https://github.com/JuliaCloud/AWS.jl/issues/552
+            downloader = backend.create_new_downloader()
+            return true
         end
+        return (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
+               isa(e, Downloads.RequestError)
+    end
 
     delays = AWSExponentialBackoff(; max_attempts=4)
 
