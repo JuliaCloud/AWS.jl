@@ -119,25 +119,24 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     local aws_response
     local response
 
-    get_response =
-        () -> begin
-            credentials(aws) === nothing || sign!(aws, request)
+    get_response = function ()
+        credentials(aws) === nothing || sign!(aws, request)
 
-            aws_response = @mock _http_request(request.backend, request, stream)
-            response = aws_response.response
+        aws_response = @mock _http_request(request.backend, request, stream)
+        response = aws_response.response
 
-            if response.status in REDIRECT_ERROR_CODES
-                if HTTP.header(response, "Location") != ""
-                    request.url = HTTP.header(response, "Location")
-                else
-                    e = HTTP.StatusError(response.status, response)
-                    throw(AWSException(e, stream))
-                end
+        if response.status in REDIRECT_ERROR_CODES
+            if HTTP.header(response, "Location") != ""
+                request.url = HTTP.header(response, "Location")
+            else
+                e = HTTP.StatusError(response.status, response)
+                throw(AWSException(e, stream))
             end
         end
+    end
 
     function upgrade_error(f)
-        () -> try
+        try
             return f()
         catch e
             if e isa HTTP.StatusError
@@ -189,7 +188,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     delays = AWSExponentialBackoff(; max_attempts=3)
 
-    retry(upgrade_error(get_response); check=check, delays=delays)()
+    retry(upgrade_error ∘ get_response; check=check, delays=delays)()
 
     if request.use_response_type
         return aws_response
