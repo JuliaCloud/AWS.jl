@@ -6,23 +6,38 @@ using HTTP.MessageRequest: body_was_streamed
 This backend uses the Downloads.jl stdlib to use libcurl
 as an HTTP client to connect to the AWS REST API.
 
-It has two fields,
-
-- `downloader::Union{Nothing,Downloads.Downloader}`: if `nothing`, use a global Downloader object. Otherwise, uses the given Downloader.
-- `create_new_downloader::Any`: a zero-argument function which returns a new Downloader object to use.
-  Defaults to creating a new global downloader. This is called when a transient error occurs.
-
 Downloads.jl tends to perform better under concurrent operation than HTTP.jl,
 particularly with `@async` / `asyncmap`. As of March 2022, threading (e.g. `@spawn` or `@threads`) with Downloads.jl is broken on all releases of Julia ([Downloads.jl#110](https://github.com/JuliaLang/Downloads.jl/issues/110)), and there are still reported issues on the upcoming
 1.7.3 and 1.8 releases ([Downloads.jl#182](https://github.com/JuliaLang/Downloads.jl/issues/182])).
+
+There are three constructors:
+
+    DownloadsBackend()
+
+This constructor uses AWS.jl's global downloader object. If a transient error occurs, the global downloader object is replaced with a fresh one.
+
+    DownloadsBackend(create_new_downloader)
+
+This constructor calls `create_new_downloader()` to create a new downloader which it uses. Upon encountering a transient error, another new downloader is created and used from then on.
+
+    DownloadsBackend(D::Downloader)
+
+This constructor uses the provided downloader `D`, and uses it always.
 """
-struct DownloadsBackend <: AWS.AbstractBackend
+mutable struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
+    # `downloader_lock===nothing` signals that we don't want to replace
+    # the existing `downloader` field. 
+    downloader_lock::Union{Nothing, ReentrantLock}
     create_new_downloader::Any
 end
 
-DownloadsBackend() = DownloadsBackend(nothing, () -> get_downloader(; fresh=true))
-DownloadsBackend(D::Downloader) = DownloadsBackend(D, () -> get_downloader(; fresh=true))
+# Use global downloader; don't replace `downloader` field on transient errors
+DownloadsBackend() = DownloadsBackend(nothing, nothing, () -> get_downloader(; fresh=true))
+# Use `create_new_downloader` to create a new `downloader`; DO replace the `downloader` field on transient errors
+DownloadsBackend(create_new_downloader) = DownloadsBackend(create_new_downloader(), ReentrantLock(), create_new_downloader)
+# Use provided downloader `D`; don't replace `downloader` on transient errors
+DownloadsBackend(D::Downloader) = DownloadsBackend(D, nothing, () -> D)
 
 const AWS_DOWNLOADER = Ref{Union{Nothing,Downloader}}(nothing)
 const AWS_DOWNLOAD_LOCK = ReentrantLock()
@@ -70,6 +85,13 @@ function _http_request(
 
     if transient_retry
         downloader = backend.create_new_downloader()
+
+        # If we have a lock, use it to replace our existing downloader.
+        if backend.downloader_lock !== nothing
+            Base.@lock backend.downloader_lock begin
+                backend.downloader = downloader
+            end
+        end
     else
         downloader = @something(backend.downloader, get_downloader())
     end
