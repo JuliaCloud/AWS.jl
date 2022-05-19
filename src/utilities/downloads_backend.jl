@@ -113,7 +113,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     end
 
     try
-        @compat retry(get_response; check, delays)()
+        retry(get_response; check=check, delays=delays)()
     finally
         close(buffer)
 
