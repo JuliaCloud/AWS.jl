@@ -79,6 +79,18 @@ Base.@kwdef mutable struct Request
     response_dict_type::Union{Type{<:AbstractDict},Nothing} = nothing
 end
 
+function upgrade_error(f)
+    return () -> try
+        return f()
+    catch e
+        if e isa HTTP.StatusError
+            e = AWSException(e, stream)
+            rethrow(e)
+        end
+        rethrow()
+    end
+end
+
 """
     submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
 
@@ -132,18 +144,6 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
                 e = HTTP.StatusError(response.status, response)
                 throw(AWSException(e, stream))
             end
-        end
-    end
-
-    function upgrade_error(f)
-        return () -> try
-            return f()
-        catch e
-            if e isa HTTP.StatusError
-                e = AWSException(e, stream)
-                rethrow(e)
-            end
-            rethrow()
         end
     end
 
