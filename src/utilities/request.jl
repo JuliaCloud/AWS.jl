@@ -136,7 +136,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     end
 
     function upgrade_error(f)
-        try
+        return () -> try
             return f()
         catch e
             if e isa HTTP.StatusError
@@ -188,7 +188,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     delays = AWSExponentialBackoff(; max_attempts=3)
 
-    retry(upgrade_error ∘ get_response; check=check, delays=delays)()
+    retry(upgrade_error(get_response); check=check, delays=delays)()
 
     if request.use_response_type
         return aws_response
