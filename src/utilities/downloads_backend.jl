@@ -51,7 +51,6 @@ function get_downloader(; fresh=false)
     downloader = nothing
     lock(AWS_DOWNLOAD_LOCK) do
         yield() # let other downloads finish
-        downloader isa Downloader && return nothing
         while true
             downloader = AWS_DOWNLOADER[]
             !fresh && downloader isa Downloader && return nothing
