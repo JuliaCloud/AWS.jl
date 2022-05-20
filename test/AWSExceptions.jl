@@ -24,7 +24,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = bytes("[Message Body was streamed]")
+        expected["body"] = b"[Message Body was streamed]"
         expected["streamed_body"] = """
             <?xml version="1.0" encoding="UTF-8"?>
             <$err>
@@ -50,7 +50,7 @@
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => bytes("[Message Body was streamed]"),
+            "body" => b"[Message Body was streamed]",
             "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
@@ -74,7 +74,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = bytes("[Message Body was streamed]")
+        expected["body"] = b"[Message Body was streamed]"
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",

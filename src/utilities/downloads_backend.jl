@@ -1,4 +1,4 @@
-const body_was_streamed = bytes("[Message Body was streamed]")
+const body_was_streamed = b"[Message Body was streamed]"
 
 """
     DownloadsBackend <: AWS.AbstractBackend
