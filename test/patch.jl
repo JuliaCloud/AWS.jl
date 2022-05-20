@@ -171,7 +171,7 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = HTTP.MessageRequest.body_was_streamed
+                body = bytes("[Message Body was streamed]")
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)

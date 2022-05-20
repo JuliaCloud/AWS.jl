@@ -1,7 +1,7 @@
 module AWSExceptions
 
 using HTTP
-using HTTP.MessageRequest: body_was_streamed
+const body_was_streamed = bytes("[Message Body was streamed]")
 using JSON
 using XMLDict
 using XMLDict: XMLDictElement

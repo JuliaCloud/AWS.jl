@@ -1,4 +1,4 @@
-using HTTP.MessageRequest: body_was_streamed
+const body_was_streamed = bytes("[Message Body was streamed]")
 
 """
     DownloadsBackend <: AWS.AbstractBackend
