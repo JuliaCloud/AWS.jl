@@ -80,14 +80,11 @@ end
     end
 end
 
-# Are we iterating the right number of times?
+# Count the elements in an iterator without using `length`
 function count_len(itr)
     c = 0
-    result = iterate(itr)
-    while result !== nothing
+    for _ in itr
         c += 1
-        state = result[2]
-        result = iterate(itr, state)
     end
     return c
 end
