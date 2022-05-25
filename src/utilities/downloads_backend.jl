@@ -76,37 +76,44 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 
     local buffer
     local response
+
+    check = function (s, e)
+        return (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
+               isa(e, Downloads.RequestError)
+    end
+
+    delays = AWSExponentialBackoff(; max_attempts=4)
+
+    get_response = function ()
+        # Use a sacrificial I/O stream so that we only write the `response_stream` once
+        # even with multiple attempts.
+        buffer = Base.BufferStream()
+
+        # Rewind the input on each attempt otherwise every subsequent attempt will send an
+        # empty payload.
+        input !== nothing && seekstart(input)
+
+        r = @mock Downloads.request(
+            request.url;
+            input=input,
+            # Compatibility with Downloads.jl versions below v1.5.2
+            # See: https://github.com/JuliaLang/Downloads.jl/issues/131
+            output=request.request_method != "HEAD" ? buffer : nothing,
+            method=request.request_method,
+            headers=request.headers,
+            verbose=false,
+            throw=true,
+            downloader=downloader,
+        )
+
+        response = _http_response(request, r; throw=true)
+        # We'll rely on lexical scoping; `buffer` and `response`
+        # are bindings in the outer scope, so we don't need to return here.
+        return nothing
+    end
+
     try
-        @repeat 4 try
-            # Use a sacrificial I/O stream so that we only write the `response_stream` once
-            # even with multiple attempts.
-            buffer = Base.BufferStream()
-
-            # Rewind the input on each attempt otherwise every subsequent attempt will send an
-            # empty payload.
-            input !== nothing && seekstart(input)
-
-            r = @mock Downloads.request(
-                request.url;
-                input=input,
-                # Compatibility with Downloads.jl versions below v1.5.2
-                # See: https://github.com/JuliaLang/Downloads.jl/issues/131
-                output=request.request_method != "HEAD" ? buffer : nothing,
-                method=request.request_method,
-                headers=request.headers,
-                verbose=false,
-                throw=true,
-                downloader=downloader,
-            )
-
-            response = _http_response(request, r; throw=true)
-        catch e
-            @delay_retry if (
-                (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
-                isa(e, Downloads.RequestError)
-            )
-            end
-        end
+        retry(get_response; check=check, delays=delays)()
     finally
         close(buffer)
 

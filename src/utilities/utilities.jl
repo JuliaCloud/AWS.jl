@@ -139,3 +139,23 @@ end
 function _assignment_to_kw!(x)
     return throw(ArgumentError("Expected assignment expression, instead found: `$x`"))
 end
+
+# https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
+# Default values for AWS's `standard` retry mode. Note: these can be overridden elsewhere.
+Base.@kwdef struct AWSExponentialBackoff
+    max_attempts::Int = 3
+    max_backoff::Float64 = 20.0
+    rng::AbstractRNG = Random.GLOBAL_RNG
+end
+
+# We make one more attempt than the number of delays
+Base.length(exp::AWSExponentialBackoff) = exp.max_attempts - 1
+
+function Base.iterate(exp::AWSExponentialBackoff, i=1)
+    i >= exp.max_attempts && return nothing
+    # rand() has values in [0, 1), so we use 1.0 - rand() which has values in (0, 1] required.
+    b = 1.0 - rand(exp.rng)
+    r = 2.0
+    delay = min(b * r^i, exp.max_backoff)
+    return delay, i + 1
+end
