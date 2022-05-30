@@ -125,6 +125,19 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         aws_response = @mock _http_request(request.backend, request, stream)
         response = aws_response.response
 
+        # CloudWatchLogs returns a 200 response code when they throttle us, we need to check the body for a ThrottlingException being returned
+        # Check if a THROTTLING_ERROR_CODE is present in the body, if so return an AWSException w/ a 429 code so we can retry the request
+        body = if request.response_stream !== nothing
+            aws_response.response.body
+        else
+            aws_response.body
+        end
+        body = String(copy(body))
+        if !iszero(occursin.(THROTTLING_ERROR_CODES, body))
+            e = HTTP.StatusError(429, response)
+            throw(AWSException(e, stream))
+        end
+
         if response.status in REDIRECT_ERROR_CODES
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")

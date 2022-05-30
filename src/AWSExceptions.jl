@@ -3,6 +3,7 @@ module AWSExceptions
 using HTTP
 using HTTP.MessageRequest: body_was_streamed
 using JSON
+using JSON3
 using XMLDict
 using XMLDict: XMLDictElement
 
@@ -77,9 +78,11 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
 
             # Extract API error code from JSON error message...
             if occursin(r"^application/x-amz-json-1\.[01]$", content_type)
-                info = JSON.parse(body)
-                if haskey(info, "__type")
-                    code = rsplit(info["__type"], '#'; limit=2)[end]
+                # We need to use JSON3, as JSON cannot parse multiple objects in the same string
+                info = JSON3.read(body)
+                info = Dict(info)
+                if haskey(info, :__type)
+                    code = rsplit(info[:__type], '#'; limit=2)[end]
                 end
             end
 

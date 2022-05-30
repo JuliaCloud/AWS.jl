@@ -121,6 +121,26 @@ end
         return xml_dict(XMLDict.root(parsed.x), dict_type)
     end
 
+    @testset "200 - ThrottlingException in response body" begin
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="HEAD",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
+        )
+        apply(
+            Patches._aws_http_request_patch(
+                Patches._response(;
+                    status=200,
+                    body="{\"__type\":\"ThrottlingException\",\"message\":\"Rate exceeded for logStreamName manager/5825228e-b43c-4ef8-a5b4-9e1e308ffee3\"}{\"nextSequenceToken\":\"49622022107481714991551370437897779340137169957880334034\"}",
+                ),
+            ),
+        ) do
+            @test_throws AWSException AWS.submit_request(aws, request)
+        end
+    end
+
     @testset "301 redirect" begin
         request = Request(;
             service="s3",
