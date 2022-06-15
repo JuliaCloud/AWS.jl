@@ -55,6 +55,7 @@ function Base.show(io::IO, e::AWSException)
 end
 
 AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)))
+AWSException(e::HTTP.StatusError, io::IOBuffer) = AWSException(e, String(take!(io)))
 
 function AWSException(e::HTTP.StatusError, stream::IO)
     seekstart(stream)
