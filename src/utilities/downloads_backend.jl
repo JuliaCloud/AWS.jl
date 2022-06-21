@@ -123,7 +123,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 end
 
 function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
-    response = HTTP.Response(res.status, res.headers; body=nothing, request=nothing)
+    response = HTTP.Response(res.status, res.headers; body=IOBuffer(), request=nothing)
 
     if throw && HTTP.iserror(response)
         target = HTTP.resource(HTTP.URI(req.url))
