@@ -8,7 +8,7 @@ function legacy_response(
     # When a user defined I/O stream is passed in use the actual `HTTP.Response` body
     # instead of the `AWS.Response` body which requires the I/O stream to be seekable.
     body = if request.response_stream !== nothing
-        bytes("[Message Body was streamed]")
+        b"[Message Body was streamed]"
     else
         response.body
     end
