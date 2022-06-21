@@ -74,7 +74,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = nothing
+        expected["body"] = IOBuffer()
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",
