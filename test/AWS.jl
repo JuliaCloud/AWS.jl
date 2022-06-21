@@ -226,6 +226,42 @@ end
         @test exception.streamed_body !== nothing
     end
 
+    @testset "Not authorized with BufferStream response_stream" begin
+        buf = Base.BufferStream()
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            response_stream=buf,
+            use_response_type=true,
+        )
+    
+        message = "User is not authorized to perform: action on resource with an explicit deny"
+    
+        # Simulate the HTTP.request behaviour with a HTTP 400 response
+        exception = apply(Patches.gen_http_options_400_patches(message)) do
+            try
+                AWS.submit_request(aws, request)
+                return nothing
+            catch e
+                if e isa AWSException
+                    return e
+                else
+                    rethrow()
+                end
+            end
+        end
+    
+        @test exception isa AWSException
+    
+        # If handled incorrectly using a `response_stream` may result in the body data being
+        # lost. Mainly, this is a problem when using a temporary I/O stream instead of
+        # writing directly to the `response_stream`.
+        @test exception.message == message
+        @test exception.streamed_body !== nothing
+    end
+
     @testset "read MIME-type" begin
         request = Request(;
             service="s3",
