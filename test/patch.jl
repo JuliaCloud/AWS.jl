@@ -172,7 +172,7 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = nothing
+                body = IOBuffer()
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)
