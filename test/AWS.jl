@@ -236,9 +236,7 @@ end
             response_stream=buf,
             use_response_type=true,
         )
-    
         message = "User is not authorized to perform: action on resource with an explicit deny"
-    
         # Simulate the HTTP.request behaviour with a HTTP 400 response
         exception = apply(Patches.gen_http_options_400_patches(message)) do
             try
@@ -252,9 +250,7 @@ end
                 end
             end
         end
-    
         @test exception isa AWSException
-    
         # If handled incorrectly using a `response_stream` may result in the body data being
         # lost. Mainly, this is a problem when using a temporary I/O stream instead of
         # writing directly to the `response_stream`.
