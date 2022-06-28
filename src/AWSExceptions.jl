@@ -63,6 +63,12 @@ function AWSException(e::HTTP.StatusError, stream::IO)
     return AWSException(e, body)
 end
 
+function AWSException(e::HTTP.StatusError, stream::Base.BufferStream)
+    close(stream)
+    body = read(stream, String)
+    return AWSException(e, body)
+end
+
 function AWSException(e::HTTP.StatusError, body::AbstractString)
     content_type = HTTP.header(e.response, "Content-Type")
     code = string(e.status)
