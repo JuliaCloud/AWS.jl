@@ -38,11 +38,6 @@ using StableRNGs
 
 Mocking.activate()
 
-# backwards compat
-function HTTP.StatusError(status, resp)
-    return HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
-end
-
 include("patch.jl")
 
 const TEST_MINIO = begin

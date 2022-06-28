@@ -28,6 +28,8 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
+statuserror(status, resp) = HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
+
 function HTTPBackend(; kwargs...)
     return if isempty(kwargs)
         HTTPBackend(LittleDict{Symbol,Any}())
@@ -129,7 +131,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")
             else
-                e = HTTP.StatusError(response.status, response)
+                e = statuserror(response.status, response)
                 throw(AWSException(e, stream))
             end
         end

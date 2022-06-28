@@ -176,7 +176,7 @@ function gen_http_options_400_patches(message)
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)
-            exception = HTTP.StatusError(400, response)
+            exception = AWS.statuserror(400, response)
             return !status_exception ? response : throw(exception)
         end
         @patch function Downloads.request(args...; output=nothing, kwargs...)

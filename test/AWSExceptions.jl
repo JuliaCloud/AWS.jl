@@ -40,7 +40,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, msg)
@@ -59,7 +59,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = @test_logs (:error,) AWSException(status_error, expected["streamed_body"])
 
         @test ex.code == "404"
@@ -87,7 +87,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, "$msg")
