@@ -7,7 +7,11 @@ function legacy_response(
 
     # When a user defined I/O stream is passed in use the actual `HTTP.Response` body
     # instead of the `AWS.Response` body which requires the I/O stream to be seekable.
-    body = request.response_stream !== nothing ? response.response.body : response.body
+    body = if request.response_stream !== nothing
+        b"[Message Body was streamed]"
+    else
+        response.body
+    end
 
     # The stored service name is always lowercase and may not match the module name
     # specified by the user. We'll assume that the typical casing used is titlecase.

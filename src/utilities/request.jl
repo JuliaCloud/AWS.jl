@@ -28,6 +28,10 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
+function statuserror(status, resp)
+    return HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
+end
+
 function HTTPBackend(; kwargs...)
     return if isempty(kwargs)
         HTTPBackend(LittleDict{Symbol,Any}())
@@ -129,7 +133,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")
             else
-                e = HTTP.StatusError(response.status, response)
+                e = statuserror(response.status, response)
                 throw(AWSException(e, stream))
             end
         end
@@ -200,11 +204,6 @@ end
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
-    # HTTP options such as `status_exception` need to be used when creating the stack
-    http_stack = HTTP.stack(;
-        redirect=false, retry=false, aws_authorization=false, http_options...
-    )
-
     local buffer
     local response
 
@@ -219,12 +218,12 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
         buffer = Base.BufferStream()
 
         response = @mock HTTP.request(
-            http_stack,
             request.request_method,
             HTTP.URI(request.url),
             HTTP.mkheaders(request.headers),
             request.content;
-            require_ssl_verification=false,
+            redirect=false,
+            retry=false,
             response_stream=buffer,
             http_options...,
         )
@@ -235,13 +234,8 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     end
 
     check = function (s, e)
-        # `Base.IOError` is needed because HTTP.jl can often have errors that aren't
-        # caught and wrapped in an `HTTP.IOError`
-        # https://github.com/JuliaWeb/HTTP.jl/issues/382
-        return isa(e, Sockets.DNSError) ||
-               isa(e, HTTP.ParseError) ||
-               isa(e, HTTP.IOError) ||
-               isa(e, Base.IOError) ||
+        return isa(e, HTTP.ConnectError) ||
+               isa(e, HTTP.RequestError) ||
                (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
     end
 

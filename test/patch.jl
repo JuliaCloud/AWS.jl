@@ -139,7 +139,8 @@ end
 _http_options_patches = [
     @patch function HTTP.request(args...; kwargs...)
         options = Dict(kwargs)
-        delete!(options, :require_ssl_verification)
+        delete!(options, :redirect)
+        delete!(options, :retry)
         delete!(options, :response_stream)
         return options
     end
@@ -171,11 +172,11 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = HTTP.MessageRequest.body_was_streamed
+                body = IOBuffer()
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)
-            exception = HTTP.StatusError(400, response)
+            exception = AWS.statuserror(400, response)
             return !status_exception ? response : throw(exception)
         end
         @patch function Downloads.request(args...; output=nothing, kwargs...)
