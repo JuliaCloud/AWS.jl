@@ -24,7 +24,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = HTTP.MessageRequest.body_was_streamed
+        expected["body"] = IOBuffer()
         expected["streamed_body"] = """
             <?xml version="1.0" encoding="UTF-8"?>
             <$err>
@@ -40,7 +40,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, msg)
@@ -50,7 +50,7 @@
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => HTTP.MessageRequest.body_was_streamed,
+            "body" => IOBuffer(),
             "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
@@ -59,7 +59,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = @test_logs (:error,) AWSException(status_error, expected["streamed_body"])
 
         @test ex.code == "404"
@@ -74,7 +74,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = HTTP.MessageRequest.body_was_streamed
+        expected["body"] = IOBuffer()
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",
@@ -87,7 +87,7 @@
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        status_error = HTTP.StatusError(expected["status_code"], resp)
+        status_error = AWS.statuserror(expected["status_code"], resp)
         ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, "$msg")

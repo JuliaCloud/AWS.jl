@@ -1,7 +1,6 @@
 module AWSExceptions
 
 using HTTP
-using HTTP.MessageRequest: body_was_streamed
 using JSON
 using XMLDict
 using XMLDict: XMLDictElement
@@ -55,9 +54,16 @@ function Base.show(io::IO, e::AWSException)
 end
 
 AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)))
+AWSException(e::HTTP.StatusError, io::IOBuffer) = AWSException(e, String(take!(io)))
 
 function AWSException(e::HTTP.StatusError, stream::IO)
     seekstart(stream)
+    body = read(stream, String)
+    return AWSException(e, body)
+end
+
+function AWSException(e::HTTP.StatusError, stream::Base.BufferStream)
+    close(stream)
     body = read(stream, String)
     return AWSException(e, body)
 end
@@ -113,7 +119,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
     message = get(info, "Message", message)
     message = get(info, "message", message)
 
-    streamed_body = e.response.body == body_was_streamed ? body : nothing
+    streamed_body = !HTTP.isbytes(e.response.body) ? body : nothing
 
     return AWSException(code, message, info, e, streamed_body)
 end
