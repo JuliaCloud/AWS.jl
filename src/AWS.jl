@@ -16,7 +16,6 @@ using URIs
 using UUIDs: UUIDs
 using XMLDict
 
-
 export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
