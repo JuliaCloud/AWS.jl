@@ -28,7 +28,9 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
-statuserror(status, resp) = HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
+function statuserror(status, resp)
+    return HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
+end
 
 function HTTPBackend(; kwargs...)
     return if isempty(kwargs)
