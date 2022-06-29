@@ -129,10 +129,12 @@ end
 _instance_metadata_timeout_patch = @patch function HTTP.request(
     method::String, url; kwargs...
 )
-    return throw(HTTP.ConnectError(
-        "http://169.254.169.254/latest/meta-data/iam/info",
-        HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"),
-    ))
+    return throw(
+        HTTP.ConnectError(
+            "http://169.254.169.254/latest/meta-data/iam/info",
+            HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"),
+        ),
+    )
 end
 
 # This patch causes `HTTP.request` to return all of its keyword arguments
