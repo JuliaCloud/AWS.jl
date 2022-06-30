@@ -216,7 +216,7 @@ function ec2_instance_metadata(path::AbstractString)
     request = try
         @mock HTTP.request("GET", uri; connect_timeout=1)
     catch e
-        if e isa HTTP.ConnectionPool.ConnectTimeout
+        if e isa HTTP.ConnectError
             nothing
         else
             rethrow()
