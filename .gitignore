@@ -1,8 +1,0 @@
-/Manifest.toml
-.idea/*
-.DS_Store
-
-/* auto-generated documentation pages */
-/docs/src/services/*
-/docs/build/*
-/docs/site/*
