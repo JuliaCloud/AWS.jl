@@ -44,6 +44,8 @@ using ..AWSExceptions: AWSException
 
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
+const use_s3_acceleration = Ref{Bool}(false)
+const SERVICE_HOST = "amazonaws.com"
 
 """
     FeatureSet
@@ -80,6 +82,10 @@ function global_aws_config(; kwargs...)
     end
 
     return aws_config[]
+end
+
+function global_s3_acceleration(b::Bool)
+    return use_s3_acceleration[] = b
 end
 
 """
@@ -211,9 +217,13 @@ end
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
 
-function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
-    SERVICE_HOST = "amazonaws.com"
+function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String; s3_acceleration::Bool=use_s3_acceleration[])
     reg = region(aws)
+
+    # S3 virtualhosts cannot have periods in their bucket names, default to path style in these cases
+    if service == "s3" && !contains(resource, ".")
+        return s3_virtualhost(service, resource, region; s3_acceleration=s3_acceleration)
+    end
 
     regionless_services = ("iam", "route53")
 
@@ -224,6 +234,30 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
     return string(
         "https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource
     )
+end
+
+function s3_virtualhost(service::AbstractString, resource::AbstractString, region::AbstractString; s3_acceleration=nothing)
+    if something(s3_acceleration, use_s3_acceleration[])
+        service = "s3-accelerated"
+    end
+
+    # Split on '?' first to see if there was a query string in our resource
+    split_resource = split(resource, '?')
+
+    # First element contains the bucket, and potential key; "/bucket-name/potential/path/to/key"
+    bucket_key = split(split_resource[1], '/')
+    bucket = bucket_key[2]
+
+    # Rejoin the path on '/'
+    key = length(bucket_key) > 2 ? join(bucket_key[3:end], '/') : ""
+
+    # Check if there was a query in our resource, otherwise default to an empty string
+    query = length(split_resource) > 1 ? string('?', split_resource[2]) : ""
+
+    # Combine key and query on '/', use either, or none
+    key_query = join(filter(!isempty, [key, query]), '/')
+
+    return "https://$(bucket).$(service).$(region).$(SERVICE_HOST)/$(key_query)"
 end
 
 """
@@ -254,8 +288,8 @@ function (service::RestXMLService)(
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
-
     return_headers = _pop!(args, "return_headers", nothing)
+    s3_acceleration = _pop!(args, "s3_acceleration", use_s3_acceleration[])
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -279,7 +313,8 @@ function (service::RestXMLService)(
     end
 
     request.url = generate_service_url(
-        aws_config, service.endpoint_prefix, request.resource
+        aws_config, service.endpoint_prefix, request.resource;
+        s3_acceleration=s3_acceleration
     )
 
     return submit_request(aws_config, request; return_headers=return_headers)
