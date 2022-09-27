@@ -12,11 +12,15 @@ using AWS.UUIDs
 about important DevOps Guru events, such as when an insight is generated.  If you use an
 Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru
 permission to it notifications. DevOps Guru adds the required policy on your behalf to send
-notifications using Amazon SNS in your account. For more information, see Permissions for
-cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an
-Amazon Web Services Key Management Service customer-managed key (CMK), then you must add
-permissions to the CMK. For more information, see Permissions for Amazon Web Services
-KMS–encrypted Amazon SNS topics.
+notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS
+topics. For more information, see Permissions for cross account Amazon SNS topics. If you
+use an Amazon SNS topic in another account, you must attach a policy to it that grants
+DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your
+behalf to send notifications using Amazon SNS in your account. For more information, see
+Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is
+encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then
+you must add permissions to the CMK. For more information, see Permissions for Amazon Web
+Services KMS–encrypted Amazon SNS topics.
 
 # Arguments
 - `config`:  A NotificationChannelConfig object that specifies what type of notification
@@ -40,6 +44,33 @@ function add_notification_channel(
         "PUT",
         "/channels",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Config" => Config), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_insight(id)
+    delete_insight(id, params::Dict{String,<:Any})
+
+Deletes the insight along with the associated anomalies, events and recommendations.
+
+# Arguments
+- `id`: The ID of the insight.
+
+"""
+function delete_insight(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return devops_guru(
+        "DELETE", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function delete_insight(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "DELETE",
+        "/insights/$(Id)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -141,6 +172,33 @@ function describe_anomaly(
     return devops_guru(
         "GET",
         "/anomalies/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_event_sources_config()
+    describe_event_sources_config(params::Dict{String,<:Any})
+
+Returns the integration status of services that are integrated with DevOps Guru as Consumer
+via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
+Profiler, which can produce proactive recommendations which can be stored and viewed in
+DevOps Guru.
+
+"""
+function describe_event_sources_config(; aws_config::AbstractAWSConfig=global_aws_config())
+    return devops_guru(
+        "POST", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_event_sources_config(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/event-sources",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -539,6 +597,49 @@ function list_anomalies_for_insight(
 end
 
 """
+    list_anomalous_log_groups(insight_id)
+    list_anomalous_log_groups(insight_id, params::Dict{String,<:Any})
+
+ Returns the list of log groups that contain log anomalies.
+
+# Arguments
+- `insight_id`:  The ID of the insight containing the log groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+"""
+function list_anomalous_log_groups(
+    InsightId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/list-log-anomalies",
+        Dict{String,Any}("InsightId" => InsightId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_anomalous_log_groups(
+    InsightId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return devops_guru(
+        "POST",
+        "/list-log-anomalies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_events(filters)
     list_events(filters, params::Dict{String,<:Any})
 
@@ -615,6 +716,46 @@ function list_insights(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("StatusFilter" => StatusFilter), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_monitored_resources(filters)
+    list_monitored_resources(filters, params::Dict{String,<:Any})
+
+ Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+
+# Arguments
+- `filters`:  Filters to determine which monitored resources you want to retrieve. You can
+  filter by resource type or resource permission status.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+"""
+function list_monitored_resources(
+    Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/monitoredResources",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_monitored_resources(
+    Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "POST",
+        "/monitoredResources",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -952,6 +1093,36 @@ function start_cost_estimation(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_sources_config()
+    update_event_sources_config(params::Dict{String,<:Any})
+
+Enables or disables integration with a service that can be integrated with DevOps Guru. The
+one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can
+produce proactive recommendations which can be stored and viewed in DevOps Guru.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventSources"`: Configuration information about the integration of DevOps Guru as the
+  Consumer via EventBridge with another AWS Service.
+"""
+function update_event_sources_config(; aws_config::AbstractAWSConfig=global_aws_config())
+    return devops_guru(
+        "PUT", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_event_sources_config(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return devops_guru(
+        "PUT",
+        "/event-sources",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

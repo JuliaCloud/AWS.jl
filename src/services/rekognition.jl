@@ -102,6 +102,98 @@ function compare_faces(
 end
 
 """
+    copy_project_version(destination_project_arn, output_config, source_project_arn, source_project_version_arn, version_name)
+    copy_project_version(destination_project_arn, output_config, source_project_arn, source_project_version_arn, version_name, params::Dict{String,<:Any})
+
+Copies a version of an Amazon Rekognition Custom Labels model from a source project to a
+destination project. The source and destination projects can be in different AWS accounts
+but must be in the same AWS Region. You can't copy a model to another AWS service.  To copy
+a model version to a different AWS account, you need to create a resource-based policy
+known as a project policy. You attach the project policy to the source project by calling
+PutProjectPolicy. The project policy gives permission to copy the model version from a
+trusting AWS account to a trusted account. For more information creating and attaching a
+project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom
+Labels Developer Guide.  If you are copying a model version to a project in the same AWS
+account, you don't need to create a project policy.  To copy a model, the destination
+project, source project, and source model version must already exist.  Copying a model
+version takes a while to complete. To get the current status, call DescribeProjectVersions
+and check the value of Status in the ProjectVersionDescription object. The copy operation
+has finished when the value of Status is COPYING_COMPLETED.
+
+# Arguments
+- `destination_project_arn`: The ARN of the project in the trusted AWS account that you
+  want to copy the model version to.
+- `output_config`: The S3 bucket and folder location where the training output for the
+  source model version is placed.
+- `source_project_arn`: The ARN of the source project in the trusting AWS account.
+- `source_project_version_arn`: The ARN of the model version in the source project that you
+  want to copy to a destination project.
+- `version_name`: A name for the version of the model that's copied to the destination
+  project.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"KmsKeyId"`: The identifier for your AWS Key Management Service key (AWS KMS key). You
+  can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias
+  for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest
+  files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own
+  KMS key, you need the following permissions on the KMS key.   kms:CreateGrant
+  kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for
+  KmsKeyId, images copied into the service are encrypted using a key that AWS owns and
+  manages.
+- `"Tags"`: The key-value tags to assign to the model version.
+"""
+function copy_project_version(
+    DestinationProjectArn,
+    OutputConfig,
+    SourceProjectArn,
+    SourceProjectVersionArn,
+    VersionName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "CopyProjectVersion",
+        Dict{String,Any}(
+            "DestinationProjectArn" => DestinationProjectArn,
+            "OutputConfig" => OutputConfig,
+            "SourceProjectArn" => SourceProjectArn,
+            "SourceProjectVersionArn" => SourceProjectVersionArn,
+            "VersionName" => VersionName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function copy_project_version(
+    DestinationProjectArn,
+    OutputConfig,
+    SourceProjectArn,
+    SourceProjectVersionArn,
+    VersionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "CopyProjectVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationProjectArn" => DestinationProjectArn,
+                    "OutputConfig" => OutputConfig,
+                    "SourceProjectArn" => SourceProjectArn,
+                    "SourceProjectVersionArn" => SourceProjectVersionArn,
+                    "VersionName" => VersionName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_collection(collection_id)
     create_collection(collection_id, params::Dict{String,<:Any})
 
@@ -252,10 +344,10 @@ Amazon Rekognition Custom Labels project. The response from CreateProjectVersion
 Amazon Resource Name (ARN) for the version of the model.  Training uses the training and
 test datasets associated with the project. For more information, see Creating training and
 test dataset in the Amazon Rekognition Custom Labels Developer Guide.   You can train a
-modelin a project that doesn't have associated datasets by specifying manifest files in the
-TrainingData and TestingData fields.  If you open the console after training a model with
-manifest files, Amazon Rekognition Custom Labels creates the datasets for you using the
-most recent manifest files. You can no longer train a model version for the project by
+model in a project that doesn't have associated datasets by specifying manifest files in
+the TrainingData and TestingData fields.  If you open the console after training a model
+with manifest files, Amazon Rekognition Custom Labels creates the datasets for you using
+the most recent manifest files. You can no longer train a model version for the project by
 specifying manifest files.  Instead of training with a project without associated datasets,
 we recommend that you use the manifest files to create training and test datasets for the
 project.  Training takes a while to complete. You can get the current status by calling
@@ -339,33 +431,66 @@ end
     create_stream_processor(input, name, output, role_arn, settings, params::Dict{String,<:Any})
 
 Creates an Amazon Rekognition stream processor that you can use to detect and recognize
-faces in a streaming video. Amazon Rekognition Video is a consumer of live video from
-Amazon Kinesis Video Streams. Amazon Rekognition Video sends analysis results to Amazon
-Kinesis Data Streams. You provide as input a Kinesis video stream (Input) and a Kinesis
-data stream (Output) stream. You also specify the face recognition criteria in Settings.
-For example, the collection containing faces that you want to recognize. Use Name to assign
-an identifier for the stream processor. You use Name to manage the stream processor. For
-example, you can start processing the source video by calling StartStreamProcessor with the
-Name field.  After you have finished analyzing a streaming video, use StopStreamProcessor
-to stop processing. You can delete the stream processor by calling DeleteStreamProcessor.
-This operation requires permissions to perform the rekognition:CreateStreamProcessor
-action. If you want to tag your stream processor, you also require permission to perform
-the rekognition:TagResource operation.
+faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of
+live video from Amazon Kinesis Video Streams. There are two different settings for stream
+processors in Amazon Rekognition: detecting faces and detecting labels.   If you are
+creating a stream processor for detecting faces, you provide as input a Kinesis video
+stream (Input) and a Kinesis data stream (Output) stream. You also specify the face
+recognition criteria in Settings. For example, the collection containing faces that you
+want to recognize. After you have finished analyzing a streaming video, use
+StopStreamProcessor to stop processing.   If you are creating a stream processor to detect
+labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information
+(Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key
+ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect
+in ConnectedHomeSettings, such as people, packages and people, or pets, people, and
+packages. You can also specify where in the frame you want Amazon Rekognition to monitor
+with RegionsOfInterest. When you run the StartStreamProcessor operation on a label
+detection stream processor, you input start and stop information to determine the length of
+the processing time.    Use Name to assign an identifier for the stream processor. You use
+Name to manage the stream processor. For example, you can start processing the source video
+by calling StartStreamProcessor with the Name field.  This operation requires permissions
+to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream
+processor, you also require permission to perform the rekognition:TagResource operation.
 
 # Arguments
 - `input`: Kinesis video stream stream that provides the source streaming video. If you are
-  using the AWS CLI, the parameter name is StreamProcessorInput.
+  using the AWS CLI, the parameter name is StreamProcessorInput. This is required for both
+  face search and label detection stream processors.
 - `name`: An identifier you assign to the stream processor. You can use Name to manage the
   stream processor. For example, you can get the current status of the stream processor by
-  calling DescribeStreamProcessor. Name is idempotent.
-- `output`: Kinesis data stream stream to which Amazon Rekognition Video puts the analysis
-  results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
-- `role_arn`: ARN of the IAM role that allows access to the stream processor.
-- `settings`: Face recognition input parameters to be used by the stream processor.
-  Includes the collection to use for face recognition and the face attributes to detect.
+  calling DescribeStreamProcessor. Name is idempotent. This is required for both face search
+  and label detection stream processors.
+- `output`: Kinesis data stream stream or Amazon S3 bucket location to which Amazon
+  Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter
+  name is StreamProcessorOutput. This must be a S3Destination of an Amazon S3 bucket that you
+  own for a label detection stream processor or a Kinesis data stream ARN for a face search
+  stream processor.
+- `role_arn`: The Amazon Resource Number (ARN) of the IAM role that allows access to the
+  stream processor. The IAM role provides Rekognition read permissions for a Kinesis stream.
+  It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification
+  Service topic for a label detection stream processor. This is required for both face search
+  and label detection stream processors.
+- `settings`: Input parameters used in a streaming video analyzed by a stream processor.
+  You can use FaceSearch to recognize faces in a streaming video, or you can use
+  ConnectedHome to detect labels.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSharingPreference"`:  Shows whether you are sharing data with Rekognition to
+  improve model performance. You can choose this option at the account level or on a
+  per-stream basis. Note that if you opt out at the account level this setting is ignored on
+  individual streams.
+- `"KmsKeyId"`:  The identifier for your AWS Key Management Service key (AWS KMS key). This
+  is an optional parameter for label detection stream processors and should not be used to
+  create a face search stream processor. You can supply the Amazon Resource Name (ARN) of
+  your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key
+  is used to encrypt results and data published to your Amazon S3 bucket, which includes
+  image frames and hero images. Your source images are unaffected.
+- `"NotificationChannel"`:
+- `"RegionsOfInterest"`:  Specifies locations in the frames where Amazon Rekognition checks
+  for objects or people. You can specify up to 10 regions of interest, and each region has
+  either a polygon or a bounding box. This is an optional parameter for label detection
+  stream processors and should not be used to create a face search stream processor.
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the stream
   processor.
 """
@@ -424,8 +549,8 @@ end
     delete_collection(collection_id, params::Dict{String,<:Any})
 
 Deletes the specified collection. Note that this operation removes all faces in the
-collection. For an example, see delete-collection-procedure. This operation requires
-permissions to perform the rekognition:DeleteCollection action.
+collection. For an example, see Deleting a collection. This operation requires permissions
+to perform the rekognition:DeleteCollection action.
 
 # Arguments
 - `collection_id`: ID of the collection to delete.
@@ -545,8 +670,9 @@ Deletes an Amazon Rekognition Custom Labels project. To delete a project you mus
 delete all models associated with the project. To delete a model, see DeleteProjectVersion.
  DeleteProject is an asynchronous operation. To check if the project is deleted, call
 DescribeProjects. The project is deleted when the project no longer appears in the
-response. This operation requires permissions to perform the rekognition:DeleteProject
-action.
+response. Be aware that deleting a given project will also delete any ProjectPolicies
+associated with that project. This operation requires permissions to perform the
+rekognition:DeleteProject action.
 
 # Arguments
 - `project_arn`: The Amazon Resource Name (ARN) of the project that you want to delete.
@@ -569,6 +695,53 @@ function delete_project(
         "DeleteProject",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_project_policy(policy_name, project_arn)
+    delete_project_policy(policy_name, project_arn, params::Dict{String,<:Any})
+
+Deletes an existing project policy. To get a list of project policies attached to a
+project, call ListProjectPolicies. To attach a project policy to a project, call
+PutProjectPolicy.
+
+# Arguments
+- `policy_name`: The name of the policy that you want to delete.
+- `project_arn`: The Amazon Resource Name (ARN) of the project that the project policy you
+  want to delete is attached to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: The ID of the project policy revision that you want to delete.
+"""
+function delete_project_policy(
+    PolicyName, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "DeleteProjectPolicy",
+        Dict{String,Any}("PolicyName" => PolicyName, "ProjectArn" => ProjectArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_project_policy(
+    PolicyName,
+    ProjectArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DeleteProjectPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PolicyName" => PolicyName, "ProjectArn" => ProjectArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -975,7 +1148,7 @@ end
 Detects instances of real-world entities within an image (JPEG or PNG) provided as input.
 This includes objects like flower, tree, and table; events like wedding, graduation, and
 birthday party; and concepts like landscape, evening, and nature.  For an example, see
-Analyzing Images Stored in an Amazon S3 Bucket in the Amazon Rekognition Developer Guide.
+Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide.
 DetectLabels does not support the detection of activities. However, activity detection is
 supported for label detection in videos. For more information, see StartLabelDetection in
 the Amazon Rekognition Developer Guide.  You pass the input image as base64-encoded image
@@ -1164,7 +1337,7 @@ lines in text aligned in the same direction. Periods don't represent the end of 
 a sentence spans multiple lines, the DetectText operation returns multiple lines. To
 determine whether a TextDetection element is a line of text or a word, use the
 TextDetection object Type field.  To be detected, text must be within +/- 90 degrees
-orientation of the horizontal axis. For more information, see DetectText in the Amazon
+orientation of the horizontal axis. For more information, see Detecting text in the Amazon
 Rekognition Developer Guide.
 
 # Arguments
@@ -1251,7 +1424,7 @@ end
 Gets the name and additional information about a celebrity based on their Amazon
 Rekognition ID. The additional information is returned as an array of URLs. If there is no
 additional information about the celebrity, this list is empty. For more information, see
-Recognizing Celebrities in an Image in the Amazon Rekognition Developer Guide. This
+Getting information about a celebrity in the Amazon Rekognition Developer Guide. This
 operation requires permissions to perform the rekognition:GetCelebrityInfo action.
 
 # Arguments
@@ -1374,7 +1547,7 @@ results than specified in MaxResults, the value of NextToken in the operation re
 contains a pagination token for getting the next set of results. To get the next page of
 results, call GetContentModeration and populate the NextToken request parameter with the
 value of NextToken returned from the previous call to GetContentModeration. For more
-information, see Content moderation in the Amazon Rekognition Developer Guide.
+information, see moderating content in the Amazon Rekognition Developer Guide.
 
 # Arguments
 - `job_id`: The identifier for the inappropriate, unwanted, or offensive content moderation
@@ -1665,7 +1838,7 @@ detections returned. If there are more results than specified in MaxResults, the
 NextToken in the operation response contains a pagination token for getting the next set of
 results. To get the next page of results, call GetSegmentDetection and populate the
 NextToken request parameter with the token value returned from the previous call to
-GetSegmentDetection. For more information, see Detecting Video Segments in Stored Video in
+GetSegmentDetection. For more information, see Detecting video segments in stored video in
 the Amazon Rekognition Developer Guide.
 
 # Arguments
@@ -1762,7 +1935,7 @@ detection algorithm first detects the faces in the input image. For each face, t
 algorithm extracts facial features into a feature vector, and stores it in the backend
 database. Amazon Rekognition uses feature vectors when it performs face match and search
 operations using the SearchFaces and SearchFacesByImage operations. For more information,
-see Adding Faces to a Collection in the Amazon Rekognition Developer Guide. To get the
+see Adding faces to a collection in the Amazon Rekognition Developer Guide. To get the
 number of faces in a collection, call DescribeCollection.  If you're using version 1.0 of
 the face detection model, IndexFaces indexes the 15 largest faces in the input image. Later
 versions of the face detection model index the 100 largest faces in the input image.  If
@@ -1798,12 +1971,12 @@ assigned by the service for each face that's detected and stored.   An image ID,
 assigned by the service for the input image.   If you request all facial attributes (by
 using the detectionAttributes parameter), Amazon Rekognition returns detailed facial
 attributes, such as facial landmarks (for example, location of eye and mouth) and other
-facial attributes. If you provide the same image, specify the same collection, use the same
-external ID, and use the same model version in the IndexFaces operation, Amazon Rekognition
-doesn't save duplicate face metadata.  The input image is passed either as base64-encoded
-image bytes, or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI
-to call Amazon Rekognition operations, passing image bytes isn't supported. The image must
-be formatted as a PNG or JPEG file.  This operation requires permissions to perform the
+facial attributes. If you provide the same image, specify the same collection, and use the
+same external ID in the IndexFaces operation, Amazon Rekognition doesn't save duplicate
+face metadata.  The input image is passed either as base64-encoded image bytes, or as a
+reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon
+Rekognition operations, passing image bytes isn't supported. The image must be formatted as
+a PNG or JPEG file.  This operation requires permissions to perform the
 rekognition:IndexFaces action.
 
 # Arguments
@@ -1879,7 +2052,7 @@ end
 
 Returns list of collection IDs in your account. If the result is truncated, the response
 also provides a NextToken that you can use in the subsequent request to fetch the next set
-of collection IDs. For an example, see Listing Collections in the Amazon Rekognition
+of collection IDs. For an example, see Listing collections in the Amazon Rekognition
 Developer Guide. This operation requires permissions to perform the
 rekognition:ListCollections action.
 
@@ -2051,6 +2224,51 @@ function list_faces(
 end
 
 """
+    list_project_policies(project_arn)
+    list_project_policies(project_arn, params::Dict{String,<:Any})
+
+Gets a list of the project policies attached to a project. To attach a project policy to a
+project, call PutProjectPolicy. To remove a project policy from a project, call
+DeleteProjectPolicy.
+
+# Arguments
+- `project_arn`: The ARN of the project for which you want to list the project policies.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 5. If you specify a value greater than 5, a ValidationException
+  error occurs. The default value is 5.
+- `"NextToken"`: If the previous response was incomplete (because there is more results to
+  retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of results.
+"""
+function list_project_policies(
+    ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "ListProjectPolicies",
+        Dict{String,Any}("ProjectArn" => ProjectArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_project_policies(
+    ProjectArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "ListProjectPolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_stream_processors()
     list_stream_processors(params::Dict{String,<:Any})
 
@@ -2119,11 +2337,84 @@ function list_tags_for_resource(
 end
 
 """
+    put_project_policy(policy_document, policy_name, project_arn)
+    put_project_policy(policy_document, policy_name, project_arn, params::Dict{String,<:Any})
+
+Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS
+account. A project policy specifies that a trusted AWS account can copy a model version
+from a trusting AWS account to a project in the trusted AWS account. To copy a model
+version you use the CopyProjectVersion operation. For more information about the format of
+a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition
+Custom Labels Developer Guide.  The response from PutProjectPolicy is a revision ID for the
+project policy. You can attach multiple project policies to a project. You can also update
+an existing project policy by specifying the policy revision ID of the existing policy. To
+remove a project policy from a project, call DeleteProjectPolicy. To get a list of project
+policies attached to a project, call ListProjectPolicies.  You copy a model version by
+calling CopyProjectVersion.
+
+# Arguments
+- `policy_document`: A resource policy to add to the model. The policy is a JSON structure
+  that contains one or more statements that define the policy. The policy must follow the IAM
+  syntax. For more information about the contents of a JSON policy document, see IAM JSON
+  policy reference.
+- `policy_name`: A name for the policy.
+- `project_arn`: The Amazon Resource Name (ARN) of the project that the project policy is
+  attached to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: The revision ID for the Project Policy. Each time you modify a
+  policy, Amazon Rekognition Custom Labels generates and assigns a new PolicyRevisionId and
+  then deletes the previous version of the policy.
+"""
+function put_project_policy(
+    PolicyDocument,
+    PolicyName,
+    ProjectArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "PutProjectPolicy",
+        Dict{String,Any}(
+            "PolicyDocument" => PolicyDocument,
+            "PolicyName" => PolicyName,
+            "ProjectArn" => ProjectArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_project_policy(
+    PolicyDocument,
+    PolicyName,
+    ProjectArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "PutProjectPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyDocument" => PolicyDocument,
+                    "PolicyName" => PolicyName,
+                    "ProjectArn" => ProjectArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     recognize_celebrities(image)
     recognize_celebrities(image, params::Dict{String,<:Any})
 
 Returns an array of celebrities recognized in the input image. For more information, see
-Recognizing Celebrities in the Amazon Rekognition Developer Guide.   RecognizeCelebrities
+Recognizing celebrities in the Amazon Rekognition Developer Guide.   RecognizeCelebrities
 returns the 64 largest faces in the image. It lists the recognized celebrities in the
 CelebrityFaces array and any unrecognized faces in the UnrecognizedFaces array.
 RecognizeCelebrities doesn't return celebrities whose faces aren't among the largest 64
@@ -2138,7 +2429,7 @@ will need the ID to identify the celebrity in a call to the GetCelebrityInfo ope
 pass the input image either as base64-encoded image bytes or as a reference to an image in
 an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing
 image bytes is not supported. The image must be either a PNG or JPEG formatted file.  For
-an example, see Recognizing Celebrities in an Image in the Amazon Rekognition Developer
+an example, see Recognizing celebrities in an image in the Amazon Rekognition Developer
 Guide. This operation requires permissions to perform the rekognition:RecognizeCelebrities
 operation.
 
@@ -2181,8 +2472,8 @@ SearchFacesByImage operation.   The operation response returns an array of faces
 match, ordered by similarity score with the highest similarity first. More specifically, it
 is an array of metadata for each face match that is found. Along with the metadata, the
 response also includes a confidence value for each face match, indicating the confidence
-that the specific face matches the input face.  For an example, see Searching for a Face
-Using Its Face ID in the Amazon Rekognition Developer Guide. This operation requires
+that the specific face matches the input face.  For an example, see Searching for a face
+using its face ID in the Amazon Rekognition Developer Guide. This operation requires
 permissions to perform the rekognition:SearchFaces action.
 
 # Arguments
@@ -2325,7 +2616,7 @@ the Amazon Simple Notification Service topic that you specify in NotificationCha
 get the results of the celebrity recognition analysis, first check that the status value
 published to the Amazon SNS topic is SUCCEEDED. If so, call GetCelebrityRecognition and
 pass the job identifier (JobId) from the initial call to StartCelebrityRecognition.  For
-more information, see Recognizing Celebrities in the Amazon Rekognition Developer Guide.
+more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
 
 # Arguments
 - `video`: The video in which you want to recognize celebrities. The video must be stored
@@ -2380,7 +2671,7 @@ completion status to the Amazon Simple Notification Service topic that you speci
 NotificationChannel. To get the results of the content analysis, first check that the
 status value published to the Amazon SNS topic is SUCCEEDED. If so, call
 GetContentModeration and pass the job identifier (JobId) from the initial call to
-StartContentModeration.  For more information, see Content moderation in the Amazon
+StartContentModeration.  For more information, see Moderating content in the Amazon
 Rekognition Developer Guide.
 
 # Arguments
@@ -2439,8 +2730,8 @@ Rekognition Video publishes a completion status to the Amazon Simple Notificatio
 topic that you specify in NotificationChannel. To get the results of the face detection
 operation, first check that the status value published to the Amazon SNS topic is
 SUCCEEDED. If so, call GetFaceDetection and pass the job identifier (JobId) from the
-initial call to StartFaceDetection. For more information, see Detecting Faces in a Stored
-Video in the Amazon Rekognition Developer Guide.
+initial call to StartFaceDetection. For more information, see Detecting faces in a stored
+video in the Amazon Rekognition Developer Guide.
 
 # Arguments
 - `video`: The video in which you want to detect faces. The video must be stored in an
@@ -2493,7 +2784,7 @@ When searching is finished, Amazon Rekognition Video publishes a completion stat
 Amazon Simple Notification Service topic that you specify in NotificationChannel. To get
 the search results, first check that the status value published to the Amazon SNS topic is
 SUCCEEDED. If so, call GetFaceSearch and pass the job identifier (JobId) from the initial
-call to StartFaceSearch. For more information, see procedure-person-search-videos.
+call to StartFaceSearch. For more information, see Searching stored videos for faces.
 
 # Arguments
 - `collection_id`: ID of the collection that contains the faces you want to search for.
@@ -2662,17 +2953,25 @@ Starts the running of the version of a model. Starting a model takes a while to 
 To check the current state of the model, use DescribeProjectVersions. Once the model is
 running, you can detect custom labels in new images by calling DetectCustomLabels.  You are
 charged for the amount of time that the model is running. To stop a running model, call
-StopProjectVersion.  This operation requires permissions to perform the
-rekognition:StartProjectVersion action.
+StopProjectVersion.  For more information, see Running a trained Amazon Rekognition Custom
+Labels model in the Amazon Rekognition Custom Labels Guide. This operation requires
+permissions to perform the rekognition:StartProjectVersion action.
 
 # Arguments
 - `min_inference_units`: The minimum number of inference units to use. A single inference
-  unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS).
-  Use a higher number to increase the TPS throughput of your model. You are charged for the
-  number of inference units that you use.
+  unit represents 1 hour of processing.  For information about the number of transactions per
+  second (TPS) that an inference unit can support, see Running a trained Amazon Rekognition
+  Custom Labels model in the Amazon Rekognition Custom Labels Guide.  Use a higher number to
+  increase the TPS throughput of your model. You are charged for the number of inference
+  units that you use.
 - `project_version_arn`: The Amazon Resource Name(ARN) of the model version that you want
   to start.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxInferenceUnits"`: The maximum number of inference units to use for auto-scaling the
+  model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale
+  the model.
 """
 function start_project_version(
     MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2726,8 +3025,8 @@ confidence returned in the response. Within Filters, use ShotFilter
 (StartTechnicalCueDetectionFilter) to filter technical cues.  To get the results of the
 segment detection operation, first check that the status value published to the Amazon SNS
 topic is SUCCEEDED. if so, call GetSegmentDetection and pass the job identifier (JobId)
-from the initial call to StartSegmentDetection.  For more information, see Detecting Video
-Segments in Stored Video in the Amazon Rekognition Developer Guide.
+from the initial call to StartSegmentDetection.  For more information, see Detecting video
+segments in stored video in the Amazon Rekognition Developer Guide.
 
 # Arguments
 - `segment_types`: An array of segment types to detect in the video. Valid values are
@@ -2785,11 +3084,22 @@ end
 
 Starts processing a stream processor. You create a stream processor by calling
 CreateStreamProcessor. To tell StartStreamProcessor which stream processor to start, use
-the value of the Name field specified in the call to CreateStreamProcessor.
+the value of the Name field specified in the call to CreateStreamProcessor. If you are
+using a label detection stream processor to detect labels, you need to provide a Start
+selector and a Stop selector to determine the length of the stream processing time.
 
 # Arguments
 - `name`: The name of the stream processor to start processing.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StartSelector"`:  Specifies the starting point in the Kinesis stream to start
+  processing. You can use the producer timestamp or the fragment number. For more
+  information, see Fragment.  This is a required parameter for label detection stream
+  processors and should not be used to start a face search stream processor.
+- `"StopSelector"`:  Specifies when to stop processing the stream. You can specify a
+  maximum amount of time to process the video.  This is a required parameter for label
+  detection stream processors and should not be used to start a face search stream processor.
 """
 function start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -3064,6 +3374,50 @@ function update_dataset_entries(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_stream_processor(name)
+    update_stream_processor(name, params::Dict{String,<:Any})
+
+ Allows you to update a stream processor. You can change some settings and regions of
+interest and delete certain parameters.
+
+# Arguments
+- `name`:  Name of the stream processor that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSharingPreferenceForUpdate"`:  Shows whether you are sharing data with Rekognition
+  to improve model performance. You can choose this option at the account level or on a
+  per-stream basis. Note that if you opt out at the account level this setting is ignored on
+  individual streams.
+- `"ParametersToDelete"`:  A list of parameters you want to delete from the stream
+  processor.
+- `"RegionsOfInterestForUpdate"`:  Specifies locations in the frames where Amazon
+  Rekognition checks for objects or people. This is an optional parameter for label detection
+  stream processors.
+- `"SettingsForUpdate"`:  The stream processor settings that you want to update. Label
+  detection settings can be updated to detect different labels with a different minimum
+  confidence.
+"""
+function update_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "UpdateStreamProcessor",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_stream_processor(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "UpdateStreamProcessor",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

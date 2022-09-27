@@ -389,8 +389,9 @@ end
 
 Copies the specified source product to the specified target product or a new product. You
 can copy a product to the same account or another account. You can copy a product to the
-same region or another region. This operation is performed asynchronously. To track the
-progress of the operation, use DescribeCopyProductStatus.
+same Region or another Region. If you copy a product to another account, you must first
+share the product in a portfolio using CreatePortfolioShare. This operation is performed
+asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
 
 # Arguments
 - `idempotency_token`:  A unique identifier that you provide to ensure idempotency. If
@@ -477,9 +478,9 @@ Creates a constraint. A delegated admin is authorized to invoke this command.
   \"Properties\": {\"AccountList\": [ \"String\" ], \"RegionList\": [ \"String\" ],
   \"AdminRole\": \"String\", \"ExecutionRole\": \"String\"}}  You cannot have both a LAUNCH
   and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a
-  product and portfolio. Products with a STACKSET constraint will launch an AWS
-  CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see
-  Template Constraint Rules.
+  product and portfolio. Products with a STACKSET constraint will launch an CloudFormation
+  stack set.  TEMPLATE  Specify the Rules property. For more information, see Template
+  Constraint Rules.
 - `portfolio_id`: The portfolio identifier.
 - `product_id`: The product identifier.
 - `type`: The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE
@@ -624,12 +625,12 @@ error. To update an existing share, you must use the  UpdatePortfolioShare API i
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
-- `"AccountId"`: The AWS account ID. For example, 123456789012.
-- `"OrganizationNode"`: The organization node to whom you are going to share. If
-  OrganizationNode is passed in, PortfolioShare will be created for the node an
-  ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken
-  will be returned in the output in order for the administrator to monitor the status of the
-  PortfolioShare creation process.
+- `"AccountId"`: The Amazon Web Services account ID. For example, 123456789012.
+- `"OrganizationNode"`: The organization node to whom you are going to share. When you pass
+  OrganizationNode, it creates PortfolioShare for all of the Amazon Web Services accounts
+  that are associated to the OrganizationNode. The output returns a PortfolioShareToken,
+  which enables the administrator to monitor the status of the PortfolioShare creation
+  process.
 - `"ShareTagOptions"`: Enables or disables TagOptions  sharing when creating the portfolio
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
@@ -744,8 +745,8 @@ end
 
 Creates a plan. A plan includes the list of resources to be created (when provisioning a
 new product) or modified (when updating a provisioned product) when the plan is executed.
-You can create one plan per provisioned product. To create a plan for an existing
-provisioned product, the product status must be AVAILBLE or TAINTED. To view the resource
+You can create one plan for each provisioned product. To create a plan for an existing
+provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource
 changes in the change set, use DescribeProvisionedProductPlan. To create or modify the
 provisioned product, use ExecuteProvisionedProductPlan.
 
@@ -757,7 +758,8 @@ provisioned product, use ExecuteProvisionedProductPlan.
 - `plan_type`: The plan type.
 - `product_id`: The product identifier.
 - `provisioned_product_name`: A user-friendly name for the provisioned product. This value
-  must be unique for the AWS account and cannot be updated after the product is provisioned.
+  must be unique for the Amazon Web Services account and cannot be updated after the product
+  is provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
 # Optional Parameters
@@ -901,14 +903,14 @@ Creates a self-service action.
 
 # Arguments
 - `definition`: The self-service action definition. Can be one of the following:  Name  The
-  name of the AWS Systems Manager document (SSM document). For example,
+  name of the Amazon Web Services Systems Manager document (SSM document). For example,
   AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN
-  instead of the name.  Version  The AWS Systems Manager automation document version. For
-  example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of the role that
-  performs the self-service actions on your behalf. For example, \"AssumeRole\":
-  \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned product launch role,
-  set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of parameters in JSON format.
-  For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or
+  instead of the name.  Version  The Amazon Web Services Systems Manager automation document
+  version. For example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of
+  the role that performs the self-service actions on your behalf. For example,
+  \"AssumeRole\": \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned
+  product launch role, set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of
+  parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or
   [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].
 - `definition_type`: The service action definition type. For example, SSM_AUTOMATION.
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
@@ -1087,7 +1089,7 @@ de-registered, portfolio shares created from that account are removed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
-- `"AccountId"`: The AWS account ID.
+- `"AccountId"`: The Amazon Web Services account ID.
 - `"OrganizationNode"`: The organization node to whom you are going to stop sharing.
 """
 function delete_portfolio_share(
@@ -1162,7 +1164,7 @@ Deletes the specified plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
-- `"IgnoreErrors"`: If set to true, AWS Service Catalog stops managing the specified
+- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 """
 function delete_provisioned_product_plan(
@@ -1916,13 +1918,17 @@ end
     disable_awsorganizations_access()
     disable_awsorganizations_access(params::Dict{String,<:Any})
 
-Disable portfolio sharing through AWS Organizations feature. This feature will not delete
-your current shares but it will prevent you from creating new shares throughout your
-organization. Current shares will not be in sync with your organization structure if it
-changes after calling this API. This API can only be called by the management account in
-the organization. This API can't be invoked if there are active delegated administrators in
+Disable portfolio sharing through the Organizations service. This command will not delete
+your current shares, but prevents you from creating new shares throughout your
+organization. Current shares are not kept in sync with your organization structure if the
+structure changes after calling this API. Only the management account in the organization
+can call this API. You cannot call this API if there are active delegated administrators in
 the organization. Note that a delegated administrator is not authorized to invoke
-DisableAWSOrganizationsAccess.
+DisableAWSOrganizationsAccess.  If you share an Service Catalog portfolio in an
+organization within Organizations, and then disable Organizations access for Service
+Catalog, the portfolio access permissions will not sync with the latest changes to the
+organization structure. Specifically, accounts that you removed from the organization after
+disabling Service Catalog access will retain access to the previously shared portfolio.
 
 """
 function disable_awsorganizations_access(;
@@ -2185,13 +2191,20 @@ end
     enable_awsorganizations_access()
     enable_awsorganizations_access(params::Dict{String,<:Any})
 
-Enable portfolio sharing feature through AWS Organizations. This API will allow Service
-Catalog to receive updates on your organization in order to sync your shares with the
-current structure. This API can only be called by the management account in the
-organization. By calling this API Service Catalog will make a call to
-organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with
-any changes in your AWS Organizations structure. Note that a delegated administrator is not
-authorized to invoke EnableAWSOrganizationsAccess.
+Enable portfolio sharing feature through Organizations. This API will allow Service Catalog
+to receive updates on your organization in order to sync your shares with the current
+structure. This API can only be called by the management account in the organization. When
+you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your
+behalf so that your shares stay in sync with any changes in your Organizations structure.
+Note that a delegated administrator is not authorized to invoke
+EnableAWSOrganizationsAccess.  If you have previously disabled Organizations access for
+Service Catalog, and then enable access again, the portfolio access permissions might not
+sync with the latest changes to the organization structure. Specifically, accounts that you
+removed from the organization after disabling Service Catalog access, and before you
+enabled access again, can retain access to the previously shared portfolio. As a result, an
+account that has been removed from the organization might still be able to create or manage
+Amazon Web Services resources when it is no longer authorized to do so. Amazon Web Services
+is working to resolve this issue.
 
 """
 function enable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2278,9 +2291,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chinese
 - `"Parameters"`: A map of all self-service action parameters and their values. If a
   provided parameter is of a special type, such as TARGET, the provided value will override
-  the default value generated by AWS Service Catalog. If the parameters field is not
-  provided, no additional parameters are passed and default values will be used for any
-  special parameters such as TARGET.
+  the default value generated by Service Catalog. If the parameters field is not provided, no
+  additional parameters are passed and default values will be used for any special parameters
+  such as TARGET.
 """
 function execute_provisioned_product_service_action(
     ExecuteToken,
@@ -2328,7 +2341,7 @@ end
     get_awsorganizations_access_status()
     get_awsorganizations_access_status(params::Dict{String,<:Any})
 
-Get the Access Status for AWS Organization portfolio share feature. This API can only be
+Get the Access Status for Organizations portfolio share feature. This API can only be
 called by the management account in the organization or by a delegated admin.
 
 """
@@ -2397,15 +2410,16 @@ end
     import_as_provisioned_product(idempotency_token, physical_id, product_id, provisioned_product_name, provisioning_artifact_id)
     import_as_provisioned_product(idempotency_token, physical_id, product_id, provisioned_product_name, provisioning_artifact_id, params::Dict{String,<:Any})
 
-Requests the import of a resource as a Service Catalog provisioned product that is
-associated to a Service Catalog product and provisioning artifact. Once imported, all
-supported Service Catalog governance actions are supported on the provisioned product.
-Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and
-non-root nested stacks are not supported. The CloudFormation stack must have one of the
-following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE,
-UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource
-requires that the CloudFormation stack template matches the associated Service Catalog
-product provisioning artifact.  The user or role that performs this operation must have the
+Requests the import of a resource as a Amazon Web Services Service Catalog provisioned
+product that is associated to a Amazon Web Services Service Catalog product and
+provisioning artifact. Once imported, all supported Amazon Web Services Service Catalog
+governance actions are supported on the provisioned product. Resource import only supports
+CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not
+supported. The CloudFormation stack must have one of the following statuses to be imported:
+CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE,
+IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack
+template matches the associated Amazon Web Services Service Catalog product provisioning
+artifact.  The user or role that performs this operation must have the
 cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
 
 # Arguments
@@ -2416,8 +2430,8 @@ cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissi
   supports CloudFormation stack IDs.
 - `product_id`: The product identifier.
 - `provisioned_product_name`: The user-friendly name of the provisioned product. The value
-  must be unique for the AWS account. The name cannot be updated after the product is
-  provisioned.
+  must be unique for the Amazon Web Services account. The name cannot be updated after the
+  product is provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
 # Optional Parameters
@@ -2479,7 +2493,9 @@ end
     list_accepted_portfolio_shares()
     list_accepted_portfolio_shares(params::Dict{String,<:Any})
 
-Lists all portfolios for which sharing was accepted by this account.
+Lists all imported portfolios for which account-to-account shares were accepted by this
+account. By specifying the PortfolioShareType, you can list portfolios for which
+organizational shares were accepted by this account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2489,9 +2505,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 - `"PortfolioShareType"`: The type of shared portfolios to list. The default is to list
-  imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management
-  account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED -
-  List imported portfolios
+  imported portfolios.    AWS_ORGANIZATIONS - List portfolios accepted and shared via
+  organizational sharing by the management account or delegated administrator of your
+  organization.    AWS_SERVICECATALOG - Deprecated type.    IMPORTED - List imported
+  portfolios that have been accepted and shared through account-to-account sharing.
 """
 function list_accepted_portfolio_shares(; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -3130,7 +3147,7 @@ end
 
 Returns summary information about stack instances that are associated with the specified
 CFN_STACKSET type provisioned product. You can filter for stack instances that are
-associated with a specific AWS account name or region.
+associated with a specific Amazon Web Services account name or Region.
 
 # Arguments
 - `provisioned_product_id`: The identifier of the provisioned product.
@@ -3213,7 +3230,8 @@ error \"Parameter validation failed: Missing required parameter in Tags[N]:Value
 # Arguments
 - `provision_token`: An idempotency token that uniquely identifies the provisioning request.
 - `provisioned_product_name`: A user-friendly name for the provisioned product. This value
-  must be unique for the AWS account and cannot be updated after the product is provisioned.
+  must be unique for the Amazon Web Services account and cannot be updated after the product
+  is provisioned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3423,7 +3441,10 @@ end
     search_provisioned_products()
     search_provisioned_products(params::Dict{String,<:Any})
 
-Gets information about the provisioned products that meet the specified criteria.
+Gets information about the provisioned products that meet the specified criteria.  To
+ensure a complete list of provisioned products and remove duplicate products, use sort-by
+createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products
+--sort-by createdTime
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3476,7 +3497,7 @@ DescribeRecord.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
-- `"IgnoreErrors"`: If set to true, AWS Service Catalog stops managing the specified
+- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 - `"ProvisionedProductId"`: The identifier of the provisioned product. You cannot specify
   both ProvisionedProductName and ProvisionedProductId.
@@ -3546,9 +3567,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Properties\": {\"AccountList\": [ \"String\" ], \"RegionList\": [ \"String\" ],
   \"AdminRole\": \"String\", \"ExecutionRole\": \"String\"}}  You cannot have both a LAUNCH
   and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a
-  product and portfolio. Products with a STACKSET constraint will launch an AWS
-  CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see
-  Template Constraint Rules.
+  product and portfolio. Products with a STACKSET constraint will launch an CloudFormation
+  stack set.  TEMPLATE  Specify the Rules property. For more information, see Template
+  Constraint Rules.
 """
 function update_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -3629,8 +3650,8 @@ that action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
-- `"AccountId"`: The AWS Account Id of the recipient account. This field is required when
-  updating an external account to account type share.
+- `"AccountId"`: The Amazon Web Services account Id of the recipient account. This field is
+  required when updating an external account to account type share.
 - `"OrganizationNode"`:
 - `"ShareTagOptions"`: A flag to enable or disable TagOptions sharing for the portfolio
   share. If this field is not provided, the current state of TagOptions sharing on the
@@ -3782,18 +3803,19 @@ Requests updates to the properties of the specified provisioned product.
   provisioned product. This role is used when an end user calls a provisioning operation such
   as UpdateProvisionedProduct, TerminateProvisionedProduct, or
   ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.
-  The OWNER key accepts user ARNs and role ARNs. The owner is the user that has permission to
-  see, update, terminate, and execute service actions in the provisioned product. The
-  administrator can change the owner of a provisioned product to another IAM user within the
-  same account. Both end user owners and administrators can see ownership history of the
-  provisioned product using the ListRecordHistory API. The new owner can describe all past
-  records for the provisioned product using the DescribeRecord API. The previous owner can no
-  longer use DescribeRecord, but can still see the product's history from when he was an
-  owner using ListRecordHistory. If a provisioned product ownership is assigned to an end
-  user, they can see and perform any action through the API or Service Catalog console such
-  as update, terminate, and execute service actions. If an end user provisions a product and
-  the owner is updated to someone else, they will no longer be able to see or perform any
-  actions through API or the Service Catalog console on that provisioned product.
+  The OWNER key accepts IAM user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is
+  the user that has permission to see, update, terminate, and execute service actions in the
+  provisioned product. The administrator can change the owner of a provisioned product to
+  another IAM or STS entity within the same account. Both end user owners and administrators
+  can see ownership history of the provisioned product using the ListRecordHistory API. The
+  new owner can describe all past records for the provisioned product using the
+  DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see
+  the product's history from when he was an owner using ListRecordHistory. If a provisioned
+  product ownership is assigned to an end user, they can see and perform any action through
+  the API or Service Catalog console such as update, terminate, and execute service actions.
+  If an end user provisions a product and the owner is updated to someone else, they will no
+  longer be able to see or perform any actions through API or the Service Catalog console on
+  that provisioned product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

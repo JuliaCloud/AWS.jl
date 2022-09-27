@@ -381,13 +381,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
   cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
-  Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
-  cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
+  Previous generation: (not recommended. Existing clusters are still supported but creation
+  of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node
+  types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
-   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized with data tiering:   Current generation:   R6gd node types (available only for
-  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
-  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
+   Previous generation: (not recommended. Existing clusters are still supported but creation
+  of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge
   Memory optimized:   Current generation:   R6g node types (available only for Redis engine
   version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
@@ -395,13 +394,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
   cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge,
   cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous
-  generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
-  cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
-  cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current
-  generation instance types are created in Amazon VPC by default.   Redis append-only files
-  (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
-  not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
-  are not supported on Redis version 2.8.22 and later.
+  generation: (not recommended. Existing clusters are still supported but creation of new
+  clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,
+  cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge,
+  cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All
+  current generation instance types are created in Amazon VPC by default.   Redis append-only
+  files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic
+  failover is not supported on T1 instances.   Redis configuration variables appendonly and
+  appendfsync are not supported on Redis version 2.8.22 and later.
 - `"CacheParameterGroupName"`: The name of the parameter group to associate with this
   cluster. If this argument is omitted, the default parameter group for the specified engine
   is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a
@@ -449,7 +449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
   on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
-  period. Valid values for ddd are:
+  period.
 - `"PreferredOutpostArn"`: The outpost ARN in which the cache cluster is created.
 - `"PreferredOutpostArns"`: The outpost ARNs in which the cache cluster is created.
 - `"ReplicationGroupId"`: The ID of the replication group to which this cluster should
@@ -480,6 +480,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter, ElastiCache automatically chooses an appropriate time range.  This
   parameter is only valid if the Engine parameter is redis.
 - `"Tags"`: A list of tags to be added to this resource.
+- `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
+  You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
+  enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
+  when you create a cluster.   Required: Only available when creating a cache cluster in an
+  Amazon VPC using Memcached version 1.6.12 or later.
 """
 function create_cache_cluster(
     CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -522,7 +527,7 @@ Groups in the ElastiCache User Guide.
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family that the
   cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 |
-  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.2
+  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
 - `cache_parameter_group_name`: A user-specified name for the cache parameter group.
 - `description`: A user-specified description for the cache parameter group.
 
@@ -826,12 +831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro,
   cache.t4g.small, cache.t4g.medium   T3 node types: cache.t3.micro, cache.t3.small,
   cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
-  Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types:
-  cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
+  Previous generation: (not recommended. Existing clusters are still supported but creation
+  of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node
+  types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types:
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
-   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory
-  optimized with data tiering:   Current generation:   R6gd node types (available only for
-  Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
+   Previous generation: (not recommended. Existing clusters are still supported but creation
+  of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge
+  Memory optimized with data tiering:   Current generation:   R6gd node types (available only
+  for Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
   cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
   Memory optimized:   Current generation:   R6g node types (available only for Redis engine
   version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
@@ -840,13 +847,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge,
   cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge,
   cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous
-  generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
-  cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
-  cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current
-  generation instance types are created in Amazon VPC by default.   Redis append-only files
-  (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
-  not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
-  are not supported on Redis version 2.8.22 and later.
+  generation: (not recommended. Existing clusters are still supported but creation of new
+  clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,
+  cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge,
+  cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All
+  current generation instance types are created in Amazon VPC by default.   Redis append-only
+  files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic
+  failover is not supported on T1 instances.   Redis configuration variables appendonly and
+  appendfsync are not supported on Redis version 2.8.22 and later.
 - `"CacheParameterGroupName"`: The name of the parameter group to associate with this
   replication group. If this argument is omitted, the default cache parameter group for the
   specified engine is used. If you are running Redis version 3.2.4 or later, only one node
@@ -2107,21 +2115,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
-  cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
-  cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
-  cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
-  cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
-  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
-  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
-  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
-  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
-  cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
-  Supported Node Types    R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge,
-  cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large,
-  cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
-  Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
+  cache.t2.small, cache.t2.medium    Previous generation: (not recommended. Existing clusters
+  are still supported but creation of new clusters is not supported for these types.)  T1
+  node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium,
+  cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large,
+  cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not
+  recommended. Existing clusters are still supported but creation of new clusters is not
+  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized with data
+  tiering:   Current generation:   R6gd node types (available only for Redis engine version
+  6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge, cache.r6gd.4xlarge,
+  cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge      Memory optimized:
+  Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward
+  and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge,
+  cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge,
+  cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types:
+  cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge,
+  cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge,
+  cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not
+  recommended. Existing clusters are still supported but creation of new clusters is not
+  supported for these types.)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
   cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
   cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current
   generation instance types are created in Amazon VPC by default.   Redis append-only files
@@ -2186,21 +2198,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
-  cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types:
-  cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large,
-  cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge,
-  cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node
-  types: cache.c1.xlarge      Memory optimized with data tiering:   Current generation:
-  R6gd node types (available only for Redis engine version 6.2 onward).  cache.r6gd.xlarge,
-  cache.r6gd.2xlarge, cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge,
-  cache.r6gd.16xlarge      Memory optimized:   Current generation:   R6g node types
-  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge,
-  cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   For region availability, see
-  Supported Node Types    R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge,
-  cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large,
-  cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
-  Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
+  cache.t2.small, cache.t2.medium    Previous generation: (not recommended. Existing clusters
+  are still supported but creation of new clusters is not supported for these types.)  T1
+  node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium,
+  cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large,
+  cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not
+  recommended. Existing clusters are still supported but creation of new clusters is not
+  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized with data
+  tiering:   Current generation:   R6gd node types (available only for Redis engine version
+  6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge, cache.r6gd.4xlarge,
+  cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge      Memory optimized:
+  Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward
+  and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge,
+  cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge,
+  cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types:
+  cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge,
+  cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge,
+  cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not
+  recommended. Existing clusters are still supported but creation of new clusters is not
+  supported for these types.)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge,
   cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
   cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current
   generation instance types are created in Amazon VPC by default.   Redis append-only files

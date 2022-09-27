@@ -47,6 +47,56 @@ function batch_get_named_query(
 end
 
 """
+    batch_get_prepared_statement(prepared_statement_names, work_group)
+    batch_get_prepared_statement(prepared_statement_names, work_group, params::Dict{String,<:Any})
+
+Returns the details of a single prepared statement or a list of up to 256 prepared
+statements for the array of prepared statement names that you provide. Requires you to have
+access to the workgroup to which the prepared statements belong. If a prepared statement
+cannot be retrieved for the name specified, the statement is listed in
+UnprocessedPreparedStatementNames.
+
+# Arguments
+- `prepared_statement_names`: A list of prepared statement names to return.
+- `work_group`: The name of the workgroup to which the prepared statements belong.
+
+"""
+function batch_get_prepared_statement(
+    PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "BatchGetPreparedStatement",
+        Dict{String,Any}(
+            "PreparedStatementNames" => PreparedStatementNames, "WorkGroup" => WorkGroup
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_prepared_statement(
+    PreparedStatementNames,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "BatchGetPreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PreparedStatementNames" => PreparedStatementNames,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_query_execution(query_execution_ids)
     batch_get_query_execution(query_execution_ids, params::Dict{String,<:Any})
 
@@ -96,8 +146,9 @@ are visible to all users of the same Amazon Web Services account.
 
 # Arguments
 - `name`: The name of the data catalog to create. The catalog name must be unique for the
-  Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign,
-  or hyphen characters.
+  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign,
+  or hyphen characters. The remainder of the length constraint of 256 is reserved for use by
+  Athena.
 - `type`: The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an
   external hive metastore, or GLUE for an Glue Data Catalog.
 
@@ -696,6 +747,45 @@ function get_query_results(
 end
 
 """
+    get_query_runtime_statistics(query_execution_id)
+    get_query_runtime_statistics(query_execution_id, params::Dict{String,<:Any})
+
+Returns query execution runtime statistics related to a single execution of a query if you
+have access to the workgroup in which the query ran. The query execution runtime statistics
+is returned only when QueryExecutionStatusState is in a SUCCEEDED or FAILED state.
+
+# Arguments
+- `query_execution_id`: The unique ID of the query execution.
+
+"""
+function get_query_runtime_statistics(
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetQueryRuntimeStatistics",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_query_runtime_statistics(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetQueryRuntimeStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_table_metadata(catalog_name, database_name, table_name)
     get_table_metadata(catalog_name, database_name, table_name, params::Dict{String,<:Any})
 
@@ -907,7 +997,7 @@ end
     list_prepared_statements(work_group)
     list_prepared_statements(work_group, params::Dict{String,<:Any})
 
-Lists the prepared statements in the specfied workgroup.
+Lists the prepared statements in the specified workgroup.
 
 # Arguments
 - `work_group`: The workgroup to list the prepared statements for.
@@ -1118,6 +1208,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
   or the Amazon Web Services CLI, you must provide this token or the action will fail.
+- `"ExecutionParameters"`: A list of values for the parameters in a query. The values are
+  applied sequentially to the parameters in the query in the order in which the parameters
+  occur.
 - `"QueryExecutionContext"`: The database within which the query executes.
 - `"ResultConfiguration"`: Specifies information about where and how to save the results of
   the query execution. If the query runs in a workgroup, then workgroup's settings may
@@ -1298,8 +1391,9 @@ Updates the data catalog that has the specified name.
 
 # Arguments
 - `name`: The name of the data catalog to update. The catalog name must be unique for the
-  Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign,
-  or hyphen characters.
+  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign,
+  or hyphen characters. The remainder of the length constraint of 256 is reserved for use by
+  Athena.
 - `type`: Specifies the type of data catalog to update. Specify LAMBDA for a federated
   catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
 
@@ -1336,6 +1430,58 @@ function update_data_catalog(
         "UpdateDataCatalog",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_named_query(name, named_query_id, query_string)
+    update_named_query(name, named_query_id, query_string, params::Dict{String,<:Any})
+
+Updates a NamedQuery object. The database or workgroup cannot be updated.
+
+# Arguments
+- `name`: The name of the query.
+- `named_query_id`: The unique identifier (UUID) of the query.
+- `query_string`: The contents of the query with all query statements.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The query description.
+"""
+function update_named_query(
+    Name, NamedQueryId, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "UpdateNamedQuery",
+        Dict{String,Any}(
+            "Name" => Name, "NamedQueryId" => NamedQueryId, "QueryString" => QueryString
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_named_query(
+    Name,
+    NamedQueryId,
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdateNamedQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "NamedQueryId" => NamedQueryId,
+                    "QueryString" => QueryString,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -22,7 +22,7 @@ CA. ACM Private CA assets that are stored in Amazon S3 can be protected with enc
 For more information, see Encrypting Your CRLs.  Both PCA and the IAM principal must have
 permission to write to the S3 bucket that you specify. If the IAM principal making the call
 does not have permission to write to the bucket, then an exception is thrown. For more
-information, see Configure Access to ACM Private CA.
+information, see Access policies for CRLs in Amazon S3.
 
 # Arguments
 - `certificate_authority_configuration`: Name and bit size of the private key algorithm,
@@ -39,12 +39,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token for each call, PCA recognizes that you are requesting multiple
   certificate authorities.
 - `"KeyStorageSecurityStandard"`: Specifies a cryptographic key management compliance
-  standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note:
-  FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in Region ap-northeast-3. When creating a CA
-  in the ap-northeast-3, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
-  KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the
-  message, \"A certificate authority cannot be created in this region with the specified
-  security standard.\"
+  standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Note:
+  FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following Regions:   ap-northeast-3
+  ap-southeast-3   When creating a CA in these Regions, you must provide
+  FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do
+  this results in an InvalidArgsException with the message, \"A certificate authority cannot
+  be created in this region with the specified security standard.\"
 - `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
   Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
   to enable neither. The default is for both certificate validation mechanisms to be
@@ -101,9 +101,9 @@ is saved in the Amazon S3 bucket that you specify on input. The IssueCertificate
 RevokeCertificate actions use the private key.   Both PCA and the IAM principal must have
 permission to write to the S3 bucket that you specify. If the IAM principal making the call
 does not have permission to write to the bucket, then an exception is thrown. For more
-information, see Configure Access to ACM Private CA.  ACM Private CA assets that are stored
-in Amazon S3 can be protected with encryption. For more information, see Encrypting Your
-Audit Reports.
+information, see Access policies for CRLs in Amazon S3.  ACM Private CA assets that are
+stored in Amazon S3 can be protected with encryption. For more information, see Encrypting
+Your Audit Reports.  You can generate a maximum of one report every 30 minutes.
 
 # Arguments
 - `audit_report_response_format`: The format in which to create the report. This can be
@@ -160,28 +160,28 @@ end
     create_permission(actions, certificate_authority_arn, principal)
     create_permission(actions, certificate_authority_arn, principal, params::Dict{String,<:Any})
 
-Grants one or more permissions on a private CA to the AWS Certificate Manager (ACM) service
+Grants one or more permissions on a private CA to the Certificate Manager (ACM) service
 principal (acm.amazonaws.com). These permissions allow ACM to issue and renew ACM
-certificates that reside in the same AWS account as the CA. You can list current
-permissions with the ListPermissions action and revoke them with the DeletePermission
-action.  About Permissions    If the private CA and the certificates it issues reside in
-the same account, you can use CreatePermission to grant permissions for ACM to carry out
-automatic certificate renewals.   For automatic certificate renewal to succeed, the ACM
-service principal needs permissions to create, retrieve, and list certificates.   If the
-private CA and the ACM certificates reside in different accounts, then permissions cannot
-be used to enable automatic renewals. Instead, the ACM certificate owner must set up a
-resource-based policy to enable cross-account issuance and renewals. For more information,
-see Using a Resource Based Policy with ACM Private CA.
+certificates that reside in the same Amazon Web Services account as the CA. You can list
+current permissions with the ListPermissions action and revoke them with the
+DeletePermission action.  About Permissions    If the private CA and the certificates it
+issues reside in the same account, you can use CreatePermission to grant permissions for
+ACM to carry out automatic certificate renewals.   For automatic certificate renewal to
+succeed, the ACM service principal needs permissions to create, retrieve, and list
+certificates.   If the private CA and the ACM certificates reside in different accounts,
+then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate
+owner must set up a resource-based policy to enable cross-account issuance and renewals.
+For more information, see Using a Resource Based Policy with ACM Private CA.
 
 # Arguments
-- `actions`: The actions that the specified AWS service principal can use. These include
-  IssueCertificate, GetCertificate, and ListPermissions.
+- `actions`: The actions that the specified Amazon Web Services service principal can use.
+  These include IssueCertificate, GetCertificate, and ListPermissions.
 - `certificate_authority_arn`: The Amazon Resource Name (ARN) of the CA that grants the
   permissions. You can find the ARN by calling the ListCertificateAuthorities action. This
   must have the following form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
-- `principal`: The AWS service or identity that receives the permission. At this time, the
-  only valid principal is acm.amazonaws.com.
+- `principal`: The Amazon Web Services service or identity that receives the permission. At
+  this time, the only valid principal is acm.amazonaws.com.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -293,31 +293,31 @@ end
     delete_permission(certificate_authority_arn, principal)
     delete_permission(certificate_authority_arn, principal, params::Dict{String,<:Any})
 
-Revokes permissions on a private CA granted to the AWS Certificate Manager (ACM) service
+Revokes permissions on a private CA granted to the Certificate Manager (ACM) service
 principal (acm.amazonaws.com).  These permissions allow ACM to issue and renew ACM
-certificates that reside in the same AWS account as the CA. If you revoke these
-permissions, ACM will no longer renew the affected certificates automatically. Permissions
-can be granted with the CreatePermission action and listed with the ListPermissions action.
-  About Permissions    If the private CA and the certificates it issues reside in the same
-account, you can use CreatePermission to grant permissions for ACM to carry out automatic
-certificate renewals.   For automatic certificate renewal to succeed, the ACM service
-principal needs permissions to create, retrieve, and list certificates.   If the private CA
-and the ACM certificates reside in different accounts, then permissions cannot be used to
-enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based
-policy to enable cross-account issuance and renewals. For more information, see Using a
-Resource Based Policy with ACM Private CA.
+certificates that reside in the same Amazon Web Services account as the CA. If you revoke
+these permissions, ACM will no longer renew the affected certificates automatically.
+Permissions can be granted with the CreatePermission action and listed with the
+ListPermissions action.   About Permissions    If the private CA and the certificates it
+issues reside in the same account, you can use CreatePermission to grant permissions for
+ACM to carry out automatic certificate renewals.   For automatic certificate renewal to
+succeed, the ACM service principal needs permissions to create, retrieve, and list
+certificates.   If the private CA and the ACM certificates reside in different accounts,
+then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate
+owner must set up a resource-based policy to enable cross-account issuance and renewals.
+For more information, see Using a Resource Based Policy with ACM Private CA.
 
 # Arguments
 - `certificate_authority_arn`: The Amazon Resource Number (ARN) of the private CA that
   issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities
   action. This must have the following form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
-- `principal`: The AWS service or identity that will have its CA permissions revoked. At
-  this time, the only valid service principal is acm.amazonaws.com
+- `principal`: The Amazon Web Services service or identity that will have its CA
+  permissions revoked. At this time, the only valid service principal is acm.amazonaws.com
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SourceAccount"`: The AWS account that calls this action.
+- `"SourceAccount"`: The Amazon Web Services account that calls this action.
 """
 function delete_permission(
     CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()
@@ -360,20 +360,21 @@ end
 
 Deletes the resource-based policy attached to a private CA. Deletion will remove any access
 that the policy has granted. If there is no policy attached to the private CA, this action
-will return successful. If you delete a policy that was applied through AWS Resource Access
-Manager (RAM), the CA will be removed from all shares in which it was included.  The AWS
-Certificate Manager Service Linked Role that the policy supports is not affected when you
-delete the policy.  The current policy can be shown with GetPolicy and updated with
-PutPolicy.  About Policies    A policy grants access on a private CA to an AWS customer
-account, to AWS Organizations, or to an AWS Organizations unit. Policies are under the
-control of a CA administrator. For more information, see Using a Resource Based Policy with
-ACM Private CA.   A policy permits a user of AWS Certificate Manager (ACM) to issue ACM
-certificates signed by a CA in another account.   For ACM to manage automatic renewal of
-these certificates, the ACM user must configure a Service Linked Role (SLR). The SLR allows
-the ACM service to assume the identity of the user, subject to confirmation against the ACM
-Private CA policy. For more information, see Using a Service Linked Role with ACM.
-Updates made in AWS Resource Manager (RAM) are reflected in policies. For more information,
-see Attach a Policy for Cross-Account Access.
+will return successful. If you delete a policy that was applied through Amazon Web Services
+Resource Access Manager (RAM), the CA will be removed from all shares in which it was
+included.  The Certificate Manager Service Linked Role that the policy supports is not
+affected when you delete the policy.  The current policy can be shown with GetPolicy and
+updated with PutPolicy.  About Policies    A policy grants access on a private CA to an
+Amazon Web Services customer account, to Amazon Web Services Organizations, or to an Amazon
+Web Services Organizations unit. Policies are under the control of a CA administrator. For
+more information, see Using a Resource Based Policy with ACM Private CA.   A policy permits
+a user of Certificate Manager (ACM) to issue ACM certificates signed by a CA in another
+account.   For ACM to manage automatic renewal of these certificates, the ACM user must
+configure a Service Linked Role (SLR). The SLR allows the ACM service to assume the
+identity of the user, subject to confirmation against the ACM Private CA policy. For more
+information, see Using a Service Linked Role with ACM.   Updates made in Amazon Web
+Services Resource Manager (RAM) are reflected in policies. For more information, see Attach
+a Policy for Cross-Account Access.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of the private CA that will have its
@@ -417,11 +418,11 @@ certificate is pending. You must use your ACM Private CA-hosted or on-premises r
 subordinate CA to sign your private CA CSR and then import it into PCA.     ACTIVE - Your
 private CA is active.    DISABLED - Your private CA has been disabled.    EXPIRED - Your
 private CA certificate has expired.    FAILED - Your private CA has failed. Your CA can
-fail because of problems such a network outage or back-end AWS failure or other errors. A
-failed CA can never return to the pending state. You must create a new CA.     DELETED -
-Your private CA is within the restoration period, after which it is permanently deleted.
-The length of time remaining in the CA's restoration period is also included in this
-action's output.
+fail because of problems such a network outage or back-end Amazon Web Services failure or
+other errors. A failed CA can never return to the pending state. You must create a new CA.
+   DELETED - Your private CA is within the restoration period, after which it is
+permanently deleted. The length of time remaining in the CA's restoration period is also
+included in this action's output.
 
 # Arguments
 - `certificate_authority_arn`: The Amazon Resource Name (ARN) that was returned when you
@@ -669,16 +670,17 @@ end
 Retrieves the resource-based policy attached to a private CA. If either the private CA
 resource or the policy cannot be found, this action returns a ResourceNotFoundException.
 The policy can be attached or updated with PutPolicy and removed with DeletePolicy.  About
-Policies    A policy grants access on a private CA to an AWS customer account, to AWS
-Organizations, or to an AWS Organizations unit. Policies are under the control of a CA
-administrator. For more information, see Using a Resource Based Policy with ACM Private CA.
-  A policy permits a user of AWS Certificate Manager (ACM) to issue ACM certificates signed
-by a CA in another account.   For ACM to manage automatic renewal of these certificates,
-the ACM user must configure a Service Linked Role (SLR). The SLR allows the ACM service to
-assume the identity of the user, subject to confirmation against the ACM Private CA policy.
-For more information, see Using a Service Linked Role with ACM.   Updates made in AWS
-Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy
-for Cross-Account Access.
+Policies    A policy grants access on a private CA to an Amazon Web Services customer
+account, to Amazon Web Services Organizations, or to an Amazon Web Services Organizations
+unit. Policies are under the control of a CA administrator. For more information, see Using
+a Resource Based Policy with ACM Private CA.   A policy permits a user of Certificate
+Manager (ACM) to issue ACM certificates signed by a CA in another account.   For ACM to
+manage automatic renewal of these certificates, the ACM user must configure a Service
+Linked Role (SLR). The SLR allows the ACM service to assume the identity of the user,
+subject to confirmation against the ACM Private CA policy. For more information, see Using
+a Service Linked Role with ACM.   Updates made in Amazon Web Services Resource Manager
+(RAM) are reflected in policies. For more information, see Attach a Policy for
+Cross-Account Access.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of the private CA that will have its
@@ -813,12 +815,13 @@ the ARNs of the certificates that you issue by using ACM Private CA.
   private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file,
   you can then use the following OpenSSL command. The usr_cert block in the configuration
   file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf
-  -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem
-  -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject
-  alternative name or the request will be rejected.
+  -extensions usr_cert -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out
+  csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative
+  name or the request will be rejected.
 - `signing_algorithm`: The name of the algorithm that will be used to sign the certificate
   to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
-  used to sign a CSR in the CreateCertificateAuthority action.
+  used to sign a CSR in the CreateCertificateAuthority action.  The specified signing
+  algorithm family (RSA or ECDSA) much match the algorithm family of the CA's secret key.
 - `validity`: Information describing the end of the validity period of the certificate.
   This parameter sets the “Not After” date for the certificate. Certificate validity is
   the period of time during which a certificate is valid. Validity can be expressed as an
@@ -945,18 +948,18 @@ end
     list_permissions(certificate_authority_arn)
     list_permissions(certificate_authority_arn, params::Dict{String,<:Any})
 
-List all permissions on a private CA, if any, granted to the AWS Certificate Manager (ACM)
+List all permissions on a private CA, if any, granted to the Certificate Manager (ACM)
 service principal (acm.amazonaws.com).  These permissions allow ACM to issue and renew ACM
-certificates that reside in the same AWS account as the CA.  Permissions can be granted
-with the CreatePermission action and revoked with the DeletePermission action.  About
-Permissions    If the private CA and the certificates it issues reside in the same account,
-you can use CreatePermission to grant permissions for ACM to carry out automatic
-certificate renewals.   For automatic certificate renewal to succeed, the ACM service
-principal needs permissions to create, retrieve, and list certificates.   If the private CA
-and the ACM certificates reside in different accounts, then permissions cannot be used to
-enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based
-policy to enable cross-account issuance and renewals. For more information, see Using a
-Resource Based Policy with ACM Private CA.
+certificates that reside in the same Amazon Web Services account as the CA.  Permissions
+can be granted with the CreatePermission action and revoked with the DeletePermission
+action.  About Permissions    If the private CA and the certificates it issues reside in
+the same account, you can use CreatePermission to grant permissions for ACM to carry out
+automatic certificate renewals.   For automatic certificate renewal to succeed, the ACM
+service principal needs permissions to create, retrieve, and list certificates.   If the
+private CA and the ACM certificates reside in different accounts, then permissions cannot
+be used to enable automatic renewals. Instead, the ACM certificate owner must set up a
+resource-based policy to enable cross-account issuance and renewals. For more information,
+see Using a Resource Based Policy with ACM Private CA.
 
 # Arguments
 - `certificate_authority_arn`: The Amazon Resource Number (ARN) of the private CA to
@@ -1062,18 +1065,19 @@ end
     put_policy(policy, resource_arn, params::Dict{String,<:Any})
 
 Attaches a resource-based policy to a private CA.  A policy can also be applied by sharing
-a private CA through AWS Resource Access Manager (RAM). For more information, see Attach a
-Policy for Cross-Account Access. The policy can be displayed with GetPolicy and removed
-with DeletePolicy.  About Policies    A policy grants access on a private CA to an AWS
-customer account, to AWS Organizations, or to an AWS Organizations unit. Policies are under
-the control of a CA administrator. For more information, see Using a Resource Based Policy
-with ACM Private CA.   A policy permits a user of AWS Certificate Manager (ACM) to issue
-ACM certificates signed by a CA in another account.   For ACM to manage automatic renewal
-of these certificates, the ACM user must configure a Service Linked Role (SLR). The SLR
-allows the ACM service to assume the identity of the user, subject to confirmation against
-the ACM Private CA policy. For more information, see Using a Service Linked Role with ACM.
- Updates made in AWS Resource Manager (RAM) are reflected in policies. For more
-information, see Attach a Policy for Cross-Account Access.
+a private CA through Amazon Web Services Resource Access Manager (RAM). For more
+information, see Attach a Policy for Cross-Account Access. The policy can be displayed with
+GetPolicy and removed with DeletePolicy.  About Policies    A policy grants access on a
+private CA to an Amazon Web Services customer account, to Amazon Web Services
+Organizations, or to an Amazon Web Services Organizations unit. Policies are under the
+control of a CA administrator. For more information, see Using a Resource Based Policy with
+ACM Private CA.   A policy permits a user of Certificate Manager (ACM) to issue ACM
+certificates signed by a CA in another account.   For ACM to manage automatic renewal of
+these certificates, the ACM user must configure a Service Linked Role (SLR). The SLR allows
+the ACM service to assume the identity of the user, subject to confirmation against the ACM
+Private CA policy. For more information, see Using a Service Linked Role with ACM.
+Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For
+more information, see Attach a Policy for Cross-Account Access.
 
 # Arguments
 - `policy`: The path and file name of a JSON-formatted IAM policy to attach to the
@@ -1179,8 +1183,8 @@ makes further attempts every 15 minutes. With Amazon CloudWatch, you can create 
 the metrics CRLGenerated and MisconfiguredCRLBucket. For more information, see Supported
 CloudWatch Metrics.  Both PCA and the IAM principal must have permission to write to the S3
 bucket that you specify. If the IAM principal making the call does not have permission to
-write to the bucket, then an exception is thrown. For more information, see Configure
-Access to ACM Private CA.  ACM Private CA also writes revocation information to the audit
+write to the bucket, then an exception is thrown. For more information, see Access policies
+for CRLs in Amazon S3.  ACM Private CA also writes revocation information to the audit
 report. For more information, see CreateCertificateAuthorityAuditReport.  You cannot revoke
 a root CA self-signed certificate.
 
@@ -1194,8 +1198,8 @@ a root CA self-signed certificate.
   GetCertificate action retrieves the certificate in the PEM format. You can use the
   following OpenSSL command to list the certificate in text format and copy the hexadecimal
   serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial
-  number from the console or use the DescribeCertificate action in the AWS Certificate
-  Manager API Reference.
+  number from the console or use the DescribeCertificate action in the Certificate Manager
+  API Reference.
 - `revocation_reason`: Specifies why you revoked the certificate.
 
 """
@@ -1246,13 +1250,13 @@ end
     tag_certificate_authority(certificate_authority_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to your private CA. Tags are labels that you can use to identify and
-organize your AWS resources. Each tag consists of a key and an optional value. You specify
-the private CA on input by its Amazon Resource Name (ARN). You specify the tag by using a
-key-value pair. You can apply a tag to just one private CA if you want to identify a
-specific characteristic of that CA, or you can apply the same tag to multiple private CAs
-if you want to filter for a common relationship among those CAs. To remove one or more
-tags, use the UntagCertificateAuthority action. Call the ListTags action to see what tags
-are associated with your CA.
+organize your Amazon Web Services resources. Each tag consists of a key and an optional
+value. You specify the private CA on input by its Amazon Resource Name (ARN). You specify
+the tag by using a key-value pair. You can apply a tag to just one private CA if you want
+to identify a specific characteristic of that CA, or you can apply the same tag to multiple
+private CAs if you want to filter for a common relationship among those CAs. To remove one
+or more tags, use the UntagCertificateAuthority action. Call the ListTags action to see
+what tags are associated with your CA.
 
 # Arguments
 - `certificate_authority_arn`: The Amazon Resource Name (ARN) that was returned when you
@@ -1355,8 +1359,8 @@ CA must be in the ACTIVE or DISABLED state before you can update it. You can dis
 private CA that is in the ACTIVE state or make a CA that is in the DISABLED state active
 again.  Both PCA and the IAM principal must have permission to write to the S3 bucket that
 you specify. If the IAM principal making the call does not have permission to write to the
-bucket, then an exception is thrown. For more information, see Configure Access to ACM
-Private CA.
+bucket, then an exception is thrown. For more information, see Access policies for CRLs in
+Amazon S3.
 
 # Arguments
 - `certificate_authority_arn`: Amazon Resource Name (ARN) of the private CA that issued the

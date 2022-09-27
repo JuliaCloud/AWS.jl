@@ -77,7 +77,9 @@ Creates a channel.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
-  configure filler slate if your channel uses a LINEAR PlaybackMode.
+  configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
+  support filler slate for channels using the LOOP PlaybackMode.
+- `"Tier"`: The tier of the channel.
 - `"tags"`: The tags to assign to the channel.
 """
 function create_channel(
@@ -105,6 +107,58 @@ function create_channel(
             mergewith(
                 _merge,
                 Dict{String,Any}("Outputs" => Outputs, "PlaybackMode" => PlaybackMode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_live_source(http_package_configurations, live_source_name, source_location_name)
+    create_live_source(http_package_configurations, live_source_name, source_location_name, params::Dict{String,<:Any})
+
+Creates name for a specific live source in a source location.
+
+# Arguments
+- `http_package_configurations`: A list of HTTP package configuration parameters for this
+  live source.
+- `live_source_name`: The identifier for the live source you are working on.
+- `source_location_name`: The identifier for the source location you are working on.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: The tags to assign to the live source.
+"""
+function create_live_source(
+    HttpPackageConfigurations,
+    liveSourceName,
+    sourceLocationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "POST",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
+        Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_live_source(
+    HttpPackageConfigurations,
+    liveSourceName,
+    sourceLocationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "POST",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations),
                 params,
             ),
         );
@@ -177,26 +231,26 @@ function create_prefetch_schedule(
 end
 
 """
-    create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name)
-    create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name, params::Dict{String,<:Any})
+    create_program(schedule_configuration, source_location_name, channel_name, program_name)
+    create_program(schedule_configuration, source_location_name, channel_name, program_name, params::Dict{String,<:Any})
 
 Creates a program.
 
 # Arguments
 - `schedule_configuration`: The schedule configuration settings.
 - `source_location_name`: The name of the source location.
-- `vod_source_name`: The name that's used to refer to a VOD source.
 - `channel_name`: The identifier for the channel you are working on.
 - `program_name`: The identifier for the program you are working on.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdBreaks"`: The ad break configuration settings.
+- `"LiveSourceName"`: The name of the LiveSource for this Program.
+- `"VodSourceName"`: The name that's used to refer to a VOD source.
 """
 function create_program(
     ScheduleConfiguration,
     SourceLocationName,
-    VodSourceName,
     channelName,
     programName;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -207,7 +261,6 @@ function create_program(
         Dict{String,Any}(
             "ScheduleConfiguration" => ScheduleConfiguration,
             "SourceLocationName" => SourceLocationName,
-            "VodSourceName" => VodSourceName,
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -216,7 +269,6 @@ end
 function create_program(
     ScheduleConfiguration,
     SourceLocationName,
-    VodSourceName,
     channelName,
     programName,
     params::AbstractDict{String};
@@ -231,7 +283,6 @@ function create_program(
                 Dict{String,Any}(
                     "ScheduleConfiguration" => ScheduleConfiguration,
                     "SourceLocationName" => SourceLocationName,
-                    "VodSourceName" => VodSourceName,
                 ),
                 params,
             ),
@@ -257,6 +308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication used to access content from your source location.
 - `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the server that
   serves segments.
+- `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
+  associated with this resource.
 - `"tags"`: The tags to assign to the source location.
 """
 function create_source_location(
@@ -296,7 +349,7 @@ end
 Creates name for a specific VOD source in a source location.
 
 # Arguments
-- `http_package_configurations`: An array of HTTP package configuration parameters for this
+- `http_package_configurations`: A list of HTTP package configuration parameters for this
   VOD source.
 - `source_location_name`: The identifier for the source location you are working on.
 - `vod_source_name`: The identifier for the VOD source you are working on.
@@ -401,6 +454,42 @@ function delete_channel_policy(
     return mediatailor(
         "DELETE",
         "/channel/$(channelName)/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_live_source(live_source_name, source_location_name)
+    delete_live_source(live_source_name, source_location_name, params::Dict{String,<:Any})
+
+Deletes a specific live source in a specific source location.
+
+# Arguments
+- `live_source_name`: The identifier for the live source you are working on.
+- `source_location_name`: The identifier for the source location you are working on.
+
+"""
+function delete_live_source(
+    liveSourceName, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "DELETE",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_live_source(
+    liveSourceName,
+    sourceLocationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "DELETE",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -609,6 +698,42 @@ function describe_channel(
     return mediatailor(
         "GET",
         "/channel/$(channelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_live_source(live_source_name, source_location_name)
+    describe_live_source(live_source_name, source_location_name, params::Dict{String,<:Any})
+
+Provides details about a specific live source in a specific source location.
+
+# Arguments
+- `live_source_name`: The identifier for the live source you are working on.
+- `source_location_name`: The identifier for the source location you are working on.
+
+"""
+function describe_live_source(
+    liveSourceName, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "GET",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_live_source(
+    liveSourceName,
+    sourceLocationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "GET",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -927,6 +1052,46 @@ function list_channels(
 )
     return mediatailor(
         "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_live_sources(source_location_name)
+    list_live_sources(source_location_name, params::Dict{String,<:Any})
+
+lists all the live sources in a source location.
+
+# Arguments
+- `source_location_name`: The identifier for the source location you are working on.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
+  is 100.
+- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+  next page of results.
+"""
+function list_live_sources(
+    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "GET",
+        "/sourceLocation/$(sourceLocationName)/liveSources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_live_sources(
+    sourceLocationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "GET",
+        "/sourceLocation/$(sourceLocationName)/liveSources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1375,6 +1540,11 @@ Updates an existing channel.
 - `outputs`: The channel's output properties.
 - `channel_name`: The identifier for the channel you are working on.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
+  configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
+  support filler slate for channels using the LOOP PlaybackMode.
 """
 function update_channel(
     Outputs, channelName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1403,6 +1573,55 @@ function update_channel(
 end
 
 """
+    update_live_source(http_package_configurations, live_source_name, source_location_name)
+    update_live_source(http_package_configurations, live_source_name, source_location_name, params::Dict{String,<:Any})
+
+Updates a specific live source in a specific source location.
+
+# Arguments
+- `http_package_configurations`: A list of HTTP package configurations for the live source
+  on this account.
+- `live_source_name`: The identifier for the live source you are working on.
+- `source_location_name`: The identifier for the source location you are working on.
+
+"""
+function update_live_source(
+    HttpPackageConfigurations,
+    liveSourceName,
+    sourceLocationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
+        Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_live_source(
+    HttpPackageConfigurations,
+    liveSourceName,
+    sourceLocationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/sourceLocation/$(sourceLocationName)/liveSource/$(liveSourceName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_source_location(http_configuration, source_location_name)
     update_source_location(http_configuration, source_location_name, params::Dict{String,<:Any})
 
@@ -1418,6 +1637,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication used to access content from your source location.
 - `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the host server
   that serves segments.
+- `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
+  associated with this resource.
 """
 function update_source_location(
     HttpConfiguration, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1456,7 +1677,7 @@ end
 Updates a specific VOD source in a specific source location.
 
 # Arguments
-- `http_package_configurations`: An array of HTTP package configurations for the VOD source
+- `http_package_configurations`: A list of HTTP package configurations for the VOD source
   on this account.
 - `source_location_name`: The identifier for the source location you are working on.
 - `vod_source_name`: The identifier for the VOD source you are working on.

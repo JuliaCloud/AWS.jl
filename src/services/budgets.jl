@@ -22,7 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationsWithSubscribers"`: A notification that you want to associate with a
   budget. A budget can have up to five notifications, and each notification can have one SNS
   subscriber and up to 10 email subscribers. If you include notifications and subscribers in
-  your CreateBudget call, AWS creates the notifications and subscribers for you.
+  your CreateBudget call, Amazon Web Services creates the notifications and subscribers for
+  you.
 """
 function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config())
     return budgets(
@@ -148,8 +149,8 @@ notification.
 # Arguments
 - `account_id`: The accountId that is associated with the budget that you want to create a
   notification for.
-- `budget_name`: The name of the budget that you want AWS to notify you about. Budget names
-  must be unique within an account.
+- `budget_name`: The name of the budget that you want Amazon Web Services to notify you
+  about. Budget names must be unique within an account.
 - `notification`: The notification that you want to create.
 - `subscribers`: A list of subscribers that you want to associate with the notification.
   Each notification can have one SNS subscriber and up to 10 email subscribers.
@@ -699,6 +700,46 @@ function describe_budget_actions_for_budget(
 end
 
 """
+    describe_budget_notifications_for_account(account_id)
+    describe_budget_notifications_for_account(account_id, params::Dict{String,<:Any})
+
+ Lists the budget names and notifications that are associated with an account.
+
+# Arguments
+- `account_id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  An integer that shows how many budget name entries a paginated response
+  contains.
+- `"NextToken"`:
+"""
+function describe_budget_notifications_for_account(
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetNotificationsForAccount",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_budget_notifications_for_account(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetNotificationsForAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_budget_performance_history(account_id, budget_name)
     describe_budget_performance_history(account_id, budget_name, params::Dict{String,<:Any})
 
@@ -957,11 +998,11 @@ end
     update_budget(account_id, new_budget, params::Dict{String,<:Any})
 
 Updates a budget. You can change every part of a budget except for the budgetName and the
-calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has
-new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can
-be present in the syntax at one time. Use the syntax that matches your case. The Request
-Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples
-section.
+calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon
+Web Services has new usage data to use for forecasting.  Only one of BudgetLimit or
+PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches
+your case. The Request Syntax section shows the BudgetLimit syntax. For
+PlannedBudgetLimits, see the Examples section.
 
 # Arguments
 - `account_id`: The accountId that is associated with the budget that you want to update.

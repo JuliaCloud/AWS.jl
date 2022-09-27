@@ -14,6 +14,19 @@ specification.
 # Arguments
 - `anomaly_monitor`: The cost anomaly detection monitor object that you want to create.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceTags"`: An optional list of tags to associate with the specified
+  AnomalyMonitor . You can use resource tags to control access to your monitor using IAM
+  policies. Each tag consists of a key and a value, and each key must be unique for the
+  resource. The following restrictions apply to resource tags:   Although the maximum number
+  of array members is 200, you can assign a maximum of 50 user-tags to one resource. The
+  remaining are reserved for Amazon Web Services use   The maximum length of a key is 128
+  characters   The maximum length of a value is 256 characters   Keys and values can only
+  contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and
+  values are case sensitive   Keys and values are trimmed for any leading or trailing
+  whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for
+  Amazon Web Services use
 """
 function create_anomaly_monitor(
     AnomalyMonitor; aws_config::AbstractAWSConfig=global_aws_config()
@@ -51,6 +64,19 @@ threshold and a time frequency for receiving notifications.
 # Arguments
 - `anomaly_subscription`: The cost anomaly subscription object that you want to create.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceTags"`: An optional list of tags to associate with the specified
+  AnomalySubscription . You can use resource tags to control access to your subscription
+  using IAM policies. Each tag consists of a key and a value, and each key must be unique for
+  the resource. The following restrictions apply to resource tags:   Although the maximum
+  number of array members is 200, you can assign a maximum of 50 user-tags to one resource.
+  The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128
+  characters   The maximum length of a value is 256 characters   Keys and values can only
+  contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and
+  values are case sensitive   Keys and values are trimmed for any leading or trailing
+  whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for
+  Amazon Web Services use
 """
 function create_anomaly_subscription(
     AnomalySubscription; aws_config::AbstractAWSConfig=global_aws_config()
@@ -96,6 +122,16 @@ Creates a new Cost Category with the requested name and rules.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DefaultValue"`:
+- `"ResourceTags"`: An optional list of tags to associate with the specified  CostCategory
+  . You can use resource tags to control access to your cost category using IAM policies.
+  Each tag consists of a key and a value, and each key must be unique for the resource. The
+  following restrictions apply to resource tags:   Although the maximum number of array
+  members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are
+  reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The
+  maximum length of a value is 256 characters   Keys and values can only contain alphanumeric
+  characters, spaces, and any of the following: _.:/=+@-    Keys and values are case
+  sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t
+  use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
 - `"SplitChargeRules"`:  The split charge rules used to allocate your charges between your
   Cost Category values.
 """
@@ -213,7 +249,7 @@ Deletes a Cost Category. Expenses from this month going forward will no longer b
 categorized with this Cost Category.
 
 # Arguments
-- `cost_category_arn`:  The unique identifier for your Cost Category.
+- `cost_category_arn`: The unique identifier for your Cost Category.
 
 """
 function delete_cost_category_definition(
@@ -247,18 +283,18 @@ end
     describe_cost_category_definition(cost_category_arn)
     describe_cost_category_definition(cost_category_arn, params::Dict{String,<:Any})
 
-Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's
-defined in the account. You have the option to use EffectiveOn to return a Cost Category
-that is active on a specific date. If there is no EffectiveOn specified, you’ll see a
-Cost Category that is effective on the current date. If Cost Category is still effective,
-EffectiveEnd is omitted in the response.
+Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a
+Cost Category that's defined in the account. You have the option to use EffectiveOn to
+return a Cost Category that's active on a specific date. If there's no EffectiveOn
+specified, you see a Cost Category that's effective on the current date. If Cost Category
+is still effective, EffectiveEnd is omitted in the response.
 
 # Arguments
-- `cost_category_arn`:  The unique identifier for your Cost Category.
+- `cost_category_arn`: The unique identifier for your Cost Category.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EffectiveOn"`:  The date when the Cost Category was effective.
+- `"EffectiveOn"`: The date when the Cost Category was effective.
 """
 function describe_cost_category_definition(
     CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -429,12 +465,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: Filters Amazon Web Services costs by different dimensions. For example, you
   can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that
   account's usage of that service. You can nest Expression objects to define any combination
-  of dimension filters. For more information, see Expression.
+  of dimension filters. For more information, see Expression.  Valid values for MatchOptions
+  for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for
+  CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS
+  and CASE_SENSITIVE.
 - `"GroupBy"`: You can group Amazon Web Services costs using up to two different groups,
   either dimensions, tag keys, cost categories, or any two group by types. Valid values for
-  the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION,
-  PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by
-  the TAG type and include a valid tag key, you get all tag values, including empty strings.
+  the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY,
+  LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and
+  USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag
+  values, including empty strings.
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
@@ -487,7 +527,7 @@ SERVICE or AZ, in a specific time range. For a complete list of valid dimensions
 GetDimensionValues operation. Management account in an organization in Organizations have
 access to all member accounts. This API is currently available for the Amazon Elastic
 Compute Cloud – Compute service only.  This is an opt-in only feature. You can enable
-this feature from the Cost Explorer Settings page. For information on how to access the
+this feature from the Cost Explorer Settings page. For information about how to access the
 Settings page, see Controlling Access for Cost Explorer in the Billing and Cost Management
 User Guide.
 
@@ -498,7 +538,9 @@ User Guide.
   of dimension filters. For more information, see Expression.  The
   GetCostAndUsageWithResources operation requires that you either group by or filter by a
   ResourceId. It requires the Expression \"SERVICE = Amazon Elastic Compute Cloud - Compute\"
-  in the filter.
+  in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE.
+  Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and
+  CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
 - `granularity`: Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or
   HOURLY. If Granularity isn't set, the response object doesn't include the Granularity,
   MONTHLY, DAILY, or HOURLY.
@@ -519,7 +561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metric, the service aggregates all usage numbers without taking the units into account. For
   example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't
   meaningful because Amazon EC2 compute hours and data transfer are measured in different
-  units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by
+  units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by
   UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources
   requests.
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
@@ -577,23 +619,24 @@ names and values are not associated with any cost, they will not be returned by 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CostCategoryName"`:
 - `"Filter"`:
-- `"MaxResults"`: This field is only used when SortBy is provided in the request. The
-  maximum number of objects that to be returned for this request. If MaxResults is not
-  specified with SortBy, the request will return 1000 results as the default value for this
-  parameter. For GetCostCategories, MaxResults has an upper limit of 1000.
+- `"MaxResults"`: This field is only used when the SortBy value is provided in the request.
+  The maximum number of objects that are returned for this request. If MaxResults isn't
+  specified with the SortBy value, the request returns 1000 results as the default value for
+  this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
 - `"NextPageToken"`: If the number of objects that are still available for retrieval
-  exceeds the limit, Amazon Web Services returns a NextPageToken value in the response. To
-  retrieve the next batch of objects, provide the NextPageToken from the prior call in your
-  next request.
-- `"SearchString"`: The value that you want to search the filter values for. If you do not
-  specify a CostCategoryName, SearchString will be used to filter Cost Category names that
-  match the SearchString pattern. If you do specifiy a CostCategoryName, SearchString will be
-  used to filter Cost Category values that match the SearchString pattern.
-- `"SortBy"`: The value by which you want to sort the data. The key represents cost and
-  usage metrics. The following values are supported:    BlendedCost     UnblendedCost
+  exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To
+  retrieve the next batch of objects, provide the NextPageToken from the previous call in
+  your next request.
+- `"SearchString"`: The value that you want to search the filter values for. If you don't
+  specify a CostCategoryName, SearchString is used to filter Cost Category names that match
+  the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter
+  Cost Category values that match the SearchString pattern.
+- `"SortBy"`: The value that you sort the data by. The key represents the cost and usage
+  metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
-  NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
-  using SortBy, NextPageToken and SearchString are not supported.
+  NormalizedUsageAmount    The supported key values for the SortOrder value are ASCENDING and
+  DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values
+  aren't supported.
 """
 function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_explorer(
@@ -711,23 +754,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the context is set to COST_AND_USAGE, the resulting dimension values can be used in the
   GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the
   following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.
-    DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or
+    BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible
+  values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells
+  Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity
+  that's an acting reseller for Amazon Web Services in India. - Amazon Web Services
+  Marketplace: The entity that supports the sale of solutions that are built on Amazon Web
+  Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache
+  operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon
+  Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.
+  DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or
   MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.
-  LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services
-  services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute
-  map that includes the full name of the member account. The value field contains the Amazon
-  Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples
-  are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and
-  CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
-   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related.
-  Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The
-  Amazon Web Services service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An
-  example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation
-  includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping
-  of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for
-  this operation includes a unit attribute.   REGION - The Amazon Web Services Region.
-  RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and
-  credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in
+  INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases.
+  Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization
+  (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that
+  issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization
+  that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT
+  - The description in the attribute map that includes the full name of the member account.
+  The value field contains the Amazon Web Services ID of the member account.
+  OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The
+  action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon
+  EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type
+  of the purchase that this usage is related to. Examples include On-Demand Instances and
+  Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web
+  Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings
+  Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE -
+  The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a
+  resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is
+  DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit
+  attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage
+  types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation
+  includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The
+  different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds,
+  and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in
   feature only available for last 14 days for EC2-Compute Service.   If you set the context
   to RESERVATIONS, you can use the following dimensions for searching:   AZ - The
   Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache
@@ -742,27 +800,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples
   are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the
   following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2
-  Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for
+  Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for
   example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY -
   The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the
   attribute map that includes the full name of the member account. The value field contains
   the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique
-  identifier for your Savings Plan
+  identifier for your Savings Plans.
 - `"Filter"`:
 - `"MaxResults"`: This field is only used when SortBy is provided in the request. The
-  maximum number of objects that to be returned for this request. If MaxResults is not
-  specified with SortBy, the request will return 1000 results as the default value for this
-  parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
+  maximum number of objects that are returned for this request. If MaxResults isn't specified
+  with SortBy, the request returns 1000 results as the default value for this parameter. For
+  GetDimensionValues, MaxResults has an upper limit of 1000.
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 - `"SearchString"`: The value that you want to search the filter values for.
-- `"SortBy"`: The value by which you want to sort the data. The key represents cost and
+- `"SortBy"`: The value that you want to sort the data by. The key represents cost and
   usage metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
-  NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
-  you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using
-  SortBy, NextPageToken and SearchString are not supported.
+  NormalizedUsageAmount    The supported values for the SortOrder key are ASCENDING or
+  DESCENDING. When you specify a SortBy paramater, the context must be COST_AND_USAGE.
+  Further, when using SortBy, NextPageToken and SearchString aren't supported.
 """
 function get_dimension_values(
     Dimension, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
@@ -798,7 +856,7 @@ end
     get_reservation_coverage(time_period)
     get_reservation_coverage(time_period, params::Dict{String,<:Any})
 
-Retrieves the reservation coverage for your account. This enables you to see how much of
+Retrieves the reservation coverage for your account, which you can use to see how much of
 your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service,
 or Amazon Redshift usage is covered by a reservation. An organization's management account
 can see the coverage of the associated member accounts. This supports dimensions, Cost
@@ -830,8 +888,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY
   granularities.
 - `"GroupBy"`: You can group the data by the following attributes:   AZ   CACHE_ENGINE
-  DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM
-  PLATFORM   REGION   TENANCY
+  DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   INVOICING_ENTITY   LINKED_ACCOUNT
+  OPERATING_SYSTEM   PLATFORM   REGION   TENANCY
 - `"MaxResults"`: The maximum number of objects that you returned for this request. If more
   objects are available, in the response, Amazon Web Services provides a NextPageToken value
   that you can use in a subsequent call to get the next batch of objects.
@@ -875,28 +933,28 @@ end
     get_reservation_purchase_recommendation(service)
     get_reservation_purchase_recommendation(service, params::Dict{String,<:Any})
 
-Gets recommendations for which reservations to purchase. These recommendations could help
-you reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared
-to On-Demand pricing. Amazon Web Services generates your recommendations by identifying
-your On-Demand usage during a specific time period and collecting your usage into
-categories that are eligible for a reservation. After Amazon Web Services has these
-categories, it simulates every combination of reservations in each category of usage to
-identify the best number of each type of RI to purchase to maximize your estimated savings.
- For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux, shared
-tenancy, and c4 family usage in the US West (Oregon) Region and recommends that you buy
-size-flexible regional reservations to apply to the c4 family usage. Amazon Web Services
-recommends the smallest size instance in an instance family. This makes it easier to
-purchase a size-flexible RI. Amazon Web Services also shows the equal number of normalized
-units so that you can purchase any instance size that you want. For this example, your RI
-recommendation would be for c4.large because that is the smallest size instance in the c4
-instance family.
+Gets recommendations for reservation purchases. These recommendations might help you to
+reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to
+On-Demand pricing. Amazon Web Services generates your recommendations by identifying your
+On-Demand usage during a specific time period and collecting your usage into categories
+that are eligible for a reservation. After Amazon Web Services has these categories, it
+simulates every combination of reservations in each category of usage to identify the best
+number of each type of Reserved Instance (RI) to purchase to maximize your estimated
+savings.  For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux,
+shared tenancy, and c4 family usage in the US West (Oregon) Region and recommends that you
+buy size-flexible regional reservations to apply to the c4 family usage. Amazon Web
+Services recommends the smallest size instance in an instance family. This makes it easier
+to purchase a size-flexible Reserved Instance (RI). Amazon Web Services also shows the
+equal number of normalized units. This way, you can purchase any instance size that you
+want. For this example, your RI recommendation is for c4.large because that is the smallest
+size instance in the c4 instance family.
 
 # Arguments
 - `service`: The specific service that you want recommendations for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountId"`: The account ID that is associated with the recommendation.
+- `"AccountId"`: The account ID that's associated with the recommendation.
 - `"AccountScope"`: The account scope that you want your recommendations for. Amazon Web
   Services calculates recommendations including the management account and member accounts if
   the value is set to PAYER. If the value is LINKED, recommendations are calculated for
@@ -944,10 +1002,10 @@ period. You can use GetDimensionValues to determine the possible dimension value
 Currently, you can group only by SUBSCRIPTION_ID.
 
 # Arguments
-- `time_period`: Sets the start and end dates for retrieving RI utilization. The start date
-  is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is
-  2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including
-  2017-04-30 but not including 2017-05-01.
+- `time_period`: Sets the start and end dates for retrieving Reserved Instance (RI)
+  utilization. The start date is inclusive, but the end date is exclusive. For example, if
+  start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from
+  2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -968,13 +1026,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"SortBy"`: The value by which you want to sort the data. The following values are
+- `"SortBy"`: The value that you want to sort the data by. The following values are
   supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits
   PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours
       UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings
      AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee
-  RICostForUnusedHours     RealizedSavings     UnrealizedSavings    Supported values for
-  SortOrder are ASCENDING or DESCENDING.
+  RICostForUnusedHours     RealizedSavings     UnrealizedSavings    The supported values for
+  SortOrder are ASCENDING and DESCENDING.
 """
 function get_reservation_utilization(
     TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1007,9 +1065,9 @@ end
 
 Creates recommendations that help you save cost by identifying idle and underutilized
 Amazon EC2 instances. Recommendations are generated to either downsize or terminate
-instances, along with providing savings detail and metrics. For details on calculation and
-function, see Optimizing Your Cost with Rightsizing Recommendations in the Billing and Cost
-Management User Guide.
+instances, along with providing savings detail and metrics. For more information about
+calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the
+Billing and Cost Management User Guide.
 
 # Arguments
 - `service`: The specific service that you want recommendations for. The only valid value
@@ -1017,11 +1075,11 @@ Management User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`:  Enables you to customize recommendations across two attributes. You
-  can choose to view recommendations for instances within the same instance families or
-  across different instance families. You can also choose to view your estimated savings
-  associated with recommendations with consideration of existing Savings Plans or RI
-  benefits, or neither.
+- `"Configuration"`: You can use Configuration to customize recommendations across two
+  attributes. You can choose to view recommendations for instances within the same instance
+  families or across different instance families. You can also choose to view your estimated
+  savings that are associated with recommendations with consideration of existing Savings
+  Plans or RI benefits, or neither.
 - `"Filter"`:
 - `"NextPageToken"`: The pagination token that indicates the next set of results that you
   want to retrieve.
@@ -1084,10 +1142,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"SortBy"`: The value by which you want to sort the data. The following values are
+- `"SortBy"`: The value that you want to sort the data by. The following values are
   supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage
-  TotalCost     InstanceFamily     Region     Service    Supported values for SortOrder are
-  ASCENDING or DESCENDING.
+  TotalCost     InstanceFamily     Region     Service    The supported values for SortOrder
+  are ASCENDING and DESCENDING.
 """
 function get_savings_plans_coverage(
     TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1121,10 +1179,10 @@ end
 Retrieves your request parameters, Savings Plan Recommendations Summary and Details.
 
 # Arguments
-- `lookback_period_in_days`: The lookback period used to generate the recommendation.
-- `payment_option`: The payment option used to generate these recommendations.
-- `savings_plans_type`: The Savings Plans recommendation type requested.
-- `term_in_years`: The savings plan recommendation term used to generate these
+- `lookback_period_in_days`: The lookback period that's used to generate the recommendation.
+- `payment_option`: The payment option that's used to generate these recommendations.
+- `savings_plans_type`: The Savings Plans recommendation type that's requested.
+- `term_in_years`: The savings plan recommendation term that's used to generate these
   recommendations.
 
 # Optional Parameters
@@ -1135,11 +1193,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   individual member accounts only.
 - `"Filter"`: You can filter your recommendations by Account ID with the LINKED_ACCOUNT
   dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and
-  Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase
-  recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include
+  Value as the comma-separated Acount ID(s) that you want to see Savings Plans purchase
+  recommendations for. For GetSavingsPlansPurchaseRecommendation, the Filter doesn't include
   CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be
   LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs
-  for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are
+  that you want to see Savings Plans Purchase Recommendations for. AND and OR operators are
   not supported.
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
@@ -1200,7 +1258,7 @@ end
 Retrieves the Savings Plans utilization for your account across date ranges with daily or
 monthly granularity. Management account in an organization have access to member accounts.
 You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.
- You cannot group by any dimension values for GetSavingsPlansUtilization.
+ You can't group by any dimension values for GetSavingsPlansUtilization.
 
 # Arguments
 - `time_period`: The time period that you want the usage and costs for. The Start date must
@@ -1217,9 +1275,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Granularity"`: The granularity of the Amazon Web Services utillization data for your
   Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY
   granularities.
-- `"SortBy"`: The value by which you want to sort the data. The following values are
+- `"SortBy"`: The value that you want to sort the data by. The following values are
   supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment
-  UnusedCommitment     NetSavings    Supported values for SortOrder are ASCENDING or
+  UnusedCommitment     NetSavings    The supported values for SortOrder are ASCENDING and
   DESCENDING.
 """
 function get_savings_plans_utilization(
@@ -1277,10 +1335,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"SortBy"`: The value by which you want to sort the data. The following values are
+- `"SortBy"`: The value that you want to sort the data by. The following values are
   supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment
   UnusedCommitment     NetSavings     AmortizedRecurringCommitment
-  AmortizedUpfrontCommitment    Supported values for SortOrder are ASCENDING or DESCENDING.
+  AmortizedUpfrontCommitment    The supported values for SortOrder are ASCENDING and
+  DESCENDING.
 """
 function get_savings_plans_utilization_details(
     TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1324,18 +1383,18 @@ tag values for an arbitrary string.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filter"`:
 - `"MaxResults"`: This field is only used when SortBy is provided in the request. The
-  maximum number of objects that to be returned for this request. If MaxResults is not
-  specified with SortBy, the request will return 1000 results as the default value for this
-  parameter. For GetTags, MaxResults has an upper limit of 1000.
+  maximum number of objects that are returned for this request. If MaxResults isn't specified
+  with SortBy, the request returns 1000 results as the default value for this parameter. For
+  GetTags, MaxResults has an upper quota of 1000.
 - `"NextPageToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 - `"SearchString"`: The value that you want to search for.
-- `"SortBy"`: The value by which you want to sort the data. The key represents cost and
+- `"SortBy"`: The value that you want to sort the data by. The key represents cost and
   usage metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
-  NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
-  using SortBy, NextPageToken and SearchString are not supported.
+  NormalizedUsageAmount    The supported values for SortOrder are ASCENDING and DESCENDING.
+  When you use SortBy, NextPageToken and SearchString aren't supported.
 - `"TagKey"`: The key of the tag that you want to return values for.
 """
 function get_tags(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1375,10 +1434,11 @@ forecast time period that you select, based on your past usage.
 - `metric`: Which metric Cost Explorer uses to create your forecast. Valid values for a
   GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT
 - `time_period`: The start and end dates of the period that you want to retrieve usage
-  forecast for. The start date is inclusive, but the end date is exclusive. For example, if
-  start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from
-  2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must
-  be equal to or later than the current date to avoid a validation error.
+  forecast for. The start date is included in the period, but the end date isn't included in
+  the period. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and
+  usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including
+  2017-05-01. The start date must be equal to or later than the current date to avoid a
+  validation error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1389,11 +1449,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID
   LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY
   BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
-- `"PredictionIntervalLevel"`: Cost Explorer always returns the mean forecast as a single
-  point. You can request a prediction interval around the mean by specifying a confidence
-  level. The higher the confidence level, the more confident Cost Explorer is about the
-  actual value falling in the prediction interval. Higher confidence levels result in wider
-  prediction intervals.
+- `"PredictionIntervalLevel"`: Amazon Web Services Cost Explorer always returns the mean
+  forecast as a single point. You can request a prediction interval around the mean by
+  specifying a confidence level. The higher the confidence level, the more confident Cost
+  Explorer is about the actual value falling in the prediction interval. Higher confidence
+  levels result in wider prediction intervals.
 """
 function get_usage_forecast(
     Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1433,21 +1493,59 @@ function get_usage_forecast(
 end
 
 """
-    list_cost_category_definitions()
-    list_cost_category_definitions(params::Dict{String,<:Any})
+    list_cost_allocation_tags()
+    list_cost_allocation_tags(params::Dict{String,<:Any})
 
-Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in
-the account. You have the option to use EffectiveOn to return a list of Cost Categories
-that were active on a specific date. If there is no EffectiveOn specified, you’ll see
-Cost Categories that are effective on the current date. If Cost Category is still
-effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports
-pagination. The request can have a MaxResults range up to 100.
+Get a list of cost allocation tags. All inputs in the API are optional and serve as
+filters. By default, all cost allocation tags are returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EffectiveOn"`:  The date when the Cost Category was effective.
-- `"MaxResults"`:  The number of entries a paginated response contains.
-- `"NextToken"`:  The token to retrieve the next set of results. Amazon Web Services
+- `"MaxResults"`: The maximum number of objects that are returned for this request. By
+  default, the request returns 100 results.
+- `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services
+  provides the token when the response from a previous call has more results than the maximum
+  page size.
+- `"Status"`: The status of cost allocation tag keys that are returned for this request.
+- `"TagKeys"`: The list of cost allocation tag keys that are returned for this request.
+- `"Type"`: The type of CostAllocationTag object that are returned for this request. The
+  AWSGenerated type tags are tags that Amazon Web Services defines and applies to support
+  Amazon Web Services resources for cost allocation purposes. The UserDefined type tags are
+  tags that you define, create, and apply to resources.
+"""
+function list_cost_allocation_tags(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cost_explorer(
+        "ListCostAllocationTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_cost_allocation_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListCostAllocationTags",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cost_category_definitions()
+    list_cost_category_definitions(params::Dict{String,<:Any})
+
+Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost
+Categories defined in the account. You have the option to use EffectiveOn to return a list
+of Cost Categories that were active on a specific date. If there is no EffectiveOn
+specified, you’ll see Cost Categories that are effective on the current date. If Cost
+Category is still effective, EffectiveEnd is omitted in the response.
+ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up
+to 100.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EffectiveOn"`: The date when the Cost Category was effective.
+- `"MaxResults"`: The number of entries a paginated response contains.
+- `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
@@ -1464,6 +1562,43 @@ function list_cost_category_definitions(
     return cost_explorer(
         "ListCostCategoryDefinitions",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns a list of resource tags associated with the resource specified by the Amazon
+Resource Name (ARN).
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For a list of supported
+  resources, see ResourceTag.
+
+"""
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1512,11 +1647,119 @@ function provide_anomaly_feedback(
 end
 
 """
+    tag_resource(resource_arn, resource_tags)
+    tag_resource(resource_arn, resource_tags, params::Dict{String,<:Any})
+
+An API operation for adding one or more tags (key-value pairs) to a resource. You can use
+the TagResource operation with a resource that already has tags. If you specify a new tag
+key for the resource, this tag is appended to the list of tags associated with the
+resource. If you specify a tag key that is already associated with the resource, the new
+tag value you specify replaces the previous value for that tag. Although the maximum number
+of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web
+Services use.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For a list of supported
+  resources, see ResourceTag.
+- `resource_tags`:  A list of tag key-value pairs to be added to the resource. Each tag
+  consists of a key and a value, and each key must be unique for the resource. The following
+  restrictions apply to resource tags:   Although the maximum number of array members is 200,
+  you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for
+  Amazon Web Services use   The maximum length of a key is 128 characters   The maximum
+  length of a value is 256 characters   Keys and values can only contain alphanumeric
+  characters, spaces, and any of the following: _.:/=+@-    Keys and values are case
+  sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t
+  use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
+
+"""
+function tag_resource(
+    ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    ResourceTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, resource_tag_keys)
+    untag_resource(resource_arn, resource_tag_keys, params::Dict{String,<:Any})
+
+Removes one or more tags from a resource. Specify only tag keys in your request. Don't
+specify the value.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For a list of supported
+  resources, see ResourceTag.
+- `resource_tag_keys`: A list of tag keys associated with tags that need to be removed from
+  the resource. If you specify a tag key that doesn't exist, it's ignored. Although the
+  maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved
+  for Amazon Web Services use.
+
+"""
+function untag_resource(
+    ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "UntagResource",
+        Dict{String,Any}(
+            "ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    ResourceTagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_anomaly_monitor(monitor_arn)
     update_anomaly_monitor(monitor_arn, params::Dict{String,<:Any})
 
 Updates an existing cost anomaly monitor. The changes made are applied going forward, and
-doesn'tt change anomalies detected in the past.
+doesn't change anomalies detected in the past.
 
 # Arguments
 - `monitor_arn`: Cost anomaly monitor Amazon Resource Names (ARNs).
@@ -1587,6 +1830,49 @@ function update_anomaly_subscription(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("SubscriptionArn" => SubscriptionArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cost_allocation_tags_status(cost_allocation_tags_status)
+    update_cost_allocation_tags_status(cost_allocation_tags_status, params::Dict{String,<:Any})
+
+Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag
+status that's updated is the same as the existing tag status, the request doesn't fail.
+Instead, it doesn't have any effect on the tag status (for example, activating the active
+tag).
+
+# Arguments
+- `cost_allocation_tags_status`: The list of CostAllocationTagStatusEntry objects that are
+  used to update cost allocation tags status for this request.
+
+"""
+function update_cost_allocation_tags_status(
+    CostAllocationTagsStatus; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "UpdateCostAllocationTagsStatus",
+        Dict{String,Any}("CostAllocationTagsStatus" => CostAllocationTagsStatus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_cost_allocation_tags_status(
+    CostAllocationTagsStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "UpdateCostAllocationTagsStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CostAllocationTagsStatus" => CostAllocationTagsStatus),
+                params,
             ),
         );
         aws_config=aws_config,

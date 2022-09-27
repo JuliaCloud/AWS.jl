@@ -122,32 +122,31 @@ end
     create_location_efs(ec2_config, efs_filesystem_arn)
     create_location_efs(ec2_config, efs_filesystem_arn, params::Dict{String,<:Any})
 
-Creates an endpoint for an Amazon EFS file system.
+Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer.
+For more information, see Creating a location for Amazon EFS.
 
 # Arguments
-- `ec2_config`: The subnet and security group that the Amazon EFS file system uses. The
-  security group that you provide needs to be able to communicate with the security group on
-  the mount target in the subnet specified. The exact relationship between security group M
-  (of the mount target) and security group S (which you provide for DataSync to use at this
-  stage) is as follows:     Security group M (which you associate with the mount target) must
-  allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049)
-  from security group S. You can enable inbound connections either by IP address (CIDR range)
-  or security group.    Security group S (provided to DataSync to access EFS) should have a
-  rule that enables outbound connections to the NFS port on one of the file system’s mount
-  targets. You can enable outbound connections either by IP address (CIDR range) or security
-  group. For information about security groups and mount targets, see Security Groups for
-  Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.
-- `efs_filesystem_arn`: The Amazon Resource Name (ARN) for the Amazon EFS file system.
+- `ec2_config`: Specifies the subnet and security groups DataSync uses to access your
+  Amazon EFS file system.
+- `efs_filesystem_arn`: Specifies the ARN for the Amazon EFS file system.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Subdirectory"`: A subdirectory in the location’s path. This subdirectory in the EFS
-  file system is used to read data from the EFS source location or write data to the EFS
-  destination. By default, DataSync uses the root directory.   Subdirectory must be specified
-  with forward slashes. For example, /path/to/folder.
-- `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
-  The value can be an empty string. This value helps you manage, filter, and search for your
-  resources. We recommend that you create a name tag for your location.
+- `"AccessPointArn"`: Specifies the Amazon Resource Name (ARN) of the access point that
+  DataSync uses to access the Amazon EFS file system.
+- `"FileSystemAccessRoleArn"`: Specifies an Identity and Access Management (IAM) role that
+  DataSync assumes when mounting the Amazon EFS file system.
+- `"InTransitEncryption"`: Specifies whether you want DataSync to use Transport Layer
+  Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system. If
+  you specify an access point using AccessPointArn or an IAM role using
+  FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+- `"Subdirectory"`: Specifies a mount path for your Amazon EFS file system. This is where
+  DataSync reads or writes data (depending on if this is a source or destination location).
+  By default, DataSync uses the root directory, but you can also include subdirectories.  You
+  must specify a value with forward slashes (for example, /path/to/folder).
+- `"Tags"`: Specifies the key-value pair that represents a tag that you want to add to the
+  resource. The value can be an empty string. This value helps you manage, filter, and search
+  for your resources. We recommend that you create a name tag for your location.
 """
 function create_location_efs(
     Ec2Config, EfsFilesystemArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -237,33 +236,165 @@ function create_location_fsx_lustre(
 end
 
 """
+    create_location_fsx_ontap(protocol, security_group_arns, storage_virtual_machine_arn)
+    create_location_fsx_ontap(protocol, security_group_arns, storage_virtual_machine_arn, params::Dict{String,<:Any})
+
+Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can access
+for a transfer. For more information, see Creating a location for FSx for ONTAP.
+
+# Arguments
+- `protocol`:
+- `security_group_arns`: Specifies the Amazon EC2 security groups that provide access to
+  your file system's preferred subnet. The security groups must allow outbound traffic on the
+  following ports (depending on the protocol you use):    Network File System (NFS): TCP
+  ports 111, 635, and 2049    Server Message Block (SMB): TCP port 445   Your file system's
+  security groups must also allow inbound traffic on the same ports.
+- `storage_virtual_machine_arn`: Specifies the ARN of the storage virtual machine (SVM) on
+  your file system where you're copying data to or from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Subdirectory"`: Specifies the junction path (also known as a mount point) in the SVM
+  volume where you're copying data to or from (for example, /vol1).  Don't specify a junction
+  path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage
+  virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources. We recommend creating at least a name tag for your location.
+"""
+function create_location_fsx_ontap(
+    Protocol,
+    SecurityGroupArns,
+    StorageVirtualMachineArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationFsxOntap",
+        Dict{String,Any}(
+            "Protocol" => Protocol,
+            "SecurityGroupArns" => SecurityGroupArns,
+            "StorageVirtualMachineArn" => StorageVirtualMachineArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_location_fsx_ontap(
+    Protocol,
+    SecurityGroupArns,
+    StorageVirtualMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationFsxOntap",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Protocol" => Protocol,
+                    "SecurityGroupArns" => SecurityGroupArns,
+                    "StorageVirtualMachineArn" => StorageVirtualMachineArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_location_fsx_open_zfs(fsx_filesystem_arn, protocol, security_group_arns)
+    create_location_fsx_open_zfs(fsx_filesystem_arn, protocol, security_group_arns, params::Dict{String,<:Any})
+
+Creates an endpoint for an Amazon FSx for OpenZFS file system.
+
+# Arguments
+- `fsx_filesystem_arn`: The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
+- `protocol`: The type of protocol that DataSync uses to access your file system.
+- `security_group_arns`: The ARNs of the security groups that are used to configure the FSx
+  for OpenZFS file system.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Subdirectory"`: A subdirectory in the location's path that must begin with /fsx.
+  DataSync uses this subdirectory to read or write data (depending on whether the file system
+  is a source or destination location).
+- `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
+  The value can be an empty string. This value helps you manage, filter, and search for your
+  resources. We recommend that you create a name tag for your location.
+"""
+function create_location_fsx_open_zfs(
+    FsxFilesystemArn,
+    Protocol,
+    SecurityGroupArns;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationFsxOpenZfs",
+        Dict{String,Any}(
+            "FsxFilesystemArn" => FsxFilesystemArn,
+            "Protocol" => Protocol,
+            "SecurityGroupArns" => SecurityGroupArns,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_location_fsx_open_zfs(
+    FsxFilesystemArn,
+    Protocol,
+    SecurityGroupArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "CreateLocationFsxOpenZfs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FsxFilesystemArn" => FsxFilesystemArn,
+                    "Protocol" => Protocol,
+                    "SecurityGroupArns" => SecurityGroupArns,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user)
     create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user, params::Dict{String,<:Any})
 
 Creates an endpoint for an Amazon FSx for Windows File Server file system.
 
 # Arguments
-- `fsx_filesystem_arn`: The Amazon Resource Name (ARN) for the FSx for Windows File Server
-  file system.
-- `password`: The password of the user who has the permissions to access files and folders
-  in the FSx for Windows File Server file system.
-- `security_group_arns`: The Amazon Resource Names (ARNs) of the security groups that are
-  used to configure the FSx for Windows File Server file system.
-- `user`: The user who has the permissions to access files and folders in the FSx for
-  Windows File Server file system. For information about choosing a user name that ensures
-  sufficient permissions to files, folders, and metadata, see user.
+- `fsx_filesystem_arn`: Specifies the Amazon Resource Name (ARN) for the FSx for Windows
+  File Server file system.
+- `password`: Specifies the password of the user who has the permissions to access files
+  and folders in the file system.
+- `security_group_arns`: Specifies the ARNs of the security groups that provide access to
+  your file system's preferred subnet.  If you choose a security group that doesn't allow
+  connections from within itself, do one of the following:   Configure the security group to
+  allow it to communicate within itself.   Choose a different security group that can
+  communicate with the mount target's security group.
+- `user`: Specifies the user who has the permissions to access files and folders in the
+  file system. For information about choosing a user name that ensures sufficient permissions
+  to files, folders, and metadata, see user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Domain"`: The name of the Windows domain that the FSx for Windows File Server belongs
-  to.
-- `"Subdirectory"`: A subdirectory in the location's path. This subdirectory in the Amazon
-  FSx for Windows File Server file system is used to read data from the Amazon FSx for
-  Windows File Server source location or write data to the FSx for Windows File Server
-  destination.
-- `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
-  The value can be an empty string. This value helps you manage, filter, and search for your
-  resources. We recommend that you create a name tag for your location.
+- `"Domain"`: Specifies the name of the Windows domain that the FSx for Windows File Server
+  belongs to.
+- `"Subdirectory"`: Specifies a mount path for your file system using forward slashes. This
+  is where DataSync reads or writes data (depending on if this is a source or destination
+  location).
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources. We recommend creating at least a name tag for your location.
 """
 function create_location_fsx_windows(
     FsxFilesystemArn,
@@ -415,7 +546,7 @@ written to.
   NFS Server on Snowcone for more information.
 - `server_hostname`: The name of the NFS server. This value is the IP address or Domain
   Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this
-  host name to mount the NFS server in a network.  If you are copying data to or from your
+  hostname to mount the NFS server in a network.  If you are copying data to or from your
   Snowcone device, see NFS Server on Snowcone for more information.  This name must either be
   DNS-compliant or must be an IP version 4 (IPv4) address.
 - `subdirectory`: The subdirectory in the NFS file system that is used to read data from
@@ -486,37 +617,32 @@ end
     create_location_object_storage(agent_arns, bucket_name, server_hostname)
     create_location_object_storage(agent_arns, bucket_name, server_hostname, params::Dict{String,<:Any})
 
-Creates an endpoint for a self-managed object storage bucket. For more information about
-self-managed object storage locations, see Creating a location for object storage.
+Creates an endpoint for an object storage system that DataSync can access for a transfer.
+For more information, see Creating a location for object storage.
 
 # Arguments
-- `agent_arns`: The Amazon Resource Name (ARN) of the agents associated with the
-  self-managed object storage server location.
-- `bucket_name`: The bucket on the self-managed object storage server that is used to read
-  data from.
-- `server_hostname`: The name of the self-managed object storage server. This value is the
-  IP address or Domain Name Service (DNS) name of the object storage server. An agent uses
-  this host name to mount the object storage server in a network.
+- `agent_arns`: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
+  securely connect with your location.
+- `bucket_name`: Specifies the name of the object storage bucket involved in the transfer.
+- `server_hostname`: Specifies the domain name or IP address of the object storage server.
+  A DataSync agent uses this hostname to mount the object storage server in a network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessKey"`: Optional. The access key is used if credentials are required to access the
-  self-managed object storage server. If your object storage requires a user name and
-  password to authenticate, use AccessKey and SecretKey to provide the user name and
-  password, respectively.
-- `"SecretKey"`: Optional. The secret key is used if credentials are required to access the
-  self-managed object storage server. If your object storage requires a user name and
-  password to authenticate, use AccessKey and SecretKey to provide the user name and
-  password, respectively.
-- `"ServerPort"`: The port that your self-managed object storage server accepts inbound
-  network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
-  You can specify a custom port if your self-managed object storage server requires one.
-- `"ServerProtocol"`: The protocol that the object storage server uses to communicate.
-  Valid values are HTTP or HTTPS.
-- `"Subdirectory"`: The subdirectory in the self-managed object storage server that is used
-  to read data from.
-- `"Tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+- `"AccessKey"`: Specifies the access key (for example, a user name) if credentials are
+  required to authenticate with the object storage server.
+- `"SecretKey"`: Specifies the secret key (for example, a password) if credentials are
+  required to authenticate with the object storage server.
+- `"ServerPort"`: Specifies the port that your object storage server accepts inbound
+  network traffic on (for example, port 443).
+- `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
+  communicate.
+- `"Subdirectory"`: Specifies the object prefix for your object storage server. If this is
+  a source location, DataSync only copies objects with this prefix. If this is a destination
+  location, DataSync writes all objects with this prefix.
+- `"Tags"`: Specifies the key-value pair that represents a tag that you want to add to the
+  resource. Tags can help you manage, filter, and search for your resources. We recommend
+  creating a name tag for your location.
 """
 function create_location_object_storage(
     AgentArns, BucketName, ServerHostname; aws_config::AbstractAWSConfig=global_aws_config()
@@ -571,7 +697,7 @@ location in the DataSync User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AgentArns"`: If you are using DataSync on an Amazon Web Services Outpost, specify the
+- `"AgentArns"`: If you're using DataSync on an Amazon Web Services Outpost, specify the
   Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more
   information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy
   your DataSync agent on Outposts.
@@ -647,7 +773,7 @@ written to.
   must additionally enable all execute access.
 - `user`: The user who can mount the share, has the permissions to access files and folders
   in the SMB share. For information about choosing a user name that ensures sufficient
-  permissions to files, folders, and metadata, see user.
+  permissions to files, folders, and metadata, see the User setting for SMB locations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -710,18 +836,13 @@ end
     create_task(destination_location_arn, source_location_arn)
     create_task(destination_location_arn, source_location_arn, params::Dict{String,<:Any})
 
-Creates a task. A task includes a source location and a destination location, and a
-configuration that specifies how data is transferred. A task always transfers data from the
-source location to the destination location. The configuration specifies options such as
-task scheduling, bandwidth limits, etc. A task is the complete definition of a data
-transfer. When you create a task that transfers data between Amazon Web Services services
-in different Amazon Web Services Regions, one of the two locations that you specify must
-reside in the Region where DataSync is being used. The other location must be specified in
-a different Region. You can transfer data between commercial Amazon Web Services Regions
-except for China, or between Amazon Web Services GovCloud (US) Regions.  When you use
-DataSync to copy files or objects between Amazon Web Services Regions, you pay for data
-transfer between Regions. This is billed as data transfer OUT from your source Region to
-your destination Region. For more information, see Data Transfer pricing.
+Configures a task, which defines where and how DataSync transfers your data. A task
+includes a source location, a destination location, and the preferences for how and when
+you want to transfer your data (such as bandwidth limits, scheduling, among other options).
+When you create a task that transfers data between Amazon Web Services services in
+different Amazon Web Services Regions, one of your locations must reside in the Region
+where you're using DataSync. For more information, see the following topics:    Working
+with DataSync locations     Configure DataSync task settings
 
 # Arguments
 - `destination_location_arn`: The Amazon Resource Name (ARN) of an Amazon Web Services
@@ -930,10 +1051,11 @@ end
     describe_location_efs(location_arn)
     describe_location_efs(location_arn, params::Dict{String,<:Any})
 
-Returns metadata, such as the path information about an Amazon EFS location.
+Returns metadata about your DataSync location for an Amazon EFS file system.
 
 # Arguments
-- `location_arn`: The Amazon Resource Name (ARN) of the EFS location to describe.
+- `location_arn`: The Amazon Resource Name (ARN) of the Amazon EFS file system location
+  that you want information about.
 
 """
 function describe_location_efs(
@@ -965,7 +1087,8 @@ end
     describe_location_fsx_lustre(location_arn)
     describe_location_fsx_lustre(location_arn, params::Dict{String,<:Any})
 
-Returns metadata, such as the path information about an Amazon FSx for Lustre location.
+Returns metadata about an Amazon FSx for Lustre location, such as information about its
+path.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the FSx for Lustre location to
@@ -998,11 +1121,85 @@ function describe_location_fsx_lustre(
 end
 
 """
+    describe_location_fsx_ontap(location_arn)
+    describe_location_fsx_ontap(location_arn, params::Dict{String,<:Any})
+
+Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file
+system is configured.
+
+# Arguments
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system
+  location that you want information about.
+
+"""
+function describe_location_fsx_ontap(
+    LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeLocationFsxOntap",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_location_fsx_ontap(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeLocationFsxOntap",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_location_fsx_open_zfs(location_arn)
+    describe_location_fsx_open_zfs(location_arn, params::Dict{String,<:Any})
+
+Returns metadata about an Amazon FSx for OpenZFS location, such as information about its
+path.
+
+# Arguments
+- `location_arn`: The Amazon Resource Name (ARN) of the FSx for OpenZFS location to
+  describe.
+
+"""
+function describe_location_fsx_open_zfs(
+    LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeLocationFsxOpenZfs",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_location_fsx_open_zfs(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeLocationFsxOpenZfs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_location_fsx_windows(location_arn)
     describe_location_fsx_windows(location_arn, params::Dict{String,<:Any})
 
-Returns metadata, such as the path information about an Amazon FSx for Windows File Server
-location.
+Returns metadata about an Amazon FSx for Windows File Server location, such as information
+about its path.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the FSx for Windows File Server
@@ -1109,12 +1306,11 @@ end
     describe_location_object_storage(location_arn)
     describe_location_object_storage(location_arn, params::Dict{String,<:Any})
 
-Returns metadata about a self-managed object storage server location. For more information
-about self-managed object storage locations, see Creating a location for object storage.
+Returns metadata about your DataSync location for an object storage system.
 
 # Arguments
-- `location_arn`: The Amazon Resource Name (ARN) of the self-managed object storage server
-  location that was described.
+- `location_arn`: The Amazon Resource Name (ARN) of the object storage system location that
+  you want information about.
 
 """
 function describe_location_object_storage(
@@ -1407,7 +1603,7 @@ end
     list_tasks()
     list_tasks(params::Dict{String,<:Any})
 
-Returns a list of all the tasks.
+Returns a list of the DataSync tasks you created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1606,11 +1802,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BlockSize"`: The size of the data blocks to write into the HDFS cluster.
 - `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
   defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
-  providing the file's address. If you use the AWS CLI, it performs base64 encoding for you.
+  providing the file's address. If you use the CLI, it performs base64 encoding for you.
   Otherwise, provide the base64-encoded text.
 - `"KerberosKrb5Conf"`: The krb5.conf file that contains the Kerberos configuration
   information. You can load the krb5.conf file by providing the file's address. If you're
-  using the AWS CLI, it performs the base64 encoding for you. Otherwise, provide the
+  using the CLI, it performs the base64 encoding for you. Otherwise, provide the
   base64-encoded text.
 - `"KerberosPrincipal"`: The Kerberos principal with access to the files and folders on the
   HDFS cluster.

@@ -5,19 +5,76 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
+    attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
+
+Attaches the specified customer managed policy to the specified PermissionSet.
+
+# Arguments
+- `customer_managed_policy_reference`: Specifies the name and path of a customer managed
+  policy. You must have an IAM policy that matches the name and path in each AWS account
+  where you want to deploy your permission set.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+
+"""
+function attach_customer_managed_policy_reference_to_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "AttachCustomerManagedPolicyReferenceToPermissionSet",
+        Dict{String,Any}(
+            "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function attach_customer_managed_policy_reference_to_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "AttachCustomerManagedPolicyReferenceToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
     attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Attaches an IAM managed policy ARN to a permission set.  If the permission set is already
+Attaches an AWS managed policy ARN to a permission set.  If the permission set is already
 referenced by one or more account assignments, you will need to call
 ProvisionPermissionSet  after this operation. Calling ProvisionPermissionSet applies the
 corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
-- `managed_policy_arn`: The IAM managed policy ARN to be attached to a permission set.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
+- `managed_policy_arn`: The AWS managed policy ARN to be attached to a permission set.
 - `permission_set_arn`: The ARN of the PermissionSet that the managed policy should be
   attached to.
 
@@ -68,28 +125,30 @@ end
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Assigns access to a principal for a specified Amazon Web Services account using a specified
-permission set.  The term principal here refers to a user or group that is defined in
-Amazon Web Services SSO.   As part of a successful CreateAccountAssignment call, the
-specified permission set will automatically be provisioned to the account in the form of an
-IAM policy. That policy is attached to the SSO-created IAM role. If the permission set is
+Assigns access to a principal for a specified AWS account using a specified permission set.
+ The term principal here refers to a user or group that is defined in IAM Identity Center.
+ As part of a successful CreateAccountAssignment call, the specified permission set will
+automatically be provisioned to the account in the form of an IAM policy. That policy is
+attached to the IAM role created in IAM Identity Center. If the permission set is
 subsequently updated, the corresponding IAM policies attached to roles in your accounts
 will not be updated automatically. In this case, you must call  ProvisionPermissionSet  to
-make these updates.
+make these updates.    After a successful response, call
+DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation
+request.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set that the admin wants to grant the
   principal access to.
-- `principal_id`: An identifier for an object in Amazon Web Services SSO, such as a user or
+- `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
-  information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO
-  Identity Store API Reference.
+  information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
+  Store API Reference.
 - `principal_type`: The entity type for which the assignment will be created.
-- `target_id`: TargetID is an Amazon Web Services account identifier, typically a 10-12
-  digit string (For example, 123456789012).
+- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
+  example, 123456789012).
 - `target_type`: The entity type for which the assignment will be created.
 
 """
@@ -151,20 +210,23 @@ end
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
 
-Enables the attributes-based access control (ABAC) feature for the specified Amazon Web
-Services SSO instance. You can also specify new attributes to add to your ABAC
-configuration during the enabling process. For more information about ABAC, see
-Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+Enables the attributes-based access control (ABAC) feature for the specified IAM Identity
+Center instance. You can also specify new attributes to add to your ABAC configuration
+during the enabling process. For more information about ABAC, see Attribute-Based Access
+Control in the IAM Identity Center User Guide.  After a successful response, call
+DescribeInstanceAccessControlAttributeConfiguration to validate that
+InstanceAccessControlAttributeConfiguration was created.
 
 # Arguments
-- `instance_access_control_attribute_configuration`: Specifies the Amazon Web Services SSO
+- `instance_access_control_attribute_configuration`: Specifies the IAM Identity Center
   identity store attributes to add to your ABAC configuration. When using an external
   identity provider as an identity source, you can pass attributes through the SAML
-  assertion. Doing so provides an alternative to configuring attributes from the Amazon Web
-  Services SSO identity store. If a SAML assertion passes any of these attributes, Amazon Web
-  Services SSO will replace the attribute value with the value from the Amazon Web Services
-  SSO identity store.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
+  assertion. Doing so provides an alternative to configuring attributes from the IAM Identity
+  Center identity store. If a SAML assertion passes any of these attributes, IAM Identity
+  Center will replace the attribute value with the value from the IAM Identity Center
+  identity store.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
 
 """
 function create_instance_access_control_attribute_configuration(
@@ -211,13 +273,13 @@ end
     create_permission_set(instance_arn, name)
     create_permission_set(instance_arn, name, params::Dict{String,<:Any})
 
-Creates a permission set within a specified SSO instance.  To grant users and groups access
-to Amazon Web Services account resources, use  CreateAccountAssignment .
+Creates a permission set within a specified IAM Identity Center instance.  To grant users
+and groups access to AWS account resources, use  CreateAccountAssignment .
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `name`: The name of the PermissionSet.
 
 # Optional Parameters
@@ -263,21 +325,22 @@ end
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Deletes a principal's access from a specified Amazon Web Services account using a specified
-permission set.
+Deletes a principal's access from a specified AWS account using a specified permission set.
+ After a successful response, call DescribeAccountAssignmentCreationStatus to describe the
+status of an assignment deletion request.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
-- `principal_id`: An identifier for an object in Amazon Web Services SSO, such as a user or
+- `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
-  information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO
-  Identity Store API Reference.
+  information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
+  Store API Reference.
 - `principal_type`: The entity type for which the assignment will be deleted.
-- `target_id`: TargetID is an Amazon Web Services account identifier, typically a 10-12
-  digit string (For example, 123456789012).
+- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
+  example, 123456789012).
 - `target_type`: The entity type for which the assignment will be deleted.
 
 """
@@ -342,9 +405,9 @@ end
 Deletes the inline policy from a specified permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 
 """
@@ -386,14 +449,15 @@ end
     delete_instance_access_control_attribute_configuration(instance_arn)
     delete_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
-Disables the attributes-based access control (ABAC) feature for the specified Amazon Web
-Services SSO instance and deletes all of the attribute mappings that have been configured.
-Once deleted, any attributes that are received from an identity source and any custom
-attributes you have previously configured will not be passed. For more information about
-ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+Disables the attributes-based access control (ABAC) feature for the specified IAM Identity
+Center instance and deletes all of the attribute mappings that have been configured. Once
+deleted, any attributes that are received from an identity source and any custom attributes
+you have previously configured will not be passed. For more information about ABAC, see
+Attribute-Based Access Control in the IAM Identity Center User Guide.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
 
 """
 function delete_instance_access_control_attribute_configuration(
@@ -428,9 +492,9 @@ end
 Deletes the specified permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 
 """
@@ -469,6 +533,52 @@ function delete_permission_set(
 end
 
 """
+    delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn)
+    delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+
+Deletes the permissions boundary from a specified PermissionSet.
+
+# Arguments
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+
+"""
+function delete_permissions_boundary_from_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DeletePermissionsBoundaryFromPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_permissions_boundary_from_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeletePermissionsBoundaryFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn, params::Dict{String,<:Any})
 
@@ -477,9 +587,9 @@ Describes the status of the assignment creation request.
 # Arguments
 - `account_assignment_creation_request_id`: The identifier that is used to track the
   request operation progress.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 """
 function describe_account_assignment_creation_status(
@@ -530,9 +640,9 @@ Describes the status of the assignment deletion request.
 # Arguments
 - `account_assignment_deletion_request_id`: The identifier that is used to track the
   request operation progress.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 """
 function describe_account_assignment_deletion_status(
@@ -578,14 +688,15 @@ end
     describe_instance_access_control_attribute_configuration(instance_arn)
     describe_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
-Returns the list of Amazon Web Services SSO identity store attributes that have been
-configured to work with attributes-based access control (ABAC) for the specified Amazon Web
-Services SSO instance. This will not return attributes configured and sent by an external
-identity provider. For more information about ABAC, see Attribute-Based Access Control in
-the Amazon Web Services SSO User Guide.
+Returns the list of IAM Identity Center identity store attributes that have been configured
+to work with attributes-based access control (ABAC) for the specified IAM Identity Center
+instance. This will not return attributes configured and sent by an external identity
+provider. For more information about ABAC, see Attribute-Based Access Control in the IAM
+Identity Center User Guide.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
 
 """
 function describe_instance_access_control_attribute_configuration(
@@ -620,9 +731,9 @@ end
 Gets the details of the permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
@@ -667,9 +778,9 @@ end
 Describes the status for the given permission set provisioning request.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `provision_permission_set_request_id`: The identifier that is provided by the
   ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
 
@@ -713,16 +824,73 @@ function describe_permission_set_provisioning_status(
 end
 
 """
+    detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
+    detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
+
+Detaches the specified customer managed policy from the specified PermissionSet.
+
+# Arguments
+- `customer_managed_policy_reference`: Specifies the name and path of a customer managed
+  policy. You must have an IAM policy that matches the name and path in each AWS account
+  where you want to deploy your permission set.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+
+"""
+function detach_customer_managed_policy_reference_from_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+        Dict{String,Any}(
+            "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function detach_customer_managed_policy_reference_from_permission_set(
+    CustomerManagedPolicyReference,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Detaches the attached IAM managed policy ARN from the specified permission set.
+Detaches the attached AWS managed policy ARN from the specified permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
-- `managed_policy_arn`: The IAM managed policy ARN to be attached to a permission set.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
+- `managed_policy_arn`: The AWS managed policy ARN to be detached from a permission set.
 - `permission_set_arn`: The ARN of the PermissionSet from which the policy should be
   detached.
 
@@ -776,9 +944,9 @@ end
 Obtains the inline policy assigned to the permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
@@ -817,16 +985,62 @@ function get_inline_policy_for_permission_set(
 end
 
 """
+    get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn)
+    get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+
+Obtains the permissions boundary for a specified PermissionSet.
+
+# Arguments
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+
+"""
+function get_permissions_boundary_for_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "GetPermissionsBoundaryForPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_permissions_boundary_for_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetPermissionsBoundaryForPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_account_assignment_creation_status(instance_arn)
     list_account_assignment_creation_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the Amazon Web Services account assignment creation requests for a
-specified SSO instance.
+Lists the status of the AWS account assignment creation requests for a specified IAM
+Identity Center instance.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -864,13 +1078,13 @@ end
     list_account_assignment_deletion_status(instance_arn)
     list_account_assignment_deletion_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the Amazon Web Services account assignment deletion requests for a
-specified SSO instance.
+Lists the status of the AWS account assignment deletion requests for a specified IAM
+Identity Center instance.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -908,15 +1122,13 @@ end
     list_account_assignments(account_id, instance_arn, permission_set_arn)
     list_account_assignments(account_id, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists the assignee of the specified Amazon Web Services account with the specified
-permission set.
+Lists the assignee of the specified AWS account with the specified permission set.
 
 # Arguments
-- `account_id`: The identifier of the Amazon Web Services account from which to list the
-  assignments.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
 # Optional Parameters
@@ -971,23 +1183,21 @@ end
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists all the Amazon Web Services accounts where the specified permission set is
-provisioned.
+Lists all the AWS accounts where the specified permission set is provisioned.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
-- `permission_set_arn`: The ARN of the PermissionSet from which the associated Amazon Web
-  Services accounts will be listed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
+- `permission_set_arn`: The ARN of the PermissionSet from which the associated AWS accounts
+  will be listed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to display for the PermissionSet.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
-- `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
-  account.
+- `"ProvisioningStatus"`: The permission set provisioning status for an AWS account.
 """
 function list_accounts_for_provisioned_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1024,10 +1234,61 @@ function list_accounts_for_provisioned_permission_set(
 end
 
 """
+    list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn)
+    list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+
+Lists all customer managed policies attached to a specified PermissionSet.
+
+# Arguments
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to display for the list call.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+  the output of previous API calls to make subsequent calls.
+"""
+function list_customer_managed_policy_references_in_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListCustomerManagedPolicyReferencesInPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_customer_managed_policy_references_in_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListCustomerManagedPolicyReferencesInPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_instances()
     list_instances(params::Dict{String,<:Any})
 
-Lists the SSO instances that the caller has access to.
+Lists the IAM Identity Center instances that the caller has access to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1052,12 +1313,12 @@ end
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists the IAM managed policy that is attached to a specified permission set.
+Lists the AWS managed policy that is attached to a specified permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the PermissionSet whose managed policies will be listed.
 
 # Optional Parameters
@@ -1104,12 +1365,13 @@ end
     list_permission_set_provisioning_status(instance_arn)
     list_permission_set_provisioning_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the permission set provisioning requests for a specified SSO instance.
+Lists the status of the permission set provisioning requests for a specified IAM Identity
+Center instance.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1147,12 +1409,12 @@ end
     list_permission_sets(instance_arn)
     list_permission_sets(instance_arn, params::Dict{String,<:Any})
 
-Lists the PermissionSets in an SSO instance.
+Lists the PermissionSets in an IAM Identity Center instance.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1189,15 +1451,13 @@ end
     list_permission_sets_provisioned_to_account(account_id, instance_arn)
     list_permission_sets_provisioned_to_account(account_id, instance_arn, params::Dict{String,<:Any})
 
-Lists all the permission sets that are provisioned to a specified Amazon Web Services
-account.
+Lists all the permission sets that are provisioned to a specified AWS account.
 
 # Arguments
-- `account_id`: The identifier of the Amazon Web Services account from which to list the
-  assignments.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1243,9 +1503,9 @@ end
 Lists the tags that are attached to a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 
 # Optional Parameters
@@ -1292,16 +1552,16 @@ end
 The process by which a specified permission set is provisioned to the specified target.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 - `target_type`: The entity type for which the assignment will be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TargetId"`: TargetID is an Amazon Web Services account identifier, typically a 10-12
-  digit string (For example, 123456789012).
+- `"TargetId"`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
+  example, 123456789012).
 """
 function provision_permission_set(
     InstanceArn,
@@ -1349,16 +1609,15 @@ end
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Attaches an IAM inline policy to a permission set.  If the permission set is already
-referenced by one or more account assignments, you will need to call
-ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to
-all assigned accounts.
+Attaches an inline policy to a permission set.  If the permission set is already referenced
+by one or more account assignments, you will need to call  ProvisionPermissionSet  after
+this action to apply the corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
-- `inline_policy`: The IAM inline policy to attach to a PermissionSet.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `inline_policy`: The inline policy to attach to a PermissionSet.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
@@ -1405,15 +1664,72 @@ function put_inline_policy_to_permission_set(
 end
 
 """
+    put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary)
+    put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary, params::Dict{String,<:Any})
+
+Attaches an AWS managed or customer managed policy to the specified PermissionSet as a
+permissions boundary.
+
+# Arguments
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
+- `permission_set_arn`: The ARN of the PermissionSet.
+- `permissions_boundary`: The permissions boundary that you want to attach to a
+  PermissionSet.
+
+"""
+function put_permissions_boundary_to_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    PermissionsBoundary;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutPermissionsBoundaryToPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+            "PermissionsBoundary" => PermissionsBoundary,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_permissions_boundary_to_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    PermissionsBoundary,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutPermissionsBoundaryToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PermissionsBoundary" => PermissionsBoundary,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(instance_arn, resource_arn, tags)
     tag_resource(instance_arn, resource_arn, tags, params::Dict{String,<:Any})
 
 Associates a set of tags with a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tags`: A set of key-value pairs that are used to manage the resource.
 
@@ -1462,9 +1778,9 @@ end
 Disassociates a set of tags from a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tag_keys`: The keys of tags that are attached to the resource.
 
@@ -1510,19 +1826,19 @@ end
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
 
-Updates the Amazon Web Services SSO identity store attributes that you can use with the
-Amazon Web Services SSO instance for attributes-based access control (ABAC). When using an
-external identity provider as an identity source, you can pass attributes through the SAML
-assertion as an alternative to configuring attributes from the Amazon Web Services SSO
-identity store. If a SAML assertion passes any of these attributes, Amazon Web Services SSO
-replaces the attribute value with the value from the Amazon Web Services SSO identity
-store. For more information about ABAC, see Attribute-Based Access Control in the Amazon
-Web Services SSO User Guide.
+Updates the IAM Identity Center identity store attributes that you can use with the IAM
+Identity Center instance for attributes-based access control (ABAC). When using an external
+identity provider as an identity source, you can pass attributes through the SAML assertion
+as an alternative to configuring attributes from the IAM Identity Center identity store. If
+a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute
+value with the value from the IAM Identity Center identity store. For more information
+about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide.
 
 # Arguments
 - `instance_access_control_attribute_configuration`: Updates the attributes for your ABAC
   configuration.
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed.
 
 """
 function update_instance_access_control_attribute_configuration(
@@ -1572,9 +1888,9 @@ end
 Updates an existing permission set.
 
 # Arguments
-- `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
-  Service Namespaces in the Amazon Web Services General Reference.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
+  Service Namespaces in the AWS General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 # Optional Parameters

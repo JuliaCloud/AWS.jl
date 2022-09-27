@@ -201,12 +201,14 @@ end
     create_protection(name, resource_arn, params::Dict{String,<:Any})
 
 Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an
-Amazon CloudFront distribution, Elastic Load Balancing load balancer, Global Accelerator
-accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection
-to only a single resource with each CreateProtection request. You can add protection to
-multiple resources at once through the Shield Advanced console at
-https://console.aws.amazon.com/wafv2/shieldv2#/. For more information see Getting Started
-with Shield Advanced and Adding Shield Advanced protection to Amazon Web Services resources.
+Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard
+accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You
+can protect Amazon EC2 instances and Network Load Balancers by association with protected
+Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each
+CreateProtection request. You can add protection to multiple resources at once through the
+Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/. For more
+information see Getting Started with Shield Advanced and Adding Shield Advanced protection
+to Amazon Web Services resources.
 
 # Arguments
 - `name`: Friendly name for the Protection you are creating.
@@ -216,7 +218,7 @@ with Shield Advanced and Adding Shield Advanced protection to Amazon Web Service
   ncer-id     For an Elastic Load Balancer (Classic Load Balancer):
   arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an
   Amazon CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id
-      For an Global Accelerator accelerator:
+      For an Global Accelerator standard accelerator:
   arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53:
   arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address:
   arn:aws:ec2:region:account-id:eip-allocation/allocation-id
@@ -336,9 +338,12 @@ end
     create_subscription()
     create_subscription(params::Dict{String,<:Any})
 
-Activates Shield Advanced for an account. When you initally create a subscription, your
-subscription is set to be automatically renewed at the end of the existing subscription
-period. You can change this by submitting an UpdateSubscription request.
+Activates Shield Advanced for an account.  For accounts that are members of an
+Organizations organization, Shield Advanced subscriptions are billed against the
+organization's payer account, regardless of whether the payer account itself is subscribed.
+  When you initially create a subscription, your subscription is set to be automatically
+renewed at the end of the existing subscription period. You can change this by submitting
+an UpdateSubscription request.
 
 """
 function create_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -568,12 +573,12 @@ Lists the details of a Protection object.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ProtectionId"`: The unique identifier (ID) for the Protection object that is described.
-  When submitting the DescribeProtection request you must provide either the ResourceArn or
-  the ProtectionID, but not both.
-- `"ResourceArn"`: The ARN (Amazon Resource Name) of the Amazon Web Services resource for
-  the Protection object that is described. When submitting the DescribeProtection request you
-  must provide either the ResourceArn or the ProtectionID, but not both.
+- `"ProtectionId"`: The unique identifier (ID) for the Protection object to describe. You
+  must provide either the ResourceArn of the protected resource or the ProtectionID of the
+  protection, but not both.
+- `"ResourceArn"`: The ARN (Amazon Resource Name) of the protected Amazon Web Services
+  resource. You must provide either the ResourceArn of the protected resource or the
+  ProtectionID of the protection, but not both.
 """
 function describe_protection(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
@@ -655,11 +660,11 @@ end
     disable_application_layer_automatic_response(resource_arn, params::Dict{String,<:Any})
 
 Disable the Shield Advanced automatic application layer DDoS mitigation feature for the
-resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for
-attacks that it detects for the resource.
+protected resource. This stops Shield Advanced from creating, verifying, and applying WAF
+rules for attacks that it detects for the resource.
 
 # Arguments
-- `resource_arn`: The ARN (Amazon Resource Name) of the resource.
+- `resource_arn`: The ARN (Amazon Resource Name) of the protected resource.
 
 """
 function disable_application_layer_automatic_response(
@@ -826,18 +831,19 @@ end
     enable_application_layer_automatic_response(action, resource_arn)
     enable_application_layer_automatic_response(action, resource_arn, params::Dict{String,<:Any})
 
-Enable the Shield Advanced automatic application layer DDoS mitigation for the resource.
-This feature is available for Amazon CloudFront distributions only.  This causes Shield
-Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the
-resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that
-you've associated with the resource. For information about how automatic mitigation works
-and the requirements for using it, see Shield Advanced automatic application layer DDoS
-mitigation. Don't use this action to make changes to automatic mitigation settings when
-it's already enabled for a resource. Instead, use UpdateApplicationLayerAutomaticResponse.
-To use this feature, you must associate a web ACL with the protected resource. The web ACL
-must be created using the latest version of WAF (v2). You can associate the web ACL through
-the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/. For more
-information, see Getting Started with Shield Advanced. You can also do this through the WAF
+Enable the Shield Advanced automatic application layer DDoS mitigation for the protected
+resource.   This feature is available for Amazon CloudFront distributions and Application
+Load Balancers only.  This causes Shield Advanced to create, verify, and apply WAF rules
+for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a
+Shield rule group inside the web ACL that you've associated with the resource. For
+information about how automatic mitigation works and the requirements for using it, see
+Shield Advanced automatic application layer DDoS mitigation.  Don't use this action to make
+changes to automatic mitigation settings when it's already enabled for a resource. Instead,
+use UpdateApplicationLayerAutomaticResponse.  To use this feature, you must associate a web
+ACL with the protected resource. The web ACL must be created using the latest version of
+WAF (v2). You can associate the web ACL through the Shield Advanced console at
+https://console.aws.amazon.com/wafv2/shieldv2#/. For more information, see Getting Started
+with Shield Advanced. You can also associate the web ACL to the resource through the WAF
 console or the WAF API, but you must manage Shield Advanced automatic mitigation through
 Shield Advanced. For information about WAF, see WAF Developer Guide.
 
@@ -848,7 +854,7 @@ Shield Advanced. For information about WAF, see WAF Developer Guide.
   mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates
   the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have
   associated with the resource.
-- `resource_arn`: The ARN (Amazon Resource Name) of the resource.
+- `resource_arn`: The ARN (Amazon Resource Name) of the protected resource.
 
 """
 function enable_application_layer_automatic_response(
@@ -975,10 +981,17 @@ end
     list_protection_groups()
     list_protection_groups(params::Dict{String,<:Any})
 
-Retrieves the ProtectionGroup objects for the account.
+Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups
+or you can provide filtering criteria and retrieve just the subset of protection groups
+that match the criteria.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InclusionFilters"`: Narrows the set of protection groups that the call retrieves. You
+  can retrieve a single protection group by its name and you can retrieve all protection
+  groups that are configured with specific pattern or aggregation settings. You can provide
+  up to one criteria per filter type. Shield Advanced returns the protection groups that
+  exactly match all of the search criteria that you provide.
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
   setting, even if more objects are available. If there are more objects remaining, Shield
@@ -1015,10 +1028,17 @@ end
     list_protections()
     list_protections(params::Dict{String,<:Any})
 
-Lists all Protection objects for the account.
+Retrieves Protection objects for the account. You can retrieve all protections or you can
+provide filtering criteria and retrieve just the subset of protections that match the
+criteria.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InclusionFilters"`: Narrows the set of protections that the call retrieves. You can
+  retrieve a single protection by providing its name or the ARN (Amazon Resource Name) of its
+  protected resource. You can also retrieve all protections for a specific resource type. You
+  can provide up to one criteria per filter type. Shield Advanced returns protections that
+  exactly match all of the filter criteria that you provide.
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
   setting, even if more objects are available. If there are more objects remaining, Shield
@@ -1383,7 +1403,10 @@ end
     update_subscription(params::Dict{String,<:Any})
 
 Updates the details of an existing subscription. Only enter values for parameters you want
-to change. Empty parameters are not updated.
+to change. Empty parameters are not updated.  For accounts that are members of an
+Organizations organization, Shield Advanced subscriptions are billed against the
+organization's payer account, regardless of whether the payer account itself is subscribed.
+
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

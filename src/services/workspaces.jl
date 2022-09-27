@@ -192,6 +192,51 @@ function copy_workspace_image(
 end
 
 """
+    create_connect_client_add_in(name, resource_id, url)
+    create_connect_client_add_in(name, resource_id, url, params::Dict{String,<:Any})
+
+Creates a client-add-in for Amazon Connect within a directory. You can create only one
+Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users
+to seamlessly connect to Amazon Connect.
+
+# Arguments
+- `name`: The name of the client add-in.
+- `resource_id`: The directory identifier for which to configure the client add-in.
+- `url`: The endpoint URL of the Amazon Connect client add-in.
+
+"""
+function create_connect_client_add_in(
+    Name, ResourceId, URL; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateConnectClientAddIn",
+        Dict{String,Any}("Name" => Name, "ResourceId" => ResourceId, "URL" => URL);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_connect_client_add_in(
+    Name,
+    ResourceId,
+    URL,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateConnectClientAddIn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "ResourceId" => ResourceId, "URL" => URL),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_connection_alias(connection_string)
     create_connection_alias(connection_string, params::Dict{String,<:Any})
 
@@ -454,6 +499,60 @@ function create_workspace_bundle(
 end
 
 """
+    create_workspace_image(description, name, workspace_id)
+    create_workspace_image(description, name, workspace_id, params::Dict{String,<:Any})
+
+Creates a new WorkSpace image from an existing WorkSpace.
+
+# Arguments
+- `description`: The description of the new WorkSpace image.
+- `name`: The name of the new WorkSpace image.
+- `workspace_id`: The identifier of the source WorkSpace
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags that you want to add to the new WorkSpace image. To add tags when
+  you're creating the image, you must create an IAM policy that grants your IAM user
+  permission to use workspaces:CreateTags.
+"""
+function create_workspace_image(
+    Description, Name, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateWorkspaceImage",
+        Dict{String,Any}(
+            "Description" => Description, "Name" => Name, "WorkspaceId" => WorkspaceId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workspace_image(
+    Description,
+    Name,
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspaceImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "Name" => Name,
+                    "WorkspaceId" => WorkspaceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_workspaces(workspaces)
     create_workspaces(workspaces, params::Dict{String,<:Any})
 
@@ -481,6 +580,93 @@ function create_workspaces(
         "CreateWorkspaces",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_client_branding(platforms, resource_id)
+    delete_client_branding(platforms, resource_id, params::Dict{String,<:Any})
+
+Deletes customized client branding. Client branding allows you to customize your
+WorkSpace's client login portal. You can tailor your login portal company logo, the support
+email address, support link, link to reset password, and a custom message for users trying
+to sign in. After you delete your customized client branding, your login portal reverts to
+the default client branding.
+
+# Arguments
+- `platforms`: The device type for which you want to delete client branding.
+- `resource_id`: The directory identifier of the WorkSpace for which you want to delete
+  client branding.
+
+"""
+function delete_client_branding(
+    Platforms, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteClientBranding",
+        Dict{String,Any}("Platforms" => Platforms, "ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_client_branding(
+    Platforms,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DeleteClientBranding",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Platforms" => Platforms, "ResourceId" => ResourceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_connect_client_add_in(add_in_id, resource_id)
+    delete_connect_client_add_in(add_in_id, resource_id, params::Dict{String,<:Any})
+
+Deletes a client-add-in for Amazon Connect that is configured within a directory.
+
+# Arguments
+- `add_in_id`: The identifier of the client add-in to delete.
+- `resource_id`: The directory identifier for which the client add-in is configured.
+
+"""
+function delete_connect_client_add_in(
+    AddInId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteConnectClientAddIn",
+        Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_connect_client_add_in(
+    AddInId,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DeleteConnectClientAddIn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -751,6 +937,46 @@ function describe_account_modifications(
 end
 
 """
+    describe_client_branding(resource_id)
+    describe_client_branding(resource_id, params::Dict{String,<:Any})
+
+Describes the specified client branding. Client branding allows you to customize the log in
+page of various device types for your users. You can add your company logo, the support
+email address, support link, link to reset password, and a custom message for users trying
+to sign in.  Only device types that have branding information configured will be shown in
+the response.
+
+# Arguments
+- `resource_id`: The directory identifier of the WorkSpace for which you want to view
+  client branding information.
+
+"""
+function describe_client_branding(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeClientBranding",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_client_branding(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeClientBranding",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_client_properties(resource_ids)
     describe_client_properties(resource_ids, params::Dict{String,<:Any})
 
@@ -779,6 +1005,46 @@ function describe_client_properties(
         "DescribeClientProperties",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceIds" => ResourceIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_connect_client_add_ins(resource_id)
+    describe_connect_client_add_ins(resource_id, params::Dict{String,<:Any})
+
+Retrieves a list of Amazon Connect client add-ins that have been created.
+
+# Arguments
+- `resource_id`: The directory identifier for which the client add-in is configured.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return.
+- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+  provide this token to receive the next set of results.
+"""
+function describe_connect_client_add_ins(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeConnectClientAddIns",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_connect_client_add_ins(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeConnectClientAddIns",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1229,6 +1495,60 @@ function disassociate_ip_groups(
 end
 
 """
+    import_client_branding(resource_id)
+    import_client_branding(resource_id, params::Dict{String,<:Any})
+
+Imports client branding. Client branding allows you to customize your WorkSpace's client
+login portal. You can tailor your login portal company logo, the support email address,
+support link, link to reset password, and a custom message for users trying to sign in.
+After you import client branding, the default branding experience for the specified
+platform type is replaced with the imported experience    You must specify at least one
+platform type when importing client branding.   You can import up to 6 MB of data with each
+request. If your request exceeds this limit, you can import client branding for different
+platform types using separate requests.   In each platform type, the SupportEmail and
+SupportLink parameters are mutually exclusive. You can specify only one parameter for each
+platform type, but not both.   Imported data can take up to a minute to appear in the
+WorkSpaces client.
+
+# Arguments
+- `resource_id`: The directory identifier of the WorkSpace for which you want to import
+  client branding.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceTypeAndroid"`: The branding information to import for Android devices.
+- `"DeviceTypeIos"`: The branding information to import for iOS devices.
+- `"DeviceTypeLinux"`: The branding information to import for Linux devices.
+- `"DeviceTypeOsx"`: The branding information to import for macOS devices.
+- `"DeviceTypeWeb"`: The branding information to import for web access.
+- `"DeviceTypeWindows"`: The branding information to import for Windows devices.
+"""
+function import_client_branding(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ImportClientBranding",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_client_branding(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ImportClientBranding",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process)
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process, params::Dict{String,<:Any})
 
@@ -1473,6 +1793,50 @@ function modify_client_properties(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_saml_properties(resource_id)
+    modify_saml_properties(resource_id, params::Dict{String,<:Any})
+
+Modifies multiple properties related to SAML 2.0 authentication, including the enablement
+status, user access URL, and relay state parameter name that are used for configuring
+federation with an SAML 2.0 identity provider.
+
+# Arguments
+- `resource_id`: The directory identifier for which you want to configure SAML properties.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PropertiesToDelete"`: The SAML properties to delete as part of your request. Specify
+  one of the following options:    SAML_PROPERTIES_USER_ACCESS_URL to delete the user access
+  URL.    SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter
+  name.
+- `"SamlProperties"`: The properties for configuring SAML 2.0 authentication.
+"""
+function modify_saml_properties(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifySamlProperties",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_saml_properties(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifySamlProperties",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2077,6 +2441,52 @@ function terminate_workspaces(
                 Dict{String,Any}(
                     "TerminateWorkspaceRequests" => TerminateWorkspaceRequests
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_connect_client_add_in(add_in_id, resource_id)
+    update_connect_client_add_in(add_in_id, resource_id, params::Dict{String,<:Any})
+
+Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL
+of a Amazon Connect client add-in.
+
+# Arguments
+- `add_in_id`: The identifier of the client add-in to update.
+- `resource_id`: The directory identifier for which the client add-in is configured.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Name"`: The name of the client add-in.
+- `"URL"`: The endpoint URL of the Amazon Connect client add-in.
+"""
+function update_connect_client_add_in(
+    AddInId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "UpdateConnectClientAddIn",
+        Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_connect_client_add_in(
+    AddInId,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "UpdateConnectClientAddIn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId),
                 params,
             ),
         );

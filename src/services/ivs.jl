@@ -82,16 +82,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Channel name.
 - `"recordingConfigurationArn"`: Recording-configuration ARN. Default: \"\" (empty string,
   recording is disabled).
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
+- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
+  Amazon Web Services Resources for more information, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
+  constraints beyond what is documented there.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable resolution or bitrate, the stream probably will disconnect
-  immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated
-  from the original input, to automatically give viewers the best experience for their
-  devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5
-  Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed
-  through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s
-  video-quality choice is limited to the original input. Resolution can be up to 480p and
-  bitrate can be up to 1.5 Mbps.
+  immediately. Default: STANDARD. Valid values:    STANDARD: Video is transcoded: multiple
+  qualities are generated from the original input, to automatically give viewers the best
+  experience for their devices and network conditions. Transcoding allows higher playback
+  quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be
+  up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio
+  is passed through. This is the default.    BASIC: Video is transmuxed: Amazon IVS delivers
+  the original input to viewers. The viewer’s video-quality choice is limited to the
+  original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p
+  and up to 3.5 Mbps for resolutions between 480p and 1080p.
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -131,7 +136,16 @@ correct region.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"name"`: Recording-configuration name. The value does not need to be unique.
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
+- `"recordingReconnectWindowSeconds"`: If a broadcast disconnects and then reconnects
+  within the specified interval, the multiple streams will be considered a single broadcast
+  and merged together. Default: 0.
+- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
+  Amazon Web Services Resources for more information, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
+  constraints beyond what is documented there.
+- `"thumbnailConfiguration"`: A complex type that allows you to enable/disable the
+  recording of thumbnails for a live session and modify the interval at which thumbnails are
+  generated for the live session.
 """
 function create_recording_configuration(
     destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -179,7 +193,10 @@ CreateStreamKey.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
+- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
+  Amazon Web Services Resources for more information, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
+  constraints beyond what is documented there.
 """
 function create_stream_key(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -559,7 +576,10 @@ Amazon IVS User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"name"`: Playback-key-pair name. The value does not need to be unique.
-- `"tags"`: Any tags provided with the request are added to the playback key pair tags.
+- `"tags"`: Any tags provided with the request are added to the playback key pair tags. See
+  Tagging Amazon Web Services Resources for more information, including restrictions that
+  apply to tags and \"Tag naming limits and requirements\"; Amazon IVS has no
+  service-specific constraints beyond what is documented there.
 """
 function import_playback_key_pair(
     publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config()
@@ -604,7 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterByName"`: Filters the channel list to match the specified name.
 - `"filterByRecordingConfigurationArn"`: Filters the channel list to match the specified
   recording-configuration ARN.
-- `"maxResults"`: Maximum number of channels to return. Default: 50.
+- `"maxResults"`: Maximum number of channels to return. Default: 100.
 - `"nextToken"`: The first channel to retrieve. This is used for pagination; see the
   nextToken response field.
 """
@@ -634,9 +654,10 @@ Private Channels in the Amazon IVS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The first key pair to retrieve. This is used for pagination; see the
-  nextToken response field. Default: 50.
-- `"nextToken"`: Maximum number of key pairs to return.
+- `"maxResults"`: Maximum number of key pairs to return. Default: your service quota or
+  100, whichever is smaller.
+- `"nextToken"`: The first key pair to retrieve. This is used for pagination; see the
+  nextToken response field.
 """
 function list_playback_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -667,7 +688,8 @@ Web Services region where the API request is processed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of recording configurations to return. Default: 50.
+- `"maxResults"`: Maximum number of recording configurations to return. Default: your
+  service quota or 100, whichever is smaller.
 - `"nextToken"`: The first recording configuration to retrieve. This is used for
   pagination; see the nextToken response field.
 """
@@ -702,7 +724,7 @@ Gets summary information about stream keys for the specified channel.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of streamKeys to return. Default: 50.
+- `"maxResults"`: Maximum number of streamKeys to return. Default: 1.
 - `"nextToken"`: The first stream key to retrieve. This is used for pagination; see the
   nextToken response field.
 """
@@ -743,7 +765,7 @@ the AWS region where the API request is processed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of streams to return. Default: 50.
+- `"maxResults"`: Maximum number of streams to return. Default: 100.
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.
 """
@@ -782,7 +804,7 @@ region where the API request is processed.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterBy"`: Filters the stream list to match the specified criterion.
-- `"maxResults"`: Maximum number of streams to return. Default: 50.
+- `"maxResults"`: Maximum number of streams to return. Default: 100.
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.
 """
@@ -810,7 +832,7 @@ end
 Gets information about Amazon Web Services tags for the specified ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the resource to be retrieved.
+- `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 
 """
 function list_tags_for_resource(
@@ -930,8 +952,12 @@ end
 Adds or updates tags for the Amazon Web Services resource with the specified ARN.
 
 # Arguments
-- `resource_arn`: ARN of the resource for which tags are to be added or updated.
-- `tags`: Array of tags to be added or updated.
+- `resource_arn`: ARN of the resource for which tags are to be added or updated. The ARN
+  must be URL-encoded.
+- `tags`: Array of tags to be added or updated. See Tagging Amazon Web Services Resources
+  for more information, including restrictions that apply to tags and \"Tag naming limits and
+  requirements\"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -965,8 +991,12 @@ end
 Removes tags from the resource with the specified ARN.
 
 # Arguments
-- `resource_arn`: ARN of the resource for which tags are to be removed.
-- `tag_keys`: Array of tags to be removed.
+- `resource_arn`: ARN of the resource for which tags are to be removed. The ARN must be
+  URL-encoded.
+- `tag_keys`: Array of tags to be removed. See Tagging Amazon Web Services Resources for
+  more information, including restrictions that apply to tags and \"Tag naming limits and
+  requirements\"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 
 """
 function untag_resource(
@@ -1017,13 +1047,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is enabled
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable resolution or bitrate, the stream probably will disconnect
-  immediately. Valid values:    STANDARD: Multiple qualities are generated from the original
-  input, to automatically give viewers the best experience for their devices and network
-  conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is
-  transcoded only for renditions 360p and below; above that, audio is passed through.
-  BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality
-  choice is limited to the original input. Resolution can be up to 480p and bitrate can be up
-  to 1.5 Mbps.
+  immediately. Valid values:    STANDARD: Video is transcoded: multiple qualities are
+  generated from the original input, to automatically give viewers the best experience for
+  their devices and network conditions. Transcoding allows higher playback quality across a
+  range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps.
+  Audio is transcoded only for renditions 360p and below; above that, audio is passed
+  through. This is the default.    BASIC: Video is transmuxed: Amazon IVS delivers the
+  original input to viewers. The viewer’s video-quality choice is limited to the original
+  input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to
+  3.5 Mbps for resolutions between 480p and 1080p.
 """
 function update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(

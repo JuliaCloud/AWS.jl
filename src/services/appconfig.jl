@@ -8,10 +8,10 @@ using AWS.UUIDs
     create_application(name)
     create_application(name, params::Dict{String,<:Any})
 
-Creates an application. An application in AppConfig is a logical unit of code that provides
-capabilities for your customers. For example, an application can be a microservice that
-runs on Amazon EC2 instances, a mobile application installed by your users, a serverless
-application using Amazon API Gateway and Lambda, or any system you run on behalf of others.
+Creates an application. In AppConfig, an application is simply an organizational construct
+like a folder. This organizational construct has a relationship with some unit of
+executable code. For example, you could create an application called MyMobileApp to
+organize and manage configuration data for a mobile application installed by your users.
 
 # Arguments
 - `name`: A name for the application.
@@ -55,9 +55,9 @@ Store parameters, Amazon S3 objects, or any integration source action supported 
 CodePipeline. A configuration profile includes the following information:   The URI
 location of the configuration data.   The Identity and Access Management (IAM) role that
 provides access to the configuration data.   A validator for the configuration data.
-Available validators include either a JSON Schema or an Lambda function.   For more
-information, see Create a Configuration and a Configuration Profile in the AppConfig User
-Guide.
+Available validators include either a JSON Schema or an Amazon Web Services Lambda
+function.   For more information, see Create a Configuration and a Configuration Profile in
+the AppConfig User Guide.
 
 # Arguments
 - `application_id`: The application ID.
@@ -82,9 +82,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Metadata to assign to the configuration profile. Tags help organize and
   categorize your AppConfig resources. Each tag consists of a key and an optional value, both
   of which you define.
-- `"Type"`: The type of configurations that the configuration profile contains. A
-  configuration can be a feature flag used for enabling or disabling new features or a
-  free-form configuration used for distributing configurations to your application.
+- `"Type"`: The type of configurations contained in the profile. AppConfig supports feature
+  flags and freeform configurations. We recommend you create feature flag configurations to
+  enable or disable new features and freeform configurations to distribute configurations to
+  an application. When calling this API, enter one of the following values for Type:
+  AWS.AppConfig.FeatureFlags   AWS.Freeform
 - `"Validators"`: A list of methods for validating the configuration.
 """
 function create_configuration_profile(
@@ -121,8 +123,8 @@ function create_configuration_profile(
 end
 
 """
-    create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, replicate_to)
-    create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, replicate_to, params::Dict{String,<:Any})
+    create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name)
+    create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, params::Dict{String,<:Any})
 
 Creates a deployment strategy that defines important criteria for rolling out your
 configuration to the designated targets. A deployment strategy includes the overall
@@ -134,13 +136,16 @@ an algorithm that defines how percentage grows, and bake time.
 - `growth_factor`: The percentage of targets to receive a deployed configuration during
   each interval.
 - `name`: A name for the deployment strategy.
-- `replicate_to`: Save the deployment strategy to a Systems Manager (SSM) document.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the deployment strategy.
-- `"FinalBakeTimeInMinutes"`: The amount of time AppConfig monitors for alarms before
-  considering the deployment to be complete and no longer eligible for automatic roll back.
+- `"FinalBakeTimeInMinutes"`: Specifies the amount of time AppConfig monitors for Amazon
+  CloudWatch alarms after the configuration has been deployed to 100% of its targets, before
+  considering the deployment to be complete. If an alarm is triggered during this time,
+  AppConfig rolls back the deployment. You must configure permissions for AppConfig to roll
+  back based on CloudWatch alarms. For more information, see Configuring permissions for
+  rollback based on Amazon CloudWatch alarms in the AppConfig User Guide.
 - `"GrowthType"`: The algorithm used to define how percentage grows over time. AppConfig
   supports the following growth types:  Linear: For this type, AppConfig processes the
   deployment by dividing the total number of targets by the value specified for Step
@@ -155,6 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the
   targets, 8% of the targets, and continues until the configuration has been deployed to all
   targets.
+- `"ReplicateTo"`: Save the deployment strategy to a Systems Manager (SSM) document.
 - `"Tags"`: Metadata to assign to the deployment strategy. Tags help organize and
   categorize your AppConfig resources. Each tag consists of a key and an optional value, both
   of which you define.
@@ -162,8 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_deployment_strategy(
     DeploymentDurationInMinutes,
     GrowthFactor,
-    Name,
-    ReplicateTo;
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return appconfig(
@@ -173,7 +178,6 @@ function create_deployment_strategy(
             "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
             "GrowthFactor" => GrowthFactor,
             "Name" => Name,
-            "ReplicateTo" => ReplicateTo,
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -183,7 +187,6 @@ function create_deployment_strategy(
     DeploymentDurationInMinutes,
     GrowthFactor,
     Name,
-    ReplicateTo,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -197,7 +200,6 @@ function create_deployment_strategy(
                     "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
                     "GrowthFactor" => GrowthFactor,
                     "Name" => Name,
-                    "ReplicateTo" => ReplicateTo,
                 ),
                 params,
             ),
@@ -212,12 +214,11 @@ end
     create_environment(application_id, name, params::Dict{String,<:Any})
 
 Creates an environment. For each application, you define one or more environments. An
-environment is a logical deployment group of AppConfig targets, such as applications in a
-Beta or Production environment. You can also define environments for application
-subcomponents such as the Web, Mobile and Back-end components for your application. You can
-configure Amazon CloudWatch alarms for each environment. The system monitors alarms during
-a configuration deployment. If an alarm is triggered, the system rolls back the
-configuration.
+environment is a deployment group of AppConfig targets, such as applications in a Beta or
+Production environment. You can also define environments for application subcomponents such
+as the Web, Mobile and Back-end components for your application. You can configure Amazon
+CloudWatch alarms for each environment. The system monitors alarms during a configuration
+deployment. If an alarm is triggered, the system rolls back the configuration.
 
 # Arguments
 - `application_id`: The application ID.
@@ -252,6 +253,136 @@ function create_environment(
         "POST",
         "/applications/$(ApplicationId)/environments",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_extension(actions, name)
+    create_extension(actions, name, params::Dict{String,<:Any})
+
+Creates an AppConfig extension. An extension augments your ability to inject logic or
+behavior at different points during the AppConfig workflow of creating or deploying a
+configuration. You can create your own extensions or use the Amazon Web Services-authored
+extensions provided by AppConfig. For most use-cases, to create your own extension, you
+must create an Lambda function to perform any computation and processing defined in the
+extension. For more information about extensions, see Working with AppConfig extensions in
+the AppConfig User Guide.
+
+# Arguments
+- `actions`: The actions defined in the extension.
+- `name`: A name for the extension. Each extension name in your account must be unique.
+  Extension versions use the same name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Information about the extension.
+- `"Latest-Version-Number"`: You can omit this field when you create an extension. When you
+  create a new version, specify the most recent current version number. For example, you
+  create version 3, enter 2 for this field.
+- `"Parameters"`: The parameters accepted by the extension. You specify parameter values
+  when you associate the extension to an AppConfig resource by using the
+  CreateExtensionAssociation API action. For Lambda extension actions, these parameters are
+  included in the Lambda request object.
+- `"Tags"`: Adds one or more tags for the specified extension. Tags are metadata that help
+  you categorize resources in different ways, for example, by purpose, owner, or environment.
+  Each tag consists of a key and an optional value, both of which you define.
+"""
+function create_extension(Actions, Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "POST",
+        "/extensions",
+        Dict{String,Any}("Actions" => Actions, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_extension(
+    Actions,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/extensions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Actions" => Actions, "Name" => Name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_extension_association(extension_identifier, resource_identifier)
+    create_extension_association(extension_identifier, resource_identifier, params::Dict{String,<:Any})
+
+When you create an extension or configure an Amazon Web Services-authored extension, you
+associate the extension with an AppConfig application, environment, or configuration
+profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS
+Amazon Web Services-authored extension and receive notifications on an Amazon SNS topic
+anytime a configuration deployment is started for a specific application. Defining which
+extension to associate with an AppConfig resource is called an extension association. An
+extension association is a specified relationship between an extension and an AppConfig
+resource, such as an application or a configuration profile. For more information about
+extensions and associations, see Working with AppConfig extensions in the AppConfig User
+Guide.
+
+# Arguments
+- `extension_identifier`: The name, the ID, or the Amazon Resource Name (ARN) of the
+  extension.
+- `resource_identifier`: The ARN of an application, configuration profile, or environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExtensionVersionNumber"`: The version number of the extension. If not specified,
+  AppConfig uses the maximum version of the extension.
+- `"Parameters"`: The parameter names and values defined in the extensions. Extension
+  parameters marked Required must be entered for this field.
+- `"Tags"`: Adds one or more tags for the specified extension association. Tags are
+  metadata that help you categorize resources in different ways, for example, by purpose,
+  owner, or environment. Each tag consists of a key and an optional value, both of which you
+  define.
+"""
+function create_extension_association(
+    ExtensionIdentifier,
+    ResourceIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/extensionassociations",
+        Dict{String,Any}(
+            "ExtensionIdentifier" => ExtensionIdentifier,
+            "ResourceIdentifier" => ResourceIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_extension_association(
+    ExtensionIdentifier,
+    ResourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/extensionassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExtensionIdentifier" => ExtensionIdentifier,
+                    "ResourceIdentifier" => ResourceIdentifier,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -467,6 +598,81 @@ function delete_environment(
 end
 
 """
+    delete_extension(extension_identifier)
+    delete_extension(extension_identifier, params::Dict{String,<:Any})
+
+Deletes an AppConfig extension. You must delete all associations to an extension before you
+delete the extension.
+
+# Arguments
+- `extension_identifier`: The name, ID, or Amazon Resource Name (ARN) of the extension you
+  want to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version"`: A specific version of an extension to delete. If omitted, the highest
+  version is deleted.
+"""
+function delete_extension(
+    ExtensionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_extension_association(extension_association_id)
+    delete_extension_association(extension_association_id, params::Dict{String,<:Any})
+
+Deletes an extension association. This action doesn't delete extensions defined in the
+association.
+
+# Arguments
+- `extension_association_id`: The ID of the extension association to delete.
+
+"""
+function delete_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE",
+        "/extensionassociations/$(ExtensionAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/extensionassociations/$(ExtensionAssociationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number)
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number, params::Dict{String,<:Any})
 
@@ -543,14 +749,20 @@ end
     get_configuration(application, configuration, environment, client_id)
     get_configuration(application, configuration, environment, client_id, params::Dict{String,<:Any})
 
-Retrieves information about a configuration.  AppConfig uses the value of the
+Retrieves the latest deployed configuration.  Note the following important information.
+This API action has been deprecated. Calls to receive configuration data should use the
+StartConfigurationSession and GetLatestConfiguration APIs instead.     GetConfiguration is
+a priced call. For more information, see Pricing.   AppConfig uses the value of the
 ClientConfigurationVersion parameter to identify the configuration version on your clients.
 If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your
 clients receive the current configuration. You are charged each time your clients receive a
-configuration. To avoid excess charges, we recommend that you include the
-ClientConfigurationVersion value with every call to GetConfiguration. This value must be
-saved on your client. Subsequent calls to GetConfiguration must pass this value by using
-the ClientConfigurationVersion parameter.
+configuration. To avoid excess charges, we recommend you use the StartConfigurationSession
+and GetLatestConfiguration APIs, which track the client configuration version on your
+behalf. If you choose to continue using GetConfiguration, we recommend that you include the
+ClientConfigurationVersion value with every call to GetConfiguration. The value to use for
+ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by
+GetConfiguration when there is new or updated data, and should be saved for subsequent
+calls to GetConfiguration.
 
 # Arguments
 - `application`: The application to get. Specify either the application name or the
@@ -730,7 +942,7 @@ end
     get_environment(application_id, environment_id)
     get_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Retrieves information about an environment. An environment is a logical deployment group of
+Retrieves information about an environment. An environment is a deployment group of
 AppConfig applications, such as applications in a Production environment or in an EU_Region
 environment. Each configuration deployment targets an environment. You can enable one or
 more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a
@@ -760,6 +972,81 @@ function get_environment(
     return appconfig(
         "GET",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_extension(extension_identifier)
+    get_extension(extension_identifier, params::Dict{String,<:Any})
+
+Returns information about an AppConfig extension.
+
+# Arguments
+- `extension_identifier`: The name, the ID, or the Amazon Resource Name (ARN) of the
+  extension.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version_number"`: The extension version number. If no version number was defined,
+  AppConfig uses the highest version.
+"""
+function get_extension(
+    ExtensionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_extension_association(extension_association_id)
+    get_extension_association(extension_association_id, params::Dict{String,<:Any})
+
+Returns information about an AppConfig extension association. For more information about
+extensions and associations, see Working with AppConfig extensions in the AppConfig User
+Guide.
+
+# Arguments
+- `extension_association_id`: The extension association ID to get.
+
+"""
+function get_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/extensionassociations/$(ExtensionAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/extensionassociations/$(ExtensionAssociationId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -855,7 +1142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 - `"type"`: A filter based on the type of configurations that the configuration profile
-  contains. A configuration can be a feature flag or a free-form configuration.
+  contains. A configuration can be a feature flag or a freeform configuration.
 """
 function list_configuration_profiles(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -917,7 +1204,7 @@ end
     list_deployments(application_id, environment_id)
     list_deployments(application_id, environment_id, params::Dict{String,<:Any})
 
-Lists the deployments for an environment.
+Lists the deployments for an environment in descending deployment number order.
 
 # Arguments
 - `application_id`: The application ID.
@@ -925,9 +1212,12 @@ Lists the deployments for an environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"max_results"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
-- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"max_results"`: The maximum number of items that may be returned for this call. If there
+  are items that have not yet been returned, the response will include a non-null NextToken
+  that you can provide in a subsequent call to get the next set of results.
+- `"next_token"`: The token returned by a prior call to this operation indicating the next
+  set of results to be returned. If not specified, the operation will return the first set of
+  results.
 """
 function list_deployments(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -988,6 +1278,74 @@ function list_environments(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_extension_associations()
+    list_extension_associations(params::Dict{String,<:Any})
+
+Lists all AppConfig extension associations in the account. For more information about
+extensions and associations, see Working with AppConfig extensions in the AppConfig User
+Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"extension_identifier"`: The name, the ID, or the Amazon Resource Name (ARN) of the
+  extension.
+- `"extension_version_number"`: The version number for the extension defined in the
+  association.
+- `"max_results"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results
+  or pass null to get the first set of results.
+- `"resource_identifier"`: The ARN of an application, configuration profile, or environment.
+"""
+function list_extension_associations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "GET",
+        "/extensionassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_extension_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/extensionassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_extensions()
+    list_extensions(params::Dict{String,<:Any})
+
+Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For
+more information about extensions, see Working with AppConfig extensions in the AppConfig
+User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"name"`: The extension name.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+"""
+function list_extensions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_extensions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET", "/extensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1424,6 +1782,86 @@ function update_environment(
     return appconfig(
         "PATCH",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_extension(extension_identifier)
+    update_extension(extension_identifier, params::Dict{String,<:Any})
+
+Updates an AppConfig extension. For more information about extensions, see Working with
+AppConfig extensions in the AppConfig User Guide.
+
+# Arguments
+- `extension_identifier`: The name, the ID, or the Amazon Resource Name (ARN) of the
+  extension.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Actions"`: The actions defined in the extension.
+- `"Description"`: Information about the extension.
+- `"Parameters"`: One or more parameters for the actions called by the extension.
+- `"VersionNumber"`: The extension version number.
+"""
+function update_extension(
+    ExtensionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH",
+        "/extensions/$(ExtensionIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_extension(
+    ExtensionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/extensions/$(ExtensionIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_extension_association(extension_association_id)
+    update_extension_association(extension_association_id, params::Dict{String,<:Any})
+
+Updates an association. For more information about extensions and associations, see Working
+with AppConfig extensions in the AppConfig User Guide.
+
+# Arguments
+- `extension_association_id`: The system-generated ID for the association.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Parameters"`: The parameter names and values defined in the extension.
+"""
+function update_extension_association(
+    ExtensionAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH",
+        "/extensionassociations/$(ExtensionAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_extension_association(
+    ExtensionAssociationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/extensionassociations/$(ExtensionAssociationId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

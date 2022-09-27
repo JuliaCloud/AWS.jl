@@ -46,7 +46,7 @@ end
     create_component_type(component_type_id, workspace_id)
     create_component_type(component_type_id, workspace_id, params::Dict{String,<:Any})
 
-Creates a component type.   TwinMaker is in public preview and is subject to change.
+Creates a component type.
 
 # Arguments
 - `component_type_id`: The ID of the component type.
@@ -502,8 +502,8 @@ function get_property_value(
 end
 
 """
-    get_property_value_history(end_date_time, selected_properties, start_date_time, workspace_id)
-    get_property_value_history(end_date_time, selected_properties, start_date_time, workspace_id, params::Dict{String,<:Any})
+    get_property_value_history(selected_properties, workspace_id)
+    get_property_value_history(selected_properties, workspace_id, params::Dict{String,<:Any})
 
 Retrieves information about the history of a time series property value for a component,
 component type, entity, or workspace. You must specify a value for workspaceId. For
@@ -511,15 +511,16 @@ entity-specific queries, specify values for componentName and entityId. For cros
 quries, specify a value for componentTypeId.
 
 # Arguments
-- `end_date_time`: The date and time of the latest property value to return.
 - `selected_properties`: A list of properties whose value histories the request retrieves.
-- `start_date_time`: The date and time of the earliest property value to return.
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentName"`: The name of the component.
 - `"componentTypeId"`: The ID of the component type.
+- `"endDateTime"`: The date and time of the latest property value to return.
+- `"endTime"`: The ISO8601 DateTime of the latest property value to return. For more
+  information about the ISO8601 DateTime format, see the data type PropertyValue.
 - `"entityId"`: The ID of the entity.
 - `"interpolation"`: An object that specifies the interpolation type and the interval over
   which to interpolate data.
@@ -527,30 +528,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 - `"orderByTime"`: The time direction to use in the result order.
 - `"propertyFilters"`: A list of objects that filter the property value history request.
+- `"startDateTime"`: The date and time of the earliest property value to return.
+- `"startTime"`: The ISO8601 DateTime of the earliest property value to return. For more
+  information about the ISO8601 DateTime format, see the data type PropertyValue.
 """
 function get_property_value_history(
-    endDateTime,
-    selectedProperties,
-    startDateTime,
-    workspaceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    selectedProperties, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iottwinmaker(
         "POST",
         "/workspaces/$(workspaceId)/entity-properties/history",
-        Dict{String,Any}(
-            "endDateTime" => endDateTime,
-            "selectedProperties" => selectedProperties,
-            "startDateTime" => startDateTime,
-        );
+        Dict{String,Any}("selectedProperties" => selectedProperties);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_property_value_history(
-    endDateTime,
     selectedProperties,
-    startDateTime,
     workspaceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -560,13 +554,7 @@ function get_property_value_history(
         "/workspaces/$(workspaceId)/entity-properties/history",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endDateTime" => endDateTime,
-                    "selectedProperties" => selectedProperties,
-                    "startDateTime" => startDateTime,
-                ),
-                params,
+                _merge, Dict{String,Any}("selectedProperties" => selectedProperties), params
             ),
         );
         aws_config=aws_config,
@@ -690,7 +678,8 @@ Lists all entities in a workspace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: A list of objects that filter the request.
+- `"filters"`: A list of objects that filter the request.  Only one object is accepted as a
+  valid input.
 - `"maxResults"`: The maximum number of results to display.
 - `"nextToken"`: The string that specifies the next page of results.
 """

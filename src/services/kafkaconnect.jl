@@ -239,6 +239,41 @@ function delete_connector(
 end
 
 """
+    delete_custom_plugin(custom_plugin_arn)
+    delete_custom_plugin(custom_plugin_arn, params::Dict{String,<:Any})
+
+Deletes a custom plugin.
+
+# Arguments
+- `custom_plugin_arn`: The Amazon Resource Name (ARN) of the custom plugin that you want to
+  delete.
+
+"""
+function delete_custom_plugin(
+    customPluginArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/custom-plugins/$(customPluginArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_plugin(
+    customPluginArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/custom-plugins/$(customPluginArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_connector(connector_arn)
     describe_connector(connector_arn, params::Dict{String,<:Any})
 

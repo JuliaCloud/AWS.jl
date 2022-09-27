@@ -108,13 +108,21 @@ manifest of the JAR or by using the MainFunction parameter of the step. Amazon E
 each step in the order listed. For a step to be considered complete, the main function must
 exit with a zero exit code and all Hadoop jobs started while the step was running must have
 completed and run successfully. You can only add steps to a cluster that is in one of the
-following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
+following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.  The string values passed
+into HadoopJarStep object cannot exceed a total of 10240 characters.
 
 # Arguments
 - `job_flow_id`: A string that uniquely identifies the job flow. This identifier is
   returned by RunJobFlow and can also be obtained from ListClusters.
 - `steps`:  A list of StepConfig to be executed by the job flow.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the runtime role for a step on
+  the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a
+  combination of account ID, role name, and role type using the following format:
+  arn:partition:service:region:account:resource.  For example,
+  arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
 """
 function add_job_flow_steps(
     JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1535,10 +1543,11 @@ end
     put_auto_termination_policy(cluster_id)
     put_auto_termination_policy(cluster_id, params::Dict{String,<:Any})
 
-Creates or updates an auto-termination policy for an Amazon EMR cluster. An
-auto-termination policy defines the amount of idle time in seconds after which a cluster
-automatically terminates. For alternative cluster termination options, see Control cluster
-termination.
+ Auto-termination is supported in Amazon EMR versions 5.30.0 and 6.1.0 and later. For more
+information, see Using an auto-termination policy.  Creates or updates an auto-termination
+policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle
+time in seconds after which a cluster automatically terminates. For alternative cluster
+termination options, see Control cluster termination.
 
 # Arguments
 - `cluster_id`: Specifies the ID of the Amazon EMR cluster to which the auto-termination
@@ -1873,8 +1882,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
 - `"Applications"`: Applies to Amazon EMR releases 4.0 and later. A case-insensitive list
   of applications for Amazon EMR to install and configure when launching the cluster. For a
-  list of applications available for each Amazon EMR release version, see the Amazon EMR
-  Release Guide.
+  list of applications available for each Amazon EMR release version, see the Amazon
+  EMRRelease Guide.
 - `"AutoScalingRole"`: An IAM role for automatic scaling policies. The default role is
   EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling
   feature requires to launch and terminate EC2 instances in an instance group.
@@ -1920,6 +1929,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"hue\"- launch the cluster with Hue installed.   \"spark\" - launch the cluster with
   Apache Spark installed.   \"ganglia\" - launch the cluster with the Ganglia Monitoring
   System installed.
+- `"OSReleaseLabel"`: Specifies a particular Amazon Linux release for all nodes in a
+  cluster launch RunJobFlow request. If a release is not specified, Amazon EMR uses the
+  latest validated Amazon Linux release for cluster launch.
 - `"PlacementGroupConfigs"`: The specified placement group configuration for an Amazon EMR
   cluster.
 - `"ReleaseLabel"`: The Amazon EMR release label, which determines the version of
@@ -1957,14 +1969,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   flow using MapR M5 Edition.
 - `"Tags"`: A list of tags to associate with a cluster and propagate to Amazon EC2
   instances.
-- `"VisibleToAllUsers"`: Set this value to true so that IAM principals in the Amazon Web
-  Services account associated with the cluster can perform EMR actions on the cluster that
-  their IAM policies allow. This value defaults to true for clusters created using the EMR
-  API or the CLI create-cluster command. When set to false, only the IAM principal that
-  created the cluster and the Amazon Web Services account root user can perform EMR actions
-  for the cluster, regardless of the IAM permissions policies attached to other IAM
-  principals. For more information, see Understanding the EMR Cluster VisibleToAllUsers
-  Setting in the Amazon EMRManagement Guide.
+- `"VisibleToAllUsers"`:  The VisibleToAllUsers parameter is no longer supported. By
+  default, the value is set to true. Setting it to false now has no effect.  Set this value
+  to true so that IAM principals in the Amazon Web Services account associated with the
+  cluster can perform EMR actions on the cluster that their IAM policies allow. This value
+  defaults to true for clusters created using the EMR API or the CLI create-cluster command.
+  When set to false, only the IAM principal that created the cluster and the Amazon Web
+  Services account root user can perform EMR actions for the cluster, regardless of the IAM
+  permissions policies attached to other IAM principals. For more information, see
+  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
 """
 function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return emr(
@@ -2055,14 +2068,16 @@ end
     set_visible_to_all_users(job_flow_ids, visible_to_all_users)
     set_visible_to_all_users(job_flow_ids, visible_to_all_users, params::Dict{String,<:Any})
 
-Sets the ClusterVisibleToAllUsers value for an EMR cluster. When true, IAM principals in
-the Amazon Web Services account can perform EMR cluster actions that their IAM policies
-allow. When false, only the IAM principal that created the cluster and the Amazon Web
-Services account root user can perform EMR actions on the cluster, regardless of IAM
-permissions policies attached to other IAM principals. This action works on running
-clusters. When you create a cluster, use the RunJobFlowInputVisibleToAllUsers parameter.
-For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the
-Amazon EMRManagement Guide.
+ The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible to
+all users in your account. To restrict cluster access using an IAM policy, see Identity and
+Access Management for EMR.   Sets the ClusterVisibleToAllUsers value for an EMR cluster.
+When true, IAM principals in the Amazon Web Services account can perform EMR cluster
+actions that their IAM policies allow. When false, only the IAM principal that created the
+cluster and the Amazon Web Services account root user can perform EMR actions on the
+cluster, regardless of IAM permissions policies attached to other IAM principals. This
+action works on running clusters. When you create a cluster, use the
+RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding the EMR
+Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
 
 # Arguments
 - `job_flow_ids`: The unique identifier of the job flow (cluster).

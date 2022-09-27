@@ -13,11 +13,12 @@ definition language (DDL). Depending on the authorization method, use one of the
 combinations of request parameters:    Secrets Manager - when connecting to a cluster,
 specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster
 identifier that matches the cluster in the secret. When connecting to a serverless
-endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.
+workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
 Temporary credentials - when connecting to a cluster, specify the cluster identifier, the
 database name, and the database user name. Also, permission to call the
 redshift:GetClusterCredentials operation is required. When connecting to a serverless
-endpoint, specify the database name.
+workgroup, specify the workgroup name and database name. Also, permission to call the
+redshift-serverless:GetCredentials operation is required.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -36,6 +37,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you create them to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statements run.
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function batch_execute_statement(
     Database, Sqls; aws_config::AbstractAWSConfig=global_aws_config()
@@ -140,11 +144,13 @@ information includes its columns. A token is returned to page through the column
 Depending on the authorization method, use one of the following combinations of request
 parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
 Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
 Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
 connecting to a cluster, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless endpoint, specify the database name.
+is required. When connecting to a serverless workgroup, specify the workgroup name and
+database name. Also, permission to call the redshift-serverless:GetCredentials operation is
+required.
 
 # Arguments
 - `database`: The name of the database that contains the tables to be described. If
@@ -173,6 +179,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Table"`: The table name. If no table is specified, then all tables for all matching
   schemas are returned. If no table and no schema is specified, then all tables for all
   schemas in the database are returned
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function describe_table(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -206,11 +215,12 @@ language (DDL). This statement must be a single SQL statement. Depending on the
 authorization method, use one of the following combinations of request parameters:
 Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of
 the secret, the database name, and the cluster identifier that matches the cluster in the
-secret. When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of
-the secret and the database name.    Temporary credentials - when connecting to a cluster,
-specify the cluster identifier, the database name, and the database user name. Also,
-permission to call the redshift:GetClusterCredentials operation is required. When
-connecting to a serverless endpoint, specify the database name.
+secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN)
+of the secret and the database name.    Temporary credentials - when connecting to a
+cluster, specify the cluster identifier, the database name, and the database user name.
+Also, permission to call the redshift:GetClusterCredentials operation is required. When
+connecting to a serverless workgroup, specify the workgroup name and database name. Also,
+permission to call the redshift-serverless:GetCredentials operation is required.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -230,6 +240,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create it to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statement runs.
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -307,11 +320,13 @@ List the databases in a cluster. A token is returned to page through the databas
 Depending on the authorization method, use one of the following combinations of request
 parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
 Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
 Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
 connecting to a cluster, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless endpoint, specify the database name.
+is required. When connecting to a serverless workgroup, specify the workgroup name and
+database name. Also, permission to call the redshift-serverless:GetCredentials operation is
+required.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -333,6 +348,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been retrieved for the request.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function list_databases(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -365,11 +383,13 @@ Lists the schemas in a database. A token is returned to page through the schema 
 Depending on the authorization method, use one of the following combinations of request
 parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
 Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless endpoint, specify the Amazon
+cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
 Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
 connecting to a cluster, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless endpoint, specify the database name.
+is required. When connecting to a serverless workgroup, specify the workgroup name and
+database name. Also, permission to call the redshift-serverless:GetCredentials operation is
+required.
 
 # Arguments
 - `database`: The name of the database that contains the schemas to list. If
@@ -396,6 +416,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character. Only schema name entries matching the search pattern are returned.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function list_schemas(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -475,11 +498,13 @@ then all tables in the database are returned. A token is returned to page throug
 list. Depending on the authorization method, use one of the following combinations of
 request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon
 Resource Name (ARN) of the secret, the database name, and the cluster identifier that
-matches the cluster in the secret. When connecting to a serverless endpoint, specify the
+matches the cluster in the secret. When connecting to a serverless workgroup, specify the
 Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials -
 when connecting to a cluster, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless endpoint, specify the database name.
+is required. When connecting to a serverless workgroup, specify the workgroup name and
+database name. Also, permission to call the redshift-serverless:GetCredentials operation is
+required.
 
 # Arguments
 - `database`: The name of the database that contains the tables to list. If
@@ -513,6 +538,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character. Only table name entries matching the search pattern are returned. If
   TablePattern is not specified, then all tables that match SchemaPatternare returned. If
   neither SchemaPattern or TablePattern are specified, then all tables are returned.
+- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
+  connecting to a serverless workgroup and authenticating using either Secrets Manager or
+  temporary credentials.
 """
 function list_tables(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(

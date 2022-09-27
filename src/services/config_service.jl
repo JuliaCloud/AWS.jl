@@ -401,15 +401,15 @@ end
     delete_organization_config_rule(organization_config_rule_name)
     delete_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
 
-Deletes the specified organization config rule and all of its evaluation results from all
+Deletes the specified organization Config rule and all of its evaluation results from all
 member accounts in that organization.  Only a master account and a delegated administrator
-account can delete an organization config rule. When calling this API with a delegated
+account can delete an organization Config rule. When calling this API with a delegated
 administrator, you must ensure Organizations ListDelegatedAdministrator permissions are
 added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is
 complete. You cannot update a rule while it is in this state.
 
 # Arguments
-- `organization_config_rule_name`: The name of organization config rule that you want to
+- `organization_config_rule_name`: The name of organization Config rule that you want to
   delete.
 
 """
@@ -448,7 +448,7 @@ end
     delete_organization_conformance_pack(organization_conformance_pack_name)
     delete_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
 
-Deletes the specified organization conformance pack and all of the config rules and
+Deletes the specified organization conformance pack and all of the Config rules and
 remediation actions from all member accounts in that organization.   Only a master account
 or a delegated administrator account can delete an organization conformance pack. When
 calling this API with a delegated administrator, you must ensure Organizations
@@ -1438,12 +1438,12 @@ end
     describe_organization_config_rule_statuses()
     describe_organization_config_rule_statuses(params::Dict{String,<:Any})
 
-Provides organization config rule deployment status for an organization.  The status is not
-considered successful until organization config rule is successfully deployed in all the
+Provides organization Config rule deployment status for an organization.  The status is not
+considered successful until organization Config rule is successfully deployed in all the
 member accounts with an exception of excluded accounts. When you specify the limit and the
 next token, you receive a paginated response. Limit and next token are not applicable if
-you specify organization config rule names. It is only applicable, when you request all the
-organization config rules.
+you specify organization Config rule names. It is only applicable, when you request all the
+organization Config rules.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1451,7 +1451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you do no specify a number, Config uses the default. The default is 100.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+- `"OrganizationConfigRuleNames"`: The names of organization Config rules for which you
   want status details. If you do not specify any names, Config returns details for all your
   organization Config rules.
 """
@@ -1479,20 +1479,29 @@ end
     describe_organization_config_rules()
     describe_organization_config_rules(params::Dict{String,<:Any})
 
-Returns a list of organization config rules.   When you specify the limit and the next
+Returns a list of organization Config rules.   When you specify the limit and the next
 token, you receive a paginated response. Limit and next token are not applicable if you
-specify organization config rule names. It is only applicable, when you request all the
-organization config rules.
+specify organization Config rule names. It is only applicable, when you request all the
+organization Config rules.  For accounts within an organzation  If you deploy an
+organizational rule or conformance pack in an organization administrator account, and then
+establish a delegated administrator and deploy an organizational rule or conformance pack
+in the delegated administrator account, you won't be able to see the organizational rule or
+conformance pack in the organization administrator account from the delegated administrator
+account or see the organizational rule or conformance pack in the delegated administrator
+account from organization administrator account. The DescribeOrganizationConfigRules and
+DescribeOrganizationConformancePacks APIs can only see and interact with the
+organization-related resource that were deployed from within the account calling those
+APIs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of organization config rules returned on each page. If you
+- `"Limit"`: The maximum number of organization Config rules returned on each page. If you
   do no specify a number, Config uses the default. The default is 100.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+- `"OrganizationConfigRuleNames"`: The names of organization Config rules for which you
   want details. If you do not specify any names, Config returns details for all your
-  organization config rules.
+  organization Config rules.
 """
 function describe_organization_config_rules(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -1562,7 +1571,16 @@ end
 Returns a list of organization conformance packs.   When you specify the limit and the next
 token, you receive a paginated response.  Limit and next token are not applicable if you
 specify organization conformance packs names. They are only applicable, when you request
-all the organization conformance packs.
+all the organization conformance packs.   For accounts within an organzation  If you deploy
+an organizational rule or conformance pack in an organization administrator account, and
+then establish a delegated administrator and deploy an organizational rule or conformance
+pack in the delegated administrator account, you won't be able to see the organizational
+rule or conformance pack in the organization administrator account from the delegated
+administrator account or see the organizational rule or conformance pack in the delegated
+administrator account from organization administrator account. The
+DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see
+and interact with the organization-related resource that were deployed from within the
+account calling those APIs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2338,6 +2356,32 @@ function get_conformance_pack_compliance_summary(
 end
 
 """
+    get_custom_rule_policy()
+    get_custom_rule_policy(params::Dict{String,<:Any})
+
+Returns the policy definition containing the logic for your Config Custom Policy rule.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigRuleName"`: The name of your Config Custom Policy rule.
+"""
+function get_custom_rule_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return config_service(
+        "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_custom_rule_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "GetCustomRulePolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_discovered_resource_counts()
     get_discovered_resource_counts(params::Dict{String,<:Any})
 
@@ -2395,11 +2439,11 @@ end
     get_organization_config_rule_detailed_status(organization_config_rule_name, params::Dict{String,<:Any})
 
 Returns detailed status for each member account within an organization for a given
-organization config rule.
+organization Config rule.
 
 # Arguments
-- `organization_config_rule_name`: The name of organization config rule for which you want
-  status details for member accounts.
+- `organization_config_rule_name`: The name of your organization Config rule for which you
+  want status details for member accounts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2483,6 +2527,48 @@ function get_organization_conformance_pack_detailed_status(
                 _merge,
                 Dict{String,Any}(
                     "OrganizationConformancePackName" => OrganizationConformancePackName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_organization_custom_rule_policy(organization_config_rule_name)
+    get_organization_custom_rule_policy(organization_config_rule_name, params::Dict{String,<:Any})
+
+Returns the policy definition containing the logic for your organization Config Custom
+Policy rule.
+
+# Arguments
+- `organization_config_rule_name`: The name of your organization Config Custom Policy rule.
+
+"""
+function get_organization_custom_rule_policy(
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "GetOrganizationCustomRulePolicy",
+        Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_organization_custom_rule_policy(
+    OrganizationConfigRuleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return config_service(
+        "GetOrganizationCustomRulePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OrganizationConfigRuleName" => OrganizationConfigRuleName
                 ),
                 params,
             ),
@@ -2650,6 +2736,53 @@ function list_aggregate_discovered_resources(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_conformance_pack_compliance_scores()
+    list_conformance_pack_compliance_scores(params::Dict{String,<:Any})
+
+Returns a list of conformance pack compliance scores. A compliance score is the percentage
+of the number of compliant rule-resource combinations in a conformance pack compared to the
+number of total possible rule-resource combinations in the conformance pack. This metric
+provides you with a high-level view of the compliance state of your conformance packs, and
+can be used to identify, investigate, and understand the level of compliance in your
+conformance packs.  Conformance packs with no evaluation results will have a compliance
+score of INSUFFICIENT_DATA.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results based on the ConformancePackComplianceScoresFilters.
+- `"Limit"`: The maximum number of conformance pack compliance scores returned on each page.
+- `"NextToken"`: The nextToken string in a prior request that you can use to get the
+  paginated response for next set of conformance pack compliance scores.
+- `"SortBy"`: Sorts your conformance pack compliance scores in either ascending or
+  descending order, depending on SortOrder. By default, conformance pack compliance scores
+  are sorted in ascending order by compliance score and alphabetically by name of the
+  conformance pack if there is more than one conformance pack with the same compliance score.
+- `"SortOrder"`: Determines the order in which conformance pack compliance scores are
+  sorted. Either in ascending or descending order. Conformance packs with a compliance score
+  of INSUFFICIENT_DATA will be first when sorting by ascending order and last when sorting by
+  descending order.
+"""
+function list_conformance_pack_compliance_scores(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "ListConformancePackComplianceScores";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_conformance_pack_compliance_scores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "ListConformancePackComplianceScores",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2841,25 +2974,28 @@ end
     put_config_rule(config_rule)
     put_config_rule(config_rule, params::Dict{String,<:Any})
 
-Adds or updates an Config rule for evaluating whether your Amazon Web Services resources
-comply with your desired configurations. You can use this action for custom Config rules
-and Config managed rules. A custom Config rule is a rule that you develop and maintain. An
-Config managed rule is a customizable, predefined rule that Config provides. If you are
-adding a new custom Config rule, you must first create the Lambda function that the rule
-invokes to evaluate your resources. When you use the PutConfigRule action to add the rule
-to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the
-function. Specify the ARN for the SourceIdentifier key. This key is part of the Source
-object, which is part of the ConfigRule object.  If you are adding an Config managed rule,
-specify the rule's identifier for the SourceIdentifier key. To reference Config managed
-rule identifiers, see About Config managed rules. For any new rule that you add, specify
-the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the
-ConfigRuleId. These values are generated by Config for new rules. If you are updating a
-rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId,
-or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum
-number of rules that Config supports is 150. For information about requesting a rule limit
-increase, see Config Limits in the Amazon Web Services General Reference Guide. For more
-information about developing and using Config rules, see Evaluating Amazon Web Services
-resource Configurations with Config in the Config Developer Guide.
+Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply
+with your desired configurations. For information on how many Config rules you can have per
+account, see  Service Limits  in the Config Developer Guide. There are two types of rules:
+Config Custom Rules and Config Managed Rules. You can use PutConfigRule to create both
+Config custom rules and Config managed rules. Custom rules are rules that you can create
+using either Guard or Lambda functions. Guard (Guard GitHub Repository) is a policy-as-code
+language that allows you to write policies that are enforced by Config Custom Policy rules.
+Lambda uses custom code that you upload to evaluate a custom rule. If you are adding a new
+Custom Lambda rule, you first need to create an Lambda function that the rule invokes to
+evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config,
+you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You
+specify the ARN in the SourceIdentifier key. This key is part of the Source object, which
+is part of the ConfigRule object.  Managed rules are predefined, customizable rules created
+by Config. For a list of managed rules, see List of Config Managed Rules. If you are adding
+an Config managed rule, you must specify the rule's identifier for the SourceIdentifier
+key. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do
+not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for
+new rules. If you are updating a rule that you added previously, you can specify the rule
+by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use
+in this request. For more information about developing and using Config rules, see
+Evaluating Amazon Web Services resource Configurations with Config in the Config Developer
+Guide.
 
 # Arguments
 - `config_rule`: The rule that you want to add to your account.
@@ -2898,11 +3034,11 @@ end
 Creates and updates the configuration aggregator with the selected source accounts and
 regions. The source account can be individual account(s) or an organization.  accountIds
 that are passed will be replaced with existing accounts. If you want to add additional
-accounts into the aggregator, call DescribeAggregator to get the previous accounts and then
-append new ones.  Config should be enabled in source accounts and regions you want to
-aggregate. If your source type is an organization, you must be signed in to the management
-account or a registered delegated administrator and all the features must be enabled in
-your organization. If the caller is a management account, Config calls
+accounts into the aggregator, call DescribeConfigurationAggregators to get the previous
+accounts and then append new ones.  Config should be enabled in source accounts and regions
+you want to aggregate. If your source type is an organization, you must be signed in to the
+management account or a registered delegated administrator and all the features must be
+enabled in your organization. If the caller is a management account, Config calls
 EnableAwsServiceAccess API to enable integration between Config and Organizations. If the
 caller is a registered delegated administrator, Config calls ListDelegatedAdministrators
 API to verify whether the caller is a valid delegated administrator. To register a
@@ -3000,14 +3136,14 @@ end
 
 Creates or updates a conformance pack. A conformance pack is a collection of Config rules
 that can be easily deployed in an account and a region and across Amazon Web Services
-Organization. This API creates a service linked role AWSServiceRoleForConfigConforms in
-your account. The service linked role is created only when the role does not exist in your
-account.   You must specify either the TemplateS3Uri or the TemplateBody parameter, but not
-both. If you provide both Config uses the TemplateS3Uri parameter and ignores the
-TemplateBody parameter.
+Organization. For information on how many conformance packs you can have per account, see
+Service Limits  in the Config Developer Guide. This API creates a service-linked role
+AWSServiceRoleForConfigConforms in your account. The service-linked role is created only
+when the role does not exist in your account.   You must specify one and only one of
+theTemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails parameters.
 
 # Arguments
-- `conformance_pack_name`: Name of the conformance pack you want to create.
+- `conformance_pack_name`: The unique name of the conformance pack you want to deploy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3015,14 +3151,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryS3Bucket"`: The name of the Amazon S3 bucket where Config stores conformance
   pack templates.  This field is optional.
 - `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.   This field is optional.
-- `"TemplateBody"`: A string containing full conformance pack template body. Structure
-  containing the template body with a minimum length of 1 byte and a maximum length of 51,200
-  bytes.  You can only use a YAML template with one resource type, that is, config rule and a
-  remediation action.
-- `"TemplateS3Uri"`: Location of file containing the template body
-  (s3://bucketname/prefix). The uri must point to the conformance pack template (max size:
-  300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
-   You must have access to read Amazon S3 bucket.
+- `"TemplateBody"`: A string containing the full conformance pack template body. The
+  structure containing the template body has a minimum length of 1 byte and a maximum length
+  of 51,200 bytes.  You can only use a YAML template with two resource types: Config rule
+  (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+- `"TemplateS3Uri"`: The location of the file containing the template body
+  (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300
+  KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
+  You must have access to read Amazon S3 bucket.
+- `"TemplateSSMDocumentDetails"`: An object of type TemplateSSMDocumentDetails, which
+  contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems
+  Manager document (SSM document) and the version of the SSM document that is used to create
+  a conformance pack.
 """
 function put_conformance_pack(
     ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3195,39 +3335,61 @@ end
     put_organization_config_rule(organization_config_rule_name)
     put_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
 
-Adds or updates organization config rule for your entire organization evaluating whether
-your Amazon Web Services resources comply with your desired configurations.  Only a master
-account and a delegated administrator can create or update an organization config rule.
-When calling this API with a delegated administrator, you must ensure Organizations
-ListDelegatedAdministrator permissions are added.  This API enables organization service
-access through the EnableAWSServiceAccess action and creates a service linked role
+Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web
+Services resources comply with your desired configurations. For information on how many
+organization Config rules you can have per account, see  Service Limits  in the Config
+Developer Guide.  Only a master account and a delegated administrator can create or update
+an organization Config rule. When calling this API with a delegated administrator, you must
+ensure Organizations ListDelegatedAdministrator permissions are added. An organization can
+have up to 3 delegated administrators. This API enables organization service access through
+the EnableAWSServiceAccess action and creates a service-linked role
 AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account
-of your organization. The service linked role is created only when the role does not exist
+of your organization. The service-linked role is created only when the role does not exist
 in the caller account. Config verifies the existence of role with GetRole action. To use
 this API with delegated administrator, register a delegated administrator by calling Amazon
 Web Services Organization register-delegated-administrator for
-config-multiaccountsetup.amazonaws.com.  You can use this action to create both custom
-Config rules and Config managed rules. If you are adding a new custom Config rule, you must
-first create Lambda function in the master account or a delegated administrator that the
-rule invokes to evaluate your resources. You also need to create an IAM role in the
-managed-account that can be assumed by the Lambda function. When you use the
-PutOrganizationConfigRule action to add the rule to Config, you must specify the Amazon
-Resource Name (ARN) that Lambda assigns to the function. If you are adding an Config
-managed rule, specify the rule's identifier for the RuleIdentifier key. The maximum number
-of organization config rules that Config supports is 150 and 3 delegated administrator per
-organization.   Prerequisite: Ensure you call EnableAllFeatures API to enable all features
-in an organization. Specify either OrganizationCustomRuleMetadata or
-OrganizationManagedRuleMetadata.
+config-multiaccountsetup.amazonaws.com.  There are two types of rules: Config Custom Rules
+and Config Managed Rules. You can use PutOrganizationConfigRule to create both Config
+custom rules and Config managed rules. Custom rules are rules that you can create using
+either Guard or Lambda functions. Guard (Guard GitHub Repository) is a policy-as-code
+language that allows you to write policies that are enforced by Config Custom Policy rules.
+Lambda uses custom code that you upload to evaluate a custom rule. If you are adding a new
+Custom Lambda rule, you first need to create an Lambda function in the master account or a
+delegated administrator that the rule invokes to evaluate your resources. You also need to
+create an IAM role in the managed account that can be assumed by the Lambda function. When
+you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify
+the Amazon Resource Name (ARN) that Lambda assigns to the function. Managed rules are
+predefined, customizable rules created by Config. For a list of managed rules, see List of
+Config Managed Rules. If you are adding an Config managed rule, you must specify the rule's
+identifier for the RuleIdentifier key.  Prerequisite: Ensure you call EnableAllFeatures API
+to enable all features in an organization. Make sure to specify one of either
+OrganizationCustomPolicyRuleMetadata for Custom Policy rules,
+OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata
+for managed rules.
 
 # Arguments
-- `organization_config_rule_name`: The name that you assign to an organization config rule.
+- `organization_config_rule_name`: The name that you assign to an organization Config rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExcludedAccounts"`: A comma-separated list of accounts that you want to exclude from an
-  organization config rule.
-- `"OrganizationCustomRuleMetadata"`: An OrganizationCustomRuleMetadata object.
-- `"OrganizationManagedRuleMetadata"`: An OrganizationManagedRuleMetadata object.
+  organization Config rule.
+- `"OrganizationCustomPolicyRuleMetadata"`: An OrganizationCustomPolicyRuleMetadata object.
+  This object specifies metadata for your organization's Config Custom Policy rule. The
+  metadata includes the runtime system in use, which accounts have debug logging enabled, and
+  other custom rule metadata, such as resource type, resource ID of Amazon Web Services
+  resource, and organization trigger types that initiate Config to evaluate Amazon Web
+  Services resources against a rule.
+- `"OrganizationCustomRuleMetadata"`: An OrganizationCustomRuleMetadata object. This object
+  specifies organization custom rule metadata such as resource type, resource ID of Amazon
+  Web Services resource, Lambda function ARN, and organization trigger types that trigger
+  Config to evaluate your Amazon Web Services resources against a rule. It also provides the
+  frequency with which you want Config to run evaluations for the rule if the trigger type is
+  periodic.
+- `"OrganizationManagedRuleMetadata"`: An OrganizationManagedRuleMetadata object. This
+  object specifies organization managed rule metadata such as resource type and ID of Amazon
+  Web Services resource along with the rule identifier. It also provides the frequency with
+  which you want Config to run evaluations for the rule if the trigger type is periodic.
 """
 function put_organization_config_rule(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3265,22 +3427,23 @@ end
     put_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
 
 Deploys conformance packs across member accounts in an Amazon Web Services Organization.
-Only a master account and a delegated administrator can call this API. When calling this
-API with a delegated administrator, you must ensure Organizations
-ListDelegatedAdministrator permissions are added. This API enables organization service
-access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action
-and creates a service linked role AWSServiceRoleForConfigMultiAccountSetup in the master or
-delegated administrator account of your organization. The service linked role is created
-only when the role does not exist in the caller account. To use this API with delegated
-administrator, register a delegated administrator by calling Amazon Web Services
-Organization register-delegate-admin for config-multiaccountsetup.amazonaws.com.
-Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an
-organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but
-not both. If you provide both Config uses the TemplateS3Uri parameter and ignores the
-TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS
-and UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update
-a conformance pack while it is in this state. You can create 50 conformance packs with 25
-Config rules in each pack and 3 delegated administrator per organization.
+For information on how many organization conformance packs and how many Config rules you
+can have per account, see  Service Limits  in the Config Developer Guide. Only a master
+account and a delegated administrator can call this API. When calling this API with a
+delegated administrator, you must ensure Organizations ListDelegatedAdministrator
+permissions are added. An organization can have up to 3 delegated administrators. This API
+enables organization service access for config-multiaccountsetup.amazonaws.com through the
+EnableAWSServiceAccess action and creates a service-linked role
+AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account
+of your organization. The service-linked role is created only when the role does not exist
+in the caller account. To use this API with delegated administrator, register a delegated
+administrator by calling Amazon Web Services Organization register-delegate-admin for
+config-multiaccountsetup.amazonaws.com.  Prerequisite: Ensure you call EnableAllFeatures
+API to enable all features in an organization. You must specify either the TemplateS3Uri or
+the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri
+parameter and ignores the TemplateBody parameter. Config sets the state of a conformance
+pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or
+updated. You cannot update a conformance pack while it is in this state.
 
 # Arguments
 - `organization_conformance_pack_name`: Name of the organization conformance pack you want
@@ -3346,7 +3509,12 @@ The Config rule must already exist for you to add a remediation configuration. T
 incompatible changes to the SSM document, you must call this again to ensure the
 remediations can run. This API does not support adding remediation configurations for
 service-linked Config Rules such as Organization Config rules, the rules deployed by
-conformance packs, and rules deployed by Amazon Web Services Security Hub.
+conformance packs, and rules deployed by Amazon Web Services Security Hub.   For manual
+remediation configuration, you need to provide a value for automationAssumeRole or use a
+value in the assumeRolefield to remediate your resources. The SSM automation document can
+use either as long as it maps to a valid parameter. However, for automatic remediation
+configuration, the only valid assumeRole field value is AutomationAssumeRole and you need
+to provide a value for AutomationAssumeRole to remediate your resources.
 
 # Arguments
 - `remediation_configurations`: A list of remediation configuration objects.
@@ -3466,7 +3634,10 @@ configuration item.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ResourceName"`: Name of the resource.
-- `"Tags"`: Tags associated with the resource.
+- `"Tags"`: Tags associated with the resource.  This field is not to be confused with the
+  Amazon Web Services-wide tag feature for Amazon Web Services resources. Tags for
+  PutResourceConfig are tags that you supply for the configuration items of your custom
+  resources.
 """
 function put_resource_config(
     Configuration,

@@ -8,11 +8,12 @@ using AWS.UUIDs
     associate_member_account(member_account_id)
     associate_member_account(member_account_id, params::Dict{String,<:Any})
 
-Associates a specified AWS account with Amazon Macie Classic as a member account.
+(Discontinued) Associates a specified Amazon Web Services account with Amazon Macie Classic
+as a member account.
 
 # Arguments
-- `member_account_id`: The ID of the AWS account that you want to associate with Amazon
-  Macie Classic as a member account.
+- `member_account_id`: (Discontinued) The ID of the Amazon Web Services account that you
+  want to associate with Amazon Macie Classic as a member account.
 
 """
 function associate_member_account(
@@ -46,20 +47,20 @@ end
     associate_s3_resources(s3_resources)
     associate_s3_resources(s3_resources, params::Dict{String,<:Any})
 
-Associates specified S3 resources with Amazon Macie Classic for monitoring and data
-classification. If memberAccountId isn't specified, the action associates specified S3
-resources with Macie Classic for the current Macie Classic administrator account. If
-memberAccountId is specified, the action associates specified S3 resources with Macie
-Classic for the specified member account.
+(Discontinued) Associates specified S3 resources with Amazon Macie Classic for monitoring
+and data classification. If memberAccountId isn't specified, the action associates
+specified S3 resources with Macie Classic for the current Macie Classic administrator
+account. If memberAccountId is specified, the action associates specified S3 resources with
+Macie Classic for the specified member account.
 
 # Arguments
-- `s3_resources`: The S3 resources that you want to associate with Amazon Macie Classic for
-  monitoring and data classification.
+- `s3_resources`: (Discontinued) The S3 resources that you want to associate with Amazon
+  Macie Classic for monitoring and data classification.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"memberAccountId"`: The ID of the Amazon Macie Classic member account whose resources
-  you want to associate with Macie Classic.
+- `"memberAccountId"`: (Discontinued) The ID of the Amazon Macie Classic member account
+  whose resources you want to associate with Macie Classic.
 """
 function associate_s3_resources(
     s3Resources; aws_config::AbstractAWSConfig=global_aws_config()
@@ -90,11 +91,11 @@ end
     disassociate_member_account(member_account_id)
     disassociate_member_account(member_account_id, params::Dict{String,<:Any})
 
-Removes the specified member account from Amazon Macie Classic.
+(Discontinued) Removes the specified member account from Amazon Macie Classic.
 
 # Arguments
-- `member_account_id`: The ID of the member account that you want to remove from Amazon
-  Macie Classic.
+- `member_account_id`: (Discontinued) The ID of the member account that you want to remove
+  from Amazon Macie Classic.
 
 """
 function disassociate_member_account(
@@ -128,20 +129,20 @@ end
     disassociate_s3_resources(associated_s3_resources)
     disassociate_s3_resources(associated_s3_resources, params::Dict{String,<:Any})
 
-Removes specified S3 resources from being monitored by Amazon Macie Classic. If
-memberAccountId isn't specified, the action removes specified S3 resources from Macie
+(Discontinued) Removes specified S3 resources from being monitored by Amazon Macie Classic.
+If memberAccountId isn't specified, the action removes specified S3 resources from Macie
 Classic for the current Macie Classic administrator account. If memberAccountId is
 specified, the action removes specified S3 resources from Macie Classic for the specified
 member account.
 
 # Arguments
-- `associated_s3_resources`: The S3 resources (buckets or prefixes) that you want to remove
-  from being monitored and classified by Amazon Macie Classic.
+- `associated_s3_resources`: (Discontinued) The S3 resources (buckets or prefixes) that you
+  want to remove from being monitored and classified by Amazon Macie Classic.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"memberAccountId"`: The ID of the Amazon Macie Classic member account whose resources
-  you want to remove from being monitored by Macie Classic.
+- `"memberAccountId"`: (Discontinued) The ID of the Amazon Macie Classic member account
+  whose resources you want to remove from being monitored by Macie Classic.
 """
 function disassociate_s3_resources(
     associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config()
@@ -176,17 +177,17 @@ end
     list_member_accounts()
     list_member_accounts(params::Dict{String,<:Any})
 
-Lists all Amazon Macie Classic member accounts for the current Macie Classic administrator
-account.
+(Discontinued) Lists all Amazon Macie Classic member accounts for the current Macie Classic
+administrator account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Use this parameter to indicate the maximum number of items that you want
-  in the response. The default value is 250.
-- `"nextToken"`: Use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the ListMemberAccounts action. Subsequent calls to
-  the action fill nextToken in the request with the value of nextToken from the previous
-  response to continue listing data.
+- `"maxResults"`: (Discontinued) Use this parameter to indicate the maximum number of items
+  that you want in the response. The default value is 250.
+- `"nextToken"`: (Discontinued) Use this parameter when paginating results. Set the value
+  of this parameter to null on your first call to the ListMemberAccounts action. Subsequent
+  calls to the action fill nextToken in the request with the value of nextToken from the
+  previous response to continue listing data.
 """
 function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
     return macie(
@@ -205,21 +206,22 @@ end
     list_s3_resources()
     list_s3_resources(params::Dict{String,<:Any})
 
-Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't
-specified, the action lists the S3 resources associated with Macie Classic for the current
-Macie Classic administrator account. If memberAccountId is specified, the action lists the
-S3 resources associated with Macie Classic for the specified member account.
+(Discontinued) Lists all the S3 resources associated with Amazon Macie Classic. If
+memberAccountId isn't specified, the action lists the S3 resources associated with Macie
+Classic for the current Macie Classic administrator account. If memberAccountId is
+specified, the action lists the S3 resources associated with Macie Classic for the
+specified member account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Use this parameter to indicate the maximum number of items that you want
-  in the response. The default value is 250.
-- `"memberAccountId"`: The Amazon Macie Classic member account ID whose associated S3
-  resources you want to list.
-- `"nextToken"`: Use this parameter when paginating results. Set its value to null on your
-  first call to the ListS3Resources action. Subsequent calls to the action fill nextToken in
-  the request with the value of nextToken from the previous response to continue listing
-  data.
+- `"maxResults"`: (Discontinued) Use this parameter to indicate the maximum number of items
+  that you want in the response. The default value is 250.
+- `"memberAccountId"`: (Discontinued) The Amazon Macie Classic member account ID whose
+  associated S3 resources you want to list.
+- `"nextToken"`: (Discontinued) Use this parameter when paginating results. Set its value
+  to null on your first call to the ListS3Resources action. Subsequent calls to the action
+  fill nextToken in the request with the value of nextToken from the previous response to
+  continue listing data.
 """
 function list_s3_resources(; aws_config::AbstractAWSConfig=global_aws_config())
     return macie("ListS3Resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -236,19 +238,20 @@ end
     update_s3_resources(s3_resources_update)
     update_s3_resources(s3_resources_update, params::Dict{String,<:Any})
 
-Updates the classification types for the specified S3 resources. If memberAccountId isn't
-specified, the action updates the classification types of the S3 resources associated with
-Amazon Macie Classic for the current Macie Classic administrator account. If
-memberAccountId is specified, the action updates the classification types of the S3
-resources associated with Macie Classic for the specified member account.
+(Discontinued) Updates the classification types for the specified S3 resources. If
+memberAccountId isn't specified, the action updates the classification types of the S3
+resources associated with Amazon Macie Classic for the current Macie Classic administrator
+account. If memberAccountId is specified, the action updates the classification types of
+the S3 resources associated with Macie Classic for the specified member account.
 
 # Arguments
-- `s3_resources_update`: The S3 resources whose classification types you want to update.
+- `s3_resources_update`: (Discontinued) The S3 resources whose classification types you
+  want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"memberAccountId"`: The AWS ID of the Amazon Macie Classic member account whose S3
-  resources' classification types you want to update.
+- `"memberAccountId"`: (Discontinued) The Amazon Web Services account ID of the Amazon
+  Macie Classic member account whose S3 resources' classification types you want to update.
 """
 function update_s3_resources(
     s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config()

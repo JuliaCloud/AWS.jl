@@ -275,7 +275,10 @@ system to an S3 bucket.
   is associated with file system path /ns1/, then you cannot link another data repository
   with file system path /ns1/ns2. This path specifies where in your file system files will be
   exported from or imported to. This file system directory can be linked to only one Amazon
-  S3 bucket, and no other S3 bucket can be linked to the directory.
+  S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a
+  forward slash (/) as the file system path, you can link only 1 data repository to the file
+  system. You can only specify \"/\" as the file system path for the first data repository
+  associated with a file system.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -364,12 +367,16 @@ repository to your file system, see Linking your file system to an S3 bucket.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
-- `"Paths"`: (Optional) The path or paths on the Amazon FSx file system to use when the
-  data repository task is processed. The default path is the file system root directory. The
-  paths you provide need to be relative to the mount point of the file system. If the mount
-  point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to
-  export, then the path to provide is path1. If a path that you provide isn't valid, the task
-  fails.
+- `"Paths"`: A list of paths for the data repository task to use when the task is
+  processed. If a path that you provide isn't valid, the task fails.   For export tasks, the
+  list contains paths on the Amazon FSx file system from which the files are exported to the
+  Amazon S3 bucket. The default path is the file system root directory. The paths you provide
+  need to be relative to the mount point of the file system. If the mount point is /mnt/fsx
+  and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the
+  path to provide is path1.   For import tasks, the list contains paths in the Amazon S3
+  bucket from which POSIX metadata changes are imported to the Amazon FSx file system. The
+  path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is
+  optional).
 - `"Tags"`:
 """
 function create_data_repository_task(
@@ -419,27 +426,27 @@ end
 
 Creates a new, empty Amazon FSx file system. You can create the following supported Amazon
 FSx file systems using the CreateFileSystem API operation:   Amazon FSx for Lustre   Amazon
-FSx for NetApp ONTAP   Amazon FSx for Windows File Server   This operation requires a
-client request token in the request that Amazon FSx uses to ensure idempotent creation.
-This means that calling the operation multiple times with the same client request token has
-no effect. By using the idempotent operation, you can retry a CreateFileSystem operation
-without the risk of creating an extra file system. This approach can be useful when an
-initial call fails in a way that makes it unclear whether a file system was created.
-Examples are if a transport level timeout occurred, or your connection was reset. If you
-use the same client request token and the initial call created a file system, the client
-receives success as long as the parameters are the same. If a file system with the
-specified client request token exists and the parameters match, CreateFileSystem returns
-the description of the existing file system. If a file system with the specified client
-request token exists and the parameters don't match, this call returns
+FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   This
+operation requires a client request token in the request that Amazon FSx uses to ensure
+idempotent creation. This means that calling the operation multiple times with the same
+client request token has no effect. By using the idempotent operation, you can retry a
+CreateFileSystem operation without the risk of creating an extra file system. This approach
+can be useful when an initial call fails in a way that makes it unclear whether a file
+system was created. Examples are if a transport level timeout occurred, or your connection
+was reset. If you use the same client request token and the initial call created a file
+system, the client receives success as long as the parameters are the same. If a file
+system with the specified client request token exists and the parameters match,
+CreateFileSystem returns the description of the existing file system. If a file system with
+the specified client request token exists and the parameters don't match, this call returns
 IncompatibleParameterError. If a file system with the specified client request token
 doesn't exist, CreateFileSystem does the following:    Creates a new, empty Amazon FSx file
 system with an assigned ID, and an initial lifecycle state of CREATING.   Returns the
-description of the file system.   This operation requires a client request token in the
-request that Amazon FSx uses to ensure idempotent creation. This means that calling the
-operation multiple times with the same client request token has no effect. By using the
-idempotent operation, you can retry a CreateFileSystem operation without the risk of
-creating an extra file system. This approach can be useful when an initial call fails in a
-way that makes it unclear whether a file system was created. Examples are if a
+description of the file system in JSON format.   This operation requires a client request
+token in the request that Amazon FSx uses to ensure idempotent creation. This means that
+calling the operation multiple times with the same client request token has no effect. By
+using the idempotent operation, you can retry a CreateFileSystem operation without the risk
+of creating an extra file system. This approach can be useful when an initial call fails in
+a way that makes it unclear whether a file system was created. Examples are if a
 transport-level timeout occurred, or your connection was reset. If you use the same client
 request token and the initial call created a file system, the client receives a success
 message as long as the parameters are the same.  The CreateFileSystem call returns while
@@ -499,7 +506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on
   all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk
   drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system
-  deployment types, and on PERSISTENT Lustre file system deployment types.    Default value
+  deployment types, and on PERSISTENT_1 Lustre file system deployment types.    Default value
   is SSD. For more information, see  Storage type options in the FSx for Windows File Server
   User Guide and Multiple storage options in the FSx for Lustre User Guide.
 - `"Tags"`: The tags to apply to the file system that's being created. The key value of the
@@ -558,11 +565,11 @@ end
 Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File Server, or Amazon FSx for
 OpenZFS file system from an existing Amazon FSx backup. If a file system with the specified
 client request token exists and the parameters match, this operation returns the
-description of the file system. If a client request token with the specified by the file
-system exists and the parameters don't match, this call returns IncompatibleParameterError.
-If a file system with the specified client request token doesn't exist, this operation does
-the following:   Creates a new Amazon FSx file system from backup with an assigned ID, and
-an initial lifecycle state of CREATING.   Returns the description of the file system.
+description of the file system. If a file system with the specified client request token
+exists but the parameters don't match, this call returns IncompatibleParameterError. If a
+file system with the specified client request token doesn't exist, this operation does the
+following:   Creates a new Amazon FSx file system from backup with an assigned ID, and an
+initial lifecycle state of CREATING.   Returns the description of the file system.
 Parameters like the Active Directory, default share name, automatic backup, and backup
 settings default to the parameters of the file system that was backed up, unless
 overridden. You can explicitly supply other settings. By using the idempotent operation,
@@ -658,22 +665,22 @@ end
     create_snapshot(name, volume_id)
     create_snapshot(name, volume_id, params::Dict{String,<:Any})
 
-Creates a snapshot of an existing Amazon FSx for OpenZFS file system. With snapshots, you
-can easily undo file changes and compare file versions by restoring the volume to a
-previous version. If a snapshot with the specified client request token exists, and the
-parameters match, this operation returns the description of the existing snapshot. If a
-snapshot with the specified client request token exists, and the parameters don't match,
-this operation returns IncompatibleParameterError. If a snapshot with the specified client
-request token doesn't exist, CreateSnapshot does the following:    Creates a new OpenZFS
-snapshot with an assigned ID, and an initial lifecycle state of CREATING.   Returns the
-description of the snapshot.   By using the idempotent operation, you can retry a
-CreateSnapshot operation without the risk of creating an extra snapshot. This approach can
-be useful when an initial call fails in a way that makes it unclear whether a snapshot was
-created. If you use the same client request token and the initial call created a snapshot,
-the operation returns a successful result because all the parameters are the same. The
-CreateSnapshot operation returns while the snapshot's lifecycle state is still CREATING.
-You can check the snapshot creation status by calling the DescribeSnapshots operation,
-which returns the snapshot state along with other information.
+Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can
+easily undo file changes and compare file versions by restoring the volume to a previous
+version. If a snapshot with the specified client request token exists, and the parameters
+match, this operation returns the description of the existing snapshot. If a snapshot with
+the specified client request token exists, and the parameters don't match, this operation
+returns IncompatibleParameterError. If a snapshot with the specified client request token
+doesn't exist, CreateSnapshot does the following:   Creates a new OpenZFS snapshot with an
+assigned ID, and an initial lifecycle state of CREATING.   Returns the description of the
+snapshot.   By using the idempotent operation, you can retry a CreateSnapshot operation
+without the risk of creating an extra snapshot. This approach can be useful when an initial
+call fails in a way that makes it unclear whether a snapshot was created. If you use the
+same client request token and the initial call created a snapshot, the operation returns a
+successful result because all the parameters are the same. The CreateSnapshot operation
+returns while the snapshot's lifecycle state is still CREATING. You can check the snapshot
+creation status by calling the DescribeSnapshots operation, which returns the snapshot
+state along with other information.
 
 # Arguments
 - `name`: The name of the snapshot.
@@ -789,7 +796,7 @@ end
     create_volume(name, volume_type)
     create_volume(name, volume_type, params::Dict{String,<:Any})
 
-Creates an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS storage volume.
+Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
 
 # Arguments
 - `name`: Specifies the name of the volume that you're creating.
@@ -1064,10 +1071,10 @@ end
     delete_snapshot(snapshot_id)
     delete_snapshot(snapshot_id, params::Dict{String,<:Any})
 
-Deletes the Amazon FSx snapshot. After deletion, the snapshot no longer exists, and its
-data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup.
-The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle
-status of DELETING until the deletion is complete.
+Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists,
+and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system
+backup.  The DeleteSnapshot operation returns instantly. The snapshot appears with the
+lifecycle status of DELETING until the deletion is complete.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot that you want to delete.
@@ -1448,21 +1455,21 @@ end
     describe_snapshots()
     describe_snapshots(params::Dict{String,<:Any})
 
-Returns the description of specific Amazon FSx snapshots, if a SnapshotIds value is
-provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services
-account in the Amazon Web Services Region of the endpoint that you're calling. When
-retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the
-number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken
-value in the response. In this case, send a later request with the NextToken request
-parameter set to the value of NextToken from the last response.  Use this operation in an
-iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first
-without a NextToken value. Then the operation continues to be called with the NextToken
-parameter set to the value of the last NextToken value until a response has no NextToken
-value. When using this operation, keep the following in mind:   The operation might return
-fewer than the MaxResults value of snapshot descriptions while still including a NextToken
-value.   The order of snapshots returned in the response of one DescribeSnapshots call and
-the order of backups returned across the responses of a multi-call iteration is
-unspecified.
+Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds
+value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web
+Services account in the Amazon Web Services Region of the endpoint that you're calling.
+When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit
+the number of snapshots in a response. If more backups remain, Amazon FSx returns a
+NextToken value in the response. In this case, send a later request with the NextToken
+request parameter set to the value of NextToken from the last response.  Use this operation
+in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called
+first without a NextToken value. Then the operation continues to be called with the
+NextToken parameter set to the value of the last NextToken value until a response has no
+NextToken value. When using this operation, keep the following in mind:   The operation
+might return fewer than the MaxResults value of snapshot descriptions while still including
+a NextToken value.   The order of snapshots returned in the response of one
+DescribeSnapshots call and the order of backups returned across the responses of a
+multi-call iteration is unspecified.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1603,18 +1610,18 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists tags for an Amazon FSx file systems and backups in the case of Amazon FSx for Windows
-File Server. When retrieving all tags, you can optionally specify the MaxResults parameter
-to limit the number of tags in a response. If more tags remain, Amazon FSx returns a
-NextToken value in the response. In this case, send a later request with the NextToken
-request parameter set to the value of NextToken from the last response. This action is used
-in an iterative process to retrieve a list of your tags. ListTagsForResource is called
-first without a NextTokenvalue. Then the action continues to be called with the NextToken
-parameter set to the value of the last NextToken value until a response has no NextToken.
-When using this action, keep the following in mind:   The implementation might return fewer
-than MaxResults file system descriptions while still including a NextToken value.   The
-order of tags returned in the response of one ListTagsForResource call and the order of
-tags returned across the responses of a multi-call iteration is unspecified.
+Lists tags for Amazon FSx resources. When retrieving all tags, you can optionally specify
+the MaxResults parameter to limit the number of tags in a response. If more tags remain,
+Amazon FSx returns a NextToken value in the response. In this case, send a later request
+with the NextToken request parameter set to the value of NextToken from the last response.
+This action is used in an iterative process to retrieve a list of your tags.
+ListTagsForResource is called first without a NextTokenvalue. Then the action continues to
+be called with the NextToken parameter set to the value of the last NextToken value until a
+response has no NextToken. When using this action, keep the following in mind:   The
+implementation might return fewer than MaxResults file system descriptions while still
+including a NextToken value.   The order of tags returned in the response of one
+ListTagsForResource call and the order of tags returned across the responses of a
+multi-call iteration is unspecified.
 
 # Arguments
 - `resource_arn`: The ARN of the Amazon FSx resource that will have its tags listed.
@@ -1717,9 +1724,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The settings used when restoring the specified volume from snapshot.
   DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the
   specified snapshot. If there are intermediate snapshots and this option isn't used,
-  RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any volumes cloned from
-  this volume. If there are any cloned volumes and this option isn't used,
-  RestoreVolumeFromSnapshot fails.
+  RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any dependent clone
+  volumes created from intermediate snapshots. If there are any dependent clone volumes and
+  this option isn't used, RestoreVolumeFromSnapshot fails.
 """
 function restore_volume_from_snapshot(
     SnapshotId, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1911,15 +1918,16 @@ can update multiple properties in a single request. For Amazon FSx for Windows F
 file systems, you can update the following properties:    AuditLogConfiguration
 AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
 SelfManagedActiveDirectoryConfiguration     StorageCapacity     ThroughputCapacity
-WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following
-properties:    AutoImportPolicy     AutomaticBackupRetentionDays
-DailyAutomaticBackupStartTime     DataCompressionType     StorageCapacity
-WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following
-properties:    AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
-FsxAdminPassword     WeeklyMaintenanceStartTime    For the Amazon FSx for OpenZFS file
+WeeklyMaintenanceStartTime    For Amazon FSx for Lustre file systems, you can update the
+following properties:    AutoImportPolicy     AutomaticBackupRetentionDays
+DailyAutomaticBackupStartTime     DataCompressionType     LustreRootSquashConfiguration
+StorageCapacity     WeeklyMaintenanceStartTime    For Amazon FSx for NetApp ONTAP file
 systems, you can update the following properties:    AutomaticBackupRetentionDays
-CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime
-DiskIopsConfiguration     ThroughputCapacity     WeeklyMaintenanceStartTime
+DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword
+StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For the Amazon FSx
+for OpenZFS file systems, you can update the following properties:
+AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes
+DailyAutomaticBackupStartTime     ThroughputCapacity     WeeklyMaintenanceStartTime
 
 # Arguments
 - `file_system_id`: The ID of the file system that you are updating.
@@ -1934,25 +1942,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpenZFSConfiguration"`: The configuration updates for an Amazon FSx for OpenZFS file
   system.
 - `"StorageCapacity"`: Use this parameter to increase the storage capacity of an Amazon FSx
-  for Windows File Server or Amazon FSx for Lustre file system. Specifies the storage
-  capacity target value, in GiB, to increase the storage capacity for the file system that
-  you're updating.   You can't make a storage capacity increase request if there is an
-  existing storage capacity increase request in progress.  For Windows file systems, the
-  storage capacity target value must be at least 10 percent greater than the current storage
-  capacity value. To increase storage capacity, the file system must have at least 16 MBps of
-  throughput capacity. For Lustre file systems, the storage capacity target value can be the
-  following:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid values are in
-  multiples of 2400 GiB. The value must be greater than the current storage capacity.   For
-  PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput
-  per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems.
-  The values must be greater than the current storage capacity.   For SCRATCH_1 file systems,
-  you can't increase the storage capacity.   For OpenZFS file systems, the input/output
-  operations per second (IOPS) automatically scale with increases to the storage capacity if
-  IOPS is configured for automatic scaling. If the storage capacity increase would result in
-  less than 3 IOPS per GiB of storage, this operation returns an error.  For more
-  information, see Managing storage capacity in the Amazon FSx for Windows File Server User
-  Guide, Managing storage and throughput capacity in the Amazon FSx for Lustre User Guide,
-  and Managing storage capacity in the Amazon FSx for OpenZFS User Guide.
+  for Windows File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP file system.
+  Specifies the storage capacity target value, in GiB, to increase the storage capacity for
+  the file system that you're updating.   You can't make a storage capacity increase request
+  if there is an existing storage capacity increase request in progress.  For Windows file
+  systems, the storage capacity target value must be at least 10 percent greater than the
+  current storage capacity value. To increase storage capacity, the file system must have at
+  least 16 MBps of throughput capacity. For more information, see Managing storage capacity
+  in the Amazon FSx for Windows File Server User Guide. For Lustre file systems, the storage
+  capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2
+  SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater
+  than the current storage capacity.   For PERSISTENT HDD file systems, valid values are
+  multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB
+  for 40-MBps throughput per TiB file systems. The values must be greater than the current
+  storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.
+  For more information, see Managing storage and throughput capacity in the Amazon FSx for
+  Lustre User Guide. For ONTAP file systems, the storage capacity target value must be at
+  least 10 percent greater than the current storage capacity value. For more information, see
+  Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User
+  Guide.
 - `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
@@ -1991,7 +1999,7 @@ end
     update_snapshot(name, snapshot_id)
     update_snapshot(name, snapshot_id, params::Dict{String,<:Any})
 
-Updates the name of a snapshot.
+Updates the name of an Amazon FSx for OpenZFS snapshot.
 
 # Arguments
 - `name`: The name of the snapshot to update.

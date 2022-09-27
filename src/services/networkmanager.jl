@@ -97,11 +97,11 @@ end
 
 Associates a customer gateway with a device and optionally, with a link. If you specify a
 link, it must be associated with the specified device.  You can only associate customer
-gateways that are connected to a VPN attachment on a transit gateway. The transit gateway
-must be registered in your global network. When you register a transit gateway, customer
-gateways that are connected to the transit gateway are automatically included in the global
-network. To list customer gateways that are connected to a transit gateway, use the
-DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a
+gateways that are connected to a VPN attachment on a transit gateway or core network
+registered in your global network. When you register a transit gateway or core network,
+customer gateways that are connected to the transit gateway are automatically included in
+the global network. To list customer gateways that are connected to a transit gateway, use
+the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a
 customer gateway with more than one device and link.
 
 # Arguments
@@ -333,7 +333,7 @@ end
     create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address)
     create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address, params::Dict{String,<:Any})
 
-Creates a core network connect peer for a specified core network connect attachment between
+Creates a core network Connect peer for a specified core network connect attachment between
 a core network and an appliance. The peer address and transit gateway address must be the
 same IP address family (IPv4 or IPv6).
 
@@ -680,7 +680,8 @@ end
     create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn)
     create_site_to_site_vpn_attachment(core_network_id, vpn_connection_arn, params::Dict{String,<:Any})
 
-Creates a site-to-site VPN attachment on an edge location of a core network.
+Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core
+network.
 
 # Arguments
 - `core_network_id`: The ID of a core network where you're creating a site-to-site VPN
@@ -722,6 +723,119 @@ function create_site_to_site_vpn_attachment(
                 Dict{String,Any}(
                     "CoreNetworkId" => CoreNetworkId,
                     "VpnConnectionArn" => VpnConnectionArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_transit_gateway_peering(core_network_id, transit_gateway_arn)
+    create_transit_gateway_peering(core_network_id, transit_gateway_arn, params::Dict{String,<:Any})
+
+Creates a transit gateway peering connection.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `transit_gateway_arn`: The ARN of the transit gateway for the peering request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Tags"`: The list of key-value tags associated with the request.
+"""
+function create_transit_gateway_peering(
+    CoreNetworkId, TransitGatewayArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-peerings",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "TransitGatewayArn" => TransitGatewayArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_transit_gateway_peering(
+    CoreNetworkId,
+    TransitGatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-peerings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "TransitGatewayArn" => TransitGatewayArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_transit_gateway_route_table_attachment(peering_id, transit_gateway_route_table_arn)
+    create_transit_gateway_route_table_attachment(peering_id, transit_gateway_route_table_arn, params::Dict{String,<:Any})
+
+Creates a transit gateway route table attachment.
+
+# Arguments
+- `peering_id`: The ID of the peer for the
+- `transit_gateway_route_table_arn`: The ARN of the transit gateway route table for the
+  attachment request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token associated with the request.
+- `"Tags"`: The list of key-value tags associated with the request.
+"""
+function create_transit_gateway_route_table_attachment(
+    PeeringId,
+    TransitGatewayRouteTableArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-route-table-attachments",
+        Dict{String,Any}(
+            "PeeringId" => PeeringId,
+            "TransitGatewayRouteTableArn" => TransitGatewayRouteTableArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_transit_gateway_route_table_attachment(
+    PeeringId,
+    TransitGatewayRouteTableArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/transit-gateway-route-table-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PeeringId" => PeeringId,
+                    "TransitGatewayRouteTableArn" => TransitGatewayRouteTableArn,
                     "ClientToken" => string(uuid4()),
                 ),
                 params,
@@ -1007,7 +1121,7 @@ end
     delete_global_network(global_network_id, params::Dict{String,<:Any})
 
 Deletes an existing global network. You must first delete all global network objects
-(devices, links, and sites) and deregister all transit gateways.
+(devices, links, and sites), deregister all transit gateways, and delete any core networks.
 
 # Arguments
 - `global_network_id`: The ID of the global network.
@@ -1068,6 +1182,38 @@ function delete_link(
     return networkmanager(
         "DELETE",
         "/global-networks/$(globalNetworkId)/links/$(linkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_peering(peering_id)
+    delete_peering(peering_id, params::Dict{String,<:Any})
+
+Deletes an existing peering connection.
+
+# Arguments
+- `peering_id`: The ID of the peering connection to delete.
+
+"""
+function delete_peering(peeringId; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "DELETE",
+        "/peerings/$(peeringId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_peering(
+    peeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/peerings/$(peeringId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1554,7 +1700,7 @@ end
     get_core_network(core_network_id)
     get_core_network(core_network_id, params::Dict{String,<:Any})
 
-Returns information about a core network. By default it returns the LIVE policy.
+Returns information about the LIVE policy for a core network.
 
 # Arguments
 - `core_network_id`: The ID of a core network.
@@ -1576,6 +1722,46 @@ function get_core_network(
     return networkmanager(
         "GET",
         "/core-networks/$(coreNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_core_network_change_events(core_network_id, policy_version_id)
+    get_core_network_change_events(core_network_id, policy_version_id, params::Dict{String,<:Any})
+
+Returns information about a core network change event.
+
+# Arguments
+- `core_network_id`: The ID of a core network.
+- `policy_version_id`: The ID of the policy version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function get_core_network_change_events(
+    coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_core_network_change_events(
+    coreNetworkId,
+    policyVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1626,7 +1812,7 @@ end
     get_core_network_policy(core_network_id)
     get_core_network_policy(core_network_id, params::Dict{String,<:Any})
 
-Gets details about a core network policy. You can get details about your current live
+Returns details about a core network policy. You can get details about your current live
 policy or any previous policy version.
 
 # Arguments
@@ -2259,6 +2445,40 @@ function get_transit_gateway_connect_peer_associations(
 end
 
 """
+    get_transit_gateway_peering(peering_id)
+    get_transit_gateway_peering(peering_id, params::Dict{String,<:Any})
+
+Returns information about a transit gateway peer.
+
+# Arguments
+- `peering_id`: The ID of the peering request.
+
+"""
+function get_transit_gateway_peering(
+    peeringId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-peerings/$(peeringId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_transit_gateway_peering(
+    peeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-peerings/$(peeringId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_transit_gateway_registrations(global_network_id)
     get_transit_gateway_registrations(global_network_id, params::Dict{String,<:Any})
 
@@ -2292,6 +2512,40 @@ function get_transit_gateway_registrations(
     return networkmanager(
         "GET",
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_transit_gateway_route_table_attachment(attachment_id)
+    get_transit_gateway_route_table_attachment(attachment_id, params::Dict{String,<:Any})
+
+Returns information about a transit gateway route table attachment.
+
+# Arguments
+- `attachment_id`: The ID of the transit gateway route table attachment.
+
+"""
+function get_transit_gateway_route_table_attachment(
+    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-route-table-attachments/$(attachmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_transit_gateway_route_table_attachment(
+    attachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/transit-gateway-route-table-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2455,6 +2709,68 @@ function list_core_networks(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_organization_service_access_status()
+    list_organization_service_access_status(params::Dict{String,<:Any})
+
+Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given
+Amazon Web Services Organization.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_organization_service_access_status(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/organizations/service-access";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_organization_service_access_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/organizations/service-access",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_peerings()
+    list_peerings(params::Dict{String,<:Any})
+
+Lists the peerings for a core network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"coreNetworkId"`: The ID of a core network.
+- `"edgeLocation"`: Returns a list edge locations for the
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"peeringType"`: Returns a list of a peering requests.
+- `"state"`: Returns a list of the peering request states.
+"""
+function list_peerings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return networkmanager(
+        "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_peerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET", "/peerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2693,6 +3009,40 @@ function restore_core_network_policy_version(
         "POST",
         "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_organization_service_access_update(action)
+    start_organization_service_access_update(action, params::Dict{String,<:Any})
+
+Enables for the Network Manager service for an Amazon Web Services Organization. This can
+only be called by a management account within the organization.
+
+# Arguments
+- `action`: The action to take for the update request. This can be either ENABLE or DISABLE.
+
+"""
+function start_organization_service_access_update(
+    Action; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/organizations/service-access",
+        Dict{String,Any}("Action" => Action);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_organization_service_access_update(
+    Action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/organizations/service-access",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Action" => Action), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

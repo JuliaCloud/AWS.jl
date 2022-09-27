@@ -126,7 +126,7 @@ Adds a source identifier to an existing RDS event notification subscription.
   source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the
   source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the
   source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.
-  
+    If the source type is an RDS Proxy, a DBProxyName value must be supplied.
 - `subscription_name`: The name of the RDS event notification subscription you want to add
   a source identifier to.
 
@@ -285,11 +285,15 @@ VPC security groups can be added to the DBSecurityGroup if the application using
 database is running on EC2 or VPC instances. Second, IP ranges are available if the
 application accessing your database is running on the internet. Required parameters for
 this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and
-either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC).  You can't authorize
-ingress from an EC2 security group in one Amazon Web Services Region to an Amazon RDS DB
-instance in another. You can't authorize ingress from a VPC security group in one VPC to an
-Amazon RDS DB instance in another.  For an overview of CIDR ranges, go to the Wikipedia
-Tutorial.
+either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC). You can't authorize ingress
+from an EC2 security group in one Amazon Web Services Region to an Amazon RDS DB instance
+in another. You can't authorize ingress from a VPC security group in one VPC to an Amazon
+RDS DB instance in another. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
+EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a
+VPC, we recommend that you migrate as soon as possible. For more information, see Migrate
+from EC2-Classic to a VPC in the Amazon EC2 User Guide, the blog EC2-Classic Networking is
+Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in
+the Amazon RDS User Guide.
 
 # Arguments
 - `dbsecurity_group_name`: The name of the DB security group to add authorization to.
@@ -297,13 +301,13 @@ Tutorial.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CIDRIP"`: The IP range to authorize.
-- `"EC2SecurityGroupId"`:  Id of the EC2 security group to authorize. For VPC DB security
+- `"EC2SecurityGroupId"`: Id of the EC2 security group to authorize. For VPC DB security
   groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either
   EC2SecurityGroupName or EC2SecurityGroupId must be provided.
-- `"EC2SecurityGroupName"`:  Name of the EC2 security group to authorize. For VPC DB
+- `"EC2SecurityGroupName"`: Name of the EC2 security group to authorize. For VPC DB
   security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId
   and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
-- `"EC2SecurityGroupOwnerId"`:  Amazon Web Services account number of the owner of the EC2
+- `"EC2SecurityGroupOwnerId"`: Amazon Web Services account number of the owner of the EC2
   security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services
   access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId
   must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or
@@ -344,7 +348,7 @@ end
 
 Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more
 information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora
-User Guide.   This action only applies to Aurora MySQL DB clusters.
+User Guide.  This action applies only to Aurora MySQL DB clusters.
 
 # Arguments
 - `backtrack_to`: The timestamp of the time to backtrack the DB cluster to, specified in
@@ -451,7 +455,7 @@ Copies the specified DB cluster parameter group.
 # Arguments
 - `source_dbcluster_parameter_group_identifier`: The identifier or Amazon Resource Name
   (ARN) for the source DB cluster parameter group. For information about creating an ARN, see
-   Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must
+   Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide. Constraints:   Must
   specify a valid DB cluster parameter group.
 - `target_dbcluster_parameter_group_description`: A description for the copied DB cluster
   parameter group.
@@ -520,48 +524,24 @@ Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared m
 cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN)
 of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from
 another Amazon Web Services Region. In that case, the Amazon Web Services Region where you
-call the CopyDBClusterSnapshot action is the destination Amazon Web Services Region for the
-encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot
+call the CopyDBClusterSnapshot operation is the destination Amazon Web Services Region for
+the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot
 from another Amazon Web Services Region, you must provide the following values:    KmsKeyId
 - The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier
 for the key to use to encrypt the copy of the DB cluster snapshot in the destination Amazon
-Web Services Region.    PreSignedUrl - A URL that contains a Signature Version 4 signed
-request for the CopyDBClusterSnapshot action to be called in the source Amazon Web Services
-Region where the DB cluster snapshot is copied from. The pre-signed URL must be a valid
-request for the CopyDBClusterSnapshot API action that can be executed in the source Amazon
-Web Services Region that contains the encrypted DB cluster snapshot to be copied. The
-pre-signed URL request must contain the following parameter values:    KmsKeyId - The
-Amazon Web Services KMS key identifier for the KMS key to use to encrypt the copy of the DB
-cluster snapshot in the destination Amazon Web Services Region. This is the same identifier
-for both the CopyDBClusterSnapshot action that is called in the destination Amazon Web
-Services Region, and the action contained in the pre-signed URL.    DestinationRegion - The
-name of the Amazon Web Services Region that the DB cluster snapshot is to be created in.
-SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB
-cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN)
-format for the source Amazon Web Services Region. For example, if you are copying an
-encrypted DB cluster snapshot from the us-west-2 Amazon Web Services Region, then your
-SourceDBClusterSnapshotIdentifier looks like the following example:
-arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To
-learn how to generate a Signature Version 4 signed request, see  Authenticating Requests:
-Using Query Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4
-Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can
-specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl
-manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request
-for the operation that can be executed in the source Amazon Web Services Region.
-TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster
-snapshot in the destination Amazon Web Services Region.
+Web Services Region.    TargetDBClusterSnapshotIdentifier - The identifier for the new copy
+of the DB cluster snapshot in the destination Amazon Web Services Region.
 SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB
 cluster snapshot to be copied. This identifier must be in the ARN format for the source
 Amazon Web Services Region and is the same value as the SourceDBClusterSnapshotIdentifier
-in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the
+in the presigned URL.   To cancel the copy operation once it is in progress, delete the
 target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB
 cluster snapshot is in \"copying\" status. For more information on copying encrypted Amazon
 Aurora DB cluster snapshots from one Amazon Web Services Region to another, see  Copying a
-Snapshot in the Amazon Aurora User Guide.  For more information on Amazon Aurora DB
-clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more
-information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB
-instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview
-and is subject to change.
+Snapshot in the Amazon Aurora User Guide. For more information on Amazon Aurora DB
+clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information
+on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances
+in the Amazon RDS User Guide.
 
 # Arguments
 - `source_dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to
@@ -571,7 +551,7 @@ and is subject to change.
   Amazon Web Services Region as the copy, specify a valid DB snapshot identifier.   If the
   source snapshot is in a different Amazon Web Services Region than the copy, specify a valid
   DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across Amazon Web
-  Services Regions in the Amazon Aurora User Guide.    Example: my-cluster-snapshot1
+  Services Regions in the Amazon Aurora User Guide.   Example: my-cluster-snapshot1
 - `target_dbcluster_snapshot_identifier`: The identifier of the new DB cluster snapshot to
   create from the source DB cluster snapshot. This parameter isn't case-sensitive.
   Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character
@@ -588,29 +568,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to
   encrypt the copy with a new KMS key. If you don't specify a value for KmsKeyId, then the
   copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster
-  snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another Amazon
-  Web Services account, then you must specify a value for KmsKeyId.  To copy an encrypted DB
+  snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon
+  Web Services account, then you must specify a value for KmsKeyId. To copy an encrypted DB
   cluster snapshot to another Amazon Web Services Region, you must set KmsKeyId to the Amazon
   Web Services KMS key identifier you want to use to encrypt the copy of the DB cluster
   snapshot in the destination Amazon Web Services Region. KMS keys are specific to the Amazon
   Web Services Region that they are created in, and you can't use KMS keys from one Amazon
   Web Services Region in another Amazon Web Services Region. If you copy an unencrypted DB
   cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
-- `"PreSignedUrl"`: The URL that contains a Signature Version 4 signed request for the
-  CopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source
-  DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an
+- `"PreSignedUrl"`: When you are copying a DB cluster snapshot from one Amazon Web Services
+  GovCloud (US) Region to another, the URL that contains a Signature Version 4 signed request
+  for the CopyDBClusterSnapshot API operation in the Amazon Web Services Region that contains
+  the source DB cluster snapshot to copy. Use the PreSignedUrl parameter when copying an
   encrypted DB cluster snapshot from another Amazon Web Services Region. Don't specify
-  PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same Amazon Web
-  Services Region. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot
-  API action that can be executed in the source Amazon Web Services Region that contains the
-  encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the
-  following parameter values:    KmsKeyId - The Amazon Web Services KMS key identifier for
-  the KMS key to use to encrypt the copy of the DB cluster snapshot in the destination Amazon
-  Web Services Region. This is the same identifier for both the CopyDBClusterSnapshot action
-  that is called in the destination Amazon Web Services Region, and the action contained in
-  the pre-signed URL.    DestinationRegion - The name of the Amazon Web Services Region that
-  the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB
-  cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This
+  PreSignedUrl when copying an encrypted DB cluster snapshot in the same Amazon Web Services
+  Region. This setting applies only to Amazon Web Services GovCloud (US) Regions. It's
+  ignored in other Amazon Web Services Regions. The presigned URL must be a valid request for
+  the CopyDBClusterSnapshot API operation that can run in the source Amazon Web Services
+  Region that contains the encrypted DB cluster snapshot to copy. The presigned URL request
+  must contain the following parameter values:    KmsKeyId - The KMS key identifier for the
+  KMS key to use to encrypt the copy of the DB cluster snapshot in the destination Amazon Web
+  Services Region. This is the same identifier for both the CopyDBClusterSnapshot operation
+  that is called in the destination Amazon Web Services Region, and the operation contained
+  in the presigned URL.    DestinationRegion - The name of the Amazon Web Services Region
+  that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier -
+  The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This
   identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web
   Services Region. For example, if you are copying an encrypted DB cluster snapshot from the
   us-west-2 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks
@@ -620,10 +602,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Using Query Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4
   Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can
   specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl
-  manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request
-  for the operation that can be executed in the source Amazon Web Services Region. If you
-  supply a value for this operation's SourceRegion parameter, a pre-signed URL will be
-  calculated on your behalf.
+  manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for
+  the operation that can run in the source Amazon Web Services Region. If you supply a value
+  for this operation's SourceRegion parameter, a pre-signed URL will be calculated on your
+  behalf.
 - `"SourceRegion"`: The ID of the region that contains the snapshot to be copied.
 - `"Tags"`:
 """
@@ -674,9 +656,9 @@ end
 Copies the specified DB parameter group.
 
 # Arguments
-- `source_dbparameter_group_identifier`:  The identifier or ARN for the source DB parameter
+- `source_dbparameter_group_identifier`: The identifier or ARN for the source DB parameter
   group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in
-  the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.
+  the Amazon RDS User Guide. Constraints:   Must specify a valid DB parameter group.
 - `target_dbparameter_group_description`: A description for the copied DB parameter group.
 - `target_dbparameter_group_identifier`: The identifier for the copied DB parameter group.
   Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters,
@@ -736,28 +718,28 @@ end
 
 Copies the specified DB snapshot. The source DB snapshot must be in the available state.
 You can copy a snapshot from one Amazon Web Services Region to another. In that case, the
-Amazon Web Services Region where you call the CopyDBSnapshot action is the destination
-Amazon Web Services Region for the DB snapshot copy.  This command doesn't apply to RDS
+Amazon Web Services Region where you call the CopyDBSnapshot operation is the destination
+Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS
 Custom. For more information about copying snapshots, see Copying a DB Snapshot in the
 Amazon RDS User Guide.
 
 # Arguments
 - `source_dbsnapshot_identifier`: The identifier for the source DB snapshot. If the source
   snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot
-  identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805.  If the
+  identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If the
   source snapshot is in a different Amazon Web Services Region than the copy, specify a valid
   DB snapshot ARN. For example, you might specify
-  arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are
+  arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. If you are
   copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name
-  (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter
-  must be in the ARN format for the source Amazon Web Services Region, and must match the
-  SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a
-  valid system snapshot in the \"available\" state.   Example: rds:mydb-2012-04-02-00-01
-  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
-- `target_dbsnapshot_identifier`: The identifier for the copy of the snapshot.
-  Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters,
-  numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain
-  two consecutive hyphens   Example: my-db-snapshot
+  (ARN) of the shared DB snapshot. If you are copying an encrypted snapshot this parameter
+  must be in the ARN format for the source Amazon Web Services Region. Constraints:   Must
+  specify a valid system snapshot in the \"available\" state.   Example:
+  rds:mydb-2012-04-02-00-01  Example:
+  arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
+- `target_dbsnapshot_identifier`: The identifier for the copy of the snapshot. Constraints:
+    Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens
+   First character must be a letter   Can't end with a hyphen or contain two consecutive
+  hyphens   Example: my-db-snapshot
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -765,13 +747,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the target DB snapshot. By default, tags are not copied.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB snapshot.
   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name
-  for the KMS key.  If you copy an encrypted DB snapshot from your Amazon Web Services
+  for the KMS key. If you copy an encrypted DB snapshot from your Amazon Web Services
   account, you can specify a value for this parameter to encrypt the copy with a new KMS key.
   If you don't specify a value for this parameter, then the copy of the DB snapshot is
-  encrypted with the same Amazon Web Services KMS key as the source DB snapshot.  If you copy
+  encrypted with the same Amazon Web Services KMS key as the source DB snapshot. If you copy
   an encrypted DB snapshot that is shared from another Amazon Web Services account, then you
-  must specify a value for this parameter.  If you specify this parameter when you copy an
-  unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a
+  must specify a value for this parameter. If you specify this parameter when you copy an
+  unencrypted snapshot, the copy is encrypted. If you copy an encrypted snapshot to a
   different Amazon Web Services Region, then you must specify an Amazon Web Services KMS key
   identifier for the destination Amazon Web Services Region. KMS keys are specific to the
   Amazon Web Services Region that they are created in, and you can't use KMS keys from one
@@ -782,39 +764,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must
   specify this option when copying across Amazon Web Services Regions. For more information,
   see Option group considerations in the Amazon RDS User Guide.
-- `"PreSignedUrl"`: The URL that contains a Signature Version 4 signed request for the
-  CopyDBSnapshot API action in the source Amazon Web Services Region that contains the source
-  DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB
-  snapshot from another Amazon Web Services Region by using the Amazon RDS API. Don't specify
-  PreSignedUrl when you are copying an encrypted DB snapshot in the same Amazon Web Services
-  Region. The presigned URL must be a valid request for the CopyDBSnapshot API action that
-  can be executed in the source Amazon Web Services Region that contains the encrypted DB
-  snapshot to be copied. The presigned URL request must contain the following parameter
-  values:     DestinationRegion - The Amazon Web Services Region that the encrypted DB
-  snapshot is copied to. This Amazon Web Services Region is the same one where the
-  CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy
-  an encrypted DB snapshot from the us-west-2 Amazon Web Services Region to the us-east-1
-  Amazon Web Services Region, then you call the CopyDBSnapshot action in the us-east-1 Amazon
-  Web Services Region and provide a presigned URL that contains a call to the CopyDBSnapshot
-  action in the us-west-2 Amazon Web Services Region. For this example, the DestinationRegion
-  in the presigned URL must be set to the us-east-1 Amazon Web Services Region.     KmsKeyId
-  - The Amazon Web Services KMS key identifier for the KMS key to use to encrypt the copy of
-  the DB snapshot in the destination Amazon Web Services Region. This is the same identifier
-  for both the CopyDBSnapshot action that is called in the destination Amazon Web Services
-  Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The
-  DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in
-  the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For
-  example, if you are copying an encrypted DB snapshot from the us-west-2 Amazon Web Services
-  Region, then your SourceDBSnapshotIdentifier looks like the following example:
-  arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn
+- `"PreSignedUrl"`: When you are copying a snapshot from one Amazon Web Services GovCloud
+  (US) Region to another, the URL that contains a Signature Version 4 signed request for the
+  CopyDBSnapshot API operation in the source Amazon Web Services Region that contains the
+  source DB snapshot to copy. This setting applies only to Amazon Web Services GovCloud (US)
+  Regions. It's ignored in other Amazon Web Services Regions. You must specify this parameter
+  when you copy an encrypted DB snapshot from another Amazon Web Services Region by using the
+  Amazon RDS API. Don't specify PreSignedUrl when you are copying an encrypted DB snapshot in
+  the same Amazon Web Services Region. The presigned URL must be a valid request for the
+  CopyDBClusterSnapshot API operation that can run in the source Amazon Web Services Region
+  that contains the encrypted DB cluster snapshot to copy. The presigned URL request must
+  contain the following parameter values:    DestinationRegion - The Amazon Web Services
+  Region that the encrypted DB snapshot is copied to. This Amazon Web Services Region is the
+  same one where the CopyDBSnapshot operation is called that contains this presigned URL. For
+  example, if you copy an encrypted DB snapshot from the us-west-2 Amazon Web Services Region
+  to the us-east-1 Amazon Web Services Region, then you call the CopyDBSnapshot operation in
+  the us-east-1 Amazon Web Services Region and provide a presigned URL that contains a call
+  to the CopyDBSnapshot operation in the us-west-2 Amazon Web Services Region. For this
+  example, the DestinationRegion in the presigned URL must be set to the us-east-1 Amazon Web
+  Services Region.    KmsKeyId - The KMS key identifier for the KMS key to use to encrypt the
+  copy of the DB snapshot in the destination Amazon Web Services Region. This is the same
+  identifier for both the CopyDBSnapshot operation that is called in the destination Amazon
+  Web Services Region, and the operation contained in the presigned URL.
+  SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be
+  copied. This identifier must be in the Amazon Resource Name (ARN) format for the source
+  Amazon Web Services Region. For example, if you are copying an encrypted DB snapshot from
+  the us-west-2 Amazon Web Services Region, then your SourceDBSnapshotIdentifier looks like
+  the following example:
+  arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.   To learn
   how to generate a Signature Version 4 signed request, see Authenticating Requests: Using
   Query Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing
-  Process.   If you are using an Amazon Web Services SDK tool or the CLI, you can specify
+  Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify
   SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually.
-  Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the
-  operation that can be executed in the source Amazon Web Services Region. If you supply a
-  value for this operation's SourceRegion parameter, a pre-signed URL will be calculated on
-  your behalf.
+  Specifying SourceRegion autogenerates a presigned URL that is a valid request for the
+  operation that can run in the source Amazon Web Services Region. If you supply a value for
+  this operation's SourceRegion parameter, a pre-signed URL will be calculated on your behalf.
 - `"SourceRegion"`: The ID of the region that contains the snapshot to be copied.
 - `"Tags"`:
 - `"TargetCustomAvailabilityZone"`: The external custom Availability Zone (CAZ) identifier
@@ -920,64 +904,13 @@ function copy_option_group(
 end
 
 """
-    create_custom_availability_zone(custom_availability_zone_name)
-    create_custom_availability_zone(custom_availability_zone_name, params::Dict{String,<:Any})
-
-Creates a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is
-integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the
- RDS on VMware User Guide.
-
-# Arguments
-- `custom_availability_zone_name`: The name of the custom Availability Zone (AZ).
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExistingVpnId"`: The ID of an existing virtual private network (VPN) between the Amazon
-  RDS website and the VMware vSphere cluster.
-- `"NewVpnTunnelName"`: The name of a new VPN tunnel between the Amazon RDS website and the
-  VMware vSphere cluster. Specify this parameter only if ExistingVpnId isn't specified.
-- `"VpnTunnelOriginatorIP"`: The IP address of network traffic from your on-premises data
-  center. A custom AZ receives the network traffic. Specify this parameter only if
-  ExistingVpnId isn't specified.
-"""
-function create_custom_availability_zone(
-    CustomAvailabilityZoneName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "CreateCustomAvailabilityZone",
-        Dict{String,Any}("CustomAvailabilityZoneName" => CustomAvailabilityZoneName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_custom_availability_zone(
-    CustomAvailabilityZoneName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return rds(
-        "CreateCustomAvailabilityZone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CustomAvailabilityZoneName" => CustomAvailabilityZoneName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest)
     create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest, params::Dict{String,<:Any})
 
 Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a database
-engine and specific AMI. The only supported engine is Oracle Database 19c Enterprise
-Edition with the January 2021 or later RU/RUR. Amazon RDS, which is a fully managed
+engine and specific AMI. The supported engines are the following:   Oracle Database 12.1
+Enterprise Edition with the January 2021 or later RU/RUR   Oracle Database 19c Enterprise
+Edition with the January 2021 or later RU/RUR   Amazon RDS, which is a fully managed
 service, supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS
 database software is preinstalled, so you need only select a DB engine and version, and
 create your database. With Amazon RDS Custom for Oracle, you upload your database
@@ -1008,12 +941,12 @@ CEV in the Amazon RDS User Guide.
   but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per
   customer per Region.
 - `kmskey_id`: The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric
-  KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an existing
-  symmetric KMS key in your account, you can use it with RDS Custom. No further action is
-  necessary. If you don't already have a symmetric KMS key in your account, follow the
-  instructions in  Creating symmetric KMS keys in the Amazon Web Services Key Management
-  Service Developer Guide. You can choose the same symmetric key when you create a CEV and a
-  DB instance, or choose different keys.
+  encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an
+  existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No
+  further action is necessary. If you don't already have a symmetric encryption KMS key in
+  your account, follow the instructions in  Creating a symmetric encryption KMS key in the
+  Amazon Web Services Key Management Service Developer Guide. You can choose the same
+  symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
 - `manifest`: The CEV manifest, which is a JSON document that describes the installation
   .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string.
   RDS Custom applies the patches in the order in which they are listed. The following JSON
@@ -1022,7 +955,7 @@ CEV in the Amazon RDS User Guide.
   for the CEV.  opatchFileNames  Ordered list of OPatch installers used for the Oracle DB
   engine.  psuRuPatchFileNames  The PSU and RU patches for this CEV.  OtherPatchFileNames
   The patches that are not in the list of PSU and RU patches. Amazon RDS applies these
-  patches after applying the PSU and RU patches.    For more information, see  Creating the
+  patches after applying the PSU and RU patches.   For more information, see  Creating the
   CEV manifest in the Amazon RDS User Guide.
 
 # Optional Parameters
@@ -1091,13 +1024,10 @@ end
 
 Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. You can use the
 ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read
-replica of another DB cluster or Amazon RDS MySQL or PostgreSQL DB instance. For
-cross-Region replication where the DB cluster identified by ReplicationSourceIdentifier is
-encrypted, also specify the PreSignedUrl parameter. For more information on Amazon Aurora,
-see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on
-Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in
-the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject
-to change.
+replica of another DB cluster or Amazon RDS MySQL or PostgreSQL DB instance. For more
+information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
+For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
+standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier. This parameter is stored as a
@@ -1118,11 +1048,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied automatically to the DB cluster during the maintenance window. By default, minor
   engine upgrades are applied automatically. Valid for: Multi-AZ DB clusters only
 - `"AvailabilityZones"`: A list of Availability Zones (AZs) where DB instances in the DB
-  cluster can be created.  For information on Amazon Web Services Regions and Availability
+  cluster can be created. For information on Amazon Web Services Regions and Availability
   Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide.
   Valid for: Aurora DB clusters only
 - `"BacktrackWindow"`: The target backtrack window, in seconds. To disable backtracking,
-  set this value to 0.  Default: 0 Constraints:   If specified, this value must be set to a
+  set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a
   number from 0 to 259,200 (72 hours).   Valid for: Aurora MySQL DB clusters only
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   Default: 1 Constraints:   Must be a value from 1 to 35   Valid for: Aurora DB clusters and
@@ -1131,21 +1061,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the specified CharacterSet. Valid for: Aurora DB clusters only
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the DB
   cluster to snapshots of the DB cluster. The default is not to copy them. Valid for: Aurora
-  DB clusters only
+  DB clusters and Multi-AZ DB clusters
 - `"DBClusterInstanceClass"`: The compute and memory capacity of each DB instance in the
-  Multi-AZ DB cluster, for example db.m6g.xlarge. Not all DB instance classes are available
+  Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available
   in all Amazon Web Services Regions, or for all database engines. For the full list of DB
   instance classes and availability for your engine, see DB instance class in the Amazon RDS
-  User Guide.  This setting is required to create a Multi-AZ DB cluster. Valid for: Multi-AZ
+  User Guide. This setting is required to create a Multi-AZ DB cluster. Valid for: Multi-AZ
   DB clusters only
-- `"DBClusterParameterGroupName"`:  The name of the DB cluster parameter group to associate
+- `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to associate
   with this DB cluster. If you do not specify a value, then the default DB cluster parameter
-  group for the specified DB engine and version is used.  Constraints:   If supplied, must
+  group for the specified DB engine and version is used. Constraints:   If supplied, must
   match the name of an existing DB cluster parameter group.   Valid for: Aurora DB clusters
   and Multi-AZ DB clusters
 - `"DBSubnetGroupName"`: A DB subnet group to associate with this DB cluster. This setting
   is required to create a Multi-AZ DB cluster. Constraints: Must match the name of an
-  existing DBSubnetGroup. Must not be default. Example: mySubnetgroup  Valid for: Aurora DB
+  existing DBSubnetGroup. Must not be default. Example: mydbsubnetgroup  Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
 - `"DatabaseName"`: The name for your database of up to 64 alphanumeric characters. If you
   do not provide a name, Amazon RDS doesn't create a database in the DB cluster you are
@@ -1154,7 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
-- `"Domain"`: The Active Directory directory ID to create the DB cluster in.  For Amazon
+- `"Domain"`: The Active Directory directory ID to create the DB cluster in. For Amazon
   Aurora DB clusters, Amazon RDS can use Kerberos authentication to authenticate users that
   connect to the DB cluster. For more information, see Kerberos authentication in the Amazon
   Aurora User Guide. Valid for: Aurora DB clusters only
@@ -1162,9 +1092,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the Directory Service. Valid for: Aurora DB clusters only
 - `"EnableCloudwatchLogsExports"`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs. The values in the list depend on the DB engine being used.
-  For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon
-  Aurora User Guide.  Aurora MySQL  Possible values are audit, error, general, and slowquery.
-   Aurora PostgreSQL  Possible value is postgresql. Valid for: Aurora DB clusters only
+  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL
+  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit,
+  error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more
+  information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to
+  Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting
+  CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs
+  in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"EnableGlobalWriteForwarding"`: A value that indicates whether to enable this DB cluster
   to forward write operations to the primary cluster of an Aurora global database
   (GlobalCluster). By default, write operations are not allowed on Aurora DB clusters that
@@ -1173,33 +1107,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secondary cluster can forward writes to the current primary cluster and the resulting
   changes are replicated back to this cluster. For the primary DB cluster of an Aurora global
   database, this value is used immediately if the primary is demoted by the
-  FailoverGlobalCluster API operation, but it does nothing until then.  Valid for: Aurora DB
+  FailoverGlobalCluster API operation, but it does nothing until then. Valid for: Aurora DB
   clusters only
 - `"EnableHttpEndpoint"`: A value that indicates whether to enable the HTTP endpoint for an
-  Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the
-  HTTP endpoint provides a connectionless web service API for running SQL queries on the
-  Aurora Serverless DB cluster. You can also query your database from inside the RDS console
-  with the query editor. For more information, see Using the Data API for Aurora Serverless
-  in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+  Aurora Serverless v1 DB cluster. By default, the HTTP endpoint is disabled. When enabled,
+  the HTTP endpoint provides a connectionless web service API for running SQL queries on the
+  Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS
+  console with the query editor. For more information, see Using the Data API for Aurora
+  Serverless v1 in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information, see  IAM Database Authentication in
-  the Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
+  the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EnablePerformanceInsights"`: A value that indicates whether to turn on Performance
-  Insights for the DB cluster.  For more information, see  Using Amazon Performance Insights
-  in the Amazon RDS User Guide.  Valid for: Multi-AZ DB clusters only
+  Insights for the DB cluster. For more information, see  Using Amazon Performance Insights
+  in the Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
 - `"EngineMode"`: The DB engine mode of the DB cluster, either provisioned, serverless,
   parallelquery, global, or multimaster. The parallelquery engine mode isn't required for
   Aurora MySQL version 1.23 and higher 1.x versions, and version 2.09 and higher 2.x
   versions. The global engine mode isn't required for Aurora MySQL version 1.22 and higher
   1.x versions, and global engine mode isn't required for any 2.x versions. The multimaster
-  engine mode only applies for DB clusters created with Aurora MySQL version 5.6.10a. For
-  Aurora PostgreSQL, the global engine mode isn't required, and both the parallelquery and
-  the multimaster engine modes currently aren't supported. Limitations and requirements apply
-  to some DB engine modes. For more information, see the following sections in the Amazon
-  Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query
-      Limitations of Aurora Global Databases      Limitations of Multi-Master Clusters
-  Valid for: Aurora DB clusters only
+  engine mode only applies for DB clusters created with Aurora MySQL version 5.6.10a. The
+  serverless engine mode only applies for Aurora Serverless v1 DB clusters. For Aurora
+  PostgreSQL, the global engine mode isn't required, and both the parallelquery and the
+  multimaster engine modes currently aren't supported. Limitations and requirements apply to
+  some DB engine modes. For more information, see the following sections in the Amazon Aurora
+  User Guide:    Limitations of Aurora Serverless v1     Requirements for Aurora Serverless
+  v2     Limitations of Parallel Query     Limitations of Aurora Global Databases
+  Limitations of Multi-Master Clusters    Valid for: Aurora DB clusters only
 - `"EngineVersion"`: The version number of the database engine to use. To list all of the
   available engine versions for MySQL 5.6-compatible Aurora, use the following command:  aws
   rds describe-db-engine-versions --engine aurora --query
@@ -1214,17 +1149,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all of the available engine versions for RDS for PostgreSQL, use the following
   command:  aws rds describe-db-engine-versions --engine postgres --query
   \"DBEngineVersions[].EngineVersion\"   Aurora MySQL  For information, see MySQL on Amazon
-  RDS Versions in the Amazon Aurora User Guide.   Aurora PostgreSQL  For information, see
+  RDS Versions in the Amazon Aurora User Guide.  Aurora PostgreSQL  For information, see
   Amazon Aurora PostgreSQL releases and engine versions in the Amazon Aurora User Guide.
   MySQL  For information, see MySQL on Amazon RDS Versions in the Amazon RDS User Guide.
   PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions in the
-  Amazon RDS User Guide.  Valid for: Aurora DB clusters and Multi-AZ DB clusters
-- `"GlobalClusterIdentifier"`:  The global cluster ID of an Aurora cluster that becomes the
-  primary cluster in the new global database cluster.  Valid for: Aurora DB clusters only
+  Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+- `"GlobalClusterIdentifier"`: The global cluster ID of an Aurora cluster that becomes the
+  primary cluster in the new global database cluster. Valid for: Aurora DB clusters only
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
   valid Iops values, see Amazon RDS Provisioned IOPS storage to improve performance in the
-  Amazon RDS User Guide.  This setting is required to create a Multi-AZ DB cluster.
+  Amazon RDS User Guide. This setting is required to create a Multi-AZ DB cluster.
   Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
   Valid for: Multi-AZ DB clusters only
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB cluster. The
@@ -1259,6 +1194,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Setting up and enabling Enhanced Monitoring in the Amazon RDS User Guide. If
   MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid
   for: Multi-AZ DB clusters only
+- `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB cluster. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon Aurora User
+  Guide.  Valid for: Aurora DB clusters only
 - `"OptionGroupName"`: A value that indicates that the DB cluster should be associated with
   the specified option group. DB clusters are associated with a default option group that
   can't be modified.
@@ -1269,43 +1209,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KMS key for your Amazon Web Services account. Your Amazon Web Services account has a
   different default KMS key for each Amazon Web Services Region. Valid for: Multi-AZ DB
   clusters only
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years). Valid for: Multi-AZ DB
-  clusters only
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error. Valid for:
+  Multi-AZ DB clusters only
 - `"Port"`: The port number on which the instances in the DB cluster accept connections.
-  RDS for MySQL and Aurora MySQL   Default: 3306   Valid values: 1150-65535   RDS for
-  PostgreSQL and Aurora PostgreSQL   Default: 5432   Valid values: 1150-65535  Valid for:
+  RDS for MySQL and Aurora MySQL  Default: 3306  Valid values: 1150-65535   RDS for
+  PostgreSQL and Aurora PostgreSQL  Default: 5432  Valid values: 1150-65535  Valid for:
   Aurora DB clusters and Multi-AZ DB clusters
-- `"PreSignedUrl"`: A URL that contains a Signature Version 4 signed request for the
-  CreateDBCluster action to be called in the source Amazon Web Services Region where the DB
-  cluster is replicated from. Specify PreSignedUrl only when you are performing cross-Region
-  replication from an encrypted DB cluster. The pre-signed URL must be a valid request for
-  the CreateDBCluster API action that can be executed in the source Amazon Web Services
-  Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must
-  contain the following parameter values:    KmsKeyId - The Amazon Web Services KMS key
-  identifier for the KMS key to use to encrypt the copy of the DB cluster in the destination
-  Amazon Web Services Region. This should refer to the same KMS key for both the
-  CreateDBCluster action that is called in the destination Amazon Web Services Region, and
-  the action contained in the pre-signed URL.    DestinationRegion - The name of the Amazon
-  Web Services Region that Aurora read replica will be created in.
-  ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be
-  copied. This identifier must be in the Amazon Resource Name (ARN) format for the source
-  Amazon Web Services Region. For example, if you are copying an encrypted DB cluster from
-  the us-west-2 Amazon Web Services Region, then your ReplicationSourceIdentifier would look
-  like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to
-  generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query
-  Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4 Signing
-  Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify
-  SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually.
-  Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the
-  operation that can be executed in the source Amazon Web Services Region.  Valid for: Aurora
-  DB clusters onlyIf you supply a value for this operation's SourceRegion parameter, a
-  pre-signed URL will be calculated on your behalf.
+- `"PreSignedUrl"`: When you are replicating a DB cluster from one Amazon Web Services
+  GovCloud (US) Region to another, an URL that contains a Signature Version 4 signed request
+  for the CreateDBCluster operation to be called in the source Amazon Web Services Region
+  where the DB cluster is replicated from. Specify PreSignedUrl only when you are performing
+  cross-Region replication from an encrypted DB cluster. The presigned URL must be a valid
+  request for the CreateDBCluster API operation that can run in the source Amazon Web
+  Services Region that contains the encrypted DB cluster to copy. The presigned URL request
+  must contain the following parameter values:    KmsKeyId - The KMS key identifier for the
+  KMS key to use to encrypt the copy of the DB cluster in the destination Amazon Web Services
+  Region. This should refer to the same KMS key for both the CreateDBCluster operation that
+  is called in the destination Amazon Web Services Region, and the operation contained in the
+  presigned URL.    DestinationRegion - The name of the Amazon Web Services Region that
+  Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster
+  identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon
+  Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you
+  are copying an encrypted DB cluster from the us-west-2 Amazon Web Services Region, then
+  your ReplicationSourceIdentifier would look like Example:
+  arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a
+  Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters
+  (Amazon Web Services Signature Version 4) and  Signature Version 4 Signing Process.  If you
+  are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or
+  --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying
+  SourceRegion autogenerates a presigned URL that is a valid request for the operation that
+  can run in the source Amazon Web Services Region.  Valid for: Aurora DB clusters onlyIf you
+  supply a value for this operation's SourceRegion parameter, a pre-signed URL will be
+  calculated on your behalf.
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
-  created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
+  created if automated backups are enabled using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region. To view the time blocks available, see  Backup window in the
-  Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
+  Amazon Aurora User Guide. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
   in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.   Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
@@ -1314,8 +1258,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week. To see the time blocks available,
   see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.
-   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
-  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window. Valid
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"PubliclyAccessible"`: A value that indicates whether the DB cluster is publicly
   accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS)
   endpoint resolves to the private IP address from within the DB cluster's virtual private
@@ -1338,13 +1282,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clusters only
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
+- `"ServerlessV2ScalingConfiguration"`:
 - `"SourceRegion"`: The ID of the region that contains the source for the read replica.
 - `"StorageEncrypted"`: A value that indicates whether the DB cluster is encrypted. Valid
   for: Aurora DB clusters and Multi-AZ DB clusters
 - `"StorageType"`: Specifies the storage type to be associated with the DB cluster. This
-  setting is required to create a Multi-AZ DB cluster.  Valid values: io1   When specified, a
-  value for the Iops parameter is required.   Default: io1  Valid for: Multi-AZ DB clusters
-  only
+  setting is required to create a Multi-AZ DB cluster. Valid values: io1  When specified, a
+  value for the Iops parameter is required. Default: io1  Valid for: Multi-AZ DB clusters only
 - `"Tags"`: Tags to assign to the DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
@@ -1387,7 +1331,7 @@ end
     create_dbcluster_endpoint(dbcluster_endpoint_identifier, dbcluster_identifier, endpoint_type, params::Dict{String,<:Any})
 
 Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster.  This
-action only applies to Aurora DB clusters.
+action applies only to Aurora DB clusters.
 
 # Arguments
 - `dbcluster_endpoint_identifier`: The identifier to use for the new endpoint. This
@@ -1452,28 +1396,27 @@ end
     create_dbcluster_parameter_group(dbcluster_parameter_group_name, dbparameter_group_family, description, params::Dict{String,<:Any})
 
 Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply
-to all of the instances in a DB cluster.  A DB cluster parameter group is initially created
+to all of the instances in a DB cluster. A DB cluster parameter group is initially created
 with the default parameters for the database engine used by instances in the DB cluster. To
 provide custom values for any of the parameters, you must modify the group after creating
 it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group,
 you need to associate it with your DB cluster using ModifyDBCluster. When you associate a
 new DB cluster parameter group with a running Aurora DB cluster, reboot the DB instances in
 the DB cluster without failover for the new DB cluster parameter group and associated
-settings to take effect.  When you associate a new DB cluster parameter group with a
-running Multi-AZ DB cluster, reboot the DB cluster without failover for the new DB cluster
-parameter group and associated settings to take effect.   After you create a DB cluster
+settings to take effect. When you associate a new DB cluster parameter group with a running
+Multi-AZ DB cluster, reboot the DB cluster without failover for the new DB cluster
+parameter group and associated settings to take effect.  After you create a DB cluster
 parameter group, you should wait at least 5 minutes before creating your first DB cluster
 that uses that DB cluster parameter group as the default parameter group. This allows
 Amazon RDS to fully complete the create action before the DB cluster parameter group is
 used as the default for a new DB cluster. This is especially important for parameters that
 are critical when creating the default database for a DB cluster, such as the character set
 for the default database defined by the character_set_database parameter. You can use the
-Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action
-to verify that your DB cluster parameter group has been created or modified.  For more
-information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
-For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in
-preview and is subject to change.
+Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters
+operation to verify that your DB cluster parameter group has been created or modified.  For
+more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User
+Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two
+readable standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group.
@@ -1547,9 +1490,9 @@ end
     create_dbcluster_snapshot(dbcluster_identifier, dbcluster_snapshot_identifier, params::Dict{String,<:Any})
 
 Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see  What is
-Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB
+Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
 clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The identifier of the DB cluster to create a snapshot for. This
@@ -1606,22 +1549,28 @@ end
     create_dbinstance(dbinstance_class, dbinstance_identifier, engine)
     create_dbinstance(dbinstance_class, dbinstance_identifier, engine, params::Dict{String,<:Any})
 
-Creates a new DB instance.
+Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB
+instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation
+multiple times to add more than one DB instance to the cluster. For more information about
+creating an RDS DB instance, see  Creating an Amazon RDS DB instance in the Amazon RDS User
+Guide. For more information about creating a DB instance in an Aurora DB cluster, see
+Creating an Amazon Aurora DB cluster in the Amazon Aurora User Guide.
 
 # Arguments
 - `dbinstance_class`: The compute and memory capacity of the DB instance, for example
-  db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,
+  db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions,
   or for all database engines. For the full list of DB instance classes, and availability for
-  your engine, see DB Instance Class in the Amazon RDS User Guide.
+  your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB instance
+  classes in the Amazon Aurora User Guide.
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
   lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.
   First character must be a letter.   Can't end with a hyphen or contain two consecutive
   hyphens.   Example: mydbinstance
-- `engine`: The name of the database engine to be used for this instance.  Not every
-  database engine is available for every Amazon Web Services Region.  Valid Values:
-  aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and
-  MySQL 8.0-compatible Aurora)    aurora-postgresql     custom-oracle-ee (for RDS Custom for
-  Oracle instances)     custom-sqlserver-ee (for RDS Custom for SQL Server instances)
+- `engine`: The name of the database engine to be used for this instance. Not every
+  database engine is available for every Amazon Web Services Region. Valid Values:    aurora
+  (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and MySQL
+  8.0-compatible Aurora)    aurora-postgresql     custom-oracle-ee (for RDS Custom for Oracle
+  instances)     custom-sqlserver-ee (for RDS Custom for SQL Server instances)
   custom-sqlserver-se (for RDS Custom for SQL Server instances)     custom-sqlserver-web (for
   RDS Custom for SQL Server instances)     mariadb     mysql     oracle-ee     oracle-ee-cdb
      oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
@@ -1633,25 +1582,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes
   automatically grow as the amount of data in your database increases, though you are only
   charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom
-  Constraints to the amount of storage for each storage type are the following:    General
+  Constraints to the amount of storage for each storage type are the following:   General
   Purpose (SSD) storage (gp2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,
   16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an integer
   from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.    MySQL
-  Constraints to the amount of storage for each storage type are the following:    General
+  Constraints to the amount of storage for each storage type are the following:   General
   Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS
   storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be
   an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each
-  storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer
+  storage type are the following:   General Purpose (SSD) storage (gp2): Must be an integer
   from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints
-  to the amount of storage for each storage type are the following:    General Purpose (SSD)
+  to the amount of storage for each storage type are the following:   General Purpose (SSD)
   storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must
   be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5
   to 3072.    Oracle  Constraints to the amount of storage for each storage type are the
-  following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.
+  following:   General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.
   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage
   (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of
-  storage for each storage type are the following:    General Purpose (SSD) storage (gp2):
+  storage for each storage type are the following:   General Purpose (SSD) storage (gp2):
   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express
   editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):
   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express
@@ -1662,22 +1611,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied automatically to the DB instance during the maintenance window. By default, minor
   engine upgrades are applied automatically. If you create an RDS Custom DB instance, you
   must set AutoMinorVersionUpgrade to false.
-- `"AvailabilityZone"`:  The Availability Zone (AZ) where the database will be created. For
+- `"AvailabilityZone"`: The Availability Zone (AZ) where the database will be created. For
   information on Amazon Web Services Regions and Availability Zones, see Regions and
-  Availability Zones.   Amazon Aurora  Not applicable. Availability Zones are managed by the
-  DB cluster.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon
-  Web Services Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter
-  can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability
-  Zone must be in the same Amazon Web Services Region as the current endpoint.   If you're
-  creating a DB instance in an RDS on VMware environment, specify the identifier of the
-  custom Availability Zone to create the DB instance in. For more information about RDS on
-  VMware, see the  RDS on VMware User Guide.
+  Availability Zones.  Amazon Aurora  Each Aurora DB cluster hosts copies of its storage in
+  three separate Availability Zones. Specify one of these Availability Zones. Aurora
+  automatically chooses an appropriate Availability Zone if you don't specify one. Default: A
+  random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region.
+  Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the
+  DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same
+  Amazon Web Services Region as the current endpoint.
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   Setting this parameter to a positive number enables backups. Setting this parameter to 0
   disables automated backups.  Amazon Aurora  Not applicable. The retention period for
   automated backups is managed by the DB cluster. Default: 1 Constraints:   Must be a value
   from 0 to 35   Can't be set to 0 if the DB instance is a source to read replicas   Can't be
-  set to 0 or 35 for an RDS Custom for Oracle DB instance
+  set to 0 for an RDS Custom for Oracle DB instance
 - `"BackupTarget"`: Specifies where automated backups and manual snapshots are stored.
   Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services
   Region). The default is region. For more information, see Working with Amazon RDS on Amazon
@@ -1696,8 +1644,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requirements:   The profile must exist in your account.   The profile must have an IAM role
   that Amazon EC2 has permissions to assume.   The instance profile name and the associated
   IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions
-  required for the IAM role, see  Configure IAM and your VPC in the Amazon Relational
-  Database Service User Guide. This setting is required for RDS Custom.
+  required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
+  This setting is required for RDS Custom.
 - `"DBClusterIdentifier"`: The identifier of the DB cluster that the instance will belong
   to. This setting doesn't apply to RDS Custom.
 - `"DBName"`: The meaning of this parameter differs according to the database engine you
@@ -1716,9 +1664,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   underscores, or digits (0-9).   Can't be a word reserved by the specified database engine
    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the
   default value ORCL is used. You can't specify the string NULL, or any other reserved word,
-  for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    Amazon RDS
+  for DBName. Default: ORCL  Constraints:   Can't be longer than 8 characters    Amazon RDS
   Custom for Oracle  The Oracle System ID (SID) of the created RDS Custom DB instance. If you
-  don't specify a value, the default value is ORCL.  Default: ORCL  Constraints:   It must
+  don't specify a value, the default value is ORCL. Default: ORCL  Constraints:   It must
   contain 1 to 8 alphanumeric characters.   It must contain a letter.   It can't be a word
   reserved by the database engine.    Amazon RDS Custom for SQL Server  Not applicable. Must
   be null.  SQL Server  Not applicable. Must be null.  Amazon Aurora MySQL  The name of the
@@ -1729,39 +1677,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is
   created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, a database
   named postgres is created in the DB cluster. Constraints:   It must contain 1 to 63
-  alphanumeric characters.   It must begin with a letter or an underscore. Subsequent
-  characters can be letters, underscores, or digits (0 to 9).   It can't be a word reserved
-  by the database engine.
+  alphanumeric characters.   It must begin with a letter. Subsequent characters can be
+  letters, underscores, or digits (0 to 9).   It can't be a word reserved by the database
+  engine.
 - `"DBParameterGroupName"`: The name of the DB parameter group to associate with this DB
   instance. If you do not specify a value, then the default DB parameter group for the
   specified DB engine and version is used. This setting doesn't apply to RDS Custom.
-  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a
-  letter   Can't end with a hyphen or contain two consecutive hyphens
+  Constraints:   It must be 1 to 255 letters, numbers, or hyphens.   The first character must
+  be a letter.   It can't end with a hyphen or contain two consecutive hyphens.
 - `"DBSecurityGroups"`: A list of DB security groups to associate with this DB instance.
-  Default: The default DB security group for the database engine.
-- `"DBSubnetGroupName"`: A DB subnet group to associate with this DB instance. If there is
-  no DB subnet group, then it is a non-VPC DB instance.
+  This setting applies to the legacy EC2-Classic platform, which is no longer used to create
+  new DB instances. Use the VpcSecurityGroupIds setting instead.
+- `"DBSubnetGroupName"`: A DB subnet group to associate with this DB instance. Constraints:
+  Must match the name of an existing DBSubnetGroup. Must not be default. Example:
+  mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
-  Instance.   Amazon Aurora  Not applicable. You can enable or disable deletion protection
-  for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster
-  can be deleted even when deletion protection is enabled for the DB cluster.
+  Instance.  Amazon Aurora  Not applicable. You can enable or disable deletion protection for
+  the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can
+  be deleted even when deletion protection is enabled for the DB cluster.
 - `"Domain"`: The Active Directory directory ID to create the DB instance in. Currently,
   only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an
   Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon
-  RDS User Guide. This setting doesn't apply to RDS Custom.
+  RDS User Guide. This setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable.
+  The domain is managed by the DB cluster.
 - `"DomainIAMRoleName"`: Specify the name of the IAM role to be used when making API calls
-  to the Directory Service. This setting doesn't apply to RDS Custom.
+  to the Directory Service. This setting doesn't apply to RDS Custom.  Amazon Aurora  Not
+  applicable. The domain is managed by the DB cluster.
 - `"EnableCloudwatchLogsExports"`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs. The values in the list depend on the DB engine. For more
-  information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon
-  Relational Database Service User Guide.  Amazon Aurora  Not applicable. CloudWatch Logs
-  exports are managed by the DB cluster.   RDS Custom  Not applicable.   MariaDB  Possible
-  values are audit, error, general, and slowquery.   Microsoft SQL Server  Possible values
-  are agent and error.   MySQL  Possible values are audit, error, general, and slowquery.
-  Oracle  Possible values are alert, audit, listener, trace, and oemagent.   PostgreSQL
-  Possible values are postgresql and upgrade.
+  information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User
+  Guide.  Amazon Aurora  Not applicable. CloudWatch Logs exports are managed by the DB
+  cluster.  RDS Custom  Not applicable.  MariaDB  Possible values are audit, error, general,
+  and slowquery.  Microsoft SQL Server  Possible values are agent and error.  MySQL  Possible
+  values are audit, error, general, and slowquery.  Oracle  Possible values are alert, audit,
+  listener, trace, and oemagent.  PostgreSQL  Possible values are postgresql and upgrade.
 - `"EnableCustomerOwnedIp"`: A value that indicates whether to enable a customer-owned IP
   address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external
   connectivity to resources in your Outpost subnets through your on-premises network. For
@@ -1772,16 +1723,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services Outposts User Guide.
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
-  default, mapping isn't enabled. This setting doesn't apply to RDS Custom or Amazon Aurora.
-  In Aurora, mapping Amazon Web Services IAM accounts to database accounts is managed by the
-  DB cluster. For more information, see  IAM Database Authentication for MySQL and PostgreSQL
-  in the Amazon RDS User Guide.
+  default, mapping isn't enabled. For more information, see  IAM Database Authentication for
+  MySQL and PostgreSQL in the Amazon RDS User Guide. This setting doesn't apply to RDS
+  Custom.  Amazon Aurora  Not applicable. Mapping Amazon Web Services IAM accounts to
+  database accounts is managed by the DB cluster.
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
   Insights for the DB instance. For more information, see Using Amazon Performance Insights
-  in the Amazon Relational Database Service User Guide.  This setting doesn't apply to RDS
-  Custom.
+  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
 - `"EngineVersion"`: The version number of the database engine to use. For a list of valid
-  engine versions, use the DescribeDBEngineVersions action. The following are the database
+  engine versions, use the DescribeDBEngineVersions operation. The following are the database
   engines and links to information about the major and minor versions that are available with
   Amazon RDS. Not every database engine is available for every Amazon Web Services Region.
   Amazon Aurora  Not applicable. The version number of the database engine to be used by the
@@ -1789,20 +1739,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version (CEV) that you have previously created. This setting is required for RDS Custom for
   Oracle. The CEV name has the following format: 19.customized_string . An example identifier
   is 19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in
-  the Amazon RDS User Guide..  Amazon RDS Custom for SQL Server  See RDS Custom for SQL
-  Server general requirements in the Amazon RDS User Guide.   MariaDB  For information, see
-  MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  For
+  the Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server
+  general requirements in the Amazon RDS User Guide.  MariaDB  For information, see MariaDB
+  on Amazon RDS Versions in the Amazon RDS User Guide.  Microsoft SQL Server  For
   information, see Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide.
-   MySQL  For information, see MySQL on Amazon RDS Versions in the Amazon RDS User Guide.
+  MySQL  For information, see MySQL on Amazon RDS Versions in the Amazon RDS User Guide.
   Oracle  For information, see Oracle Database Engine Release Notes in the Amazon RDS User
-  Guide.   PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions
+  Guide.  PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions
   in the Amazon RDS User Guide.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for the DB instance. For information about valid Iops values, see
   Amazon RDS Provisioned IOPS storage to improve performance in the Amazon RDS User Guide.
   Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple
   between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances,
-  must be a multiple between 1 and 50 of the storage amount for the DB instance.
+  must be a multiple between 1 and 50 of the storage amount for the DB instance.  Amazon
+  Aurora  Not applicable. Storage is managed by the DB cluster.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB instance.
   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the
@@ -1815,9 +1766,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances. For most RDS engines, if you leave this parameter empty while enabling
   StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the
   default key when this parameter is empty. You must explicitly specify a key.
-- `"LicenseModel"`: License model information for this DB instance.  Valid values:
+- `"LicenseModel"`: License model information for this DB instance. Valid values:
   license-included | bring-your-own-license | general-public-license  This setting doesn't
-  apply to RDS Custom.
+  apply to RDS Custom.  Amazon Aurora  Not applicable.
 - `"MasterUserPassword"`: The password for the master user. The password can include any
   printable ASCII character except \"/\", \"\"\", or \"@\".  Amazon Aurora  Not applicable.
   The password for the master user is managed by the DB cluster.  MariaDB  Constraints: Must
@@ -1826,14 +1777,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain
   from 8 to 128 characters.
 - `"MasterUsername"`: The name for the master user.  Amazon Aurora  Not applicable. The
-  name for the master user is managed by the DB cluster.   Amazon RDS  Constraints:
+  name for the master user is managed by the DB cluster.  Amazon RDS  Constraints:
   Required.   Must be 1 to 16 letters, numbers, or underscores.   First character must be a
   letter.   Can't be a reserved word for the chosen database engine.
 - `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
   automatically scale the storage of the DB instance. For more information about this
   setting, including limitations that apply to it, see  Managing capacity automatically with
   Amazon RDS storage autoscaling in the Amazon RDS User Guide. This setting doesn't apply to
-  RDS Custom.
+  RDS Custom.  Amazon Aurora  Not applicable. Storage is managed by the DB cluster.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collection of Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must set
@@ -1847,14 +1798,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. This setting doesn't apply to RDS Custom.
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This
-  setting doesn't apply to RDS Custom.
+  setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable. DB instance
+  Availability Zones (AZs) are managed by the DB cluster.
 - `"NcharCharacterSetName"`: The name of the NCHAR character set for the Oracle DB
   instance. This parameter doesn't apply to RDS Custom.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB instance. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"OptionGroupName"`: A value that indicates that the DB instance should be associated
   with the specified option group. Permanent options, such as the TDE option for Oracle
   Advanced Security TDE, can't be removed from an option group. Also, that option group can't
   be removed from a DB instance after it is associated with a DB instance. This setting
-  doesn't apply to RDS Custom.
+  doesn't apply to RDS Custom.  Amazon Aurora  Not applicable.
 - `"PerformanceInsightsKMSKeyId"`: The Amazon Web Services KMS key identifier for
   encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the
   key ARN, key ID, alias ARN, or alias name for the KMS key. If you do not specify a value
@@ -1862,35 +1819,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region. This setting doesn't apply
   to RDS Custom.
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years). This setting doesn't apply
-  to RDS Custom.
-- `"Port"`: The port number on which the database accepts connections.  MySQL   Default:
-  3306   Valid values: 1150-65535  Type: Integer  MariaDB   Default: 3306   Valid values:
-  1150-65535  Type: Integer  PostgreSQL   Default: 5432   Valid values: 1150-65535  Type:
-  Integer  Oracle   Default: 1521   Valid values: 1150-65535   SQL Server   Default: 1433
-  Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.
-  Amazon Aurora   Default: 3306   Valid values: 1150-65535  Type: Integer
-- `"PreferredBackupWindow"`:  The daily time range during which automated backups are
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error. This setting
+  doesn't apply to RDS Custom.
+- `"Port"`: The port number on which the database accepts connections.  MySQL  Default:
+  3306  Valid values: 1150-65535  Type: Integer  MariaDB  Default: 3306  Valid values:
+  1150-65535  Type: Integer  PostgreSQL  Default: 5432  Valid values: 1150-65535  Type:
+  Integer  Oracle  Default: 1521  Valid values: 1150-65535   SQL Server  Default: 1433  Valid
+  values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.  Amazon
+  Aurora  Default: 3306  Valid values: 1150-65535  Type: Integer
+- `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region. For more information, see Backup window in the Amazon RDS User
-  Guide.   Amazon Aurora  Not applicable. The daily time range for creating automated backups
+  Guide.  Amazon Aurora  Not applicable. The daily time range for creating automated backups
   is managed by the DB cluster. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must
   be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS
-  Maintenance Window.   Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window
+  Maintenance Window. Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window
   selected at random from an 8-hour block of time for each Amazon Web Services Region,
-  occurring on a random day of the week.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   Constraints: Minimum 30-minute window.
 - `"ProcessorFeatures"`: The number of CPU cores and the number of threads per core for the
-  DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
+  DB instance class of the DB instance. This setting doesn't apply to RDS Custom.  Amazon
+  Aurora  Not applicable.
 - `"PromotionTier"`: A value that specifies the order in which an Aurora Replica is
   promoted to the primary instance after a failure of the existing primary instance. For more
   information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide.
-   This setting doesn't apply to RDS Custom. Default: 1 Valid Values: 0 - 15
+  This setting doesn't apply to RDS Custom. Default: 1 Valid Values: 0 - 15
 - `"PubliclyAccessible"`: A value that indicates whether the DB instance is publicly
   accessible. When the DB instance is publicly accessible, its Domain Name System (DNS)
   endpoint resolves to the private IP address from within the DB instance's virtual private
@@ -1911,12 +1872,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, it isn't encrypted. For RDS Custom instances, either set this parameter to true or
   leave it unset. If you set this parameter to false, RDS reports an error.  Amazon Aurora
   Not applicable. The encryption for DB instances is managed by the DB cluster.
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.  Valid
-  values: standard | gp2 | io1   If you specify io1, you must also include a value for the
-  Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
+- `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
+  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
+  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2   Amazon
+  Aurora  Not applicable. Storage is managed by the DB cluster.
 - `"Tags"`: Tags to assign to the DB instance.
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
-  TDE encryption. This setting doesn't apply to RDS Custom.
+  TDE encryption. This setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable.
 - `"TdeCredentialPassword"`: The password for the given ARN from the key store in order to
   access the device. This setting doesn't apply to RDS Custom.
 - `"Timezone"`: The time zone of the DB instance. The time zone parameter is currently
@@ -1975,7 +1937,7 @@ end
 Creates a new DB instance that acts as a read replica for an existing source DB instance.
 You can create a read replica for a DB instance running MySQL, MariaDB, Oracle, PostgreSQL,
 or SQL Server. For more information, see Working with Read Replicas in the Amazon RDS User
-Guide.  Amazon Aurora doesn't support this action. Call the CreateDBInstance action to
+Guide. Amazon Aurora doesn't support this operation. Call the CreateDBInstance operation to
 create a DB instance for an Aurora DB cluster. All read replica DB instances are created
 with backups disabled. All other DB instance attributes (including DB security groups and
 DB parameter groups) are inherited from the source DB instance, except as specified.  Your
@@ -2009,7 +1971,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't apply to RDS Custom. Default: Inherits from the source DB instance
 - `"AvailabilityZone"`: The Availability Zone (AZ) where the read replica will be created.
   Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services
-  Region.  Example: us-east-1d
+  Region. Example: us-east-1d
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the read
   replica to snapshots of the read replica. By default, tags are not copied.
 - `"CustomIamInstanceProfile"`: The instance profile associated with the underlying Amazon
@@ -2017,21 +1979,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requirements:   The profile must exist in your account.   The profile must have an IAM role
   that Amazon EC2 has permissions to assume.   The instance profile name and the associated
   IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions
-  required for the IAM role, see  Configure IAM and your VPC in the Amazon Relational
-  Database Service User Guide. This setting is required for RDS Custom.
+  required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
+  This setting is required for RDS Custom.
 - `"DBInstanceClass"`: The compute and memory capacity of the read replica, for example
   db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,
   or for all database engines. For the full list of DB instance classes, and availability for
-  your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: Inherits from
-  the source DB instance.
+  your engine, see DB Instance Class in the Amazon RDS User Guide. Default: Inherits from the
+  source DB instance.
 - `"DBParameterGroupName"`: The name of the DB parameter group to associate with this DB
   instance. If you do not specify a value for DBParameterGroupName, then Amazon RDS uses the
   DBParameterGroup of source DB instance for a same Region read replica, or the default
   DBParameterGroup for the specified DB engine for a cross-Region read replica. Specifying a
-  parameter group for this operation is only supported for Oracle DB instances. It isn't
-  supported for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.
-  First character must be a letter   Can't end with a hyphen or contain two consecutive
-  hyphens
+  parameter group for this operation is only supported for MySQL and Oracle DB instances. It
+  isn't supported for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or
+  hyphens.   First character must be a letter   Can't end with a hyphen or contain two
+  consecutive hyphens
 - `"DBSubnetGroupName"`: Specifies a DB subnet group for the DB instance. The new DB
   instance is created in the VPC associated with the DB subnet group. If no DB subnet group
   is specified, then the new DB instance isn't created in a VPC. Constraints:   Can only be
@@ -2042,7 +2004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created from the same source DB instance must either:&gt;   Specify DB subnet groups from
   the same VPC. All these read replicas are created in the same VPC.   Not specify a DB
   subnet group. All these read replicas are created outside of any VPC.     Example:
-  mySubnetgroup
+  mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
@@ -2060,11 +2022,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information about IAM database authentication, see
-   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.  This
+   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. This
   setting doesn't apply to RDS Custom.
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
   Insights for the read replica. For more information, see Using Amazon Performance Insights
-  in the Amazon RDS User Guide.  This setting doesn't apply to RDS Custom.
+  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for the DB instance.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted read replica.
@@ -2095,10 +2057,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If MonitoringInterval is set to a value other than 0, then you must supply a
   MonitoringRoleArn value. This setting doesn't apply to RDS Custom.
 - `"MultiAZ"`: A value that indicates whether the read replica is in a Multi-AZ deployment.
-   You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your
+  You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your
   replica in another Availability Zone for failover support for the replica. Creating your
   read replica as a Multi-AZ DB instance is independent of whether the source database is a
   Multi-AZ DB instance. This setting doesn't apply to RDS Custom.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for read replica. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"OptionGroupName"`: The option group the DB instance is associated with. If omitted, the
   option group associated with the source instance is used.  For SQL Server, you must use the
   option group associated with the source instance.  This setting doesn't apply to RDS Custom.
@@ -2109,48 +2076,54 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region. This setting doesn't apply
   to RDS Custom.
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years).  This setting doesn't apply
-  to RDS Custom.
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error. This setting
+  doesn't apply to RDS Custom.
 - `"Port"`: The port number that the DB instance uses for connections. Default: Inherits
   from the source DB instance Valid Values: 1150-65535
-- `"PreSignedUrl"`: The URL that contains a Signature Version 4 signed request for the
-  CreateDBInstanceReadReplica API action in the source Amazon Web Services Region that
-  contains the source DB instance.  You must specify this parameter when you create an
-  encrypted read replica from another Amazon Web Services Region by using the Amazon RDS API.
-  Don't specify PreSignedUrl when you are creating an encrypted read replica in the same
-  Amazon Web Services Region. The presigned URL must be a valid request for the
-  CreateDBInstanceReadReplica API action that can be executed in the source Amazon Web
-  Services Region that contains the encrypted source DB instance. The presigned URL request
-  must contain the following parameter values:     DestinationRegion - The Amazon Web
-  Services Region that the encrypted read replica is created in. This Amazon Web Services
-  Region is the same one where the CreateDBInstanceReadReplica action is called that contains
-  this presigned URL. For example, if you create an encrypted DB instance in the us-west-1
-  Amazon Web Services Region, from a source DB instance in the us-east-2 Amazon Web Services
-  Region, then you call the CreateDBInstanceReadReplica action in the us-east-1 Amazon Web
+- `"PreSignedUrl"`: When you are creating a read replica from one Amazon Web Services
+  GovCloud (US) Region to another or from one China Amazon Web Services Region to another,
+  the URL that contains a Signature Version 4 signed request for the
+  CreateDBInstanceReadReplica API operation in the source Amazon Web Services Region that
+  contains the source DB instance. This setting applies only to Amazon Web Services GovCloud
+  (US) Regions and China Amazon Web Services Regions. It's ignored in other Amazon Web
+  Services Regions. You must specify this parameter when you create an encrypted read replica
+  from another Amazon Web Services Region by using the Amazon RDS API. Don't specify
+  PreSignedUrl when you are creating an encrypted read replica in the same Amazon Web
+  Services Region. The presigned URL must be a valid request for the
+  CreateDBInstanceReadReplica API operation that can run in the source Amazon Web Services
+  Region that contains the encrypted source DB instance. The presigned URL request must
+  contain the following parameter values:    DestinationRegion - The Amazon Web Services
+  Region that the encrypted read replica is created in. This Amazon Web Services Region is
+  the same one where the CreateDBInstanceReadReplica operation is called that contains this
+  presigned URL. For example, if you create an encrypted DB instance in the us-west-1 Amazon
+  Web Services Region, from a source DB instance in the us-east-2 Amazon Web Services Region,
+  then you call the CreateDBInstanceReadReplica operation in the us-east-1 Amazon Web
   Services Region and provide a presigned URL that contains a call to the
-  CreateDBInstanceReadReplica action in the us-west-2 Amazon Web Services Region. For this
+  CreateDBInstanceReadReplica operation in the us-west-2 Amazon Web Services Region. For this
   example, the DestinationRegion in the presigned URL must be set to the us-east-1 Amazon Web
-  Services Region.     KmsKeyId - The Amazon Web Services KMS key identifier for the key to
-  use to encrypt the read replica in the destination Amazon Web Services Region. This is the
-  same identifier for both the CreateDBInstanceReadReplica action that is called in the
-  destination Amazon Web Services Region, and the action contained in the presigned URL.
+  Services Region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the
+  read replica in the destination Amazon Web Services Region. This is the same identifier for
+  both the CreateDBInstanceReadReplica operation that is called in the destination Amazon Web
+  Services Region, and the operation contained in the presigned URL.
   SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be
   replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source
   Amazon Web Services Region. For example, if you are creating an encrypted read replica from
   a DB instance in the us-west-2 Amazon Web Services Region, then your
   SourceDBInstanceIdentifier looks like the following example:
-  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.    To learn how to
+  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.   To learn how to
   generate a Signature Version 4 signed request, see Authenticating Requests: Using Query
   Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing
-  Process.   If you are using an Amazon Web Services SDK tool or the CLI, you can specify
+  Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify
   SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually.
   Specifying SourceRegion autogenerates a presigned URL that is a valid request for the
-  operation that can be executed in the source Amazon Web Services Region.  SourceRegion
-  isn't supported for SQL Server, because SQL Server on Amazon RDS doesn't support
-  cross-Region read replicas.  This setting doesn't apply to RDS Custom.If you supply a value
-  for this operation's SourceRegion parameter, a pre-signed URL will be calculated on your
-  behalf.
+  operation that can run in the source Amazon Web Services Region.  SourceRegion isn't
+  supported for SQL Server, because Amazon RDS for SQL Server doesn't support cross-Region
+  read replicas.  This setting doesn't apply to RDS Custom.If you supply a value for this
+  operation's SourceRegion parameter, a pre-signed URL will be calculated on your behalf.
 - `"ProcessorFeatures"`: The number of CPU cores and the number of threads per core for the
   DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
 - `"PubliclyAccessible"`: A value that indicates whether the DB instance is publicly
@@ -2173,15 +2146,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify this parameter and set it to mounted. The value won't be set by default. After
   replica creation, you can manage the open mode manually.
 - `"SourceRegion"`: The ID of the region that contains the source for the read replica.
-- `"StorageType"`: Specifies the storage type to be associated with the read replica.
-  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for
-  the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
+- `"StorageType"`: Specifies the storage type to be associated with the read replica. Valid
+  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
+  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
 - `"Tags"`:
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
   the DB instance uses its default processor features. This setting doesn't apply to RDS
   Custom.
-- `"VpcSecurityGroupIds"`:  A list of Amazon EC2 VPC security groups to associate with the
-  read replica.  This setting doesn't apply to RDS Custom.  Default: The default EC2 VPC
+- `"VpcSecurityGroupIds"`: A list of Amazon EC2 VPC security groups to associate with the
+  read replica. This setting doesn't apply to RDS Custom. Default: The default EC2 VPC
   security group for the DB subnet group's VPC.
 """
 function create_dbinstance_read_replica(
@@ -2226,13 +2199,13 @@ end
     create_dbparameter_group(dbparameter_group_family, dbparameter_group_name, description)
     create_dbparameter_group(dbparameter_group_family, dbparameter_group_name, description, params::Dict{String,<:Any})
 
-Creates a new DB parameter group.  A DB parameter group is initially created with the
+Creates a new DB parameter group. A DB parameter group is initially created with the
 default parameters for the database engine used by the DB instance. To provide custom
 values for any of the parameters, you must modify the group after creating it using
 ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it
 with your DB instance using ModifyDBInstance. When you associate a new DB parameter group
 with a running DB instance, you need to reboot the DB instance without failover for the new
-DB parameter group and associated settings to take effect.  This command doesn't apply to
+DB parameter group and associated settings to take effect. This command doesn't apply to
 RDS Custom.  After you create a DB parameter group, you should wait at least 5 minutes
 before creating your first DB instance that uses that DB parameter group as the default
 parameter group. This allows Amazon RDS to fully complete the create action before the
@@ -2323,8 +2296,9 @@ Creates a new DB proxy.
   hyphens; it can't end with a hyphen or contain two consecutive hyphens.
 - `engine_family`: The kinds of databases that the proxy can connect to. This value
   determines which database network protocol the proxy recognizes when it interprets network
-  traffic to and from the database. The engine family applies to MySQL and PostgreSQL for
-  both RDS and Aurora.
+  traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL
+  databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify
+  POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access
   secrets in Amazon Web Services Secrets Manager.
 - `vpc_subnet_ids`: One or more VPC subnet IDs to associate with the new proxy.
@@ -2402,7 +2376,7 @@ end
     create_dbproxy_endpoint(dbproxy_endpoint_name, dbproxy_name, vpc_subnet_ids)
     create_dbproxy_endpoint(dbproxy_endpoint_name, dbproxy_name, vpc_subnet_ids, params::Dict{String,<:Any})
 
- Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB
+Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB
 clusters. You can use DB proxy endpoints to specify read/write or read-only access to the
 DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different
 VPC than the proxy's default VPC.
@@ -2418,7 +2392,8 @@ VPC than the proxy's default VPC.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`:
 - `"TargetRole"`: A value that indicates whether the DB proxy endpoint can be used for
-  read/write or read-only operations. The default is READ_WRITE.
+  read/write or read-only operations. The default is READ_WRITE. The only role that proxies
+  for RDS for Microsoft SQL Server support is READ_WRITE.
 - `"VpcSecurityGroupIds"`: The VPC security group IDs for the DB proxy endpoint that you
   create. You can specify a different set of security group IDs than for the original DB
   proxy. The default is the default security group for the VPC.
@@ -2469,8 +2444,13 @@ end
     create_dbsecurity_group(dbsecurity_group_description, dbsecurity_group_name)
     create_dbsecurity_group(dbsecurity_group_description, dbsecurity_group_name, params::Dict{String,<:Any})
 
-Creates a new DB security group. DB security groups control access to a DB instance.  A DB
+Creates a new DB security group. DB security groups control access to a DB instance. A DB
 security group controls access to EC2-Classic DB instances that are not in a VPC.
+EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a
+VPC, we recommend that you migrate as soon as possible. For more information, see Migrate
+from EC2-Classic to a VPC in the Amazon EC2 User Guide, the blog EC2-Classic Networking is
+Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in
+the Amazon RDS User Guide.
 
 # Arguments
 - `dbsecurity_group_description`: The description for the DB security group.
@@ -2588,8 +2568,9 @@ least two AZs in the Amazon Web Services Region.
 # Arguments
 - `dbsubnet_group_description`: The description for the DB subnet group.
 - `dbsubnet_group_name`: The name for the DB subnet group. This value is stored as a
-  lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods,
-  underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
+  lowercase string. Constraints:   Must contain no more than 255 letters, numbers, periods,
+  underscores, spaces, or hyphens.   Must not be default.   First character must be a letter.
+    Example: mydbsubnetgroup
 - `subnet_identifier`: The EC2 Subnet IDs for the DB subnet group.
 
 # Optional Parameters
@@ -2643,7 +2624,7 @@ end
     create_event_subscription(sns_topic_arn, subscription_name)
     create_event_subscription(sns_topic_arn, subscription_name, params::Dict{String,<:Any})
 
-Creates an RDS event notification subscription. This action requires a topic Amazon
+Creates an RDS event notification subscription. This operation requires a topic Amazon
 Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To
 obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic.
 The ARN is displayed in the SNS console. You can specify the type of source (SourceType)
@@ -2651,14 +2632,15 @@ that you want to be notified of and provide a list of RDS sources (SourceIds) th
 the events. You can also provide a list of event categories (EventCategories) for events
 that you want to be notified of. For example, you can specify SourceType = db-instance,
 SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you
-specify both the SourceType and SourceIds, such as SourceType = db-instance and
-SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the
-specified source. If you specify a SourceType but do not specify a SourceIdentifier, you
-receive notice of the events for that source type for all your RDS sources. If you don't
-specify either the SourceType or the SourceIdentifier, you are notified of events generated
-from all RDS sources belonging to your customer account.  RDS event notification is only
-available for unencrypted SNS topics. If you specify an encrypted SNS topic, event
-notifications aren't sent for the topic.
+specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIds =
+myDBInstance1, you are notified of all the db-instance events for the specified source. If
+you specify a SourceType but do not specify SourceIds, you receive notice of the events for
+that source type for all your RDS sources. If you don't specify either the SourceType or
+the SourceIds, you are notified of events generated from all RDS sources belonging to your
+customer account. For more information about subscribing to an event for RDS DB engines,
+see  Subscribing to Amazon RDS event notification in the Amazon RDS User Guide. For more
+information about subscribing to an event for Aurora DB engines, see  Subscribing to Amazon
+RDS event notification in the Amazon Aurora User Guide.
 
 # Arguments
 - `sns_topic_arn`: The Amazon Resource Name (ARN) of the SNS topic created for event
@@ -2668,11 +2650,12 @@ notifications aren't sent for the topic.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Enabled"`:  A value that indicates whether to activate the subscription. If the event
+- `"Enabled"`: A value that indicates whether to activate the subscription. If the event
   notification subscription isn't activated, the subscription is created but not active.
-- `"EventCategories"`:  A list of event categories for a particular source type
-  (SourceType) that you want to subscribe to. You can see a list of the categories for a
-  given source type in Events in the Amazon RDS User Guide or by using the
+- `"EventCategories"`: A list of event categories for a particular source type (SourceType)
+  that you want to subscribe to. You can see a list of the categories for a given source type
+  in the \"Amazon RDS event categories and event messages\" section of the  Amazon RDS User
+  Guide  or the  Amazon Aurora User Guide . You can also see this list by using the
   DescribeEventCategories operation.
 - `"SourceIds"`: The list of identifiers of the event sources for which events are
   returned. If not specified, then all sources are included in the response. An identifier
@@ -2684,12 +2667,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DBParameterGroupName value must be supplied.   If the source type is a DB security group, a
   DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a
   DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot,
-  a DBClusterSnapshotIdentifier value must be supplied.
+  a DBClusterSnapshotIdentifier value must be supplied.   If the source type is an RDS Proxy,
+  a DBProxyName value must be supplied.
 - `"SourceType"`: The type of source that is generating the events. For example, if you
   want to be notified of events generated by a DB instance, you set this parameter to
-  db-instance. If this value isn't specified, all events are returned. Valid values:
-  db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot |
-  db-cluster-snapshot
+  db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all
+  events are returned. Valid values: db-instance | db-cluster | db-parameter-group |
+  db-security-group | db-snapshot | db-cluster-snapshot | db-proxy
 - `"Tags"`:
 """
 function create_event_subscription(
@@ -2730,29 +2714,28 @@ end
     create_global_cluster()
     create_global_cluster(params::Dict{String,<:Any})
 
- Creates an Aurora global database spread across multiple Amazon Web Services Regions. The
+Creates an Aurora global database spread across multiple Amazon Web Services Regions. The
 global database contains a single primary cluster with read-write capability, and a
 read-only secondary cluster that receives data from the primary cluster through high-speed
-replication performed by the Aurora storage subsystem.   You can create a global database
+replication performed by the Aurora storage subsystem. You can create a global database
 that is initially empty, and then add a primary cluster and a secondary cluster to it. Or
 you can specify an existing Aurora cluster during the create operation, and this cluster
-becomes the primary cluster of the global database.   This action only applies to Aurora DB
+becomes the primary cluster of the global database.  This action applies only to Aurora DB
 clusters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatabaseName"`:  The name for your database of up to 64 alpha-numeric characters. If
-  you do not provide a name, Amazon Aurora will not create a database in the global database
+- `"DatabaseName"`: The name for your database of up to 64 alphanumeric characters. If you
+  do not provide a name, Amazon Aurora will not create a database in the global database
   cluster you are creating.
-- `"DeletionProtection"`:  The deletion protection setting for the new global database. The
+- `"DeletionProtection"`: The deletion protection setting for the new global database. The
   global database can't be deleted when deletion protection is enabled.
 - `"Engine"`: The name of the database engine to be used for this DB cluster.
 - `"EngineVersion"`: The engine version of the Aurora global database.
 - `"GlobalClusterIdentifier"`: The cluster identifier of the new global database cluster.
-- `"SourceDBClusterIdentifier"`:  The Amazon Resource Name (ARN) to use as the primary
+- `"SourceDBClusterIdentifier"`: The Amazon Resource Name (ARN) to use as the primary
   cluster of the global database. This parameter is optional.
-- `"StorageEncrypted"`:  The storage encryption setting for the new global database
-  cluster.
+- `"StorageEncrypted"`: The storage encryption setting for the new global database cluster.
 """
 function create_global_cluster(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -2779,7 +2762,7 @@ apply to RDS Custom.
 
 # Arguments
 - `engine_name`: Specifies the name of the engine that this option group should be
-  associated with. Valid Values:     mariadb     mysql     oracle-ee     oracle-ee-cdb
+  associated with. Valid Values:    mariadb     mysql     oracle-ee     oracle-ee-cdb
   oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
   sqlserver-ex     sqlserver-web
 - `major_engine_version`: Specifies the major version of the engine that this option group
@@ -2831,47 +2814,6 @@ function create_option_group(
                     "OptionGroupDescription" => OptionGroupDescription,
                     "OptionGroupName" => OptionGroupName,
                 ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_custom_availability_zone(custom_availability_zone_id)
-    delete_custom_availability_zone(custom_availability_zone_id, params::Dict{String,<:Any})
-
-Deletes a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is
-integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the
- RDS on VMware User Guide.
-
-# Arguments
-- `custom_availability_zone_id`: The custom AZ identifier.
-
-"""
-function delete_custom_availability_zone(
-    CustomAvailabilityZoneId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "DeleteCustomAvailabilityZone",
-        Dict{String,Any}("CustomAvailabilityZoneId" => CustomAvailabilityZoneId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_custom_availability_zone(
-    CustomAvailabilityZoneId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return rds(
-        "DeleteCustomAvailabilityZone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CustomAvailabilityZoneId" => CustomAvailabilityZoneId),
                 params,
             ),
         );
@@ -2942,8 +2884,7 @@ DB cluster, all automated backups for that DB cluster are deleted and can't be r
 Manual DB cluster snapshots of the specified DB cluster are not deleted. For more
 information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
 For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in
-preview and is subject to change.
+standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the DB cluster to be deleted. This
@@ -2951,8 +2892,8 @@ preview and is subject to change.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FinalDBSnapshotIdentifier"`:  The DB cluster snapshot identifier of the new DB cluster
-  snapshot created when SkipFinalSnapshot is disabled.    Specifying this parameter and also
+- `"FinalDBSnapshotIdentifier"`: The DB cluster snapshot identifier of the new DB cluster
+  snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also
   skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter
   results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First
   character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
@@ -3041,10 +2982,9 @@ end
 
 Deletes a specified DB cluster parameter group. The DB cluster parameter group to be
 deleted can't be associated with any DB clusters. For more information on Amazon Aurora,
-see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on
+see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on
 Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in
-the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject
-to change.
+the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group.
@@ -3090,9 +3030,8 @@ end
 Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is
 terminated.  The DB cluster snapshot must be in the available state to be deleted.  For
 more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User
-Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two
-readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters
-feature is in preview and is subject to change.
+Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two
+readable standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to delete.
@@ -3139,7 +3078,7 @@ DB instance, all automated backups for that instance are deleted and can't be re
 Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.
 If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting
 until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the
-status of this operation. The action can't be canceled or reverted once submitted.  When a
+status of this operation. The action can't be canceled or reverted once submitted. When a
 DB instance is in a failure state and has a status of failed, incompatible-restore, or
 incompatible-network, you can only delete it when you skip creation of the final snapshot
 with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon
@@ -3160,8 +3099,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteAutomatedBackups"`: A value that indicates whether to remove automated backups
   immediately after the DB instance is deleted. This parameter isn't case-sensitive. The
   default is to remove automated backups immediately after the DB instance is deleted.
-- `"FinalDBSnapshotIdentifier"`:  The DBSnapshotIdentifier of the new DBSnapshot created
-  when the SkipFinalSnapshot parameter is disabled.   If you enable this parameter and also
+- `"FinalDBSnapshotIdentifier"`: The DBSnapshotIdentifier of the new DBSnapshot created
+  when the SkipFinalSnapshot parameter is disabled.  If you enable this parameter and also
   enable SkipFinalShapshot, the command results in an error.  This setting doesn't apply to
   RDS Custom. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a
   letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't be specified
@@ -3362,8 +3301,12 @@ end
     delete_dbsecurity_group(dbsecurity_group_name)
     delete_dbsecurity_group(dbsecurity_group_name, params::Dict{String,<:Any})
 
-Deletes a DB security group.  The specified DB security group must not be associated with
-any DB instances.
+Deletes a DB security group. The specified DB security group must not be associated with
+any DB instances.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from
+EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more
+information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide, the blog
+EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance
+not in a VPC into a VPC in the Amazon RDS User Guide.
 
 # Arguments
 - `dbsecurity_group_name`: The name of the DB security group to delete.  You can't delete
@@ -3451,8 +3394,8 @@ any DB instances.
 
 # Arguments
 - `dbsubnet_group_name`: The name of the database subnet group to delete.  You can't delete
-  the default subnet group.  Constraints: Constraints: Must match the name of an existing
-  DBSubnetGroup. Must not be default. Example: mySubnetgroup
+  the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup.
+  Must not be default. Example: mydbsubnetgroup
 
 """
 function delete_dbsubnet_group(
@@ -3524,11 +3467,11 @@ end
     delete_global_cluster(global_cluster_identifier)
     delete_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
 
- Deletes a global database cluster. The primary and secondary clusters must already be
-detached or destroyed first.   This action only applies to Aurora DB clusters.
+Deletes a global database cluster. The primary and secondary clusters must already be
+detached or destroyed first.  This action only applies to Aurora DB clusters.
 
 # Arguments
-- `global_cluster_identifier`:  The cluster identifier of the global database cluster being
+- `global_cluster_identifier`: The cluster identifier of the global database cluster being
   deleted.
 
 """
@@ -3553,46 +3496,6 @@ function delete_global_cluster(
             mergewith(
                 _merge,
                 Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_installation_media(installation_media_id)
-    delete_installation_media(installation_media_id, params::Dict{String,<:Any})
-
-Deletes the installation medium for a DB engine that requires an on-premises customer
-provided license, such as Microsoft SQL Server.
-
-# Arguments
-- `installation_media_id`: The installation medium ID.
-
-"""
-function delete_installation_media(
-    InstallationMediaId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "DeleteInstallationMedia",
-        Dict{String,Any}("InstallationMediaId" => InstallationMediaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_installation_media(
-    InstallationMediaId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return rds(
-        "DeleteInstallationMedia",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstallationMediaId" => InstallationMediaId),
                 params,
             ),
         );
@@ -3720,13 +3623,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, information for only the identified certificate is returned. This parameter
   isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeCertificates
+- `"Marker"`: An optional pagination token provided by a previous DescribeCertificates
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -3745,52 +3648,11 @@ function describe_certificates(
 end
 
 """
-    describe_custom_availability_zones()
-    describe_custom_availability_zones(params::Dict{String,<:Any})
-
-Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ
-that is integrated with a VMware vSphere cluster. For more information about RDS on VMware,
-see the  RDS on VMware User Guide.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CustomAvailabilityZoneId"`: The custom AZ identifier. If this parameter is specified,
-  information from only the specific custom AZ is returned.
-- `"Filters"`: A filter that specifies one or more custom AZs to describe.
-- `"Marker"`: An optional pagination token provided by a previous
-  DescribeCustomAvailabilityZones request. If this parameter is specified, the response
-  includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-"""
-function describe_custom_availability_zones(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "DescribeCustomAvailabilityZones";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_custom_availability_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "DescribeCustomAvailabilityZones",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     describe_dbcluster_backtracks(dbcluster_identifier)
     describe_dbcluster_backtracks(dbcluster_identifier, params::Dict{String,<:Any})
 
 Returns information about backtracks for a DB cluster. For more information on Amazon
-Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.   This action only
+Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only
 applies to Aurora MySQL DB clusters.
 
 # Arguments
@@ -3811,12 +3673,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifiers.    db-cluster-backtrack-status - Accepts any of the following backtrack status
   values:    applying     completed     failed     pending    The results list includes
   information about only the backtracks identified by these values.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterBacktracks request. If this parameter is specified, the response includes
   only records beyond the marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
 function describe_dbcluster_backtracks(
@@ -3869,12 +3731,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can
   be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one
   or more of: available, creating, deleting, inactive, modifying.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterEndpoints request. If this parameter is specified, the response includes
   only records beyond the marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
 function describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3897,12 +3759,11 @@ end
     describe_dbcluster_parameter_groups()
     describe_dbcluster_parameter_groups(params::Dict{String,<:Any})
 
- Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName
+Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName
 parameter is specified, the list will contain only the description of the specified DB
-cluster parameter group.  For more information on Amazon Aurora, see  What is Amazon
-Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see
- Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
- The Multi-AZ DB clusters feature is in preview and is subject to change.
+cluster parameter group. For more information on Amazon Aurora, see  What is Amazon Aurora?
+in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see
+Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3910,13 +3771,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return details for. Constraints:   If supplied, must match the name of an existing
   DBClusterParameterGroup.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterParameterGroups request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbcluster_parameter_groups(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -3945,8 +3806,7 @@ end
 Returns the detailed parameter list for a particular DB cluster parameter group. For more
 information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
 For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in
-preview and is subject to change.
+standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of a specific DB cluster parameter group to
@@ -3956,14 +3816,14 @@ preview and is subject to change.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterParameters request. If this parameter is specified, the response includes
   only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"Source"`:  A value that indicates to return only parameters for a specific source.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `"Source"`: A value that indicates to return only parameters for a specific source.
   Parameter sources can be engine, service, or customer.
 """
 function describe_dbcluster_parameters(
@@ -4053,19 +3913,18 @@ end
 
 Returns information about DB cluster snapshots. This API action supports pagination. For
 more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon
-Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments
-with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB
-clusters feature is in preview and is subject to change.
+Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments
+with two readable standby DB instances in the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DBClusterIdentifier"`: The ID of the DB cluster to retrieve the list of DB cluster
   snapshots for. This parameter can't be used in conjunction with the
-  DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:
+  DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive. Constraints:
   If supplied, must match the identifier of an existing DBCluster.
 - `"DBClusterSnapshotIdentifier"`: A specific DB cluster snapshot identifier to describe.
   This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This
-  value is stored as a lowercase string.  Constraints:   If supplied, must match the
+  value is stored as a lowercase string. Constraints:   If supplied, must match the
   identifier of an existing DBClusterSnapshot.   If this identifier is for an automated
   snapshot, the SnapshotType parameter must also be specified.
 - `"Filters"`: A filter that specifies one or more DB cluster snapshots to describe.
@@ -4087,7 +3946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only records beyond the marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
   Minimum 20, maximum 100.
 - `"SnapshotType"`: The type of DB cluster snapshots to be returned. You can specify one of
   the following values:    automated - Return all DB cluster snapshots that have been
@@ -4125,10 +3984,10 @@ end
 
 Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API
 supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon
-Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see
- Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
- The Multi-AZ DB clusters feature is in preview and is subject to change.  This operation
-can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see
+Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+This operation can also return information for Amazon Neptune DB instances and Amazon
+DocumentDB instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4136,14 +3995,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, information from only the specific DB cluster is returned. This parameter isn't
   case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
 - `"Filters"`: A filter that specifies one or more DB clusters to describe. Supported
-  filters:    clone-group-id - Accepts clone group identifiers. The results list will only
-  include information about the DB clusters associated with these clone groups.
+  filters:    clone-group-id - Accepts clone group identifiers. The results list only
+  includes information about the DB clusters associated with these clone groups.
   db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs).
-  The results list will only include information about the DB clusters identified by these
-  ARNs.    domain - Accepts Active Directory directory IDs. The results list will only
-  include information about the DB clusters associated with these domains.    engine -
-  Accepts engine names. The results list will only include information about the DB clusters
-  for these engines.
+  The results list only includes information about the DB clusters identified by these ARNs.
+    domain - Accepts Active Directory directory IDs. The results list only includes
+  information about the DB clusters associated with these domains.    engine - Accepts engine
+  names. The results list only includes information about the DB clusters for these engines.
 - `"IncludeShared"`: Optional Boolean parameter that specifies whether the output includes
   information about clusters shared from other Amazon Web Services accounts.
 - `"Marker"`: An optional pagination token provided by a previous DescribeDBClusters
@@ -4151,7 +4009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
 function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4177,13 +4035,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
 - `"DefaultOnly"`: A value that indicates whether only the default version of the specified
   engine or engine and major version combination is returned.
-- `"Engine"`: The database engine to return. Valid Values:     aurora (for MySQL
+- `"Engine"`: The database engine to return. Valid Values:    aurora (for MySQL
   5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible
   Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb
   oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
   sqlserver-ex     sqlserver-web
 - `"EngineVersion"`: The database engine version to return. Example: 5.1.49
-- `"Filters"`: This parameter isn't currently supported.
+- `"Filters"`: A filter that specifies one or more DB engine versions to describe.
+  Supported filters:    db-parameter-group-family - Accepts parameter groups family names.
+  The results list only includes information about the DB engine versions for these parameter
+  group families.    engine - Accepts engine names. The results list only includes
+  information about the DB engine versions for these engines.    engine-mode - Accepts DB
+  engine modes. The results list only includes information about the DB engine versions for
+  these engine modes. Valid DB engine modes are the following:    global     multimaster
+  parallelquery     provisioned     serverless       engine-version - Accepts engine
+  versions. The results list only includes information about the DB engine versions for these
+  engine versions.    status - Accepts engine version statuses. The results list only
+  includes information about the DB engine versions for these statuses. Valid statuses are
+  the following:    available     deprecated
 - `"IncludeAll"`: A value that indicates whether to include engine versions that aren't
   available in the list. The default is to list only available engine versions.
 - `"ListSupportedCharacterSets"`: A value that indicates whether to list the supported
@@ -4195,15 +4064,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ListSupportedTimezones"`: A value that indicates whether to list the supported time
   zones for each engine version. If this parameter is enabled and the requested engine
   supports the TimeZone parameter for CreateDBInstance, the response includes a list of
-  supported time zones for each engine version.  For RDS Custom, the default is not to list
+  supported time zones for each engine version. For RDS Custom, the default is not to list
   supported time zones. If you set ListSupportedTimezones to true, RDS Custom returns no
   results.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more than
+- `"MaxRecords"`: The maximum number of records to include in the response. If more than
   the MaxRecords value is available, a pagination token called a marker is included in the
-  response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20,
+  response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20,
   maximum 100.
 """
 function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4296,23 +4165,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DBInstance.
 - `"Filters"`: A filter that specifies one or more DB instances to describe. Supported
   filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource
-  Names (ARNs). The results list will only include information about the DB instances
-  associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB
-  instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will
-  only include information about the DB instances identified by these ARNs.
-  dbi-resource-id - Accepts DB instance resource identifiers. The results list will only
-  include information about the DB instances identified by these DB instance resource
-  identifiers.    domain - Accepts Active Directory directory IDs. The results list will only
-  include information about the DB instances associated with these domains.    engine -
-  Accepts engine names. The results list will only include information about the DB instances
-  for these engines.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeDBInstances
+  Names (ARNs). The results list only includes information about the DB instances associated
+  with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance
+  identifiers and DB instance Amazon Resource Names (ARNs). The results list only includes
+  information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts
+  DB instance resource identifiers. The results list will only include information about the
+  DB instances identified by these DB instance resource identifiers.    domain - Accepts
+  Active Directory directory IDs. The results list only includes information about the DB
+  instances associated with these domains.    engine - Accepts engine names. The results list
+  only includes information about the DB instances for these engines.
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBInstances
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -4389,7 +4257,7 @@ end
     describe_dbparameter_groups()
     describe_dbparameter_groups(params::Dict{String,<:Any})
 
- Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified,
+Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified,
 the list will contain only the description of the specified DB parameter group.
 
 # Optional Parameters
@@ -4398,13 +4266,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. Constraints:   If supplied, must match the name of an existing
   DBClusterParameterGroup.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
-  DescribeDBParameterGroups request. If this parameter is specified, the response includes
-  only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBParameterGroups
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbparameter_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -4435,13 +4303,13 @@ Returns the detailed parameter list for a particular DB parameter group.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeDBParameters
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBParameters
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"Source"`: The parameter types to return. Default: All parameter types returned Valid
   Values: user | system | engine-default
 """
@@ -4485,12 +4353,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBProxyName"`: The name of the DB proxy. If you omit this parameter, the output
   includes information about all DB proxies owned by your Amazon Web Services account ID.
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so that the remaining results can be retrieved.  Default: 100 Constraints:
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
 function describe_dbproxies(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4519,12 +4387,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omit this parameter, the output includes information about all DB proxy endpoints
   associated with all your DB proxies.
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so that the remaining results can be retrieved.  Default: 100 Constraints:
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
 function describe_dbproxy_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4556,13 +4424,13 @@ structures.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup to describe.
 """
 function describe_dbproxy_target_groups(
@@ -4602,13 +4470,13 @@ Returns information about DBProxyTarget objects. This API supports pagination.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup to describe.
 """
 function describe_dbproxy_targets(
@@ -4640,20 +4508,25 @@ end
     describe_dbsecurity_groups()
     describe_dbsecurity_groups(params::Dict{String,<:Any})
 
- Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the
-list will contain only the descriptions of the specified DB security group.
+Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the
+list will contain only the descriptions of the specified DB security group.  EC2-Classic
+was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we
+recommend that you migrate as soon as possible. For more information, see Migrate from
+EC2-Classic to a VPC in the Amazon EC2 User Guide, the blog EC2-Classic Networking is
+Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in
+the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DBSecurityGroupName"`: The name of the DB security group to return details for.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeDBSecurityGroups
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBSecurityGroups
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbsecurity_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -4727,14 +4600,12 @@ Returns information about DB snapshots. This API action supports pagination.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DBInstanceIdentifier"`: The ID of the DB instance to retrieve the list of DB snapshots
-  for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter
-  isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing
-  DBInstance.
-- `"DBSnapshotIdentifier"`:  A specific DB snapshot identifier to describe. This parameter
-  can't be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase
-  string.  Constraints:   If supplied, must match the identifier of an existing DBSnapshot.
-  If this identifier is for an automated snapshot, the SnapshotType parameter must also be
-  specified.
+  for. This parameter isn't case-sensitive. Constraints:   If supplied, must match the
+  identifier of an existing DBInstance.
+- `"DBSnapshotIdentifier"`: A specific DB snapshot identifier to describe. This value is
+  stored as a lowercase string. Constraints:   If supplied, must match the identifier of an
+  existing DBSnapshot.   If this identifier is for an automated snapshot, the SnapshotType
+  parameter must also be specified.
 - `"DbiResourceId"`: A specific DB resource ID to describe.
 - `"Filters"`: A filter that specifies one or more DB snapshots to describe. Supported
   filters:    db-instance-id - Accepts DB instance identifiers and DB instance Amazon
@@ -4751,13 +4622,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can give an Amazon Web Services account permission to restore a manual DB snapshot from
   another Amazon Web Services account by using the ModifyDBSnapshotAttribute API action. This
   setting doesn't apply to RDS Custom.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeDBSnapshots
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBSnapshots
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"SnapshotType"`: The type of snapshots to be returned. You can specify one of the
   following values:    automated - Return all DB snapshots that have been automatically taken
   by Amazon RDS for my Amazon Web Services account.    manual - Return all DB snapshots that
@@ -4803,13 +4674,13 @@ ranges, go to the Wikipedia Tutorial.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DBSubnetGroupName"`: The name of the DB subnet group to return details for.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeDBSubnetGroups
+- `"Marker"`: An optional pagination token provided by a previous DescribeDBSubnetGroups
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -4842,13 +4713,13 @@ Aurora User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeEngineDefaultClusterParameters request. If this parameter is specified, the
   response includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_engine_default_cluster_parameters(
     DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4887,18 +4758,27 @@ Returns the default engine and system parameter information for the specified da
 engine.
 
 # Arguments
-- `dbparameter_group_family`: The name of the DB parameter group family.
+- `dbparameter_group_family`: The name of the DB parameter group family. Valid Values:
+  aurora5.6     aurora-mysql5.7     aurora-mysql8.0     aurora-postgresql10
+  aurora-postgresql11     aurora-postgresql12     aurora-postgresql13     mariadb10.2
+  mariadb10.3     mariadb10.4     mariadb10.5     mariadb10.6     mysql5.7     mysql8.0
+  postgres10     postgres11     postgres12     postgres13     postgres14
+  sqlserver-ee-11.0     sqlserver-ee-12.0     sqlserver-ee-13.0     sqlserver-ee-14.0
+  sqlserver-ee-15.0     sqlserver-ex-11.0     sqlserver-ex-12.0     sqlserver-ex-13.0
+  sqlserver-ex-14.0     sqlserver-ex-15.0     sqlserver-se-11.0     sqlserver-se-12.0
+  sqlserver-se-13.0     sqlserver-se-14.0     sqlserver-se-15.0     sqlserver-web-11.0
+  sqlserver-web-12.0     sqlserver-web-13.0     sqlserver-web-14.0     sqlserver-web-15.0
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeEngineDefaultParameters request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_engine_default_parameters(
     DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4934,15 +4814,15 @@ end
     describe_event_categories(params::Dict{String,<:Any})
 
 Displays a list of categories for all event source types, or, if specified, for a specified
-source type. You can see a list of the event categories and source types in  Events in the
-Amazon RDS User Guide.
+source type. You can also see this list in the \"Amazon RDS event categories and event
+messages\" section of the  Amazon RDS User Guide  or the  Amazon Aurora User Guide .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"SourceType"`: The type of source that is generating the events. Valid values:
-  db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot |
-  db-cluster-snapshot
+- `"SourceType"`: The type of source that is generating the events. For RDS Proxy events,
+  specify db-proxy. Valid values: db-instance | db-cluster | db-parameter-group |
+  db-security-group | db-snapshot | db-cluster-snapshot | db-proxy
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -4972,13 +4852,13 @@ subscription.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords .
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"SubscriptionName"`: The name of the RDS event notification subscription you want to
   describe.
 """
@@ -5003,27 +4883,29 @@ end
     describe_events(params::Dict{String,<:Any})
 
 Returns events related to DB instances, DB clusters, DB parameter groups, DB security
-groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a
-particular DB instances, DB clusters, DB parameter groups, DB security groups, DB
-snapshots, and DB cluster snapshots group can be obtained by providing the name as a
-parameter.  By default, the past hour of events are returned.
+groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events
+specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB
+snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as
+a parameter. For more information on working with events, see Monitoring Amazon RDS events
+in the Amazon RDS User Guide and Monitoring Amazon Aurora events in the Amazon Aurora User
+Guide.  By default, RDS returns events that were generated in the past hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Duration"`: The number of minutes to retrieve events for. Default: 60
-- `"EndTime"`:  The end of the time interval for which to retrieve events, specified in ISO
+- `"EndTime"`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
   Example: 2009-07-08T18:00Z
 - `"EventCategories"`: A list of event categories that trigger notifications for a event
   notification subscription.
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeEvents request.
+- `"Marker"`: An optional pagination token provided by a previous DescribeEvents request.
   If this parameter is specified, the response includes only records beyond the marker, up to
   the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"SourceIdentifier"`: The identifier of the event source for which events are returned.
   If not specified, then all sources are included in the response. Constraints:   If
   SourceIdentifier is supplied, SourceType must also be provided.   If the source type is a
@@ -5032,11 +4914,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter group, a DBParameterGroupName value must be supplied.   If the source type is a
   DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a
   DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB
-  cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.   Can't end with a
-  hyphen or contain two consecutive hyphens.
+  cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.   If the source
+  type is an RDS Proxy, a DBProxyName value must be supplied.   Can't end with a hyphen or
+  contain two consecutive hyphens.
 - `"SourceType"`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"StartTime"`:  The beginning of the time interval to retrieve events for, specified in
+- `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
   Example: 2009-07-08T18:00Z
 """
@@ -5069,13 +4952,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (ARN) of the snapshot exported to Amazon S3    status - The status of the export task. Must
   be lowercase. Valid statuses are the following:    canceled     canceling     complete
   failed     in_progress     starting
-- `"Marker"`:  An optional pagination token provided by a previous DescribeExportTasks
+- `"Marker"`: An optional pagination token provided by a previous DescribeExportTasks
   request. If you specify this parameter, the response includes only records beyond the
   marker, up to the value specified by the MaxRecords parameter.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified value, a pagination token called a marker is included in
-  the response. You can use the marker in a later DescribeExportTasks request to retrieve the
-  remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified value, a pagination token called a marker is included in the
+  response. You can use the marker in a later DescribeExportTasks request to retrieve the
+  remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
 - `"SourceArn"`: The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -5098,24 +4981,24 @@ end
     describe_global_clusters()
     describe_global_clusters(params::Dict{String,<:Any})
 
- Returns information about Aurora global database clusters. This API supports pagination.
+Returns information about Aurora global database clusters. This API supports pagination.
 For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora
-User Guide.   This action only applies to Aurora DB clusters.
+User Guide.  This action only applies to Aurora DB clusters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: This parameter isn't currently supported.
-- `"GlobalClusterIdentifier"`:  The user-supplied DB cluster identifier. If this parameter
+- `"GlobalClusterIdentifier"`: The user-supplied DB cluster identifier. If this parameter
   is specified, information from only the specific DB cluster is returned. This parameter
-  isn't case-sensitive.  Constraints:   If supplied, must match an existing
+  isn't case-sensitive. Constraints:   If supplied, must match an existing
   DBClusterIdentifier.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeGlobalClusters
+- `"Marker"`: An optional pagination token provided by a previous DescribeGlobalClusters
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -5134,46 +5017,6 @@ function describe_global_clusters(
 end
 
 """
-    describe_installation_media()
-    describe_installation_media(params::Dict{String,<:Any})
-
-Describes the available installation media for a DB engine that requires an on-premises
-customer provided license, such as Microsoft SQL Server.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: A filter that specifies one or more installation media to describe.
-  Supported filters include the following:    custom-availability-zone-id - Accepts custom
-  Availability Zone (AZ) identifiers. The results list includes information about only the
-  custom AZs identified by these identifiers.    engine - Accepts database engines. The
-  results list includes information about only the database engines identified by these
-  identifiers. For more information about the valid engines for installation media, see
-  ImportInstallationMedia.
-- `"InstallationMediaId"`: The installation medium ID.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"MaxRecords"`: An optional pagination token provided by a previous
-  DescribeInstallationMedia request. If this parameter is specified, the response includes
-  only records beyond the marker, up to the value specified by MaxRecords.
-"""
-function describe_installation_media(; aws_config::AbstractAWSConfig=global_aws_config())
-    return rds(
-        "DescribeInstallationMedia"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_installation_media(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return rds(
-        "DescribeInstallationMedia",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     describe_option_group_options(engine_name)
     describe_option_group_options(engine_name, params::Dict{String,<:Any})
 
@@ -5181,7 +5024,7 @@ Describes all available options.
 
 # Arguments
 - `engine_name`: A required parameter. Options available for the given engine name are
-  described. Valid Values:     mariadb     mysql     oracle-ee     oracle-ee-cdb
+  described. Valid Values:    mariadb     mysql     oracle-ee     oracle-ee-cdb
   oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se
   sqlserver-ex     sqlserver-web
 
@@ -5193,10 +5036,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_option_group_options(
     EngineName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5232,20 +5075,20 @@ Describes the available option groups.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EngineName"`: Filters the list of option groups to only include groups associated with
-  a specific database engine. Valid Values:     mariadb     mysql     oracle-ee
+  a specific database engine. Valid Values:    mariadb     mysql     oracle-ee
   oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee
   sqlserver-se     sqlserver-ex     sqlserver-web
 - `"Filters"`: This parameter isn't currently supported.
 - `"MajorEngineVersion"`: Filters the list of option groups to only include groups
   associated with a specific database engine version. If specified, then EngineName must also
   be specified.
-- `"Marker"`:  An optional pagination token provided by a previous DescribeOptionGroups
+- `"Marker"`: An optional pagination token provided by a previous DescribeOptionGroups
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"OptionGroupName"`: The name of the option group to describe. Can't be supplied together
   with EngineName or MajorEngineVersion.
 """
@@ -5284,7 +5127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZoneGroup"`: The Availability Zone group associated with a Local Zone.
   Specify this parameter to retrieve available offerings for the Local Zones in the group.
   Omit this parameter to show the available offerings in the specified Amazon Web Services
-  Region.  This setting doesn't apply to RDS Custom.
+  Region. This setting doesn't apply to RDS Custom.
 - `"DBInstanceClass"`: The DB instance class filter value. Specify this parameter to show
   only the available offerings matching the specified DB instance class.
 - `"EngineVersion"`: The engine version filter value. Specify this parameter to show only
@@ -5293,13 +5136,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseModel"`: The license model filter value. Specify this parameter to show only the
   available offerings matching the specified license model. RDS Custom supports only the BYOL
   licensing model.
-- `"Marker"`:  An optional pagination token provided by a previous
+- `"Marker"`: An optional pagination token provided by a previous
   DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response
-  includes only records beyond the marker, up to the value specified by MaxRecords .
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+  includes only records beyond the marker, up to the value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 10000.
 - `"Vpc"`: A value that indicates whether to show only VPC or non-VPC offerings. RDS Custom
   supports only VPC offerings. RDS Custom supports only VPC offerings. If you describe
   non-VPC offerings for RDS Custom, the output shows VPC offerings.
@@ -5336,17 +5179,17 @@ maintenance action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: A filter that specifies one or more resources to return pending maintenance
   actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB
-  cluster Amazon Resource Names (ARNs). The results list will only include pending
-  maintenance actions for the DB clusters identified by these ARNs.    db-instance-id -
-  Accepts DB instance identifiers and DB instance ARNs. The results list will only include
-  pending maintenance actions for the DB instances identified by these ARNs.
-- `"Marker"`:  An optional pagination token provided by a previous
+  cluster Amazon Resource Names (ARNs). The results list only includes pending maintenance
+  actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB
+  instance identifiers and DB instance ARNs. The results list only includes pending
+  maintenance actions for the DB instances identified by these ARNs.
+- `"Marker"`: An optional pagination token provided by a previous
   DescribePendingMaintenanceActions request. If this parameter is specified, the response
   includes only records beyond the marker, up to a number of records specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
 function describe_pending_maintenance_actions(;
@@ -5387,12 +5230,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LeaseId"`: The lease identifier filter value. Specify this parameter to show only the
   reservation that matches the specified lease ID.  Amazon Web Services Support might request
   the lease ID for an issue related to a reserved DB instance.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more than
+- `"MaxRecords"`: The maximum number of records to include in the response. If more than
   the MaxRecords value is available, a pagination token called a marker is included in the
-  response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20,
+  response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20,
   maximum 100.
 - `"MultiAZ"`: A value that indicates whether to show only those reservations that support
   Multi-AZ.
@@ -5438,12 +5281,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 |
   94608000
 - `"Filters"`: This parameter isn't currently supported.
-- `"Marker"`:  An optional pagination token provided by a previous request. If this
+- `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
-- `"MaxRecords"`:  The maximum number of records to include in the response. If more than
+- `"MaxRecords"`: The maximum number of records to include in the response. If more than
   the MaxRecords value is available, a pagination token called a marker is included in the
-  response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20,
+  response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20,
   maximum 100.
 - `"MultiAZ"`: A value that indicates whether to show only those reservations that support
   Multi-AZ.
@@ -5483,7 +5326,11 @@ end
 
 Returns a list of the source Amazon Web Services Regions where the current Amazon Web
 Services Region can create a read replica, copy a DB snapshot from, or replicate automated
-backups from. This API action supports pagination.
+backups from. Use this operation to determine whether cross-Region features are supported
+between other Regions and your current Region. This operation supports pagination. To
+return information about the Regions that are enabled for your account, or all Regions, use
+the EC2 operation DescribeRegions. For more information, see  DescribeRegions in the Amazon
+EC2 API Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5493,7 +5340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a marker is included
-  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
   Minimum 20, maximum 100.
 - `"RegionName"`: The source Amazon Web Services Region name. For example, us-east-1.
   Constraints:   Must specify a valid Amazon Web Services Region name.
@@ -5519,7 +5366,7 @@ end
     describe_valid_dbinstance_modifications(dbinstance_identifier, params::Dict{String,<:Any})
 
 You can call DescribeValidDBInstanceModifications to learn what modifications you can make
-to your DB instance. You can use this information when you call ModifyDBInstance.  This
+to your DB instance. You can use this information when you call ModifyDBInstance. This
 command doesn't apply to RDS Custom.
 
 # Arguments
@@ -5632,15 +5479,14 @@ primary DB instance (the cluster writer). For a Multi-AZ DB cluster, failover fo
 cluster promotes one of the readable standby DB instances (read-only instances) in the DB
 cluster to be the primary DB instance (the cluster writer). An Amazon Aurora DB cluster
 automatically fails over to an Aurora Replica, if one exists, when the primary DB instance
-fails. A Multi-AZ DB cluster automatically fails over to a readbable standby DB instance
+fails. A Multi-AZ DB cluster automatically fails over to a readable standby DB instance
 when the primary DB instance fails. To simulate a failure of a primary instance for
 testing, you can force a failover. Because each instance in a DB cluster has its own
 endpoint address, make sure to clean up and re-establish any existing connections that use
 those endpoint addresses when the failover is complete. For more information on Amazon
-Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more
+Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more
 information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB
-instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview
-and is subject to change.
+instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: A DB cluster identifier to force a failover for. This parameter
@@ -5693,7 +5539,7 @@ cluster. In other words, the role of the current primary DB cluster and the sele
 (target) DB cluster are switched. The selected secondary DB cluster assumes full read/write
 capabilities for the Aurora global database. For more information about failing over an
 Amazon Aurora global database, see Managed planned failover for Amazon Aurora global
-databases in the Amazon Aurora User Guide.   This action applies to GlobalCluster (Aurora
+databases in the Amazon Aurora User Guide.  This action applies to GlobalCluster (Aurora
 global databases) only. Use this action only on healthy Aurora global databases with
 running Aurora DB clusters and no Region-wide outages, to test disaster recovery scenarios
 or to reconfigure your Aurora global database topology.
@@ -5702,7 +5548,7 @@ or to reconfigure your Aurora global database topology.
 - `global_cluster_identifier`: Identifier of the Aurora global database (GlobalCluster)
   that should be failed over. The identifier is the unique key assigned by the user when the
   Aurora global database was created. In other words, it's the name of the Aurora global
-  database that you want to fail over.  Constraints:   Must match the identifier of an
+  database that you want to fail over. Constraints:   Must match the identifier of an
   existing GlobalCluster (Aurora global database).
 - `target_db_cluster_identifier`: Identifier of the secondary Aurora DB cluster that you
   want to promote to primary for the Aurora global database (GlobalCluster.) Use the Amazon
@@ -5739,81 +5585,6 @@ function failover_global_cluster(
                 Dict{String,Any}(
                     "GlobalClusterIdentifier" => GlobalClusterIdentifier,
                     "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    import_installation_media(custom_availability_zone_id, engine, engine_installation_media_path, engine_version, osinstallation_media_path)
-    import_installation_media(custom_availability_zone_id, engine, engine_installation_media_path, engine_version, osinstallation_media_path, params::Dict{String,<:Any})
-
-Imports the installation media for a DB engine that requires an on-premises customer
-provided license, such as SQL Server.
-
-# Arguments
-- `custom_availability_zone_id`: The identifier of the custom Availability Zone (AZ) to
-  import the installation media to.
-- `engine`: The name of the database engine to be used for this instance.  The list only
-  includes supported DB engines that require an on-premises customer provided license.  Valid
-  Values:     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
-- `engine_installation_media_path`: The path to the installation medium for the specified
-  DB engine. Example: SQLServerISO/en_sql_server_2016_enterprise_x64_dvd_8701793.iso
-- `engine_version`: The version number of the database engine to use. For a list of valid
-  engine versions, call DescribeDBEngineVersions. The following are the database engines and
-  links to information about the major and minor versions. The list only includes DB engines
-  that require an on-premises customer provided license.  Microsoft SQL Server  See
-  Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide.
-- `osinstallation_media_path`: The path to the installation medium for the operating system
-  associated with the specified DB engine. Example:
-  WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso
-
-"""
-function import_installation_media(
-    CustomAvailabilityZoneId,
-    Engine,
-    EngineInstallationMediaPath,
-    EngineVersion,
-    OSInstallationMediaPath;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return rds(
-        "ImportInstallationMedia",
-        Dict{String,Any}(
-            "CustomAvailabilityZoneId" => CustomAvailabilityZoneId,
-            "Engine" => Engine,
-            "EngineInstallationMediaPath" => EngineInstallationMediaPath,
-            "EngineVersion" => EngineVersion,
-            "OSInstallationMediaPath" => OSInstallationMediaPath,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_installation_media(
-    CustomAvailabilityZoneId,
-    Engine,
-    EngineInstallationMediaPath,
-    EngineVersion,
-    OSInstallationMediaPath,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return rds(
-        "ImportInstallationMedia",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CustomAvailabilityZoneId" => CustomAvailabilityZoneId,
-                    "Engine" => Engine,
-                    "EngineInstallationMediaPath" => EngineInstallationMediaPath,
-                    "EngineVersion" => EngineVersion,
-                    "OSInstallationMediaPath" => OSInstallationMediaPath,
                 ),
                 params,
             ),
@@ -5865,24 +5636,59 @@ function list_tags_for_resource(
 end
 
 """
+    modify_activity_stream()
+    modify_activity_stream(params::Dict{String,<:Any})
+
+Changes the audit policy state of a database activity stream to either locked (default) or
+unlocked. A locked policy is read-only, whereas an unlocked policy is read/write. If your
+activity stream is started and locked, you can unlock it, customize your audit policy, and
+then lock your activity stream. Restarting the activity stream isn't required. For more
+information, see  Modifying a database activity stream in the Amazon RDS User Guide.  This
+operation is supported for RDS for Oracle only.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditPolicyState"`: The audit policy state. When a policy is unlocked, it is
+  read/write. When it is locked, it is read-only. You can edit your audit policy only when
+  the activity stream is unlocked or stopped.
+- `"ResourceArn"`: The Amazon Resource Name (ARN) of the RDS for Oracle DB instance, for
+  example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
+"""
+function modify_activity_stream(; aws_config::AbstractAWSConfig=global_aws_config())
+    return rds(
+        "ModifyActivityStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function modify_activity_stream(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "ModifyActivityStream",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_certificates()
     modify_certificates(params::Dict{String,<:Any})
 
 Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS)
-certificate for Amazon RDS for new DB instances temporarily, or remove the override. By
-using this operation, you can specify an RDS-approved SSL/TLS certificate for new DB
-instances that is different from the default certificate provided by RDS. You can also use
-this operation to remove the override, so that new DB instances use the default certificate
-provided by RDS. You might need to override the default certificate in the following
-situations:   You already migrated your applications to support the latest certificate
-authority (CA) certificate, but the new CA certificate is not yet the RDS default CA
-certificate for the specified Amazon Web Services Region.   RDS has already moved to a new
-default CA certificate for the specified Amazon Web Services Region, but you are still in
-the process of supporting the new CA certificate. In this case, you temporarily need
-additional time to finish your application changes.   For more information about rotating
-your SSL/TLS certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate in the
-Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for
-Aurora DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
+certificate for Amazon RDS for new DB instances, or remove the override. By using this
+operation, you can specify an RDS-approved SSL/TLS certificate for new DB instances that is
+different from the default certificate provided by RDS. You can also use this operation to
+remove the override, so that new DB instances use the default certificate provided by RDS.
+You might need to override the default certificate in the following situations:   You
+already migrated your applications to support the latest certificate authority (CA)
+certificate, but the new CA certificate is not yet the RDS default CA certificate for the
+specified Amazon Web Services Region.   RDS has already moved to a new default CA
+certificate for the specified Amazon Web Services Region, but you are still in the process
+of supporting the new CA certificate. In this case, you temporarily need additional time to
+finish your application changes.   For more information about rotating your SSL/TLS
+certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon RDS
+User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB
+engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5908,18 +5714,18 @@ end
     modify_current_dbcluster_capacity(dbcluster_identifier)
     modify_current_dbcluster_capacity(dbcluster_identifier, params::Dict{String,<:Any})
 
-Set the capacity of an Aurora Serverless DB cluster to a specific value. Aurora Serverless
-scales seamlessly based on the workload on the DB cluster. In some cases, the capacity
-might not scale fast enough to meet a sudden change in workload, such as a large number of
-new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After
-this call sets the DB cluster capacity, Aurora Serverless can automatically scale the DB
-cluster based on the cooldown period for scaling up and the cooldown period for scaling
-down. For more information about Aurora Serverless, see Using Amazon Aurora Serverless in
-the Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default
-TimeoutAction, connections that prevent Aurora Serverless from finding a scaling point
-might be dropped. For more information about scaling points, see  Autoscaling for Aurora
-Serverless in the Amazon Aurora User Guide.   This action only applies to Aurora Serverless
-DB clusters.
+Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora
+Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the
+capacity might not scale fast enough to meet a sudden change in workload, such as a large
+number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity
+explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can
+automatically scale the DB cluster based on the cooldown period for scaling up and the
+cooldown period for scaling down. For more information about Aurora Serverless v1, see
+Using Amazon Aurora Serverless v1 in the Amazon Aurora User Guide.  If you call
+ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent
+Aurora Serverless v1 from finding a scaling point might be dropped. For more information
+about scaling points, see  Autoscaling for Aurora Serverless v1 in the Amazon Aurora User
+Guide.   This action only applies to Aurora Serverless v1 DB clusters.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the cluster being modified. This
@@ -5929,12 +5735,12 @@ DB clusters.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Capacity"`: The DB cluster capacity. When you change the capacity of a paused Aurora
-  Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid
+  Serverless v1 DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid
   capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid
   capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.
-- `"SecondsBeforeTimeout"`: The amount of time, in seconds, that Aurora Serverless tries to
-  find a scaling point to perform seamless scaling before enforcing the timeout action. The
-  default is 300. Specify a value between 10 and 600 seconds.
+- `"SecondsBeforeTimeout"`: The amount of time, in seconds, that Aurora Serverless v1 tries
+  to find a scaling point to perform seamless scaling before enforcing the timeout action.
+  The default is 300. Specify a value between 10 and 600 seconds.
 - `"TimeoutAction"`: The action to take when the timeout is reached, either
   ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default,
   sets the capacity to the specified value as soon as possible.  RollbackCapacityChange
@@ -6038,9 +5844,8 @@ end
 Modify the settings for an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can
 change one or more settings by specifying these parameters and the new values in the
 request. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in
-the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ
-deployments with two readable standby DB instances in the Amazon RDS User Guide.   The
-Multi-AZ DB clusters feature is in preview and is subject to change.
+the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ
+deployments with two readable standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the cluster being modified. This
@@ -6076,34 +5881,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35
   Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"CloudwatchLogsExportConfiguration"`: The configuration setting for the log types to be
-  enabled for export to CloudWatch Logs for a specific DB cluster. Valid for: Aurora DB
-  clusters only
+  enabled for export to CloudWatch Logs for a specific DB cluster. The values in the list
+  depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and
+  slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL
+  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible
+  value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS,
+  see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For
+  more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database
+  Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB
+  clusters and Multi-AZ DB clusters
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the DB
   cluster to snapshots of the DB cluster. The default is not to copy them. Valid for: Aurora
-  DB clusters only
+  DB clusters and Multi-AZ DB clusters
 - `"DBClusterInstanceClass"`: The compute and memory capacity of each DB instance in the
-  Multi-AZ DB cluster, for example db.m6g.xlarge. Not all DB instance classes are available
+  Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available
   in all Amazon Web Services Regions, or for all database engines. For the full list of DB
-  instance classes and availability for your engine, see DB Instance Class in the Amazon RDS
-  User Guide.  Valid for: Multi-AZ DB clusters only
+  instance classes and availability for your engine, see  DB Instance Class in the Amazon RDS
+  User Guide. Valid for: Multi-AZ DB clusters only
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to use for
   the DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DBInstanceParameterGroupName"`: The name of the DB parameter group to apply to all
-  instances of the DB cluster.   When you apply a parameter group using the
+  instances of the DB cluster.  When you apply a parameter group using the
   DBInstanceParameterGroupName parameter, the DB cluster isn't rebooted automatically. Also,
-  parameter changes aren't applied during the next maintenance window but instead are applied
-  immediately.  Default: The existing name setting Constraints:   The DB parameter group must
-  be in the same DB parameter group family as this DB cluster.   The
-  DBInstanceParameterGroupName parameter is only valid in combination with the
-  AllowMajorVersionUpgrade parameter.   Valid for: Aurora DB clusters only
+  parameter changes are applied immediately rather than during the next maintenance window.
+  Default: The existing name setting Constraints:   The DB parameter group must be in the
+  same DB parameter group family as this DB cluster.   The DBInstanceParameterGroupName
+  parameter is valid in combination with the AllowMajorVersionUpgrade parameter for a major
+  version upgrade only.   Valid for: Aurora DB clusters only
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
 - `"Domain"`: The Active Directory directory ID to move the DB cluster to. Specify none to
   remove the cluster from its current domain. The domain must be created prior to this
-  operation.  For more information, see Kerberos Authentication in the Amazon Aurora User
-  Guide.  Valid for: Aurora DB clusters only
+  operation. For more information, see Kerberos Authentication in the Amazon Aurora User
+  Guide. Valid for: Aurora DB clusters only
 - `"DomainIAMRoleName"`: Specify the name of the IAM role to be used when making API calls
   to the Directory Service. Valid for: Aurora DB clusters only
 - `"EnableGlobalWriteForwarding"`: A value that indicates whether to enable this DB cluster
@@ -6114,21 +5926,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secondary cluster can forward writes to the current primary cluster and the resulting
   changes are replicated back to this cluster. For the primary DB cluster of an Aurora global
   database, this value is used immediately if the primary is demoted by the
-  FailoverGlobalCluster API operation, but it does nothing until then.  Valid for: Aurora DB
+  FailoverGlobalCluster API operation, but it does nothing until then. Valid for: Aurora DB
   clusters only
 - `"EnableHttpEndpoint"`: A value that indicates whether to enable the HTTP endpoint for an
-  Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the
-  HTTP endpoint provides a connectionless web service API for running SQL queries on the
-  Aurora Serverless DB cluster. You can also query your database from inside the RDS console
-  with the query editor. For more information, see Using the Data API for Aurora Serverless
-  in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+  Aurora Serverless v1 DB cluster. By default, the HTTP endpoint is disabled. When enabled,
+  the HTTP endpoint provides a connectionless web service API for running SQL queries on the
+  Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS
+  console with the query editor. For more information, see Using the Data API for Aurora
+  Serverless v1 in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information, see  IAM Database Authentication in
-  the Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
+  the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EnablePerformanceInsights"`: A value that indicates whether to turn on Performance
   Insights for the DB cluster. For more information, see  Using Amazon Performance Insights
-  in the Amazon RDS User Guide.  Valid for: Multi-AZ DB clusters only
+  in the Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
 - `"EngineVersion"`: The version number of the database engine to which you want to
   upgrade. Changing this parameter results in an outage. The change is applied during the
   next maintenance window unless ApplyImmediately is enabled. To list all of the available
@@ -6148,7 +5960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
   valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the
-  Amazon RDS User Guide.  Constraints: Must be a multiple between .5 and 50 of the storage
+  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
   amount for the DB cluster. Valid for: Multi-AZ DB clusters only
 - `"MasterUserPassword"`: The new password for the master database user. This password can
   contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
@@ -6164,6 +5976,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide.  If
   MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid
   for: Multi-AZ DB clusters only
+- `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB cluster. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon Aurora User
+  Guide.  Valid for: Aurora DB clusters only
 - `"NewDBClusterIdentifier"`: The new DB cluster identifier for the DB cluster when
   renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must
   contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter
@@ -6179,17 +5996,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KMS key for your Amazon Web Services account. Your Amazon Web Services account has a
   different default KMS key for each Amazon Web Services Region. Valid for: Multi-AZ DB
   clusters only
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years). Valid for: Multi-AZ DB
-  clusters only
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error. Valid for:
+  Multi-AZ DB clusters only
 - `"Port"`: The port number on which the DB cluster accepts connections. Constraints: Value
   must be 1150-65535  Default: The same port as the original DB cluster. Valid for: Aurora DB
   clusters only
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
-  created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The
+  created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region. To view the time blocks available, see  Backup window in the
-  Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
+  Amazon Aurora User Guide. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
   in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.   Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
@@ -6198,13 +6018,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week. To see the time blocks available,
   see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.
-   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
-  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window. Valid
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"ScalingConfiguration"`: The scaling properties of the DB cluster. You can only modify
   scaling properties for DB clusters in serverless DB engine mode. Valid for: Aurora DB
   clusters only
-- `"StorageType"`: Specifies the storage type to be associated with the DB cluster.  Valid
-  values: io1   When specified, a value for the Iops parameter is required.   Default: io1
+- `"ServerlessV2ScalingConfiguration"`:
+- `"StorageType"`: Specifies the storage type to be associated with the DB cluster. Valid
+  values: io1  When specified, a value for the Iops parameter is required. Default: io1
   Valid for: Multi-AZ DB clusters only
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong
   to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -6293,25 +6114,24 @@ end
     modify_dbcluster_parameter_group(dbcluster_parameter_group_name, parameter)
     modify_dbcluster_parameter_group(dbcluster_parameter_group_name, parameter, params::Dict{String,<:Any})
 
- Modifies the parameters of a DB cluster parameter group. To modify more than one
-parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod.
-A maximum of 20 parameters can be modified in a single request.   After you create a DB
-cluster parameter group, you should wait at least 5 minutes before creating your first DB
-cluster that uses that DB cluster parameter group as the default parameter group. This
-allows Amazon RDS to fully complete the create action before the parameter group is used as
-the default for a new DB cluster. This is especially important for parameters that are
-critical when creating the default database for a DB cluster, such as the character set for
-the default database defined by the character_set_database parameter. You can use the
-Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action
-to verify that your DB cluster parameter group has been created or modified. If the
-modified DB cluster parameter group is used by an Aurora Serverless cluster, Aurora applies
-the update immediately. The cluster restart might interrupt your workload. In that case,
-your application must reopen any connections and retry any transactions that were active
-when the parameter changes took effect.  For more information on Amazon Aurora DB clusters,
-see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on
-Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in
-the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject
-to change.
+Modifies the parameters of a DB cluster parameter group. To modify more than one parameter,
+submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum
+of 20 parameters can be modified in a single request.  After you create a DB cluster
+parameter group, you should wait at least 5 minutes before creating your first DB cluster
+that uses that DB cluster parameter group as the default parameter group. This allows
+Amazon RDS to fully complete the create action before the parameter group is used as the
+default for a new DB cluster. This is especially important for parameters that are critical
+when creating the default database for a DB cluster, such as the character set for the
+default database defined by the character_set_database parameter. You can use the Parameter
+Groups option of the Amazon RDS console or the DescribeDBClusterParameters operation to
+verify that your DB cluster parameter group has been created or modified. If the modified
+DB cluster parameter group is used by an Aurora Serverless v1 cluster, Aurora applies the
+update immediately. The cluster restart might interrupt your workload. In that case, your
+application must reopen any connections and retry any transactions that were active when
+the parameter changes took effect.  For more information on Amazon Aurora DB clusters, see
+What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
+clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
+RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to modify.
@@ -6389,14 +6209,14 @@ is encrypted, it can be shared, but only by specifying a list of authorized Amaz
 Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that
 parameter in this case. To view which Amazon Web Services accounts have access to copy or
 restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or
-private, use the DescribeDBClusterSnapshotAttributes API action. The accounts are returned
-as values for the restore attribute.
+private, use the DescribeDBClusterSnapshotAttributes API operation. The accounts are
+returned as values for the restore attribute.
 
 # Arguments
 - `attribute_name`: The name of the DB cluster snapshot attribute to modify. To manage
   authorization for other Amazon Web Services accounts to copy or restore a manual DB cluster
   snapshot, set this value to restore.  To view the list of attributes available to modify,
-  use the DescribeDBClusterSnapshotAttributes API action.
+  use the DescribeDBClusterSnapshotAttributes API operation.
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to modify the
   attributes for.
 
@@ -6471,9 +6291,9 @@ before you call ModifyDBInstance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AllocatedStorage"`: The new amount of storage in gibibytes (GiB) to allocate for the DB
-  instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least
+  instance. For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least
   10% greater than the current value. Values that are not at least 10% greater than the
-  existing value are rounded up so that they are 10% greater than the current value.  For the
+  existing value are rounded up so that they are 10% greater than the current value. For the
   valid values for allocated storage for each engine, see CreateDBInstance.
 - `"AllowMajorVersionUpgrade"`: A value that indicates whether major version upgrades are
   allowed. Changing this parameter doesn't result in an outage and the change is
@@ -6484,7 +6304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplyImmediately"`: A value that indicates whether the modifications in this request
   and any pending modifications are asynchronously applied as soon as possible, regardless of
   the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is
-  disabled.  If this parameter is disabled, changes to the DB instance are applied during the
+  disabled. If this parameter is disabled, changes to the DB instance are applied during the
   next maintenance window. Some parameter changes can cause an outage and are applied on the
   next call to RebootDBInstance, or the next failure reboot. Review the table of parameters
   in Modifying a DB Instance in the Amazon RDS User Guide to see the impact of enabling or
@@ -6512,10 +6332,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is
   managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
   existing setting Constraints:   It must be a value from 0 to 35. It can't be set to 0 if
-  the DB instance is a source to read replicas. It can't be set to 0 or 35 for an RDS Custom
-  for Oracle DB instance.   It can be specified for a MySQL read replica only if the source
-  is running MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if
-  the source is running PostgreSQL 9.3.5.
+  the DB instance is a source to read replicas. It can't be set to 0 for an RDS Custom for
+  Oracle DB instance.   It can be specified for a MySQL read replica only if the source is
+  running MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if the
+  source is running PostgreSQL 9.3.5.
 - `"CACertificateIdentifier"`: Specifies the certificate to associate with the DB instance.
   This setting doesn't apply to RDS Custom.
 - `"CertificateRotationRestart"`: A value that indicates whether the DB instance is
@@ -6527,7 +6347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about rotating your SSL/TLS certificate for RDS DB engines, see  Rotating
   Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about
   rotating your SSL/TLS certificate for Aurora DB engines, see  Rotating Your SSL/TLS
-  Certificate in the Amazon Aurora User Guide.    This setting doesn't apply to RDS Custom.
+  Certificate in the Amazon Aurora User Guide.   This setting doesn't apply to RDS Custom.
 - `"CloudwatchLogsExportConfiguration"`: The configuration setting for the log types to be
   enabled for export to CloudWatch Logs for a specific DB instance. A change to the
   CloudwatchLogsExportConfiguration parameter is always applied to the DB instance
@@ -6541,10 +6361,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBInstanceClass"`: The new compute and memory capacity of the DB instance, for example
   db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,
   or for all database engines. For the full list of DB instance classes, and availability for
-  your engine, see DB Instance Class in the Amazon RDS User Guide.  If you modify the DB
-  instance class, an outage occurs during the change. The change is applied during the next
-  maintenance window, unless ApplyImmediately is enabled for this request.  This setting
-  doesn't apply to RDS Custom for Oracle. Default: Uses existing setting
+  your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB instance
+  classes in the Amazon Aurora User Guide. If you modify the DB instance class, an outage
+  occurs during the change. The change is applied during the next maintenance window, unless
+  ApplyImmediately is enabled for this request. This setting doesn't apply to RDS Custom for
+  Oracle. Default: Uses existing setting
 - `"DBParameterGroupName"`: The name of the DB parameter group to apply to the DB instance.
   Changing this setting doesn't result in an outage. The parameter group name itself is
   changed immediately, but the actual parameter changes are not applied until you reboot the
@@ -6558,11 +6379,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DBPortNumber parameter must not match any of the port values specified for options in
   the option group for the DB instance. If you change the DBPortNumber value, your database
   restarts regardless of the value of the ApplyImmediately parameter. This setting doesn't
-  apply to RDS Custom.  MySQL   Default: 3306   Valid values: 1150-65535   MariaDB   Default:
-  3306   Valid values: 1150-65535   PostgreSQL   Default: 5432   Valid values: 1150-65535
-  Type: Integer  Oracle   Default: 1521   Valid values: 1150-65535   SQL Server   Default:
-  1433   Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and
-  49152-49156.  Amazon Aurora   Default: 3306   Valid values: 1150-65535
+  apply to RDS Custom.  MySQL  Default: 3306  Valid values: 1150-65535   MariaDB  Default:
+  3306  Valid values: 1150-65535   PostgreSQL  Default: 5432  Valid values: 1150-65535  Type:
+  Integer  Oracle  Default: 1521  Valid values: 1150-65535   SQL Server  Default: 1433  Valid
+  values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.  Amazon
+  Aurora  Default: 3306  Valid values: 1150-65535
 - `"DBSecurityGroups"`: A list of DB security groups to authorize on this DB instance.
   Changing this setting doesn't result in an outage and the change is asynchronously applied
   as soon as possible. This setting doesn't apply to RDS Custom. Constraints:   If supplied,
@@ -6570,11 +6391,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBSubnetGroupName"`: The new DB subnet group for the DB instance. You can use this
   parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC,
   you can also use this parameter to move your DB instance into a VPC. For more information,
-  see Working with a DB instance in a VPC in the Amazon RDS User Guide.  Changing the subnet
+  see Working with a DB instance in a VPC in the Amazon RDS User Guide. Changing the subnet
   group causes an outage during the change. The change is applied during the next maintenance
-  window, unless you enable ApplyImmediately.  This parameter doesn't apply to RDS Custom.
+  window, unless you enable ApplyImmediately. This parameter doesn't apply to RDS Custom.
   Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example:
-  mySubnetGroup
+  mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
@@ -6602,25 +6423,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and PostgreSQL in the Amazon RDS User Guide.  This setting doesn't apply to RDS Custom.
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
   Insights for the DB instance. For more information, see Using Amazon Performance Insights
-  in the Amazon Relational Database Service User Guide.  This setting doesn't apply to RDS
-  Custom.
-- `"EngineVersion"`:  The version number of the database engine to upgrade to. Changing
-  this parameter results in an outage and the change is applied during the next maintenance
-  window unless the ApplyImmediately parameter is enabled for this request.  For major
-  version upgrades, if a nondefault DB parameter group is currently in use, a new DB
-  parameter group in the DB parameter group family for the new engine version must be
-  specified. The new DB parameter group can be the default for that DB parameter group
-  family. If you specify only a major version, Amazon RDS will update the DB instance to the
-  default minor version if the current minor version is lower. For information about valid
-  engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom for
-  Oracle, this parameter is supported for read replicas only if they are in the
-  PATCH_DB_FAILURE lifecycle.
+  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
+- `"EngineVersion"`: The version number of the database engine to upgrade to. Changing this
+  parameter results in an outage and the change is applied during the next maintenance window
+  unless the ApplyImmediately parameter is enabled for this request. For major version
+  upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group
+  in the DB parameter group family for the new engine version must be specified. The new DB
+  parameter group can be the default for that DB parameter group family. If you specify only
+  a major version, Amazon RDS will update the DB instance to the default minor version if the
+  current minor version is lower. For information about valid engine versions, see
+  CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom for Oracle, this
+  parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE lifecycle.
 - `"Iops"`: The new Provisioned IOPS (I/O operations per second) value for the RDS
-  instance.  Changing this setting doesn't result in an outage and the change is applied
+  instance. Changing this setting doesn't result in an outage and the change is applied
   during the next maintenance window unless the ApplyImmediately parameter is enabled for
   this request. If you are migrating from Provisioned IOPS to standard storage, set this
   value to 0. The DB instance will require a reboot for the change in storage type to take
-  effect.  If you choose to migrate your DB instance from using standard storage to using
+  effect. If you choose to migrate your DB instance from using standard storage to using
   Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can
   take time. The duration of the migration depends on several factors such as database load,
   storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if
@@ -6630,27 +6449,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the migration takes place, nightly backups for the instance are suspended. No other Amazon
   RDS operations can take place for the instance, including modifying the instance, rebooting
   the instance, deleting the instance, creating a read replica for the instance, and creating
-  a DB snapshot of the instance.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL,
-  the value supplied must be at least 10% greater than the current value. Values that are not
-  at least 10% greater than the existing value are rounded up so that they are 10% greater
-  than the current value.  Default: Uses existing setting
+  a DB snapshot of the instance. Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL, the
+  value supplied must be at least 10% greater than the current value. Values that are not at
+  least 10% greater than the existing value are rounded up so that they are 10% greater than
+  the current value. Default: Uses existing setting
 - `"LicenseModel"`: The license model for the DB instance. This setting doesn't apply to
   RDS Custom. Valid values: license-included | bring-your-own-license |
   general-public-license
 - `"MasterUserPassword"`: The new password for the master user. The password can include
-  any printable ASCII character except \"/\", \"\"\", or \"@\".  Changing this parameter
+  any printable ASCII character except \"/\", \"\"\", or \"@\". Changing this parameter
   doesn't result in an outage and the change is asynchronously applied as soon as possible.
   Between the time of the request and the completion of the request, the MasterUserPassword
-  element exists in the PendingModifiedValues element of the operation response.  This
-  setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable. The password for the
-  master user is managed by the DB cluster. For more information, see ModifyDBCluster.
-  Default: Uses existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.
-   Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL
-  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from
-  8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
-  Amazon RDS API actions never return the password, so this action provides a way to regain
-  access to a primary instance user if the password is lost. This includes restoring
-  privileges that might have been accidentally revoked.
+  element exists in the PendingModifiedValues element of the operation response. This setting
+  doesn't apply to RDS Custom.  Amazon Aurora  Not applicable. The password for the master
+  user is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
+  existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft
+  SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must
+  contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30
+  characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS
+  API operations never return the password, so this action provides a way to regain access to
+  a primary instance user if the password is lost. This includes restoring privileges that
+  might have been accidentally revoked.
 - `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
   automatically scale the storage of the DB instance. For more information about this
   setting, including limitations that apply to it, see  Managing capacity automatically with
@@ -6669,13 +6488,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   setting doesn't apply to RDS Custom.
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment.
   Changing this parameter doesn't result in an outage. The change is applied during the next
-  maintenance window unless the ApplyImmediately parameter is enabled for this request.  This
+  maintenance window unless the ApplyImmediately parameter is enabled for this request. This
   setting doesn't apply to RDS Custom.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB instance. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"NewDBInstanceIdentifier"`: The new DB instance identifier for the DB instance when
   renaming a DB instance. When you change the DB instance identifier, an instance reboot
   occurs immediately if you enable ApplyImmediately, or will occur during the next
   maintenance window if you disable Apply Immediately. This value is stored as a lowercase
-  string.  This setting doesn't apply to RDS Custom. Constraints:   Must contain from 1 to 63
+  string. This setting doesn't apply to RDS Custom. Constraints:   Must contain from 1 to 63
   letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a
   hyphen or contain two consecutive hyphens.   Example: mydbinstance
 - `"OptionGroupName"`: A value that indicates the DB instance should be associated with the
@@ -6694,10 +6518,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region. This setting doesn't apply
   to RDS Custom.
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years). This setting doesn't apply
-  to RDS Custom.
-- `"PreferredBackupWindow"`:  The daily time range during which automated backups are
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error. This setting
+  doesn't apply to RDS Custom.
+- `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, as determined by the BackupRetentionPeriod
   parameter. Changing this parameter doesn't result in an outage and the change is
   asynchronously applied as soon as possible. The default is a 30-minute window selected at
@@ -6722,9 +6549,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PromotionTier"`: A value that specifies the order in which an Aurora Replica is
   promoted to the primary instance after a failure of the existing primary instance. For more
   information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide.
-  This setting doesn't apply to RDS Custom.  Default: 1 Valid Values: 0 - 15
+  This setting doesn't apply to RDS Custom. Default: 1 Valid Values: 0 - 15
 - `"PubliclyAccessible"`: A value that indicates whether the DB instance is publicly
-  accessible.  When the DB cluster is publicly accessible, its Domain Name System (DNS)
+  accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS)
   endpoint resolves to the private IP address from within the DB cluster's virtual private
   cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC.
   Access to the DB cluster is ultimately controlled by the security group it uses. That
@@ -6732,7 +6559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permit it. When the DB instance isn't publicly accessible, it is an internal DB instance
   with a DNS name that resolves to a private IP address.  PubliclyAccessible only applies to
   DB instances in a VPC. The DB instance must be part of a public subnet and
-  PubliclyAccessible must be enabled for it to be publicly accessible.  Changes to the
+  PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the
   PubliclyAccessible parameter are applied immediately regardless of the value of the
   ApplyImmediately parameter.
 - `"ReplicaMode"`: A value that sets the open mode of a replica database to either mounted
@@ -6746,9 +6573,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResumeFullAutomationModeMinutes"`: The number of minutes to pause the automation. When
   the time period ends, RDS Custom resumes full automation. The minimum value is 60
   (default). The maximum value is 1,440.
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.  If
-  you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter.
-  If you choose to migrate your DB instance from using standard storage to using Provisioned
+- `"StorageType"`: Specifies the storage type to be associated with the DB instance. If you
+  specify Provisioned IOPS (io1), you must also include a value for the Iops parameter. If
+  you choose to migrate your DB instance from using standard storage to using Provisioned
   IOPS, or from using Provisioned IOPS to using standard storage, the process can take time.
   The duration of the migration depends on several factors such as database load, storage
   size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and
@@ -6758,7 +6585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   migration takes place, nightly backups for the instance are suspended. No other Amazon RDS
   operations can take place for the instance, including modifying the instance, rebooting the
   instance, deleting the instance, creating a read replica for the instance, and creating a
-  DB snapshot of the instance.   Valid values: standard | gp2 | io1  Default: io1 if the Iops
+  DB snapshot of the instance. Valid values: standard | gp2 | io1  Default: io1 if the Iops
   parameter is specified, otherwise gp2
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
@@ -6806,10 +6633,10 @@ end
     modify_dbparameter_group(dbparameter_group_name, parameter)
     modify_dbparameter_group(dbparameter_group_name, parameter, params::Dict{String,<:Any})
 
- Modifies the parameters of a DB parameter group. To modify more than one parameter, submit
+Modifies the parameters of a DB parameter group. To modify more than one parameter, submit
 a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20
-parameters can be modified in a single request.   After you modify a DB parameter group,
-you should wait at least 5 minutes before creating your first DB instance that uses that DB
+parameters can be modified in a single request.  After you modify a DB parameter group, you
+should wait at least 5 minutes before creating your first DB instance that uses that DB
 parameter group as the default parameter group. This allows Amazon RDS to fully complete
 the modify action before the parameter group is used as the default for a new DB instance.
 This is especially important for parameters that are critical when creating the default
@@ -6992,8 +6819,8 @@ end
 Modifies the properties of a DBProxyTargetGroup.
 
 # Arguments
-- `dbproxy_name`: The name of the new proxy to which to assign the target group.
-- `target_group_name`: The name of the new target group to assign to the proxy.
+- `dbproxy_name`: The name of the proxy.
+- `target_group_name`: The name of the target group to modify.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7050,14 +6877,14 @@ MySQL, PostgreSQL, and Oracle. This command doesn't apply to RDS Custom.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EngineVersion"`: The engine version to upgrade the DB snapshot to.  The following are
+- `"EngineVersion"`: The engine version to upgrade the DB snapshot to. The following are
   the database engines and engine versions that are available when you upgrade a DB snapshot.
-    MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported
-  for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)
+   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for
+  12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)
   11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine
   versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB
   Engine for Amazon RDS.
-- `"OptionGroupName"`: The option group to identify with the upgraded DB snapshot.  You can
+- `"OptionGroupName"`: The option group to identify with the upgraded DB snapshot. You can
   specify this parameter when you upgrade an Oracle DB snapshot. The same option group
   considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more
   information, see Option group considerations in the Amazon RDS User Guide.
@@ -7107,13 +6934,13 @@ specifying a list of authorized Amazon Web Services account IDs for the ValuesTo
 parameter. You can't use all as a value for that parameter in this case. To view which
 Amazon Web Services accounts have access to copy or restore a manual DB snapshot, or
 whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API
-action. The accounts are returned as values for the restore attribute.
+operation. The accounts are returned as values for the restore attribute.
 
 # Arguments
 - `attribute_name`: The name of the DB snapshot attribute to modify. To manage
   authorization for other Amazon Web Services accounts to copy or restore a manual DB
   snapshot, set this value to restore.  To view the list of attributes available to modify,
-  use the DescribeDBSnapshotAttributes API action.
+  use the DescribeDBSnapshotAttributes API operation.
 - `dbsnapshot_identifier`: The identifier for the DB snapshot to modify the attributes for.
 
 # Optional Parameters
@@ -7176,8 +7003,8 @@ at least two AZs in the Amazon Web Services Region.
 
 # Arguments
 - `dbsubnet_group_name`: The name for the DB subnet group. This value is stored as a
-  lowercase string. You can't modify the default subnet group.  Constraints: Must match the
-  name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
+  lowercase string. You can't modify the default subnet group. Constraints: Must match the
+  name of an existing DBSubnetGroup. Must not be default. Example: mydbsubnetgroup
 - `subnet_identifier`: The EC2 subnet IDs for the DB subnet group.
 
 # Optional Parameters
@@ -7235,17 +7062,17 @@ Amazon RDS User Guide or by using the DescribeEventCategories operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Enabled"`:  A value that indicates whether to activate the subscription.
-- `"EventCategories"`:  A list of event categories for a source type (SourceType) that you
+- `"Enabled"`: A value that indicates whether to activate the subscription.
+- `"EventCategories"`: A list of event categories for a source type (SourceType) that you
   want to subscribe to. You can see a list of the categories for a given source type in
   Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
 - `"SourceType"`: The type of source that is generating the events. For example, if you
   want to be notified of events generated by a DB instance, you would set this parameter to
-  db-instance. If this value isn't specified, all events are returned. Valid values:
-  db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot |
-  db-cluster-snapshot
+  db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all
+  events are returned. Valid values: db-instance | db-cluster | db-parameter-group |
+  db-security-group | db-snapshot | db-cluster-snapshot | db-proxy
 """
 function modify_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7278,10 +7105,10 @@ end
     modify_global_cluster()
     modify_global_cluster(params::Dict{String,<:Any})
 
- Modify a setting for an Amazon Aurora global cluster. You can change one or more database
+Modify a setting for an Amazon Aurora global cluster. You can change one or more database
 configuration parameters by specifying these parameters and the new values in the request.
 For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora
-User Guide.   This action only applies to Aurora DB clusters.
+User Guide.  This action only applies to Aurora DB clusters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7291,7 +7118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version. If you upgrade the major version of a global database, the cluster and DB instance
   parameter groups are set to the default parameter groups for the new version. Apply any
   custom parameter groups after completing the upgrade.
-- `"DeletionProtection"`:  Indicates if the global database cluster has deletion protection
+- `"DeletionProtection"`: Indicates if the global database cluster has deletion protection
   enabled. The global database cluster can't be deleted when deletion protection is enabled.
 - `"EngineVersion"`: The version number of the database engine to which you want to
   upgrade. Changing this parameter results in an outage. The change is applied during the
@@ -7305,12 +7132,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   engine versions for aurora-postgresql, use the following command:  aws rds
   describe-db-engine-versions --engine aurora-postgresql --query
   '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
-- `"GlobalClusterIdentifier"`:  The DB cluster identifier for the global cluster being
-  modified. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of
+- `"GlobalClusterIdentifier"`: The DB cluster identifier for the global cluster being
+  modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of
   an existing global database cluster.
-- `"NewGlobalClusterIdentifier"`:  The new cluster identifier for the global database
+- `"NewGlobalClusterIdentifier"`: The new cluster identifier for the global database
   cluster when modifying a global database cluster. This value is stored as a lowercase
-  string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first
+  string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first
   character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
   Example: my-cluster2
 """
@@ -7401,8 +7228,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Setting this parameter to a positive number enables backups. Setting this parameter to 0
   disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't
   be set to 0 if the DB instance is a source to read replicas.
-- `"PreferredBackupWindow"`:  The daily time range during which automated backups are
-  created if automated backups are enabled, using the BackupRetentionPeriod parameter.   The
+- `"PreferredBackupWindow"`: The daily time range during which automated backups are
+  created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region. To see the time blocks available, see  Adjusting the Preferred
   Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format
@@ -7446,7 +7273,7 @@ Promotes a read replica DB cluster to a standalone DB cluster.
 
 # Arguments
 - `dbcluster_identifier`: The identifier of the DB cluster read replica to promote. This
-  parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing DB
+  parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB
   cluster read replica.   Example: my-cluster-replica1
 
 """
@@ -7533,12 +7360,11 @@ end
 
 You might need to reboot your DB cluster, usually for maintenance reasons. For example, if
 you make certain modifications, or if you change the DB cluster parameter group associated
-with the DB cluster, reboot the DB cluster for the changes to take effect.  Rebooting a DB
+with the DB cluster, reboot the DB cluster for the changes to take effect. Rebooting a DB
 cluster restarts the database engine service. Rebooting a DB cluster results in a momentary
-outage, during which the DB cluster status is set to rebooting.  Use this operation only
-for a non-Aurora Multi-AZ DB cluster. The Multi-AZ DB clusters feature is in preview and is
-subject to change. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments
-with two readable standby DB instances in the Amazon RDS User Guide.
+outage, during which the DB cluster status is set to rebooting. Use this operation only for
+a non-Aurora Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see
+Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier. This parameter is stored as a
@@ -7580,11 +7406,12 @@ end
 
 You might need to reboot your DB instance, usually for maintenance reasons. For example, if
 you make certain modifications, or if you change the DB parameter group associated with the
-DB instance, you must reboot the instance for the changes to take effect.  Rebooting a DB
+DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB
 instance restarts the database engine service. Rebooting a DB instance results in a
-momentary outage, during which the DB instance status is set to rebooting.  For more
+momentary outage, during which the DB instance status is set to rebooting. For more
 information about rebooting, see Rebooting a DB Instance in the Amazon RDS User Guide.
-This command doesn't apply to RDS Custom.
+This command doesn't apply to RDS Custom. If your DB instance is part of a Multi-AZ DB
+cluster, you can reboot the DB cluster with the RebootDBCluster operation.
 
 # Arguments
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
@@ -7592,8 +7419,8 @@ This command doesn't apply to RDS Custom.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForceFailover"`:  A value that indicates whether the reboot is conducted through a
-  Multi-AZ failover.  Constraint: You can't enable force failover if the instance isn't
+- `"ForceFailover"`: A value that indicates whether the reboot is conducted through a
+  Multi-AZ failover. Constraint: You can't enable force failover if the instance isn't
   configured for Multi-AZ.
 """
 function reboot_dbinstance(
@@ -7670,16 +7497,16 @@ end
     remove_from_global_cluster()
     remove_from_global_cluster(params::Dict{String,<:Any})
 
- Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster
+Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster
 becomes a standalone cluster with read-write capability instead of being read-only and
-receiving data from a primary cluster in a different Region.   This action only applies to
+receiving data from a primary cluster in a different Region.  This action only applies to
 Aurora DB clusters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DbClusterIdentifier"`:  The Amazon Resource Name (ARN) identifying the cluster that was
+- `"DbClusterIdentifier"`: The Amazon Resource Name (ARN) identifying the cluster that was
   detached from the Aurora global database cluster.
-- `"GlobalClusterIdentifier"`:  The cluster identifier to detach from the Aurora global
+- `"GlobalClusterIdentifier"`: The cluster identifier to detach from the Aurora global
   database cluster.
 """
 function remove_from_global_cluster(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -7704,9 +7531,9 @@ end
 
 Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM)
 role from a DB cluster. For more information on Amazon Aurora DB clusters, see  What is
-Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB
+Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
 clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to disassociate the IAM role from.
@@ -7816,7 +7643,7 @@ end
 Removes a source identifier from an existing RDS event notification subscription.
 
 # Arguments
-- `source_identifier`:  The source identifier to be removed from the subscription, such as
+- `source_identifier`: The source identifier to be removed from the subscription, such as
   the DB instance identifier for a DB instance or the name of a security group.
 - `subscription_name`: The name of the RDS event notification subscription you want to
   remove a source identifier from.
@@ -7905,17 +7732,16 @@ end
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name)
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name, params::Dict{String,<:Any})
 
- Modifies the parameters of a DB cluster parameter group to the default value. To reset
+Modifies the parameters of a DB cluster parameter group to the default value. To reset
 specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset
 the entire DB cluster parameter group, specify the DBClusterParameterGroupName and
-ResetAllParameters parameters.   When resetting the entire group, dynamic parameters are
+ResetAllParameters parameters. When resetting the entire group, dynamic parameters are
 updated immediately and static parameters are set to pending-reboot to take effect on the
 next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for
 every DB instance in your DB cluster that you want the updated static parameter to apply
 to. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the
-Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ
-deployments with two readable standby DB instances in the Amazon RDS User Guide.   The
-Multi-AZ DB clusters feature is in preview and is subject to change.
+Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ
+deployments with two readable standby DB instances in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to reset.
@@ -7987,7 +7813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the immediate value with dynamic parameters only. You can use the pending-reboot value for
   both dynamic and static parameters, and changes are applied when DB instance reboots.
   Oracle  Valid Values (for Apply method): pending-reboot
-- `"ResetAllParameters"`:  A value that indicates whether to reset all parameters in the DB
+- `"ResetAllParameters"`: A value that indicates whether to reset all parameters in the DB
   parameter group to default values. By default, all parameters in the DB parameter group are
   reset to default values.
 """
@@ -8033,7 +7859,7 @@ action to create DB instances for the restored DB cluster, specifying the identi
 restored DB cluster in DBClusterIdentifier. You can create DB instances only after the
 RestoreDBClusterFromS3 action has completed and the DB cluster is available.  For more
 information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
- This action only applies to Aurora DB clusters. The source DB engine must be MySQL.
+This action only applies to Aurora DB clusters. The source DB engine must be MySQL.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to create from the source data in the
@@ -8041,8 +7867,8 @@ information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora U
   to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a
   hyphen or contain two consecutive hyphens.   Example: my-cluster1
 - `engine`: The name of the database engine to be used for this DB cluster. Valid Values:
-  aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible and MySQL
-  8.0-compatible Aurora), and aurora-postgresql
+  aurora (for MySQL 5.6-compatible Aurora) and aurora-mysql (for MySQL 5.7-compatible and
+  MySQL 8.0-compatible Aurora)
 - `master_user_password`: The password for the master database user. This password can
   contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
   contain from 8 to 41 characters.
@@ -8055,9 +7881,9 @@ information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora U
   Identity and Access Management (IAM) role that authorizes Amazon RDS to access the Amazon
   S3 bucket on your behalf.
 - `source_engine`: The identifier for the database engine that was backed up to create the
-  files stored in the Amazon S3 bucket.  Valid values: mysql
+  files stored in the Amazon S3 bucket. Valid values: mysql
 - `source_engine_version`: The version of the database that the backup files were created
-  from. MySQL versions 5.5, 5.6, and 5.7 are supported.  Example: 5.6.40, 5.7.28
+  from. MySQL versions 5.5, 5.6, and 5.7 are supported. Example: 5.6.40, 5.7.28
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8078,22 +7904,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the restored DB cluster. If this argument is omitted, default.aurora5.6 is used.
   Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
 - `"DBSubnetGroupName"`: A DB subnet group to associate with the restored DB cluster.
-  Constraints: If supplied, must match the name of an existing DBSubnetGroup.  Example:
-  mySubnetgroup
+  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example:
+  mydbsubnetgroup
 - `"DatabaseName"`: The database name for the restored DB cluster.
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled.
 - `"Domain"`: Specify the Active Directory directory ID to restore the DB cluster in. The
-  domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS
+  domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS
   can use Kerberos Authentication to authenticate users that connect to the DB cluster. For
   more information, see Kerberos Authentication in the Amazon Aurora User Guide.
 - `"DomainIAMRoleName"`: Specify the name of the IAM role to be used when making API calls
   to the Directory Service.
 - `"EnableCloudwatchLogsExports"`: The list of logs that the restored DB cluster is to
-  export to CloudWatch Logs. The values in the list depend on the DB engine being used. For
-  more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon
-  Aurora User Guide.
+  export to CloudWatch Logs. The values in the list depend on the DB engine being used.
+  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL
+  Possible value is postgresql. For more information about exporting CloudWatch Logs for
+  Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora
+  User Guide.
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information, see  IAM Database Authentication in
@@ -8104,11 +7932,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
   aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use the following
   command:  aws rds describe-db-engine-versions --engine aurora-mysql --query
-  \"DBEngineVersions[].EngineVersion\"  To list all of the available engine versions for
-  aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine
-  aurora-postgresql --query \"DBEngineVersions[].EngineVersion\"   Aurora MySQL  Example:
-  5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5, 8.0.mysql_aurora.3.01.0
-   Aurora PostgreSQL  Example: 9.6.3, 10.7
+  \"DBEngineVersions[].EngineVersion\"   Aurora MySQL  Example: 5.6.10a,
+  5.6.mysql_aurora.1.19.2, 5.7.mysql_aurora.2.07.1, 8.0.mysql_aurora.3.02.0
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB cluster. The
   Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
   the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key
@@ -8116,28 +7941,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region.
+- `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB cluster. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon Aurora User
+  Guide.
 - `"OptionGroupName"`: A value that indicates that the restored DB cluster should be
   associated with the specified option group. Permanent options can't be removed from an
   option group. An option group can't be removed from a DB cluster once it is associated with
   a DB cluster.
 - `"Port"`: The port number on which the instances in the restored DB cluster accept
-  connections.  Default: 3306
+  connections. Default: 3306
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
-  created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
+  created if automated backups are enabled using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Web Services Region. To view the time blocks available, see  Backup window in the
-  Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
+  Amazon Aurora User Guide. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
   in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week. To see the time blocks available,
-  see  Adjusting the Preferred Maintenance Window in the Amazon Aurora User Guide.  Valid
+  see  Adjusting the Preferred Maintenance Window in the Amazon Aurora User Guide. Valid
   Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
 - `"S3Prefix"`: The prefix for all of the file names that contain the data used to create
   the Amazon Aurora DB cluster. If you do not specify a SourceS3Prefix value, then the Amazon
   Aurora DB cluster is created by using all of the files in the Amazon S3 bucket.
+- `"ServerlessV2ScalingConfiguration"`:
 - `"StorageEncrypted"`: A value that indicates whether the restored DB cluster is encrypted.
 - `"Tags"`:
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the restored
@@ -8217,9 +8048,9 @@ invoke the CreateDBInstance action to create DB instances for the restored DB cl
 specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create
 DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB
 cluster is available.  For more information on Amazon Aurora DB clusters, see  What is
-Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB
+Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
 clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to create from the DB snapshot or DB
@@ -8246,12 +8077,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   259,200 (72 hours).   Valid for: Aurora DB clusters only
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the restored
   DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid
-  for: Aurora DB clusters only
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DBClusterInstanceClass"`: The compute and memory capacity of the each DB instance in
-  the Multi-AZ DB cluster, for example db.m6g.xlarge. Not all DB instance classes are
+  the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are
   available in all Amazon Web Services Regions, or for all database engines. For the full
   list of DB instance classes, and availability for your engine, see DB Instance Class in the
-  Amazon RDS User Guide.  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  Amazon RDS User Guide.  Valid for: Multi-AZ DB clusters only
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to associate
   with this DB cluster. If this argument is omitted, the default DB cluster parameter group
   for the specified engine is used. Constraints:   If supplied, must match the name of an
@@ -8260,7 +8091,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consecutive hyphens.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DBSubnetGroupName"`: The name of the DB subnet group to use for the new DB cluster.
   Constraints: If supplied, must match the name of an existing DB subnet group. Example:
-  mySubnetgroup  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  mydbsubnetgroup  Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DatabaseName"`: The database name for the restored DB cluster. Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
@@ -8276,12 +8107,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the Directory Service. Valid for: Aurora DB clusters only
 - `"EnableCloudwatchLogsExports"`: The list of logs that the restored DB cluster is to
   export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being
-  used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the
-  Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+  used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for
+  PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are
+  audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For
+  more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database
+  Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about
+  exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon
+  CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ
+  DB clusters
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information, see  IAM Database Authentication in
-  the Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
+  the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EngineMode"`: The DB engine mode of the DB cluster, either provisioned, serverless,
   parallelquery, global, or multimaster. For more information, see  CreateDBCluster. Valid
   for: Aurora DB clusters only
@@ -8299,15 +8136,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all of the available engine versions for RDS for PostgreSQL, use the following
   command:  aws rds describe-db-engine-versions --engine postgres --query
   \"DBEngineVersions[].EngineVersion\"   Aurora MySQL  See MySQL on Amazon RDS Versions in
-  the Amazon Aurora User Guide.   Aurora PostgreSQL  See Amazon Aurora PostgreSQL releases
-  and engine versions in the Amazon Aurora User Guide.   MySQL  See MySQL on Amazon RDS
-  Versions in the Amazon RDS User Guide.   PostgreSQL  See Amazon RDS for PostgreSQL versions
-  and extensions in the Amazon RDS User Guide.  Valid for: Aurora DB clusters and Multi-AZ DB
+  the Amazon Aurora User Guide.  Aurora PostgreSQL  See Amazon Aurora PostgreSQL releases and
+  engine versions in the Amazon Aurora User Guide.  MySQL  See MySQL on Amazon RDS Versions
+  in the Amazon RDS User Guide.   PostgreSQL  See Amazon RDS for PostgreSQL versions and
+  extensions in the Amazon RDS User Guide.  Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
   valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the
-  Amazon RDS User Guide.  Constraints: Must be a multiple between .5 and 50 of the storage
+  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
   amount for the DB instance. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier to use when restoring an
   encrypted DB cluster from a DB snapshot or DB cluster snapshot. The Amazon Web Services KMS
@@ -8319,6 +8156,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier isn't
   encrypted, then the restored DB cluster isn't encrypted.   Valid for: Aurora DB clusters
   and Multi-AZ DB clusters
+- `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB cluster. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon Aurora User
+  Guide.  Valid for: Aurora DB clusters only
 - `"OptionGroupName"`: The name of the option group to use for the restored DB cluster. DB
   clusters are associated with a default option group that can't be modified.
 - `"Port"`: The port number on which the new DB cluster accepts connections. Constraints:
@@ -8343,10 +8185,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Aurora DB clusters and Multi-AZ DB clusters
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
+- `"ServerlessV2ScalingConfiguration"`:
 - `"StorageType"`: Specifies the storage type to be associated with the each DB instance in
-  the Multi-AZ DB cluster.  Valid values: io1   When specified, a value for the Iops
-  parameter is required.   Default: io1  Valid for: Aurora DB clusters and Multi-AZ DB
-  clusters
+  the Multi-AZ DB cluster. Valid values: io1  When specified, a value for the Iops parameter
+  is required. Default: io1  Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"Tags"`: The tags to be assigned to the restored DB cluster. Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster will
@@ -8401,15 +8243,15 @@ end
 Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time
 before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is
 created from the source DB cluster with the same configuration as the original DB cluster,
-except that the new DB cluster is created with the default DB security group.   For Aurora,
+except that the new DB cluster is created with the default DB security group.  For Aurora,
 this action only restores the DB cluster, not the DB instances for that DB cluster. You
 must invoke the CreateDBInstance action to create DB instances for the restored DB cluster,
 specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create
 DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB
 cluster is available.  For more information on Amazon Aurora DB clusters, see  What is
-Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB
+Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
 clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the new DB cluster to be created. Constraints:   Must
@@ -8427,9 +8269,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number from 0 to 259,200 (72 hours).   Valid for: Aurora MySQL DB clusters only
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the restored
   DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid
-  for: Aurora DB clusters only
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DBClusterInstanceClass"`: The compute and memory capacity of the each DB instance in
-  the Multi-AZ DB cluster, for example db.m6g.xlarge. Not all DB instance classes are
+  the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are
   available in all Amazon Web Services Regions, or for all database engines. For the full
   list of DB instance classes, and availability for your engine, see DB instance class in the
   Amazon RDS User Guide.  Valid for: Multi-AZ DB clusters only
@@ -8441,37 +8283,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hyphens.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DBSubnetGroupName"`: The DB subnet group name to use for the new DB cluster.
   Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example:
-  mySubnetgroup  Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  mydbsubnetgroup  Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB
   clusters
 - `"Domain"`: Specify the Active Directory directory ID to restore the DB cluster in. The
-  domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS
+  domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS
   can use Kerberos Authentication to authenticate users that connect to the DB cluster. For
-  more information, see Kerberos Authentication in the Amazon Aurora User Guide.  Valid for:
+  more information, see Kerberos Authentication in the Amazon Aurora User Guide. Valid for:
   Aurora DB clusters only
 - `"DomainIAMRoleName"`: Specify the name of the IAM role to be used when making API calls
   to the Directory Service. Valid for: Aurora DB clusters only
 - `"EnableCloudwatchLogsExports"`: The list of logs that the restored DB cluster is to
-  export to CloudWatch Logs. The values in the list depend on the DB engine being used. For
-  more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon
-  Aurora User Guide. Valid for: Aurora DB clusters only
+  export to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS
+  for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible
+  values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error,
+  general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more
+  information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to
+  Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting
+  CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs
+  in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information, see  IAM Database Authentication in
-  the Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
+  the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
 - `"EngineMode"`: The engine mode of the new cluster. Specify provisioned or serverless,
   depending on the type of the cluster you are creating. You can create an Aurora Serverless
-  clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless cluster.
-  To create a clone that is an Aurora Serverless cluster, the original cluster must be an
-  Aurora Serverless cluster or an encrypted provisioned cluster. Valid for: Aurora DB
-  clusters only
+  v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1
+  cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster
+  must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. Valid for:
+  Aurora DB clusters only
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
   valid Iops values, see Amazon RDS Provisioned IOPS storage to improve performance in the
-  Amazon RDS User Guide.  Constraints: Must be a multiple between .5 and 50 of the storage
-  amount for the DB instance.  Valid for: Multi-AZ DB clusters only
+  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
+  amount for the DB instance. Valid for: Multi-AZ DB clusters only
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier to use when restoring an
   encrypted DB cluster from an encrypted DB cluster. The Amazon Web Services KMS key
   identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS
@@ -8484,10 +8331,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.
     If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore
   request is rejected. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+- `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB cluster. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon Aurora User
+  Guide.  Valid for: Aurora DB clusters only
 - `"OptionGroupName"`: The name of the option group for the new DB cluster. DB clusters are
   associated with a default option group that can't be modified.
 - `"Port"`: The port number on which the new DB cluster accepts connections. Constraints: A
-  value from 1150-65535.  Default: The default port for the engine. Valid for: Aurora DB
+  value from 1150-65535. Default: The default port for the engine. Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
 - `"PubliclyAccessible"`: A value that indicates whether the DB cluster is publicly
   accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS)
@@ -8521,13 +8373,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DB clusters and Multi-AZ DB clusters
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
+- `"ServerlessV2ScalingConfiguration"`:
 - `"StorageType"`: Specifies the storage type to be associated with the each DB instance in
-  the Multi-AZ DB cluster.  Valid values: io1   When specified, a value for the Iops
-  parameter is required.   Default: io1  Valid for: Multi-AZ DB clusters only
+  the Multi-AZ DB cluster. Valid values: io1  When specified, a value for the Iops parameter
+  is required. Default: io1  Valid for: Multi-AZ DB clusters only
 - `"Tags"`:
 - `"UseLatestRestorableTime"`: A value that indicates whether to restore the DB cluster to
   the latest restorable backup time. By default, the DB cluster isn't restored to the latest
-  restorable backup time.  Constraints: Can't be specified if RestoreToTime parameter is
+  restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is
   provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster belongs
   to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -8612,14 +8465,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   region (Amazon Web Services Region). The default is region. For more information, see
   Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide.
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the restored
-  DB instance to snapshots of the DB instance. By default, tags are not copied.
+  DB instance to snapshots of the DB instance. In most cases, tags aren't copied by default.
+  However, when you restore a DB instance from a DB snapshot, RDS checks whether you specify
+  new tags. If yes, the new tags are added to the restored DB instance. If there are no new
+  tags, RDS looks for the tags from the source DB instance for the DB snapshot, and then adds
+  those tags to the restored DB instance. For more information, see  Copying tags to DB
+  instance snapshots in the Amazon RDS User Guide.
 - `"CustomIamInstanceProfile"`: The instance profile associated with the underlying Amazon
   EC2 instance of an RDS Custom DB instance. The instance profile must meet the following
   requirements:   The profile must exist in your account.   The profile must have an IAM role
   that Amazon EC2 has permissions to assume.   The instance profile name and the associated
   IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions
-  required for the IAM role, see  Configure IAM and your VPC in the Amazon Relational
-  Database Service User Guide. This setting is required for RDS Custom.
+  required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
+  This setting is required for RDS Custom.
 - `"DBInstanceClass"`: The compute and memory capacity of the Amazon RDS DB instance, for
   example db.m4.large. Not all DB instance classes are available in all Amazon Web Services
   Regions, or for all database engines. For the full list of DB instance classes, and
@@ -8635,7 +8493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with
   a hyphen or contain two consecutive hyphens.
 - `"DBSubnetGroupName"`: The DB subnet group name to use for the new instance. Constraints:
-  If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
+  If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
@@ -8674,16 +8532,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operations per second. If this parameter isn't specified, the IOPS value is taken from the
   backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS
   instance. The conversion takes additional time, though your DB instance is available for
-  connections before the conversion starts.  The provisioned IOPS value must follow the
+  connections before the conversion starts. The provisioned IOPS value must follow the
   requirements for your database engine. For more information, see Amazon RDS Provisioned
   IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be an
   integer greater than 1000.
 - `"LicenseModel"`: License model information for the restored DB instance. This setting
-  doesn't apply to RDS Custom. Default: Same as source.  Valid values: license-included |
+  doesn't apply to RDS Custom. Default: Same as source. Valid values: license-included |
   bring-your-own-license | general-public-license
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment.
   This setting doesn't apply to RDS Custom. Constraint: You can't specify the
   AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB instance. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"OptionGroupName"`: The name of the option group to be used for the restored DB
   instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't
   be removed from an option group, and that option group can't be removed from a DB instance
@@ -8701,9 +8564,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permit it. When the DB instance isn't publicly accessible, it is an internal DB instance
   with a DNS name that resolves to a private IP address. For more information, see
   CreateDBInstance.
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.  Valid
-  values: standard | gp2 | io1   If you specify io1, you must also include a value for the
-  Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
+- `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
+  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
+  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
 - `"Tags"`:
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
@@ -8712,8 +8575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
   the DB instance uses its default processor features. This setting doesn't apply to RDS
   Custom.
-- `"VpcSecurityGroupIds"`:  A list of EC2 VPC security groups to associate with this DB
-  instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
+- `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
+  instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 function restore_dbinstance_from_dbsnapshot(
     DBInstanceIdentifier,
@@ -8770,23 +8633,23 @@ MySQL DB Instance in the Amazon RDS User Guide.  This command doesn't apply to R
   your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3
   isn't supported on the db.t2.micro DB instance class.
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
-  lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.
+  lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.
   First character must be a letter.   Can't end with a hyphen or contain two consecutive
   hyphens.   Example: mydbinstance
-- `engine`: The name of the database engine to be used for this instance.  Valid Values:
+- `engine`: The name of the database engine to be used for this instance. Valid Values:
   mysql
 - `s3_bucket_name`: The name of your Amazon S3 bucket that contains your database backup
   file.
 - `s3_ingestion_role_arn`: An Amazon Web Services Identity and Access Management (IAM) role
   to allow Amazon RDS to access your Amazon S3 bucket.
-- `source_engine`: The name of the engine of your source database.  Valid Values: mysql
+- `source_engine`: The name of the engine of your source database. Valid Values: mysql
 - `source_engine_version`: The version of the database that the backup files were created
-  from. MySQL versions 5.6 and 5.7 are supported.  Example: 5.6.40
+  from. MySQL versions 5.6 and 5.7 are supported. Example: 5.6.40
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AllocatedStorage"`: The amount of storage (in gigabytes) to allocate initially for the
-  DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to
+  DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to
   allocate enough memory for your new DB instance so that the restore operation can succeed.
   You can also allocate additional memory for future growth.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
@@ -8795,7 +8658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZone"`: The Availability Zone that the DB instance is created in. For
   information about Amazon Web Services Regions and Availability Zones, see Regions and
   Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen
-  Availability Zone in the endpoint's Amazon Web Services Region.   Example: us-east-1d
+  Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
   Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a
   Multi-AZ deployment. The specified Availability Zone must be in the same Amazon Web
   Services Region as the current endpoint.
@@ -8811,7 +8674,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DBParameterGroup for the specified DB engine is used.
 - `"DBSecurityGroups"`: A list of DB security groups to associate with this DB instance.
   Default: The default DB security group for the database engine.
-- `"DBSubnetGroupName"`: A DB subnet group to associate with this DB instance.
+- `"DBSubnetGroupName"`: A DB subnet group to associate with this DB instance. Constraints:
+  If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
@@ -8825,8 +8689,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, mapping isn't enabled. For more information about IAM database authentication, see
    IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
-  Insights for the DB instance.  For more information, see Using Amazon Performance Insights
-  in the Amazon Relational Database Service User Guide.
+  Insights for the DB instance. For more information, see Using Amazon Performance Insights
+  in the Amazon RDS User Guide.
 - `"EngineVersion"`: The version number of the database engine to use. Choose the latest
   minor version of your database engine. For information about engine versions, see
   CreateDBInstance, or call DescribeDBEngineVersions.
@@ -8842,20 +8706,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a different default KMS key for each Amazon Web Services Region.
 - `"LicenseModel"`: The license model for this DB instance. Use general-public-license.
 - `"MasterUserPassword"`: The password for the master user. The password can include any
-  printable ASCII character except \"/\", \"\"\", or \"@\".  Constraints: Must contain from 8
+  printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must contain from 8
   to 41 characters.
-- `"MasterUsername"`: The name for the master user.  Constraints:    Must be 1 to 16
-  letters or numbers.   First character must be a letter.   Can't be a reserved word for the
-  chosen database engine.
+- `"MasterUsername"`: The name for the master user. Constraints:   Must be 1 to 16 letters
+  or numbers.   First character must be a letter.   Can't be a reserved word for the chosen
+  database engine.
 - `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
   automatically scale the storage of the DB instance. For more information about this
   setting, including limitations that apply to it, see  Managing capacity automatically with
   Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
-  metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set
-  MonitoringInterval to a value other than 0.  Valid Values: 0, 1, 5, 10, 15, 30, 60
-  Default: 0
+  metrics, specify 0. If MonitoringRoleArn is specified, then you must also set
+  MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 Default:
+  0
 - `"MonitoringRoleArn"`: The ARN for the IAM role that permits RDS to send enhanced
   monitoring metrics to Amazon CloudWatch Logs. For example,
   arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see
@@ -8864,6 +8728,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment. If
   the DB instance is a Multi-AZ deployment, you can't set the AvailabilityZone parameter.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB instance. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"OptionGroupName"`: The name of the option group to associate with this DB instance. If
   this argument is omitted, the default option group for the specified engine is used.
 - `"PerformanceInsightsKMSKeyId"`: The Amazon Web Services KMS key identifier for
@@ -8872,10 +8741,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region.
-- `"PerformanceInsightsRetentionPeriod"`: The amount of time, in days, to retain
-  Performance Insights data. Valid values are 7 or 731 (2 years).
-- `"Port"`: The port number on which the database accepts connections.  Type: Integer
-  Valid Values: 1150-65535  Default: 3306
+- `"PerformanceInsightsRetentionPeriod"`: The number of days to retain Performance Insights
+  data. The default is 7 days. The following values are valid:   7    month * 31, where month
+  is a number of months from 1-23   731   For example, the following values are valid:   93
+  (3 months * 31)   341 (11 months * 31)   589 (19 months * 31)   731   If you specify a
+  retention period such as 94, which isn't a valid value, RDS issues an error.
+- `"Port"`: The port number on which the database accepts connections. Type: Integer Valid
+  Values: 1150-65535  Default: 3306
 - `"PreferredBackupWindow"`: The time range each day during which automated backups are
   created if automated backups are enabled. For more information, see Backup window in the
   Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in
@@ -8901,15 +8773,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Prefix"`: The prefix of your Amazon S3 bucket.
 - `"StorageEncrypted"`: A value that indicates whether the new DB instance is encrypted or
   not.
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.  Valid
+- `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
   values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter.  Default: io1 if the Iops parameter is specified; otherwise gp2
+  Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
 - `"Tags"`: A list of tags to associate with this DB instance. For more information, see
   Tagging Amazon RDS Resources in the Amazon RDS User Guide.
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
   the DB instance uses its default processor features.
-- `"VpcSecurityGroupIds"`: A list of VPC security groups to associate with this DB
-  instance.
+- `"VpcSecurityGroupIds"`: A list of VPC security groups to associate with this DB instance.
 """
 function restore_dbinstance_from_s3(
     DBInstanceClass,
@@ -9008,12 +8879,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requirements:   The profile must exist in your account.   The profile must have an IAM role
   that Amazon EC2 has permissions to assume.   The instance profile name and the associated
   IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions
-  required for the IAM role, see  Configure IAM and your VPC in the Amazon Relational
-  Database Service User Guide. This setting is required for RDS Custom.
+  required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
+  This setting is required for RDS Custom.
 - `"DBInstanceClass"`: The compute and memory capacity of the Amazon RDS DB instance, for
   example db.m4.large. Not all DB instance classes are available in all Amazon Web Services
   Regions, or for all database engines. For the full list of DB instance classes, and
-  availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default:
+  availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default:
   The same DBInstanceClass as the original DB instance.
 - `"DBName"`: The database name for the restored DB instance.  This parameter isn't
   supported for the MySQL or MariaDB engines. It also doesn't apply to RDS Custom.
@@ -9024,7 +8895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't
   end with a hyphen or contain two consecutive hyphens.
 - `"DBSubnetGroupName"`: The DB subnet group name to use for the new instance. Constraints:
-  If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
+  If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection isn't enabled. For more information, see  Deleting a DB
@@ -9062,7 +8933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.
    SQL Server  Setting the IOPS value for the SQL Server database engine isn't supported.
 - `"LicenseModel"`: License model information for the restored DB instance. This setting
-  doesn't apply to RDS Custom. Default: Same as source.  Valid values: license-included |
+  doesn't apply to RDS Custom. Default: Same as source. Valid values: license-included |
   bring-your-own-license | general-public-license
 - `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
   automatically scale the storage of the DB instance. For more information about this
@@ -9072,6 +8943,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment.
   This setting doesn't apply to RDS Custom. Constraint: You can't specify the
   AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
+- `"NetworkType"`: The network type of the DB instance. Valid values:    IPV4     DUAL
+  The network type is determined by the DBSubnetGroup specified for the DB instance. A
+  DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+  For more information, see  Working with a DB instance in a VPC in the Amazon RDS User
+  Guide.
 - `"OptionGroupName"`: The name of the option group to be used for the restored DB
   instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't
   be removed from an option group, and that option group can't be removed from a DB instance
@@ -9100,9 +8976,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceDBInstanceIdentifier"`: The identifier of the source DB instance from which to
   restore. Constraints:   Must match the identifier of an existing DB instance.
 - `"SourceDbiResourceId"`: The resource ID of the source DB instance from which to restore.
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.  Valid
-  values: standard | gp2 | io1   If you specify io1, you must also include a value for the
-  Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
+- `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
+  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
+  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
 - `"Tags"`:
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
@@ -9111,11 +8987,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
   the DB instance uses its default processor features. This setting doesn't apply to RDS
   Custom.
-- `"UseLatestRestorableTime"`:  A value that indicates whether the DB instance is restored
+- `"UseLatestRestorableTime"`: A value that indicates whether the DB instance is restored
   from the latest backup time. By default, the DB instance isn't restored from the latest
-  backup time.  Constraints: Can't be specified if the RestoreTime parameter is provided.
-- `"VpcSecurityGroupIds"`:  A list of EC2 VPC security groups to associate with this DB
-  instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
+  backup time. Constraints: Can't be specified if the RestoreTime parameter is provided.
+- `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
+  instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 function restore_dbinstance_to_point_in_time(
     TargetDBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -9155,23 +9031,28 @@ end
 Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC
 security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for
 VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId).
+EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a
+VPC, we recommend that you migrate as soon as possible. For more information, see Migrate
+from EC2-Classic to a VPC in the Amazon EC2 User Guide, the blog EC2-Classic Networking is
+Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in
+the Amazon RDS User Guide.
 
 # Arguments
 - `dbsecurity_group_name`: The name of the DB security group to revoke ingress from.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CIDRIP"`:  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is
+- `"CIDRIP"`: The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is
   specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be
   provided.
-- `"EC2SecurityGroupId"`:  The id of the EC2 security group to revoke access from. For VPC
+- `"EC2SecurityGroupId"`: The id of the EC2 security group to revoke access from. For VPC
   DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId
   and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
-- `"EC2SecurityGroupName"`:  The name of the EC2 security group to revoke access from. For
+- `"EC2SecurityGroupName"`: The name of the EC2 security group to revoke access from. For
   VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise,
   EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be
   provided.
-- `"EC2SecurityGroupOwnerId"`:  The Amazon Web Services account number of the owner of the
+- `"EC2SecurityGroupOwnerId"`: The Amazon Web Services account number of the owner of the
   EC2 security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services
   access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId
   must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or
@@ -9272,7 +9153,7 @@ end
 
 Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console,
 the stop-db-cluster CLI command, or the StopDBCluster action. For more information, see
-Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.   This action only
+Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.  This action only
 applies to Aurora DB clusters.
 
 # Arguments
@@ -9313,14 +9194,14 @@ end
     start_dbinstance(dbinstance_identifier)
     start_dbinstance(dbinstance_identifier, params::Dict{String,<:Any})
 
- Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console,
-the stop-db-instance CLI command, or the StopDBInstance action.  For more information, see
+Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console,
+the stop-db-instance CLI command, or the StopDBInstance action. For more information, see
 Starting an Amazon RDS DB instance That Was Previously Stopped in the Amazon RDS User
-Guide.    This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL.
-For Aurora DB clusters, use StartDBCluster instead.
+Guide.   This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For
+Aurora DB clusters, use StartDBCluster instead.
 
 # Arguments
-- `dbinstance_identifier`:  The user-supplied instance identifier.
+- `dbinstance_identifier`: The user-supplied instance identifier.
 
 """
 function start_dbinstance(
@@ -9371,11 +9252,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automated backups. The KMS key ID is the Amazon Resource Name (ARN) for the KMS encryption
   key in the destination Amazon Web Services Region, for example,
   arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE.
-- `"PreSignedUrl"`: A URL that contains a Signature Version 4 signed request for the
-  StartDBInstanceAutomatedBackupsReplication action to be called in the Amazon Web Services
-  Region of the source DB instance. The presigned URL must be a valid request for the
-  StartDBInstanceAutomatedBackupsReplication API action that can be executed in the Amazon
-  Web Services Region that contains the source DB instance.
+- `"PreSignedUrl"`: In an Amazon Web Services GovCloud (US) Region, an URL that contains a
+  Signature Version 4 signed request for the StartDBInstanceAutomatedBackupsReplication
+  operation to call in the Amazon Web Services Region of the source DB instance. The
+  presigned URL must be a valid request for the StartDBInstanceAutomatedBackupsReplication
+  API operation that can run in the Amazon Web Services Region that contains the source DB
+  instance. This setting applies only to Amazon Web Services GovCloud (US) Regions. It's
+  ignored in other Amazon Web Services Regions. To learn how to generate a Signature Version
+  4 signed request, see  Authenticating Requests: Using Query Parameters (Amazon Web Services
+  Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an Amazon
+  Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the
+  CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a
+  presigned URL that is a valid request for the operation that can run in the source Amazon
+  Web Services Region.
 """
 function start_dbinstance_automated_backups_replication(
     SourceDBInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -9411,7 +9300,7 @@ end
     start_export_task(export_task_identifier, iam_role_arn, kms_key_id, s3_bucket_name, source_arn, params::Dict{String,<:Any})
 
 Starts an export of a snapshot to Amazon S3. The provided IAM role must have access to the
-S3 bucket.  This command doesn't apply to RDS Custom.
+S3 bucket. This command doesn't apply to RDS Custom.
 
 # Arguments
 - `export_task_identifier`: A unique identifier for the snapshot export task. This ID isn't
@@ -9422,8 +9311,8 @@ S3 bucket.  This command doesn't apply to RDS Custom.
   exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID,
   alias ARN, or alias name for the KMS key. The caller of this operation must be authorized
   to execute the following operations. These can be set in the Amazon Web Services KMS key
-  policy:    GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey
-    GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom
+  policy:   GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey
+   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom
   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey
   GrantOperation.RetireGrant
 - `s3_bucket_name`: The name of the Amazon S3 bucket to export the snapshot to.
@@ -9538,11 +9427,11 @@ end
     stop_dbcluster(dbcluster_identifier)
     stop_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
- Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB
+Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB
 cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains
-the transaction logs so you can do a point-in-time restore if necessary.  For more
+the transaction logs so you can do a point-in-time restore if necessary. For more
 information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.
- This action only applies to Aurora DB clusters.
+This action only applies to Aurora DB clusters.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier of the Amazon Aurora DB cluster to be
@@ -9582,19 +9471,19 @@ end
     stop_dbinstance(dbinstance_identifier)
     stop_dbinstance(dbinstance_identifier, params::Dict{String,<:Any})
 
- Stops an Amazon RDS DB instance. When you stop a DB instance, Amazon RDS retains the DB
+Stops an Amazon RDS DB instance. When you stop a DB instance, Amazon RDS retains the DB
 instance's metadata, including its endpoint, DB parameter group, and option group
 membership. Amazon RDS also retains the transaction logs so you can do a point-in-time
-restore if necessary.  For more information, see  Stopping an Amazon RDS DB Instance
-Temporarily in the Amazon RDS User Guide.    This command doesn't apply to RDS Custom,
+restore if necessary. For more information, see  Stopping an Amazon RDS DB Instance
+Temporarily in the Amazon RDS User Guide.   This command doesn't apply to RDS Custom,
 Aurora MySQL, and Aurora PostgreSQL. For Aurora clusters, use StopDBCluster instead.
 
 # Arguments
-- `dbinstance_identifier`:  The user-supplied instance identifier.
+- `dbinstance_identifier`: The user-supplied instance identifier.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DBSnapshotIdentifier"`:  The user-supplied instance identifier of the DB Snapshot
+- `"DBSnapshotIdentifier"`: The user-supplied instance identifier of the DB Snapshot
   created immediately before the DB instance is stopped.
 """
 function stop_dbinstance(
@@ -9631,8 +9520,8 @@ end
     stop_dbinstance_automated_backups_replication(source_dbinstance_arn, params::Dict{String,<:Any})
 
 Stops automated backup replication for a DB instance. This command doesn't apply to RDS
-Custom. For more information, see  Replicating Automated Backups to Another Amazon Web
-Services Region in the Amazon RDS User Guide.
+Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see  Replicating
+Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide.
 
 # Arguments
 - `source_dbinstance_arn`: The Amazon Resource Name (ARN) of the source DB instance for
@@ -9661,6 +9550,49 @@ function stop_dbinstance_automated_backups_replication(
             mergewith(
                 _merge,
                 Dict{String,Any}("SourceDBInstanceArn" => SourceDBInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    switchover_read_replica(dbinstance_identifier)
+    switchover_read_replica(dbinstance_identifier, params::Dict{String,<:Any})
+
+Switches over an Oracle standby database in an Oracle Data Guard environment, making it the
+new primary database. Issue this command in the Region that hosts the current standby
+database.
+
+# Arguments
+- `dbinstance_identifier`: The DB instance identifier of the current standby database. This
+  value is stored as a lowercase string. Constraints:   Must match the identiﬁer of an
+  existing Oracle read replica DB instance.
+
+"""
+function switchover_read_replica(
+    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "SwitchoverReadReplica",
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function switchover_read_replica(
+    DBInstanceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rds(
+        "SwitchoverReadReplica",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
                 params,
             ),
         );

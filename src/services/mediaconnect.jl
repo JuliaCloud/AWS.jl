@@ -172,6 +172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone that you want to create the flow in. These
   options are limited to the Availability Zones within the current AWS Region.
 - `"entitlements"`: The entitlements that you want to grant on a flow.
+- `"maintenance"`:
 - `"mediaStreams"`: The media streams that you want to add to the flow. You can associate
   these media streams with sources and outputs on the flow.
 - `"outputs"`: The outputs that you want to add to this flow.
@@ -941,6 +942,7 @@ Updates flow
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maintenance"`:
 - `"sourceFailoverConfig"`:
 """
 function update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1163,6 +1165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connection with the sender.
 - `"senderIpAddress"`: The IP address that the flow communicates with to initiate
   connection with the sender.
+- `"sourceListenerAddress"`: Source IP or domain name for SRT-caller protocol.
+- `"sourceListenerPort"`: Source port for SRT-caller protocol.
 - `"streamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.
 - `"vpcInterfaceName"`: The name of the VPC interface to use for this source.

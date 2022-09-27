@@ -52,6 +52,56 @@ function create_alert_manager_definition(
 end
 
 """
+    create_logging_configuration(log_group_arn, workspace_id)
+    create_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
+
+Create logging configuration.
+
+# Arguments
+- `log_group_arn`: The ARN of the CW log group to which the vended log data will be
+  published.
+- `workspace_id`: The ID of the workspace to vend logs to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
+"""
+function create_logging_configuration(
+    logGroupArn, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_logging_configuration(
+    logGroupArn,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupArn" => logGroupArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_rule_groups_namespace(data, name, workspace_id)
     create_rule_groups_namespace(data, name, workspace_id, params::Dict{String,<:Any})
 
@@ -182,6 +232,47 @@ function delete_alert_manager_definition(
 end
 
 """
+    delete_logging_configuration(workspace_id)
+    delete_logging_configuration(workspace_id, params::Dict{String,<:Any})
+
+Delete logging configuration.
+
+# Arguments
+- `workspace_id`: The ID of the workspace to vend logs to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
+"""
+function delete_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_rule_groups_namespace(name, workspace_id)
     delete_rule_groups_namespace(name, workspace_id, params::Dict{String,<:Any})
 
@@ -291,6 +382,40 @@ function describe_alert_manager_definition(
     return amp(
         "GET",
         "/workspaces/$(workspaceId)/alertmanager/definition",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_logging_configuration(workspace_id)
+    describe_logging_configuration(workspace_id, params::Dict{String,<:Any})
+
+Describes logging configuration.
+
+# Arguments
+- `workspace_id`: The ID of the workspace to vend logs to.
+
+"""
+function describe_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/logging";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/logging",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -628,6 +753,56 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_logging_configuration(log_group_arn, workspace_id)
+    update_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
+
+Update logging configuration.
+
+# Arguments
+- `log_group_arn`: The ARN of the CW log group to which the vended log data will be
+  published.
+- `workspace_id`: The ID of the workspace to vend logs to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
+"""
+function update_logging_configuration(
+    logGroupArn, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_logging_configuration(
+    logGroupArn,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupArn" => logGroupArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

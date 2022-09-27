@@ -9,8 +9,13 @@ using AWS.UUIDs
     batch_execute_statement(statements, params::Dict{String,<:Any})
 
 This operation allows you to perform batch reads or writes on data stored in DynamoDB,
-using PartiQL.  The entire batch must consist of either read statements or write
-statements, you cannot mix both in one batch.
+using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality
+condition on all key attributes. This enforces that each SELECT statement in a batch
+returns at most a single item.  The entire batch must consist of either read statements or
+write statements, you cannot mix both in one batch.   A HTTP 200 response does not mean
+that all statements in the BatchExecuteStatement succeeded. Error details for individual
+statements can be found under the Error field of the BatchStatementResponse for each
+statement.
 
 # Arguments
 - `statements`: The list of PartiQL statements representing the batch to run.
@@ -145,27 +150,30 @@ end
     batch_write_item(request_items, params::Dict{String,<:Any})
 
 The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single
-call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put
-or delete requests. Individual items to be written can be as large as 400 KB.
-BatchWriteItem cannot update items. To update items, use the UpdateItem action.  The
-individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic;
-however BatchWriteItem as a whole is not. If any requested operations fail because the
-table's provisioned throughput is exceeded or an internal processing failure occurs, the
-failed operations are returned in the UnprocessedItems response parameter. You can
-investigate and optionally resend the requests. Typically, you would call BatchWriteItem in
-a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem
-request with those unprocessed items until all items have been processed. If none of the
-items can be processed due to insufficient provisioned throughput on all of the tables in
-the request, then BatchWriteItem returns a ProvisionedThroughputExceededException.  If
-DynamoDB returns any unprocessed items, you should retry the batch operation on those
-items. However, we strongly recommend that you use an exponential backoff algorithm. If you
-retry the batch operation immediately, the underlying read or write requests can still fail
-due to throttling on the individual tables. If you delay the batch operation using
-exponential backoff, the individual requests in the batch are much more likely to succeed.
-For more information, see Batch Operations and Error Handling in the Amazon DynamoDB
-Developer Guide.  With BatchWriteItem, you can efficiently write or delete large amounts of
-data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order
-to improve performance with these large-scale operations, BatchWriteItem does not behave in
+call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up
+to 25 item put or delete operations. While individual items can be up to 400 KB once
+stored, it's important to note that an item's representation might be greater than 400KB
+while being sent in DynamoDB's JSON format for the API call. For more details on this
+distinction, see Naming Rules and Data Types.   BatchWriteItem cannot update items. To
+update items, use the UpdateItem action.  The individual PutItem and DeleteItem operations
+specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any
+requested operations fail because the table's provisioned throughput is exceeded or an
+internal processing failure occurs, the failed operations are returned in the
+UnprocessedItems response parameter. You can investigate and optionally resend the
+requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check
+for unprocessed items and submit a new BatchWriteItem request with those unprocessed items
+until all items have been processed. If none of the items can be processed due to
+insufficient provisioned throughput on all of the tables in the request, then
+BatchWriteItem returns a ProvisionedThroughputExceededException.  If DynamoDB returns any
+unprocessed items, you should retry the batch operation on those items. However, we
+strongly recommend that you use an exponential backoff algorithm. If you retry the batch
+operation immediately, the underlying read or write requests can still fail due to
+throttling on the individual tables. If you delay the batch operation using exponential
+backoff, the individual requests in the batch are much more likely to succeed. For more
+information, see Batch Operations and Error Handling in the Amazon DynamoDB Developer
+Guide.  With BatchWriteItem, you can efficiently write or delete large amounts of data,
+such as from Amazon EMR, or copy data from another database into DynamoDB. In order to
+improve performance with these large-scale operations, BatchWriteItem does not behave in
 the same way as individual PutItem and DeleteItem calls would. For example, you cannot
 specify conditions on individual put and delete requests, and BatchWriteItem does not
 return deleted items in the response. If you use a programming language that supports
@@ -597,8 +605,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If
   ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This
   setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is
-  returned.    The ReturnValues parameter is used by several DynamoDB operations; however,
-  DeleteItem does not recognize any values other than NONE or ALL_OLD.
+  returned.   There is no additional cost associated with requesting a return value aside
+  from the small network and processing overhead of receiving a larger response. No read
+  capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB
+  operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
 """
 function delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -915,6 +925,40 @@ function describe_global_table_settings(
 end
 
 """
+    describe_import(import_arn)
+    describe_import(import_arn, params::Dict{String,<:Any})
+
+ Represents the properties of the import.
+
+# Arguments
+- `import_arn`:  The Amazon Resource Name (ARN) associated with the table you're importing
+  to.
+
+"""
+function describe_import(ImportArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return dynamodb(
+        "DescribeImport",
+        Dict{String,Any}("ImportArn" => ImportArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_import(
+    ImportArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "DescribeImport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportArn" => ImportArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_kinesis_streaming_destination(table_name)
     describe_kinesis_streaming_destination(table_name, params::Dict{String,<:Any})
 
@@ -1196,7 +1240,14 @@ end
     execute_statement(statement, params::Dict{String,<:Any})
 
 This operation allows you to perform reads and singleton writes on data stored in DynamoDB,
-using PartiQL.
+using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items
+exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to
+the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the
+filter criteria in WHERE clause does not match any data, the read will return an empty
+result set. A single SELECT statement response can return up to the maximum number of items
+(if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering
+to the results using WHERE clause). If LastEvaluatedKey is present in the response, you
+need to paginate the result set.
 
 # Arguments
 - `statement`: The PartiQL statement representing the operation to run.
@@ -1205,6 +1256,13 @@ using PartiQL.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConsistentRead"`: The consistency of a read operation. If set to true, then a strongly
   consistent read is used; otherwise, an eventually consistent read is used.
+- `"Limit"`: The maximum number of items to evaluate (not necessarily the number of
+  matching items). If DynamoDB processes the number of items up to the limit while processing
+  the results, it stops the operation and returns the matching values up to that point, along
+  with a key in LastEvaluatedKey to apply in a subsequent operation so you can pick up where
+  you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this
+  limit, it stops the operation and returns the matching values up to the limit, and a key in
+  LastEvaluatedKey to apply in a subsequent operation to continue the operation.
 - `"NextToken"`: Set this value to get remaining results, if NextToken was returned in the
   statement response.
 - `"Parameters"`: The parameters for the PartiQL statement, if any.
@@ -1309,11 +1367,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resubmit the same request with the same client token for more than 8 hours, or the result
   might not be idempotent. If you submit a request with the same client token but a change in
   other parameters within the 8-hour idempotency window, DynamoDB returns an
-  IdempotentParameterMismatch exception.
+  ImportConflictException.
 - `"ExportFormat"`: The format for the exported data. Valid values for ExportFormat are
   DYNAMODB_JSON or ION.
-- `"ExportTime"`: Time in the past from which to export table data. The table export will
-  be a snapshot of the table's state at this point in time.
+- `"ExportTime"`: Time in the past from which to export table data, counted in seconds from
+  the start of the Unix epoch. The table export will be a snapshot of the table's state at
+  this point in time.
 - `"S3BucketOwner"`: The ID of the Amazon Web Services account that owns the bucket the
   export will be stored in.
 - `"S3Prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
@@ -1436,6 +1495,76 @@ function get_item(
 end
 
 """
+    import_table(input_format, s3_bucket_source, table_creation_parameters)
+    import_table(input_format, s3_bucket_source, table_creation_parameters, params::Dict{String,<:Any})
+
+ Imports table data from an S3 bucket.
+
+# Arguments
+- `input_format`:  The format of the source data. Valid values for ImportFormat are CSV,
+  DYNAMODB_JSON or ION.
+- `s3_bucket_source`:  The S3 bucket that provides the source for the import.
+- `table_creation_parameters`: Parameters for the table to import the data into.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Providing a ClientToken makes the call to ImportTableInput idempotent,
+  meaning that multiple identical calls have the same effect as one single call. A client
+  token is valid for 8 hours after the first request that uses it is completed. After 8
+  hours, any request with the same client token is treated as a new request. Do not resubmit
+  the same request with the same client token for more than 8 hours, or the result might not
+  be idempotent. If you submit a request with the same client token but a change in other
+  parameters within the 8-hour idempotency window, DynamoDB returns an
+  IdempotentParameterMismatch exception.
+- `"InputCompressionType"`:  Type of compression to be used on the input coming from the
+  imported table.
+- `"InputFormatOptions"`:  Additional properties that specify how the input is formatted,
+"""
+function import_table(
+    InputFormat,
+    S3BucketSource,
+    TableCreationParameters;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "ImportTable",
+        Dict{String,Any}(
+            "InputFormat" => InputFormat,
+            "S3BucketSource" => S3BucketSource,
+            "TableCreationParameters" => TableCreationParameters,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_table(
+    InputFormat,
+    S3BucketSource,
+    TableCreationParameters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "ImportTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InputFormat" => InputFormat,
+                    "S3BucketSource" => S3BucketSource,
+                    "TableCreationParameters" => TableCreationParameters,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_backups()
     list_backups(params::Dict{String,<:Any})
 
@@ -1449,9 +1578,9 @@ ListBackups a maximum of five times per second.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BackupType"`: The backups from the table specified by BackupType are listed. Where
-  BackupType can be:    USER - On-demand backup created by you.    SYSTEM - On-demand backup
-  automatically created by DynamoDB.    ALL - All types of on-demand backups (USER and
-  SYSTEM).
+  BackupType can be:    USER - On-demand backup created by you. (The default setting if no
+  other backup types are specified.)    SYSTEM - On-demand backup automatically created by
+  DynamoDB.    ALL - All types of on-demand backups (USER and SYSTEM).
 - `"ExclusiveStartBackupArn"`:  LastEvaluatedBackupArn is the Amazon Resource Name (ARN) of
   the backup last evaluated when the current page of results was returned, inclusive of the
   current page of results. This value may be specified as the ExclusiveStartBackupArn of a
@@ -1560,6 +1689,32 @@ function list_global_tables(
 end
 
 """
+    list_imports()
+    list_imports(params::Dict{String,<:Any})
+
+ Lists completed imports within the past 90 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`:  An optional string that, if supplied, must be copied from the output of a
+  previous call to ListImports. When provided in this manner, the API fetches the next page
+  of results.
+- `"PageSize"`:  The number of ImportSummary objects returned in a single page.
+- `"TableArn"`:  The Amazon Resource Name (ARN) associated with the table that was imported
+  to.
+"""
+function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return dynamodb("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_imports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dynamodb(
+        "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tables()
     list_tables(params::Dict{String,<:Any})
 
@@ -1637,23 +1792,17 @@ primary key as the new item already exists in the specified table, the new item 
 replaces the existing item. You can perform a conditional put operation (add a new item if
 one with the specified primary key doesn't exist), or replace an existing item if it has
 certain attribute values. You can return the item's attribute values in the same operation,
-using the ReturnValues parameter.  This topic provides general information about the
-PutItem API. For information on how to call the PutItem API using the Amazon Web Services
-SDK in specific languages, see the following:     PutItem in the Command Line Interface
- PutItem in the SDK for .NET      PutItem in the SDK for C++      PutItem in the SDK for Go
-     PutItem in the SDK for Java      PutItem in the SDK for JavaScript      PutItem in the
-SDK for PHP V3      PutItem in the SDK for Python (Boto)      PutItem in the SDK for Ruby
-V2     When you add an item, the primary key attributes are the only required attributes.
-Attribute values cannot be null. Empty String and Binary attribute values are allowed.
-Attribute values of type String and Binary must have a length greater than zero if the
-attribute is used as a key attribute for a table or index. Set type attributes cannot be
-empty.  Invalid Requests with empty values will be rejected with a ValidationException
-exception.  To prevent a new item from replacing an existing item, use a conditional
-expression that contains the attribute_not_exists function with the name of the attribute
-being used as the partition key for the table. Since every record must contain that
-attribute, the attribute_not_exists function will only succeed if no matching item exists.
-For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer
-Guide.
+using the ReturnValues parameter. When you add an item, the primary key attributes are the
+only required attributes. Attribute values cannot be null. Empty String and Binary
+attribute values are allowed. Attribute values of type String and Binary must have a length
+greater than zero if the attribute is used as a key attribute for a table or index. Set
+type attributes cannot be empty.  Invalid Requests with empty values will be rejected with
+a ValidationException exception.  To prevent a new item from replacing an existing item,
+use a conditional expression that contains the attribute_not_exists function with the name
+of the attribute being used as the partition key for the table. Since every record must
+contain that attribute, the attribute_not_exists function will only succeed if no matching
+item exists.  For more information about PutItem, see Working with Items in the Amazon
+DynamoDB Developer Guide.
 
 # Arguments
 - `item`: A map of attribute name/value pairs, one for each attribute. Only the primary key
@@ -1716,8 +1865,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is
   returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote
   an attribute name-value pair, then the content of the old item is returned.   The values
-  returned are strongly consistent.  The ReturnValues parameter is used by several DynamoDB
-  operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
+  returned are strongly consistent. There is no additional cost associated with requesting a
+  return value aside from the small network and processing overhead of receiving a larger
+  response. No read capacity units are consumed.  The ReturnValues parameter is used by
+  several DynamoDB operations; however, PutItem does not recognize any values other than NONE
+  or ALL_OLD.
 """
 function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1905,20 +2057,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that have been projected into the index. If the index is configured to project all
   attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT -
   Returns the number of matching items, rather than the matching items themselves.
-  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet. This return
-  value is equivalent to specifying AttributesToGet without specifying any value for Select.
-  If you query or scan a local secondary index and request only attributes that are projected
-  into that index, the operation will read only the index and not the table. If any of the
-  requested attributes are not projected into the local secondary index, DynamoDB fetches
-  each of these attributes from the parent table. This extra fetching incurs additional
-  throughput cost and latency. If you query or scan a global secondary index, you can only
-  request attributes that are projected into the index. Global secondary index queries cannot
-  fetch attributes from the parent table.   If neither Select nor AttributesToGet are
-  specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and
-  ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
-  AttributesToGet together in a single request, unless the value for Select is
-  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any
-  value for Select.)  If you use the ProjectionExpression parameter, then the value for
+  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in ProjectionExpression. This
+  return value is equivalent to specifying ProjectionExpression without specifying any value
+  for Select. If you query or scan a local secondary index and request only attributes that
+  are projected into that index, the operation will read only the index and not the table. If
+  any of the requested attributes are not projected into the local secondary index, DynamoDB
+  fetches each of these attributes from the parent table. This extra fetching incurs
+  additional throughput cost and latency. If you query or scan a global secondary index, you
+  can only request attributes that are projected into the index. Global secondary index
+  queries cannot fetch attributes from the parent table.   If neither Select nor
+  ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a
+  table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
+  ProjectionExpression together in a single request, unless the value for Select is
+  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without
+  any value for Select.)  If you use the ProjectionExpression parameter, then the value for
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
 """
 function query(TableName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2184,20 +2336,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that have been projected into the index. If the index is configured to project all
   attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT -
   Returns the number of matching items, rather than the matching items themselves.
-  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet. This return
-  value is equivalent to specifying AttributesToGet without specifying any value for Select.
-  If you query or scan a local secondary index and request only attributes that are projected
-  into that index, the operation reads only the index and not the table. If any of the
-  requested attributes are not projected into the local secondary index, DynamoDB fetches
-  each of these attributes from the parent table. This extra fetching incurs additional
-  throughput cost and latency. If you query or scan a global secondary index, you can only
-  request attributes that are projected into the index. Global secondary index queries cannot
-  fetch attributes from the parent table.   If neither Select nor AttributesToGet are
-  specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and
-  ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
-  AttributesToGet together in a single request, unless the value for Select is
-  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any
-  value for Select.)  If you use the ProjectionExpression parameter, then the value for
+  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in ProjectionExpression. This
+  return value is equivalent to specifying ProjectionExpression without specifying any value
+  for Select. If you query or scan a local secondary index and request only attributes that
+  are projected into that index, the operation reads only the index and not the table. If any
+  of the requested attributes are not projected into the local secondary index, DynamoDB
+  fetches each of these attributes from the parent table. This extra fetching incurs
+  additional throughput cost and latency. If you query or scan a global secondary index, you
+  can only request attributes that are projected into the index. Global secondary index
+  queries cannot fetch attributes from the parent table.   If neither Select nor
+  ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a
+  table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
+  ProjectionExpression together in a single request, unless the value for Select is
+  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without
+  any value for Select.)  If you use the ProjectionExpression parameter, then the value for
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
 - `"TotalSegments"`: For a parallel Scan request, TotalSegments represents the total number
   of segments into which the Scan operation will be divided. The value of TotalSegments
@@ -2281,7 +2433,7 @@ end
 
  TransactGetItems is a synchronous operation that atomically retrieves multiple items from
 one or more tables (but not from indexes) in a single account and Region. A
-TransactGetItems call can contain up to 25 TransactGetItem objects, each of which contains
+TransactGetItems call can contain up to 100 TransactGetItem objects, each of which contains
 a Get structure that specifies an item to retrieve from a table in the account and Region.
 A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web
 Services account or Region. The aggregate size of the items in the transaction cannot
@@ -2292,7 +2444,7 @@ a user error, such as an invalid data format.   The aggregate size of the items 
 transaction cannot exceed 4 MB.
 
 # Arguments
-- `transact_items`: An ordered array of up to 25 TransactGetItem objects, each of which
+- `transact_items`: An ordered array of up to 100 TransactGetItem objects, each of which
   contains a Get structure.
 
 # Optional Parameters
@@ -2330,7 +2482,7 @@ end
     transact_write_items(transact_items)
     transact_write_items(transact_items, params::Dict{String,<:Any})
 
- TransactWriteItems is a synchronous write operation that groups up to 25 action requests.
+ TransactWriteItems is a synchronous write operation that groups up to 100 action requests.
 These actions can target items in different tables, but not in different Amazon Web
 Services accounts or Regions, and no two actions can target the same item. For example, you
 cannot both ConditionCheck and Update the same item. The aggregate size of the items in the
@@ -2363,7 +2515,7 @@ the transaction.   The aggregate size of the items in the transaction exceeds 4 
 is a user error, such as an invalid data format.
 
 # Arguments
-- `transact_items`: An ordered array of up to 25 TransactWriteItem objects, each of which
+- `transact_items`: An ordered array of up to 100 TransactWriteItem objects, each of which
   contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in
   different tables, but the tables must reside in the same Amazon Web Services account and
   Region, and no two of them can operate on the same item.
@@ -2532,9 +2684,10 @@ end
 Updates the status for contributor insights for a specific table or index. CloudWatch
 Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort
 key of frequently accessed items and frequently throttled items in plaintext. If you
-require the use of AWS Key Management Service (KMS) to encrypt this table’s partition key
-and sort key data with an AWS managed key or customer managed key, you should not enable
-CloudWatch Contributor Insights for DynamoDB for this table.
+require the use of Amazon Web Services Key Management Service (KMS) to encrypt this
+table’s partition key and sort key data with an Amazon Web Services managed key or
+customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB
+for this table.
 
 # Arguments
 - `contributor_insights_action`: Represents the contributor insights action.
@@ -2835,13 +2988,12 @@ end
 
 Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams
 settings for a given table. You can only perform one of the following operations at once:
-Modify the provisioned throughput settings of the table.   Enable or disable DynamoDB
-Streams on the table.   Remove a global secondary index from the table.   Create a new
-global secondary index on the table. After the index begins backfilling, you can use
-UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while
-it is executing, the table status changes from ACTIVE to UPDATING. While it is UPDATING,
-you cannot issue another UpdateTable request. When the table returns to the ACTIVE state,
-the UpdateTable operation is complete.
+Modify the provisioned throughput settings of the table.   Remove a global secondary index
+from the table.   Create a new global secondary index on the table. After the index begins
+backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an
+asynchronous operation; while it is executing, the table status changes from ACTIVE to
+UPDATING. While it is UPDATING, you cannot issue another UpdateTable request. When the
+table returns to the ACTIVE state, the UpdateTable operation is complete.
 
 # Arguments
 - `table_name`: The name of the table to be updated.

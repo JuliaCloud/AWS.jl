@@ -13,12 +13,12 @@ see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guid
 Outposts only supports VPC-style access points.  For more information, see  Accessing
 Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3
 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section.  The
-following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint
-    ListAccessPoints
+additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
+must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
+of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
+Examples section.  The following actions are related to CreateAccessPoint:
+GetAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 # Arguments
 - `bucket`: The name of the bucket that you want to associate this access point with. For
@@ -176,8 +176,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket.  This is not supported by Amazon S3 on Outposts buckets.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
   This is not supported by Amazon S3 on Outposts buckets.
-- `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This is
-  required by Amazon S3 on Outposts buckets.
+- `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This ID
+  is required by Amazon S3 on Outposts buckets.
 """
 function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config())
     return s3_control(
@@ -200,8 +200,8 @@ function create_bucket(
 end
 
 """
-    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id)
-    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id, params::Dict{String,<:Any})
+    create_job(client_request_token, operation, priority, report, role_arn, x-amz-account-id)
+    create_job(client_request_token, operation, priority, report, role_arn, x-amz-account-id, params::Dict{String,<:Any})
 
 You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects.
 Batch Operations can run a single action on lists of Amazon S3 objects that you specify.
@@ -212,7 +212,6 @@ creates a S3 Batch Operations job.  Related actions include:    DescribeJob     
 # Arguments
 - `client_request_token`: An idempotency token to ensure that you don't accidentally submit
   the same request twice. You can use any string up to the maximum length.
-- `manifest`: Configuration parameters for the manifest.
 - `operation`: The action that you want this job to perform on every object listed in the
   manifest. For more information about the available actions, see Operations in the Amazon S3
   User Guide.
@@ -229,12 +228,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   runs the job. Confirmation is only required for jobs created through the Amazon S3 console.
 - `"Description"`: A description for this job. You can use any string within the permitted
   length. Descriptions don't need to be unique and can be used for multiple jobs.
+- `"Manifest"`: Configuration parameters for the manifest.
+- `"ManifestGenerator"`: The attribute container for the ManifestGenerator details. Jobs
+  must be created with either a manifest file or a ManifestGenerator, but not both.
 - `"Tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
   optional parameter.
 """
 function create_job(
     ClientRequestToken,
-    Manifest,
     Operation,
     Priority,
     Report,
@@ -247,7 +248,6 @@ function create_job(
         "/v20180820/jobs",
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken,
-            "Manifest" => Manifest,
             "Operation" => Operation,
             "Priority" => Priority,
             "Report" => Report,
@@ -260,7 +260,6 @@ function create_job(
 end
 function create_job(
     ClientRequestToken,
-    Manifest,
     Operation,
     Priority,
     Report,
@@ -277,7 +276,6 @@ function create_job(
                 _merge,
                 Dict{String,Any}(
                     "ClientRequestToken" => ClientRequestToken,
-                    "Manifest" => Manifest,
                     "Operation" => Operation,
                     "Priority" => Priority,
                     "Report" => Report,
@@ -366,12 +364,12 @@ end
     delete_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this
-action require an additional parameter of x-amz-outpost-id to be passed with the request
-and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
-request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
-prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
-section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint
-GetAccessPoint     ListAccessPoints
+action require an additional parameter of x-amz-outpost-id to be passed with the request.
+In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to DeleteAccessPoint:
+CreateAccessPoint     GetAccessPoint     ListAccessPoints
 
 # Arguments
 - `name`: The name of the access point you want to delete. For using this parameter with
@@ -478,11 +476,11 @@ end
 
 Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts
 REST API requests for this action require an additional parameter of x-amz-outpost-id to be
-passed with the request and an S3 on Outposts endpoint hostname prefix instead of
-s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3
-on Outposts endpoint hostname prefix and the x-amz-outpost-id derived using the access
-point ARN, see the Examples section. The following actions are related to
-DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+passed with the request. In addition, you must use an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived by using the access point ARN, see the Examples section. The following actions are
+related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
 
 # Arguments
 - `name`: The name of the access point whose policy you want to delete. For using this
@@ -592,11 +590,12 @@ DeleteBucket in the Amazon S3 API Reference.   Deletes the Amazon S3 on Outposts
 All objects (including all object versions and delete markers) in the bucket must be
 deleted before the bucket itself can be deleted. For more information, see Using Amazon S3
 on Outposts in Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this
-action require an additional parameter of x-amz-outpost-id to be passed with the request
-and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
-request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
-prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
-section.  Related Resources     CreateBucket     GetBucket     DeleteObject
+action require an additional parameter of x-amz-outpost-id to be passed with the request.
+In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section.  Related Resources     CreateBucket     GetBucket
+DeleteObject
 
 # Arguments
 - `name`: Specifies the bucket being deleted. For using this parameter with Amazon S3 on
@@ -662,12 +661,12 @@ Guide. To use this action, you must have permission to perform the
 s3-outposts:DeleteLifecycleConfiguration action. By default, the bucket owner has this
 permission and the Outposts bucket owner can grant this permission to others. All Amazon S3
 on Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. For more information about
-object expiration, see Elements to Describe Lifecycle Actions. Related actions include:
-PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. For more
+information about object expiration, see Elements to Describe Lifecycle Actions. Related
+actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -737,11 +736,12 @@ Services account that owns a bucket can always use this action, even if the poli
 explicitly denies the root user the ability to perform this action.  For more information
 about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -802,11 +802,12 @@ Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon
 Guide. To use this action, you must have permission to perform the PutBucketTagging action.
 By default, the bucket owner has this permission and can grant this permission to others.
 All Amazon S3 on Outposts REST API requests for this action require an additional parameter
-of x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
+of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to DeleteBucketTagging:    GetBucketTagging
+PutBucketTagging
 
 # Arguments
 - `name`: The bucket ARN that has the tag set to be removed. For using this parameter with
@@ -1238,12 +1239,12 @@ end
 
 Returns configuration information about the specified access point.  All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
-
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint
+    ListAccessPoints
 
 # Arguments
 - `name`: The name of the access point whose configuration information you want to
@@ -1615,11 +1616,11 @@ bucket owner account with the right permissions can perform actions on an Outpos
 belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The
 following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section.    PutObject     CreateBucket
-    DeleteBucket
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section.
+PutObject     CreateBucket     DeleteBucket
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -1684,15 +1685,15 @@ action. The Outposts bucket owner has this permission, by default. The bucket ow
 grant this permission to others. For more information about permissions, see Permissions
 Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3
 Resources. All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section.
-GetBucketLifecycleConfiguration has the following special error:   Error code:
-NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.
-HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions
-are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration
-DeleteBucketLifecycleConfiguration
+additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
+must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
+of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
+Examples section.  GetBucketLifecycleConfiguration has the following special error:   Error
+code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not
+exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following
+actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration
+   DeleteBucketLifecycleConfiguration
 
 # Arguments
 - `name`: The Amazon Resource Name (ARN) of the bucket. For using this parameter with
@@ -1761,12 +1762,12 @@ precaution, the root user of the Amazon Web Services account that owns a bucket 
 use this action, even if the policy explicitly denies the root user the ability to perform
 this action.  For more information about bucket policies, see Using Bucket Policies and
 User Policies. All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy
-DeleteBucketPolicy
+additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
+must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
+of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
+Examples section. The following actions are related to GetBucketPolicy:    GetObject
+PutBucketPolicy     DeleteBucketPolicy
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -1829,11 +1830,12 @@ action. By default, the bucket owner has this permission and can grant this perm
 others.  GetBucketTagging has the following special error:   Error code: NoSuchTagSetError
   Description: There is no tag set associated with the bucket.     All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to GetBucketTagging:    PutBucketTagging     DeleteBucketTagging
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to GetBucketTagging:    PutBucketTagging
+DeleteBucketTagging
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -1870,6 +1872,67 @@ function get_bucket_tagging(
     return s3_control(
         "GET",
         "/v20180820/bucket/$(name)/tagging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_bucket_versioning(name, x-amz-account-id)
+    get_bucket_versioning(name, x-amz-account-id, params::Dict{String,<:Any})
+
+ This operation returns the versioning state only for S3 on Outposts buckets. To return the
+versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference.
+ Returns the versioning state for an S3 on Outposts bucket. With versioning, you can save
+multiple distinct copies of your data and recover from unintended user actions and
+application failures. If you've never set versioning on your bucket, it has no versioning
+state. In that case, the GetBucketVersioning request does not return a versioning state
+value. For more information about versioning, see Versioning in the Amazon S3 User Guide.
+All Amazon S3 on Outposts REST API requests for this action require an additional parameter
+of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following operations are related to GetBucketVersioning for S3 on Outposts.
+PutBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+
+
+# Arguments
+- `name`: The S3 on Outposts bucket to return the versioning state for.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 on Outposts bucket.
+
+"""
+function get_bucket_versioning(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/bucket/$(name)/versioning",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_bucket_versioning(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/bucket/$(name)/versioning",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2262,12 +2325,12 @@ retrieve up to 1000 access points per call. If the specified bucket has more tha
 access points (or the number specified in maxResults, whichever is less), the response will
 include a continuation token that you can use to list the additional access points.  All
 Amazon S3 on Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
-
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to ListAccessPoints:    CreateAccessPoint
+DeleteAccessPoint     GetAccessPoint
 
 # Arguments
 - `x-amz-account-id`: The Amazon Web Services account ID for owner of the bucket whose
@@ -2332,12 +2395,12 @@ end
     list_access_points_for_object_lambda(x-amz-account-id)
     list_access_points_for_object_lambda(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns a list of the access points associated with the Object Lambda Access Point. You can
-retrieve up to 1000 access points per call. If there are more than 1,000 access points (or
-the number specified in maxResults, whichever is less), the response will include a
-continuation token that you can use to list the additional access points. The following
-actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda
-    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
+Returns some or all (up to 1,000) access points associated with the Object Lambda Access
+Point per call. If there are more access points than what can be returned in one call, the
+response will include a continuation token that you can use to list the additional access
+points. The following actions are related to ListAccessPointsForObjectLambda:
+CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda
+GetAccessPointForObjectLambda
 
 # Arguments
 - `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
@@ -2346,9 +2409,9 @@ actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForO
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of access points that you want to include in the list.
-  If there are more than this number of access points, then the response will include a
-  continuation token in the NextToken field that you can use to retrieve the next page of
-  access points.
+  The response may contain fewer access points but will never contain more. If there are more
+  than this number of access points, then the response will include a continuation token in
+  the NextToken field that you can use to retrieve the next page of access points.
 - `"nextToken"`: If the list has more access points than can be returned in one call to
   this API, this field contains a continuation token that you can provide in subsequent calls
   to this API to retrieve additional access points.
@@ -2520,8 +2583,8 @@ Examples section.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`:
 - `"nextToken"`:
-- `"x-amz-outpost-id"`: The ID of the Outposts.  This is required by Amazon S3 on Outposts
-  buckets.
+- `"x-amz-outpost-id"`: The ID of the Outposts resource.  This ID is required by Amazon S3
+  on Outposts buckets.
 """
 function list_regional_buckets(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2671,12 +2734,12 @@ end
 Associates an access policy with the specified access point. Each access point can have
 only one policy, so a request made to this API replaces any existing policy associated with
 the specified access point.  All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request and an S3
-on Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy
-DeleteAccessPointPolicy
+require an additional parameter of x-amz-outpost-id to be passed with the request. In
+addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to PutAccessPointPolicy:
+GetAccessPointPolicy     DeleteAccessPointPolicy
 
 # Arguments
 - `policy`: The policy that you want to apply to the specified access point. For more
@@ -2800,12 +2863,13 @@ S3 API Reference.   Creates a new lifecycle configuration for the S3 on Outposts
 replaces an existing lifecycle configuration. Outposts buckets only support lifecycle
 configurations that delete/expire objects after a certain period of time and abort
 incomplete multipart uploads.  All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request and an S3
-on Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to PutBucketLifecycleConfiguration:
-GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
+require an additional parameter of x-amz-outpost-id to be passed with the request. In
+addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to
+PutBucketLifecycleConfiguration:    GetBucketLifecycleConfiguration
+DeleteBucketLifecycleConfiguration
 
 # Arguments
 - `name`: The name of the bucket for which to set the configuration.
@@ -2870,11 +2934,12 @@ Services account that owns a bucket can always use this action, even if the poli
 explicitly denies the root user the ability to perform this action.   For more information
 about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
+
 
 # Arguments
 - `policy`: The bucket policy as a JSON document.
@@ -2962,12 +3027,12 @@ match the schema.     Error code: OperationAbortedError     Description: A confl
 conditional action is currently in progress against this resource. Try again.     Error
 code: InternalError    Description: The service was unable to apply the provided tag to the
 bucket.     All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to PutBucketTagging:    GetBucketTagging
-DeleteBucketTagging
+additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
+must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
+of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
+Examples section. The following actions are related to PutBucketTagging:
+GetBucketTagging     DeleteBucketTagging
 
 # Arguments
 - `tagging`:
@@ -3023,6 +3088,89 @@ function put_bucket_tagging(
 end
 
 """
+    put_bucket_versioning(versioning_configuration, name, x-amz-account-id)
+    put_bucket_versioning(versioning_configuration, name, x-amz-account-id, params::Dict{String,<:Any})
+
+ This operation sets the versioning state only for S3 on Outposts buckets. To set the
+versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference.
+ Sets the versioning state for an S3 on Outposts bucket. With versioning, you can save
+multiple distinct copies of your data and recover from unintended user actions and
+application failures. You can set the versioning state to one of the following:    Enabled
+- Enables versioning for the objects in the bucket. All objects added to the bucket receive
+a unique version ID.    Suspended - Suspends versioning for the objects in the bucket. All
+objects added to the bucket receive the version ID null.   If you've never set versioning
+on your bucket, it has no versioning state. In that case, a  GetBucketVersioning request
+does not return a versioning state value. When you enable S3 Versioning, for each object in
+your bucket, you have a current version and zero or more noncurrent versions. You can
+configure your bucket S3 Lifecycle rules to expire noncurrent versions after a specified
+time period. For more information, see  Creating and managing a lifecycle configuration for
+your S3 on Outposts bucket in the Amazon S3 User Guide. If you have an object expiration
+lifecycle policy in your non-versioned bucket and you want to maintain the same permanent
+delete behavior when you enable versioning, you must add a noncurrent expiration policy.
+The noncurrent expiration lifecycle policy will manage the deletes of the noncurrent object
+versions in the version-enabled bucket. For more information, see Versioning in the Amazon
+S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an
+additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
+must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
+of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
+Examples section. The following operations are related to PutBucketVersioning for S3 on
+Outposts.    GetBucketVersioning     PutBucketLifecycleConfiguration
+GetBucketLifecycleConfiguration
+
+# Arguments
+- `versioning_configuration`: The root-level tag for the VersioningConfiguration parameters.
+- `name`: The S3 on Outposts bucket to set the versioning state for.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 on Outposts bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
+  and the value that is displayed on your authentication device.
+"""
+function put_bucket_versioning(
+    VersioningConfiguration,
+    name,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/bucket/$(name)/versioning",
+        Dict{String,Any}(
+            "VersioningConfiguration" => VersioningConfiguration,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_bucket_versioning(
+    VersioningConfiguration,
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/bucket/$(name)/versioning",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VersioningConfiguration" => VersioningConfiguration,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_job_tagging(tags, id, x-amz-account-id)
     put_job_tagging(tags, id, x-amz-account-id, params::Dict{String,<:Any})
 
@@ -3044,7 +3192,7 @@ length, and tag values can be up to 256 Unicode characters in length.   The key 
 are case sensitive.   For tagging-related restrictions related to characters and encodings,
 see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       To
 use this action, you must have permission to perform the s3:PutJobTagging action. Related
-actions include:    CreatJob     GetJobTagging     DeleteJobTagging
+actions include:    CreateJob     GetJobTagging     DeleteJobTagging
 
 # Arguments
 - `tags`: The set of tags to associate with the S3 Batch Operations job.
@@ -3163,7 +3311,8 @@ end
     put_public_access_block(public_access_block_configuration, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
-For more information, see  Using Amazon S3 block public access. Related actions include:
+For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more
+information, see  Using Amazon S3 block public access. Related actions include:
 GetPublicAccessBlock     DeletePublicAccessBlock
 
 # Arguments

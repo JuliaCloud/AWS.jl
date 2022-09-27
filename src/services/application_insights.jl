@@ -12,11 +12,16 @@ Adds an application that is created from a resource group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
-- `"AutoCreate"`:
+- `"AutoConfigEnabled"`:  Indicates whether Application Insights automatically configures
+  unmonitored resources in the resource group.
+- `"AutoCreate"`:  Configures all of the resources in the resource group by applying the
+  recommended configurations.
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
+- `"GroupingType"`: Application Insights can create applications based on a resource group
+  or on an account. To create an account-based application using all of the resources in the
+  account, set this parameter to ACCOUNT_BASED.
 - `"OpsCenterEnabled"`:  When set to true, creates opsItems for any problems detected on an
   application.
 - `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
@@ -442,8 +447,7 @@ Describes the recommended monitoring configuration of the component.
 # Arguments
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
-- `tier`: The tier of the application component. Supported tiers include DOT_NET_CORE,
-  DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
+- `tier`: The tier of the application component.
 
 """
 function describe_component_configuration_recommendation(
@@ -849,7 +853,7 @@ Lists the problems with your application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComponentName"`:
+- `"ComponentName"`:  The name of the component.
 - `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
   problems within the past seven days are returned.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
@@ -1015,7 +1019,7 @@ Updates the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
+- `"AutoConfigEnabled"`:  Turns auto-configuration on or off.
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
@@ -1118,15 +1122,15 @@ DescribeComponentConfigurationRecommendation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
+- `"AutoConfigEnabled"`:  Automatically configures the component by applying the
+  recommended configurations.
 - `"ComponentConfiguration"`: The configuration settings of the component. The value is the
   escaped JSON of the configuration. For more information about the JSON format, see Working
   with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see
   the recommended configuration for a component. For the complete format of the component
   configuration file, see Component Configuration.
 - `"Monitor"`: Indicates whether the application component is monitored.
-- `"Tier"`: The tier of the application component. Supported tiers include DOT_NET_WORKER,
-  DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.
+- `"Tier"`: The tier of the application component.
 """
 function update_component_configuration(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()

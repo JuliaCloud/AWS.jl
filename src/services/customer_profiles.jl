@@ -8,13 +8,18 @@ using AWS.UUIDs
     add_profile_key(domain_name, key_name, profile_id, values)
     add_profile_key(domain_name, key_name, profile_id, values, params::Dict{String,<:Any})
 
-Associates a new key value with a specific profile, such as a Contact Trace Record (CTR)
-ContactId. A profile object can have a single unique key and any number of additional keys
-that can be used to identify the profile that it belongs to.
+Associates a new key value with a specific profile, such as a Contact Record ContactId. A
+profile object can have a single unique key and any number of additional keys that can be
+used to identify the profile that it belongs to.
 
 # Arguments
 - `domain_name`: The unique name of the domain.
-- `key_name`: A searchable identifier of a customer profile.
+- `key_name`: A searchable identifier of a customer profile. The predefined keys you can
+  use include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email,
+  _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId,
+  _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId,
+  _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId,
+  _shopifyOrderId.
 - `profile_id`: The unique identifier of a customer profile.
 - `values`: A list of key values.
 
@@ -120,6 +125,76 @@ function create_domain(
             mergewith(
                 _merge,
                 Dict{String,Any}("DefaultExpirationDays" => DefaultExpirationDays),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_integration_workflow(domain_name, integration_config, object_type_name, role_arn, workflow_type)
+    create_integration_workflow(domain_name, integration_config, object_type_name, role_arn, workflow_type, params::Dict{String,<:Any})
+
+ Creates an integration workflow. An integration workflow is an async process which ingests
+historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow
+sources are Salesforce, ServiceNow, and Marketo.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `integration_config`: Configuration data for integration workflow.
+- `object_type_name`: The name of the profile object type.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes
+  this role to create resources on your behalf as part of workflow execution.
+- `workflow_type`: The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_integration_workflow(
+    DomainName,
+    IntegrationConfig,
+    ObjectTypeName,
+    RoleArn,
+    WorkflowType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows/integrations",
+        Dict{String,Any}(
+            "IntegrationConfig" => IntegrationConfig,
+            "ObjectTypeName" => ObjectTypeName,
+            "RoleArn" => RoleArn,
+            "WorkflowType" => WorkflowType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_integration_workflow(
+    DomainName,
+    IntegrationConfig,
+    ObjectTypeName,
+    RoleArn,
+    WorkflowType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows/integrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IntegrationConfig" => IntegrationConfig,
+                    "ObjectTypeName" => ObjectTypeName,
+                    "RoleArn" => RoleArn,
+                    "WorkflowType" => WorkflowType,
+                ),
                 params,
             ),
         );
@@ -452,6 +527,43 @@ function delete_profile_object_type(
 end
 
 """
+    delete_workflow(domain_name, workflow_id)
+    delete_workflow(domain_name, workflow_id, params::Dict{String,<:Any})
+
+Deletes the specified workflow and all its corresponding resources. This is an async
+process.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `workflow_id`: Unique identifier for the workflow.
+
+"""
+function delete_workflow(
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workflow(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_auto_merging_preview(conflict_resolution, consolidation, domain_name)
     get_auto_merging_preview(conflict_resolution, consolidation, domain_name, params::Dict{String,<:Any})
 
@@ -472,6 +584,10 @@ of matches. This increases the chances of erroneous merges.
 - `consolidation`: A list of matching attributes that represent matching criteria.
 - `domain_name`: The unique name of the domain.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MinAllowedConfidenceScoreForMerging"`: Minimum confidence score required for profiles
+  within a matching group to be merged during the auto-merge process.
 """
 function get_auto_merging_preview(
     ConflictResolution,
@@ -634,8 +750,8 @@ GetMatches API to return and review the results. Or, if you have configured Expo
 in the MatchingRequest, you can download the results from S3.  Amazon Connect uses the
 following profile attributes to identify matches:   PhoneNumber   HomePhoneNumber
 BusinessPhoneNumber   MobilePhoneNumber   EmailAddress   PersonalEmailAddress
-BusinessEmailAddress   FullName   BusinessName   For example, two or more profiles—with
-spelling mistakes such as John Doe and Jhn Doe, or different casing email addresses such as
+BusinessEmailAddress   FullName   For example, two or more profiles—with spelling
+mistakes such as John Doe and Jhn Doe, or different casing email addresses such as
 JOHN_DOE@ANYCOMPANY.COM and johndoe@anycompany.com, or different phone number formats such
 as 555-010-0000 and +1-555-010-0000—can be detected as belonging to the same customer
 John Doe and merged into a unified profile.
@@ -745,6 +861,83 @@ function get_profile_object_type_template(
 end
 
 """
+    get_workflow(domain_name, workflow_id)
+    get_workflow(domain_name, workflow_id, params::Dict{String,<:Any})
+
+Get details of specified workflow.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `workflow_id`: Unique identifier for the workflow.
+
+"""
+function get_workflow(
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_workflow(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_workflow_steps(domain_name, workflow_id)
+    get_workflow_steps(domain_name, workflow_id, params::Dict{String,<:Any})
+
+Get granular list of steps in workflow.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `workflow_id`: Unique identifier for the workflow.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to return per page.
+- `"next-token"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function get_workflow_steps(
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)/steps";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_workflow_steps(
+    DomainName,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/workflows/$(WorkflowId)/steps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_account_integrations(uri)
     list_account_integrations(uri, params::Dict{String,<:Any})
 
@@ -755,6 +948,8 @@ Lists all of the integrations associated to a specific URI in the AWS account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"include-hidden"`: Boolean to indicate if hidden integration should be returned.
+  Defaults to False.
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListAccountIntegrations API call.
 """
@@ -854,6 +1049,8 @@ Lists all of the integrations in your domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"include-hidden"`: Boolean to indicate if hidden integration should be returned.
+  Defaults to False.
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListIntegrations API call.
 """
@@ -1033,6 +1230,47 @@ function list_tags_for_resource(
 end
 
 """
+    list_workflows(domain_name)
+    list_workflows(domain_name, params::Dict{String,<:Any})
+
+Query to list all workflows.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"QueryEndDate"`: Retrieve workflows ended after timestamp.
+- `"QueryStartDate"`: Retrieve workflows started after timestamp.
+- `"Status"`: Status of workflow execution.
+- `"WorkflowType"`: The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+- `"max-results"`: The maximum number of results to return per page.
+- `"next-token"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_workflows(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_workflows(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/workflows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     merge_profiles(domain_name, main_profile_id, profile_ids_to_be_merged)
     merge_profiles(domain_name, main_profile_id, profile_ids_to_be_merged, params::Dict{String,<:Any})
 
@@ -1107,7 +1345,8 @@ end
     put_integration(domain_name, params::Dict{String,<:Any})
 
 Adds an integration between the service and a third-party service, which includes Amazon
-AppFlow and Amazon Connect. An integration can belong to only one domain.
+AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove
+tags on an existing Integration, see  TagResource / UntagResource.
 
 # Arguments
 - `domain_name`: The unique name of the domain.
@@ -1152,9 +1391,9 @@ end
     put_profile_object(domain_name, object, object_type_name, params::Dict{String,<:Any})
 
 Adds additional objects to customer profiles of a given ObjectType. When adding a specific
-profile object, like a Contact Trace Record (CTR), an inferred profile can get created if
-it is not mapped to an existing profile. The resulting profile will only have a phone
-number populated in the standard ProfileObject. Any additional CTRs with the same phone
+profile object, like a Contact Record, an inferred profile can get created if it is not
+mapped to an existing profile. The resulting profile will only have a phone number
+populated in the standard ProfileObject. Any additional Contact Records with the same phone
 number will be mapped to the same inferred profile. When a ProfileObject is created and if
 a ProfileObjectType already exists for the ProfileObject, it will provide data to a
 standard profile depending on the ProfileObjectType definition. PutProfileObject needs an
@@ -1203,7 +1442,8 @@ end
     put_profile_object_type(description, domain_name, object_type_name)
     put_profile_object_type(description, domain_name, object_type_name, params::Dict{String,<:Any})
 
-Defines a ProfileObjectType.
+Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see
+TagResource/UntagResource.
 
 # Arguments
 - `description`: Description of the profile object type.
@@ -1225,7 +1465,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceLastUpdatedTimestampFormat"`: The format of your sourceLastUpdatedTimestamp that
   was previously set up.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
-- `"TemplateId"`: A unique identifier for the object template.
+- `"TemplateId"`: A unique identifier for the object template. For some attributes in the
+  request, the service will use the default value from the object template when TemplateId is
+  present. If these attributes are present in the request, the service may return a
+  BadRequestException. These attributes include: AllowProfileCreation,
+  SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is
+  set to true when TemplateId is set, the service may return a BadRequestException.
 """
 function put_profile_object_type(
     Description,
@@ -1402,7 +1647,8 @@ Updates the properties of a domain, including creating or selecting a dead lette
 an encryption key. After a domain is created, the name can’t be changed. Use this API or
 CreateDomain to enable identity resolution: set Matching to true.  To prevent cross-service
 impersonation when you call this API, see Cross-service confused deputy prevention for
-sample policies that you should apply.
+sample policies that you should apply.  To add or remove tags on an existing Domain, see
+TagResource/UntagResource.
 
 # Arguments
 - `domain_name`: The unique name of the domain.

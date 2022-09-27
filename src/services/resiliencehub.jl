@@ -12,8 +12,8 @@ Adds the resource mapping for the draft application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `resource_mappings`:  Mappings used to map logical resources from the template to
   physical resources. You can use the mapping type CFN_STACK if the application template uses
   a logical stack name. Or you can map individual resources by using the mapping type
@@ -74,13 +74,14 @@ time objective (RTO) and recovery point objective (RPO).&lt;/p&gt;
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assessmentSchedule"`:  Assessment execution schedule with 'Daily' or 'Disabled' values.
 - `"clientToken"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"description"`: The optional description for an app.
 - `"policyArn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
-  this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For
+  more information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 - `"tags"`: The tags assigned to the resource. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key/value pair.
 """
@@ -119,8 +120,8 @@ Creates a new recommendation template.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 - `name`: The name for the recommendation template.
 
 # Optional Parameters
@@ -256,8 +257,8 @@ undone.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -302,8 +303,8 @@ can't be undone.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -407,8 +408,8 @@ Deletes a resiliency policy. This is a destructive action that can't be undone.
 
 # Arguments
 - `policy_arn`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
-  this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For
+  more information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -457,8 +458,8 @@ Describes an AWS Resilience Hub application.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 function describe_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -490,8 +491,8 @@ Describes an assessment for an AWS Resilience Hub application.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 function describe_app_assessment(
@@ -530,8 +531,8 @@ version. If resolutionId is not specified, the current resolution status is retu
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 # Optional Parameters
@@ -578,8 +579,8 @@ Describes details about an AWS Resilience Hub
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 """
@@ -623,8 +624,8 @@ Describes the status of importing resources to an application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 function describe_draft_app_version_resources_import_status(
@@ -660,8 +661,8 @@ policy object includes creation time, data location constraints, the Amazon Reso
 
 # Arguments
 - `policy_arn`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
-  this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For
+  more information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 function describe_resiliency_policy(
@@ -692,46 +693,41 @@ function describe_resiliency_policy(
 end
 
 """
-    import_resources_to_draft_app_version(app_arn, source_arns)
-    import_resources_to_draft_app_version(app_arn, source_arns, params::Dict{String,<:Any})
+    import_resources_to_draft_app_version(app_arn)
+    import_resources_to_draft_app_version(app_arn, params::Dict{String,<:Any})
 
 Imports resources from sources such as a CloudFormation stack, resource-groups, or
 application registry app to a draft application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
-- `source_arns`: The Amazon Resource Names (ARNs) for the resources that you want to import.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sourceArns"`: The Amazon Resource Names (ARNs) for the resources that you want to
+  import.
+- `"terraformSources"`:  A list of terraform file s3 URLs you need to import.
 """
 function import_resources_to_draft_app_version(
-    appArn, sourceArns; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resiliencehub(
         "POST",
         "/import-resources-to-draft-app-version",
-        Dict{String,Any}("appArn" => appArn, "sourceArns" => sourceArns);
+        Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_resources_to_draft_app_version(
-    appArn,
-    sourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resiliencehub(
         "POST",
         "/import-resources-to-draft-app-version",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("appArn" => appArn, "sourceArns" => sourceArns),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -745,8 +741,8 @@ Lists the alarm recommendations for a AWS Resilience Hub application.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -792,8 +788,8 @@ to refine the results for the response object.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appArn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
-  is: arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see
-  Amazon Resource Names (ARNs) in the AWS General Reference.
+  is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+  see  Amazon Resource Names (ARNs) in the AWS General Reference.
 - `"assessmentName"`: The name for the assessment.
 - `"assessmentStatus"`: The current status of the assessment for the resiliency policy.
 - `"complianceStatus"`: The current status of compliance for the resiliency policy.
@@ -834,8 +830,8 @@ Lists the compliances for an AWS Resilience Hub component.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -879,8 +875,8 @@ Lists the recommendations for an AWS Resilience Hub component.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -926,8 +922,8 @@ registry app.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 # Optional Parameters
@@ -977,8 +973,8 @@ Lists all the resources in an application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 # Optional Parameters
@@ -1029,8 +1025,8 @@ Lists the different versions for the Resilience Hub applications.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1069,8 +1065,8 @@ Lists your Resilience Hub applications.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appArn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
-  is: arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see
-  Amazon Resource Names (ARNs) in the AWS General Reference.
+  is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+  see  Amazon Resource Names (ARNs) in the AWS General Reference.
 - `"maxResults"`: The maximum number of results to include in the response. If more results
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -1098,8 +1094,8 @@ Lists the recommendation templates for the Resilience Hub applications.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1184,8 +1180,8 @@ applications.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1299,8 +1295,8 @@ Lists the test recommendations for the Resilience Hub application.
 
 # Arguments
 - `assessment_arn`: The Amazon Resource Name (ARN) of the assessment. The format for this
-  ARN is: arn:partition:dcps:region:account:app-assessment/app-id. For more information about
-  ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more
+  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1346,8 +1342,8 @@ supported by Resilience Hub.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 # Optional Parameters
@@ -1398,8 +1394,8 @@ Publishes a new version of a specific Resilience Hub application.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 function publish_app_version(appArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1431,8 +1427,8 @@ Adds or updates the app template for a draft version of a Resilience Hub app.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_template_body`: A JSON string that contains the body of the app template.
 
 """
@@ -1476,8 +1472,8 @@ Removes resource mappings from a draft application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1488,6 +1484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceGroupNames"`: The names of the resource groups to remove from the resource
   mappings.
 - `"resourceNames"`: The names of the resources to remove from the resource mappings.
+- `"terraformSourceNames"`:  &lt;/p&gt;
 """
 function remove_draft_app_version_resource_mappings(
     appArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1520,8 +1517,8 @@ Resolves the resources for an application version.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 
 """
@@ -1565,8 +1562,8 @@ Creates a new application assessment for an application.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 - `app_version`: The version of the application.
 - `assessment_name`: The name for the assessment.
 
@@ -1701,16 +1698,17 @@ Updates an application.
 
 # Arguments
 - `app_arn`: The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-  arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see  Amazon
-  Resource Names (ARNs) in the AWS General Reference.
+  arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see
+   Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assessmentSchedule"`:  Assessment execution schedule with 'Daily' or 'Disabled' values.
 - `"clearResiliencyPolicyArn"`: Specifies if the resiliency policy ARN should be cleared.
 - `"description"`: The optional description for an app.
 - `"policyArn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
-  this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For
+  more information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 """
 function update_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
     return resiliencehub(
@@ -1741,8 +1739,8 @@ Updates a resiliency policy.
 
 # Arguments
 - `policy_arn`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
-  this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
+  this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For
+  more information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

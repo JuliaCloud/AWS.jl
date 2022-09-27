@@ -47,6 +47,45 @@ function associate_admin_account(
 end
 
 """
+    associate_third_party_firewall(third_party_firewall)
+    associate_third_party_firewall(third_party_firewall, params::Dict{String,<:Any})
+
+Sets the Firewall Manager policy administrator as a tenant administrator of a third-party
+firewall service. A tenant is an instance of the third-party firewall service that's
+associated with your Amazon Web Services customer account.
+
+# Arguments
+- `third_party_firewall`: The name of the third-party firewall vendor.
+
+"""
+function associate_third_party_firewall(
+    ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "AssociateThirdPartyFirewall",
+        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_third_party_firewall(
+    ThirdPartyFirewall,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "AssociateThirdPartyFirewall",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_apps_list(list_id)
     delete_apps_list(list_id, params::Dict{String,<:Any})
 
@@ -199,6 +238,45 @@ function disassociate_admin_account(
     return fms(
         "DisassociateAdminAccount",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_third_party_firewall(third_party_firewall)
+    disassociate_third_party_firewall(third_party_firewall, params::Dict{String,<:Any})
+
+Disassociates a Firewall Manager policy administrator from a third-party firewall tenant.
+When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all
+of the firewalls that are associated with the account.
+
+# Arguments
+- `third_party_firewall`: The name of the third-party firewall vendor.
+
+"""
+function disassociate_third_party_firewall(
+    ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "DisassociateThirdPartyFirewall",
+        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_third_party_firewall(
+    ThirdPartyFirewall,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "DisassociateThirdPartyFirewall",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -447,6 +525,44 @@ function get_protocols_list(
     return fms(
         "GetProtocolsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_third_party_firewall_association_status(third_party_firewall)
+    get_third_party_firewall_association_status(third_party_firewall, params::Dict{String,<:Any})
+
+The onboarding status of a Firewall Manager admin account to third-party firewall vendor
+tenant.
+
+# Arguments
+- `third_party_firewall`: The name of the third-party firewall vendor.
+
+"""
+function get_third_party_firewall_association_status(
+    ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "GetThirdPartyFirewallAssociationStatus",
+        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_third_party_firewall_association_status(
+    ThirdPartyFirewall,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "GetThirdPartyFirewallAssociationStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -749,6 +865,64 @@ function list_tags_for_resource(
 end
 
 """
+    list_third_party_firewall_firewall_policies(max_results, third_party_firewall)
+    list_third_party_firewall_firewall_policies(max_results, third_party_firewall, params::Dict{String,<:Any})
+
+Retrieves a list of all of the third-party firewall policies that are associated with the
+third-party firewall administrator's account.
+
+# Arguments
+- `max_results`: The maximum number of third-party firewall policies that you want Firewall
+  Manager to return. If the specified third-party firewall vendor is associated with more
+  than MaxResults firewall policies, the response includes a NextToken element. NextToken
+  contains an encrypted token that identifies the first third-party firewall policies that
+  Firewall Manager will return if you submit another request.
+- `third_party_firewall`: The name of the third-party firewall vendor.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: If the previous response included a NextToken element, the specified
+  third-party firewall vendor is associated with more third-party firewall policies. To get
+  more third-party firewall policies, submit another
+  ListThirdPartyFirewallFirewallPoliciesRequest request.  For the value of NextToken, specify
+  the value of NextToken from the previous response. If the previous response didn't include
+  a NextToken element, there are no more third-party firewall policies to get.
+"""
+function list_third_party_firewall_firewall_policies(
+    MaxResults, ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListThirdPartyFirewallFirewallPolicies",
+        Dict{String,Any}(
+            "MaxResults" => MaxResults, "ThirdPartyFirewall" => ThirdPartyFirewall
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_third_party_firewall_firewall_policies(
+    MaxResults,
+    ThirdPartyFirewall,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "ListThirdPartyFirewallFirewallPolicies",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxResults" => MaxResults, "ThirdPartyFirewall" => ThirdPartyFirewall
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_apps_list(apps_list)
     put_apps_list(apps_list, params::Dict{String,<:Any})
 
@@ -844,7 +1018,7 @@ policy (type WAF), which defines a rule group.    A Shield Advanced policy, whic
 Shield Advanced protection to specified accounts and resources.   A security group policy,
 which manages VPC security groups across your Amazon Web Services organization.    An
 Network Firewall policy, which provides firewall rules to filter network traffic in
-specified Amazon VPCs.   A DNS Firewall policy, which provides Route 53 Resolver DNS
+specified Amazon VPCs.   A DNS Firewall policy, which provides Route 53 Resolver DNS
 Firewall rules to filter DNS queries for specified VPCs.   Each policy is specific to one
 of the types. If you want to enforce more than one policy type across accounts, create
 multiple policies. You can create multiple policies for each type. You must be subscribed

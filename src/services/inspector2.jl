@@ -156,6 +156,7 @@ Creates a filter resource using specified filter criteria.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the filter.
+- `"reason"`: The reason for creating the filter.
 - `"tags"`: A list of tags for the filter.
 """
 function create_filter(
@@ -498,6 +499,30 @@ function enable_delegated_admin_account(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_configuration()
+    get_configuration(params::Dict{String,<:Any})
+
+Retrieves setting configurations for Inspector scans.
+
+"""
+function get_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector2(
+        "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/configuration/get",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1024,6 +1049,48 @@ function untag_resource(
 end
 
 """
+    update_configuration(ecr_configuration)
+    update_configuration(ecr_configuration, params::Dict{String,<:Any})
+
+Updates setting configurations for your Amazon Inspector account. When you use this API as
+an Amazon Inspector delegated administrator this updates the setting for all accounts you
+manage. Member accounts in an organization cannot update this setting.
+
+# Arguments
+- `ecr_configuration`: Specifies how the ECR automated re-scan will be updated for your
+  environment.
+
+"""
+function update_configuration(
+    ecrConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/configuration/update",
+        Dict{String,Any}("ecrConfiguration" => ecrConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_configuration(
+    ecrConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/configuration/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ecrConfiguration" => ecrConfiguration), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_filter(filter_arn)
     update_filter(filter_arn, params::Dict{String,<:Any})
 
@@ -1039,6 +1106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the filter.
 - `"filterCriteria"`: Defines the criteria to be update in the filter.
 - `"name"`: The name of the filter.
+- `"reason"`: The reason the filter was updated.
 """
 function update_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config())
     return inspector2(
