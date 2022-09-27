@@ -59,15 +59,16 @@ workspace. Instead, use UpdateWorkspace.
 - `authentication_providers`: Specifies whether this workspace uses SAML 2.0, Amazon Web
   Services Single Sign On, or both to authenticate users for using the Grafana console within
   a workspace. For more information, see User authentication in Amazon Managed Grafana.
-- `permission_type`: If you specify Service Managed, Amazon Managed Grafana automatically
-  creates the IAM roles and provisions the permissions that the workspace needs to use Amazon
-  Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you
-  will manage those roles and permissions yourself. If you are creating this workspace in a
-  member account of an organization that is not a delegated administrator account, and you
-  want the workspace to access data sources in other Amazon Web Services accounts in the
-  organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed
-  Grafana permissions and policies for Amazon Web Services data sources and notification
-  channels
+- `permission_type`: If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed
+  Grafana automatically creates the IAM roles and provisions the permissions that the
+  workspace needs to use Amazon Web Services data sources and notification channels. In CLI
+  mode, the permissionType SERVICE_MANAGED will not create the IAM role for you. If you
+  specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are
+  creating this workspace in a member account of an organization that is not a delegated
+  administrator account, and you want the workspace to access data sources in other Amazon
+  Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more
+  information, see Amazon Managed Grafana permissions and policies for Amazon Web Services
+  data sources and notification channels.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts in an organization.
 - `"stackSetName"`: The name of the CloudFormation stack set to use to generate IAM roles
   to be used for this workspace.
+- `"tags"`: The list of tags associated with the workspace.
 - `"workspaceDataSources"`: Specify the Amazon Web Services data sources that you want to
   be queried in this workspace. Specifying these data sources here enables Amazon Managed
   Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data
@@ -86,7 +88,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the workspace console later. However, you will then have to manually configure
   permissions for it.
 - `"workspaceDescription"`: A description for the workspace. This is used only to help you
-  identify this workspace.
+  identify this workspace. Pattern: ^[p{L}p{Z}p{N}p{P}]{0,2048}
 - `"workspaceName"`: The name for the workspace. It does not have to be unique.
 - `"workspaceNotificationDestinations"`: Specify the Amazon Web Services notification
   channels that you plan to use in this workspace. Specifying these data sources here enables
@@ -97,9 +99,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization.
 - `"workspaceRoleArn"`: The workspace needs an IAM role that grants permissions to the
   Amazon Web Services resources that the workspace will view data from. If you already have a
-  role that you want to use, specify it here. If you omit this field and you specify some
-  Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations,
-  a new IAM role with the necessary permissions is automatically created.
+  role that you want to use, specify it here. The permission type should be set to
+  CUSTOMER_MANAGED.
 """
 function create_workspace(
     accountAccessType,
@@ -148,6 +149,69 @@ function create_workspace(
 end
 
 """
+    create_workspace_api_key(key_name, key_role, seconds_to_live, workspace_id)
+    create_workspace_api_key(key_name, key_role, seconds_to_live, workspace_id, params::Dict{String,<:Any})
+
+Creates an API key for the workspace. This key can be used to authenticate requests sent to
+the workspace's HTTP API. See
+https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available
+APIs and example requests.
+
+# Arguments
+- `key_name`: Specifies the name of the key to create. Key names must be unique to the
+  workspace.
+- `key_role`: Specifies the permission level of the key. Valid Values: VIEWER | EDITOR |
+  ADMIN
+- `seconds_to_live`: Specifies the time in seconds until the key expires. Keys can be valid
+  for up to 30 days.
+- `workspace_id`: The ID of the workspace in which to create an API key.
+
+"""
+function create_workspace_api_key(
+    keyName,
+    keyRole,
+    secondsToLive,
+    workspaceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/apikeys",
+        Dict{String,Any}(
+            "keyName" => keyName, "keyRole" => keyRole, "secondsToLive" => secondsToLive
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workspace_api_key(
+    keyName,
+    keyRole,
+    secondsToLive,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/apikeys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "keyName" => keyName,
+                    "keyRole" => keyRole,
+                    "secondsToLive" => secondsToLive,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workspace(workspace_id)
     delete_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -173,6 +237,42 @@ function delete_workspace(
     return grafana(
         "DELETE",
         "/workspaces/$(workspaceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_workspace_api_key(key_name, workspace_id)
+    delete_workspace_api_key(key_name, workspace_id, params::Dict{String,<:Any})
+
+Deletes an API key for a workspace.
+
+# Arguments
+- `key_name`: The name of the API key to delete.
+- `workspace_id`: The ID of the workspace to delete.
+
+"""
+function delete_workspace_api_key(
+    keyName, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/apikeys/$(keyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workspace_api_key(
+    keyName,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/apikeys/$(keyName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -330,6 +430,42 @@ function list_permissions(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+The ListTagsForResource operation returns the tags that are associated with the Amazon
+Managed Service for Grafana resource specified by the resourceArn. Currently, the only
+resource that can be tagged is a workspace.
+
+# Arguments
+- `resource_arn`: The ARN of the resource the list of tags are associated with.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_workspaces()
     list_workspaces(params::Dict{String,<:Any})
 
@@ -353,6 +489,84 @@ function list_workspaces(
 )
     return grafana(
         "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+The TagResource operation associates tags with an Amazon Managed Grafana resource.
+Currently, the only resource that can be tagged is workspaces.  If you specify a new tag
+key for the resource, this tag is appended to the list of tags associated with the
+resource. If you specify a tag key that is already associated with the resource, the new
+tag value that you specify replaces the previous value for that tag.
+
+# Arguments
+- `resource_arn`: The ARN of the resource the tag is associated with.
+- `tags`: The list of tag keys and values to associate with the resource. You can associate
+  tag keys only, tags (key and values) only or a combination of tag keys and tags.
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return grafana(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+The UntagResource operation removes the association of the tag with the Amazon Managed
+Grafana resource.
+
+# Arguments
+- `resource_arn`: The ARN of the resource the tag association is removed from.
+- `tag_keys`: The key values of the tag to be removed from the resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

@@ -223,6 +223,128 @@ function batch_disassociate_project_assets(
 end
 
 """
+    batch_get_asset_property_aggregates(entries)
+    batch_get_asset_property_aggregates(entries, params::Dict{String,<:Any})
+
+Gets aggregated values (for example, average, minimum, and maximum) for one or more asset
+properties. For more information, see Querying aggregates in the IoT SiteWise User Guide.
+
+# Arguments
+- `entries`: The list of asset property aggregate entries for the batch get request. You
+  can specify up to 16 entries per request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return for each paginated request. A
+  result set is returned in the two cases, whichever occurs first.   The size of the result
+  set is less than 1 MB.   The number of data points in the result set is less than the value
+  of maxResults. The maximum value of maxResults is 4000.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function batch_get_asset_property_aggregates(
+    entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/aggregates",
+        Dict{String,Any}("entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_asset_property_aggregates(
+    entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/aggregates",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_asset_property_value(entries)
+    batch_get_asset_property_value(entries, params::Dict{String,<:Any})
+
+Gets the current value for one or more asset properties. For more information, see Querying
+current values in the IoT SiteWise User Guide.
+
+# Arguments
+- `entries`: The list of asset property value entries for the batch get request. You can
+  specify up to 16 entries per request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function batch_get_asset_property_value(
+    entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/latest",
+        Dict{String,Any}("entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_asset_property_value(
+    entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/latest",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_asset_property_value_history(entries)
+    batch_get_asset_property_value_history(entries, params::Dict{String,<:Any})
+
+Gets the historical values for one or more asset properties. For more information, see
+Querying historical values in the IoT SiteWise User Guide.
+
+# Arguments
+- `entries`: The list of asset property historical value entries for the batch get request.
+  You can specify up to 16 entries per request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return for each paginated request. A
+  result set is returned in the two cases, whichever occurs first.   The size of the result
+  set is less than 1 MB.   The number of data points in the result set is less than the value
+  of maxResults. The maximum value of maxResults is 4000.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function batch_get_asset_property_value_history(
+    entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/history",
+        Dict{String,Any}("entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_asset_property_value_history(
+    entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "POST",
+        "/properties/batch/history",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_put_asset_property_value(entries)
     batch_put_asset_property_value(entries, params::Dict{String,<:Any})
 
@@ -348,10 +470,11 @@ the IoT SiteWise User Guide.
 
 # Arguments
 - `asset_model_id`: The ID of the asset model from which to create the asset.
-- `asset_name`: A unique, friendly name for the asset.
+- `asset_name`: A friendly name for the asset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assetDescription"`: A description for the asset.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -458,6 +581,77 @@ function create_asset_model(
                 _merge,
                 Dict{String,Any}(
                     "assetModelName" => assetModelName, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_bulk_import_job(error_report_location, files, job_configuration, job_name, job_role_arn)
+    create_bulk_import_job(error_report_location, files, job_configuration, job_name, job_role_arn, params::Dict{String,<:Any})
+
+Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see
+Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  You must
+enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job. For
+more information about how to configure storage settings, see PutStorageConfiguration.
+
+# Arguments
+- `error_report_location`: The Amazon S3 destination where errors associated with the job
+  creation request are saved.
+- `files`: The files in the specified Amazon S3 bucket that contain your data.
+- `job_configuration`: Contains the configuration information of a job, such as the file
+  format used to save data in Amazon S3.
+- `job_name`: The unique name that helps identify the job request.
+- `job_role_arn`: The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+
+"""
+function create_bulk_import_job(
+    errorReportLocation,
+    files,
+    jobConfiguration,
+    jobName,
+    jobRoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsitewise(
+        "POST",
+        "/jobs",
+        Dict{String,Any}(
+            "errorReportLocation" => errorReportLocation,
+            "files" => files,
+            "jobConfiguration" => jobConfiguration,
+            "jobName" => jobName,
+            "jobRoleArn" => jobRoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_bulk_import_job(
+    errorReportLocation,
+    files,
+    jobConfiguration,
+    jobName,
+    jobRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsitewise(
+        "POST",
+        "/jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "errorReportLocation" => errorReportLocation,
+                    "files" => files,
+                    "jobConfiguration" => jobConfiguration,
+                    "jobName" => jobName,
+                    "jobRoleArn" => jobRoleArn,
                 ),
                 params,
             ),
@@ -1192,6 +1386,34 @@ function describe_asset_property(
     return iotsitewise(
         "GET",
         "/assets/$(assetId)/properties/$(propertyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_bulk_import_job(job_id)
+    describe_bulk_import_job(job_id, params::Dict{String,<:Any})
+
+Retrieves information about a bulk import job request. For more information, see Describe a
+bulk import job (CLI) in the Amazon Simple Storage Service User Guide.
+
+# Arguments
+- `job_id`: The ID of the job.
+
+"""
+function describe_bulk_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_bulk_import_job(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET",
+        "/jobs/$(jobId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2082,6 +2304,32 @@ function list_associated_assets(
 end
 
 """
+    list_bulk_import_jobs()
+    list_bulk_import_jobs(params::Dict{String,<:Any})
+
+Retrieves a paginated list of bulk import job requests. For more information, see List bulk
+import jobs (CLI) in the IoT SiteWise User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: You can use a filter to select the bulk import jobs that you want to retrieve.
+- `"maxResults"`: The maximum number of results to return for each paginated request.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function list_bulk_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_bulk_import_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_dashboards(project_id)
     list_dashboards(project_id, params::Dict{String,<:Any})
 
@@ -2411,7 +2659,7 @@ Configures storage settings for IoT SiteWise.
 - `storage_type`: The storage tier that you specified for your data. The storageType
   parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise
   saves your data into the hot tier. The hot tier is a service-managed database.
-  MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold
+  MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the hot
   tier. The cold tier is a customer-managed Amazon S3 bucket.
 
 # Optional Parameters
@@ -2619,10 +2867,11 @@ SiteWise User Guide.
 
 # Arguments
 - `asset_id`: The ID of the asset to update.
-- `asset_name`: A unique, friendly name for the asset.
+- `asset_name`: A friendly name for the asset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assetDescription"`: A description for the asset.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -2760,6 +3009,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value updates to a unique MQTT topic. For more information, see Interacting with other
   services in the IoT SiteWise User Guide. If you omit this parameter, the notification state
   is set to DISABLED.
+- `"propertyUnit"`: The unit of measure (such as Newtons or RPM) of the asset property. If
+  you don't specify a value for this parameter, the service uses the value of the
+  assetModelProperty in the asset model.
 """
 function update_asset_property(
     assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config()

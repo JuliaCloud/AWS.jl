@@ -550,6 +550,46 @@ function describe_domain_auto_tunes(
 end
 
 """
+    describe_domain_change_progress(domain_name)
+    describe_domain_change_progress(domain_name, params::Dict{String,<:Any})
+
+Returns information about the current blue/green deployment happening on a domain,
+including a change ID, status, and progress stages.
+
+# Arguments
+- `domain_name`: The domain you want to get the progress information about.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"changeid"`: The specific change ID for which you want to get progress information. This
+  is an optional parameter. If omitted, the service returns information about the most recent
+  configuration change.
+"""
+function describe_domain_change_progress(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/progress";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_domain_change_progress(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/progress",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_domain_config(domain_name)
     describe_domain_config(domain_name, params::Dict{String,<:Any})
 

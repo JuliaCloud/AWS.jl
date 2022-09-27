@@ -363,6 +363,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message (but not the attributes of the message). (Optional) To override the generated
   value, you can specify a value for the MessageDeduplicationId parameter for the Publish
   action.
+- `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
+  You can only add one policy per topic. The policy must be in JSON string format. Length
+  Constraints: Maximum length of 30,720.
 - `"Tags"`: The list of tags to add to a new topic.  To be able to tag a topic on creation,
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
@@ -534,6 +537,44 @@ function delete_topic(
         "DeleteTopic",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TopicArn" => TopicArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_protection_policy(resource_arn)
+    get_data_protection_policy(resource_arn, params::Dict{String,<:Any})
+
+Retrieves the specified inline DataProtectionPolicy document that is stored in the
+specified Amazon SNS topic.
+
+# Arguments
+- `resource_arn`: The ARN of the topic whose DataProtectionPolicy you want to get. For more
+  information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General
+  Reference.
+
+"""
+function get_data_protection_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sns(
+        "GetDataProtectionPolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_protection_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sns(
+        "GetDataProtectionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1091,13 +1132,12 @@ number, or a message to a mobile platform endpoint (when you specify the TargetA
 send a message to a topic, Amazon SNS delivers the message to each endpoint that is
 subscribed to the topic. The format of the message depends on the notification protocol for
 each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS
-immediately deliverers it to subscribers. To use the Publish action for publishing a
-message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must
-specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when
-making a call with the CreatePlatformEndpoint action.  For more information about
-formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile
-Devices.   You can publish messages only to topics and endpoints in the same Amazon Web
-Services Region.
+immediately delivers it to subscribers. To use the Publish action for publishing a message
+to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify
+the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call
+with the CreatePlatformEndpoint action.  For more information about formatting messages,
+see Send Custom Platform-Specific Payloads in Messages to Mobile Devices.   You can publish
+messages only to topics and endpoints in the same Amazon Web Services Region.
 
 # Arguments
 - `message`: The message you want to send. If you are publishing to a topic and you want to
@@ -1232,6 +1272,56 @@ function publish_batch(
                 Dict{String,Any}(
                     "PublishBatchRequestEntries" => PublishBatchRequestEntries,
                     "TopicArn" => TopicArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_data_protection_policy(data_protection_policy, resource_arn)
+    put_data_protection_policy(data_protection_policy, resource_arn, params::Dict{String,<:Any})
+
+Adds or updates an inline policy document that is stored in the specified Amazon SNS topic.
+
+# Arguments
+- `data_protection_policy`: The JSON serialization of the topic's DataProtectionPolicy. The
+  DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of
+  30,720.
+- `resource_arn`: The ARN of the topic whose DataProtectionPolicy you want to add or
+  update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web
+  Services General Reference.
+
+"""
+function put_data_protection_policy(
+    DataProtectionPolicy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sns(
+        "PutDataProtectionPolicy",
+        Dict{String,Any}(
+            "DataProtectionPolicy" => DataProtectionPolicy, "ResourceArn" => ResourceArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_data_protection_policy(
+    DataProtectionPolicy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sns(
+        "PutDataProtectionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataProtectionPolicy" => DataProtectionPolicy,
+                    "ResourceArn" => ResourceArn,
                 ),
                 params,
             ),

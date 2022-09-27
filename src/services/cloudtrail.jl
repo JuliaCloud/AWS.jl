@@ -8,16 +8,18 @@ using AWS.UUIDs
     add_tags(resource_id, tags_list)
     add_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing tag's value
-when a new value is specified for an existing tag key. Tag key names must be unique for a
-trail; you cannot have two keys with the same name but different values. If you specify a
-key without a value, the tag will be created with the specified key and a value of null.
-You can tag a trail that applies to all Amazon Web Services Regions only from the Region in
-which the trail was created (also known as its home region).
+Adds one or more tags to a trail or event data store, up to a limit of 50. Overwrites an
+existing tag's value when a new value is specified for an existing tag key. Tag key names
+must be unique for a trail; you cannot have two keys with the same name but different
+values. If you specify a key without a value, the tag will be created with the specified
+key and a value of null. You can tag a trail or event data store that applies to all Amazon
+Web Services Regions only from the Region in which the trail or event data store was
+created (also known as its home region).
 
 # Arguments
-- `resource_id`: Specifies the ARN of the trail to which one or more tags will be added.
-  The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `resource_id`: Specifies the ARN of the trail or event data store to which one or more
+  tags will be added. The format of a trail ARN is:
+  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 - `tags_list`: Contains a list of tags, up to a limit of 50
 
 """
@@ -53,10 +55,10 @@ end
     cancel_query(event_data_store, query_id)
     cancel_query(event_data_store, query_id, params::Dict{String,<:Any})
 
-Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED or
-FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you
-want to cancel is also required. When you run CancelQuery, the query status might show as
-CANCELLED even if the operation is not yet finished.
+Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED,
+TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the
+query that you want to cancel is also required. When you run CancelQuery, the query status
+might show as CANCELLED even if the operation is not yet finished.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
@@ -114,7 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
   an organization in Organizations.
 - `"RetentionPeriod"`: The retention period of the event data store, in days. You can set a
-  retention period of up to 2555 days, the equivalent of seven years.
+  retention period of up to 2557 days, the equivalent of seven years.
 - `"TagsList"`:
 - `"TerminationProtectionEnabled"`: Specifies whether termination protection is enabled for
   the event data store. If termination protection is enabled, you cannot delete the event
@@ -228,12 +230,13 @@ end
     delete_event_data_store(event_data_store, params::Dict{String,<:Any})
 
 Disables the event data store specified by EventDataStore, which accepts an event data
-store ARN. After you run DeleteEventDataStore, the event data store is automatically
-deleted after a wait period of seven days. TerminationProtectionEnabled must be set to
-False on the event data store; this operation cannot work if TerminationProtectionEnabled
-is True. After you run DeleteEventDataStore on an event data store, you cannot run
-ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data
-store in a PENDING_DELETION state.
+store ARN. After you run DeleteEventDataStore, the event data store enters a
+PENDING_DELETION state, and is automatically deleted after a wait period of seven days.
+TerminationProtectionEnabled must be set to False on the event data store; this operation
+cannot work if TerminationProtectionEnabled is True. After you run DeleteEventDataStore on
+an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on
+queries that are using an event data store in a PENDING_DELETION state. An event data store
+in the PENDING_DELETION state does not incur costs.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store to
@@ -382,6 +385,36 @@ function describe_trails(
 end
 
 """
+    get_channel(channel)
+    get_channel(channel, params::Dict{String,<:Any})
+
+ Returns the specified CloudTrail service-linked channel. Amazon Web Services services
+create service-linked channels to view CloudTrail events.
+
+# Arguments
+- `channel`:  The Amazon Resource Name (ARN) of the CloudTrail service-linked channel.
+
+"""
+function get_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "GetChannel",
+        Dict{String,Any}("Channel" => Channel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_channel(
+    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "GetChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_event_data_store(event_data_store)
     get_event_data_store(event_data_store, params::Dict{String,<:Any})
 
@@ -427,8 +460,9 @@ information returned for your event selectors includes the following:   If your 
 selector includes read-only events, write-only events, or all events. This applies to both
 management events and data events.   If your event selector includes management events.
 If your event selector includes data events, the resources on which you are logging data
-events.   For more information, see Logging Data and Management Events for Trails  in the
-CloudTrail User Guide.
+events.   For more information about logging management and data events, see the following
+topics in the CloudTrail User Guide:    Logging management events for trails      Logging
+data events for trails
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -457,6 +491,39 @@ function get_event_selectors(
         "GetEventSelectors",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_import(import_id)
+    get_import(import_id, params::Dict{String,<:Any})
+
+ Returns information for the specified import.
+
+# Arguments
+- `import_id`:  The ID for the import.
+
+"""
+function get_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "GetImport",
+        Dict{String,Any}("ImportId" => ImportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_import(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "GetImport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -620,6 +687,30 @@ function get_trail_status(
 end
 
 """
+    list_channels()
+    list_channels(params::Dict{String,<:Any})
+
+ Returns all CloudTrail channels.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  The maximum number of CloudTrail channels to display on a single page.
+- `"NextToken"`:  A token you can use to get the next page of results.
+"""
+function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_channels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_event_data_stores()
     list_event_data_stores(params::Dict{String,<:Any})
 
@@ -643,6 +734,68 @@ function list_event_data_stores(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_import_failures(import_id)
+    list_import_failures(import_id, params::Dict{String,<:Any})
+
+ Returns a list of failures for the specified import.
+
+# Arguments
+- `import_id`:  The ID of the import.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  The maximum number of failures to display on a single page.
+- `"NextToken"`:  A token you can use to get the next page of import failures.
+"""
+function list_import_failures(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "ListImportFailures",
+        Dict{String,Any}("ImportId" => ImportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_import_failures(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "ListImportFailures",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_imports()
+    list_imports(params::Dict{String,<:Any})
+
+ Returns information on all imports, or a select set of imports by ImportStatus or
+Destination.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Destination"`:  The destination event data store.
+- `"ImportStatus"`:  The status of the import.
+- `"MaxResults"`:  The maximum number of imports to display on a single page.
+- `"NextToken"`:  A token you can use to get the next page of import results.
+"""
+function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_imports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -687,7 +840,7 @@ Returns a list of queries and query statuses for the past seven days. You must s
 ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a
 time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a
 QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED,
-or CANCELLED.
+TIMED_OUT, or CANCELLED.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
@@ -700,7 +853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of queries to show on a page.
 - `"NextToken"`: A token you can use to get the next page of results.
 - `"QueryStatus"`: The status of queries that you want to return in results. Valid values
-  for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, or CANCELLED.
+  for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
 - `"StartTime"`: Use with EndTime to bound a ListQueries request, and limit its results to
   only those queries run within a specified time period.
 """
@@ -731,12 +884,11 @@ end
     list_tags(resource_id_list)
     list_tags(resource_id_list, params::Dict{String,<:Any})
 
-Lists the tags for the trail in the current region.
+Lists the tags for the trail or event data store in the current region.
 
 # Arguments
-- `resource_id_list`: Specifies a list of trail ARNs whose tags will be listed. The list
-  has a limit of 20 ARNs. The following is the format of a trail ARN.
-  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `resource_id_list`: Specifies a list of trail and event data store ARNs whose tags will
+  be listed. The list has a limit of 20 ARNs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -774,7 +926,7 @@ Lists trails that are in the current account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: The token to use to get the next page of results after a previous API
-  call. This token must be passed in with the same parameters that were specified in the the
+  call. This token must be passed in with the same parameters that were specified in the
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
@@ -816,7 +968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of events to return. Possible values are 1 through 50. The
   default is 50.
 - `"NextToken"`: The token to use to get the next page of results after a previous API
-  call. This token must be passed in with the same parameters that were specified in the the
+  call. This token must be passed in with the same parameters that were specified in the
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 - `"StartTime"`: Specifies that only events that occur after or at the specified time are
@@ -854,13 +1006,13 @@ event.   The GetConsoleOutput is a read-only event that doesn't match your event
 The trail doesn't log the event.    The PutEventSelectors operation must be called from the
 region in which the trail was created; otherwise, an InvalidHomeRegionException exception
 is thrown. You can configure up to five event selectors for each trail. For more
-information, see Logging data and management events for trails  and Quotas in CloudTrail in
-the CloudTrail User Guide. You can add advanced event selectors, and conditions for your
-advanced event selectors, up to a maximum of 500 values for all conditions and selectors on
-a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you
-apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For
-more information about advanced event selectors, see Logging data events for trails in the
-CloudTrail User Guide.
+information, see Logging management events for trails , Logging data events for trails ,
+and Quotas in CloudTrail in the CloudTrail User Guide. You can add advanced event
+selectors, and conditions for your advanced event selectors, up to a maximum of 500 values
+for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or
+EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing
+EventSelectors are overwritten. For more information about advanced event selectors, see
+Logging data events for trails in the CloudTrail User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -959,11 +1111,14 @@ end
     remove_tags(resource_id, tags_list)
     remove_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Removes the specified tags from a trail.
+Removes the specified tags from a trail or event data store.
 
 # Arguments
-- `resource_id`: Specifies the ARN of the trail from which tags should be removed. The
-  format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `resource_id`: Specifies the ARN of the trail or event data store from which tags should
+  be removed.  Example trail ARN format:
+  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN
+  format:
+  arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
 - `tags_list`: Specifies a list of tags to be removed.
 
 """
@@ -1037,6 +1192,39 @@ function restore_event_data_store(
 end
 
 """
+    start_import()
+    start_import(params::Dict{String,<:Any})
+
+ Starts an import of logged trail events from a source S3 bucket to a destination event
+data store.   When you start a new import, the Destinations and ImportSource parameters are
+required. Before starting a new import, disable any access control lists (ACLs) attached to
+the source S3 bucket. For more information about disabling ACLs, see Controlling ownership
+of objects and disabling ACLs for your bucket.   When you retry an import, the ImportID
+parameter is required.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Destinations"`:  The destination event data store. Use this parameter for a new import.
+- `"EndEventTime"`:  Use with StartEventTime to bound a StartImport request, and limit
+  imported trail events to only those events logged within a specified time period.
+- `"ImportId"`:  The ID of the import. Use this parameter when you are retrying an import.
+- `"ImportSource"`:  The source S3 bucket for the import. Use this parameter for a new
+  import.
+- `"StartEventTime"`:  Use with EndEventTime to bound a StartImport request, and limit
+  imported trail events to only those events logged within a specified time period.
+"""
+function start_import(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function start_import(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     start_logging(name)
     start_logging(name, params::Dict{String,<:Any})
 
@@ -1105,6 +1293,39 @@ function start_query(
 end
 
 """
+    stop_import(import_id)
+    stop_import(import_id, params::Dict{String,<:Any})
+
+ Stops a specified import.
+
+# Arguments
+- `import_id`:  The ID of the import.
+
+"""
+function stop_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "StopImport",
+        Dict{String,Any}("ImportId" => ImportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_import(
+    ImportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "StopImport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_logging(name)
     stop_logging(name, params::Dict{String,<:Any})
 
@@ -1148,7 +1369,7 @@ end
 Updates an event data store. The required EventDataStore value is an ARN or the ID portion
 of the ARN. Other parameters are optional, but at least one optional parameter must be
 specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are
-integers between 90 and 2555. By default, TerminationProtection is enabled.
+integers between 90 and 2557. By default, TerminationProtection is enabled.
 AdvancedEventSelectors includes or excludes management and data events in your event data
 store; for more information about AdvancedEventSelectors, see
 PutEventSelectorsRequestAdvancedEventSelectors.
@@ -1160,7 +1381,8 @@ PutEventSelectorsRequestAdvancedEventSelectors.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdvancedEventSelectors"`: The advanced event selectors used to select events for the
-  event data store.
+  event data store. You can configure up to five advanced event selectors for each event data
+  store.
 - `"MultiRegionEnabled"`: Specifies whether an event data store collects events from all
   regions, or only from the region in which it was created.
 - `"Name"`: The event data store name.

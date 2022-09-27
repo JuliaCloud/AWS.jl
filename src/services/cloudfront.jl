@@ -501,7 +501,7 @@ function create_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "POST",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/",
         Dict{String,Any}("MonitoringSubscription" => MonitoringSubscription);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -515,11 +515,58 @@ function create_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "POST",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}("MonitoringSubscription" => MonitoringSubscription),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_origin_access_control2020_05_31(origin_access_control_config)
+    create_origin_access_control2020_05_31(origin_access_control_config, params::Dict{String,<:Any})
+
+Creates a new origin access control in CloudFront. After you create an origin access
+control, you can add it to an origin in a CloudFront distribution so that CloudFront sends
+authenticated (signed) requests to the origin. For an Amazon S3 origin, this makes it
+possible to block public access to the Amazon S3 bucket so that viewers (users) can access
+the content in the bucket only through CloudFront. For more information about using a
+CloudFront origin access control, see Restricting access to an Amazon S3 origin in the
+Amazon CloudFront Developer Guide.
+
+# Arguments
+- `origin_access_control_config`: Contains the origin access control.
+
+"""
+function create_origin_access_control2020_05_31(
+    OriginAccessControlConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-access-control",
+        Dict{String,Any}("OriginAccessControlConfig" => OriginAccessControlConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_origin_access_control2020_05_31(
+    OriginAccessControlConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-access-control",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OriginAccessControlConfig" => OriginAccessControlConfig),
                 params,
             ),
         );
@@ -1123,7 +1170,7 @@ function delete_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "DELETE",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription";
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1135,7 +1182,45 @@ function delete_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "DELETE",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_origin_access_control2020_05_31(id)
+    delete_origin_access_control2020_05_31(id, params::Dict{String,<:Any})
+
+Deletes a CloudFront origin access control. You cannot delete an origin access control if
+it's in use. First, update all distributions to remove the origin access control from all
+origins, then delete the origin access control.
+
+# Arguments
+- `id`: The unique identifier of the origin access control that you are deleting.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The current version (ETag value) of the origin access control that you are
+  deleting.
+"""
+function delete_origin_access_control2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/origin-access-control/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_origin_access_control2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/origin-access-control/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1884,7 +1969,7 @@ function get_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "GET",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription";
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1896,7 +1981,71 @@ function get_monitoring_subscription2020_05_31(
 )
     return cloudfront(
         "GET",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_origin_access_control2020_05_31(id)
+    get_origin_access_control2020_05_31(id, params::Dict{String,<:Any})
+
+Gets a CloudFront origin access control, including its unique identifier.
+
+# Arguments
+- `id`: The unique identifier of the origin access control.
+
+"""
+function get_origin_access_control2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_origin_access_control2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_origin_access_control_config2020_05_31(id)
+    get_origin_access_control_config2020_05_31(id, params::Dict{String,<:Any})
+
+Gets a CloudFront origin access control configuration.
+
+# Arguments
+- `id`: The unique identifier of the origin access control.
+
+"""
+function get_origin_access_control_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control/$(Id)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_origin_access_control_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control/$(Id)/config",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2889,6 +3038,47 @@ function list_key_groups2020_05_31(
 end
 
 """
+    list_origin_access_controls2020_05_31()
+    list_origin_access_controls2020_05_31(params::Dict{String,<:Any})
+
+Gets the list of CloudFront origin access controls in this Amazon Web Services account. You
+can optionally specify the maximum number of items to receive in the response. If the total
+number of items in the list exceeds the maximum that you specify, or the default maximum,
+the response is paginated. To get the next page of items, send another request that
+specifies the NextMarker value from the current response as the Marker value in the next
+request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list of origin access controls. The response includes the items in the list that occur
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
+- `"MaxItems"`: The maximum number of origin access controls that you want in the response.
+"""
+function list_origin_access_controls2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_origin_access_controls2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-control",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_origin_request_policies2020_05_31()
     list_origin_request_policies2020_05_31(params::Dict{String,<:Any})
 
@@ -3717,6 +3907,53 @@ function update_key_group2020_05_31(
         "/2020-05-31/key-group/$(Id)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_origin_access_control2020_05_31(id, origin_access_control_config)
+    update_origin_access_control2020_05_31(id, origin_access_control_config, params::Dict{String,<:Any})
+
+Updates a CloudFront origin access control.
+
+# Arguments
+- `id`: The unique identifier of the origin access control that you are updating.
+- `origin_access_control_config`: An origin access control.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The current version (ETag value) of the origin access control that you are
+  updating.
+"""
+function update_origin_access_control2020_05_31(
+    Id, OriginAccessControlConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-access-control/$(Id)/config",
+        Dict{String,Any}("OriginAccessControlConfig" => OriginAccessControlConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_origin_access_control2020_05_31(
+    Id,
+    OriginAccessControlConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-access-control/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OriginAccessControlConfig" => OriginAccessControlConfig),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

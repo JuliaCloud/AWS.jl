@@ -5,6 +5,48 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_resource(resource_arn, group_identifier)
+    associate_resource(resource_arn, group_identifier, params::Dict{String,<:Any})
+
+Associates a canary with a group. Using groups can help you with managing and automating
+your canaries, and you can also view aggregated run results and statistics for all canaries
+in a group.  You must run this operation in the Region where the canary exists.
+
+# Arguments
+- `resource_arn`: The ARN of the canary that you want to associate with the specified group.
+- `group_identifier`: Specifies the group. You can specify the group name, the ARN, or the
+  group ID as the GroupIdentifier.
+
+"""
+function associate_resource(
+    ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "PATCH",
+        "/group/$(groupIdentifier)/associate",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_resource(
+    ResourceArn,
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "PATCH",
+        "/group/$(groupIdentifier)/associate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule)
     create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule, params::Dict{String,<:Any})
 
@@ -14,7 +56,7 @@ troubleshoot anomalies by investigating load time data, screenshots of the UI, l
 metrics. You can set up a canary to run continuously or just once.  Do not use CreateCanary
 to modify an existing canary. Use UpdateCanary instead. To create canaries, you must have
 the CloudWatchSyntheticsFullAccess policy. If you are creating a new IAM role for the
-canary, you also need the the iam:CreateRole, iam:CreatePolicy and iam:AttachRolePolicy
+canary, you also need the iam:CreateRole, iam:CreatePolicy and iam:AttachRolePolicy
 permissions. For more information, see Necessary Roles and Permissions. Do not include
 secrets or proprietary information in your canary names. The canary name makes up part of
 the Amazon Resource Name (ARN) for the canary, and the ARN is included in outbound calls
@@ -53,7 +95,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this canary. If you omit this field, the default of 31 days is used. The valid range is 1
   to 455 days.
 - `"RunConfig"`: A structure that contains the configuration for individual canary runs,
-  such as timeout value.
+  such as timeout value and environment variables.  The environment variables keys and values
+  are not encrypted. Do not store sensitive information in this field.
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary. If you omit this field, the default of 31 days is used. The valid range is
   1 to 455 days.
@@ -122,14 +165,63 @@ function create_canary(
 end
 
 """
+    create_group(name)
+    create_group(name, params::Dict{String,<:Any})
+
+Creates a group which you can use to associate canaries with each other, including
+cross-Region canaries. Using groups can help you with managing and automating your
+canaries, and you can also view aggregated run results and statistics for all canaries in a
+group.  Groups are global resources. When you create a group, it is replicated across
+Amazon Web Services Regions, and you can view it and add canaries to it from any Region.
+Although the group ARN format reflects the Region name where it was created, a group is not
+constrained to any Region. This means that you can put canaries from multiple Regions into
+the same group, and then use that group to view and manage all of those canaries in a
+single view. Groups are supported in all Regions except the Regions that are disabled by
+default. For more information about these Regions, see Enabling a Region. Each group can
+contain as many as 10 canaries. You can have as many as 20 groups in your account. Any
+single canary can be a member of up to 10 groups.
+
+# Arguments
+- `name`: The name for the group. It can include any Unicode characters. The names for all
+  groups in your account, across all Regions, must be unique.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of key-value pairs to associate with the group. You can associate as
+  many as 50 tags with a group. Tags can help you organize and categorize your resources. You
+  can also use them to scope user permissions, by granting a user permission to access or
+  change only the resources that have certain tag values.
+"""
+function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return synthetics(
+        "POST",
+        "/group",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "POST",
+        "/group",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_canary(name)
     delete_canary(name, params::Dict{String,<:Any})
 
-Permanently deletes the specified canary. When you delete a canary, resources used and
-created by the canary are not automatically deleted. After you delete a canary that you do
-not intend to use again, you should also delete the following:   The Lambda functions and
-layers used by this canary. These have the prefix cwsyn-MyCanaryName .   The CloudWatch
-alarms created for this canary. These alarms have a name of
+Permanently deletes the specified canary. If you specify DeleteLambda to true, CloudWatch
+Synthetics also deletes the Lambda functions and layers that are used by the canary. Other
+resources used and created by the canary are not automatically deleted. After you delete a
+canary that you do not intend to use again, you should also delete the following:   The
+CloudWatch alarms created for this canary. These alarms have a name of
 Synthetics-SharpDrop-Alarm-MyCanaryName .   Amazon S3 objects and buckets, such as the
 canary's artifact location.   IAM roles created for the canary. If they were created in the
 console, these roles have the name  role/service-role/CloudWatchSyntheticsRole-MyCanaryName
@@ -143,6 +235,10 @@ canary.
 - `name`: The name of the canary that you want to delete. To find the names of your
   canaries, use DescribeCanaries.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deleteLambda"`: Specifies whether to also delete the Lambda functions and layers used
+  by this canary. The default is false. Type: Boolean
 """
 function delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
     return synthetics(
@@ -162,20 +258,66 @@ function delete_canary(
 end
 
 """
+    delete_group(group_identifier)
+    delete_group(group_identifier, params::Dict{String,<:Any})
+
+Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in
+the group, they are not deleted when you delete the group.  Groups are a global resource
+that appear in all Regions, but the request to delete a group must be made from its home
+Region. You can find the home Region of a group within its ARN.
+
+# Arguments
+- `group_identifier`: Specifies which group to delete. You can specify the group name, the
+  ARN, or the group ID as the GroupIdentifier.
+
+"""
+function delete_group(groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return synthetics(
+        "DELETE",
+        "/group/$(groupIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_group(
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "DELETE",
+        "/group/$(groupIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_canaries()
     describe_canaries(params::Dict{String,<:Any})
 
 This operation returns a list of the canaries in your account, along with full details
-about each canary. This operation does not have resource-level authorization, so if a user
-is able to use DescribeCanaries, the user can see all of the canaries in the account. A
-deny policy can only be used to restrict access to all canaries. It cannot be used on
-specific resources.
+about each canary. This operation supports resource-level authorization using an IAM policy
+and the Names parameter. If you specify the Names parameter, the operation is successful
+only if you have authorization to view all the canaries that you specify in your request.
+If you do not have permission to view any of the canaries, the request fails with a 403
+response. You are required to use the Names parameter if you are logged on to a user or
+role that has an IAM policy that restricts which canaries that you are allowed to view. For
+more information, see  Limiting a user to viewing specific canaries.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: Specify this parameter to limit how many canaries are returned each time
   you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is
   used.
+- `"Names"`: Use this parameter to return only canaries that match the names that you
+  specify here. You can specify as many as five canary names. If you specify this parameter,
+  the operation is successful only if you have authorization to view all the canaries that
+  you specify in your request. If you do not have permission to view any of the canaries, the
+  request fails with a 403 response. You are required to use this parameter if you are logged
+  on to a user or role that has an IAM policy that restricts which canaries that you are
+  allowed to view. For more information, see  Limiting a user to viewing specific canaries.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -197,14 +339,28 @@ end
     describe_canaries_last_run(params::Dict{String,<:Any})
 
 Use this operation to see information from the most recent run of each canary that you have
-created.
+created. This operation supports resource-level authorization using an IAM policy and the
+Names parameter. If you specify the Names parameter, the operation is successful only if
+you have authorization to view all the canaries that you specify in your request. If you do
+not have permission to view any of the canaries, the request fails with a 403 response. You
+are required to use the Names parameter if you are logged on to a user or role that has an
+IAM policy that restricts which canaries that you are allowed to view. For more
+information, see  Limiting a user to viewing specific canaries.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
   use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
+- `"Names"`: Use this parameter to return only canaries that match the names that you
+  specify here. You can specify as many as five canary names. If you specify this parameter,
+  the operation is successful only if you have authorization to view all the canaries that
+  you specify in your request. If you do not have permission to view any of the canaries, the
+  request fails with a 403 response. You are required to use the Names parameter if you are
+  logged on to a user or role that has an IAM policy that restricts which canaries that you
+  are allowed to view. For more information, see  Limiting a user to viewing specific
+  canaries.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent DescribeCanaries operation to retrieve the next set of results.
+  token in a subsequent DescribeCanariesLastRun operation to retrieve the next set of results.
 """
 function describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config())
     return synthetics(
@@ -250,6 +406,47 @@ function describe_runtime_versions(
         "POST",
         "/runtime-versions",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_resource(resource_arn, group_identifier)
+    disassociate_resource(resource_arn, group_identifier, params::Dict{String,<:Any})
+
+Removes a canary from a group. You must run this operation in the Region where the canary
+exists.
+
+# Arguments
+- `resource_arn`: The ARN of the canary that you want to remove from the specified group.
+- `group_identifier`: Specifies the group. You can specify the group name, the ARN, or the
+  group ID as the GroupIdentifier.
+
+"""
+function disassociate_resource(
+    ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "PATCH",
+        "/group/$(groupIdentifier)/disassociate",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_resource(
+    ResourceArn,
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "PATCH",
+        "/group/$(groupIdentifier)/disassociate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -320,14 +517,161 @@ function get_canary_runs(
 end
 
 """
+    get_group(group_identifier)
+    get_group(group_identifier, params::Dict{String,<:Any})
+
+Returns information about one group. Groups are a global resource, so you can use this
+operation from any Region.
+
+# Arguments
+- `group_identifier`: Specifies the group to return information for. You can specify the
+  group name, the ARN, or the group ID as the GroupIdentifier.
+
+"""
+function get_group(groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return synthetics(
+        "GET",
+        "/group/$(groupIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_group(
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "GET",
+        "/group/$(groupIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_associated_groups(resource_arn)
+    list_associated_groups(resource_arn, params::Dict{String,<:Any})
+
+Returns a list of the groups that the specified canary is associated with. The canary that
+you specify must be in the current Region.
+
+# Arguments
+- `resource_arn`: The ARN of the canary that you want to view groups for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time
+  you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20
+  is used.
+- `"NextToken"`: A token that indicates that there is more data available. You can use this
+  token in a subsequent operation to retrieve the next set of results.
+"""
+function list_associated_groups(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "POST",
+        "/resource/$(resourceArn)/groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_associated_groups(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "POST",
+        "/resource/$(resourceArn)/groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_group_resources(group_identifier)
+    list_group_resources(group_identifier, params::Dict{String,<:Any})
+
+This operation returns a list of the ARNs of the canaries that are associated with the
+specified group.
+
+# Arguments
+- `group_identifier`: Specifies the group to return information for. You can specify the
+  group name, the ARN, or the group ID as the GroupIdentifier.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specify this parameter to limit how many canary ARNs are returned each
+  time you use the ListGroupResources operation. If you omit this parameter, the default of
+  20 is used.
+- `"NextToken"`: A token that indicates that there is more data available. You can use this
+  token in a subsequent operation to retrieve the next set of results.
+"""
+function list_group_resources(
+    groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "POST",
+        "/group/$(groupIdentifier)/resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_group_resources(
+    groupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return synthetics(
+        "POST",
+        "/group/$(groupIdentifier)/resources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_groups()
+    list_groups(params::Dict{String,<:Any})
+
+Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs.
+The groups from all Regions are returned.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time
+  you use the ListGroups operation. If you omit this parameter, the default of 20 is used.
+- `"NextToken"`: A token that indicates that there is more data available. You can use this
+  token in a subsequent operation to retrieve the next set of results.
+"""
+function list_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return synthetics(
+        "POST", "/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return synthetics(
+        "POST", "/groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Displays the tags associated with a canary.
+Displays the tags associated with a canary or group.
 
 # Arguments
-- `resource_arn`: The ARN of the canary that you want to view tags for. The ARN format of a
-  canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+- `resource_arn`: The ARN of the canary or group that you want to view tags for. The ARN
+  format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN
+  format of a group is arn:aws:synthetics:Region:account-id:group:group-name
 
 """
 function list_tags_for_resource(
@@ -391,15 +735,14 @@ end
     stop_canary(name)
     stop_canary(name, params::Dict{String,<:Any})
 
-Stops the canary to prevent all future runs. If the canary is currently running, Synthetics
-stops waiting for the current run of the specified canary to complete. The run that is in
-progress completes on its own, publishes metrics, and uploads artifacts, but it is not
-recorded in Synthetics as a completed run. You can use StartCanary to start it running
-again with the canary’s current schedule at any point in the future.
+Stops the canary to prevent all future runs. If the canary is currently running,the run
+that is in progress completes on its own, publishes metrics, and uploads artifacts, but it
+is not recorded in Synthetics as a completed run. You can use StartCanary to start it
+running again with the canary’s current schedule at any point in the future.
 
 # Arguments
 - `name`: The name of the canary that you want to stop. To find the names of your canaries,
-  use DescribeCanaries.
+  use ListCanaries.
 
 """
 function stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -426,20 +769,21 @@ end
     tag_resource(tags, resource_arn)
     tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
-Assigns one or more tags (key-value pairs) to the specified canary.  Tags can help you
-organize and categorize your resources. You can also use them to scope user permissions, by
-granting a user permission to access or change only resources with certain tag values. Tags
-don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-strings of characters. You can use the TagResource action with a canary that already has
-tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags
-associated with the alarm. If you specify a tag key that is already associated with the
-alarm, the new tag value that you specify replaces the previous value for that tag. You can
-associate as many as 50 tags with a canary.
+Assigns one or more tags (key-value pairs) to the specified canary or group.  Tags can help
+you organize and categorize your resources. You can also use them to scope user
+permissions, by granting a user permission to access or change only resources with certain
+tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted
+strictly as strings of characters. You can use the TagResource action with a resource that
+already has tags. If you specify a new tag key for the resource, this tag is appended to
+the list of tags associated with the resource. If you specify a tag key that is already
+associated with the resource, the new tag value that you specify replaces the previous
+value for that tag. You can associate as many as 50 tags with a canary or group.
 
 # Arguments
-- `tags`: The list of key-value pairs to associate with the canary.
-- `resource_arn`: The ARN of the canary that you're adding tags to. The ARN format of a
-  canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+- `tags`: The list of key-value pairs to associate with the resource.
+- `resource_arn`: The ARN of the canary or group that you're adding tags to. The ARN format
+  of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of
+  a group is arn:aws:synthetics:Region:account-id:group:group-name
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -470,11 +814,12 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from the specified canary.
+Removes one or more tags from the specified resource.
 
 # Arguments
-- `resource_arn`: The ARN of the canary that you're removing tags from. The ARN format of a
-  canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+- `resource_arn`: The ARN of the canary or group that you're removing tags from. The ARN
+  format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN
+  format of a group is arn:aws:synthetics:Region:account-id:group:group-name
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
@@ -508,9 +853,9 @@ end
     update_canary(name)
     update_canary(name, params::Dict{String,<:Any})
 
-Use this operation to change the settings of a canary that has already been created. You
-can't use this operation to update the tags of an existing canary. To change the tags of an
-existing canary, use TagResource.
+Updates the configuration of a canary that has already been created. You can't use this
+operation to update the tags of an existing canary. To change the tags of an existing
+canary, use TagResource.
 
 # Arguments
 - `name`: The name of the canary that you want to update. To find the names of your
@@ -536,7 +881,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
   this canary.
 - `"RunConfig"`: A structure that contains the timeout value that is used for each
-  individual run of the canary.
+  individual run of the canary.  The environment variables keys and values are not encrypted.
+  Do not store sensitive information in this field.
 - `"RuntimeVersion"`: Specifies the runtime version to use for the canary. For a list of
   valid runtime versions and for more information about runtime versions, see  Canary Runtime
   Versions.

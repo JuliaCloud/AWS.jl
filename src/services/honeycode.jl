@@ -297,7 +297,7 @@ allows setting local variables in the screen to filter, sort or otherwise affect
 be displayed on the screen.
 
 # Arguments
-- `app_id`: The ID of the app that contains the screem.
+- `app_id`: The ID of the app that contains the screen.
 - `screen_id`: The ID of the screen.
 - `workbook_id`: The ID of the workbook that contains the screen.
 
@@ -547,6 +547,40 @@ function list_tables(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+ The ListTagsForResource API allows you to return a resource's tags.
+
+# Arguments
+- `resource_arn`: The resource's Amazon Resource Name (ARN).
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return honeycode(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return honeycode(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     query_table_rows(filter_formula, table_id, workbook_id)
     query_table_rows(filter_formula, table_id, workbook_id, params::Dict{String,<:Any})
 
@@ -672,6 +706,80 @@ function start_table_data_import_job(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+ The TagResource API allows you to add tags to an ARN-able resource. Resource includes
+workbook, table, screen and screen-automation.
+
+# Arguments
+- `resource_arn`: The resource's Amazon Resource Name (ARN).
+- `tags`: A list of tags to apply to the resource.
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return honeycode(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return honeycode(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+ The UntagResource API allows you to removes tags from an ARN-able resource. Resource
+includes workbook, table, screen and screen-automation.
+
+# Arguments
+- `resource_arn`: The resource's Amazon Resource Name (ARN).
+- `tag_keys`: A list of tag keys to remove from the resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return honeycode(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return honeycode(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

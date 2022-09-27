@@ -9,23 +9,28 @@ using AWS.UUIDs
     create_rule(resource_type, retention_period, params::Dict{String,<:Any})
 
 Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin
-retention rules in the Amazon EC2 User Guide.
+retention rules in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `resource_type`: The resource type to be retained by the retention rule. Currently, only
-  Amazon EBS snapshots are supported.
+  Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify
+  EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
 - `retention_period`: Information about the retention period for which the retention rule
   is to retain resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A brief description for the retention rule.
-- `"ResourceTags"`: Information about the resource tags to use to identify resources that
-  are to be retained by the retention rule. The retention rule retains only deleted snapshots
-  that have one or more of the specified tag key and value pairs. If a snapshot is deleted,
-  but it does not have any of the specified tag key and value pairs, it is immediately
-  deleted without being retained by the retention rule. You can add the same tag key and
-  value pair to a maximum or five retention rules.
+- `"Description"`: The retention rule description.
+- `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
+  retained by a tag-level retention rule. For tag-level retention rules, only deleted
+  resources, of the specified resource type, that have one or more of the specified tag key
+  and value pairs are retained. If a resource is deleted, but it does not have any of the
+  specified tag key and value pairs, it is immediately deleted without being retained by the
+  retention rule. You can add the same tag key and value pair to a maximum or five retention
+  rules. To create a Region-level retention rule, omit this parameter. A Region-level
+  retention rule does not have any resource tags specified. It retains all deleted resources
+  of the specified resource type in the Region in which the rule is created, even if the
+  resources are not tagged.
 - `"Tags"`: Information about the tags to assign to the retention rule.
 """
 function create_rule(
@@ -69,10 +74,10 @@ end
     delete_rule(identifier, params::Dict{String,<:Any})
 
 Deletes a Recycle Bin retention rule. For more information, see  Delete Recycle Bin
-retention rules in the Amazon EC2 User Guide.
+retention rules in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `identifier`: The unique ID of the retention rule to delete.
+- `identifier`: The unique ID of the retention rule.
 
 """
 function delete_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config())
@@ -137,17 +142,17 @@ Lists the Recycle Bin retention rules in the Region.
 
 # Arguments
 - `resource_type`: The resource type retained by the retention rule. Only retention rules
-  that retain the specified resource type are listed.
+  that retain the specified resource type are listed. Currently, only Amazon EBS snapshots
+  and EBS-backed AMIs are supported. To list retention rules that retain snapshots, specify
+  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for the request in a single page.
-  The remaining results can be seen by sending another request with the returned nextToken
-  value. This value can be between 5 and 500. If maxResults is given a larger value than 500,
-  you receive an error.
-- `"NextToken"`: The token to use to retrieve the next page of results.
-- `"ResourceTags"`: The tags used to identify resources that are to be retained by the
-  retention rule.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"NextToken"`: The token for the next page of results.
+- `"ResourceTags"`: Information about the resource tags used to identify resources that are
+  retained by the retention rule.
 """
 function list_rules(ResourceType; aws_config::AbstractAWSConfig=global_aws_config())
     return rbin(
@@ -178,10 +183,10 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags assigned a specific resource.
+Lists the tags assigned to a retention rule.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list the tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
 
 """
 function list_tags_for_resource(
@@ -212,12 +217,11 @@ end
     tag_resource(tags, resource_arn)
     tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
-Assigns tags to the specified resource.
+Assigns tags to the specified retention rule.
 
 # Arguments
-- `tags`: Information about the tags to assign to the resource.
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which to assign the
-  tags.
+- `tags`: Information about the tags to assign to the retention rule.
+- `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -248,12 +252,12 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Unassigns a tag from a resource.
+Unassigns a tag from a retention rule.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to unassign the
-  tags.
-- `tag_keys`: Information about the tags to unassign from the resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
+- `tag_keys`: The tag keys of the tags to unassign. All tags that have the specified tag
+  key are unassigned.
 
 """
 function untag_resource(
@@ -287,22 +291,27 @@ end
     update_rule(identifier, params::Dict{String,<:Any})
 
 Updates an existing Recycle Bin retention rule. For more information, see  Update Recycle
-Bin retention rules in the Amazon EC2 User Guide.
+Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `identifier`: The unique ID of the retention rule to update.
+- `identifier`: The unique ID of the retention rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The retention rule description.
-- `"ResourceTags"`: Information about the resource tags to use to identify resources that
-  are to be retained by the retention rule. The retention rule retains only deleted snapshots
-  that have one or more of the specified tag key and value pairs. If a snapshot is deleted,
-  but it does not have any of the specified tag key and value pairs, it is immediately
-  deleted without being retained by the retention rule.  You can add the same tag key and
-  value pair to a maximum or five retention rules.
+- `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
+  retained by a tag-level retention rule. For tag-level retention rules, only deleted
+  resources, of the specified resource type, that have one or more of the specified tag key
+  and value pairs are retained. If a resource is deleted, but it does not have any of the
+  specified tag key and value pairs, it is immediately deleted without being retained by the
+  retention rule. You can add the same tag key and value pair to a maximum or five retention
+  rules. To create a Region-level retention rule, omit this parameter. A Region-level
+  retention rule does not have any resource tags specified. It retains all deleted resources
+  of the specified resource type in the Region in which the rule is created, even if the
+  resources are not tagged.
 - `"ResourceType"`: The resource type to be retained by the retention rule. Currently, only
-  Amazon EBS snapshots are supported.
+  Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify
+  EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
 - `"RetentionPeriod"`: Information about the retention period for which the retention rule
   is to retain resources.
 """

@@ -24,8 +24,8 @@ connection.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function associate_external_connection(
     domain,
@@ -82,13 +82,10 @@ You must specify versions or versionRevisions. You cannot specify both.
 - `destination-repository`:  The name of the repository into which package versions are
   copied.
 - `domain`:  The name of the domain that contains the source and destination repositories.
-- `format`:  The format of the package that is copied. The valid package types are:
-  npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.
-      maven: A Maven package that contains compiled code in a distributable format, such as a
-  JAR file.
-- `package`:  The name of the package that is copied.
-- `source-repository`:  The name of the repository that contains the package versions to
-  copy.
+- `format`:  The format of the package versions to be copied.
+- `package`:  The name of the package that contains the versions to be copied.
+- `source-repository`:  The name of the repository that contains the package versions to be
+  copied.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -96,20 +93,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the destination repository. If set to false and the package version already exists in the
   destination repository, the package version is returned in the failedVersions field of the
   response with an ALREADY_EXISTS error code.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"includeFromUpstream"`:  Set to true to copy packages from repositories that are
   upstream from the source repository to the destination repository. The default setting is
   false. For more information, see Working with upstream repositories.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"namespace"`: The namespace of the package versions to be copied. The package version
+  component that specifies its namespace depends on its type. For example:    The namespace
+  of a Maven package version is its groupId. The namespace is required when copying Maven
+  package versions.     The namespace of an npm package version is its scope.     Python and
+  NuGet package versions do not contain a corresponding component, package versions of those
+  formats do not have a namespace.
 - `"versionRevisions"`:  A list of key-value pairs. The keys are package versions and the
   values are package version revisions. A CopyPackageVersion operation succeeds if the
   specified versions in the source repository match the specified package version revision.
    You must specify versions or versionRevisions. You cannot specify both.
-- `"versions"`:  The versions of the package to copy.    You must specify versions or
+- `"versions"`:  The versions of the package to be copied.    You must specify versions or
   versionRevisions. You cannot specify both.
 """
 function copy_package_versions(
@@ -170,17 +169,17 @@ end
 
  Creates a domain. CodeArtifact domains make it easier to manage multiple repositories
 across an organization. You can use a domain to apply permissions across many repositories
-owned by different AWS accounts. An asset is stored only once in a domain, even if it's in
-multiple repositories.  Although you can have multiple domains, we recommend a single
-production domain that contains all published artifacts so that your development teams can
-find and share packages. You can use a second pre-production domain to test changes to the
-production domain configuration.
+owned by different Amazon Web Services accounts. An asset is stored only once in a domain,
+even if it's in multiple repositories.  Although you can have multiple domains, we
+recommend a single production domain that contains all published artifacts so that your
+development teams can find and share packages. You can use a second pre-production domain
+to test changes to the production domain configuration.
 
 # Arguments
-- `domain`:  The name of the domain to create. All domain names in an AWS Region that are
-  in the same AWS account must be unique. The domain name is used as the prefix in DNS
-  hostnames. Do not use sensitive information in a domain name because it is publicly
-  discoverable.
+- `domain`:  The name of the domain to create. All domain names in an Amazon Web Services
+  Region that are in the same Amazon Web Services account must be unique. The domain name is
+  used as the prefix in DNS hostnames. Do not use sensitive information in a domain name
+  because it is publicly discoverable.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -188,11 +187,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a
   key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have
   kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For
-  more information, see DescribeKey in the AWS Key Management Service API Reference and AWS
-  KMS API Permissions Reference in the AWS Key Management Service Developer Guide.
-  CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your
-  domain. For more information, see Using symmetric and asymmetric keys in the AWS Key
-  Management Service Developer Guide.
+  more information, see DescribeKey in the Key Management Service API Reference and Key
+  Management Service API Permissions Reference in the Key Management Service Developer Guide.
+     CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your
+  domain. For more information, see Using symmetric and asymmetric keys in the Key Management
+  Service Developer Guide.
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
 function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
@@ -229,11 +228,11 @@ end
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  A description of the created repository.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the repository.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
-  order of the upstream repositories in the list determines their priority order when AWS
+  order of the upstream repositories in the list determines their priority order when
   CodeArtifact looks for a requested package version. For more information, see Working with
   upstream repositories.
 """
@@ -281,8 +280,8 @@ delete a domain with repositories, first delete its repositories.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
     return codeartifact(
@@ -316,8 +315,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"policy-revision"`:  The current revision of the resource policy to be deleted. This
   revision is used for optimistic locking, which prevents others from overwriting your
   changes to the domain's resource policy.
@@ -357,22 +356,22 @@ ListackageVersions), but you can restore them using UpdatePackageVersionsStatus.
 
 # Arguments
 - `domain`:  The name of the domain that contains the package to delete.
-- `format`:  The format of the package versions to delete. The valid values are:     npm
-   pypi     maven
+- `format`:  The format of the package versions to delete.
 - `package`:  The name of the package with the versions to delete.
 - `repository`:  The name of the repository that contains the package versions to delete.
 - `versions`:  An array of strings that specify the versions of the package to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"expectedStatus"`:  The expected status of the package version to delete. Valid values
-  are:     Published     Unfinished     Unlisted     Archived     Disposed
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"expectedStatus"`:  The expected status of the package version to delete.
+- `"namespace"`: The namespace of the package versions to be deleted. The package version
+  component that specifies its namespace depends on its type. For example:    The namespace
+  of a Maven package version is its groupId. The namespace is required when deleting Maven
+  package versions.     The namespace of an npm package version is its scope.     Python and
+  NuGet package versions do not contain a corresponding component, package versions of those
+  formats do not have a namespace.
 """
 function delete_package_versions(
     domain,
@@ -438,8 +437,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function delete_repository(
     domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -480,9 +479,9 @@ end
  Deletes the resource policy that is set on a repository. After a resource policy is
 deleted, the permissions allowed and denied by the deleted policy are removed. The effect
 of deleting a resource policy might not be immediate.    Use
-DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, AWS users,
-roles, and accounts lose permissions to perform the repository actions granted by the
-deleted policy.
+DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web
+Services users, roles, and accounts lose permissions to perform the repository actions
+granted by the deleted policy.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository associated with the
@@ -492,8 +491,8 @@ deleted policy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"policy-revision"`:  The revision of the repository's resource policy to be deleted.
   This revision is used for optimistic locking, which prevents others from accidentally
   overwriting your changes to the repository's resource policy.
@@ -541,8 +540,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
     return codeartifact(
@@ -566,6 +565,72 @@ function describe_domain(
 end
 
 """
+    describe_package(domain, format, package, repository)
+    describe_package(domain, format, package, repository, params::Dict{String,<:Any})
+
+ Returns a PackageDescription object that contains information about the requested package.
+
+# Arguments
+- `domain`: The name of the domain that contains the repository that contains the package.
+- `format`: A format that specifies the type of the requested package.
+- `package`: The name of the requested package.
+- `repository`: The name of the repository that contains the requested package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the requested package. The package component that
+  specifies its namespace depends on its type. For example:    The namespace of a Maven
+  package is its groupId. The namespace is required when requesting Maven packages.     The
+  namespace of an npm package is its scope.     Python and NuGet packages do not contain a
+  corresponding component, packages of those formats do not have a namespace.
+"""
+function describe_package(
+    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "GET",
+        "/v1/package",
+        Dict{String,Any}(
+            "domain" => domain,
+            "format" => format,
+            "package" => package,
+            "repository" => repository,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_package(
+    domain,
+    format,
+    package,
+    repository,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/package",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domain" => domain,
+                    "format" => format,
+                    "package" => package,
+                    "repository" => repository,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_package_version(domain, format, package, repository, version)
     describe_package_version(domain, format, package, repository, version, params::Dict{String,<:Any})
 
@@ -575,20 +640,20 @@ package version.
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the package
   version.
-- `format`:  A format that specifies the type of the requested package version. The valid
-  values are:     npm     pypi     maven
+- `format`:  A format that specifies the type of the requested package version.
 - `package`:  The name of the requested package version.
 - `repository`:  The name of the repository that contains the package version.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the requested package version. The package version
+  component that specifies its namespace depends on its type. For example:    The namespace
+  of a Maven package version is its groupId.     The namespace of an npm package version is
+  its scope.     Python and NuGet package versions do not contain a corresponding component,
+  package versions of those formats do not have a namespace.
 """
 function describe_package_version(
     domain,
@@ -655,8 +720,8 @@ requested repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function describe_repository(
     domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -706,8 +771,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function disassociate_external_connection(
     domain,
@@ -765,8 +830,7 @@ version, use DescribePackageVersion.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository you want to dispose.
-- `format`:  A format that specifies the type of package versions you want to dispose. The
-  valid values are:     npm     pypi     maven
+- `format`:  A format that specifies the type of package versions you want to dispose.
 - `package`:  The name of the package with the versions you want to dispose.
 - `repository`:  The name of the repository that contains the package versions you want to
   dispose.
@@ -774,14 +838,14 @@ version, use DescribePackageVersion.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"expectedStatus"`:  The expected status of the package version to dispose. Valid values
-  are:     Published     Unfinished     Unlisted     Archived     Disposed
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"expectedStatus"`:  The expected status of the package version to dispose.
+- `"namespace"`: The namespace of the package versions to be disposed. The package version
+  component that specifies its namespace depends on its type. For example:    The namespace
+  of a Maven package version is its groupId.     The namespace of an npm package version is
+  its scope.     Python and NuGet package versions do not contain a corresponding component,
+  package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions(
@@ -842,7 +906,7 @@ end
 
  Generates a temporary authorization token for accessing repositories in the domain. This
 API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken
-permissions. For more information about authorization tokens, see AWS CodeArtifact
+permissions. For more information about authorization tokens, see CodeArtifact
 authentication and tokens.   CodeArtifact authorization tokens are valid for a period of 12
 hours when created with the login command. You can call login periodically to refresh the
 token. When you create an authorization token with the GetAuthorizationToken API, you can
@@ -860,8 +924,8 @@ information on controlling session duration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"duration"`: The time, in seconds, that the generated authorization token is valid.
   Valid values are 0 and any number between 900 (15 minutes) and 43200 (12 hours). A value of
   0 will set the expiration of the authorization token to the same expiration of the user's
@@ -894,16 +958,15 @@ end
 
  Returns the resource policy attached to the specified domain.    The policy is a
 resource-based policy, not an identity-based policy. For more information, see
-Identity-based policies and resource-based policies  in the AWS Identity and Access
-Management User Guide.
+Identity-based policies and resource-based policies  in the IAM User Guide.
 
 # Arguments
 - `domain`:  The name of the domain to which the resource policy is attached.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function get_domain_permissions_policy(
     domain; aws_config::AbstractAWSConfig=global_aws_config()
@@ -941,19 +1004,20 @@ package version.
 - `domain`:  The name of the domain that contains the repository that contains the package
   version with the requested asset.
 - `format`:  A format that specifies the type of the package version with the requested
-  asset file. The valid values are:     npm     pypi     maven
+  asset file.
 - `package`:  The name of the package that contains the requested asset.
 - `repository`:  The repository that contains the package version with the requested asset.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package version with the requested asset file. The
+  package version component that specifies its namespace depends on its type. For example:
+  The namespace of a Maven package version is its groupId.     The namespace of an npm
+  package version is its scope.     Python and NuGet package versions do not contain a
+  corresponding component, package versions of those formats do not have a namespace.
 - `"revision"`:  The name of the package version revision that contains the requested
   asset.
 """
@@ -1027,19 +1091,20 @@ Markdown or reStructuredText.
 - `domain`:  The name of the domain that contains the repository that contains the package
   version with the requested readme file.
 - `format`:  A format that specifies the type of the package version with the requested
-  readme file. The valid values are:     npm     pypi     maven
+  readme file.
 - `package`:  The name of the package version that contains the requested readme file.
 - `repository`:  The repository that contains the package with the requested readme file.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package version with the requested readme file. The
+  package version component that specifies its namespace depends on its type. For example:
+  The namespace of a Maven package version is its groupId.     The namespace of an npm
+  package version is its scope.     Python and NuGet package versions do not contain a
+  corresponding component, package versions of those formats do not have a namespace.
 """
 function get_package_version_readme(
     domain,
@@ -1098,18 +1163,18 @@ end
     get_repository_endpoint(domain, format, repository, params::Dict{String,<:Any})
 
  Returns the endpoint of a repository for a specific package format. A repository has one
-endpoint for each package format:     npm     pypi     maven
+endpoint for each package format:     maven     npm     nuget     pypi
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository.
 - `format`:  Returns which endpoint of a repository to return. A repository has one
-  endpoint for each package format:     npm     pypi     maven
+  endpoint for each package format.
 - `repository`:  The name of the repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain
-  that contains the repository. It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain that contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint(
     domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1162,8 +1227,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 """
 function get_repository_permissions_policy(
     domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1201,8 +1266,9 @@ end
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
- Returns a list of DomainSummary objects for all domains owned by the AWS account that
-makes this call. Each returned DomainSummary object contains information about a domain.
+ Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services
+account that makes this call. Each returned DomainSummary object contains information about
+a domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1236,24 +1302,23 @@ end
 # Arguments
 - `domain`:  The name of the domain that contains the repository associated with the
   package version assets.
-- `format`:  The format of the package that contains the returned package version assets.
-  The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A
-  Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code
-  in a distributable format, such as a JAR file.
-- `package`:  The name of the package that contains the returned package version assets.
+- `format`:  The format of the package that contains the requested package version assets.
+- `package`:  The name of the package that contains the requested package version assets.
 - `repository`:  The name of the repository that contains the package that contains the
-  returned package version assets.
+  requested package version assets.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"namespace"`: The namespace of the package version that contains the requested package
+  version assets. The package version component that specifies its namespace depends on its
+  type. For example:    The namespace of a Maven package version is its groupId.     The
+  namespace of an npm package version is its scope.     Python and NuGet package versions do
+  not contain a corresponding component, package versions of those formats do not have a
+  namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1322,22 +1387,20 @@ listed in the configuration file are not returned.
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the
   requested package version dependencies.
-- `format`:  The format of the package with the requested dependencies. The valid package
-  types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index
-  (PyPI) package.     maven: A Maven package that contains compiled code in a distributable
-  format, such as a JAR file.
+- `format`:  The format of the package with the requested dependencies.
 - `package`:  The name of the package versions' package.
 - `repository`:  The name of the repository that contains the requested package version.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package version with the requested dependencies. The
+  package version component that specifies its namespace depends on its type. For example:
+  The namespace of a Maven package version is its groupId.     The namespace of an npm
+  package version is its scope.     Python and NuGet package versions do not contain a
+  corresponding component, package versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1401,31 +1464,28 @@ end
 match the request parameters.
 
 # Arguments
-- `domain`:  The name of the domain that contains the repository that contains the returned
-  package versions.
-- `format`:  The format of the returned packages. The valid package types are:     npm: A
-  Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.
-  maven: A Maven package that contains compiled code in a distributable format, such as a JAR
-  file.
-- `package`:  The name of the package for which you want to return a list of package
-  versions.
-- `repository`:  The name of the repository that contains the package.
+- `domain`:  The name of the domain that contains the repository that contains the
+  requested package versions.
+- `format`:  The format of the returned package versions.
+- `package`:  The name of the package for which you want to request package versions.
+- `repository`:  The name of the repository that contains the requested package versions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"namespace"`: The namespace of the package that contains the requested package versions.
+  The package component that specifies its namespace depends on its type. For example:    The
+  namespace of a Maven package is its groupId.     The namespace of an npm package is its
+  scope.     Python and NuGet packages do not contain a corresponding component, packages of
+  those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"sortBy"`:  How to sort the returned list of package versions.
-- `"status"`:  A string that specifies the status of the package versions to include in the
-  returned list. It can be one of the following:     Published     Unfinished     Unlisted
-   Archived     Disposed
+- `"originType"`: The originType used to filter package versions. Only package versions
+  with the provided originType will be returned.
+- `"sortBy"`:  How to sort the requested list of package versions.
+- `"status"`:  A string that filters the requested package versions by status.
 """
 function list_package_versions(
     domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1480,26 +1540,31 @@ request parameters.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the
-  requested list of packages.
-- `repository`:  The name of the repository from which packages are to be listed.
+  requested packages.
+- `repository`:  The name of the repository that contains the requested packages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
-- `"format"`:  The format of the packages. The valid package types are:     npm: A Node
-  Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven:
-  A Maven package that contains compiled code in a distributable format, such as a JAR file.
-  
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"format"`: The format used to filter requested packages. Only packages from the provided
+  format will be returned.
 - `"max-results"`:  The maximum number of results to return per page.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"namespace"`: The namespace used to filter requested packages. Only packages with the
+  provided namespace will be returned. The package component that specifies its namespace
+  depends on its type. For example:    The namespace of a Maven package is its groupId.
+  The namespace of an npm package is its scope.     Python and NuGet packages do not contain
+  a corresponding component, packages of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"package-prefix"`:  A prefix used to filter returned packages. Only packages with names
+- `"package-prefix"`:  A prefix used to filter requested packages. Only packages with names
   that start with packagePrefix are returned.
+- `"publish"`: The value of the Publish package origin control restriction used to filter
+  requested packages. Only packages with the provided restriction are returned. For more
+  information, see PackageOriginRestrictions.
+- `"upstream"`: The value of the Upstream package origin control restriction used to filter
+  requested packages. Only packages with the provided restriction are returned. For more
+  information, see PackageOriginRestrictions.
 """
 function list_packages(
     domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1538,7 +1603,8 @@ end
     list_repositories(params::Dict{String,<:Any})
 
  Returns a list of RepositorySummary objects. Each RepositorySummary contains information
-about a repository in the specified AWS account and that matches the input parameters.
+about a repository in the specified Amazon Web Services account and that matches the input
+parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1578,9 +1644,9 @@ about a repository in the specified domain and that matches the input parameters
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"administrator-account"`:  Filter the list of repositories to only include those that
-  are managed by the AWS account ID.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+  are managed by the Amazon Web Services account ID.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -1614,8 +1680,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS
-CodeArtifact.
+Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN)
+in CodeArtifact.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
@@ -1664,8 +1730,8 @@ of the domain, which would prevent them from being able to update the resource p
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainOwner"`:  The 12-digit account number of the AWS account that owns the domain. It
-  does not include dashes or spaces.
+- `"domainOwner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"policyRevision"`:  The current revision of the resource policy to be set. This revision
   is used for optimistic locking, which prevents others from overwriting your changes to the
   domain's resource policy.
@@ -1703,6 +1769,96 @@ function put_domain_permissions_policy(
 end
 
 """
+    put_package_origin_configuration(domain, format, package, repository, restrictions)
+    put_package_origin_configuration(domain, format, package, repository, restrictions, params::Dict{String,<:Any})
+
+Sets the package origin configuration for a package. The package origin configuration
+determines how new versions of a package can be added to a repository. You can allow or
+block direct publishing of new package versions, or ingestion and retaining of new package
+versions from an external connection or upstream source. For more information about package
+origin controls and configuration, see Editing package origin controls in the CodeArtifact
+User Guide.  PutPackageOriginConfiguration can be called on a package that doesn't yet
+exist in the repository. When called on a package that does not exist, a package is created
+in the repository with no versions and the requested restrictions are set on the package.
+This can be used to preemptively block ingesting or retaining any versions from external
+connections or upstream repositories, or to block publishing any versions of the package
+into the repository before connecting any package managers or publishers to the repository.
+
+# Arguments
+- `domain`: The name of the domain that contains the repository that contains the package.
+- `format`: A format that specifies the type of the package to be updated.
+- `package`: The name of the package to be updated.
+- `repository`: The name of the repository that contains the package.
+- `restrictions`: A PackageOriginRestrictions object that contains information about the
+  upstream and publish package origin restrictions. The upstream restriction determines if
+  new package versions can be ingested or retained from external connections or upstream
+  repositories. The publish restriction determines if new package versions can be published
+  directly to the repository. You must include both the desired upstream and publish
+  restrictions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package to be updated. The package component that
+  specifies its namespace depends on its type. For example:    The namespace of a Maven
+  package is its groupId.     The namespace of an npm package is its scope.     Python and
+  NuGet packages do not contain a corresponding component, packages of those formats do not
+  have a namespace.
+"""
+function put_package_origin_configuration(
+    domain,
+    format,
+    package,
+    repository,
+    restrictions;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package",
+        Dict{String,Any}(
+            "domain" => domain,
+            "format" => format,
+            "package" => package,
+            "repository" => repository,
+            "restrictions" => restrictions,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_package_origin_configuration(
+    domain,
+    format,
+    package,
+    repository,
+    restrictions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domain" => domain,
+                    "format" => format,
+                    "package" => package,
+                    "repository" => repository,
+                    "restrictions" => restrictions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_repository_permissions_policy(domain, policy_document, repository)
     put_repository_permissions_policy(domain, policy_document, repository, params::Dict{String,<:Any})
 
@@ -1721,8 +1877,8 @@ resource policy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"policyRevision"`:  Sets the revision of the resource policy that specifies permissions
   to access the repository. This revision is used for optimistic locking, which prevents
   others from overwriting your changes to the repository's resource policy.
@@ -1772,7 +1928,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or updates tags for a resource in AWS CodeArtifact.
+Adds or updates tags for a resource in CodeArtifact.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add or
@@ -1814,7 +1970,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a resource in AWS CodeArtifact.
+Removes tags from a resource in CodeArtifact.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
@@ -1858,13 +2014,15 @@ end
     update_package_versions_status(domain, format, package, repository, target_status, versions)
     update_package_versions_status(domain, format, package, repository, target_status, versions, params::Dict{String,<:Any})
 
- Updates the status of one or more versions of a package.
+ Updates the status of one or more versions of a package. Using
+UpdatePackageVersionsStatus, you can update the status of package versions to Archived,
+Published, or Unlisted. To set the status of a package version to Disposed, use
+DisposePackageVersions.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the package
   versions with a status to be updated.
 - `format`:  A format that specifies the type of the package with the statuses to update.
-  The valid values are:     npm     pypi     maven
 - `package`:  The name of the package with the version statuses to update.
 - `repository`:  The repository that contains the package versions with the status you want
   to update.
@@ -1874,15 +2032,16 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The package version’s expected status before it is updated. If
   expectedStatus is provided, the package version's status is updated only if its status at
   the time UpdatePackageVersionsStatus is called matches expectedStatus.
-- `"namespace"`:  The namespace of the package. The package component that specifies its
-  namespace depends on its type. For example:     The namespace of a Maven package is its
-  groupId.     The namespace of an npm package is its scope.     A Python package does not
-  contain a corresponding component, so Python packages do not have a namespace.
+- `"namespace"`: The namespace of the package version to be updated. The package version
+  component that specifies its namespace depends on its type. For example:    The namespace
+  of a Maven package version is its groupId.     The namespace of an npm package version is
+  its scope.     Python and NuGet package versions do not contain a corresponding component,
+  package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  A map of package versions and package version revisions. The map
   key is the package version (for example, 3.5.2), and the map value is the package version
   revision.
@@ -1956,10 +2115,10 @@ end
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  An updated repository description.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
-  It does not include dashes or spaces.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
-  order of the upstream repositories in the list determines their priority order when AWS
+  order of the upstream repositories in the list determines their priority order when
   CodeArtifact looks for a requested package version. For more information, see Working with
   upstream repositories.
 """

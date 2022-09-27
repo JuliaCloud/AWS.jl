@@ -59,15 +59,16 @@ end
     attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
 Attaches one or more target groups to the specified Auto Scaling group. This operation is
-used with the following load balancer types:     Application Load Balancer - Operates at
-the application layer (layer 7) and supports HTTP and HTTPS.     Network Load Balancer -
-Operates at the transport layer (layer 4) and supports TCP, TLS, and UDP.     Gateway Load
+used with the following load balancer types:    Application Load Balancer - Operates at the
+application layer (layer 7) and supports HTTP and HTTPS.    Network Load Balancer -
+Operates at the transport layer (layer 4) and supports TCP, TLS, and UDP.    Gateway Load
 Balancer - Operates at the network layer (layer 3).   To describe the target groups for an
 Auto Scaling group, call the DescribeLoadBalancerTargetGroups API. To detach the target
 group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. This
 operation is additive and does not detach existing target groups or Classic Load Balancers
-from the Auto Scaling group. For more information, see Elastic Load Balancing and Amazon
-EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+from the Auto Scaling group. For more information, see Use Elastic Load Balancing to
+distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto
+Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -120,11 +121,11 @@ end
 use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or more Classic
 Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the
 running instances with these Classic Load Balancers. To describe the load balancers for an
-Auto Scaling group, call the DescribeLoadBalancers API. To detach the load balancer from
-the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and
-does not detach existing Classic Load Balancers or target groups from the Auto Scaling
-group. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
-Amazon EC2 Auto Scaling User Guide.
+Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the
+Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does
+not detach existing Classic Load Balancers or target groups from the Auto Scaling group.
+For more information, see Use Elastic Load Balancing to distribute traffic across the
+instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -319,20 +320,22 @@ end
 
 Completes the lifecycle action for the specified token or instance with the specified
 result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
-group:   (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to
-invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
- (Optional) Create a notification target and an IAM role. The target can be either an
-Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
-lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the
-hook is used when the instances launch or terminate.   If you need more time, record the
-lifecycle action heartbeat to keep the instance in a pending state.    If you finish before
-the timeout period ends, send a callback by using the CompleteLifecycleAction API call.
-For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto
-Scaling User Guide.
+group:   (Optional) Create a launch template or launch configuration with a user data
+script that runs while an instance is in a wait state due to a lifecycle hook.   (Optional)
+Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda
+function when an instance is put into a wait state due to a lifecycle hook.   (Optional)
+Create a notification target and an IAM role. The target can be either an Amazon SQS queue
+or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle
+notifications to the target.   Create the lifecycle hook. Specify whether the hook is used
+when the instances launch or terminate.   If you need more time, record the lifecycle
+action heartbeat to keep the instance in a wait state.    If you finish before the timeout
+period ends, send a callback by using the CompleteLifecycleAction API call.    For more
+information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling
+User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
-- `lifecycle_action_result`: The action for the group to take. This parameter can be either
+- `lifecycle_action_result`: The action for the group to take. You can specify either
   CONTINUE or ABANDON.
 - `lifecycle_hook_name`: The name of the lifecycle hook.
 
@@ -393,12 +396,12 @@ end
 functionality for Amazon EC2 Auto Scaling and Amazon EC2.  Creates an Auto Scaling group
 with the specified name and attributes.  If you exceed your maximum limit of Auto Scaling
 groups, the call fails. To query this limit, call the DescribeAccountLimits API. For
-information about updating this limit, see Amazon EC2 Auto Scaling service quotas in the
-Amazon EC2 Auto Scaling User Guide. For introductory exercises for creating an Auto Scaling
-group, see Getting started with Amazon EC2 Auto Scaling and Tutorial: Set up a scaled and
+information about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon
+EC2 Auto Scaling User Guide. For introductory exercises for creating an Auto Scaling group,
+see Getting started with Amazon EC2 Auto Scaling and Tutorial: Set up a scaled and
 load-balanced application in the Amazon EC2 Auto Scaling User Guide. For more information,
 see Auto Scaling groups in the Amazon EC2 Auto Scaling User Guide. Every Auto Scaling group
-has three size parameters (DesiredCapacity, MaxSize, and MinSize). Usually, you set these
+has three size properties (DesiredCapacity, MaxSize, and MinSize). Usually, you set these
 sizes based on a specific number of instances. However, if you configure a mixed instances
 policy that defines weights for the instance types, you must specify these sizes with the
 same units that you use for weighting instances.
@@ -416,21 +419,33 @@ same units that you use for weighting instances.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZones"`: A list of Availability Zones where instances in the Auto Scaling
-  group can be created. This parameter is optional if you specify one or more subnets for
-  VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this
-  parameter is required to launch instances into EC2-Classic.
+  group can be created. Used for launching into the default VPC subnet in each Availability
+  Zone when not using the VPCZoneIdentifier property, or for attaching a network interface
+  when an existing network interface ID is specified in a launch template.
 - `"CapacityRebalance"`: Indicates whether Capacity Rebalancing is enabled. Otherwise,
   Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto
   Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot
   Instance is at an elevated risk of interruption. After launching a new instance, it then
-  terminates an old instance. For more information, see Amazon EC2 Auto Scaling Capacity
-  Rebalancing in the Amazon EC2 Auto Scaling User Guide.
+  terminates an old instance. For more information, see Use Capacity Rebalancing to handle
+  Amazon EC2 Spot Interruptions in the in the Amazon EC2 Auto Scaling User Guide.
 - `"Context"`: Reserved.
-- `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
-  before another scaling activity can start. The default value is 300. This setting applies
-  when using simple scaling policies, but not when using other scaling policies or scheduled
-  scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the
-  Amazon EC2 Auto Scaling User Guide.
+- `"DefaultCooldown"`:  Only needed if you use simple scaling policies.  The amount of
+  time, in seconds, between one scaling activity ending and another one starting due to
+  simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto
+  Scaling in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
+- `"DefaultInstanceWarmup"`: The amount of time, in seconds, until a newly launched
+  instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance
+  finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting
+  in more reliable usage data. Set this value equal to the amount of time that it takes for
+  resource consumption to become stable after an instance reaches the InService state. For
+  more information, see Set the default instance warmup for an Auto Scaling group in the
+  Amazon EC2 Auto Scaling User Guide.  To manage your warm-up settings at the group level, we
+  recommend that you set the default instance warmup, even if its value is set to 0 seconds.
+  This also optimizes the performance of scaling policies that scale continuously, such as
+  target tracking and step scaling policies.  If you need to remove a value that you
+  previously set, include the property but specify -1 for the value. However, we strongly
+  recommend keeping the default instance warmup enabled by specifying a minimum value of 0.
+  Default: None
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group at the time of its creation and the capacity it attempts to maintain. It can scale
   beyond this capacity if you configure auto scaling. This number must be greater than or
@@ -445,9 +460,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service and
-  marking it unhealthy due to a failed health check. The default value is 0. For more
-  information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide.
-  Conditional: Required if you are adding an ELB health check.
+  marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is
+  useful if your instances do not immediately pass these health checks after they enter the
+  InService state. For more information, see Health check grace period in the Amazon EC2 Auto
+  Scaling User Guide. Default: 0 seconds
 - `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
   (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health
   checks, it considers the instance unhealthy if it fails either the EC2 status checks or the
@@ -461,16 +477,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchConfigurationName"`: The name of the launch configuration to use to launch
   instances.  Conditional: You must specify either a launch template (LaunchTemplate or
   MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
-- `"LaunchTemplate"`: Parameters used to specify the launch template and version to use to
+- `"LaunchTemplate"`: Information used to specify the launch template and version to use to
   launch instances.  Conditional: You must specify either a launch template (LaunchTemplate
   or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
    The launch template that is specified must be configured for use with an Auto Scaling
   group. For more information, see Creating a launch template for an Auto Scaling group in
   the Amazon EC2 Auto Scaling User Guide.
-- `"LifecycleHookSpecificationList"`: One or more lifecycle hooks for the group, which
-  specify actions to perform when Amazon EC2 Auto Scaling launches or terminates instances.
+- `"LifecycleHookSpecificationList"`: One or more lifecycle hooks to add to the Auto
+  Scaling group before instances are launched.
 - `"LoadBalancerNames"`: A list of Classic Load Balancers associated with this Auto Scaling
-  group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers,
+  group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancer,
   specify the TargetGroupARNs property instead.
 - `"MaxInstanceLifetime"`: The maximum amount of time, in seconds, that an instance can be
   in service. The default is null. If specified, the value must be either 0 or a number equal
@@ -483,35 +499,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
   about preventing instances from terminating on scale in, see Using instance scale-in
   protection in the Amazon EC2 Auto Scaling User Guide.
-- `"PlacementGroup"`: The name of an existing placement group into which to launch your
-  instances, if any. A placement group is a logical grouping of instances within a single
-  Availability Zone. You cannot specify multiple Availability Zones and a placement group.
-  For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
+- `"PlacementGroup"`: The name of the placement group into which to launch your instances.
+  For more information, see Placement groups in the Amazon EC2 User Guide for Linux
+  Instances.  A cluster placement group is a logical grouping of instances within a single
+  Availability Zone. You cannot specify multiple Availability Zones and a cluster placement
+  group.
 - `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
-  the Auto Scaling group uses to call other Amazon Web Services on your behalf. By default,
-  Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling,
-  which it creates if it does not exist. For more information, see Service-linked roles in
-  the Amazon EC2 Auto Scaling User Guide.
+  the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By
+  default, Amazon EC2 Auto Scaling uses a service-linked role named
+  AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information,
+  see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
 - `"Tags"`: One or more tags. You can tag your Auto Scaling group and propagate the tags to
   the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add
   tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the
   launch template specifies an instance tag with a key that is also specified for the Auto
   Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the
-  value specified by the Auto Scaling group. For more information, see Tagging Auto Scaling
+  value specified by the Auto Scaling group. For more information, see Tag Auto Scaling
   groups and instances in the Amazon EC2 Auto Scaling User Guide.
 - `"TargetGroupARNs"`: The Amazon Resource Names (ARN) of the target groups to associate
-  with the Auto Scaling group. Instances are registered as targets in a target group, and
-  traffic is routed to the target group. For more information, see Elastic Load Balancing and
-  Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+  with the Auto Scaling group. Instances are registered as targets with the target groups.
+  The target groups receive incoming traffic and route requests to one or more registered
+  targets. For more information, see Use Elastic Load Balancing to distribute traffic across
+  the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 - `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instance to terminate. These policies are executed in the order that you list them. For
-  more information, see Controlling which Auto Scaling instances terminate during scale in in
-  the Amazon EC2 Auto Scaling User Guide.
+  more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon
+  EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy |
+  ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration |
+  OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
 - `"VPCZoneIdentifier"`: A comma-separated list of subnet IDs for a virtual private cloud
   (VPC) where instances in the Auto Scaling group can be created. If you specify
-  VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter
-  must reside in those Availability Zones. Conditional: If your account supports EC2-Classic
-  and VPC, this parameter is required to launch instances into a VPC.
+  VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those
+  Availability Zones.
 """
 function create_auto_scaling_group(
     AutoScalingGroupName,
@@ -561,9 +580,9 @@ end
 
 Creates a launch configuration. If you exceed your maximum limit of launch configurations,
 the call fails. To query this limit, call the DescribeAccountLimits API. For information
-about updating this limit, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2
-Auto Scaling User Guide. For more information, see Launch configurations in the Amazon EC2
-Auto Scaling User Guide.
+about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto
+Scaling User Guide. For more information, see Launch configurations in the Amazon EC2 Auto
+Scaling User Guide.
 
 # Arguments
 - `launch_configuration_name`: The name of the launch configuration. This name must be
@@ -571,28 +590,27 @@ Auto Scaling User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssociatePublicIpAddress"`: For Auto Scaling groups that are running in a virtual
-  private cloud (VPC), specifies whether to assign a public IP address to the group's
-  instances. If you specify true, each instance in the Auto Scaling group receives a unique
-  public IP address. For more information, see Launching Auto Scaling instances in a VPC in
-  the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, you must specify at
-  least one subnet for VPCZoneIdentifier when you create your group.  If the instance is
-  launched into a default subnet, the default is to assign a public IP address, unless you
-  disabled the option to assign a public IP address on the subnet. If the instance is
-  launched into a nondefault subnet, the default is not to assign a public IP address, unless
-  you enabled the option to assign a public IP address on the subnet.
-- `"BlockDeviceMappings"`: A block device mapping, which specifies the block devices for
-  the instance. You can specify virtual devices and EBS volumes. For more information, see
-  Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
-- `"ClassicLinkVPCId"`: The ID of a ClassicLink-enabled VPC to link your EC2-Classic
+- `"AssociatePublicIpAddress"`: Specifies whether to assign a public IPv4 address to the
+  group's instances. If the instance is launched into a default subnet, the default is to
+  assign a public IPv4 address, unless you disabled the option to assign a public IPv4
+  address on the subnet. If the instance is launched into a nondefault subnet, the default is
+  not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4
+  address on the subnet. If you specify true, each instance in the Auto Scaling group
+  receives a unique public IPv4 address. For more information, see Launching Auto Scaling
+  instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property,
+  you must specify at least one subnet for VPCZoneIdentifier when you create your group.
+- `"BlockDeviceMappings"`: The block device mapping entries that define the block devices
+  to attach to the instances at launch. By default, the block devices specified in the block
+  device mapping for the AMI are used. For more information, see Block device mappings in the
+  Amazon EC2 User Guide for Linux Instances.
+- `"ClassicLinkVPCId"`:  EC2-Classic retires on August 15, 2022. This property is not
+  supported after that date.  The ID of a ClassicLink-enabled VPC to link your EC2-Classic
   instances to. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux
-  Instances and Linking EC2-Classic instances to a VPC in the Amazon EC2 Auto Scaling User
-  Guide. This parameter can only be used if you are launching EC2-Classic instances.
-- `"ClassicLinkVPCSecurityGroups"`: The IDs of one or more security groups for the
-  specified ClassicLink-enabled VPC. For more information, see ClassicLink in the Amazon EC2
-  User Guide for Linux Instances and Linking EC2-Classic instances to a VPC in the Amazon EC2
-  Auto Scaling User Guide. If you specify the ClassicLinkVPCId parameter, you must specify
-  this parameter.
+  Instances.
+- `"ClassicLinkVPCSecurityGroups"`:  EC2-Classic retires on August 15, 2022. This property
+  is not supported after that date.  The IDs of one or more security groups for the specified
+  ClassicLink-enabled VPC. If you specify the ClassicLinkVPCId property, you must specify
+  ClassicLinkVPCSecurityGroups.
 - `"EbsOptimized"`: Specifies whether the launch configuration is optimized for EBS I/O
   (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an
   optimized configuration stack to provide optimal I/O performance. This optimization is not
@@ -605,14 +623,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM role. For more information, see IAM role for applications that run on Amazon EC2
   instances in the Amazon EC2 Auto Scaling User Guide.
 - `"ImageId"`: The ID of the Amazon Machine Image (AMI) that was assigned during
-  registration. For more information, see Finding an AMI in the Amazon EC2 User Guide for
-  Linux Instances. If you do not specify InstanceId, you must specify ImageId.
+  registration. For more information, see Finding a Linux AMI in the Amazon EC2 User Guide
+  for Linux Instances. If you specify InstanceId, an ImageId is not required.
 - `"InstanceId"`: The ID of the instance to use to create the launch configuration. The new
   launch configuration derives attributes from the instance, except for the block device
   mapping. To create a launch configuration with a block device mapping or override any other
   instance attributes, specify them as part of the same request. For more information, see
   Creating a launch configuration using an EC2 instance in the Amazon EC2 Auto Scaling User
-  Guide. If you do not specify InstanceId, you must specify both ImageId and InstanceType.
+  Guide.
 - `"InstanceMonitoring"`: Controls whether instances in this group are launched with
   detailed (true) or basic (false) monitoring. The default value is true (enabled).  When
   detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your
@@ -620,34 +638,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metrics every 5 minutes. For more information, see Configure Monitoring for Auto Scaling
   Instances in the Amazon EC2 Auto Scaling User Guide.
 - `"InstanceType"`: Specifies the instance type of the EC2 instance. For information about
-  available instance types, see Available Instance Types in the Amazon EC2 User Guide for
-  Linux Instances. If you do not specify InstanceId, you must specify InstanceType.
-- `"KernelId"`: The ID of the kernel associated with the AMI.
-- `"KeyName"`: The name of the key pair. For more information, see Amazon EC2 Key Pairs in
-  the Amazon EC2 User Guide for Linux Instances.
+  available instance types, see Available instance types in the Amazon EC2 User Guide for
+  Linux Instances. If you specify InstanceId, an InstanceType is not required.
+- `"KernelId"`: The ID of the kernel associated with the AMI.  We recommend that you use
+  PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels
+  in the Amazon EC2 User Guide for Linux Instances.
+- `"KeyName"`: The name of the key pair. For more information, see Amazon EC2 key pairs and
+  Linux instances in the Amazon EC2 User Guide for Linux Instances.
 - `"MetadataOptions"`: The metadata options for the instances. For more information, see
   Configuring the Instance Metadata Options in the Amazon EC2 Auto Scaling User Guide.
-- `"PlacementTenancy"`: The tenancy of the instance. An instance with dedicated tenancy
-  runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch
-  dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy
-  attribute set to default), you must set the value of this parameter to dedicated. If you
-  specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when
-  you create your group. For more information, see Configuring instance tenancy with Amazon
-  EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid Values: default |
-  dedicated
-- `"RamdiskId"`: The ID of the RAM disk to select.
-- `"SecurityGroups"`: A list that contains the security groups to assign to the instances
-  in the Auto Scaling group. [EC2-VPC] Specify the security group IDs. For more information,
-  see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
-  [EC2-Classic] Specify either the security group names or the security group IDs. For more
-  information, see Amazon EC2 Security Groups in the Amazon EC2 User Guide for Linux
-  Instances.
+- `"PlacementTenancy"`: The tenancy of the instance, either default or dedicated. An
+  instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be
+  launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with
+  the instance placement tenancy attribute set to default), you must set the value of this
+  property to dedicated. For more information, see Configuring instance tenancy with Amazon
+  EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. If you specify
+  PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you
+  create your group. Valid values: default | dedicated
+- `"RamdiskId"`: The ID of the RAM disk to select.  We recommend that you use PV-GRUB
+  instead of kernels and RAM disks. For more information, see User provided kernels in the
+  Amazon EC2 User Guide for Linux Instances.
+- `"SecurityGroups"`: A list that contains the security group IDs to assign to the
+  instances in the Auto Scaling group. For more information, see Control traffic to resources
+  using security groups in the Amazon Virtual Private Cloud User Guide.
 - `"SpotPrice"`: The maximum hourly price to be paid for any Spot Instance launched to
   fulfill the request. Spot Instances are launched when the price you specify exceeds the
-  current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2
-  Auto Scaling User Guide.  When you change your maximum price by creating a new launch
-  configuration, running instances will continue to run as long as the maximum price for
-  those running instances is higher than the current Spot price.
+  current Spot price. For more information, see Request Spot Instances for fault-tolerant and
+  flexible applications in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value
+  of 0.001  When you change your maximum price by creating a new launch configuration,
+  running instances will continue to run as long as the maximum price for those running
+  instances is higher than the current Spot price.
 - `"UserData"`: The user data to make available to the launched EC2 instances. For more
   information, see Instance metadata and user data (Linux) and Instance metadata and user
   data (Windows). If you are using a command line tool, base64-encoding is performed for you,
@@ -689,8 +709,8 @@ end
 
 Creates or updates tags for the specified Auto Scaling group. When you specify a tag with a
 key that already exists, the operation overwrites the previous tag definition, and you do
-not get an error message. For more information, see Tagging Auto Scaling groups and
-instances in the Amazon EC2 Auto Scaling User Guide.
+not get an error message. For more information, see Tag Auto Scaling groups and instances
+in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `tags`: One or more tags.
@@ -735,8 +755,8 @@ size and desired capacity of the Auto Scaling group to zero.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceDelete"`: Specifies that the group is to be deleted along with all instances
-  associated with the group, without waiting for all instances to be terminated. This
-  parameter also deletes any outstanding lifecycle actions associated with the group.
+  associated with the group, without waiting for all instances to be terminated. This action
+  also deletes any outstanding lifecycle actions associated with the group.
 """
 function delete_auto_scaling_group(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1072,8 +1092,8 @@ end
 Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you
 establish an Amazon Web Services account, the account has initial quotas on the maximum
 number of Auto Scaling groups and launch configurations that you can create in a given
-Region. For more information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2
-Auto Scaling User Guide.
+Region. For more information, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto
+Scaling User Guide.
 
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1133,7 +1153,7 @@ instances in a warm pool, you must call the DescribeWarmPool API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoScalingGroupNames"`: The names of the Auto Scaling groups. By default, you can only
   specify up to 50 names. You can optionally increase this limit using the MaxRecords
-  parameter. If you omit this parameter, all Auto Scaling groups are described.
+  property. If you omit this property, all Auto Scaling groups are described.
 - `"Filters"`: One or more filters to limit the results based on specific tags.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
@@ -1164,7 +1184,7 @@ Gets information about the Auto Scaling instances in the account and Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceIds"`: The IDs of the instances. If you omit this parameter, all Auto Scaling
+- `"InstanceIds"`: The IDs of the instances. If you omit this property, all Auto Scaling
   instances are described. If you specify an ID that does not exist, it is ignored with no
   error. Array Members: Maximum number of 50 items.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
@@ -1286,7 +1306,7 @@ Gets information about the launch configurations in the account and Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LaunchConfigurationNames"`: The launch configuration names. If you omit this parameter,
+- `"LaunchConfigurationNames"`: The launch configuration names. If you omit this property,
   all launch configurations are described. Array Members: Maximum number of 50 items.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
@@ -1347,7 +1367,7 @@ Gets information about the lifecycle hooks for the specified Auto Scaling group.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"LifecycleHookNames"`: The names of one or more lifecycle hooks. If you omit this
-  parameter, all lifecycle hooks are described.
+  property, all lifecycle hooks are described.
 """
 function describe_lifecycle_hooks(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1382,22 +1402,22 @@ end
     describe_load_balancer_target_groups(auto_scaling_group_name)
     describe_load_balancer_target_groups(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Gets information about the load balancer target groups for the specified Auto Scaling
-group. To determine the availability of registered instances, use the State element in the
-response. When you attach a target group to an Auto Scaling group, the initial State value
-is Adding. The state transitions to Added after all Auto Scaling instances are registered
-with the target group. If Elastic Load Balancing health checks are enabled for the Auto
-Scaling group, the state transitions to InService after at least one Auto Scaling instance
-passes the health check. When the target group is in the InService state, Amazon EC2 Auto
-Scaling can terminate and replace any instances that are reported as unhealthy. If no
-registered instances pass the health checks, the target group doesn't enter the InService
-state.  Target groups also have an InService state if you attach them in the
-CreateAutoScalingGroup API call. If your target group state is InService, but it is not
-working properly, check the scaling activities by calling DescribeScalingActivities and
+Gets information about the Elastic Load Balancing target groups for the specified Auto
+Scaling group. To determine the attachment status of the target group, use the State
+element in the response. When you attach a target group to an Auto Scaling group, the
+initial State value is Adding. The state transitions to Added after all Auto Scaling
+instances are registered with the target group. If Elastic Load Balancing health checks are
+enabled for the Auto Scaling group, the state transitions to InService after at least one
+Auto Scaling instance passes the health check. When the target group is in the InService
+state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as
+unhealthy. If no registered instances pass the health checks, the target group doesn't
+enter the InService state.  Target groups also have an InService state if you attach them
+in the CreateAutoScalingGroup API call. If your target group state is InService, but it is
+not working properly, check the scaling activities by calling DescribeScalingActivities and
 take any corrective actions necessary. For help with failed health checks, see
 Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
-Guide. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
-Amazon EC2 Auto Scaling User Guide.
+Guide. For more information, see Use Elastic Load Balancing to distribute traffic across
+the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1444,8 +1464,8 @@ end
 
 Gets information about the load balancers for the specified Auto Scaling group. This
 operation describes only Classic Load Balancers. If you have Application Load Balancers,
-Network Load Balancers, or Gateway Load Balancers, use the DescribeLoadBalancerTargetGroups
-API instead. To determine the availability of registered instances, use the State element
+Network Load Balancers, or Gateway Load Balancer, use the DescribeLoadBalancerTargetGroups
+API instead. To determine the attachment status of the load balancer, use the State element
 in the response. When you attach a load balancer to an Auto Scaling group, the initial
 State value is Adding. The state transitions to Added after all Auto Scaling instances are
 registered with the load balancer. If Elastic Load Balancing health checks are enabled for
@@ -1458,8 +1478,8 @@ CreateAutoScalingGroup API call. If your load balancer state is InService, but i
 working properly, check the scaling activities by calling DescribeScalingActivities and
 take any corrective actions necessary. For help with failed health checks, see
 Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
-Guide. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
-Amazon EC2 Auto Scaling User Guide.
+Guide. For more information, see Use Elastic Load Balancing to distribute traffic across
+the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1504,9 +1524,7 @@ end
     describe_metric_collection_types()
     describe_metric_collection_types(params::Dict{String,<:Any})
 
-Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling. The
-GroupStandbyInstances metric is not returned by default. You must explicitly request this
-metric when calling the EnableMetricsCollection API.
+Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
 
 """
 function describe_metric_collection_types(;
@@ -1577,7 +1595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"PolicyNames"`: The names of one or more policies. If you omit this parameter, all
+- `"PolicyNames"`: The names of one or more policies. If you omit this property, all
   policies are described. If a group name is provided, the results are limited to that group.
   If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum
   number of 50 items.
@@ -1613,7 +1631,7 @@ EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ActivityIds"`: The activity IDs of the desired scaling activities. If you omit this
-  parameter, all activities for the past six weeks are described. If unknown activities are
+  property, all activities for the past six weeks are described. If unknown activities are
   requested, they are ignored with no error. If you specify an Auto Scaling group, the
   results are limited to that group. Array Members: Maximum number of 50 IDs.
 - `"AutoScalingGroupName"`: The name of the Auto Scaling group.
@@ -1678,16 +1696,16 @@ run, call the DescribeScalingActivities API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoScalingGroupName"`: The name of the Auto Scaling group.
 - `"EndTime"`: The latest scheduled start time to return. If scheduled action names are
-  provided, this parameter is ignored.
+  provided, this property is ignored.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ScheduledActionNames"`: The names of one or more scheduled actions. If you omit this
-  parameter, all scheduled actions are described. If you specify an unknown scheduled action,
+  property, all scheduled actions are described. If you specify an unknown scheduled action,
   it is ignored with no error. Array Members: Maximum number of 50 actions.
 - `"StartTime"`: The earliest scheduled start time to return. If scheduled action names are
-  provided, this parameter is ignored.
+  provided, this property is ignored.
 """
 function describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
     return auto_scaling(
@@ -1714,8 +1732,8 @@ can query for the tags for a specific Auto Scaling group. You can specify multip
 for a filter. A tag must match at least one of the specified values for it to be included
 in the results. You can also specify multiple filters. The result includes information for
 a particular tag only if it matches all the filters. If there's no match, no special
-message is returned. For more information, see Tagging Auto Scaling groups and instances in
-the Amazon EC2 Auto Scaling User Guide.
+message is returned. For more information, see Tag Auto Scaling groups and instances in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1744,8 +1762,8 @@ end
     describe_termination_policy_types(params::Dict{String,<:Any})
 
 Describes the termination policies supported by Amazon EC2 Auto Scaling. For more
-information, see Controlling which Auto Scaling instances terminate during scale in in the
-Amazon EC2 Auto Scaling User Guide.
+information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2
+Auto Scaling User Guide.
 
 """
 function describe_termination_policy_types(;
@@ -1878,7 +1896,10 @@ end
     detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns)
     detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
-Detaches one or more target groups from the specified Auto Scaling group.
+Detaches one or more target groups from the specified Auto Scaling group. When you detach a
+target group, it enters the Removing state while deregistering the instances in the group.
+When all instances are deregistered, then you can no longer describe the target group using
+the DescribeLoadBalancerTargetGroups API call. The instances remain running.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1928,7 +1949,7 @@ end
 
 Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This
 operation detaches only Classic Load Balancers. If you have Application Load Balancers,
-Network Load Balancers, or Gateway Load Balancers, use the DetachLoadBalancerTargetGroups
+Network Load Balancers, or Gateway Load Balancer, use the DetachLoadBalancerTargetGroups
 API instead. When you detach a load balancer, it enters the Removing state while
 deregistering the instances in the group. When all instances are deregistered, then you can
 no longer describe the load balancer using the DescribeLoadBalancers API call. The
@@ -1982,21 +2003,23 @@ end
     disable_metrics_collection(auto_scaling_group_name)
     disable_metrics_collection(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Disables group metrics for the specified Auto Scaling group.
+Disables group metrics collection for the specified Auto Scaling group.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Metrics"`: Specifies one or more of the following metrics:    GroupMinSize
-  GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances
-      GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances
-  GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity
-  GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity
-  WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity
-  WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
-     If you omit this parameter, all metrics are disabled.
+- `"Metrics"`: Identifies the metrics to disable. You can specify one or more of the
+  following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity
+  GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances
+  GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity
+  GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity
+  GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity
+  WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity
+  GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this
+  property, all metrics are disabled. For more information, see Auto Scaling group metrics in
+  the Amazon EC2 Auto Scaling User Guide.
 """
 function disable_metrics_collection(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2031,27 +2054,29 @@ end
     enable_metrics_collection(auto_scaling_group_name, granularity)
     enable_metrics_collection(auto_scaling_group_name, granularity, params::Dict{String,<:Any})
 
-Enables group metrics for the specified Auto Scaling group. For more information, see
-Monitoring CloudWatch metrics for your Auto Scaling groups and instances in the Amazon EC2
-Auto Scaling User Guide.
+Enables group metrics collection for the specified Auto Scaling group. You can use these
+metrics to track changes in an Auto Scaling group and to set alarms on threshold values.
+You can view group metrics using the Amazon EC2 Auto Scaling console or the CloudWatch
+console. For more information, see Monitor CloudWatch metrics for your Auto Scaling groups
+and instances in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
-- `granularity`: The granularity to associate with the metrics to collect. The only valid
-  value is 1Minute.
+- `granularity`: The frequency at which Amazon EC2 Auto Scaling sends aggregated data to
+  CloudWatch. The only valid value is 1Minute.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Metrics"`: Specifies which group-level metrics to start collecting. You can specify one
-  or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity
-      GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances
-  GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature
-  supports the following additional metrics:     GroupInServiceCapacity
+- `"Metrics"`: Identifies the metrics to enable. You can specify one or more of the
+  following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity
+  GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances
+  GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity
   GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity
-  GroupTotalCapacity    The warm pools feature supports the following additional metrics:
-  WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity
-  WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity
-    GroupAndWarmPoolTotalCapacity    If you omit this parameter, all metrics are enabled.
+  GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity
+  WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity
+  GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you specify
+  Granularity and don't specify any metrics, all metrics are enabled. For more information,
+  see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
 """
 function enable_metrics_collection(
     AutoScalingGroupName, Granularity; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2314,17 +2339,19 @@ end
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name)
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
-Creates or updates a lifecycle hook for the specified Auto Scaling group. A lifecycle hook
-enables an Auto Scaling group to be aware of events in the Auto Scaling instance lifecycle,
-and then perform a custom action when the corresponding lifecycle event occurs. This step
-is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:
-(Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke
-your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
-(Optional) Create a notification target and an IAM role. The target can be either an Amazon
-SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
-lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the
-hook is used when the instances launch or terminate.    If you need more time, record the
-lifecycle action heartbeat to keep the instance in a pending state using the
+Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks
+let you create solutions that are aware of events in the Auto Scaling instance lifecycle,
+and then perform a custom action on instances when the corresponding lifecycle event
+occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
+group:   (Optional) Create a launch template or launch configuration with a user data
+script that runs while an instance is in a wait state due to a lifecycle hook.   (Optional)
+Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda
+function when an instance is put into a wait state due to a lifecycle hook.   (Optional)
+Create a notification target and an IAM role. The target can be either an Amazon SQS queue
+or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle
+notifications to the target.    Create the lifecycle hook. Specify whether the hook is used
+when the instances launch or terminate.    If you need more time, record the lifecycle
+action heartbeat to keep the instance in a wait state using the
 RecordLifecycleActionHeartbeat API call.   If you finish before the timeout period ends,
 send a callback by using the CompleteLifecycleAction API call.   For more information, see
 Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide. If you
@@ -2339,31 +2366,31 @@ delete it by calling the DeleteLifecycleHook API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DefaultResult"`: Defines the action the Auto Scaling group should take when the
-  lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be
-  either CONTINUE or ABANDON. The default value is ABANDON.
+- `"DefaultResult"`: The action the Auto Scaling group takes when the lifecycle hook
+  timeout elapses or if an unexpected failure occurs. The default value is ABANDON. Valid
+  values: CONTINUE | ABANDON
 - `"HeartbeatTimeout"`: The maximum time, in seconds, that can elapse before the lifecycle
   hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1
-  hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that
-  you specified in the DefaultResult parameter. You can prevent the lifecycle hook from
-  timing out by calling the RecordLifecycleActionHeartbeat API.
-- `"LifecycleTransition"`: The instance state to which you want to attach the lifecycle
-  hook. The valid values are:   autoscaling:EC2_INSTANCE_LAUNCHING
-  autoscaling:EC2_INSTANCE_TERMINATING   Required for new lifecycle hooks, but optional when
-  updating existing hooks.
+  hour).
+- `"LifecycleTransition"`: The lifecycle transition. For Auto Scaling groups, there are two
+  major lifecycle transitions.   To create a lifecycle hook for scale-out events, specify
+  autoscaling:EC2_INSTANCE_LAUNCHING.   To create a lifecycle hook for scale-in events,
+  specify autoscaling:EC2_INSTANCE_TERMINATING.   Required for new lifecycle hooks, but
+  optional when updating existing hooks.
 - `"NotificationMetadata"`: Additional information that you want to include any time Amazon
   EC2 Auto Scaling sends a message to the notification target.
-- `"NotificationTargetARN"`: The ARN of the notification target that Amazon EC2 Auto
-  Scaling uses to notify you when an instance is in the transition state for the lifecycle
-  hook. This target can be either an SQS queue or an SNS topic. If you specify an empty
-  string, this overrides the current ARN. This operation uses the JSON format when sending
-  notifications to an Amazon SQS queue, and an email key-value pair format when sending
-  notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2
-  Auto Scaling sends it a test message. Test messages contain the following additional
-  key-value pair: \"Event\": \"autoscaling:TEST_NOTIFICATION\".
+- `"NotificationTargetARN"`: The Amazon Resource Name (ARN) of the notification target that
+  Amazon EC2 Auto Scaling uses to notify you when an instance is in a wait state for the
+  lifecycle hook. You can specify either an Amazon SNS topic or an Amazon SQS queue. If you
+  specify an empty string, this overrides the current ARN. This operation uses the JSON
+  format when sending notifications to an Amazon SQS queue, and an email key-value pair
+  format when sending notifications to an Amazon SNS topic. When you specify a notification
+  target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the
+  following additional key-value pair: \"Event\": \"autoscaling:TEST_NOTIFICATION\".
 - `"RoleARN"`: The ARN of the IAM role that allows the Auto Scaling group to publish to the
-  specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue.
-  Required for new lifecycle hooks, but optional when updating existing hooks.
+  specified notification target. Valid only if the notification target is an Amazon SNS topic
+  or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating
+  existing hooks.
 """
 function put_lifecycle_hook(
     AutoScalingGroupName,
@@ -2488,17 +2515,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and
   PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For
   more information, see Scaling adjustment types in the Amazon EC2 Auto Scaling User Guide.
-- `"Cooldown"`: The duration of the policy's cooldown period, in seconds. When a cooldown
-  period is specified here, it overrides the default cooldown period defined for the Auto
-  Scaling group. Valid only if the policy type is SimpleScaling. For more information, see
-  Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+- `"Cooldown"`: A cooldown period, in seconds, that applies to a specific simple scaling
+  policy. When a cooldown period is specified here, it overrides the default cooldown. Valid
+  only if the policy type is SimpleScaling. For more information, see Scaling cooldowns for
+  Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: None
 - `"Enabled"`: Indicates whether the scaling policy is enabled or disabled. The default is
   enabled. For more information, see Disabling a scaling policy for an Auto Scaling group in
   the Amazon EC2 Auto Scaling User Guide.
-- `"EstimatedInstanceWarmup"`: The estimated time, in seconds, until a newly launched
-  instance can contribute to the CloudWatch metrics. If not provided, the default is to use
-  the value from the default cooldown period for the Auto Scaling group. Valid only if the
-  policy type is TargetTrackingScaling or StepScaling.
+- `"EstimatedInstanceWarmup"`:  Not needed if the default instance warmup is defined for
+  the group.  The estimated time, in seconds, until a newly launched instance can contribute
+  to the CloudWatch metrics. This warm-up period applies to instances launched due to a
+  specific target tracking or step scaling policy. When a warm-up period is specified here,
+  it overrides the default instance warmup. Valid only if the policy type is
+  TargetTrackingScaling or StepScaling.  The default is to use the value for the default
+  instance warmup defined for the group. If default instance warmup is null, then
+  EstimatedInstanceWarmup falls back to the value of default cooldown.
 - `"MetricAggregationType"`: The aggregation type for the CloudWatch metrics. The valid
   values are Minimum, Maximum, and Average. If the aggregation type is null, the value is
   treated as Average. Valid only if the policy type is StepScaling.
@@ -2532,7 +2563,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   predefined or custom metrics. The following predefined metrics are available:
   ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut
   ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you
-  must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more
+  must specify the ResourceLabel property with the PredefinedMetricSpecification. For more
   information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference.
   Required if the policy type is TargetTrackingScaling.
 """
@@ -2579,7 +2610,8 @@ Creates or updates a scheduled scaling action for an Auto Scaling group. For mor
 information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide. You can view
 the scheduled actions for an Auto Scaling group using the DescribeScheduledActions API
 call. If you are no longer using a scheduled action, you can delete it by calling the
-DeleteScheduledAction API.
+DeleteScheduledAction API. If you try to schedule your action in the past, Amazon EC2 Auto
+Scaling returns an error message.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2589,8 +2621,10 @@ DeleteScheduledAction API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group after the scheduled action runs and the capacity it attempts to maintain. It can
-  scale beyond this capacity if you add more scaling conditions.
-- `"EndTime"`: The date and time for the recurring schedule to end, in UTC.
+  scale beyond this capacity if you add more scaling conditions.   You must specify at least
+  one of the following properties: MaxSize, MinSize, or DesiredCapacity.
+- `"EndTime"`: The date and time for the recurring schedule to end, in UTC. For example,
+  \"2021-06-01T00:00:00Z\".
 - `"MaxSize"`: The maximum size of the Auto Scaling group.
 - `"MinSize"`: The minimum size of the Auto Scaling group.
 - `"Recurrence"`: The recurring schedule for this action. This format consists of five
@@ -2600,11 +2634,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recurrence, they form the boundaries of when the recurring action starts and stops. Cron
   expressions use Universal Coordinated Time (UTC) by default.
 - `"StartTime"`: The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format
-  in UTC/GMT only and in quotes (for example, \"2019-06-01T00:00:00Z\"). If you specify
+  in UTC/GMT only and in quotes (for example, \"2021-06-01T00:00:00Z\"). If you specify
   Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and
-  then performs the action based on the specified recurrence. If you try to schedule your
-  action in the past, Amazon EC2 Auto Scaling returns an error message.
-- `"Time"`: This parameter is no longer used.
+  then performs the action based on the specified recurrence.
+- `"Time"`: This property is no longer used.
 - `"TimeZone"`: Specifies the time zone for a cron expression. If a time zone is not
   provided, UTC is used by default.  Valid values are the canonical names of the IANA time
   zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For
@@ -2668,6 +2701,9 @@ pool, you can delete it by calling the DeleteWarmPool API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceReusePolicy"`: Indicates whether instances in the Auto Scaling group can be
+  returned to the warm pool on scale in. The default is to terminate instances in the Auto
+  Scaling group when the group scales in.
 - `"MaxGroupPreparedCapacity"`: Specifies the maximum number of instances that are allowed
   to be in the warm pool or in any state except Terminated for the Auto Scaling group. This
   is an optional property. Specify it only if you do not want the warm pool size to be
@@ -2723,16 +2759,18 @@ end
 Records a heartbeat for the lifecycle action associated with the specified token or
 instance. This extends the timeout by the length of time defined using the PutLifecycleHook
 API call. This step is a part of the procedure for adding a lifecycle hook to an Auto
-Scaling group:   (Optional) Create a Lambda function and a rule that allows Amazon
-EventBridge to invoke your Lambda function when Amazon EC2 Auto Scaling launches or
-terminates instances.   (Optional) Create a notification target and an IAM role. The target
-can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto
-Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook.
-Specify whether the hook is used when the instances launch or terminate.    If you need
-more time, record the lifecycle action heartbeat to keep the instance in a pending state.
- If you finish before the timeout period ends, send a callback by using the
-CompleteLifecycleAction API call.   For more information, see Amazon EC2 Auto Scaling
-lifecycle hooks in the Amazon EC2 Auto Scaling User Guide.
+Scaling group:   (Optional) Create a launch template or launch configuration with a user
+data script that runs while an instance is in a wait state due to a lifecycle hook.
+(Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke
+your Lambda function when an instance is put into a wait state due to a lifecycle hook.
+(Optional) Create a notification target and an IAM role. The target can be either an Amazon
+SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish
+lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the
+hook is used when the instances launch or terminate.    If you need more time, record the
+lifecycle action heartbeat to keep the instance in a wait state.    If you finish before
+the timeout period ends, send a callback by using the CompleteLifecycleAction API call.
+For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto
+Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2798,7 +2836,7 @@ processes in the Amazon EC2 Auto Scaling User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ScalingProcesses"`: One or more of the following processes:    Launch     Terminate
   AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh
-      ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are
+      ReplaceUnhealthy     ScheduledActions    If you omit this property, all processes are
   specified.
 """
 function resume_processes(
@@ -3085,7 +3123,7 @@ that have been suspended, call the ResumeProcesses API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ScalingProcesses"`: One or more of the following processes:    Launch     Terminate
   AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh
-      ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are
+      ReplaceUnhealthy     ScheduledActions    If you omit this property, all processes are
   specified.
 """
 function suspend_processes(
@@ -3184,7 +3222,7 @@ end
  We strongly recommend that all Auto Scaling groups use launch templates to ensure full
 functionality for Amazon EC2 Auto Scaling and Amazon EC2.  Updates the configuration for
 the specified Auto Scaling group. To update an Auto Scaling group, specify the name of the
-group and the parameter that you want to change. Any parameters that you don't specify are
+group and the property that you want to change. Any properties that you don't specify are
 not changed by this update request. The new settings take effect on any scaling activities
 after this call returns.  If you associate a new launch configuration or template with an
 Auto Scaling group, all new instances will get the updated configuration. Existing
@@ -3204,7 +3242,7 @@ value for DesiredCapacity, and the new MinSize is larger than the current size o
 group, this sets the group's DesiredCapacity to the new MinSize value.   If you specify a
 new value for MaxSize without specifying a value for DesiredCapacity, and the new MaxSize
 is smaller than the current size of the group, this sets the group's DesiredCapacity to the
-new MaxSize value.   To see which parameters have been set, call the
+new MaxSize value.   To see which properties have been set, call the
 DescribeAutoScalingGroups API. To view the scaling policies for an Auto Scaling group, call
 the DescribePolicies API. If the group has scaling policies, you can update them by calling
 the PutScalingPolicy API.
@@ -3216,13 +3254,25 @@ the PutScalingPolicy API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZones"`: One or more Availability Zones for the group.
 - `"CapacityRebalance"`: Enables or disables Capacity Rebalancing. For more information,
-  see Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
+  see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the Amazon EC2 Auto
+  Scaling User Guide.
 - `"Context"`: Reserved.
-- `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
-  before another scaling activity can start. The default value is 300. This setting applies
-  when using simple scaling policies, but not when using other scaling policies or scheduled
-  scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the
-  Amazon EC2 Auto Scaling User Guide.
+- `"DefaultCooldown"`:  Only needed if you use simple scaling policies.  The amount of
+  time, in seconds, between one scaling activity ending and another one starting due to
+  simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto
+  Scaling in the Amazon EC2 Auto Scaling User Guide.
+- `"DefaultInstanceWarmup"`: The amount of time, in seconds, until a newly launched
+  instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance
+  finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting
+  in more reliable usage data. Set this value equal to the amount of time that it takes for
+  resource consumption to become stable after an instance reaches the InService state. For
+  more information, see Set the default instance warmup for an Auto Scaling group in the
+  Amazon EC2 Auto Scaling User Guide.  To manage your warm-up settings at the group level, we
+  recommend that you set the default instance warmup, even if its value is set to 0 seconds.
+  This also optimizes the performance of scaling policies that scale continuously, such as
+  target tracking and step scaling policies.  If you need to remove a value that you
+  previously set, include the property but specify -1 for the value. However, we strongly
+  recommend keeping the default instance warmup enabled by specifying a minimum value of 0.
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group after this operation completes and the capacity it attempts to maintain. This number
   must be greater than or equal to the minimum size of the group and less than or equal to
@@ -3235,9 +3285,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service and
-  marking it unhealthy due to a failed health check. The default value is 0. For more
-  information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide.
-  Conditional: Required if you are adding an ELB health check.
+  marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is
+  useful if your instances do not immediately pass these health checks after they enter the
+  InService state. For more information, see Health check grace period in the Amazon EC2 Auto
+  Scaling User Guide.
 - `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
   and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the
   instance unhealthy if it fails either the EC2 status checks or the load balancer health
@@ -3267,19 +3318,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about preventing instances from terminating on scale in, see Using instance scale-in
   protection in the Amazon EC2 Auto Scaling User Guide.
 - `"PlacementGroup"`: The name of an existing placement group into which to launch your
-  instances, if any. A placement group is a logical grouping of instances within a single
-  Availability Zone. You cannot specify multiple Availability Zones and a placement group.
-  For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
+  instances. For more information, see Placement groups in the Amazon EC2 User Guide for
+  Linux Instances.  A cluster placement group is a logical grouping of instances within a
+  single Availability Zone. You cannot specify multiple Availability Zones and a cluster
+  placement group.
 - `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
   the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more
   information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
 - `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instances to terminate. The policies are executed in the order that you list them. For more
-  information, see Controlling which Auto Scaling instances terminate during scale in in the
-  Amazon EC2 Auto Scaling User Guide.
+  information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2
+  Auto Scaling User Guide. Valid values: Default | AllocationStrategy |
+  ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration |
+  OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
 - `"VPCZoneIdentifier"`: A comma-separated list of subnet IDs for a virtual private cloud
   (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you
-  specify for this parameter must reside in those Availability Zones.
+  specify must reside in those Availability Zones.
 """
 function update_auto_scaling_group(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()

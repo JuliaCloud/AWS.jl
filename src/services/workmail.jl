@@ -206,6 +206,64 @@ function create_alias(
 end
 
 """
+    create_availability_configuration(domain_name, organization_id)
+    create_availability_configuration(domain_name, organization_id, params::Dict{String,<:Any})
+
+Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
+
+# Arguments
+- `domain_name`: The domain to which the provider applies.
+- `organization_id`: The Amazon WorkMail organization for which the
+  AvailabilityConfiguration will be created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: An idempotent token that ensures that an API request is executed only
+  once.
+- `"EwsProvider"`: Exchange Web Services (EWS) availability provider definition. The
+  request must contain exactly one provider definition, either EwsProvider or LambdaProvider.
+- `"LambdaProvider"`: Lambda availability provider definition. The request must contain
+  exactly one provider definition, either EwsProvider or LambdaProvider.
+"""
+function create_availability_configuration(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "CreateAvailabilityConfiguration",
+        Dict{String,Any}(
+            "DomainName" => DomainName,
+            "OrganizationId" => OrganizationId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_availability_configuration(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "CreateAvailabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName,
+                    "OrganizationId" => OrganizationId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_group(name, organization_id)
     create_group(name, organization_id, params::Dict{String,<:Any})
 
@@ -566,6 +624,50 @@ function delete_alias(
                     "Alias" => Alias,
                     "EntityId" => EntityId,
                     "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_availability_configuration(domain_name, organization_id)
+    delete_availability_configuration(domain_name, organization_id, params::Dict{String,<:Any})
+
+Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
+
+# Arguments
+- `domain_name`: The domain for which the AvailabilityConfiguration will be deleted.
+- `organization_id`: The Amazon WorkMail organization for which the
+  AvailabilityConfiguration will be deleted.
+
+"""
+function delete_availability_configuration(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeleteAvailabilityConfiguration",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_availability_configuration(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeleteAvailabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
                 ),
                 params,
             ),
@@ -1829,6 +1931,47 @@ function list_aliases(
 end
 
 """
+    list_availability_configurations(organization_id)
+    list_availability_configurations(organization_id, params::Dict{String,<:Any})
+
+List all the AvailabilityConfiguration's for the given WorkMail organization.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization for which the
+  AvailabilityConfiguration's will be listed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not require a token.
+"""
+function list_availability_configurations(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListAvailabilityConfigurations",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_availability_configurations(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListAvailabilityConfigurations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_group_members(group_id, organization_id)
     list_group_members(group_id, organization_id, params::Dict{String,<:Any})
 
@@ -2956,6 +3099,54 @@ function tag_resource(
 end
 
 """
+    test_availability_configuration(organization_id)
+    test_availability_configuration(organization_id, params::Dict{String,<:Any})
+
+Performs a test on an availability provider to ensure that access is allowed. For EWS, it
+verifies the provided credentials can be used to successfully log in. For Lambda, it
+verifies that the Lambda function can be invoked and that the resource access policy was
+configured to deny anonymous access. An anonymous invocation is one done without providing
+either a SourceArn or SourceAccount header.  The request must contain either one provider
+definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName
+parameter is provided, the configuration stored under the DomainName will be tested.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization where the availability provider will
+  be tested.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DomainName"`: The domain to which the provider applies. If this field is provided, a
+  stored availability provider associated to this domain name will be tested.
+- `"EwsProvider"`:
+- `"LambdaProvider"`:
+"""
+function test_availability_configuration(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "TestAvailabilityConfiguration",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function test_availability_configuration(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "TestAvailabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
@@ -2988,6 +3179,59 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_availability_configuration(domain_name, organization_id)
+    update_availability_configuration(domain_name, organization_id, params::Dict{String,<:Any})
+
+Updates an existing AvailabilityConfiguration for the given WorkMail organization and
+domain.
+
+# Arguments
+- `domain_name`: The domain to which the provider applies the availability configuration.
+- `organization_id`: The Amazon WorkMail organization for which the
+  AvailabilityConfiguration will be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EwsProvider"`: The EWS availability provider definition. The request must contain
+  exactly one provider definition, either EwsProvider or LambdaProvider. The previously
+  stored provider will be overridden by the one provided.
+- `"LambdaProvider"`: The Lambda availability provider definition. The request must contain
+  exactly one provider definition, either EwsProvider or LambdaProvider. The previously
+  stored provider will be overridden by the one provided.
+"""
+function update_availability_configuration(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "UpdateAvailabilityConfiguration",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_availability_configuration(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateAvailabilityConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
                 params,
             ),
         );

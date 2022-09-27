@@ -12,7 +12,7 @@ Creates a signaling channel.   CreateSignalingChannel is an asynchronous operati
 
 # Arguments
 - `channel_name`: A name for the signaling channel that you are creating. It must be unique
-  for each AWS account and AWS Region.
+  for each Amazon Web Services account and Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -73,10 +73,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
 - `"DeviceName"`: The name of the device that is writing to the stream.   In the current
   implementation, Kinesis Video Streams does not use this name.
-- `"KmsKeyId"`: The ID of the AWS Key Management Service (AWS KMS) key that you want
-  Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the
-  default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see
-  DescribeKey.
+- `"KmsKeyId"`: The ID of the Key Management Service (KMS) key that you want Kinesis Video
+  Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis
+  Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey.
 - `"MediaType"`: The media type of the stream. Consumers of the stream can use this
   information when processing the stream. For more information about media types, see Media
   Types. If you choose to specify the MediaType, see Naming Requirements for guidelines.
@@ -196,6 +195,78 @@ function delete_stream(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("StreamARN" => StreamARN), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_image_generation_configuration()
+    describe_image_generation_configuration(params::Dict{String,<:Any})
+
+Gets the ImageGenerationConfiguration for a given Kinesis video stream.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from which to
+  retrieve the image generation configuration. You must specify either the StreamName or the
+  StreamARN.
+- `"StreamName"`: The name of the stream from which to retrieve the image generation
+  configuration. You must specify either the StreamName or the StreamARN.
+"""
+function describe_image_generation_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeImageGenerationConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_image_generation_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeImageGenerationConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_notification_configuration()
+    describe_notification_configuration(params::Dict{String,<:Any})
+
+Gets the NotificationConfiguration for a given Kinesis video stream.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  want to retrieve the notification configuration. You must specify either the StreamName or
+  the StreamARN.
+- `"StreamName"`: The name of the stream from which to retrieve the notification
+  configuration. You must specify either the StreamName or the StreamARN.
+"""
+function describe_notification_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeNotificationConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_notification_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeNotificationConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -507,10 +578,10 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is
-optional) that you can define and assign to AWS resources. If you specify a tag that
-already exists, the tag value is replaced with the value that you specify in the request.
-For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management
-User Guide.
+optional) that you can define and assign to Amazon Web Services resources. If you specify a
+tag that already exists, the tag value is replaced with the value that you specify in the
+request. For more information, see Using Cost Allocation Tags in the Billing and Cost
+Management and Cost Management User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel to which you want
@@ -554,11 +625,12 @@ end
     tag_stream(tags, params::Dict{String,<:Any})
 
 Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that
-you can define and assign to AWS resources. If you specify a tag that already exists, the
-tag value is replaced with the value that you specify in the request. For more information,
-see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.  You must
-provide either the StreamName or the StreamARN. This operation requires permission for the
-KinesisVideo:TagStream action. Kinesis video streams support up to 50 tags.
+you can define and assign to Amazon Web Services resources. If you specify a tag that
+already exists, the tag value is replaced with the value that you specify in the request.
+For more information, see Using Cost Allocation Tags in the Billing and Cost Management and
+Cost Management User Guide.  You must provide either the StreamName or the StreamARN. This
+operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream
+can support up to 50 tags.
 
 # Arguments
 - `tags`: A list of tags to associate with the specified stream. Each tag is a key-value
@@ -748,6 +820,83 @@ function update_data_retention(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_image_generation_configuration()
+    update_image_generation_configuration(params::Dict{String,<:Any})
+
+Updates the StreamInfo and ImageProcessingConfiguration fields.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ImageGenerationConfiguration"`: The structure that contains the information required
+  for the KVS images delivery. If the structure is null, the configuration will be deleted
+  from the stream.
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  want to update the image generation configuration. You must specify either the StreamName
+  or the StreamARN.
+- `"StreamName"`: The name of the stream from which to update the image generation
+  configuration. You must specify either the StreamName or the StreamARN.
+"""
+function update_image_generation_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/updateImageGenerationConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_image_generation_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/updateImageGenerationConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_notification_configuration()
+    update_notification_configuration(params::Dict{String,<:Any})
+
+Updates the notification information for a stream.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NotificationConfiguration"`: The structure containing the information required for
+  notifications. If the structure is null, the configuration will be deleted from the stream.
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  want to update the notification configuration. You must specify either the StreamName or
+  the StreamARN.
+- `"StreamName"`: The name of the stream from which to update the notification
+  configuration. You must specify either the StreamName or the StreamARN.
+"""
+function update_notification_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/updateNotificationConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_notification_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/updateNotificationConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

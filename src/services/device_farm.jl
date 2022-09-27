@@ -170,6 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"defaultJobTimeoutMinutes"`: Sets the execution timeout value (in minutes) for a
   project. All test runs in this project use the specified execution timeout value unless
   overridden when scheduling a run.
+- `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function create_project(name; aws_config::AbstractAWSConfig=global_aws_config())
     return device_farm(
@@ -2681,6 +2682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"defaultJobTimeoutMinutes"`: The number of minutes a test run in the project executes
   before it times out.
 - `"name"`: A string that represents the new name of the project that you are updating.
+- `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function update_project(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return device_farm(

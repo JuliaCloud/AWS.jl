@@ -9,31 +9,32 @@ using AWS.UUIDs
     create_notification_rule(detail_type, event_type_ids, name, resource, targets, params::Dict{String,<:Any})
 
 Creates a notification rule for a resource. The rule specifies the events you want
-notifications about and the targets (such as SNS topics) where you want to receive them.
+notifications about and the targets (such as Chatbot topics or Chatbot clients configured
+for Slack) where you want to receive them.
 
 # Arguments
 - `detail_type`: The level of detail to include in the notifications for this resource.
-  BASIC will include only the contents of the event as it would appear in AWS CloudWatch.
+  BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
   FULL will include any supplemental information provided by AWS CodeStar Notifications
   and/or the service for the resource for which the notification is created.
 - `event_type_ids`: A list of event types associated with this notification rule. For a
   list of allowed events, see EventTypeSummary.
-- `name`: The name for the notification rule. Notifictaion rule names must be unique in
-  your AWS account.
+- `name`: The name for the notification rule. Notification rule names must be unique in
+  your Amazon Web Services account.
 - `resource`: The Amazon Resource Name (ARN) of the resource to associate with the
-  notification rule. Supported resources include pipelines in AWS CodePipeline, repositories
-  in AWS CodeCommit, and build projects in AWS CodeBuild.
-- `targets`: A list of Amazon Resource Names (ARNs) of SNS topics to associate with the
-  notification rule.
+  notification rule. Supported resources include pipelines in CodePipeline, repositories in
+  CodeCommit, and build projects in CodeBuild.
+- `targets`: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service
+  topics and Chatbot clients to associate with the notification rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a request
   with the same parameters is received and a token is included, the request returns
-  information about the initial request that used that token.  The AWS SDKs prepopulate
-  client request tokens. If you are using an AWS SDK, an idempotency token is created for
-  you.
+  information about the initial request that used that token.  The Amazon Web Services SDKs
+  prepopulate client request tokens. If you are using an Amazon Web Services SDK, an
+  idempotency token is created for you.
 - `"Status"`: The status of the notification rule. The default value is ENABLED. If the
   status is set to DISABLED, notifications aren't sent for the notification rule.
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
@@ -131,13 +132,14 @@ end
 Deletes a specified target for notifications.
 
 # Arguments
-- `target_address`: The Amazon Resource Name (ARN) of the SNS topic to delete.
+- `target_address`: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client
+  to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceUnsubscribeAll"`: A Boolean value that can be used to delete all associations with
-  this SNS topic. The default value is FALSE. If set to TRUE, all associations between that
-  target and every notification rule in your AWS account are deleted.
+  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
+  that target and every notification rule in your Amazon Web Services account are deleted.
 """
 function delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_notifications(
@@ -230,7 +232,7 @@ end
     list_notification_rules()
     list_notification_rules(params::Dict{String,<:Any})
 
-Returns a list of the notification rules for an AWS account.
+Returns a list of the notification rules for an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -298,7 +300,7 @@ end
     list_targets()
     list_targets(params::Dict{String,<:Any})
 
-Returns a list of the notification rule targets for an AWS account.
+Returns a list of the notification rule targets for an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -332,8 +334,9 @@ end
     subscribe(arn, target)
     subscribe(arn, target, params::Dict{String,<:Any})
 
-Creates an association between a notification rule and an SNS topic so that the associated
-target can receive notifications when the events described in the rule are triggered.
+Creates an association between a notification rule and an Chatbot topic or Chatbot client
+so that the associated target can receive notifications when the events described in the
+rule are triggered.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the notification rule for which you want to
@@ -413,13 +416,13 @@ end
     unsubscribe(arn, target_address)
     unsubscribe(arn, target_address, params::Dict{String,<:Any})
 
-Removes an association between a notification rule and an Amazon SNS topic so that
-subscribers to that topic stop receiving notifications when the events described in the
-rule are triggered.
+Removes an association between a notification rule and an Chatbot topic so that subscribers
+to that topic stop receiving notifications when the events described in the rule are
+triggered.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
-- `target_address`: The ARN of the SNS topic to unsubscribe from the notification rule.
+- `target_address`: The ARN of the Chatbot topic to unsubscribe from the notification rule.
 
 """
 function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
@@ -453,38 +456,38 @@ function unsubscribe(
 end
 
 """
-    untag_resource(arn, tag_keys)
-    untag_resource(arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the association between one or more provided tags and a notification rule.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the notification rule from which to remove the
-  tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the notification rule from which to
+  remove the tags.
 - `tag_keys`: The key names of the tags to remove.
 
 """
-function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
     return codestar_notifications(
         "POST",
-        "/untagResource",
-        Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
+        "/untagResource/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
-    Arn,
-    TagKeys,
+    resourceArn,
+    tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return codestar_notifications(
         "POST",
-        "/untagResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
-        );
+        "/untagResource/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -504,10 +507,12 @@ To add or remove tags for a notification rule, you must use TagResource and Unta
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DetailType"`: The level of detail to include in the notifications for this resource.
-  BASIC will include only the contents of the event as it would appear in AWS CloudWatch.
+  BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
   FULL will include any supplemental information provided by AWS CodeStar Notifications
   and/or the service for the resource for which the notification is created.
-- `"EventTypeIds"`: A list of event types associated with this notification rule.
+- `"EventTypeIds"`: A list of event types associated with this notification rule. For a
+  complete list of event types and IDs, see Notification concepts in the Developer Tools
+  Console User Guide.
 - `"Name"`: The name of the notification rule.
 - `"Status"`: The status of the notification rule. Valid statuses include enabled (sending
   notifications) or disabled (not sending notifications).

@@ -14,7 +14,7 @@ Returns the STS short-term credentials for a given role name that is assigned to
 - `account_id`: The identifier for the AWS account that is assigned to the user.
 - `role_name`: The friendly name of the role that is assigned to the user.
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 """
 function get_role_credentials(
@@ -73,7 +73,7 @@ Lists all roles that are assigned to the user for a given AWS account.
 # Arguments
 - `account_id`: The identifier for the AWS account that is assigned to the user.
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -127,12 +127,12 @@ end
     list_accounts(x-amz-sso_bearer_token, params::Dict{String,<:Any})
 
 Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
-administrator of the account. For more information, see Assign User Access in the AWS SSO
-User Guide. This operation returns a paginated response.
+administrator of the account. For more information, see Assign User Access in the IAM
+Identity Center User Guide. This operation returns a paginated response.
 
 # Arguments
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -182,11 +182,20 @@ end
     logout(x-amz-sso_bearer_token)
     logout(x-amz-sso_bearer_token, params::Dict{String,<:Any})
 
-Removes the client- and server-side session that is associated with the user.
+Removes the locally stored SSO tokens from the client-side cache and sends an API call to
+the IAM Identity Center service to invalidate the corresponding server-side IAM Identity
+Center sign in session.  If a user uses IAM Identity Center to access the AWS CLI, the
+user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified
+in the corresponding IAM Identity Center permission set. More specifically, IAM Identity
+Center assumes an IAM role in the target account on behalf of the user, and the
+corresponding temporary AWS credentials are returned to the client. After user logout, any
+existing IAM role sessions that were created by using IAM Identity Center permission sets
+continue based on the duration configured in the permission set. For more information, see
+User authentications in the IAM Identity Center User Guide.
 
 # Arguments
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 """
 function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config())

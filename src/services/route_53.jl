@@ -53,7 +53,12 @@ a private hosted zone.   If you want to associate a VPC that was created by usin
 Amazon Web Services account with a private hosted zone that was created by using a
 different account, the Amazon Web Services account that created the private hosted zone
 must first submit a CreateVPCAssociationAuthorization request. Then the account that
-created the VPC must submit an AssociateVPCWithHostedZone request.
+created the VPC must submit an AssociateVPCWithHostedZone request.   When granting access,
+the hosted zone and the Amazon VPC must belong to the same partition. A partition is a
+group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one
+partition. The following are the supported partitions:    aws - Amazon Web Services Regions
+   aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For
+more information, see Access Management in the Amazon Web Services General Reference.
 
 # Arguments
 - `id`: The ID of the private hosted zone that you want to associate an Amazon VPC with.
@@ -84,6 +89,61 @@ function associate_vpcwith_hosted_zone(
         "POST",
         "/2013-04-01/hostedzone/$(Id)/associatevpc",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    change_cidr_collection(changes, cidr_collection_id)
+    change_cidr_collection(changes, cidr_collection_id, params::Dict{String,<:Any})
+
+Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP
+information mapping blocks to one or multiple locations. A change request can update
+multiple locations in a collection at a time, which is helpful if you want to move one or
+more CIDR blocks from one location to another in one transaction, without downtime.
+Limits  The max number of CIDR blocks included in the request is 1000. As a result, big
+updates require multiple API calls.   PUT and DELETE_IF_EXISTS  Use ChangeCidrCollection to
+perform the following actions:    PUT: Create a CIDR block within the specified collection.
+    DELETE_IF_EXISTS: Delete an existing CIDR block from the collection.
+
+# Arguments
+- `changes`:  Information about changes to a CIDR collection.
+- `cidr_collection_id`: The UUID of the CIDR collection to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CollectionVersion"`: A sequential counter that Amazon Route 53 sets to 1 when you
+  create a collection and increments it by 1 each time you update the collection. We
+  recommend that you use ListCidrCollection to get the current value of CollectionVersion for
+  the collection that you want to update, and then include that value with the change
+  request. This prevents Route 53 from overwriting an intervening update:    If the value in
+  the request matches the value of CollectionVersion in the collection, Route 53 updates the
+  collection.   If the value of CollectionVersion in the collection is greater than the value
+  in the request, the collection was changed after you got the version number. Route 53 does
+  not update the collection, and it returns a CidrCollectionVersionMismatch error.
+"""
+function change_cidr_collection(
+    Changes, CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        Dict{String,Any}("Changes" => Changes);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function change_cidr_collection(
+    Changes,
+    CidrCollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Changes" => Changes), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -121,8 +181,7 @@ For more information, see Using Traffic Flow to Route DNS Traffic in the Amazon 
 Developer Guide.  Create, Delete, and Upsert  Use ChangeResourceRecordsSetsRequest to
 perform the following actions:    CREATE: Creates a resource record set that has the
 specified values.    DELETE: Deletes an existing resource record set that has the specified
-values.    UPSERT: If a resource record set does not already exist, Amazon Web Services
-creates it. If a resource set does exist, Route 53 updates it with the values in the
+values.    UPSERT: If a resource set exists Route 53 updates it with the values in the
 request.     Syntaxes for Creating, Updating, and Deleting Resource Record Sets  The syntax
 for a request depends on the type of resource record set that you want to create, delete,
 or update, such as weighted, alias, or failover. The XML elements in your request must
@@ -219,6 +278,52 @@ function change_tags_for_resource(
 end
 
 """
+    create_cidr_collection(caller_reference, name)
+    create_cidr_collection(caller_reference, name, params::Dict{String,<:Any})
+
+Creates a CIDR collection in the current Amazon Web Services account.
+
+# Arguments
+- `caller_reference`: A client-specific token that allows requests to be securely retried
+  so that the intended outcome will only occur once, retries receive a similar response, and
+  there are no additional edge cases to handle.
+- `name`: A unique identifier for the account that can be used to reference the collection
+  from other API calls.
+
+"""
+function create_cidr_collection(
+    CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/cidrcollection",
+        Dict{String,Any}("CallerReference" => CallerReference, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_cidr_collection(
+    CallerReference,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/cidrcollection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CallerReference" => CallerReference, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_health_check(caller_reference, health_check_config)
     create_health_check(caller_reference, health_check_config, params::Dict{String,<:Any})
 
@@ -303,21 +408,26 @@ zone to define how you want to route traffic for a domain and its subdomains wit
 more Amazon Virtual Private Clouds (Amazon VPCs).   You can't convert a public hosted zone
 to a private hosted zone or vice versa. Instead, you must create a new hosted zone with the
 same name and create new resource record sets.  For more information about charges for
-hosted zones, see Amazon Route 53 Pricing. Note the following:   You can't create a hosted
+hosted zones, see Amazon Route 53 Pricing. Note the following:   You can't create a hosted
 zone for a top-level domain (TLD) such as .com.   For public hosted zones, Route 53
 automatically creates a default SOA record and four NS records for the zone. For more
-information about SOA and NS records, see NS and SOA Records that Route 53 Creates for a
+information about SOA and NS records, see NS and SOA Records that Route 53 Creates for a
 Hosted Zone in the Amazon Route 53 Developer Guide. If you want to use the same name
 servers for multiple public hosted zones, you can optionally associate a reusable
 delegation set with the hosted zone. See the DelegationSetId element.   If your domain is
-registered with a registrar other than Route 53, you must update the name servers with your
-registrar to make Route 53 the DNS service for the domain. For more information, see
-Migrating DNS Service for an Existing Domain to Amazon Route 53 in the Amazon Route 53
+registered with a registrar other than Route 53, you must update the name servers with
+your registrar to make Route 53 the DNS service for the domain. For more information, see
+Migrating DNS Service for an Existing Domain to Amazon Route 53 in the Amazon Route 53
 Developer Guide.    When you submit a CreateHostedZone request, the initial status of the
 hosted zone is PENDING. For public hosted zones, this means that the NS and SOA records are
-not yet available on all Route 53 DNS servers. When the NS and SOA records are available,
+not yet available on all Route 53 DNS servers. When the NS and SOA records are available,
 the status of the zone changes to INSYNC. The CreateHostedZone request requires the caller
-to have an ec2:DescribeVpcs permission.
+to have an ec2:DescribeVpcs permission.  When creating private hosted zones, the Amazon VPC
+must belong to the same partition where the hosted zone is created. A partition is a group
+of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one
+partition. The following are the supported partitions:    aws - Amazon Web Services Regions
+   aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For
+more information, see Access Management in the Amazon Web Services General Reference.
 
 # Arguments
 - `caller_reference`: A unique string that identifies the request and that allows failed
@@ -325,17 +435,17 @@ to have an ec2:DescribeVpcs permission.
   You must use a unique CallerReference string every time you submit a CreateHostedZone
   request. CallerReference can be any unique string, for example, a date/time stamp.
 - `name`: The name of the domain. Specify a fully qualified domain name, for example,
-  www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain name
-  is fully qualified. This means that Route 53 treats www.example.com (without a trailing
-  dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public
-  hosted zone, this is the name you have registered with your DNS registrar. If your domain
-  name is registered with a registrar other than Route 53, change the name servers for your
-  domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
+  www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain
+  name is fully qualified. This means that Route 53 treats www.example.com (without a
+  trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a
+  public hosted zone, this is the name you have registered with your DNS registrar. If your
+  domain name is registered with a registrar other than Route 53, change the name servers
+  for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DelegationSetId"`: If you want to associate a reusable delegation set with this hosted
-  zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created
+  zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created
   it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
 - `"HostedZoneConfig"`: (Optional) A complex type that contains the following optional
   values:   For public and private hosted zones, an optional comment   For private hosted
@@ -486,33 +596,42 @@ permissions that Route 53 needs to create log streams and to send query logs to 
 streams. For the value of Resource, specify the ARN for the log group that you created in
 the previous step. To use the same resource policy for all the CloudWatch Logs log groups
 that you created for query logging configurations, replace the hosted zone name with *, for
-example:  arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*   You can't use the
-CloudWatch console to create or edit a resource policy. You must use the CloudWatch API,
-one of the Amazon Web Services SDKs, or the CLI.     Log Streams and Edge Locations  When
-Route 53 finishes creating the configuration for DNS query logging, it does the following:
- Creates a log stream for an edge location the first time that the edge location responds
-to DNS queries for the specified hosted zone. That log stream is used to log all queries
-that Route 53 responds to for that edge location.   Begins to send query logs to the
-applicable log stream.   The name of each log stream is in the following format:   hosted
-zone ID/edge location code   The edge location code is a three-letter code and an
-arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds
-with the International Air Transport Association airport code for an airport near the edge
-location. (These abbreviations might change in the future.) For a list of edge locations,
-see \"The Route 53 Global Network\" on the Route 53 Product Details page.  Queries That Are
-Logged  Query logs contain only the queries that DNS resolvers forward to Route 53. If a
-DNS resolver has already cached the response to a query (such as the IP address for a load
-balancer for example.com), the resolver will continue to return the cached response. It
-doesn't forward another query to Route 53 until the TTL for the corresponding resource
-record set expires. Depending on how many DNS queries are submitted for a resource record
-set, and depending on the TTL for that resource record set, query logs might contain
-information about only one query out of every several thousand queries that are submitted
-to DNS. For more information about how DNS works, see Routing Internet Traffic to Your
-Website or Web Application in the Amazon Route 53 Developer Guide.  Log File Format  For a
-list of the values in each query log and the format of each value, see Logging DNS Queries
-in the Amazon Route 53 Developer Guide.  Pricing  For information about charges for query
-logs, see Amazon CloudWatch Pricing.  How to Stop Logging  If you want Route 53 to stop
-sending query logs to CloudWatch Logs, delete the query logging configuration. For more
-information, see DeleteQueryLoggingConfig.
+example:  arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*  To avoid the
+confused deputy problem, a security issue where an entity without a permission for an
+action can coerce a more-privileged entity to perform it, you can optionally limit the
+permissions that a service has to a resource in a resource-based policy by supplying the
+following values:   For aws:SourceArn, supply the hosted zone ARN used in creating the
+query logging configuration. For example, aws:SourceArn:
+arn:aws:route53:::hostedzone/hosted zone ID.   For aws:SourceAccount, supply the account ID
+for the account that creates the query logging configuration. For example,
+aws:SourceAccount:111111111111.   For more information, see The confused deputy problem in
+the Amazon Web Services IAM User Guide.  You can't use the CloudWatch console to create or
+edit a resource policy. You must use the CloudWatch API, one of the Amazon Web Services
+SDKs, or the CLI.     Log Streams and Edge Locations  When Route 53 finishes creating the
+configuration for DNS query logging, it does the following:   Creates a log stream for an
+edge location the first time that the edge location responds to DNS queries for the
+specified hosted zone. That log stream is used to log all queries that Route 53 responds to
+for that edge location.   Begins to send query logs to the applicable log stream.   The
+name of each log stream is in the following format:   hosted zone ID/edge location code
+The edge location code is a three-letter code and an arbitrarily assigned number, for
+example, DFW3. The three-letter code typically corresponds with the International Air
+Transport Association airport code for an airport near the edge location. (These
+abbreviations might change in the future.) For a list of edge locations, see \"The Route 53
+Global Network\" on the Route 53 Product Details page.  Queries That Are Logged  Query logs
+contain only the queries that DNS resolvers forward to Route 53. If a DNS resolver has
+already cached the response to a query (such as the IP address for a load balancer for
+example.com), the resolver will continue to return the cached response. It doesn't forward
+another query to Route 53 until the TTL for the corresponding resource record set expires.
+Depending on how many DNS queries are submitted for a resource record set, and depending on
+the TTL for that resource record set, query logs might contain information about only one
+query out of every several thousand queries that are submitted to DNS. For more information
+about how DNS works, see Routing Internet Traffic to Your Website or Web Application in the
+Amazon Route 53 Developer Guide.  Log File Format  For a list of the values in each query
+log and the format of each value, see Logging DNS Queries in the Amazon Route 53 Developer
+Guide.  Pricing  For information about charges for query logs, see Amazon CloudWatch
+Pricing.  How to Stop Logging  If you want Route 53 to stop sending query logs to
+CloudWatch Logs, delete the query logging configuration. For more information, see
+DeleteQueryLoggingConfig.
 
 # Arguments
 - `cloud_watch_logs_log_group_arn`: The Amazon Resource Name (ARN) for the log group that
@@ -887,6 +1006,41 @@ function deactivate_key_signing_key(
 end
 
 """
+    delete_cidr_collection(cidr_collection_id)
+    delete_cidr_collection(cidr_collection_id, params::Dict{String,<:Any})
+
+Deletes a CIDR collection in the current Amazon Web Services account. The collection must
+be empty before it can be deleted.
+
+# Arguments
+- `cidr_collection_id`: The UUID of the collection to delete.
+
+"""
+function delete_cidr_collection(
+    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "DELETE",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_cidr_collection(
+    CidrCollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53(
+        "DELETE",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_health_check(health_check_id)
     delete_health_check(health_check_id, params::Dict{String,<:Any})
 
@@ -935,7 +1089,7 @@ end
 
 Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud
 Map, see Deleting Public Hosted Zones That Were Created by Another Service in the Amazon
-Route 53 Developer Guide for information about how to delete it. (The process is the same
+Route 53 Developer Guide for information about how to delete it. (The process is the same
 for public and private hosted zones that were created by another service.) If you want to
 keep your domain registration but you want to stop routing internet traffic to your website
 or web application, we recommend that you delete resource record sets in the hosted zone
@@ -947,15 +1101,15 @@ servers in the parent hosted zone.) In addition, if you delete a hosted zone, so
 hijack the domain and route traffic to their own resources using your domain name.  If you
 want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the
 domain to a free DNS service. When you transfer DNS service, you have to update the name
-servers for the domain registration. If the domain is registered with Route 53, see
-UpdateDomainNameservers for information about how to replace Route 53 name servers with
+servers for the domain registration. If the domain is registered with Route 53, see
+UpdateDomainNameservers for information about how to replace Route 53 name servers with
 name servers for the new DNS service. If the domain is registered with another registrar,
 use the method provided by the registrar to update name servers for the domain
 registration. For more information, perform an internet search on \"free DNS service.\" You
 can delete a hosted zone only if it contains only the default SOA record and NS resource
 record sets. If the hosted zone contains other resource record sets, you must delete them
 before you can delete the hosted zone. If you try to delete a hosted zone that contains
-other resource record sets, the request fails, and Route 53 returns a HostedZoneNotEmpty
+other resource record sets, the request fails, and Route 53 returns a HostedZoneNotEmpty
 error. For information about deleting records from your hosted zone, see
 ChangeResourceRecordSets. To verify that the hosted zone has been deleted, do one of the
 following:   Use the GetHostedZone action to request information about the hosted zone.
@@ -1261,7 +1415,12 @@ account or using its own account. You can disassociate a VPC from a hosted zone 
 service created the hosted zone using your account. When you run
 DisassociateVPCFromHostedZone, if the hosted zone has a value for OwningAccount, you can
 use DisassociateVPCFromHostedZone. If the hosted zone has a value for OwningService, you
-can't use DisassociateVPCFromHostedZone.
+can't use DisassociateVPCFromHostedZone.    When revoking access, the hosted zone and the
+Amazon VPC must belong to the same partition. A partition is a group of Amazon Web Services
+Regions. Each Amazon Web Services account is scoped to one partition. The following are the
+supported partitions:    aws - Amazon Web Services Regions    aws-cn - China Regions
+aws-us-gov - Amazon Web Services GovCloud (US) Region   For more information, see Access
+Management in the Amazon Web Services General Reference.
 
 # Arguments
 - `id`: The ID of the private hosted zone that you want to disassociate a VPC from.
@@ -1956,6 +2115,121 @@ function get_traffic_policy_instance_count(
 end
 
 """
+    list_cidr_blocks(cidr_collection_id)
+    list_cidr_blocks(cidr_collection_id, params::Dict{String,<:Any})
+
+Returns a paginated list of location objects and their CIDR blocks.
+
+# Arguments
+- `cidr_collection_id`: The UUID of the CIDR collection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"location"`: The name of the CIDR collection location.
+- `"maxresults"`: Maximum number of results you want returned.
+- `"nexttoken"`: An opaque pagination token to indicate where the service is to begin
+  enumerating results.
+"""
+function list_cidr_blocks(
+    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)/cidrblocks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cidr_blocks(
+    CidrCollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)/cidrblocks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cidr_collections()
+    list_cidr_collections(params::Dict{String,<:Any})
+
+Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata
+only).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxresults"`: The maximum number of CIDR collections to return in the response.
+- `"nexttoken"`: An opaque pagination token to indicate where the service is to begin
+  enumerating results. If no value is provided, the listing of results starts from the
+  beginning.
+"""
+function list_cidr_collections(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cidr_collections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cidr_locations(cidr_collection_id)
+    list_cidr_locations(cidr_collection_id, params::Dict{String,<:Any})
+
+Returns a paginated list of CIDR locations for the given collection (metadata only, does
+not include CIDR blocks).
+
+# Arguments
+- `cidr_collection_id`: The CIDR collection ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxresults"`: The maximum number of CIDR collection locations to return in the response.
+- `"nexttoken"`: An opaque pagination token to indicate where the service is to begin
+  enumerating results. If no value is provided, the listing of results starts from the
+  beginning.
+"""
+function list_cidr_locations(
+    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cidr_locations(
+    CidrCollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53(
+        "GET",
+        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_geo_locations()
     list_geo_locations(params::Dict{String,<:Any})
 
@@ -2178,7 +2452,13 @@ Services account or another Amazon Web Services account. Some services, such as 
 create hosted zones using the current account.    An OwningService element, which
 identifies the Amazon Web Services service that created and owns the hosted zone. For
 example, if a hosted zone was created by Amazon Elastic File System (Amazon EFS), the value
-of Owner is efs.amazonaws.com.
+of Owner is efs.amazonaws.com.     When listing private hosted zones, the hosted zone and
+the Amazon VPC must belong to the same partition where the hosted zones were created. A
+partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is
+scoped to one partition. The following are the supported partitions:    aws - Amazon Web
+Services Regions    aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud
+(US) Region   For more information, see Access Management in the Amazon Web Services
+General Reference.
 
 # Arguments
 - `vpcid`: The ID of the Amazon VPC that you want to list hosted zones for.

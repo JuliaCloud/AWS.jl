@@ -263,7 +263,11 @@ function start_change_set(
     return marketplace_catalog(
         "POST",
         "/StartChangeSet",
-        Dict{String,Any}("Catalog" => Catalog, "ChangeSet" => ChangeSet);
+        Dict{String,Any}(
+            "Catalog" => Catalog,
+            "ChangeSet" => ChangeSet,
+            "ClientRequestToken" => string(uuid4()),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -280,7 +284,11 @@ function start_change_set(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Catalog" => Catalog, "ChangeSet" => ChangeSet),
+                Dict{String,Any}(
+                    "Catalog" => Catalog,
+                    "ChangeSet" => ChangeSet,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
                 params,
             ),
         );

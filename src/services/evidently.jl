@@ -65,8 +65,10 @@ Creates an Evidently experiment. Before you create an experiment, you must creat
 feature to use for the experiment. An experiment helps you make feature design decisions
 based on evidence and data. An experiment can test as many as five variations at once.
 Evidently collects experiment data and analyzes it by statistical methods, and provides
-clear recommendations about which variations perform better. Don't use this operation to
-update an existing experiment. Instead, use UpdateExperiment.
+clear recommendations about which variations perform better. You can optionally specify a
+segment to have the experiment consider only certain audience types in the experiment, such
+as using only user sessions from a certain location or who use a certain internet browser.
+Don't use this operation to update an existing experiment. Instead, use UpdateExperiment.
 
 # Arguments
 - `metric_goals`: An array of structures that defines the metrics used for the experiment,
@@ -92,6 +94,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the audience that you have allocated to overrides or current launches of this feature. This
   is represented in thousandths of a percent. For example, specify 10,000 to allocate 10% of
   the available audience.
+- `"segment"`: Specifies an audience segment to use in the experiment. When a segment is
+  used in an experiment, only user sessions that match the segment pattern are used in the
+  experiment.
 - `"tags"`: Assigns one or more tags (key-value pairs) to the experiment. Tags can help you
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
@@ -240,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"randomizationSalt"`: When Evidently assigns a particular user session to a launch, it
   must use a randomization ID to determine which variation the user session is served. This
   randomization ID is a combination of the entity ID and randomizationSalt. If you omit
-  randomizationSalt, Evidently uses the launch name as the randomizationsSalt.
+  randomizationSalt, Evidently uses the launch name as the randomizationSalt.
 - `"scheduledSplitsConfig"`: An array of structures that define the traffic allocation
   percentages among the feature variations during each step of the launch.
 - `"tags"`: Assigns one or more tags (key-value pairs) to the launch. Tags can help you
@@ -294,6 +299,14 @@ existing project, use UpdateProject.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appConfigResource"`: Use this parameter if the project will use client-side evaluation
+  powered by AppConfig. Client-side evaluation allows your application to assign variations
+  to user sessions locally instead of by calling the EvaluateFeature operation. This
+  mitigates the latency and availability risks that come with an API call. For more
+  information, see  Client-side evaluation - powered by AppConfig.  This parameter is a
+  structure that contains information about the AppConfig application and environment that
+  will be used as for client-side evaluation. To create a project that uses client-side
+  evaluation, you must have the evidently:ExportProjectAsConfiguration permission.
 - `"dataDelivery"`: A structure that contains information about where Evidently is to store
   evaluation events for longer term storage, if you choose to do so. If you choose not to
   store these events, Evidently deletes them after using them to produce metrics and other
@@ -324,6 +337,71 @@ function create_project(
         "POST",
         "/projects",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_segment(name, pattern)
+    create_segment(name, pattern, params::Dict{String,<:Any})
+
+Use this operation to define a segment of your audience. A segment is a portion of your
+audience that share one or more characteristics. Examples could be Chrome browser users,
+users in Europe, or Firefox browser users in Europe who also fit other criteria that your
+application collects, such as age. Using a segment in an experiment limits that experiment
+to evaluate only the users who match the segment criteria. Using one or more segments in a
+launch allows you to define different traffic splits for the different audience segments.
+&lt;p&gt;For more information about segment pattern syntax, see &lt;a
+href=&quot;https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evident
+ly-segments.html#CloudWatch-Evidently-segments-syntax.html&quot;&gt; Segment rule pattern
+syntax&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;The pattern that you define for a segment is matched
+against the value of &lt;code&gt;evaluationContext&lt;/code&gt;, which is passed into
+Evidently in the &lt;a
+href=&quot;https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateF
+eature.html&quot;&gt;EvaluateFeature&lt;/a&gt; operation, when Evidently assigns a feature
+variation to a user.&lt;/p&gt;
+
+# Arguments
+- `name`: A name for the segment.
+- `pattern`: The pattern to use for the segment. For more information about pattern syntax,
+  see  Segment rule pattern syntax.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: An optional description for this segment.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the segment. Tags can help you
+  organize and categorize your resources. You can also use them to scope user permissions by
+  granting a user permission to access or change only resources with certain tag values. Tags
+  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with a
+  segment.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
+  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
+  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+"""
+function create_segment(name, pattern; aws_config::AbstractAWSConfig=global_aws_config())
+    return evidently(
+        "POST",
+        "/segments",
+        Dict{String,Any}("name" => name, "pattern" => pattern);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_segment(
+    name,
+    pattern,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return evidently(
+        "POST",
+        "/segments",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "pattern" => pattern), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -467,6 +545,37 @@ function delete_project(
 end
 
 """
+    delete_segment(segment)
+    delete_segment(segment, params::Dict{String,<:Any})
+
+Deletes a segment. You can't delete a segment that is being used in a launch or experiment,
+even if that launch or experiment is not currently running.
+
+# Arguments
+- `segment`: Specifies the segment to delete.
+
+"""
+function delete_segment(segment; aws_config::AbstractAWSConfig=global_aws_config())
+    return evidently(
+        "DELETE",
+        "/segments/$(segment)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_segment(
+    segment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return evidently(
+        "DELETE",
+        "/segments/$(segment)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     evaluate_feature(entity_id, feature, project)
     evaluate_feature(entity_id, feature, project, params::Dict{String,<:Any})
 
@@ -474,16 +583,27 @@ This operation assigns a feature variation to one given user session. You pass i
 entityID that represents the user. Evidently then checks the evaluation rules and assigns
 the variation. The first rules that are evaluated are the override rules. If the user's
 entityID matches an override rule, the user is served the variation specified by that rule.
-Next, if there is a launch of the feature, the user might be assigned to a variation in the
-launch. The chance of this depends on the percentage of users that are allocated to that
-launch. If the user is enrolled in the launch, the variation they are served depends on the
-allocation of the various feature variations used for the launch. If the user is not
-assigned to a launch, and there is an ongoing experiment for this feature, the user might
-be assigned to a variation in the experiment. The chance of this depends on the percentage
-of users that are allocated to that experiment. If the user is enrolled in the experiment,
-the variation they are served depends on the allocation of the various feature variations
-used for the experiment.  If the user is not assigned to a launch or experiment, they are
-served the default variation.
+ &lt;p&gt;If there is a current launch with this feature that uses segment overrides, and
+if the user session's &lt;code&gt;evaluationContext&lt;/code&gt; matches a segment rule
+defined in a segment override, the configuration in the segment overrides is used. For more
+information about segments, see &lt;a
+href=&quot;https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSeg
+ment.html&quot;&gt;CreateSegment&lt;/a&gt; and &lt;a
+href=&quot;https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evident
+ly-segments.html&quot;&gt;Use segments to focus your audience&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If there is a launch with no segment overrides, the user might be assigned to a
+variation in the launch. The chance of this depends on the percentage of users that are
+allocated to that launch. If the user is enrolled in the launch, the variation they are
+served depends on the allocation of the various feature variations used for the
+launch.&lt;/p&gt; &lt;p&gt;If the user is not assigned to a launch, and there is an ongoing
+experiment for this feature, the user might be assigned to a variation in the experiment.
+The chance of this depends on the percentage of users that are allocated to that
+experiment.&lt;/p&gt; &lt;p&gt;If the experiment uses a segment, then only user sessions
+with &lt;code&gt;evaluationContext&lt;/code&gt; values that match the segment rule are used
+in the experiment.&lt;/p&gt; &lt;p&gt;If the user is enrolled in the experiment, the
+variation they are served depends on the allocation of the various feature variations used
+for the experiment. &lt;/p&gt; &lt;p&gt;If the user is not assigned to a launch or
+experiment, they are served the default variation.&lt;/p&gt;
 
 # Arguments
 - `entity_id`: An internal ID that represents a unique user of the application. This
@@ -493,8 +613,11 @@ served the default variation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"evaluationContext"`: A JSON block of attributes that you can optionally pass in. This
-  JSON block is included in the evaluation events sent to Evidently from the user session.
+- `"evaluationContext"`: A JSON object of attributes that you can optionally pass in as
+  part of the evaluation event sent to Evidently from the user session. Evidently can use
+  this value to match user sessions with defined audience segments. For more information, see
+  Use segments to focus your audience.  &lt;p&gt;If you include this parameter, the value
+  must be a JSON object. A JSON array is not supported.&lt;/p&gt;
 """
 function evaluate_feature(
     entityId, feature, project; aws_config::AbstractAWSConfig=global_aws_config()
@@ -566,7 +689,14 @@ end
     get_experiment_results(experiment, metric_names, project, treatment_names)
     get_experiment_results(experiment, metric_names, project, treatment_names, params::Dict{String,<:Any})
 
-Retrieves the results of a running or completed experiment.
+Retrieves the results of a running or completed experiment. No results are available until
+there have been 100 events for each variation and at least 10 minutes have passed since the
+start of the experiment. To increase the statistical power, Evidently performs an
+additional offline p-value analysis at the end of the experiment. Offline p-value analysis
+can detect statistical significance in some cases where the anytime p-values used during
+the experiment do not find statistical significance. Experiment results are available up to
+63 days after the start of the experiment. They are not available after that because of
+CloudWatch data retention policies.
 
 # Arguments
 - `experiment`: The name of the experiment to retrieve the results of.
@@ -580,7 +710,8 @@ Retrieves the results of a running or completed experiment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"baseStat"`: The statistic used to calculate experiment results. Currently the only
   valid value is mean, which uses the mean of the collected values as the statistic.
-- `"endTime"`: The date and time that the experiment ended, if it is completed.
+- `"endTime"`: The date and time that the experiment ended, if it is completed. This must
+  be no longer than 30 days after the experiment start time.
 - `"period"`: In seconds, the amount of time to aggregate results together.
 - `"reportNames"`: The names of the report types that you want to see. Currently,
   BayesianInference is the only valid value.
@@ -741,6 +872,37 @@ function get_project(
 end
 
 """
+    get_segment(segment)
+    get_segment(segment, params::Dict{String,<:Any})
+
+Returns information about the specified segment. Specify the segment you want to view by
+specifying its ARN.
+
+# Arguments
+- `segment`: The ARN of the segment to return information for.
+
+"""
+function get_segment(segment; aws_config::AbstractAWSConfig=global_aws_config())
+    return evidently(
+        "GET",
+        "/segments/$(segment)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_segment(
+    segment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return evidently(
+        "GET",
+        "/segments/$(segment)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_experiments(project)
     list_experiments(project, params::Dict{String,<:Any})
 
@@ -754,6 +916,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
   this token from a previous ListExperiments operation.
+- `"status"`: Use this optional parameter to limit the returned results to only the
+  experiments with the status that you specify here.
 """
 function list_experiments(project; aws_config::AbstractAWSConfig=global_aws_config())
     return evidently(
@@ -824,6 +988,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
   this token from a previous ListLaunches operation.
+- `"status"`: Use this optional parameter to limit the returned results to only the
+  launches with the status that you specify here.
 """
 function list_launches(project; aws_config::AbstractAWSConfig=global_aws_config())
     return evidently(
@@ -867,6 +1033,76 @@ function list_projects(
 )
     return evidently(
         "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_segment_references(segment, type)
+    list_segment_references(segment, type, params::Dict{String,<:Any})
+
+Use this operation to find which experiments or launches are using a specified segment.
+
+# Arguments
+- `segment`: The ARN of the segment that you want to view information for.
+- `type`: Specifies whether to return information about launches or experiments that use
+  this segment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to include in the response. If you omit
+  this, the default of 50 is used.
+- `"nextToken"`: The token to use when requesting the next set of results. You received
+  this token from a previous ListSegmentReferences operation.
+"""
+function list_segment_references(
+    segment, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return evidently(
+        "GET",
+        "/segments/$(segment)/references",
+        Dict{String,Any}("type" => type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_segment_references(
+    segment,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return evidently(
+        "GET",
+        "/segments/$(segment)/references",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_segments()
+    list_segments(params::Dict{String,<:Any})
+
+Returns a list of audience segments that you have created in your account in this Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to include in the response. If you omit
+  this, the default of 50 is used.
+- `"nextToken"`: The token to use when requesting the next set of results. You received
+  this token from a previous ListSegments operation.
+"""
+function list_segments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return evidently(
+        "GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_segments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return evidently(
+        "GET", "/segments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -950,7 +1186,8 @@ end
 Starts an existing experiment. To create an experiment, use CreateExperiment.
 
 # Arguments
-- `analysis_complete_time`: The date and time to end the experiment.
+- `analysis_complete_time`: The date and time to end the experiment. This must be no more
+  than 30 days after the experiment starts.
 - `experiment`: The name of the experiment to start.
 - `project`: The name or ARN of the project that contains the experiment to start.
 
@@ -1156,6 +1393,48 @@ function tag_resource(
 end
 
 """
+    test_segment_pattern(pattern, payload)
+    test_segment_pattern(pattern, payload, params::Dict{String,<:Any})
+
+Use this operation to test a rules pattern that you plan to use to create an audience
+segment. For more information about segments, see CreateSegment.
+
+# Arguments
+- `pattern`: The pattern to test.
+- `payload`: A sample evaluationContext JSON block to test against the specified pattern.
+
+"""
+function test_segment_pattern(
+    pattern, payload; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return evidently(
+        "POST",
+        "/test-segment-pattern",
+        Dict{String,Any}("pattern" => pattern, "payload" => payload);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function test_segment_pattern(
+    pattern,
+    payload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return evidently(
+        "POST",
+        "/test-segment-pattern",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("pattern" => pattern, "payload" => payload), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
@@ -1218,11 +1497,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   it must use a randomization ID to determine which variation the user session is served.
   This randomization ID is a combination of the entity ID and randomizationSalt. If you omit
   randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
+- `"removeSegment"`: Removes a segment from being used in an experiment. You can't use this
+  parameter if the experiment is currently running.
 - `"samplingRate"`: The portion of the available audience that you want to allocate to this
   experiment, in thousandths of a percent. The available audience is the total audience minus
   the audience that you have allocated to overrides or current launches of this feature. This
   is represented in thousandths of a percent. For example, specify 20,000 to allocate 20% of
   the available audience.
+- `"segment"`: Adds an audience segment to an experiment. When a segment is used in an
+  experiment, only user sessions that match the segment pattern are used in the experiment.
+  You can't use this parameter if the experiment is currently running.
 - `"treatments"`: An array of structures that define the variations being tested in the
   experiment.
 """
@@ -1369,6 +1653,12 @@ Instead, use TagResource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appConfigResource"`: Use this parameter if the project will use client-side evaluation
+  powered by AppConfig. Client-side evaluation allows your application to assign variations
+  to user sessions locally instead of by calling the EvaluateFeature operation. This
+  mitigates the latency and availability risks that come with an API call. allows you to This
+  parameter is a structure that contains information about the AppConfig application that
+  will be used for client-side evaluation.
 - `"description"`: An optional description of the project.
 """
 function update_project(project; aws_config::AbstractAWSConfig=global_aws_config())

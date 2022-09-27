@@ -11,7 +11,8 @@ using AWS.UUIDs
  Creates a new connector profile associated with your Amazon Web Services account. There is
 a soft quota of 100 connector profiles per Amazon Web Services account. If you need more
 connector profiles than this quota allows, you can submit a request to the Amazon AppFlow
-team through the Amazon AppFlow support channel.
+team through the Amazon AppFlow support channel. In each connector profile that you create,
+you can provide the credentials and properties for only one connector.
 
 # Arguments
 - `connection_mode`:  Indicates the connection mode and specifies whether it is public or
@@ -25,6 +26,9 @@ team through the Amazon AppFlow support channel.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectorLabel"`: The label of the connector. The label is unique for each
+  ConnectorRegistration in your Amazon Web Services account. Only needed if calling for
+  CUSTOMCONNECTOR connector type/.
 - `"kmsArn"`:  The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
   provide for encryption. This is required if you do not want to use the Amazon
   AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon
@@ -249,17 +253,63 @@ function delete_flow(
 end
 
 """
+    describe_connector(connector_type)
+    describe_connector(connector_type, params::Dict{String,<:Any})
+
+Describes the given custom connector registered in your Amazon Web Services account. This
+API can be used for custom connectors that are registered in your account and also for
+Amazon authored connectors.
+
+# Arguments
+- `connector_type`: The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please
+  choose CUSTOMCONNECTOR for Lambda based custom connectors.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectorLabel"`: The label of the connector. The label is unique for each
+  ConnectorRegistration in your Amazon Web Services account. Only needed if calling for
+  CUSTOMCONNECTOR connector type/.
+"""
+function describe_connector(
+    connectorType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appflow(
+        "POST",
+        "/describe-connector",
+        Dict{String,Any}("connectorType" => connectorType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_connector(
+    connectorType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/describe-connector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectorType" => connectorType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_connector_entity(connector_entity_name)
     describe_connector_entity(connector_entity_name, params::Dict{String,<:Any})
 
  Provides details regarding the entity used with the connector, with a description of the
-data model for each entity.
+data model for each field in that entity.
 
 # Arguments
 - `connector_entity_name`:  The entity name for that connector.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"apiVersion"`: The version of the API that's used by the connector.
 - `"connectorProfileName"`:  The name of the connector profile. The name is unique for each
   ConnectorProfile in the Amazon Web Services account.
 - `"connectorType"`:  The type of connector application, such as Salesforce, Amplitude, and
@@ -307,6 +357,9 @@ paginated form. If there is no match, this operation returns an empty list.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectorLabel"`: The name of the connector. The name is unique for each
+  ConnectorRegistration in your Amazon Web Services account. Only needed if calling for
+  CUSTOMCONNECTOR connector type/.
 - `"connectorProfileNames"`:  The name of the connector profile. The name is unique for
   each ConnectorProfile in the Amazon Web Services account.
 - `"connectorType"`:  The type of connector, such as Salesforce, Amplitude, and so on.
@@ -347,6 +400,8 @@ DescribeConnectors API operation to retrieve the next page.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorTypes"`:  The type of connector, such as Salesforce, Amplitude, and so on.
+- `"maxResults"`: The maximum number of items that should be returned in the result set.
+  The default is 20.
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 function describe_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -458,6 +513,7 @@ Incident entity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"apiVersion"`: The version of the API that's used by the connector.
 - `"connectorProfileName"`:  The name of the connector profile. The name is unique for each
   ConnectorProfile in the Amazon Web Services account, and is used to query the downstream
   connector.
@@ -482,6 +538,37 @@ function list_connector_entities(
     return appflow(
         "POST",
         "/list-connector-entities",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connectors()
+    list_connectors(params::Dict{String,<:Any})
+
+Returns the list of all registered custom connectors in your Amazon Web Services account.
+This API lists only custom connectors registered in this account, not the Amazon Web
+Services authored connectors.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Specifies the maximum number of items that should be returned in the
+  result set. The default for maxResults is 20 (for all paginated API operations).
+- `"nextToken"`: The pagination token for the next page of data.
+"""
+function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appflow(
+        "POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_connectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appflow(
+        "POST",
+        "/list-connectors",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -545,6 +632,43 @@ function list_tags_for_resource(
     return appflow(
         "GET",
         "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_connector()
+    register_connector(params::Dict{String,<:Any})
+
+Registers a new connector with your Amazon Web Services account. Before you can register
+the connector, you must deploy lambda in your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectorLabel"`:  The name of the connector. The name is unique for each
+  ConnectorRegistration in your Amazon Web Services account.
+- `"connectorProvisioningConfig"`: The provisioning type of the connector. Currently the
+  only supported value is LAMBDA.
+- `"connectorProvisioningType"`: The provisioning type of the connector. Currently the only
+  supported value is LAMBDA.
+- `"description"`: A description about the connector that's being registered.
+"""
+function register_connector(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appflow(
+        "POST",
+        "/register-connector";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_connector(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appflow(
+        "POST",
+        "/register-connector",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -656,6 +780,49 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    unregister_connector(connector_label)
+    unregister_connector(connector_label, params::Dict{String,<:Any})
+
+Unregisters the custom connector registered in your account that matches the connectorLabel
+provided in the request.
+
+# Arguments
+- `connector_label`: The label of the connector. The label is unique for each
+  ConnectorRegistration in your Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"forceDelete"`: Indicates whether Amazon AppFlow should unregister the connector, even
+  if it is currently in use in one or more connector profiles. The default value is false.
+"""
+function unregister_connector(
+    connectorLabel; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appflow(
+        "POST",
+        "/unregister-connector",
+        Dict{String,Any}("connectorLabel" => connectorLabel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function unregister_connector(
+    connectorLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/unregister-connector",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectorLabel" => connectorLabel), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

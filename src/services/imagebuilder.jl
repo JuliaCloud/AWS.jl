@@ -60,6 +60,10 @@ end
     create_component(client_token, name, platform, semantic_version, params::Dict{String,<:Any})
 
 Creates a new component that can be used to build, validate, test, and assess your image.
+The component is based on a YAML document that you specify using exactly one of the
+following methods:   Inline, using the data property in the request body.   A URL that
+points to a YAML document file stored in Amazon S3, using the uri property in the request
+body.
 
 # Arguments
 - `client_token`: The idempotency token of the component.
@@ -80,8 +84,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"changeDescription"`: The change description of the component. Describes what change has
   been made in this version, or what makes this version different from other versions of this
   component.
-- `"data"`: The data of the component. Used to specify the data inline. Either data or uri
-  can be used to specify the data within the component.
+- `"data"`: Component data contains inline YAML document content for the component.
+  Alternatively, you can specify the uri of a YAML document file stored in Amazon S3.
+  However, you cannot specify both properties.
 - `"description"`: The description of the component. Describes the contents of the
   component.
 - `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
@@ -89,10 +94,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the OS information is available, a prefix match is performed against the base image OS
   version during image recipe creation.
 - `"tags"`: The tags of the component.
-- `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
-  permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
-  content up to your service quota. Either data or uri can be used to specify the data within
-  the component.
+- `"uri"`: The uri of a YAML component document file. This must be an S3 URL
+  (s3://bucket/key), and the requester must have permission to access the S3 bucket it points
+  to. If you use Amazon S3, you can specify component content up to your service quota.
+  Alternatively, you can specify the YAML document inline, using the component data property.
+  You cannot specify both properties.
 """
 function create_component(
     clientToken,

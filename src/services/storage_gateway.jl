@@ -298,14 +298,13 @@ end
 Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the
 S3 storage class that is associated with the pool. When you use your backup application to
 eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3
-Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+Glacier Deep Archive) that corresponds to the pool.
 
 # Arguments
 - `pool_id`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When you
   use your backup application to eject the tape, the tape is archived directly into the
-  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid
-  Values: GLACIER | DEEP_ARCHIVE
+  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
 - `tape_arn`: The unique Amazon Resource Name (ARN) of the virtual tape that you want to
   add to the tape pool.
 
@@ -734,8 +733,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
-  Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+  bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values:
+  S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
@@ -880,8 +879,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
-  Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+  bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values:
+  S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
@@ -1304,8 +1303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolId"`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When you
   use your backup application to eject the tape, the tape is archived directly into the
-  storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Valid Values:
-  GLACIER | DEEP_ARCHIVE
+  storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool.
 - `"Tags"`: A list of up to 50 tags that can be assigned to a virtual tape that has a
   barcode. Each tag is a key-value pair.  Valid characters for key and value are letters,
   spaces, and numbers representable in UTF-8 format, and the following special characters: +
@@ -1389,8 +1387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolId"`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When you
   use your backup application to eject the tape, the tape is archived directly into the
-  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid
-  Values: GLACIER | DEEP_ARCHIVE
+  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
 - `"Tags"`: A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
@@ -1493,8 +1490,8 @@ end
 Deletes the bandwidth rate limits of a gateway. You can delete either the upload and
 download bandwidth rate limit, or you can delete both. If you delete only one of the
 limits, the other limit remains unchanged. To specify which gateway to work with, use the
-Amazon Resource Name (ARN) of the gateway in your request. This operation is supported for
-the stored volume, cached volume and tape gateway types.
+Amazon Resource Name (ARN) of the gateway in your request. This operation is supported only
+for the stored volume, cached volume, and tape gateway types.
 
 # Arguments
 - `bandwidth_type`: One of the BandwidthType values that indicates the gateway bandwidth
@@ -1673,9 +1670,9 @@ Deletes a snapshot of a volume. You can take snapshots of your gateway volumes o
 scheduled or ad hoc basis. This API action enables you to delete a snapshot schedule for a
 volume. For more information, see Backing up your volumes. In the DeleteSnapshotSchedule
 request, you identify the volume by providing its Amazon Resource Name (ARN). This
-operation is only supported in stored and cached volume gateway types.  To list or delete a
-snapshot, you must use the Amazon EC2 API. For more information, go to DescribeSnapshots in
-the Amazon Elastic Compute Cloud API Reference.
+operation is only supported for cached volume gateway types.  To list or delete a snapshot,
+you must use the Amazon EC2 API. For more information, go to DescribeSnapshots in the
+Amazon Elastic Compute Cloud API Reference.
 
 # Arguments
 - `volume_arn`: The volume which snapshot schedule to delete.
@@ -1908,11 +1905,12 @@ end
     describe_bandwidth_rate_limit(gateway_arn, params::Dict{String,<:Any})
 
 Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which
-means no bandwidth rate limiting is in effect. This operation is supported for the stored
-volume, cached volume, and tape gateway types. This operation only returns a value for a
-bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then
-this operation returns only the gateway ARN in the response body. To specify which gateway
-to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+means no bandwidth rate limiting is in effect. This operation is supported only for the
+stored volume, cached volume, and tape gateway types. To describe bandwidth rate limits for
+S3 file gateways, use DescribeBandwidthRateLimitSchedule. This operation returns a value
+for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway,
+then this operation returns only the gateway ARN in the response body. To specify which
+gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
 
 # Arguments
 - `gateway_arn`:
@@ -1949,16 +1947,17 @@ end
 
  Returns information about the bandwidth rate limit schedule of a gateway. By default,
 gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting
-is in effect. This operation is supported only in the volume and tape gateway types.  This
-operation returns information about a gateway's bandwidth rate limit schedule. A bandwidth
-rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth
-rate limit interval defines a period of time on one or more days of the week, during which
-bandwidth rate limits are specified for uploading, downloading, or both.   A bandwidth rate
-limit interval consists of one or more days of the week, a start hour and minute, an ending
-hour and minute, and bandwidth rate limits for uploading and downloading   If no bandwidth
-rate limit schedule intervals are set for the gateway, this operation returns an empty
-response. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the
-gateway in your request.
+is in effect. This operation is supported only for volume, tape and S3 file gateways. FSx
+file gateways do not support bandwidth rate limits. This operation returns information
+about a gateway's bandwidth rate limit schedule. A bandwidth rate limit schedule consists
+of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a
+period of time on one or more days of the week, during which bandwidth rate limits are
+specified for uploading, downloading, or both.   A bandwidth rate limit interval consists
+of one or more days of the week, a start hour and minute, an ending hour and minute, and
+bandwidth rate limits for uploading and downloading   If no bandwidth rate limit schedule
+intervals are set for the gateway, this operation returns an empty response. To specify
+which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your
+request.
 
 # Arguments
 - `gateway_arn`:
@@ -3254,7 +3253,7 @@ end
     notify_when_uploaded(file_share_arn, params::Dict{String,<:Any})
 
 Sends you notification through CloudWatch Events when all files written to your file share
-have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon
+have been uploaded to S3. Amazon S3. Storage Gateway can send a notification through Amazon
 CloudWatch Events when all files written to your file share up to that point in time have
 been uploaded to Amazon S3. These files include files written to the file share up to the
 time that you make a request for notification. When the upload is done, Storage Gateway
@@ -3312,11 +3311,14 @@ file share. You can subscribe to be notified through a CloudWatch event when you
 RefreshCache operation completes. Throttle limit: This API is asynchronous, so the gateway
 will accept no more than two refreshes at any time. We recommend using the refresh-complete
 CloudWatch event notification before issuing additional requests. For more information, see
-Getting notified about file operations in the Storage Gateway User Guide. If you invoke the
-RefreshCache API when two requests are already being processed, any new request will cause
-an InvalidGatewayRequestException error because too many requests were sent to the server.
-For more information, see Getting notified about file operations in the Storage Gateway
-User Guide.
+Getting notified about file operations in the Storage Gateway User Guide.    Wait at least
+60 seconds between consecutive RefreshCache API requests.   RefreshCache does not evict
+cache entries if invoked consecutively within 60 seconds of a previous RefreshCache
+request.   If you invoke the RefreshCache API when two requests are already being
+processed, any new request will cause an InvalidGatewayRequestException error because too
+many requests were sent to the server.     The S3 bucket name does not need to be included
+when entering the list of folders in the FolderList parameter.  For more information, see
+Getting notified about file operations in the Storage Gateway User Guide.
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share you want to refresh.
@@ -3817,11 +3819,13 @@ end
 
 Updates the bandwidth rate limits of a gateway. You can update both the upload and download
 bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate
-limit, the existing rate limit remains. This operation is supported for the stored volume,
-cached volume, and tape gateway types. By default, a gateway's bandwidth rate limits are
-not set. If you don't set any limit, the gateway does not have any limitations on its
-bandwidth usage and could potentially use the maximum available bandwidth. To specify which
-gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
+limit, the existing rate limit remains. This operation is supported only for the stored
+volume, cached volume, and tape gateway types. To update bandwidth rate limits for S3 file
+gateways, use UpdateBandwidthRateLimitSchedule. By default, a gateway's bandwidth rate
+limits are not set. If you don't set any limit, the gateway does not have any limitations
+on its bandwidth usage and could potentially use the maximum available bandwidth. To
+specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your
+request.
 
 # Arguments
 - `gateway_arn`:
@@ -3865,7 +3869,8 @@ end
  Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do
 not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
 effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This
-operation is supported in the volume and tape gateway types.
+operation is supported only for volume, tape and S3 file gateways. FSx file gateways do not
+support bandwidth rate limits.
 
 # Arguments
 - `bandwidth_rate_limit_intervals`:  An array containing bandwidth rate limit schedule
@@ -4202,8 +4207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
-  Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+  bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values:
+  S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
@@ -4298,8 +4303,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
-  Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+  bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values:
+  S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.

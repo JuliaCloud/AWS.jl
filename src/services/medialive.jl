@@ -241,6 +241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputAttachments"`: List of input attachments for channel.
 - `"inputSpecification"`: Specification of network and file inputs for this channel
 - `"logLevel"`: The log level to write to CloudWatch Logs.
+- `"maintenance"`: Maintenance settings for this channel.
 - `"name"`: Name of channel.
 - `"requestId"`: Unique request ID to be specified. This is needed to prevent retries
   from
@@ -1517,6 +1518,7 @@ Purchase an offering and create a reservation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"name"`: Name for the new reservation
+- `"renewalSettings"`: Renewal settings for the reservation
 - `"requestId"`: Unique request ID to be specified. This is needed to prevent retries from
   creating multiple resources.
 - `"start"`: Requested reservation start time (UTC) in ISO-8601 format. The specified time
@@ -1551,6 +1553,49 @@ function purchase_offering(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reboot_input_device(input_device_id)
+    reboot_input_device(input_device_id, params::Dict{String,<:Any})
+
+Send a reboot command to the specified input device. The device will begin rebooting within
+a few seconds of sending the command. When the reboot is complete, the device’s
+connection status will change to connected.
+
+# Arguments
+- `input_device_id`: The unique ID of the input device to reboot. For example,
+  hd-123456789abcdef.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"force"`: Force a reboot of an input device. If the device is streaming, it will stop
+  streaming and begin rebooting within a few seconds of sending the command. If the device
+  was streaming prior to the reboot, the device will resume streaming when the reboot
+  completes.
+"""
+function reboot_input_device(
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/reboot";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reboot_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/reboot",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1617,6 +1662,47 @@ function start_channel(
     return medialive(
         "POST",
         "/prod/channels/$(channelId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_input_device_maintenance_window(input_device_id)
+    start_input_device_maintenance_window(input_device_id, params::Dict{String,<:Any})
+
+Start a maintenance window for the specified input device. Starting a maintenance window
+will give the device up to two hours to install software. If the device was streaming prior
+to the maintenance, it will resume streaming when the software is fully installed. Devices
+automatically install updates while they are powered on and their MediaLive channels are
+stopped. A maintenance window allows you to update a device without having to stop
+MediaLive channels that use the device. The device must remain powered on and connected to
+the internet for the duration of the maintenance.
+
+# Arguments
+- `input_device_id`: The unique ID of the input device to start a maintenance window for.
+  For example, hd-123456789abcdef.
+
+"""
+function start_input_device_maintenance_window(
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_input_device_maintenance_window(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1778,6 +1864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputAttachments"`:
 - `"inputSpecification"`: Specification of network and file inputs for this channel
 - `"logLevel"`: The log level to write to CloudWatch Logs.
+- `"maintenance"`: Maintenance settings for this channel.
 - `"name"`: The name of the channel.
 - `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
   the Channel. If you do not specify this on an update call but the role was previously set
@@ -2061,6 +2148,7 @@ Update reservation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"name"`: Name of the reservation
+- `"renewalSettings"`: Renewal settings for the reservation
 """
 function update_reservation(
     reservationId; aws_config::AbstractAWSConfig=global_aws_config()

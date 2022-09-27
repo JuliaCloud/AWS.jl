@@ -552,6 +552,55 @@ function create_multicast_group(
 end
 
 """
+    create_network_analyzer_configuration(name)
+    create_network_analyzer_configuration(name, params::Dict{String,<:Any})
+
+Creates a new network analyzer configuration.
+
+# Arguments
+- `name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"Description"`:
+- `"Tags"`:
+- `"TraceContent"`:
+- `"WirelessDevices"`: Wireless device resources to add to the network analyzer
+  configuration. Provide the WirelessDeviceId of the resource to add in the input array.
+- `"WirelessGateways"`: Wireless gateway resources to add to the network analyzer
+  configuration. Provide the WirelessGatewayId of the resource to add in the input array.
+"""
+function create_network_analyzer_configuration(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/network-analyzer-configurations",
+        Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_network_analyzer_configuration(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/network-analyzer-configurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_service_profile()
     create_service_profile(params::Dict{String,<:Any})
 
@@ -924,6 +973,84 @@ function delete_multicast_group(
         "DELETE",
         "/multicast-groups/$(Id)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_network_analyzer_configuration(configuration_name)
+    delete_network_analyzer_configuration(configuration_name, params::Dict{String,<:Any})
+
+Deletes a network analyzer configuration.
+
+# Arguments
+- `configuration_name`:
+
+"""
+function delete_network_analyzer_configuration(
+    ConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/network-analyzer-configurations/$(ConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_network_analyzer_configuration(
+    ConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "DELETE",
+        "/network-analyzer-configurations/$(ConfigurationName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_queued_messages(id, message_id)
+    delete_queued_messages(id, message_id, params::Dict{String,<:Any})
+
+Remove queued messages from the downlink queue.
+
+# Arguments
+- `id`: The ID of a given wireless device for which downlink messages will be deleted.
+- `message_id`: If message ID is \"*\", it cleares the entire downlink queue for a given
+  device, specified by the wireless device ID. Otherwise, the downlink message with the
+  specified message ID will be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WirelessDeviceType"`: The wireless device type, which can be either Sidewalk or LoRaWAN.
+"""
+function delete_queued_messages(
+    Id, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-devices/$(Id)/data",
+        Dict{String,Any}("messageId" => messageId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_queued_messages(
+    Id,
+    messageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-devices/$(Id)/data",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("messageId" => messageId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1387,6 +1514,35 @@ function get_device_profile(
 end
 
 """
+    get_event_configuration_by_resource_types()
+    get_event_configuration_by_resource_types(params::Dict{String,<:Any})
+
+Get the event configuration based on resource types.
+
+"""
+function get_event_configuration_by_resource_types(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations-resource-types";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_configuration_by_resource_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations-resource-types",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_fuota_task(id)
     get_fuota_task(id, params::Dict{String,<:Any})
 
@@ -1500,7 +1656,7 @@ end
     get_network_analyzer_configuration(configuration_name)
     get_network_analyzer_configuration(configuration_name, params::Dict{String,<:Any})
 
-Get NetworkAnalyzer configuration.
+Get network analyzer configuration.
 
 # Arguments
 - `configuration_name`:
@@ -1564,6 +1720,86 @@ function get_partner_account(
         "/partner-accounts/$(PartnerAccountId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_position(resource_identifier, resource_type)
+    get_position(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Get the position information for a given resource.
+
+# Arguments
+- `resource_identifier`: Resource identifier used to retrieve the position information.
+- `resource_type`: Resource type of the resource for which position information is
+  retrieved.
+
+"""
+function get_position(
+    ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/positions/$(ResourceIdentifier)",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_position(
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/positions/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_position_configuration(resource_identifier, resource_type)
+    get_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Get position configuration for a given resource.
+
+# Arguments
+- `resource_identifier`: Resource identifier used in a position configuration.
+- `resource_type`: Resource type of the resource for which position configuration is
+  retrieved.
+
+"""
+function get_position_configuration(
+    ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/position-configurations/$(ResourceIdentifier)",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_position_configuration(
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/position-configurations/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1664,7 +1900,7 @@ LoRaWAN Network Server (LNS) connections.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"serviceType"`: The service type for which to get endpoint information about. Can be
   CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network
-  Server endpoint.
+  Server endpoint or CLAIM for the global endpoint.
 """
 function get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
     return iot_wireless(
@@ -2040,6 +2276,48 @@ function list_device_profiles(
 end
 
 """
+    list_event_configurations(resource_type)
+    list_event_configurations(resource_type, params::Dict{String,<:Any})
+
+List event configurations where at least one event topic has been enabled.
+
+# Arguments
+- `resource_type`: Resource type to filter event configurations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_event_configurations(
+    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_event_configurations(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_fuota_tasks()
     list_fuota_tasks(params::Dict{String,<:Any})
 
@@ -2135,6 +2413,40 @@ function list_multicast_groups_by_fuota_task(
 end
 
 """
+    list_network_analyzer_configurations()
+    list_network_analyzer_configurations(params::Dict{String,<:Any})
+
+Lists the network analyzer configurations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_network_analyzer_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/network-analyzer-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_network_analyzer_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/network-analyzer-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_partner_accounts()
     list_partner_accounts(params::Dict{String,<:Any})
 
@@ -2157,6 +2469,75 @@ function list_partner_accounts(
     return iot_wireless(
         "GET",
         "/partner-accounts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_position_configurations()
+    list_position_configurations(params::Dict{String,<:Any})
+
+List position configurations for a given resource, such as positioning solvers.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+- `"resourceType"`: Resource type for which position configurations are listed.
+"""
+function list_position_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET",
+        "/position-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_position_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/position-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_queued_messages(id)
+    list_queued_messages(id, params::Dict{String,<:Any})
+
+List queued messages in the downlink queue.
+
+# Arguments
+- `id`: The ID of a given wireless device which the downlink message packets are being sent.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WirelessDeviceType"`: The wireless device type, whic can be either Sidewalk or LoRaWAN.
+- `"maxResults"`: The maximum number of results to return in this operation.
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_queued_messages(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET",
+        "/wireless-devices/$(Id)/data";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_queued_messages(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless-devices/$(Id)/data",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2327,6 +2708,52 @@ function list_wireless_gateways(
         "GET",
         "/wireless-gateways",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_position_configuration(resource_identifier, resource_type)
+    put_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Put position configuration for a given resource.
+
+# Arguments
+- `resource_identifier`: Resource identifier used to update the position configuration.
+- `resource_type`: Resource type of the resource for which you want to update the position
+  configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Destination"`: The position data destination that describes the AWS IoT rule that
+  processes the device's position data for use by AWS IoT Core for LoRaWAN.
+- `"Solvers"`: The positioning solvers used to update the position configuration of the
+  resource.
+"""
+function put_position_configuration(
+    ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/position-configurations/$(ResourceIdentifier)",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_position_configuration(
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PUT",
+        "/position-configurations/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2838,6 +3265,47 @@ function update_destination(
 end
 
 """
+    update_event_configuration_by_resource_types()
+    update_event_configuration_by_resource_types(params::Dict{String,<:Any})
+
+Update the event configuration based on resource types.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConnectionStatus"`: Connection status resource type event configuration object for
+  enabling and disabling wireless gateway topic.
+- `"DeviceRegistrationState"`: Device registration state resource type event configuration
+  object for enabling and disabling wireless gateway topic.
+- `"Join"`: Join resource type event configuration object for enabling and disabling
+  wireless device topic.
+- `"MessageDeliveryStatus"`: Message delivery status resource type event configuration
+  object for enabling and disabling wireless device topic.
+- `"Proximity"`: Proximity resource type event configuration object for enabling and
+  disabling wireless gateway topic.
+"""
+function update_event_configuration_by_resource_types(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/event-configurations-resource-types";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_configuration_by_resource_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/event-configurations-resource-types",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_fuota_task(id)
     update_fuota_task(id, params::Dict{String,<:Any})
 
@@ -2946,19 +3414,25 @@ end
     update_network_analyzer_configuration(configuration_name)
     update_network_analyzer_configuration(configuration_name, params::Dict{String,<:Any})
 
-Update NetworkAnalyzer configuration.
+Update network analyzer configuration.
 
 # Arguments
 - `configuration_name`:
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`:
 - `"TraceContent"`:
-- `"WirelessDevicesToAdd"`: WirelessDevices to add into NetworkAnalyzerConfiguration.
-- `"WirelessDevicesToRemove"`: WirelessDevices to remove from NetworkAnalyzerConfiguration.
-- `"WirelessGatewaysToAdd"`: WirelessGateways to add into NetworkAnalyzerConfiguration.
-- `"WirelessGatewaysToRemove"`: WirelessGateways to remove from
-  NetworkAnalyzerConfiguration.
+- `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
+  configuration. Provide the WirelessDeviceId of the resource to add in the input array.
+- `"WirelessDevicesToRemove"`: Wireless device resources to remove from the network
+  analyzer configuration. Provide the WirelessDeviceId of the resources to remove in the
+  input array.
+- `"WirelessGatewaysToAdd"`: Wireless gateway resources to add to the network analyzer
+  configuration. Provide the WirelessGatewayId of the resource to add in the input array.
+- `"WirelessGatewaysToRemove"`: Wireless gateway resources to remove from the network
+  analyzer configuration. Provide the WirelessGatewayId of the resources to remove in the
+  input array.
 """
 function update_network_analyzer_configuration(
     ConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3033,6 +3507,54 @@ function update_partner_account(
 end
 
 """
+    update_position(position, resource_identifier, resource_type)
+    update_position(position, resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Update the position information of a resource.
+
+# Arguments
+- `position`: The position information of the resource.
+- `resource_identifier`: Resource identifier of the resource for which position is updated.
+- `resource_type`: Resource type of the resource for which position is updated.
+
+"""
+function update_position(
+    Position,
+    ResourceIdentifier,
+    resourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/positions/$(ResourceIdentifier)",
+        Dict{String,Any}("Position" => Position, "resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_position(
+    Position,
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/positions/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Position" => Position, "resourceType" => resourceType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_resource_event_configuration(identifier, identifier_type)
     update_resource_event_configuration(identifier, identifier_type, params::Dict{String,<:Any})
 
@@ -3045,8 +3567,11 @@ Update the event configuration for a particular resource identifier.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeviceRegistrationState"`: Event configuration for the device registration state event
-- `"Proximity"`: Event configuration for the Proximity event
+- `"ConnectionStatus"`: Event configuration for the connection status event.
+- `"DeviceRegistrationState"`: Event configuration for the device registration state event.
+- `"Join"`: Event configuration for the join event.
+- `"MessageDeliveryStatus"`: Event configuration for the message delivery status event.
+- `"Proximity"`: Event configuration for the proximity event.
 - `"partnerType"`: Partner type of the resource if the identifier type is PartnerAccountId
 """
 function update_resource_event_configuration(

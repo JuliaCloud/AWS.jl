@@ -350,6 +350,37 @@ function batch_get_crawlers(
 end
 
 """
+    batch_get_custom_entity_types(names)
+    batch_get_custom_entity_types(names, params::Dict{String,<:Any})
+
+Retrieves the details for the custom patterns specified by a list of names.
+
+# Arguments
+- `names`: A list of names of the custom patterns that you want to retrieve.
+
+"""
+function batch_get_custom_entity_types(
+    Names; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetCustomEntityTypes",
+        Dict{String,Any}("Names" => Names);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_custom_entity_types(
+    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetCustomEntityTypes",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_dev_endpoints(dev_endpoint_names)
     batch_get_dev_endpoints(dev_endpoint_names, params::Dict{String,<:Any})
 
@@ -699,6 +730,46 @@ function cancel_mltask_run(
 end
 
 """
+    cancel_statement(id, session_id)
+    cancel_statement(id, session_id, params::Dict{String,<:Any})
+
+Cancels the statement.
+
+# Arguments
+- `id`: The ID of the statement to be cancelled.
+- `session_id`: The Session ID of the statement to be cancelled.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The origin of the request to cancel the statement.
+"""
+function cancel_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "CancelStatement",
+        Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_statement(
+    Id,
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CancelStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Id" => Id, "SessionId" => SessionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     check_schema_version_validity(data_format, schema_definition)
     check_schema_version_validity(data_format, schema_definition, params::Dict{String,<:Any})
 
@@ -707,8 +778,8 @@ supplied schema using DataFormat as the format. Since it does not take a schema 
 no compatibility checks are performed.
 
 # Arguments
-- `data_format`: The data format of the schema definition. Currently AVRO and JSON are
-  supported.
+- `data_format`: The data format of the schema definition. Currently AVRO, JSON and
+  PROTOBUF are supported.
 - `schema_definition`: The definition of the schema that has to be validated.
 
 """
@@ -885,7 +956,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are written, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
-- `"LakeFormationConfiguration"`:
+- `"LakeFormationConfiguration"`: Specifies Lake Formation configuration settings for the
+  crawler.
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.
@@ -930,6 +1002,57 @@ function create_crawler(
 end
 
 """
+    create_custom_entity_type(name, regex_string)
+    create_custom_entity_type(name, regex_string, params::Dict{String,<:Any})
+
+Creates a custom pattern that is used to detect sensitive data across the columns and rows
+of your structured data. Each custom pattern you create specifies a regular expression and
+an optional list of context words. If no context words are passed only a regular expression
+is checked.
+
+# Arguments
+- `name`: A name for the custom pattern that allows it to be retrieved or deleted later.
+  This name must be unique per Amazon Web Services account.
+- `regex_string`: A regular expression string that is used for detecting sensitive data in
+  a custom pattern.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ContextWords"`: A list of context words. If none of these context words are found
+  within the vicinity of the regular expression the data will not be detected as sensitive
+  data. If no context words are passed only a regular expression is checked.
+"""
+function create_custom_entity_type(
+    Name, RegexString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CreateCustomEntityType",
+        Dict{String,Any}("Name" => Name, "RegexString" => RegexString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_custom_entity_type(
+    Name,
+    RegexString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateCustomEntityType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "RegexString" => RegexString),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_database(database_input)
     create_database(database_input, params::Dict{String,<:Any})
 
@@ -942,6 +1065,7 @@ Creates a new database in a Data Catalog.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog in which to create the database. If none is
   provided, the Amazon Web Services account ID is used by default.
+- `"Tags"`: The tags you assign to the database.
 """
 function create_database(DatabaseInput; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -1071,18 +1195,28 @@ Creates a new job definition.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AllocatedCapacity"`: This parameter is deprecated. Use MaxCapacity instead. The number
-  of Glue data processing units (DPUs) to allocate to this Job. You can allocate from 2 to
-  100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists
-  of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue
-  pricing page.
+  of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of
+  2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of
+  4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing
+  page.
+- `"CodeGenConfigurationNodes"`: The representation of a directed acyclic graph on which
+  both the Glue Studio visual component and Glue Studio code generation is based.
 - `"Connections"`: The connections used for this job.
 - `"DefaultArguments"`: The default arguments for this job. You can specify arguments here
   that your own job-execution script consumes, as well as arguments that Glue itself
-  consumes. For information about how to specify and consume your own Job arguments, see the
-  Calling Glue APIs in Python topic in the developer guide. For information about the
-  key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by
-  Glue topic in the developer guide.
+  consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve
+  secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you
+  intend to keep them within the Job.  For information about how to specify and consume your
+  own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For
+  information about the key-value pairs that Glue consumes to set up your job, see the
+  Special Parameters Used by Glue topic in the developer guide.
 - `"Description"`: Description of the job being defined.
+- `"ExecutionClass"`: Indicates whether the job is run with a standard or flexible
+  execution class. The standard execution-class is ideal for time-sensitive workloads that
+  require fast job startup and dedicated resources. The flexible execution class is
+  appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs
+  with Glue version 3.0 and above and command type glueetl will be allowed to set
+  ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"ExecutionProperty"`: An ExecutionProperty specifying the maximum number of concurrent
   runs allowed for this job.
 - `"GlueVersion"`: Glue version determines the versions of Apache Spark and Python that
@@ -1100,17 +1234,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job:   When you specify a Python shell job (JobCommand.Name=\"pythonshell\"), you can
   allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache
   Spark ETL job (JobCommand.Name=\"glueetl\") or Apache Spark streaming ETL job
-  (JobCommand.Name=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. The default is 10
-  DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs,
-  you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type
-  and the Number of workers.
+  (JobCommand.Name=\"gluestreaming\"), you can allocate a minimum of 2 DPUs. The default is
+  10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0
+  jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker
+  type and the Number of workers.
 - `"MaxRetries"`: The maximum number of times to retry this job if it fails.
 - `"NonOverridableArguments"`: Non-overridable arguments for this job, specified as
   name-value pairs.
 - `"NotificationProperty"`: Specifies configuration properties of a job notification.
 - `"NumberOfWorkers"`: The number of workers of a defined workerType that are allocated
-  when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for
-  G.2X.
+  when a job runs.
 - `"SecurityConfiguration"`: The name of the SecurityConfiguration structure to be used
   with this job.
 - `"Tags"`: The tags to use with this job. You may use tags to limit access to the job. For
@@ -1120,12 +1253,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4
-  vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker
-  type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1
-  executor per worker. We recommend this worker type for memory-intensive jobs.   For the
-  G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and
+  a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker
+  provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the
+  G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and
   provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+  For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk),
+  and provides 1 executor per worker. We recommend this worker type for memory-intensive
+  jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory,
+  64 GB disk), and provides 1 executor per worker. We recommend this worker type for low
+  volume streaming jobs. This worker type is only available for Glue version 3.0 streaming
+  jobs.
 """
 function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -1444,8 +1581,8 @@ used. When this API is called without a RegistryId, this will create an entry fo
 \"default-registry\" in the registry database tables, if it is not already present.
 
 # Arguments
-- `data_format`: The data format of the schema definition. Currently AVRO and JSON are
-  supported.
+- `data_format`: The data format of the schema definition. Currently AVRO, JSON and
+  PROTOBUF are supported.
 - `schema_name`: Name of the schema to be created of max length of 255, and may only
   contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
 
@@ -1581,6 +1718,78 @@ function create_security_configuration(
                 Dict{String,Any}(
                     "EncryptionConfiguration" => EncryptionConfiguration, "Name" => Name
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_session(command, id, role)
+    create_session(command, id, role, params::Dict{String,<:Any})
+
+Creates a new session.
+
+# Arguments
+- `command`: The SessionCommand that runs the job.
+- `id`: The ID of the session request.
+- `role`: The IAM Role ARN
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Connections"`: The number of connections to use for the session.
+- `"DefaultArguments"`: A map array of key-value pairs. Max is 75 pairs.
+- `"Description"`: The description of the session.
+- `"GlueVersion"`: The Glue version determines the versions of Apache Spark and Python that
+  Glue supports. The GlueVersion must be greater than 2.0.
+- `"IdleTimeout"`: The number of seconds when idle before request times out.
+- `"MaxCapacity"`: The number of Glue data processing units (DPUs) that can be allocated
+  when the job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs
+  of compute capacity and 16 GB memory.
+- `"NumberOfWorkers"`: The number of workers of a defined WorkerType to use for the
+  session.
+- `"RequestOrigin"`: The origin of the request.
+- `"SecurityConfiguration"`: The name of the SecurityConfiguration structure to be used
+  with the session
+- `"Tags"`: The map of key value pairs (tags) belonging to the session.
+- `"Timeout"`: The number of seconds before request times out.
+- `"WorkerType"`: The type of predefined worker that is allocated to use for the session.
+  Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each
+  worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For
+  the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and
+  provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+  For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk),
+  and provides 1 executor per worker. We recommend this worker type for memory-intensive
+  jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory,
+  64 GB disk), and provides 1 executor per worker. We recommend this worker type for low
+  volume streaming jobs. This worker type is only available for Glue version 3.0 streaming
+  jobs.
+"""
+function create_session(
+    Command, Id, Role; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CreateSession",
+        Dict{String,Any}("Command" => Command, "Id" => Id, "Role" => Role);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_session(
+    Command,
+    Id,
+    Role,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Command" => Command, "Id" => Id, "Role" => Role),
                 params,
             ),
         );
@@ -2034,6 +2243,35 @@ function delete_crawler(
 end
 
 """
+    delete_custom_entity_type(name)
+    delete_custom_entity_type(name, params::Dict{String,<:Any})
+
+Deletes a custom pattern by specifying its name.
+
+# Arguments
+- `name`: The name of the custom pattern that you want to delete.
+
+"""
+function delete_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "DeleteCustomEntityType",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_entity_type(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteCustomEntityType",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_database(name)
     delete_database(name, params::Dict{String,<:Any})
 
@@ -2472,6 +2710,38 @@ function delete_security_configuration(
     return glue(
         "DeleteSecurityConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_session(id)
+    delete_session(id, params::Dict{String,<:Any})
+
+Deletes the session.
+
+# Arguments
+- `id`: The ID of the session to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The name of the origin of the delete session request.
+"""
+function delete_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "DeleteSession",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_session(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteSession",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3016,7 +3286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 - `"HidePassword"`: Allows you to retrieve the connection metadata without returning the
-  password. For instance, the AWS Glue console uses this flag to retrieve the connection, and
+  password. For instance, the Glue console uses this flag to retrieve the connection, and
   does not display the password. Set this parameter when the caller might not have permission
   to use the KMS key to decrypt the password, but it does have permission to access the rest
   of the connection properties.
@@ -3052,7 +3322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the Amazon Web Services account ID is used by default.
 - `"Filter"`: A filter that controls which connections are returned.
 - `"HidePassword"`: Allows you to retrieve the connection metadata without returning the
-  password. For instance, the AWS Glue console uses this flag to retrieve the connection, and
+  password. For instance, the Glue console uses this flag to retrieve the connection, and
   does not display the password. Set this parameter when the caller might not have permission
   to use the KMS key to decrypt the password, but it does have permission to access the rest
   of the connection properties.
@@ -3141,6 +3411,35 @@ function get_crawlers(
 )
     return glue(
         "GetCrawlers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_custom_entity_type(name)
+    get_custom_entity_type(name, params::Dict{String,<:Any})
+
+Retrieves the details of a custom pattern by specifying its name.
+
+# Arguments
+- `name`: The name of the custom pattern that you want to retrieve.
+
+"""
+function get_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "GetCustomEntityType",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_custom_entity_type(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetCustomEntityType",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4214,6 +4513,78 @@ function get_security_configurations(
 end
 
 """
+    get_session(id)
+    get_session(id, params::Dict{String,<:Any})
+
+Retrieves the session.
+
+# Arguments
+- `id`: The ID of the session.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The origin of the request.
+"""
+function get_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "GetSession",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_session(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetSession",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_statement(id, session_id)
+    get_statement(id, session_id, params::Dict{String,<:Any})
+
+Retrieves the statement.
+
+# Arguments
+- `id`: The Id of the statement.
+- `session_id`: The Session ID of the statement.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The origin of the request.
+"""
+function get_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "GetStatement",
+        Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_statement(
+    Id,
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Id" => Id, "SessionId" => SessionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_table(database_name, name)
     get_table(database_name, name, params::Dict{String,<:Any})
 
@@ -4992,6 +5363,79 @@ function list_crawlers(
 end
 
 """
+    list_crawls(crawler_name)
+    list_crawls(crawler_name, params::Dict{String,<:Any})
+
+Returns all the crawls of a specified crawler. Returns only the crawls that have occurred
+since the launch date of the crawler history feature, and only retains up to 12 months of
+crawls. Older crawls will not be returned. You may use this API to:   Retrive all the
+crawls of a specified crawler.   Retrieve all the crawls of a specified crawler within a
+limited count.   Retrieve all the crawls of a specified crawler in a specific time range.
+Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU
+hour value.
+
+# Arguments
+- `crawler_name`: The name of the crawler whose runs you want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the crawls by the criteria you specify in a list of CrawlsFilter
+  objects.
+- `"MaxResults"`: The maximum number of results to return. The default is 20, and maximum
+  is 100.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+"""
+function list_crawls(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListCrawls",
+        Dict{String,Any}("CrawlerName" => CrawlerName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_crawls(
+    CrawlerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "ListCrawls",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CrawlerName" => CrawlerName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_custom_entity_types()
+    list_custom_entity_types(params::Dict{String,<:Any})
+
+Lists all the custom patterns that have been created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A paginated token to offset the results.
+"""
+function list_custom_entity_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListCustomEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_custom_entity_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListCustomEntityTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dev_endpoints()
     list_dev_endpoints(params::Dict{String,<:Any})
 
@@ -5165,6 +5609,68 @@ function list_schemas(
 )
     return glue(
         "ListSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_sessions()
+    list_sessions(params::Dict{String,<:Any})
+
+Retrieve a list of sessions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results.
+- `"NextToken"`: The token for the next set of results, or null if there are no more
+  result.
+- `"RequestOrigin"`: The origin of the request.
+- `"Tags"`: Tags belonging to the session.
+"""
+function list_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue("ListSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_sessions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_statements(session_id)
+    list_statements(session_id, params::Dict{String,<:Any})
+
+Lists statements for the session.
+
+# Arguments
+- `session_id`: The Session ID of the statements.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: A continuation token, if this is a continuation call.
+- `"RequestOrigin"`: The origin of the request to list statements.
+"""
+function list_statements(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListStatements",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_statements(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "ListStatements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5618,6 +6124,46 @@ function resume_workflow_run(
 end
 
 """
+    run_statement(code, session_id)
+    run_statement(code, session_id, params::Dict{String,<:Any})
+
+Executes the statement.
+
+# Arguments
+- `code`: The statement code to be run.
+- `session_id`: The Session Id of the statement to be run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The origin of the request.
+"""
+function run_statement(Code, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "RunStatement",
+        Dict{String,Any}("Code" => Code, "SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function run_statement(
+    Code,
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "RunStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Code" => Code, "SessionId" => SessionId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_tables()
     search_tables(params::Dict{String,<:Any})
 
@@ -5902,17 +6448,25 @@ Starts a job run using a job definition.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AllocatedCapacity"`: This field is deprecated. Use MaxCapacity instead. The number of
-  Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be
-  allocated; the default is 10. A DPU is a relative measure of processing power that consists
-  of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue
-  pricing page.
+  Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of
+  2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of
+  4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing
+  page.
 - `"Arguments"`: The job arguments specifically for this run. For this job run, they
   replace the default arguments set in the job definition itself. You can specify arguments
   here that your own job-execution script consumes, as well as arguments that Glue itself
-  consumes. For information about how to specify and consume your own Job arguments, see the
-  Calling Glue APIs in Python topic in the developer guide. For information about the
-  key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by
-  Glue topic in the developer guide.
+  consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve
+  secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you
+  intend to keep them within the Job.  For information about how to specify and consume your
+  own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For
+  information about the key-value pairs that Glue consumes to set up your job, see the
+  Special Parameters Used by Glue topic in the developer guide.
+- `"ExecutionClass"`: Indicates whether the job is run with a standard or flexible
+  execution class. The standard execution-class is ideal for time-sensitive workloads that
+  require fast job startup and dedicated resources. The flexible execution class is
+  appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs
+  with Glue version 3.0 and above and command type glueetl will be allowed to set
+  ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"JobRunId"`: The ID of a previous JobRun to retry.
 - `"MaxCapacity"`: The number of Glue data processing units (DPUs) that can be allocated
   when this job runs. A DPU is a relative measure of processing power that consists of 4
@@ -5922,23 +6476,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Apache Spark ETL job:   When you specify a Python shell job
   (JobCommand.Name=\"pythonshell\"), you can allocate either 0.0625 or 1 DPU. The default is
   0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name=\"glueetl\"), you
-  can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a
+  can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a
   fractional DPU allocation.
 - `"NotificationProperty"`: Specifies configuration properties of a job run notification.
 - `"NumberOfWorkers"`: The number of workers of a defined workerType that are allocated
-  when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for
-  G.2X.
+  when a job runs.
 - `"SecurityConfiguration"`: The name of the SecurityConfiguration structure to be used
   with this job run.
 - `"Timeout"`: The JobRun timeout in minutes. This is the maximum time that a job run can
-  consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
-  minutes (48 hours). This overrides the timeout value set in the parent job.
+  consume resources before it is terminated and enters TIMEOUT status. This value overrides
+  the timeout value set in the parent job. Streaming jobs do not have a timeout. The default
+  for non-streaming jobs is 2,880 minutes (48 hours).
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4
-  vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker
-  type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per
-  worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a
-  128GB disk, and 1 executor per worker.
+  a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker
+  provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the
+  G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1
+  executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of
+  memory and a 128GB disk, and 1 executor per worker.   For the G.025X worker type, each
+  worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per
+  worker. We recommend this worker type for low volume streaming jobs. This worker type is
+  only available for Glue version 3.0 streaming jobs.
 """
 function start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -6089,6 +6646,9 @@ Starts a new run of the specified workflow.
 # Arguments
 - `name`: The name of the workflow to start.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RunProperties"`: The workflow run properties for the new workflow run.
 """
 function start_workflow_run(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -6169,6 +6729,38 @@ function stop_crawler_schedule(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CrawlerName" => CrawlerName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_session(id)
+    stop_session(id, params::Dict{String,<:Any})
+
+Stops the session.
+
+# Arguments
+- `id`: The ID of the session to be stopped.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestOrigin"`: The origin of the request.
+"""
+function stop_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "StopSession",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_session(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StopSession",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6586,7 +7178,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The Glue database where results are stored, such as:
   arn:aws:daylight:us-east-1::database/sometable/*.
 - `"Description"`: A description of the new crawler.
-- `"LakeFormationConfiguration"`:
+- `"LakeFormationConfiguration"`: Specifies Lake Formation configuration settings for the
+  crawler.
 - `"LineageConfiguration"`: Specifies data lineage configuration settings for the crawler.
 - `"RecrawlPolicy"`: A policy that specifies whether to crawl the entire dataset again, or
   to crawl only folders that were added since the last crawler run.
@@ -6759,11 +7352,13 @@ end
     update_job(job_name, job_update)
     update_job(job_name, job_update, params::Dict{String,<:Any})
 
-Updates an existing job definition.
+Updates an existing job definition. The previous job definition is completely overwritten
+by this information.
 
 # Arguments
 - `job_name`: The name of the job definition to update.
-- `job_update`: Specifies the values with which to update the job definition.
+- `job_update`: Specifies the values with which to update the job definition. Unspecified
+  configuration is removed or reset to default values.
 
 """
 function update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=global_aws_config())
@@ -7039,6 +7634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before updating it. However, if skipArchive is set to true, UpdateTable does not create the
   archived version.
 - `"TransactionId"`: The transaction ID at which to update the table contents.
+- `"VersionId"`: The version ID at which to update the table contents.
 """
 function update_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()

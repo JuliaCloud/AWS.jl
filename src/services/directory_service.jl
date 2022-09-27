@@ -1368,6 +1368,44 @@ function describe_regions(
 end
 
 """
+    describe_settings(directory_id)
+    describe_settings(directory_id, params::Dict{String,<:Any})
+
+Retrieves information about the configurable settings for the specified directory.
+
+# Arguments
+- `directory_id`: The identifier of the directory for which to retrieve information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: The DescribeSettingsResult.NextToken value from a previous call to
+  DescribeSettings. Pass null if this is the first call.
+- `"Status"`: The status of the directory settings for which to retrieve information.
+"""
+function describe_settings(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
+    return directory_service(
+        "DescribeSettings",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_settings(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return directory_service(
+        "DescribeSettings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_shared_directories(owner_directory_id)
     describe_shared_directories(owner_directory_id, params::Dict{String,<:Any})
 
@@ -2730,6 +2768,47 @@ function update_radius(
                 Dict{String,Any}(
                     "DirectoryId" => DirectoryId, "RadiusSettings" => RadiusSettings
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_settings(directory_id, settings)
+    update_settings(directory_id, settings, params::Dict{String,<:Any})
+
+Updates the configurable settings for the specified directory.
+
+# Arguments
+- `directory_id`: The identifier of the directory for which to update settings.
+- `settings`: The list of Setting objects.
+
+"""
+function update_settings(
+    DirectoryId, Settings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return directory_service(
+        "UpdateSettings",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "Settings" => Settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_settings(
+    DirectoryId,
+    Settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return directory_service(
+        "UpdateSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DirectoryId" => DirectoryId, "Settings" => Settings),
                 params,
             ),
         );

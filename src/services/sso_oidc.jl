@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_token(client_id, client_secret, device_code, grant_type)
-    create_token(client_id, client_secret, device_code, grant_type, params::Dict{String,<:Any})
+    create_token(client_id, client_secret, grant_type)
+    create_token(client_id, client_secret, grant_type, params::Dict{String,<:Any})
 
 Creates and returns an access token for the authorized client. The access token issued will
 be used to fetch short-term credentials for the assigned roles in the AWS account.
@@ -16,9 +16,6 @@ be used to fetch short-term credentials for the assigned roles in the AWS accoun
   the persisted result of the RegisterClient API.
 - `client_secret`: A secret string generated for the client. This value should come from
   the persisted result of the RegisterClient API.
-- `device_code`: Used only when calling this API for the device code grant type. This
-  short-term code is used to identify this authentication attempt. This should come from an
-  in-memory reference to the result of the StartDeviceAuthorization API.
 - `grant_type`: Supports grant types for authorization code, refresh token, and device code
   request.
 
@@ -26,6 +23,9 @@ be used to fetch short-term credentials for the assigned roles in the AWS accoun
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"code"`: The authorization code received from the authorization service. This parameter
   is required to perform an authorization grant request to get access to a token.
+- `"deviceCode"`: Used only when calling this API for the device code grant type. This
+  short-term code is used to identify this authentication attempt. This should come from an
+  in-memory reference to the result of the StartDeviceAuthorization API.
 - `"redirectUri"`: The location of the application that will receive the authorization
   code. Users authorize the service to send the request to this location.
 - `"refreshToken"`: The token used to obtain an access token in the event that the access
@@ -34,20 +34,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list is used to restrict permissions when granting an access token.
 """
 function create_token(
-    clientId,
-    clientSecret,
-    deviceCode,
-    grantType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sso_oidc(
         "POST",
         "/token",
         Dict{String,Any}(
-            "clientId" => clientId,
-            "clientSecret" => clientSecret,
-            "deviceCode" => deviceCode,
-            "grantType" => grantType,
+            "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -56,7 +49,6 @@ end
 function create_token(
     clientId,
     clientSecret,
-    deviceCode,
     grantType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -70,7 +62,6 @@ function create_token(
                 Dict{String,Any}(
                     "clientId" => clientId,
                     "clientSecret" => clientSecret,
-                    "deviceCode" => deviceCode,
                     "grantType" => grantType,
                 ),
                 params,

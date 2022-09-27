@@ -1307,7 +1307,10 @@ end
     put_image_scanning_configuration(image_scanning_configuration, repository_name)
     put_image_scanning_configuration(image_scanning_configuration, repository_name, params::Dict{String,<:Any})
 
-Updates the image scanning configuration for the specified repository.
+ The PutImageScanningConfiguration API is being deprecated, in favor of specifying the
+image scanning configuration at the registry level. For more information, see
+PutRegistryScanningConfiguration.  Updates the image scanning configuration for the
+specified repository.
 
 # Arguments
 - `image_scanning_configuration`: The image scanning configuration for the repository. This
@@ -1515,12 +1518,14 @@ Creates or updates the scanning configuration for your private registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"rules"`: The scanning rules to use for the registry. A scanning rule is used to
   determine which repository filters are used and at what frequency scanning will occur.
-- `"scanType"`: The scanning type to set for the registry. By default, the BASIC scan type
-  is used. When basic scanning is set, you may specify filters to determine which individual
-  repositories, or all repositories, are scanned when new images are pushed. Alternatively,
+- `"scanType"`: The scanning type to set for the registry. When a registry scanning
+  configuration is not defined, by default the BASIC scan type is used. When basic scanning
+  is used, you may specify filters to determine which individual repositories, or all
+  repositories, are scanned when new images are pushed to those repositories. Alternatively,
   you can do manual scans of images with basic scanning. When the ENHANCED scan type is set,
-  Amazon Inspector provides automated, continuous scanning of all repositories in your
-  registry.
+  Amazon Inspector provides automated vulnerability scanning. You may choose between
+  continuous scanning or scan on push and you may specify filters to determine which
+  individual repositories, or all repositories, are scanned.
 """
 function put_registry_scanning_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()

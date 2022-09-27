@@ -246,6 +246,68 @@ function create_connection(
 end
 
 """
+    create_endpoint(event_buses, name, routing_config)
+    create_endpoint(event_buses, name, routing_config, params::Dict{String,<:Any})
+
+Creates a global endpoint. Global endpoints improve your application's availability by
+making it regional-fault tolerant. To do this, you define a primary and secondary Region
+with event buses in each Region. You also create a Amazon Route 53 health check that will
+tell EventBridge to route events to the secondary Region when an \"unhealthy\" state is
+encountered and events will be routed back to the primary Region when the health check
+reports a \"healthy\" state.
+
+# Arguments
+- `event_buses`: Define the event buses used.   The names of the event buses must be
+  identical in each Region.
+- `name`: The name of the global endpoint. For example,
+  \"Name\":\"us-east-2-custom_bus_A-endpoint\".
+- `routing_config`: Configure the routing policy, including the health check and secondary
+  Region..
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the global endpoint.
+- `"ReplicationConfig"`: Enable or disable event replication.
+- `"RoleArn"`: The ARN of the role used for replication.
+"""
+function create_endpoint(
+    EventBuses, Name, RoutingConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "CreateEndpoint",
+        Dict{String,Any}(
+            "EventBuses" => EventBuses, "Name" => Name, "RoutingConfig" => RoutingConfig
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_endpoint(
+    EventBuses,
+    Name,
+    RoutingConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return eventbridge(
+        "CreateEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventBuses" => EventBuses,
+                    "Name" => Name,
+                    "RoutingConfig" => RoutingConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_event_bus(name)
     create_event_bus(name, params::Dict{String,<:Any})
 
@@ -497,6 +559,38 @@ function delete_connection(
 end
 
 """
+    delete_endpoint(name)
+    delete_endpoint(name, params::Dict{String,<:Any})
+
+Delete an existing global endpoint. For more information about global endpoints, see Making
+applications Regional-fault tolerant with global endpoints and event replication in the
+Amazon EventBridge User Guide.
+
+# Arguments
+- `name`: The name of the endpoint you want to delete. For example,
+  \"Name\":\"us-east-2-custom_bus_A-endpoint\"..
+
+"""
+function delete_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return eventbridge(
+        "DeleteEndpoint",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_endpoint(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "DeleteEndpoint",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_event_bus(name)
     delete_event_bus(name, params::Dict{String,<:Any})
 
@@ -699,6 +793,42 @@ function describe_connection(
 )
     return eventbridge(
         "DescribeConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_endpoint(name)
+    describe_endpoint(name, params::Dict{String,<:Any})
+
+Get the information about an existing global endpoint. For more information about global
+endpoints, see Making applications Regional-fault tolerant with global endpoints and event
+replication in the Amazon EventBridge User Guide..
+
+# Arguments
+- `name`: The name of the endpoint you want to get information about. For example,
+  \"Name\":\"us-east-2-custom_bus_A-endpoint\".
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HomeRegion"`: The primary Region of the endpoint you want to get information about. For
+  example \"HomeRegion\": \"us-east-1\".
+"""
+function describe_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return eventbridge(
+        "DescribeEndpoint",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_endpoint(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "DescribeEndpoint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1028,6 +1158,41 @@ function list_connections(
 end
 
 """
+    list_endpoints()
+    list_endpoints(params::Dict{String,<:Any})
+
+List the global endpoints associated with this account. For more information about global
+endpoints, see Making applications Regional-fault tolerant with global endpoints and event
+replication in the Amazon EventBridge User Guide..
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HomeRegion"`: The primary Region of the endpoints associated with this account. For
+  example \"HomeRegion\": \"us-east-1\".
+- `"MaxResults"`: The maximum number of results returned by the call.
+- `"NamePrefix"`: A value that will return a subset of the endpoints associated with this
+  account. For example, \"NamePrefix\": \"ABC\" will return all endpoints with \"ABC\" in the
+  name.
+- `"NextToken"`: If nextToken is returned, there are more results available. The value of
+  nextToken is a unique pagination token for each page. Make the call again using the
+  returned token to retrieve the next page. Keep all other arguments unchanged. Each
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  HTTP 400 InvalidToken error.
+"""
+function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return eventbridge(
+        "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_event_buses()
     list_event_buses(params::Dict{String,<:Any})
 
@@ -1350,13 +1515,19 @@ end
     put_events(entries)
     put_events(entries, params::Dict{String,<:Any})
 
-Sends custom events to Amazon EventBridge so that they can be matched to rules.
+Sends custom events to Amazon EventBridge so that they can be matched to rules.  PutEvents
+will only process nested JSON up to 1100 levels deep.
 
 # Arguments
 - `entries`: The entry that defines an event in your system. You can specify several
   parameters for the entry such as the source and type of the event, resources associated
   with the event, and so on.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndpointId"`: The URL subdomain of the endpoint. For example, if the URL for Endpoint
+  is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using
+  Java, you must include auth-crt on the class path.
 """
 function put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
     return eventbridge(
@@ -1451,7 +1622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts.
 - `"StatementId"`: An identifier string for the external account that you are granting
   permissions to. If you later want to revoke the permission for this external account,
-  specify this StatementId when you run RemovePermission.
+  specify this StatementId when you run RemovePermission.  Each StatementId must be unique.
 """
 function put_permission(; aws_config::AbstractAWSConfig=global_aws_config())
     return eventbridge(
@@ -1513,7 +1684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the rule.
 - `"EventBusName"`: The name or ARN of the event bus to associate with this rule. If you
   omit this, the default event bus is used.
-- `"EventPattern"`: The event pattern. For more information, see Events and Event Patterns
+- `"EventPattern"`: The event pattern. For more information, see EventBridge event patterns
   in the Amazon EventBridge User Guide.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule. If
   you're setting an event bus in another account as the target and that account granted
@@ -1550,19 +1721,17 @@ end
 
 Adds the specified targets to the specified rule, or updates the targets if they are
 already associated with the rule. Targets are the resources that are invoked when a rule is
-triggered. You can configure the following as targets for Events:    API destination
-Amazon API Gateway REST API endpoints   API Gateway   Batch job queue   CloudWatch Logs
-group   CodeBuild project   CodePipeline   Amazon EC2 CreateSnapshot API call   Amazon EC2
-RebootInstances API call   Amazon EC2 StopInstances API call   Amazon EC2
-TerminateInstances API call   Amazon ECS tasks   Event bus in a different Amazon Web
-Services account or Region. You can use an event bus in the US East (N. Virginia)
-us-east-1, US West (Oregon) us-west-2, or Europe (Ireland) eu-west-1 Regions as a target
-for a rule.   Firehose delivery stream (Kinesis Data Firehose)   Inspector assessment
-template (Amazon Inspector)   Kinesis stream (Kinesis Data Stream)   Lambda function
-Redshift clusters (Data API statement execution)   Amazon SNS topic   Amazon SQS queues
-(includes FIFO queues   SSM Automation   SSM OpsItem   SSM Run Command   Step Functions
-state machines   Creating rules with built-in targets is supported only in the Amazon Web
-Services Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2
+triggered.  Each rule can have up to five (5) targets associated with it at one time.  You
+can configure the following as targets for Events:    API destination     API Gateway
+Batch job queue   CloudWatch group   CodeBuild project   CodePipeline   EC2 CreateSnapshot
+API call   EC2 Image Builder   EC2 RebootInstances API call   EC2 StopInstances API call
+EC2 TerminateInstances API call   ECS task    Event bus in a different account or Region
+ Event bus in the same account and Region    Firehose delivery stream   Glue workflow
+Incident Manager response plan    Inspector assessment template   Kinesis stream   Lambda
+function   Redshift cluster   SageMaker Pipeline   SNS topic   SQS queue   Step Functions
+state machine   Systems Manager Automation   Systems Manager OpsItem   Systems Manager Run
+Command   Creating rules with built-in targets is supported only in the Amazon Web Services
+Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2
 RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call.
 For some target types, PutTargets provides target-specific parameters. If the target is a
 Kinesis data stream, you can optionally specify which shard the event goes to by using the
@@ -1674,11 +1843,13 @@ end
     remove_targets(ids, rule, params::Dict{String,<:Any})
 
 Removes the specified targets from the specified rule. When the rule is triggered, those
-targets are no longer be invoked. When you remove a target, when the associated rule
-triggers, removed targets might continue to be invoked. Allow a short period of time for
-changes to take effect. This action can partially fail if too many requests are made at the
-same time. If that happens, FailedEntryCount is non-zero in the response and each entry in
-FailedEntries provides the ID of the failed target and the error code.
+targets are no longer be invoked.  A successful execution of RemoveTargets doesn't
+guarantee all targets are removed from the rule, it means that the target(s) listed in the
+request are removed.  When you remove a target, when the associated rule triggers, removed
+targets might continue to be invoked. Allow a short period of time for changes to take
+effect. This action can partially fail if too many requests are made at the same time. If
+that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries
+provides the ID of the failed target and the error code.
 
 # Arguments
 - `ids`: The IDs of the targets to remove from the rule.
@@ -2035,6 +2206,45 @@ function update_connection(
 )
     return eventbridge(
         "UpdateConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_endpoint(name)
+    update_endpoint(name, params::Dict{String,<:Any})
+
+Update an existing endpoint. For more information about global endpoints, see Making
+applications Regional-fault tolerant with global endpoints and event replication in the
+Amazon EventBridge User Guide..
+
+# Arguments
+- `name`: The name of the endpoint you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description for the endpoint.
+- `"EventBuses"`: Define event buses used for replication.
+- `"ReplicationConfig"`: Whether event replication was enabled or disabled by this request.
+- `"RoleArn"`: The ARN of the role used by event replication for this request.
+- `"RoutingConfig"`: Configure the routing policy, including the health check and secondary
+  Region..
+"""
+function update_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return eventbridge(
+        "UpdateEndpoint",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_endpoint(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "UpdateEndpoint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -9,27 +9,28 @@ using AWS.UUIDs
     add_tags_to_resource(resource_id, resource_type, tags, params::Dict{String,<:Any})
 
 Adds or overwrites one or more tags for the specified resource. Tags are metadata that you
-can assign to your documents, managed nodes, maintenance windows, Parameter Store
-parameters, and patch baselines. Tags enable you to categorize your resources in different
-ways, for example, by purpose, owner, or environment. Each tag consists of a key and an
-optional value, both of which you define. For example, you could define a set of tags for
-your account's managed nodes that helps you track each node's owner and stack level. For
-example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev
- Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test
-Each resource can have a maximum of 50 tags. We recommend that you devise a set of tag keys
-that meets your needs for each resource type. Using a consistent set of tag keys makes it
-easier for you to manage your resources. You can search and filter the resources based on
-the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a
-string of characters.  For more information about using tags with Amazon Elastic Compute
-Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User
-Guide.
+can assign to your automations, documents, managed nodes, maintenance windows, Parameter
+Store parameters, and patch baselines. Tags enable you to categorize your resources in
+different ways, for example, by purpose, owner, or environment. Each tag consists of a key
+and an optional value, both of which you define. For example, you could define a set of
+tags for your account's managed nodes that helps you track each node's owner and stack
+level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin
+Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production
+Key=Stack,Value=Test    Most resources can have a maximum of 50 tags. Automations can have
+a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs
+for each resource type. Using a consistent set of tag keys makes it easier for you to
+manage your resources. You can search and filter the resources based on the tags you add.
+Tags don't have any semantic meaning to and are interpreted strictly as a string of
+characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon
+EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
 
 # Arguments
 - `resource_id`: The resource ID you want to tag. Use the ID of the resource. Here are some
-  examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   OpsMetadata
-  object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the
-  object. Specifically, ResourceID is created from the strings that come after the word
-  opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of
+  examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   Automation:
+  example-c160-4567-8519-012345abcde   OpsMetadata object: ResourceID for tagging is created
+  from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created
+  from the strings that come after the word opsmetadata in the ARN. For example, an
+  OpsMetadata object with an ARN of
   arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of
   either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and
   Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The
@@ -321,6 +322,7 @@ association might instruct State Manager to start the service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`:
 - `"ApplyOnlyAtCronInterval"`: By default, when you create a new association, the system
   runs it immediately after it is created and then according to the schedule you specified.
   Specify this option if you don't want an association to run immediately after you create
@@ -336,7 +338,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Change Calendar.
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 - `"DocumentVersion"`: The document version you want to associate with the target(s). Can
-  be a specific version or the default version.
+  be a specific version or the default version.  State Manager doesn't support running
+  associations that use a new version of a document if that document is shared from another
+  account. State Manager always runs the default version of a document if shared from another
+  account, even though the Systems Manager console shows that a new version was processed. If
+  you want to run an association using a new version of a document shared form another
+  account, you must set the document version to default.
 - `"InstanceId"`: The managed node ID.   InstanceId has been deprecated. To specify a
   managed node ID for an association, use the Targets parameter. Requests that include the
   parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
@@ -366,6 +373,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: The parameters for the runtime configuration of the document.
 - `"ScheduleExpression"`: A cron expression when the association will be applied to the
   target(s).
+- `"ScheduleOffset"`: Number of days to wait after the scheduled day to run an association.
+  For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify
+  an offset of 3 to run the association each Sunday after the second Thursday of the month.
+  For more information about cron schedules for associations, see Reference: Cron and rate
+  expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To
+  use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the
+  system not to run an association immediately after you create it.
 - `"SyncCompliance"`: The mode for generating association compliance. You can specify AUTO
   or MANUAL. In AUTO mode, the system uses the status of the association execution to
   determine the compliance status. If the association execution runs successfully, then the
@@ -374,9 +388,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter for the PutComplianceItems API operation. In this case, compliance data isn't
   managed by State Manager. It is managed by your direct call to the PutComplianceItems API
   operation. By default, all associations use AUTO mode.
+- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+  a resource in different ways, such as by purpose, owner, or environment. For example, you
+  might want to tag an association to identify the type of resource to which it applies, the
+  environment, or the purpose of the association.
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   create an association in multiple Regions and multiple accounts.
+- `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
+  Targets and TargetMaps can't be specified together.
 - `"Targets"`: The targets for the association. You can target managed nodes by using tags,
   Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
   or individual managed node IDs. You can target all managed nodes in an Amazon Web Services
@@ -457,7 +477,7 @@ Guide.
   an SSM document (Amazon Web Services CLI)     Create an SSM document (API)
 - `name`: A name for the SSM document.  You can't use the following strings as document
   name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:
-     aws-     amazon     amzn
+     aws     amazon     amzn
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -468,7 +488,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at a later time using the UpdateDocument operation.
 - `"DocumentFormat"`: Specify the document format for the request. The document format can
   be JSON, YAML, or TEXT. JSON is the default format.
-- `"DocumentType"`: The type of document to create.
+- `"DocumentType"`: The type of document to create.  The DeploymentStrategy document type
+  is an internal-use-only document type reserved for AppConfig.
 - `"Requires"`: A list of SSM documents required by a document. This parameter is used
   exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM
   document, the user must also specify a required document for validation purposes. In this
@@ -488,8 +509,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of valid resource types, see Amazon Web Services resource and property types reference
   in the CloudFormation User Guide.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
-  creating with the document. For example, \"Release 12, Update 6\". This value is unique
-  across all versions of a document, and can't be changed.
+  creating with the document. For example, Release12.1. This value is unique across all
+  versions of a document, and can't be changed.
 """
 function create_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -1953,8 +1974,8 @@ EC2 instances.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of managed
-  nodes. You can filter based on tags applied to EC2 instances. Use this Filters data type
-  instead of InstanceInformationFilterList, which is deprecated.
+  nodes. You can filter based on tags applied to your managed nodes. Use this Filters data
+  type instead of InstanceInformationFilterList, which is deprecated.
 - `"InstanceInformationFilterList"`: This is a legacy method. We recommend that you don't
   use this method. Instead, use the Filters data type. Filters enables you to return node
   information by filtering based on tags applied to managed nodes.  Attempting to use
@@ -2933,14 +2954,14 @@ command execution status across managed nodes, use ListCommands.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PluginName"`: The name of the plugin for which you want detailed results. If the
-  document contains only one plugin, you can omit the name and details for that plugin. If
-  the document contains more than one plugin, you must specify the name of the plugin for
-  which you want to view details. Plugin names are also referred to as step names in Systems
-  Manager documents (SSM documents). For example, aws:RunShellScript is a plugin. To find the
-  PluginName, check the document content and find the name of the plugin. Alternatively, use
-  ListCommandInvocations with the CommandId and Details parameters. The PluginName is the
-  Name attribute of the CommandPlugin object in the CommandPlugins list.
+- `"PluginName"`: The name of the step for which you want detailed results. If the document
+  contains only one step, you can omit the name and details for that step. If the document
+  contains more than one step, you must specify the name of the step for which you want to
+  view details. Be sure to specify the name of the step, not the name of a plugin like
+  aws:RunShellScript. To find the PluginName, check the document content and find the name of
+  the step you want details for. Alternatively, use ListCommandInvocations with the CommandId
+  and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in
+  the CommandPlugins list.
 """
 function get_command_invocation(
     CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3357,10 +3378,12 @@ end
     get_maintenance_window_task(window_id, window_task_id)
     get_maintenance_window_task(window_id, window_task_id, params::Dict{String,<:Any})
 
-Lists the tasks in a maintenance window.  For maintenance window tasks without a specified
-target, you can't supply values for --max-errors and --max-concurrency. Instead, the system
-inserts a placeholder value of 1, which may be reported in the response to this command.
-These values don't affect the running of your task and can be ignored.
+Retrieves the details of a maintenance window task.  For maintenance window tasks without a
+specified target, you can't supply values for --max-errors and --max-concurrency. Instead,
+the system inserts a placeholder value of 1, which may be reported in the response to this
+command. These values don't affect the running of your task and can be ignored.  To
+retrieve a list of tasks in a maintenance window, instead use the
+DescribeMaintenanceWindowTasks command.
 
 # Arguments
 - `window_id`: The maintenance window ID that includes the task to retrieve.
@@ -3631,8 +3654,8 @@ set of results.
 
 # Arguments
 - `path`: The hierarchy for the parameter. Hierarchies start with a forward slash (/). The
-  hierachy is the parameter name except the last part of the parameter. For the API call to
-  succeeed, the last part of the parameter name can't be in the path. A parameter name
+  hierarchy is the parameter name except the last part of the parameter. For the API call to
+  succeed, the last part of the parameter name can't be in the path. A parameter name
   hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy:
   /Finance/Prod/IAD/WinServ2016/license33
 
@@ -3718,7 +3741,7 @@ Retrieves the patch baseline that should be used for the specified patch group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OperatingSystem"`: Returns he operating system rule specified for patch groups using
+- `"OperatingSystem"`: Returns the operating system rule specified for patch groups using
   the patch baseline.
 """
 function get_patch_baseline_for_patch_group(
@@ -3767,9 +3790,9 @@ current service setting for the Amazon Web Services account.
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
   following.    /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
-  /ssm/documents/console/public-sharing-permission
-  /ssm/parameter-store/default-parameter-tier
-  /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+  /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
+     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
+  /ssm/parameter-store/high-throughput-enabled
 
 """
 function get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4498,7 +4521,7 @@ compliance item was applied.   ExecutionType: Specify patch, association, or Cus
   ExecutionTime. The time the patch, association, or custom compliance item was applied to
 the managed node.   Id: The patch, association, or custom compliance ID.   Title: A title.
  Status: The status of the compliance item. For example, approved for patches, or Failed
-for associations.   Severity: A patch severity. For example, critical.   DocumentName: An
+for associations.   Severity: A patch severity. For example, Critical.   DocumentName: An
 SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document
 version number. For example, 4.   Classification: A patch classification. For example,
 security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch
@@ -4642,11 +4665,10 @@ Add a parameter to the system.
   name can't include spaces.   Parameter hierarchies are limited to a maximum depth of
   fifteen levels.   For additional information about valid values for parameter names, see
   Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
-  The maximum length constraint listed below includes capacity for additional system
-  attributes that aren't part of the name. The maximum length for a parameter name, including
-  the full length of the parameter ARN, is 1011 characters. For example, the length of the
-  following parameter name is 65 characters, not 20 characters:
-  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
+  The maximum length constraint of 2048 characters listed below includes 1037 characters
+  reserved for internal use by Systems Manager. The maximum length for a parameter name that
+  you create is 1011 characters. This includes the characters in the ARN that precede the
+  name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
 - `value`: The parameter value that you want to add to the system. Standard parameters have
   a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be
   referenced or nested in the values of other parameters. You can't include {{}} or
@@ -4659,11 +4681,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AllowedPattern=^d+
 - `"DataType"`: The data type for a String parameter. Supported data types include plain
   text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.
-  text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image,
-  Amazon Web Services Systems Manager validates the parameter value is in the required
-  format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your
-  Amazon Web Services account. For more information, see Native parameter support for Amazon
-  Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
+  text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and
+  specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is
+  in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is
+  available in your Amazon Web Services account. For more information, see Native parameter
+  support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User
+  Guide.
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
@@ -4934,6 +4957,8 @@ Adds a new task to a maintenance window.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your maintenance window
+  task.
 - `"ClientToken"`: User-provided idempotency token.
 - `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
   specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
@@ -4952,12 +4977,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TaskInvocationParameters structure. For information about how Amazon Web Services Systems
   Manager handles these options for the supported maintenance window task types, see
   MaintenanceWindowTaskInvocationParameters.
-- `"MaxConcurrency"`: The maximum number of targets this task can be run for in parallel.
+- `"MaxConcurrency"`: The maximum number of targets this task can be run for, in parallel.
+  Although this element is listed as \"Required: No\", a value can be omitted only when you
+  are registering or updating a targetless task You must provide a value in all other cases.
   For maintenance window tasks without a target specified, you can't supply a value for this
   option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the
   running of your task.
 - `"MaxErrors"`: The maximum number of errors allowed before this task stops being
-  scheduled.  For maintenance window tasks without a target specified, you can't supply a
+  scheduled.  Although this element is listed as \"Required: No\", a value can be omitted
+  only when you are registering or updating a targetless task You must provide a value in all
+  other cases. For maintenance window tasks without a target specified, you can't supply a
   value for this option. Instead, the system inserts a placeholder value of 1. This value
   doesn't affect the running of your task.
 - `"Name"`: An optional name for the task.
@@ -5038,15 +5067,16 @@ Removes tag keys from the specified resource.
 
 # Arguments
 - `resource_id`: The ID of the resource from which you want to remove tags. For example:
-  ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline:
-  pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon
-  Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings
-  that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an
-  ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a
-  ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the
-  Document and Parameter values, use the name of the resource.  The ManagedInstance type for
-  this API operation is only for on-premises managed nodes. Specify the name of the managed
-  node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde  Automation:
+  example-c160-4567-8519-012345abcde  PatchBaseline: pb-012345abcde OpsMetadata object:
+  ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object.
+  Specifically, ResourceID is created from the strings that come after the word opsmetadata
+  in the ARN. For example, an OpsMetadata object with an ARN of
+  arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of
+  either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and
+  Parameter values, use the name of the resource.  The ManagedInstance type for this API
+  operation is only for on-premises managed nodes. Specify the name of the managed node in
+  the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 - `resource_type`: The type of resource from which you want to remove a tag.  The
   ManagedInstance type for this API operation is only for on-premises managed nodes. Specify
   the name of the managed node in the following format: mi-ID_number . For example,
@@ -5112,9 +5142,9 @@ provisioned by the Amazon Web Services service team.
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. The setting
   ID can be one of the following.    /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
-  /ssm/documents/console/public-sharing-permission
-  /ssm/parameter-store/default-parameter-tier
-  /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+  /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
+     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
+  /ssm/parameter-store/high-throughput-enabled
 
 """
 function reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -5249,6 +5279,7 @@ Runs commands on one or more managed nodes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your command.
 - `"CloudWatchOutputConfig"`: Enables Amazon Web Services Systems Manager to send Run
   Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web
   Services Systems Manager.
@@ -5291,7 +5322,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: The required and optional parameters specified in the document being run.
 - `"ServiceRoleArn"`: The ARN of the Identity and Access Management (IAM) service role to
   use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run
-  Command commands.
+  Command commands. This role must provide the sns:Publish permission for your notification
+  topic. For information about creating and using this service role, see Monitoring Systems
+  Manager status changes using Amazon SNS notifications in the Amazon Web Services Systems
+  Manager User Guide.
 - `"Targets"`: An array of search criteria that targets managed nodes using a Key,Value
   combination that you specify. Specifying targets is most useful when you want to send a
   command to a large number of managed nodes at once. Using Targets, which accepts tag
@@ -5375,6 +5409,7 @@ Initiates execution of an Automation runbook.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your automation.
 - `"ClientToken"`: User-provided idempotency token. The token must be unique, is case
   insensitive, enforces the UUID format, and can't be reused.
 - `"DocumentVersion"`: The version of the Automation runbook to use for this execution.
@@ -5400,7 +5435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   such as by purpose, owner, or environment. For example, you might want to tag an automation
   to identify an environment or operating system. In this case, you could specify the
   following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To
-  add tags to an existing patch baseline, use the AddTagsToResource operation.
+  add tags to an existing automation, use the AddTagsToResource operation.
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
   Amazon Web Services accounts where you want to run the automation. Use this operation to
   start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
@@ -5535,11 +5570,14 @@ Web Services Tools for PowerShell on Windows local machines.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentName"`: The name of the SSM document to define the parameters and plugin
-  settings for the session. For example, SSM-SessionManagerRunShell. You can call the
-  GetDocument API to verify the document exists before attempting to start a session. If no
-  document name is provided, a shell to the managed node is launched by default.
-- `"Parameters"`: Reserved for future use.
+- `"DocumentName"`: The name of the SSM document you want to use to define the type of
+  session, input parameters, or preferences for the session. For example,
+  SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists
+  before attempting to start a session. If no document name is provided, a shell to the
+  managed node is launched by default. For more information, see Start a session in the
+  Amazon Web Services Systems Manager User Guide.
+- `"Parameters"`: The values you want to specify for the parameters defined in the Session
+  document.
 - `"Reason"`: The reason for connecting to the instance. This value is included in the
   details for the Amazon CloudWatch Events event created when you start the session.
 """
@@ -5610,7 +5648,7 @@ end
     terminate_session(session_id, params::Dict{String,<:Any})
 
 Permanently ends a session and closes the data connection between the Session Manager
-client and SSM Agent on the managed node. A terminated session isn't be resumed.
+client and SSM Agent on the managed node. A terminated session can't be resumed.
 
 # Arguments
 - `session_id`: The ID of the session to terminate.
@@ -5694,25 +5732,40 @@ end
     update_association(association_id, params::Dict{String,<:Any})
 
 Updates an association. You can update the association name and version, the document
-version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output.  In
-order to call this API operation, your Identity and Access Management (IAM) user account,
-group, or role must be configured with permission to call the DescribeAssociation API
-operation. If you don't have permission to call DescribeAssociation, then you receive the
-following error: An error occurred (AccessDeniedException) when calling the
-UpdateAssociation operation: User: &lt;user_arn&gt; isn't authorized to perform:
-ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association,
-the association immediately runs against the specified targets.
+version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When
+you call UpdateAssociation, the system removes all optional parameters from the request and
+overwrites the association with null values for those parameters. This is by design. You
+must specify all optional parameters in the call, even if you are not changing the
+parameters. This includes the Name parameter. Before calling this API action, we recommend
+that you call the DescribeAssociation API operation and make a note of all optional
+parameters required for your UpdateAssociation call. In order to call this API operation,
+your Identity and Access Management (IAM) user account, group, or role must be configured
+with permission to call the DescribeAssociation API operation. If you don't have permission
+to call DescribeAssociation, then you receive the following error: An error occurred
+(AccessDeniedException) when calling the UpdateAssociation operation: User:
+&lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource:
+&lt;resource_arn&gt;   When you update an association, the association immediately runs
+against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the
+association during the next schedule run.
 
 # Arguments
 - `association_id`: The ID of the association you want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`:
 - `"ApplyOnlyAtCronInterval"`: By default, when you update an association, the system runs
   it immediately after it is updated and then according to the schedule you specified.
   Specify this option if you don't want an association to run immediately after you update
-  it. This parameter isn't supported for rate expressions. Also, if you specified this option
-  when you created the association, you can reset it. To do so, specify the
+  it. This parameter isn't supported for rate expressions. If you chose this option when you
+  created an association and later you edit that association or you make changes to the SSM
+  document on which that association is based (by using the Documents page in the console),
+  State Manager applies the association at the next specified cron interval. For example, if
+  you chose the Latest version of an SSM document when you created an association and you
+  edit the association by choosing a different document version on the Documents page, State
+  Manager applies the association at the next specified cron interval if you previously
+  selected this option. If this option wasn't selected, State Manager immediately runs the
+  association. You can reset this option. To do so, specify the
   no-apply-only-at-cron-interval parameter when you update the association from the command
   line. This parameter forces the association to run immediately after updating it and
   according to the interval specified.
@@ -5729,7 +5782,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change calendar is open. For more information, see Amazon Web Services Systems Manager
   Change Calendar.
 - `"ComplianceSeverity"`: The severity level to assign to the association.
-- `"DocumentVersion"`: The document version you want update for the association.
+- `"DocumentVersion"`: The document version you want update for the association.   State
+  Manager doesn't support running associations that use a new version of a document if that
+  document is shared from another account. State Manager always runs the default version of a
+  document if shared from another account, even though the Systems Manager console shows that
+  a new version was processed. If you want to run an association using a new version of a
+  document shared form another account, you must set the document version to default.
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
@@ -5763,6 +5821,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can reference the parameter using {{ssm:parameter-name}}.
 - `"ScheduleExpression"`: The cron expression used to schedule the association that you
   want to update.
+- `"ScheduleOffset"`: Number of days to wait after the scheduled day to run an association.
+  For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify
+  an offset of 3 to run the association each Sunday after the second Thursday of the month.
+  For more information about cron schedules for associations, see Reference: Cron and rate
+  expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To
+  use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the
+  system not to run an association immediately after you create it.
 - `"SyncCompliance"`: The mode for generating association compliance. You can specify AUTO
   or MANUAL. In AUTO mode, the system uses the status of the association execution to
   determine the compliance status. If the association execution runs successfully, then the
@@ -5775,6 +5840,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   update an association in multiple Regions and multiple accounts.
+- `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
+  Targets and TargetMaps can't be specified together.
 - `"Targets"`: The targets of the association.
 """
 function update_association(
@@ -5878,7 +5945,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager supports JSON and YAML documents. JSON is the default format.
 - `"DocumentVersion"`: The version of the document that you want to update. Currently,
   Systems Manager supports updating only the latest version of the document. You can specify
-  the version number of the latest version or use the LATEST variable.
+  the version number of the latest version or use the LATEST variable.  If you change a
+  document version for a State Manager association, Systems Manager immediately runs the
+  association unless you previously specifed the apply-only-at-cron-interval parameter.
 - `"TargetType"`: Specify a new target type for the document.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
   updating with the document. For example, \"Release 12, Update 6\". This value is unique
@@ -5914,7 +5983,9 @@ end
     update_document_default_version(document_version, name)
     update_document_default_version(document_version, name, params::Dict{String,<:Any})
 
-Set the default version of a document.
+Set the default version of a document.   If you change a document version for a State
+Manager association, Systems Manager immediately runs the association unless you previously
+specifed the apply-only-at-cron-interval parameter.
 
 # Arguments
 - `document_version`: The version of a custom document that you want to set as the default
@@ -6039,10 +6110,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on, in Internet Assigned Numbers Authority (IANA) format. For example:
   \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time
   Zone Database on the IANA website.
-- `"StartDate"`: The time zone that the scheduled maintenance window executions are based
-  on, in Internet Assigned Numbers Authority (IANA) format. For example:
-  \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time
-  Zone Database on the IANA website.
+- `"StartDate"`: The date and time, in ISO-8601 Extended format, for when you want the
+  maintenance window to become active. StartDate allows you to delay activation of the
+  maintenance window until the specified future date.
 """
 function update_maintenance_window(
     WindowId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6155,6 +6225,8 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your maintenance window
+  task.
 - `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
   specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
   reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
@@ -6172,15 +6244,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager handles these options for the supported maintenance window task types, see
   MaintenanceWindowTaskInvocationParameters.
 - `"MaxConcurrency"`: The new MaxConcurrency value you want to specify. MaxConcurrency is
-  the number of targets that are allowed to run this task in parallel.  For maintenance
+  the number of targets that are allowed to run this task, in parallel.  Although this
+  element is listed as \"Required: No\", a value can be omitted only when you are registering
+  or updating a targetless task You must provide a value in all other cases. For maintenance
   window tasks without a target specified, you can't supply a value for this option. Instead,
-  the system inserts a placeholder value of 1, which may be reported in the response to this
-  command. This value doesn't affect the running of your task and can be ignored.
+  the system inserts a placeholder value of 1. This value doesn't affect the running of your
+  task.
 - `"MaxErrors"`: The new MaxErrors value to specify. MaxErrors is the maximum number of
-  errors that are allowed before the task stops being scheduled.  For maintenance window
-  tasks without a target specified, you can't supply a value for this option. Instead, the
-  system inserts a placeholder value of 1, which may be reported in the response to this
-  command. This value doesn't affect the running of your task and can be ignored.
+  errors that are allowed before the task stops being scheduled.  Although this element is
+  listed as \"Required: No\", a value can be omitted only when you are registering or
+  updating a targetless task You must provide a value in all other cases. For maintenance
+  window tasks without a target specified, you can't supply a value for this option. Instead,
+  the system inserts a placeholder value of 1. This value doesn't affect the running of your
+  task.
 - `"Name"`: The new task name to specify.
 - `"Priority"`: The new task priority to specify. The lower the number, the higher the
   priority. Tasks that have the same priority are scheduled in parallel.
@@ -6382,7 +6458,7 @@ Amazon Web Services Systems Manager calls this API operation when you edit OpsMe
 Application Manager.
 
 # Arguments
-- `ops_metadata_arn`: The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+- `ops_metadata_arn`: The Amazon Resource Name (ARN) of the OpsMetadata Object to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6562,18 +6638,17 @@ service setting for the account.
   d. The setting ID can be one of the following.
   /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
-  /ssm/documents/console/public-sharing-permission
-  /ssm/parameter-store/default-parameter-tier
-  /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+  /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
+     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
+  /ssm/parameter-store/high-throughput-enabled
 - `setting_value`: The new value to specify for the service setting. The following list
   specifies the available values for each setting.
-  /ssm/parameter-store/default-parameter-tier: Standard, Advanced, Intelligent-Tiering
-  /ssm/parameter-store/high-throughput-enabled: true or false
-  /ssm/managed-instance/activation-tier: true or false
   /ssm/automation/customer-script-log-destination: CloudWatch
   /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log
   group    /ssm/documents/console/public-sharing-permission: Enable or Disable
-  /ssm/managed-instance/activation-tier: standard or advanced
+  /ssm/managed-instance/activation-tier: standard or advanced     /ssm/opsinsights/opscenter:
+  Enabled or Disabled     /ssm/parameter-store/default-parameter-tier: Standard, Advanced,
+  Intelligent-Tiering     /ssm/parameter-store/high-throughput-enabled: true or false
 
 """
 function update_service_setting(

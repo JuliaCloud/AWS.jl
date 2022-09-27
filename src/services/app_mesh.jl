@@ -25,10 +25,10 @@ routes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the gateway route to assist with
   categorization and organization. Each tag consists of a key and an optional value, both of
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
@@ -152,10 +152,10 @@ virtual nodes. For more information about routes, see Routes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the route to assist with categorization
   and organization. Each tag consists of a key and an optional value, both of which you
   define. Tag keys can have a maximum character length of 128 characters, and tag values can
@@ -225,10 +225,10 @@ see Virtual gateways.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the virtual gateway to assist with
   categorization and organization. Each tag consists of a key and an optional value, both of
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
@@ -295,7 +295,7 @@ APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. Yo
 override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with
 your own name.  For more information about virtual nodes, see Virtual nodes. You must be
 using 1.15.0 or later of the Envoy image when setting these variables. For more information
-aboutApp Mesh Envoy variables, see Envoy image in the AWS App Mesh User Guide.
+aboutApp Mesh Envoy variables, see Envoy image in the App Mesh User Guide.
 
 # Arguments
 - `mesh_name`: The name of the service mesh to create the virtual node in.
@@ -306,10 +306,10 @@ aboutApp Mesh Envoy variables, see Envoy image in the AWS App Mesh User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the virtual node to assist with
   categorization and organization. Each tag consists of a key and an optional value, both of
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
@@ -376,10 +376,10 @@ information about virtual routers, see Virtual routers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the virtual router to assist with
   categorization and organization. Each tag consists of a key and an optional value, both of
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
@@ -446,10 +446,10 @@ services.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then the account that you specify must share the mesh with your account before
-  you can create the resource in the service mesh. For more information about mesh sharing,
-  see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then the account that you specify must share the mesh with your
+  account before you can create the resource in the service mesh. For more information about
+  mesh sharing, see Working with shared meshes.
 - `"tags"`: Optional metadata that you can apply to the virtual service to assist with
   categorization and organization. Each tag consists of a key and an optional value, both of
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
@@ -509,9 +509,9 @@ Deletes an existing gateway route.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_gateway_route(
     gatewayRouteName,
@@ -589,9 +589,9 @@ Deletes an existing route.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_route(
     meshName,
@@ -635,9 +635,9 @@ routes are associated to it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_gateway(
     meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -677,9 +677,9 @@ node as a service provider before you can delete the virtual node itself.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_node(
     meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -719,9 +719,9 @@ router before you can delete the router itself.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_router(
     meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -760,9 +760,9 @@ Deletes an existing virtual service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_service(
     meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -803,9 +803,9 @@ Describes an existing gateway route.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_gateway_route(
     gatewayRouteName,
@@ -847,9 +847,9 @@ Describes an existing service mesh.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
     return app_mesh(
@@ -886,9 +886,9 @@ Describes an existing route.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_route(
     meshName,
@@ -931,9 +931,9 @@ Describes an existing virtual gateway.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_gateway(
     meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -972,9 +972,9 @@ Describes an existing virtual node.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_node(
     meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1013,9 +1013,9 @@ Describes an existing virtual router.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_router(
     meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1054,9 +1054,9 @@ Describes an existing virtual service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_service(
     meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1101,9 +1101,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the initial request by sending another ListGatewayRoutes request with the returned
   nextToken value. This value can be between 1 and 100. If you don't use this parameter,
   ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListGatewayRoutes
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
@@ -1188,9 +1188,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sending another ListRoutes request with the returned nextToken value. This value can be
   between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results
   and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListRoutes request
   where limit was used and the results exceeded the value of that parameter. Pagination
   continues from the end of the previous results that returned the nextToken value.
@@ -1286,9 +1286,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the initial request by sending another ListVirtualGateways request with the returned
   nextToken value. This value can be between 1 and 100. If you don't use this parameter,
   ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListVirtualGateways
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
@@ -1332,9 +1332,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the initial request by sending another ListVirtualNodes request with the returned nextToken
   value. This value can be between 1 and 100. If you don't use this parameter,
   ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListVirtualNodes
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
@@ -1378,9 +1378,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the initial request by sending another ListVirtualRouters request with the returned
   nextToken value. This value can be between 1 and 100. If you don't use this parameter,
   ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListVirtualRouters
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
@@ -1424,9 +1424,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the initial request by sending another ListVirtualServices request with the returned
   nextToken value. This value can be between 1 and 100. If you don't use this parameter,
   ListVirtualServices returns up to 100 results and a nextToken value if applicable.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 - `"nextToken"`: The nextToken value returned from a previous paginated ListVirtualServices
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
@@ -1559,9 +1559,9 @@ service mesh.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_gateway_route(
     gatewayRouteName,
@@ -1657,9 +1657,9 @@ Updates an existing route for a specified service mesh and virtual router.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_route(
     meshName,
@@ -1714,9 +1714,9 @@ Updates an existing virtual gateway in a specified service mesh.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_gateway(
     meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1766,9 +1766,9 @@ Updates an existing virtual node in a specified service mesh.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_node(
     meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1818,9 +1818,9 @@ Updates an existing virtual router in a specified service mesh.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_router(
     meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1870,9 +1870,9 @@ Updates an existing virtual service in a specified service mesh.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `"meshOwner"`: The AWS IAM account ID of the service mesh owner. If the account ID is not
-  your own, then it's the ID of the account that shared the mesh with your account. For more
-  information about mesh sharing, see Working with shared meshes.
+- `"meshOwner"`: The Amazon Web Services IAM account ID of the service mesh owner. If the
+  account ID is not your own, then it's the ID of the account that shared the mesh with your
+  account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_service(
     meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()

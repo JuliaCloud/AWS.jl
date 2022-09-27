@@ -435,6 +435,107 @@ function get_hlsstreaming_session_url(
 end
 
 """
+    get_images(end_timestamp, format, image_selector_type, sampling_interval, start_timestamp)
+    get_images(end_timestamp, format, image_selector_type, sampling_interval, start_timestamp, params::Dict{String,<:Any})
+
+Retrieves a list of Images corresponding to each timestamp for a given time range, sampling
+interval, and image format configuration.
+
+# Arguments
+- `end_timestamp`: The end timestamp for the range of images to be generated.
+- `format`: The format that will be used to encode the image.
+- `image_selector_type`: The origin of the Server or Producer timestamps to use to generate
+  the images.
+- `sampling_interval`: The time interval in milliseconds (ms) at which the images need to
+  be generated from the stream. The minimum value that can be provided is 3000 ms. If the
+  timestamp range is less than the sampling interval, the Image from the startTimestamp will
+  be returned if available.   The minimum value of 3000 ms is a soft limit. If needed, a
+  lower sampling frequency can be requested.
+- `start_timestamp`: The starting point from which the images should be generated. This
+  StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FormatConfig"`: The list of a key-value pair structure that contains extra parameters
+  that can be applied when the image is generated. The FormatConfig key is the JPEGQuality,
+  which indicates the JPEG quality key to be used to generate the image. The FormatConfig
+  value accepts ints from 1 to 100. If the value is 1, the image will be generated with less
+  quality and the best compression. If the value is 100, the image will be generated with the
+  best quality and less compression. If no value is provided, the default value of the
+  JPEGQuality key will be set to 80.
+- `"HeightPixels"`: The height of the output image that is used in conjunction with the
+  WidthPixels parameter. When both HeightPixels and WidthPixels parameters are provided, the
+  image will be stretched to fit the specified aspect ratio. If only the HeightPixels
+  parameter is provided, its original aspect ratio will be used to calculate the WidthPixels
+  ratio. If neither parameter is provided, the original image size will be returned.
+- `"MaxResults"`: The maximum number of images to be returned by the API.   The default
+  limit is 100 images per API response. The additional results will be paginated.
+- `"NextToken"`: A token that specifies where to start paginating the next set of Images.
+  This is the GetImages:NextToken from a previously truncated response.
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve the
+  images. You must specify either the StreamName or the StreamARN.
+- `"StreamName"`: The name of the stream from which to retrieve the images. You must
+  specify either the StreamName or the StreamARN.
+- `"WidthPixels"`: The width of the output image that is used in conjunction with the
+  HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided, the
+  image will be stretched to fit the specified aspect ratio. If only the WidthPixels
+  parameter is provided or if only the HeightPixels is provided, a ValidationException will
+  be thrown. If neither parameter is provided, the original image size from the stream will
+  be returned.
+"""
+function get_images(
+    EndTimestamp,
+    Format,
+    ImageSelectorType,
+    SamplingInterval,
+    StartTimestamp;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_archived_media(
+        "POST",
+        "/getImages",
+        Dict{String,Any}(
+            "EndTimestamp" => EndTimestamp,
+            "Format" => Format,
+            "ImageSelectorType" => ImageSelectorType,
+            "SamplingInterval" => SamplingInterval,
+            "StartTimestamp" => StartTimestamp,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_images(
+    EndTimestamp,
+    Format,
+    ImageSelectorType,
+    SamplingInterval,
+    StartTimestamp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_archived_media(
+        "POST",
+        "/getImages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTimestamp" => EndTimestamp,
+                    "Format" => Format,
+                    "ImageSelectorType" => ImageSelectorType,
+                    "SamplingInterval" => SamplingInterval,
+                    "StartTimestamp" => StartTimestamp,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_media_for_fragment_list(fragments)
     get_media_for_fragment_list(fragments, params::Dict{String,<:Any})
 

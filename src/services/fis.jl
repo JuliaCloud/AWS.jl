@@ -8,27 +8,28 @@ using AWS.UUIDs
     create_experiment_template(actions, client_token, description, role_arn, stop_conditions)
     create_experiment_template(actions, client_token, description, role_arn, stop_conditions, params::Dict{String,<:Any})
 
-Creates an experiment template.  To create a template, specify the following information:
-  Targets: A target can be a specific resource in your AWS environment, or one or more
-resources that match criteria that you specify, for example, resources that have specific
-tags.    Actions: The actions to carry out on the target. You can specify multiple actions,
-the duration of each action, and when to start each action during an experiment.    Stop
-conditions: If a stop condition is triggered while an experiment is running, the experiment
-is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more
-information, see the AWS Fault Injection Simulator User Guide.
+Creates an experiment template.  An experiment template includes the following components:
+  Targets: A target can be a specific resource in your Amazon Web Services environment, or
+one or more resources that match criteria that you specify, for example, resources that
+have specific tags.    Actions: The actions to carry out on the target. You can specify
+multiple actions, the duration of each action, and when to start each action during an
+experiment.    Stop conditions: If a stop condition is triggered while an experiment is
+running, the experiment is automatically stopped. You can define a stop condition as a
+CloudWatch alarm.   For more information, see Experiment templates in the Fault Injection
+Simulator User Guide.
 
 # Arguments
 - `actions`: The actions for the experiment.
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `description`: A description for the experiment template. Can contain up to 64 letters
-  (A-Z and a-z).
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service
+- `description`: A description for the experiment template.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
   permission to perform service actions on your behalf.
 - `stop_conditions`: The stop conditions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"logConfiguration"`: The configuration for experiment logging.
 - `"tags"`: The tags to apply to the experiment template.
 - `"targets"`: The targets for the experiment.
 """
@@ -118,7 +119,7 @@ end
     get_action(id)
     get_action(id, params::Dict{String,<:Any})
 
-Gets information about the specified AWS FIS action.
+Gets information about the specified FIS action.
 
 # Arguments
 - `id`: The ID of the action.
@@ -199,10 +200,44 @@ function get_experiment_template(
 end
 
 """
+    get_target_resource_type(resource_type)
+    get_target_resource_type(resource_type, params::Dict{String,<:Any})
+
+Gets information about the specified resource type.
+
+# Arguments
+- `resource_type`: The resource type.
+
+"""
+function get_target_resource_type(
+    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/targetResourceTypes/$(resourceType)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_target_resource_type(
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "GET",
+        "/targetResourceTypes/$(resourceType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_actions()
     list_actions(params::Dict{String,<:Any})
 
-Lists the available AWS FIS actions.
+Lists the available FIS actions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -310,6 +345,38 @@ function list_tags_for_resource(
     return fis(
         "GET",
         "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_target_resource_types()
+    list_target_resource_types(params::Dict{String,<:Any})
+
+Lists the target resource types.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_target_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return fis(
+        "GET",
+        "/targetResourceTypes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_target_resource_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/targetResourceTypes",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -481,8 +548,9 @@ Updates the specified experiment template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"actions"`: The actions for the experiment.
 - `"description"`: A description for the template.
-- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS
-  service permission to perform service actions on your behalf.
+- `"logConfiguration"`: The configuration for experiment logging.
+- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
+  permission to perform service actions on your behalf.
 - `"stopConditions"`: The stop conditions for the experiment.
 - `"targets"`: The targets for the experiment.
 """

@@ -236,7 +236,7 @@ end
 
 Deletes the specified namespace. This action deletes all of the entities in the namespace.
 Delete the systems and flows that use entities in the namespace before performing this
-action.
+action. This action takes no request parameters.
 
 """
 function delete_namespace(; aws_config::AbstractAWSConfig=global_aws_config())

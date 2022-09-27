@@ -11,7 +11,7 @@ using AWS.UUIDs
 Accept EULAs.
 
 # Arguments
-- `studio_id`: A collection of EULA IDs.
+- `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -207,7 +207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"ec2InstanceType"`: The EC2 Instance type used for the streaming session.
 - `"launchProfileId"`: The launch profile ID.
-- `"ownedBy"`: The user ID of the user that owns the streaming session.
+- `"ownedBy"`: The user ID of the user that owns the streaming session. The user that owns
+  the session will be logging into the session and interacting with the virtual workstation.
 - `"streamingImageId"`: The ID of the streaming image.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -398,7 +399,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
   component.
 - `"initializationScripts"`: Initialization scripts for studio components.
+- `"runtimeRoleArn"`: An IAM role attached to a Studio Component that gives the studio
+  component access to AWS resources at anytime while the instance is running.
 - `"scriptParameters"`: Parameters for the studio component scripts.
+- `"secureInitializationRoleArn"`: An IAM role attached to Studio Component when the system
+  initialization script runs which give the studio component access to AWS resources when the
+  system initialization script runs.
 - `"subtype"`: The specific subtype of a studio component.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -494,8 +500,7 @@ Delete a user from launch profile membership.
 
 # Arguments
 - `launch_profile_id`: The Launch Profile ID.
-- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
@@ -727,8 +732,7 @@ end
 Delete a user from studio membership.
 
 # Arguments
-- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
@@ -943,8 +947,7 @@ Get a user persona in launch profile membership.
 
 # Arguments
 - `launch_profile_id`: The Launch Profile ID.
-- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 
 """
@@ -1017,7 +1020,7 @@ end
     get_streaming_session(session_id, studio_id)
     get_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
 
-Gets StreamingSession resource. anvoke this operation to poll for a streaming session state
+Gets StreamingSession resource. Invoke this operation to poll for a streaming session state
 while creating or deleting a session.
 
 # Arguments
@@ -1166,8 +1169,7 @@ end
 Get a user's membership in a studio.
 
 # Arguments
-- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 
 """
@@ -1313,8 +1315,7 @@ List all the launch profiles a studio.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The max number of results to return in the response.
 - `"nextToken"`: The token to request the next page of results.
-- `"principalId"`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `"principalId"`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `"states"`: Filter this request to launch profiles in any of the given states.
 """
 function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1381,7 +1382,7 @@ end
     list_streaming_sessions(studio_id)
     list_streaming_sessions(studio_id, params::Dict{String,<:Any})
 
-Lists the streaming image resources in a studio.
+Lists the streaming sessions in a studio.
 
 # Arguments
 - `studio_id`: The studio ID.
@@ -1731,13 +1732,13 @@ end
     start_studio_ssoconfiguration_repair(studio_id)
     start_studio_ssoconfiguration_repair(studio_id, params::Dict{String,<:Any})
 
-Repairs the Amazon Web Services SSO configuration for a given studio. If the studio has a
-valid Amazon Web Services SSO configuration currently associated with it, this operation
-will fail with a validation error. If the studio does not have a valid Amazon Web Services
-SSO configuration currently associated with it, then a new Amazon Web Services SSO
-application is created for the studio and the studio is changed to the READY state. After
-the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio
-console to add administrators and users to your studio.
+Repairs the IAM Identity Center configuration for a given studio. If the studio has a valid
+IAM Identity Center configuration currently associated with it, this operation will fail
+with a validation error. If the studio does not have a valid IAM Identity Center
+configuration currently associated with it, then a new IAM Identity Center application is
+created for the studio and the studio is changed to the READY state. After the IAM Identity
+Center application is repaired, you must use the Amazon Nimble Studio console to add
+administrators and users to your studio.
 
 # Arguments
 - `studio_id`: The studio ID.
@@ -1960,8 +1961,7 @@ Update a user persona in launch profile membership.
 # Arguments
 - `launch_profile_id`: The Launch Profile ID.
 - `persona`: The persona.
-- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
-  UserId.
+- `principal_id`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
@@ -2127,7 +2127,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component.
 - `"initializationScripts"`: Initialization scripts for studio components.
 - `"name"`: The name for the studio component.
+- `"runtimeRoleArn"`: An IAM role attached to a Studio Component that gives the studio
+  component access to AWS resources at anytime while the instance is running.
 - `"scriptParameters"`: Parameters for the studio component scripts.
+- `"secureInitializationRoleArn"`: An IAM role attached to Studio Component when the system
+  initialization script runs which give the studio component access to AWS resources when the
+  system initialization script runs.
 - `"subtype"`: The specific subtype of a studio component.
 - `"type"`: The type of the studio component.
 """

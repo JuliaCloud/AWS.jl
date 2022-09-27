@@ -197,11 +197,10 @@ Retrieves a custom terminology.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TerminologyDataFormat"`: The data format of the custom terminology being retrieved. If
-  you don't specify this parameter, Amazon Translate returns a file that has the same format
-  as the file that was imported to create the terminology.  If you specify this parameter
-  when you retrieve a multi-directional terminology resource, you must specify the same
-  format as that of the input file that was imported to create it. Otherwise, Amazon
-  Translate throws an error.
+  you don't specify this parameter, Amazon Translate returns a file with the same format as
+  the file that was imported to create the terminology.  If you specify this parameter when
+  you retrieve a multi-directional terminology resource, you must specify the same format as
+  the input file that was imported to create it. Otherwise, Amazon Translate throws an error.
 """
 function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return translate(
@@ -226,14 +225,13 @@ end
     import_terminology(merge_strategy, name, terminology_data)
     import_terminology(merge_strategy, name, terminology_data, params::Dict{String,<:Any})
 
-Creates or updates a custom terminology, depending on whether or not one already exists for
-the given terminology name. Importing a terminology with the same name as an existing one
-will merge the terminologies based on the chosen merge strategy. Currently, the only
-supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an
-existing terminology of the same name. If you import a terminology that overwrites an
-existing one, the new terminology take up to 10 minutes to fully propagate and be available
-for use in a translation due to cache policies with the DataPlane service that performs the
-translations.
+Creates or updates a custom terminology, depending on whether one already exists for the
+given terminology name. Importing a terminology with the same name as an existing one will
+merge the terminologies based on the chosen merge strategy. The only supported merge
+strategy is OVERWRITE, where the imported terminology overwrites the existing terminology
+of the same name. If you import a terminology that overwrites an existing one, the new
+terminology takes up to 10 minutes to fully propagate. After that, translations have access
+to the new terminology.
 
 # Arguments
 - `merge_strategy`: The merge strategy of the custom terminology being imported. Currently,
@@ -283,6 +281,33 @@ function import_terminology(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_languages()
+    list_languages(params::Dict{String,<:Any})
+
+Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DisplayLanguageCode"`: The language code for the language to use to display the
+  language names in the response. The language code is en by default.
+- `"MaxResults"`: The maximum number of results to return in each response.
+- `"NextToken"`: Include the NextToken value to fetch the next group of supported
+  languages.
+"""
+function list_languages(; aws_config::AbstractAWSConfig=global_aws_config())
+    return translate(
+        "ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_languages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return translate(
+        "ListLanguages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -378,12 +403,12 @@ StopTextTranslationJob operation.  Amazon Translate does not support batch trans
 multiple source languages at once.
 
 # Arguments
-- `client_token`: A unique identifier for the request. This token is auto-generated when
+- `client_token`: A unique identifier for the request. This token is generated for you when
   using the Amazon Translate SDK.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of an AWS Identity Access and
   Management (IAM) role that grants Amazon Translate read access to your input data. For more
   information, see identity-and-access-management.
-- `input_data_config`: Specifies the format and S3 location of the input documents for the
+- `input_data_config`: Specifies the format and location of the input documents for the
   translation job.
 - `output_data_config`: Specifies the S3 folder to which your job output will be saved.
 - `source_language_code`: The language code of the input language. For a list of language
@@ -403,7 +428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources, use the ListParallelData operation. For more information, see
   customizing-translations-parallel-data.
 - `"Settings"`: Settings to configure your translation output, including the option to mask
-  profane words and phrases.
+  profane words and phrases. StartTextTranslationJob does not support the formality setting.
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
   job. This resource lists examples source terms and the desired translation for each term.
   This parameter accepts only one custom terminology resource. For a list of available custom
@@ -511,7 +536,9 @@ available languages and language codes, see what-is-languages.
   language must be a language supported by Amazon Translate. For a list of language codes,
   see what-is-languages. To have Amazon Translate determine the source language of your text,
   you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate
-  will call Amazon Comprehend to determine the source language.
+  will call Amazon Comprehend to determine the source language.  If you specify auto, you
+  must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise,
+  the request returns an error indicating that autodetect is not supported.
 - `target_language_code`: The language code requested for the language of the target text.
   The language must be a language supported by Amazon Translate.
 - `text`: The text to translate. The text string can be a maximum of 5,000 bytes long.
@@ -519,8 +546,8 @@ available languages and language codes, see what-is-languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Settings"`: Settings to configure your translation output, including the option to mask
-  profane words and phrases.
+- `"Settings"`: Settings to configure your translation output, including the option to set
+  the formality level of the output text and the option to mask profane words and phrases.
 - `"TerminologyNames"`: The name of the terminology list file to be used in the
   TranslateText request. You can use 1 terminology list at most in a TranslateText request.
   Terminology lists can contain a maximum of 256 terms.

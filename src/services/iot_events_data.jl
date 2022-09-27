@@ -48,6 +48,43 @@ function batch_acknowledge_alarm(
 end
 
 """
+    batch_delete_detector(detectors)
+    batch_delete_detector(detectors, params::Dict{String,<:Any})
+
+Deletes one or more detectors that were created. When a detector is deleted, its state will
+be cleared and the detector will be removed from the list of detectors. The deleted
+detector will no longer appear if referenced in the ListDetectors API call.
+
+# Arguments
+- `detectors`: The list of one or more detectors to be deleted.
+
+"""
+function batch_delete_detector(detectors; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events_data(
+        "POST",
+        "/detectors/delete",
+        Dict{String,Any}("detectors" => detectors);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_detector(
+    detectors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events_data(
+        "POST",
+        "/detectors/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("detectors" => detectors), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_disable_alarm(disable_action_requests)
     batch_disable_alarm(disable_action_requests, params::Dict{String,<:Any})
 
@@ -135,11 +172,11 @@ end
     batch_put_message(messages)
     batch_put_message(messages, params::Dict{String,<:Any})
 
-Sends a set of messages to the AWS IoT Events system. Each message payload is transformed
-into the input you specify (\"inputName\") and ingested into any detectors that monitor
-that input. If multiple messages are sent, the order in which the messages are processed
-isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for
-a successful response.
+Sends a set of messages to the IoT Events system. Each message payload is transformed into
+the input you specify (\"inputName\") and ingested into any detectors that monitor that
+input. If multiple messages are sent, the order in which the messages are processed isn't
+guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
+successful response.
 
 # Arguments
 - `messages`: The list of messages to send. Each message has the following format: '{

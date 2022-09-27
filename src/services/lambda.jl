@@ -83,19 +83,20 @@ end
     add_permission(action, function_name, principal, statement_id)
     add_permission(action, function_name, principal, statement_id, params::Dict{String,<:Any})
 
-Grants an Amazon Web Services service or another account permission to use a function. You
-can apply the policy at the function level, or specify a qualifier to restrict access to a
-single version or alias. If you use a qualifier, the invoker must use the full Amazon
-Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not
-support adding policies to version LATEST. To grant permission to another account, specify
-the account ID as the Principal. For Amazon Web Services services, the principal is a
-domain-style identifier defined by the service, like s3.amazonaws.com or sns.amazonaws.com.
-For Amazon Web Services services, you can also specify the ARN of the associated resource
-as the SourceArn. If you grant permission to a service principal without specifying the
-source, other accounts could potentially configure resources in their account to invoke
-your Lambda function. This action adds a statement to a resource-based permissions policy
-for the function. For more information about function policies, see Lambda Function
-Policies.
+Grants an Amazon Web Services service, account, or organization permission to use a
+function. You can apply the policy at the function level, or specify a qualifier to
+restrict access to a single version or alias. If you use a qualifier, the invoker must use
+the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note:
+Lambda does not support adding policies to version LATEST. To grant permission to another
+account, specify the account ID as the Principal. To grant permission to an organization
+defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web
+Services services, the principal is a domain-style identifier defined by the service, like
+s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also
+specify the ARN of the associated resource as the SourceArn. If you grant permission to a
+service principal without specifying the source, other accounts could potentially configure
+resources in their account to invoke your Lambda function. This action adds a statement to
+a resource-based permissions policy for the function. For more information about function
+policies, see Lambda Function Policies.
 
 # Arguments
 - `action`: The action that the principal can use on the function. For example,
@@ -116,6 +117,12 @@ Policies.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EventSourceToken"`: For Alexa Smart Home functions, a token that must be supplied by
   the invoker.
+- `"FunctionUrlAuthType"`: The type of authentication that your function URL uses. Set to
+  AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you
+  want to bypass IAM authentication to create a public endpoint. For more information, see
+  Security and auth model for Lambda function URLs.
+- `"PrincipalOrgID"`: The identifier for your organization in Organizations. Use this to
+  grant permissions to all the Amazon Web Services accounts under this organization.
 - `"Qualifier"`: Specify a version or alias to add permissions to a published version of
   the function.
 - `"RevisionId"`: Only update the policy if the revision ID matches the ID that's
@@ -279,10 +286,10 @@ end
     create_event_source_mapping(function_name, params::Dict{String,<:Any})
 
 Creates a mapping between an event source and an Lambda function. Lambda reads items from
-the event source and triggers the function. For details about how to configure different
+the event source and invokes the function. For details about how to configure different
 event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis
    Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka    The
-following error handling options are only available for stream sources (DynamoDB and
+following error handling options are available only for stream sources (DynamoDB and
 Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
 in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
 Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
@@ -304,13 +311,15 @@ Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Ama
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AmazonManagedKafkaEventSourceConfig"`: Specific configuration settings for an Amazon
+  Managed Streaming for Apache Kafka (Amazon MSK) event source.
 - `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
   stream or queue and sends to your function. Lambda passes all of the records in the batch
   to the function in a single call, up to the payload limit for synchronous invocation (6
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
-  Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
+  Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon
   MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
@@ -334,22 +343,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
   age. The default value is infinite (-1).
 - `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
-  retries. The default value is infinite (-1). When set to infinite (-1), failed records will
-  be retried until the record expires.
+  retries. The default value is infinite (-1). When set to infinite (-1), failed records are
+  retried until the record expires.
 - `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
   shard concurrently.
 - `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
-- `"SelfManagedEventSource"`: The Self-Managed Apache Kafka cluster to send records.
+- `"SelfManagedEventSource"`: The self-managed Apache Kafka cluster to receive records from.
+- `"SelfManagedKafkaEventSourceConfig"`: Specific configuration settings for a self-managed
+  Apache Kafka event source.
 - `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
   required to secure your event source.
 - `"StartingPosition"`: The position in a stream from which to start reading. Required for
-  Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only
-  supported for Amazon Kinesis streams.
+  Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported
+  only for Amazon Kinesis streams.
 - `"StartingPositionTimestamp"`: With StartingPosition set to AT_TIMESTAMP, the time from
   which to start reading.
 - `"Topics"`: The name of the Kafka topic.
 - `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
-  window. The range is between 1 second up to 900 seconds.
+  window. The range is between 1 second and 900 seconds.
 """
 function create_event_source_mapping(
     FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -442,6 +453,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the function.
 - `"Environment"`: Environment variables that are accessible from function code during
   execution.
+- `"EphemeralStorage"`: The size of the function’s /tmp directory in MB. The default
+  value is 512, but can be any whole number between 512 and 10240 MB.
 - `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
 - `"Handler"`: The name of the method within your code that Lambda calls to execute your
   function. Handler is required if the deployment package is a .zip file archive. The format
@@ -502,6 +515,57 @@ function create_function(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_function_url_config(auth_type, function_name)
+    create_function_url_config(auth_type, function_name, params::Dict{String,<:Any})
+
+Creates a Lambda function URL with the specified configuration parameters. A function URL
+is a dedicated HTTP(S) endpoint that you can use to invoke your function.
+
+# Arguments
+- `auth_type`: The type of authentication that your function URL uses. Set to AWS_IAM if
+  you want to restrict access to authenticated IAM users only. Set to NONE if you want to
+  bypass IAM authentication to create a public endpoint. For more information, see  Security
+  and auth model for Lambda function URLs.
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
+  my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it is limited to 64 characters in
+  length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cors"`: The cross-origin resource sharing (CORS) settings for your function URL.
+- `"Qualifier"`: The alias name.
+"""
+function create_function_url_config(
+    AuthType, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        Dict{String,Any}("AuthType" => AuthType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_function_url_config(
+    AuthType,
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AuthType" => AuthType), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -772,6 +836,48 @@ function delete_function_event_invoke_config(
     return lambda(
         "DELETE",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_function_url_config(function_name)
+    delete_function_url_config(function_name, params::Dict{String,<:Any})
+
+Deletes a Lambda function URL. When you delete a function URL, you can't recover it.
+Creating a new function URL results in a different URL address.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
+  my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it is limited to 64 characters in
+  length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: The alias name.
+"""
+function delete_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "DELETE",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1198,6 +1304,47 @@ function get_function_event_invoke_config(
 end
 
 """
+    get_function_url_config(function_name)
+    get_function_url_config(function_name, params::Dict{String,<:Any})
+
+Returns details about a Lambda function URL.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
+  my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it is limited to 64 characters in
+  length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: The alias name.
+"""
+function get_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_layer_version(layer_name, version_number)
     get_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
@@ -1412,7 +1559,8 @@ you to exceed a concurrency limit at either the account level
 your client might be disconnected during synchronous invocation while it waits for a
 response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow
 for long connections with timeout or keep-alive settings. This operation requires
-permission for the lambda:InvokeFunction action.
+permission for the lambda:InvokeFunction action. For details on how to set up permissions
+for cross-account invocations, see Granting function access to other accounts.
 
 # Arguments
 - `function_name`: The name of the Lambda function, version, or alias.  Name formats
@@ -1585,7 +1733,7 @@ end
     list_event_source_mappings()
     list_event_source_mappings(params::Dict{String,<:Any})
 
-Lists event source mappings. Specify an EventSourceArn to only show event source mappings
+Lists event source mappings. Specify an EventSourceArn to show only event source mappings
 for a single event source.
 
 # Optional Parameters
@@ -1662,6 +1810,51 @@ function list_function_event_invoke_configs(
     return lambda(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_function_url_configs(function_name)
+    list_function_url_configs(function_name, params::Dict{String,<:Any})
+
+Returns a list of Lambda function URLs for the specified function.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
+  my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it is limited to 64 characters in
+  length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: The maximum number of function URLs to return in the response. Note that
+  ListFunctionUrlConfigs returns a maximum of 50 items in each response, even if you set the
+  number higher.
+"""
+function list_function_url_configs(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/urls";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_function_url_configs(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-10-31/functions/$(FunctionName)/urls",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2530,7 +2723,7 @@ Updates an event source mapping. You can change the function that Lambda invokes
 invocation and resume later from the same location. For details about how to configure
 different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon
 Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
-The following error handling options are only available for stream sources (DynamoDB and
+The following error handling options are available only for stream sources (DynamoDB and
 Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
 in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
 Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
@@ -2552,9 +2745,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream or queue and sends to your function. Lambda passes all of the records in the batch
   to the function in a single call, up to the payload limit for synchronous invocation (6
   MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
-  Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
+  Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
   10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon
+  Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon
   MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
@@ -2579,14 +2772,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
   age. The default value is infinite (-1).
 - `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
-  retries. The default value is infinite (-1). When set to infinite (-1), failed records will
-  be retried until the record expires.
+  retries. The default value is infinite (-1). When set to infinite (-1), failed records are
+  retried until the record expires.
 - `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
   shard concurrently.
 - `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
   required to secure your event source.
 - `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
-  window. The range is between 1 second up to 900 seconds.
+  window. The range is between 1 second and 900 seconds.
 """
 function update_event_source_mapping(
     UUID; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2616,10 +2809,16 @@ end
 
 Updates a Lambda function's code. If code signing is enabled for the function, the code
 package must be signed by a trusted publisher. For more information, see Configuring code
-signing. The function's code is locked when you publish a version. You can't modify the
-code of a published version, only the unpublished version.  For a function defined as a
-container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you
-update the image tag to a new image, Lambda does not automatically update the function.
+signing. If the function's package type is Image, you must specify the code package in
+ImageUri as the URI of a container image in the Amazon ECR registry.  If the function's
+package type is Zip, you must specify the deployment package as a .zip file archive. Enter
+the Amazon S3 bucket and key of the code .zip file location. You can also provide the
+function code inline using the ZipFile field.  The code in the deployment package must be
+compatible with the target instruction set architecture of the function (x86-64 or arm64).
+The function's code is locked when you publish a version. You can't modify the code of a
+published version, only the unpublished version.  For a function defined as a container
+image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the
+image tag to a new image, Lambda does not automatically update the function.
 
 # Arguments
 - `function_name`: The name of the Lambda function.  Name formats     Function name -
@@ -2634,19 +2833,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
 - `"DryRun"`: Set to true to validate the request parameters and access permissions without
   modifying the function code.
-- `"ImageUri"`: URI of a container image in the Amazon ECR registry.
+- `"ImageUri"`: URI of a container image in the Amazon ECR registry. Do not use for a
+  function defined with a .zip file archive.
 - `"Publish"`: Set to true to publish a new version of the function after updating the
   code. This has the same effect as calling PublishVersion separately.
 - `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
 - `"S3Bucket"`: An Amazon S3 bucket in the same Amazon Web Services Region as your
-  function. The bucket can be in a different Amazon Web Services account.
-- `"S3Key"`: The Amazon S3 key of the deployment package.
+  function. The bucket can be in a different Amazon Web Services account. Use only with a
+  function defined with a .zip file archive deployment package.
+- `"S3Key"`: The Amazon S3 key of the deployment package. Use only with a function defined
+  with a .zip file archive deployment package.
 - `"S3ObjectVersion"`: For versioned objects, the version of the deployment package object
   to use.
 - `"ZipFile"`: The base64-encoded contents of the deployment package. Amazon Web Services
-  SDK and Amazon Web Services CLI clients handle the encoding for you.
+  SDK and Amazon Web Services CLI clients handle the encoding for you. Use only with a
+  function defined with a .zip file archive deployment package.
 """
 function update_function_code(
     FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2703,6 +2906,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the function.
 - `"Environment"`: Environment variables that are accessible from function code during
   execution.
+- `"EphemeralStorage"`: The size of the function’s /tmp directory in MB. The default
+  value is 512, but can be any whole number between 512 and 10240 MB.
 - `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
 - `"Handler"`: The name of the method within your code that Lambda calls to execute your
   function. Handler is required if the deployment package is a .zip file archive. The format
@@ -2803,6 +3008,52 @@ function update_function_event_invoke_config(
     return lambda(
         "POST",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_function_url_config(function_name)
+    update_function_url_config(function_name, params::Dict{String,<:Any})
+
+Updates the configuration for a Lambda function URL.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
+  my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it is limited to 64 characters in
+  length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthType"`: The type of authentication that your function URL uses. Set to AWS_IAM if
+  you want to restrict access to authenticated IAM users only. Set to NONE if you want to
+  bypass IAM authentication to create a public endpoint. For more information, see  Security
+  and auth model for Lambda function URLs.
+- `"Cors"`: The cross-origin resource sharing (CORS) settings for your function URL.
+- `"Qualifier"`: The alias name.
+"""
+function update_function_url_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2021-10-31/functions/$(FunctionName)/url";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_function_url_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
