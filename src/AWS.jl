@@ -217,7 +217,12 @@ end
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
 
-function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String; s3_acceleration::Bool=use_s3_acceleration[])
+function generate_service_url(
+    aws::AbstractAWSConfig,
+    service::String,
+    resource::String;
+    s3_acceleration::Bool=use_s3_acceleration[],
+)
     reg = region(aws)
 
     # S3 virtualhosts cannot have periods in their bucket names, default to path style in these cases
@@ -236,7 +241,12 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
     )
 end
 
-function s3_virtualhost(service::AbstractString, resource::AbstractString, region::AbstractString; s3_acceleration=nothing)
+function s3_virtualhost(
+    service::AbstractString,
+    resource::AbstractString,
+    region::AbstractString;
+    s3_acceleration=nothing,
+)
     if something(s3_acceleration, use_s3_acceleration[])
         service = "s3-accelerated"
     end
@@ -313,8 +323,10 @@ function (service::RestXMLService)(
     end
 
     request.url = generate_service_url(
-        aws_config, service.endpoint_prefix, request.resource;
-        s3_acceleration=s3_acceleration
+        aws_config,
+        service.endpoint_prefix,
+        request.resource;
+        s3_acceleration=s3_acceleration,
     )
 
     return submit_request(aws_config, request; return_headers=return_headers)
