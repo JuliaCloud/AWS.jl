@@ -227,7 +227,7 @@ function generate_service_url(
 
     # S3 virtualhosts cannot have periods in their bucket names, default to path style in these cases
     if service == "s3" && !contains(resource, ".")
-        return s3_virtualhost(service, resource, region; s3_acceleration=s3_acceleration)
+        return s3_virtualhost(service, resource, reg; s3_acceleration=s3_acceleration)
     end
 
     regionless_services = ("iam", "route53")
