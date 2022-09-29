@@ -45,7 +45,7 @@ using ..AWSExceptions: AWSException
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
 const use_s3_acceleration = Ref{Bool}(false)
-const SERVICE_HOST = "amazonaws.com"
+const SERVICE_HOST = Ref("amazonaws.com")
 
 """
     FeatureSet
@@ -225,49 +225,47 @@ function generate_service_url(
 )
     reg = region(aws)
 
-    # S3 virtualhosts cannot have periods in their bucket names, default to path style in these cases
-    if service == "s3" && !contains(resource, ".")
-        return s3_virtualhost(service, resource, reg; s3_acceleration=s3_acceleration)
-    end
+    service == "s3" && s3_paths(service, resource, reg; s3_acceleration=s3_acceleration)
 
     regionless_services = ("iam", "route53")
-
     if service in regionless_services || (service == "sdb" && reg == DEFAULT_REGION)
         reg = ""
     end
 
-    return string(
-        "https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource
-    )
+    return _generate_path_url(service, reg, resource)
 end
 
-function s3_virtualhost(
+function s3_paths(
     service::AbstractString,
     resource::AbstractString,
-    region::AbstractString;
+    reg::AbstractString;
     s3_acceleration=nothing,
 )
     if something(s3_acceleration, use_s3_acceleration[])
-        service = "s3-accelerated"
+        # Split on '?' first to see if there was a query string in our resource
+        split_resource = split(resource, '?')
+
+        # First element contains the bucket, and potential key; "/bucket-name/potential/path/to/key"
+        bucket_key = split(split_resource[1], '/')
+        bucket = bucket_key[2]
+
+        if !contains(bucket, '.')
+            # Rejoin the path on '/'
+            key = length(bucket_key) > 2 ? join(bucket_key[3:end], '/') : ""
+
+            # Check if there was a query in our resource, otherwise default to an empty string
+            query = length(split_resource) > 1 ? string('?', split_resource[2]) : ""
+
+            # Combine key and query, use either, or none
+            key_query = join(filter(!isempty, [key, query]))
+
+            return "https://$(bucket).$(service).$(reg).$(SERVICE_HOST[])/$(key_query)"
+        else
+            @warn "Tried to use s3_acceleration on a bucket which contains a period, defaulting back to pathing requests"
+        end
     end
 
-    # Split on '?' first to see if there was a query string in our resource
-    split_resource = split(resource, '?')
-
-    # First element contains the bucket, and potential key; "/bucket-name/potential/path/to/key"
-    bucket_key = split(split_resource[1], '/')
-    bucket = bucket_key[2]
-
-    # Rejoin the path on '/'
-    key = length(bucket_key) > 2 ? join(bucket_key[3:end], '/') : ""
-
-    # Check if there was a query in our resource, otherwise default to an empty string
-    query = length(split_resource) > 1 ? string('?', split_resource[2]) : ""
-
-    # Combine key and query on '/', use either, or none
-    key_query = join(filter(!isempty, [key, query]), '/')
-
-    return "https://$(bucket).$(service).$(region).$(SERVICE_HOST)/$(key_query)"
+    return _generate_path_url(service, reg, resource)
 end
 
 """

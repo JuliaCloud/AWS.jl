@@ -159,3 +159,9 @@ function Base.iterate(exp::AWSExponentialBackoff, i=1)
     delay = min(b * r^i, exp.max_backoff)
     return delay, i + 1
 end
+
+function _generate_path_url(service, reg, resource)
+    return string(
+        "https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST[], resource
+    )
+end

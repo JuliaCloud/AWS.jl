@@ -499,6 +499,80 @@ end
 
         @test result == expected_result
     end
+
+    @testset "s3_paths" begin
+        endpoint = "s3"
+
+        @testset "virtualhosting url" begin
+            @testset "s3_accel not set" begin
+                expected_result = "https://$(endpoint).$(region).$(AWS.SERVICE_HOST[])$(resource)"
+                result = AWS.s3_paths(endpoint, resource, region)
+
+                @test result == expected_result
+            end
+
+            @testset "s3_accel kwarg set" begin
+                bucket = "test-bucket"
+                query = "/$bucket"
+                resource = string("/", bucket, query)
+                expected_result = "https://$(bucket).$(endpoint).$(region).$(AWS.SERVICE_HOST[])$(query)"
+                result = AWS.s3_paths(endpoint, resource, region; s3_acceleration=true)
+
+                @test result == expected_result
+            end
+
+            @testset "bucket contains period" begin
+                warning = "Tried to use s3_acceleration on a bucket which contains a period, defaulting back to pathing requests"
+                bucket = "test.bucket"
+                query = "/$bucket"
+                resource = string("/", bucket, query)
+                expected_result = "https://$(endpoint).$(region).$(AWS.SERVICE_HOST[])$(resource)"
+
+                result = @test_warn warning AWS.s3_paths(endpoint, resource, region; s3_acceleration=true)
+                @test result == expected_result
+            end
+
+            @testset "valid" begin
+                # Single slash in expected_result so we don't need to split just for a test case
+                bucket = "/test-bucket"
+
+                @testset "bucket only" begin
+                    # bucket acts as the resource here
+                    expected_result = "https:/$(bucket).$(endpoint).$(region).$(AWS.SERVICE_HOST[])/"
+                    result = AWS.s3_paths(endpoint, bucket, region; s3_acceleration=true)
+
+                    @test result == expected_result
+                end
+
+                @testset "bucket w/ key" begin
+                    key = "foo/bar.txt"
+                    resource = "$bucket/$key"
+                    expected_result = "https:/$(bucket).$(endpoint).$(region).$(AWS.SERVICE_HOST[])/$(key)"
+                    result = AWS.s3_paths(endpoint, resource, region; s3_acceleration=true)
+
+                    @test result == expected_result
+                end
+
+                @testset "bucket w/ query" begin
+                    key = "?max-keys=10&prefix=foo"
+                    resource = "$bucket$key"
+                    expected_result = "https:/$(bucket).$(endpoint).$(region).$(AWS.SERVICE_HOST[])/$(key)"
+                    result = AWS.s3_paths(endpoint, resource, region; s3_acceleration=true)
+
+                    @test result == expected_result
+                end
+
+                @testset "bucket w/ key and query" begin
+                    key = "foo/bar.txt?max-keys=10&prefix=foo"
+                    resource = "$bucket/$key"
+                    expected_result = "https:/$(bucket).$(endpoint).$(region).$(AWS.SERVICE_HOST[])/$(key)"
+                    result = AWS.s3_paths(endpoint, resource, region; s3_acceleration=true)
+
+                    @test result == expected_result
+                end
+            end
+        end
+    end
 end
 
 @testset "_flatten_query" begin
