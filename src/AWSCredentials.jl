@@ -232,7 +232,12 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/region")
+ec2_instance_region() =
+    try
+        ec2_instance_metadata("/latest/meta-data/placement/region")
+    catch
+        nothing
+    end
 
 """
     ec2_instance_credentials(profile::AbstractString) -> AWSCredentials
