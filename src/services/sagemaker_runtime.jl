@@ -46,6 +46,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represents the trace ID, your model can prepend the custom attribute with Trace ID: in your
   post-processing function. This feature is currently supported in the Amazon Web Services
   SDKs but not in the Amazon SageMaker Python SDK.
+- `"X-Amzn-SageMaker-Enable-Explanations"`: An optional JMESPath expression used to
+  override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the
+  EnableExplanations section in the developer guide for more information.
 - `"X-Amzn-SageMaker-Inference-Id"`: If you provide a value, it is added to the captured
   data when you enable data capture on the endpoint. For information about data capture, see
   Capture Data.

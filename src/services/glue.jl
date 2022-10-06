@@ -1246,6 +1246,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when a job runs.
 - `"SecurityConfiguration"`: The name of the SecurityConfiguration structure to be used
   with this job.
+- `"SourceControlDetails"`: The details for a source control configuration for a job,
+  allowing synchronization of job artifacts to or from a remote repository.
 - `"Tags"`: The tags to use with this job. You may use tags to limit access to the job. For
   more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer
   guide.
@@ -7390,6 +7392,44 @@ function update_job(
 end
 
 """
+    update_job_from_source_control()
+    update_job_from_source_control(params::Dict{String,<:Any})
+
+Synchronizes a job from the source control repository. This operation takes the job
+artifacts that are located in the remote repository and updates the Glue internal stores
+with these artifacts. This API supports optional parameters which take in the repository
+information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthStrategy"`: The type of authentication, which can be an authentication token stored
+  in Amazon Web Services Secrets Manager, or a personal access token.
+- `"AuthToken"`: The value of the authorization token.
+- `"BranchName"`: An optional branch in the remote repository.
+- `"CommitId"`: A commit ID for a commit in the remote repository.
+- `"Folder"`: An optional folder in the remote repository.
+- `"JobName"`: The name of the Glue job to be synchronized to or from the remote repository.
+- `"Provider"`: The provider for the remote repository.
+- `"RepositoryName"`: The name of the remote repository that contains the job artifacts.
+- `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
+"""
+function update_job_from_source_control(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "UpdateJobFromSourceControl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_job_from_source_control(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateJobFromSourceControl",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_mltransform(transform_id)
     update_mltransform(transform_id, params::Dict{String,<:Any})
 
@@ -7610,6 +7650,44 @@ function update_schema(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SchemaId" => SchemaId), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_source_control_from_job()
+    update_source_control_from_job(params::Dict{String,<:Any})
+
+Synchronizes a job to the source control repository. This operation takes the job artifacts
+from the Glue internal stores and makes a commit to the remote repository that is
+configured on the job. This API supports optional parameters which take in the repository
+information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthStrategy"`: The type of authentication, which can be an authentication token stored
+  in Amazon Web Services Secrets Manager, or a personal access token.
+- `"AuthToken"`: The value of the authorization token.
+- `"BranchName"`: An optional branch in the remote repository.
+- `"CommitId"`: A commit ID for a commit in the remote repository.
+- `"Folder"`: An optional folder in the remote repository.
+- `"JobName"`: The name of the Glue job to be synchronized to or from the remote repository.
+- `"Provider"`: The provider for the remote repository.
+- `"RepositoryName"`: The name of the remote repository that contains the job artifacts.
+- `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
+"""
+function update_source_control_from_job(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "UpdateSourceControlFromJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_source_control_from_job(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateSourceControlFromJob",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

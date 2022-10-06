@@ -11,7 +11,7 @@ using AWS.UUIDs
 In a management account, an environment account connection request is accepted. When the
 environment account connection request is accepted, Proton can use the associated IAM role
 to provision environment infrastructure resources in the associated environment account.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection.
@@ -44,7 +44,7 @@ end
 
 Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS
 deployment status). For more information about components, see Proton components in the
-Proton Administrator Guide.
+Proton User Guide.
 
 # Arguments
 - `component_name`: The name of the component with the deployment to cancel.
@@ -81,7 +81,7 @@ end
 
 Attempts to cancel an environment deployment on an UpdateEnvironment action, if the
 deployment is IN_PROGRESS. For more information, see Update an environment in the Proton
-Administrator guide. The following list includes potential cancellation scenarios.   If the
+User guide. The following list includes potential cancellation scenarios.   If the
 cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
 cancellation attempt fails, the resulting deployment state is FAILED.   If the current
 UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting
@@ -124,12 +124,11 @@ end
 
 Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the
 deployment is IN_PROGRESS. For more information, see Update a service instance in the
-Proton Administrator guide or the Proton User guide. The following list includes potential
-cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment
-state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is
-FAILED.   If the current UpdateServiceInstance action succeeds before the cancellation
-attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt
-has no effect.
+Proton User guide. The following list includes potential cancellation scenarios.   If the
+cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
+cancellation attempt fails, the resulting deployment state is FAILED.   If the current
+UpdateServiceInstance action succeeds before the cancellation attempt starts, the resulting
+deployment state is SUCCEEDED and the cancellation attempt has no effect.
 
 # Arguments
 - `service_instance_name`: The name of the service instance with the deployment to cancel.
@@ -177,12 +176,11 @@ end
 
 Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the
 deployment is IN_PROGRESS. For more information, see Update a service pipeline in the
-Proton Administrator guide or the Proton User guide. The following list includes potential
-cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment
-state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is
-FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation
-attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt
-has no effect.
+Proton User guide. The following list includes potential cancellation scenarios.   If the
+cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
+cancellation attempt fails, the resulting deployment state is FAILED.   If the current
+UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting
+deployment state is SUCCEEDED and the cancellation attempt has no effect.
 
 # Arguments
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
@@ -218,8 +216,8 @@ end
     create_component(manifest, name, template_file, params::Dict{String,<:Any})
 
 Create an Proton component. A component is an infrastructure extension for a service
-instance. For more information about components, see Proton components in the Proton
-Administrator Guide.
+instance. For more information about components, see Proton components in the Proton User
+Guide.
 
 # Arguments
 - `manifest`: A path to a manifest file that lists the Infrastructure as Code (IaC) file,
@@ -246,7 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inputs. Set this only when you attach the component to a service instance.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   component. A tag is a key-value pair. For more information, see Proton resources and
-  tagging in the Proton Administrator Guide or Proton User Guide.
+  tagging in the Proton User Guide.
 """
 function create_component(
     manifest, name, templateFile; aws_config::AbstractAWSConfig=global_aws_config()
@@ -293,17 +291,16 @@ provision environments using the following methods:    Amazon Web Services-manag
 provisioning: Proton makes direct calls to provision your resources.   Self-managed
 provisioning: Proton makes pull requests on your repository to provide compiled
 infrastructure as code (IaC) files that your IaC engine uses to provision resources.   For
-more information, see Environments and Provisioning methods in the Proton Administrator
-Guide.
+more information, see Environments and Provisioning methods in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the environment.
 - `spec`: A YAML formatted string that provides inputs as defined in the environment
-  template bundle schema file. For more information, see Environments in the Proton
-  Administrator Guide.
+  template bundle schema file. For more information, see Environments in the Proton User
+  Guide.
 - `template_major_version`: The major version of the environment template.
 - `template_name`: The name of the environment template. For more information, see
-  Environment Templates in the Proton Administrator Guide.
+  Environment Templates in the Proton User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -311,26 +308,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   uses when provisioning directly defined components in this environment. It determines the
   scope of infrastructure that a component can provision. You must specify componentRoleArn
   to allow directly defined components to be associated with this environment. For more
-  information about components, see Proton components in the Proton Administrator Guide.
+  information about components, see Proton components in the Proton User Guide.
 - `"description"`: A description of the environment that's being created and deployed.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection that you
   provide if you're provisioning your environment infrastructure resources to an environment
-  account. For more information, see Environment account connections in the Proton
-  Administrator guide. To use Amazon Web Services-managed provisioning for the environment,
-  specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and
-  omit the provisioningRepository parameter.
+  account. For more information, see Environment account connections in the Proton User
+  guide. To use Amazon Web Services-managed provisioning for the environment, specify either
+  the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the
+  provisioningRepository parameter.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton service role that
   allows Proton to make calls to other services on your behalf. To use Amazon Web
   Services-managed provisioning for the environment, specify either the
   environmentAccountConnectionId or protonServiceRoleArn parameter and omit the
   provisioningRepository parameter.
-- `"provisioningRepository"`: The infrastructure repository that you use to host your
-  rendered infrastructure templates for self-managed provisioning. To use self-managed
-  provisioning for the environment, specify this parameter and omit the
+- `"provisioningRepository"`: The linked repository that you use to host your rendered
+  infrastructure templates for self-managed provisioning. A linked repository is a repository
+  that has been registered with Proton. For more information, see CreateRepository. To use
+  self-managed provisioning for the environment, specify this parameter and omit the
   environmentAccountConnectionId and protonServiceRoleArn parameters.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment. A tag is a key-value pair. For more information, see Proton resources and
-  tagging in the Proton Administrator Guide or Proton User Guide.
+  tagging in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the environment template.
 """
 function create_environment(
@@ -387,7 +385,7 @@ Create an environment account connection in an environment account so that envir
 infrastructure resources can be provisioned in the environment account from a management
 account. An environment account connection is a secure bi-directional connection between a
 management account and an environment account that maintains authorization and permissions.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `environment_name`: The name of the Proton environment that's created in the associated
@@ -410,10 +408,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It determines the scope of infrastructure that a component can provision in the account.
   You must specify componentRoleArn to allow directly defined components to be associated
   with any environments running in this account. For more information about components, see
-  Proton components in the Proton Administrator Guide.
+  Proton components in the Proton User Guide.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment account connection. A tag is a key-value pair. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide.
+  resources and tagging in the Proton User Guide.
 """
 function create_environment_account_connection(
     environmentName,
@@ -464,15 +462,15 @@ end
     create_environment_template(name, params::Dict{String,<:Any})
 
 Create an environment template for Proton. For more information, see Environment Templates
-in the Proton Administrator Guide. You can create an environment template in one of the two
+in the Proton User Guide. You can create an environment template in one of the two
 following ways:   Register and publish a standard environment template that instructs
 Proton to deploy and manage environment infrastructure.   Register and publish a customer
 managed environment template that connects Proton to your existing provisioned
 infrastructure that you manage. Proton doesn't manage your existing provisioned
 infrastructure. To create an environment template for customer provisioned and managed
 infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED.
-For more information, see Register and publish an environment template in the Proton
-Administrator Guide.
+For more information, see Register and publish an environment template in the Proton User
+Guide.
 
 # Arguments
 - `name`: The name of the environment template.
@@ -486,7 +484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisioned and managed infrastructure.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment template. A tag is a key-value pair. For more information, see Proton resources
-  and tagging in the Proton Administrator Guide or Proton User Guide.
+  and tagging in the Proton User Guide.
 """
 function create_environment_template(
     name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -532,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   major Version.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment template version. A tag is a key-value pair. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide or Proton User Guide.
+  resources and tagging in the Proton User Guide.
 """
 function create_environment_template_version(
     source, templateName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -576,16 +574,17 @@ end
     create_repository(connection_arn, name, provider)
     create_repository(connection_arn, name, provider, params::Dict{String,<:Any})
 
-Create and register a link to a repository that can be used with self-managed provisioning
-(infrastructure or pipelines) or for template sync configurations. When you create a
-repository link, Proton creates a service-linked role for you. For more information, see
-Self-managed provisioning, Template bundles, and Template sync configurations in the Proton
-Administrator Guide.
+Create and register a link to a repository. Proton uses the link to repeatedly access the
+repository, to either push to it (self-managed provisioning) or pull from it (template
+sync). You can share a linked repository across multiple resources (like environments using
+self-managed provisioning, or synced templates). When you create a repository link, Proton
+creates a service-linked role for you. For more information, see Self-managed provisioning,
+Template bundles, and Template sync configurations in the Proton User Guide.
 
 # Arguments
-- `connection_arn`: The Amazon Resource Name (ARN) of your Amazon Web Services CodeStar
-  connection. For more information, see Setting up for Proton in the Proton Administrator
-  Guide.
+- `connection_arn`: The Amazon Resource Name (ARN) of your AWS CodeStar connection that
+  connects Proton to your repository provider account. For more information, see Setting up
+  for Proton in the Proton User Guide.
 - `name`: The repository name (for example, myrepos/myrepo).
 - `provider`: The repository provider.
 
@@ -595,7 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (Amazon Web Services KMS) key.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   repository. A tag is a key-value pair. For more information, see Proton resources and
-  tagging in the Proton Administrator Guide or Proton User Guide.
+  tagging in the Proton User Guide.
 """
 function create_repository(
     connectionArn, name, provider; aws_config::AbstractAWSConfig=global_aws_config()
@@ -638,15 +637,14 @@ end
 
 Create an Proton service. An Proton service is an instantiation of a service template and
 often includes several service instances and pipeline. For more information, see Services
-in the Proton Administrator Guide and Services in the Proton User Guide.
+in the Proton User Guide.
 
 # Arguments
 - `name`: The service name.
 - `spec`: A link to a spec file that provides inputs as defined in the service template
   bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the
   spec if your service template doesn’t include a service pipeline. For more information,
-  see Create a service in the Proton Administrator Guide and Create a service in the Proton
-  User Guide.
+  see Create a service in the Proton User Guide.
 - `template_major_version`: The major version of the service template that was used to
   create the service.
 - `template_name`: The name of the service template that's used to create the service.
@@ -658,14 +656,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service pipeline.
 - `"description"`: A description of the Proton service.
 - `"repositoryConnectionArn"`: The Amazon Resource Name (ARN) of the repository connection.
-  For more information, see Set up repository connection in the Proton Administrator Guide
-  and Setting up with Proton in the Proton User Guide. Don't include this parameter if your
-  service template doesn't include a service pipeline.
+  For more information, see Setting up an AWS CodeStar connection in the Proton User Guide.
+  Don't include this parameter if your service template doesn't include a service pipeline.
 - `"repositoryId"`: The ID of the code repository. Don't include this parameter if your
   service template doesn't include a service pipeline.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   service. A tag is a key-value pair. For more information, see Proton resources and tagging
-  in the Proton Administrator Guide or Proton User Guide.
+  in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service.
 """
@@ -724,7 +721,7 @@ standardized infrastructure and an optional CI/CD service pipeline. Developers, 
 select the service template from Proton. If the selected service template includes a
 service pipeline definition, they provide a link to their source code repository. Proton
 then deploys and manages the infrastructure defined by the selected service template. For
-more information, see Service Templates in the Proton Administrator Guide.
+more information, see Proton templates in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service template.
@@ -737,10 +734,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineProvisioning"`: By default, Proton provides a service pipeline for your
   service. When this parameter is included, it indicates that an Proton service pipeline
   isn't provided for your service. After it's included, it can't be changed. For more
-  information, see Service template bundles in the Proton Administrator Guide.
+  information, see Template bundles in the Proton User Guide.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   service template. A tag is a key-value pair. For more information, see Proton resources and
-  tagging in the Proton Administrator Guide or Proton User Guide.
+  tagging in the Proton User Guide.
 """
 function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -787,11 +784,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version.
 - `"supportedComponentSources"`: An array of supported component sources. Components with
   supported sources can be attached to service instances based on this service template
-  version. For more information about components, see Proton components in the Proton
-  Administrator Guide.
+  version. For more information about components, see Proton components in the Proton User
+  Guide.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   service template version. A tag is a key-value pair. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide or Proton User Guide.
+  resources and tagging in the Proton User Guide.
 """
 function create_service_template_version(
     compatibleEnvironmentTemplates,
@@ -841,15 +838,17 @@ end
     create_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
     create_template_sync_config(branch, repository_name, repository_provider, template_name, template_type, params::Dict{String,<:Any})
 
-Set up a template to create new template versions automatically. When a commit is pushed to
-your registered repository, Proton checks for changes to your repository template bundles.
-If it detects a template bundle change, a new major or minor version of its template is
-created, if the version doesn’t already exist. For more information, see Template sync
-configurations in the Proton Administrator Guide.
+Set up a template to create new template versions automatically by tracking a linked
+repository. A linked repository is a repository that has been registered with Proton. For
+more information, see CreateRepository. When a commit is pushed to your linked repository,
+Proton checks for changes to your repository template bundles. If it detects a template
+bundle change, a new major or minor version of its template is created, if the version
+doesn’t already exist. For more information, see Template sync configurations in the
+Proton User Guide.
 
 # Arguments
-- `branch`: The branch of the registered repository for your template.
-- `repository_name`: The name of your repository (for example, myrepos/myrepo).
+- `branch`: The repository branch for your template.
+- `repository_name`: The repository name (for example, myrepos/myrepo).
 - `repository_provider`: The provider type for your repository.
 - `template_name`: The name of your registered template.
 - `template_type`: The type of the registered template.
@@ -914,7 +913,7 @@ end
     delete_component(name, params::Dict{String,<:Any})
 
 Delete an Proton component resource. For more information about components, see Proton
-components in the Proton Administrator Guide.
+components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the component to delete.
@@ -977,7 +976,7 @@ environment account connection that’s in use by an Proton environment, Proton 
 manage the environment infrastructure resources until a new environment account connection
 is accepted for the environment account and associated environment. You're responsible for
 cleaning up provisioned resources that remain without an environment connection. For more
-information, see Environment account connections in the Proton Administrator guide.
+information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to delete.
@@ -1104,7 +1103,7 @@ end
 De-register and unlink your repository.
 
 # Arguments
-- `name`: The name of the repository.
+- `name`: The repository name.
 - `provider`: The repository provider.
 
 """
@@ -1142,7 +1141,7 @@ end
 
 Delete a service, with its instances and pipeline.  You can't delete a service if it has
 any service instances that have components attached to them. For more information about
-components, see Proton components in the Proton Administrator Guide.
+components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service to delete.
@@ -1305,7 +1304,7 @@ end
     get_account_settings()
     get_account_settings(params::Dict{String,<:Any})
 
-Get detail data for the Proton pipeline service role.
+Get detail data for Proton account-wide settings.
 
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1326,7 +1325,7 @@ end
     get_component(name, params::Dict{String,<:Any})
 
 Get detailed data for a component. For more information about components, see Proton
-components in the Proton Administrator Guide.
+components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the component that you want to get the detailed data for.
@@ -1385,7 +1384,7 @@ end
     get_environment_account_connection(id, params::Dict{String,<:Any})
 
 In an environment account, get the detailed data for an environment account connection. For
-more information, see Environment account connections in the Proton Administrator guide.
+more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection that you want to get the detailed data
@@ -1454,7 +1453,7 @@ Get detailed data for a major or minor version of an environment template.
 - `minor_version`: To get environment template minor version detail data, include
   minorVersion.
 - `template_name`: The name of the environment template a version of which you want to get
-  detailed data for..
+  detailed data for.
 
 """
 function get_environment_template_version(
@@ -1503,7 +1502,7 @@ end
     get_repository(name, provider)
     get_repository(name, provider, params::Dict{String,<:Any})
 
-Get detail data for a repository.
+Get detail data for a linked repository.
 
 # Arguments
 - `name`: The repository name, for example myrepos/myrepo.
@@ -1545,7 +1544,7 @@ about template sync, see .  A repository sync status isn't tied to the Proton Re
 resource (or any other Proton resource). Therefore, tags on an Proton Repository resource
 have no effect on this action. Specifically, you can't use these tags to control access to
 this action using Attribute-based access control (ABAC). For more information about ABAC,
-see ABAC in the Proton Administrator Guide.
+see ABAC in the Proton User Guide.
 
 # Arguments
 - `branch`: The repository branch.
@@ -1857,7 +1856,7 @@ end
     list_component_outputs(component_name, params::Dict{String,<:Any})
 
 Get a list of component Infrastructure as Code (IaC) outputs. For more information about
-components, see Proton components in the Proton Administrator Guide.
+components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `component_name`: The name of the component whose outputs you want.
@@ -1897,7 +1896,7 @@ end
     list_component_provisioned_resources(component_name, params::Dict{String,<:Any})
 
 List provisioned resources for a component with details. For more information about
-components, see Proton components in the Proton Administrator Guide.
+components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `component_name`: The name of the component whose provisioned resources you want.
@@ -1939,7 +1938,7 @@ end
 
 List components with summary data. You can filter the result list by environment, service,
 or a single service instance. For more information about components, see Proton components
-in the Proton Administrator Guide.
+in the Proton User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1969,7 +1968,7 @@ end
     list_environment_account_connections(requested_by, params::Dict{String,<:Any})
 
 View a list of environment account connections. For more information, see Environment
-account connections in the Proton Administrator guide.
+account connections in the Proton User guide.
 
 # Arguments
 - `requested_by`: The type of account making the ListEnvironmentAccountConnections request.
@@ -2197,7 +2196,7 @@ end
     list_repositories()
     list_repositories(params::Dict{String,<:Any})
 
-List repositories with detail data.
+List linked repositories with detail data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2588,7 +2587,7 @@ end
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 List tags for a resource. For more information, see Proton resources and tagging in the
-Proton Administrator Guide or Proton User Guide.
+Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for the listed tags.
@@ -2629,8 +2628,7 @@ end
     notify_resource_deployment_status_change(resource_arn, status, params::Dict{String,<:Any})
 
 Notify Proton of status changes to a provisioned resource when you use self-managed
-provisioning. For more information, see Self-managed provisioning in the Proton
-Administrator Guide.
+provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
 
 # Arguments
 - `resource_arn`: The provisioned resource Amazon Resource Name (ARN).
@@ -2680,7 +2678,7 @@ In a management account, reject an environment account connection from another e
 account. After you reject an environment account connection request, you can't accept or
 use the rejected environment account connection. You can’t reject an environment account
 connection that's connected to an environment. For more information, see Environment
-account connections in the Proton Administrator guide.
+account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to reject.
@@ -2712,8 +2710,7 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton
-resource. For more information, see Proton resources and tagging in the Proton
-Administrator Guide or Proton User Guide.
+resource. For more information, see Proton resources and tagging in the Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Proton resource to apply customer
@@ -2755,7 +2752,7 @@ end
 
 Remove a customer tag from a resource. A tag is a key-value pair of metadata associated
 with an Proton resource. For more information, see Proton resources and tagging in the
-Proton Administrator Guide or Proton User Guide.
+Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove customer tags
@@ -2798,16 +2795,24 @@ end
     update_account_settings()
     update_account_settings(params::Dict{String,<:Any})
 
-Update the Proton service pipeline role or repository settings.
+Update Proton settings that are used for multiple services in the Amazon Web Services
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"pipelineProvisioningRepository"`: A repository for pipeline provisioning. Specify it if
-  you have environments configured for self-managed provisioning with services that include
-  pipelines.
+- `"deletePipelineProvisioningRepository"`: Set to true to remove a configured pipeline
+  repository from the account settings. Don't set this field if you are updating the
+  configured pipeline repository.
+- `"pipelineProvisioningRepository"`: A linked repository for pipeline provisioning.
+  Specify it if you have environments configured for self-managed provisioning with services
+  that include pipelines. A linked repository is a repository that has been registered with
+  Proton. For more information, see CreateRepository. To remove a previously configured
+  repository, set deletePipelineProvisioningRepository to true, and don't set
+  pipelineProvisioningRepository.
 - `"pipelineServiceRoleArn"`: The Amazon Resource Name (ARN) of the service role you want
   to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed
-  provisioning, and by customer-owned automation for self-managed provisioning.
+  provisioning, and by customer-owned automation for self-managed provisioning. To remove a
+  previously configured ARN, specify an empty string.
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2832,7 +2837,7 @@ end
 Update a component. There are a few modes for updating a component. The deploymentType
 field defines the mode.  You can't update a component while its deployment status, or the
 deployment status of a service instance attached to it, is IN_PROGRESS.  For more
-information about components, see Proton components in the Proton Administrator Guide.
+information about components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `deployment_type`: The deployment type. It defines the mode for updating a component, as
@@ -2909,8 +2914,8 @@ configured for Amazon Web Services-managed provisioning, omit the provisioningRe
 parameter. If the environment was configured for self-managed provisioning, specify the
 provisioningRepository parameter and omit the protonServiceRoleArn and
 environmentAccountConnectionId parameters. For more information, see Environments and
-Provisioning methods in the Proton Administrator Guide. There are four modes for updating
-an environment. The deploymentType field defines the mode.     NONE  In this mode, a
+Provisioning methods in the Proton User Guide. There are four modes for updating an
+environment. The deploymentType field defines the mode.     NONE  In this mode, a
 deployment doesn't occur. Only the requested metadata parameters are updated.
 CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec
 that you provide. Only requested parameters are updated. Don’t include minor or major
@@ -2944,7 +2949,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scope of infrastructure that a component can provision. The environment must have a
   componentRoleArn to allow directly defined components to be associated with the
   environment. For more information about components, see Proton components in the Proton
-  Administrator Guide.
+  User Guide.
 - `"description"`: A description of the environment update.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection. You can
   only update to a new environment account connection if it was created in the same
@@ -2952,8 +2957,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the current environment.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton service role that
   allows Proton to make API calls to other services your behalf.
-- `"provisioningRepository"`: The infrastructure repository that you use to host your
-  rendered infrastructure templates for self-managed provisioning.
+- `"provisioningRepository"`: The linked repository that you use to host your rendered
+  infrastructure templates for self-managed provisioning. A linked repository is a repository
+  that has been registered with Proton. For more information, see CreateRepository.
 - `"spec"`: The formatted specification that defines the update.
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
@@ -2993,7 +2999,7 @@ end
     update_environment_account_connection(id, params::Dict{String,<:Any})
 
 In an environment account, update an environment account connection to use a new IAM role.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to update.
@@ -3005,7 +3011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It determines the scope of infrastructure that a component can provision in the account.
   The environment account connection must have a componentRoleArn to allow directly defined
   components to be associated with any environments running in the account. For more
-  information about components, see Proton components in the Proton Administrator Guide.
+  information about components, see Proton components in the Proton User Guide.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's associated
   with the environment account connection to update.
 """
@@ -3135,7 +3141,7 @@ service instances and the service pipeline can't be edited using this API. They 
 deleted.  Use the description parameter to modify the description. Edit the spec parameter
 to add or delete instances.  You can't delete a service instance (remove it from the spec)
 if it has an attached component. For more information about components, see Proton
-components in the Proton Administrator Guide.
+components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service to edit.
@@ -3146,7 +3152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"spec"`: Lists the service instances to add and the existing service instances to
   remain. Omit the existing service instances to delete from the list. Don't include edits to
   the existing service instances or pipeline. For more information, see Edit a service in the
-  Proton Administrator Guide or the Proton User Guide.
+  Proton User Guide.
 """
 function update_service(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -3174,8 +3180,7 @@ end
 Update a service instance. There are a few modes for updating a service instance. The
 deploymentType field defines the mode.  You can't update a service instance while its
 deployment status, or the deployment status of a component attached to it, is IN_PROGRESS.
-For more information about components, see Proton components in the Proton Administrator
-Guide.
+For more information about components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `deployment_type`: The deployment type. It defines the mode for updating a service
@@ -3370,7 +3375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.  A change to supportedComponentSources doesn't impact existing component
   attachments to instances based on this template version. A change only affects later
   associations.  For more information about components, see Proton components in the Proton
-  Administrator Guide.
+  User Guide.
 """
 function update_service_template_version(
     majorVersion,
@@ -3418,11 +3423,14 @@ end
     update_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
     update_template_sync_config(branch, repository_name, repository_provider, template_name, template_type, params::Dict{String,<:Any})
 
-Update template sync configuration parameters, except for the templateName and templateType.
+Update template sync configuration parameters, except for the templateName and
+templateType. Repository details (branch, name, and provider) should be of a linked
+repository. A linked repository is a repository that has been registered with Proton. For
+more information, see CreateRepository.
 
 # Arguments
-- `branch`: The repository branch.
-- `repository_name`: The name of the repository (for example, myrepos/myrepo).
+- `branch`: The repository branch for your template.
+- `repository_name`: The repository name (for example, myrepos/myrepo).
 - `repository_provider`: The repository provider.
 - `template_name`: The synced template name.
 - `template_type`: The synced template type.

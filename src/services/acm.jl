@@ -107,7 +107,9 @@ end
     describe_certificate(certificate_arn)
     describe_certificate(certificate_arn, params::Dict{String,<:Any})
 
-Returns detailed metadata about the specified ACM certificate.
+Returns detailed metadata about the specified ACM certificate. If you have just created a
+certificate using the RequestCertificate action, there is a delay of several seconds before
+you can retrieve information about it.
 
 # Arguments
 - `certificate_arn`: The Amazon Resource Name (ARN) of the ACM certificate. The ARN must
@@ -155,10 +157,11 @@ CLI, see Export a Private Certificate.
 # Arguments
 - `certificate_arn`: An Amazon Resource Name (ARN) of the issued certificate. This must be
   of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
-- `passphrase`: Passphrase to associate with the encrypted exported private key. If you
-  want to later decrypt the private key, you must have the passphrase. You can use the
-  following OpenSSL command to decrypt a private key:   openssl rsa -in encrypted_key.pem
-  -out decrypted_key.pem
+- `passphrase`: Passphrase to associate with the encrypted exported private key.   When
+  creating your passphrase, you can use any ASCII character except #, , or %.  If you want to
+  later decrypt the private key, you must have the passphrase. You can use the following
+  OpenSSL command to decrypt a private key. After entering the command, you are prompted for
+  the passphrase.  openssl rsa -in encrypted_key.pem -out decrypted_key.pem
 
 """
 function export_certificate(
@@ -258,34 +261,33 @@ end
     import_certificate(certificate, private_key)
     import_certificate(certificate, private_key, params::Dict{String,<:Any})
 
-Imports a certificate into Amazon Web Services Certificate Manager (ACM) to use with
-services that are integrated with ACM. Note that integrated services allow only certificate
-types and keys they support to be associated with their resources. Further, their support
-differs depending on whether the certificate is imported into IAM or into ACM. For more
+Imports a certificate into Certificate Manager (ACM) to use with services that are
+integrated with ACM. Note that integrated services allow only certificate types and keys
+they support to be associated with their resources. Further, their support differs
+depending on whether the certificate is imported into IAM or into ACM. For more
 information, see the documentation for each service. For more information about importing
-certificates into ACM, see Importing Certificates in the Amazon Web Services Certificate
-Manager User Guide.   ACM does not provide managed renewal for certificates that you
-import.  Note the following guidelines when importing third party certificates:   You must
-enter the private key that matches the certificate you are importing.   The private key
-must be unencrypted. You cannot import a private key that is protected by a password or a
-passphrase.   The private key must be no larger than 5 KB (5,120 bytes).   If the
-certificate you are importing is not self-signed, you must enter its certificate chain.
-If a certificate chain is included, the issuer must be the subject of one of the
-certificates in the chain.   The certificate, private key, and certificate chain must be
-PEM-encoded.   The current time must be between the Not Before and Not After certificate
-fields.   The Issuer field must not be empty.   The OCSP authority URL, if present, must
-not exceed 1000 characters.   To import a new certificate, omit the CertificateArn
-argument. Include this argument only when you want to replace a previously imported
-certificate.   When you import a certificate by using the CLI, you must specify the
-certificate, the certificate chain, and the private key by their file names preceded by
-fileb://. For example, you can specify a certificate saved in the C:temp folder as
-fileb://C:tempcertificate_to_import.pem. If you are making an HTTP or HTTPS Query request,
-include these arguments as BLOBs.    When you import a certificate by using an SDK, you
-must specify the certificate, the certificate chain, and the private key files in the
-manner required by the programming language you're using.    The cryptographic algorithm of
-an imported certificate must match the algorithm of the signing CA. For example, if the
-signing CA key type is RSA, then the certificate key type must also be RSA.   This
-operation returns the Amazon Resource Name (ARN) of the imported certificate.
+certificates into ACM, see Importing Certificates in the Certificate Manager User Guide.
+ACM does not provide managed renewal for certificates that you import.  Note the following
+guidelines when importing third party certificates:   You must enter the private key that
+matches the certificate you are importing.   The private key must be unencrypted. You
+cannot import a private key that is protected by a password or a passphrase.   The private
+key must be no larger than 5 KB (5,120 bytes).   If the certificate you are importing is
+not self-signed, you must enter its certificate chain.   If a certificate chain is
+included, the issuer must be the subject of one of the certificates in the chain.   The
+certificate, private key, and certificate chain must be PEM-encoded.   The current time
+must be between the Not Before and Not After certificate fields.   The Issuer field must
+not be empty.   The OCSP authority URL, if present, must not exceed 1000 characters.   To
+import a new certificate, omit the CertificateArn argument. Include this argument only when
+you want to replace a previously imported certificate.   When you import a certificate by
+using the CLI, you must specify the certificate, the certificate chain, and the private key
+by their file names preceded by fileb://. For example, you can specify a certificate saved
+in the C:temp folder as fileb://C:tempcertificate_to_import.pem. If you are making an HTTP
+or HTTPS Query request, include these arguments as BLOBs.    When you import a certificate
+by using an SDK, you must specify the certificate, the certificate chain, and the private
+key files in the manner required by the programming language you're using.    The
+cryptographic algorithm of an imported certificate must match the algorithm of the signing
+CA. For example, if the signing CA key type is RSA, then the certificate key type must also
+be RSA.   This operation returns the Amazon Resource Name (ARN) of the imported certificate.
 
 # Arguments
 - `certificate`: The certificate to import.
@@ -350,6 +352,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Use this parameter only when paginating results and only in a subsequent
   request after you receive a response with truncated results. Set it to the value of
   NextToken from the response you just received.
+- `"SortBy"`: Specifies the field to sort results by. If you specify SortBy, you must also
+  specify SortOrder.
+- `"SortOrder"`: Specifies the order of sorted results. If you specify SortOrder, you must
+  also specify SortBy.
 """
 function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
     return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -504,9 +510,9 @@ end
     renew_certificate(certificate_arn, params::Dict{String,<:Any})
 
 Renews an eligible ACM certificate. At this time, only exported private certificates can be
-renewed with this operation. In order to renew your ACM PCA certificates with ACM, you must
-first grant the ACM service principal permission to do so. For more information, see
-Testing Managed Renewal in the ACM User Guide.
+renewed with this operation. In order to renew your ACM Private CA certificates with ACM,
+you must first grant the ACM service principal permission to do so. For more information,
+see Testing Managed Renewal in the ACM User Guide.
 
 # Arguments
 - `certificate_arn`: String that contains the ARN of the ACM certificate to be renewed.
@@ -551,27 +557,28 @@ If you are requesting a private certificate, domain validation is not required. 
 requesting a public certificate, each domain name that you specify must be validated to
 verify that you own or control the domain. You can use DNS validation or email validation.
 We recommend that you use DNS validation. ACM issues public certificates after receiving
-approval from the domain owner.   ACM behavior differs from the
-https://tools.ietf.org/html/rfc6125#appendix-B.2RFC 6125 specification of the certificate
-validation process. first checks for a subject alternative name, and, if it finds one,
-ignores the common name (CN)
+approval from the domain owner.   ACM behavior differs from the RFC 6125 specification of
+the certificate validation process. ACM first checks for a Subject Alternative Name, and,
+if it finds one, ignores the common name (CN).  After successful completion of the
+RequestCertificate action, there is a delay of several seconds before you can retrieve
+information about the new certificate.
 
 # Arguments
-- `domain_name`:  Fully qualified domain name (FQDN), such as www.example.com, that you
-  want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard
-  certificate that protects several sites in the same domain. For example, *.example.com
-  protects www.example.com, site.example.com, and images.example.com.   The first domain name
-  you enter cannot exceed 64 octets, including periods. Each subsequent Subject Alternative
-  Name (SAN), however, can be up to 253 octets in length.
+- `domain_name`: Fully qualified domain name (FQDN), such as www.example.com, that you want
+  to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate
+  that protects several sites in the same domain. For example, *.example.com protects
+  www.example.com, site.example.com, and images.example.com.  In compliance with RFC 5280,
+  the length of the domain name (technically, the Common Name) that you provide cannot exceed
+  64 octets (characters), including periods. To add a longer domain name, specify it in the
+  Subject Alternative Name field, which supports names up to 253 octets in length.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CertificateAuthorityArn"`: The Amazon Resource Name (ARN) of the private certificate
   authority (CA) that will be used to issue the certificate. If you do not provide an ARN and
   you are trying to request a private certificate, ACM will attempt to issue a public
-  certificate. For more information about private CAs, see the Amazon Web Services
-  Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the
-  following form:
+  certificate. For more information about private CAs, see the Certificate Manager Private
+  Certificate Authority user guide. The ARN must have the following form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 - `"DomainValidationOptions"`: The domain name that you want ACM to use to send you emails
   so that you can validate domain ownership.

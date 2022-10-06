@@ -1416,7 +1416,7 @@ displayed on a rendered map.
 # Arguments
 - `file_name`: The name of the sprite ﬁle. Use the following ﬁle names for the sprite
   sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON
-  document contain image offsets. Use the following ﬁle names:    sprites.json
+  document containing image offsets. Use the following ﬁle names:    sprites.json
   sprites@2x.json for high pixel density displays
 - `map_name`: The map resource associated with the sprite ﬁle.
 
@@ -1517,6 +1517,54 @@ function get_map_tile(
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_place(index_name, place_id)
+    get_place(index_name, place_id, params::Dict{String,<:Any})
+
+Finds a place by its unique ID. A PlaceId is returned by other search operations.  A
+PlaceId is valid only if all of the following are the same in the original search request
+and the call to GetPlace.   Customer AWS account   AWS Region   Data provider specified in
+the place index resource
+
+# Arguments
+- `index_name`: The name of the place index resource that you want to use for the search.
+- `place_id`: The identifier of the place to find.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results, but not the results themselves. If no language is specified, or not
+  supported for a particular result, the partner automatically chooses a language for the
+  result. For an example, we'll use the Greek language. You search for a location around
+  Athens, Greece, with the language parameter set to en. The city in the results will most
+  likely be returned as Athens. If you set the language parameter to el, for Greek, then the
+  city in the results will more likely be returned as Αθήνα. If the data provider does
+  not have a value for Greek, the result will be in a language that the provider does support.
+"""
+function get_place(IndexName, PlaceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)/places/$(PlaceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_place(
+    IndexName,
+    PlaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET",
+        "/places/v0/indexes/$(IndexName)/places/$(PlaceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

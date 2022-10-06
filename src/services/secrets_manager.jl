@@ -15,9 +15,12 @@ created version. You also need to determine whether to roll back to the previous
 the secret by moving the staging label AWSCURRENT to the version that has AWSPENDING. To
 determine which version has a specific staging label, call ListSecretVersionIds. Then use
 UpdateSecretVersionStage to change staging labels. For more information, see How rotation
-works. To turn on automatic rotation again, call RotateSecret.  Required permissions:
-secretsmanager:CancelRotateSecret. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+works. To turn on automatic rotation again, call RotateSecret. Secrets Manager generates a
+CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:  secretsmanager:CancelRotateSecret.
+For more information, see  IAM policy actions for Secrets Manager and Authentication and
+access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret. For an ARN, we recommend that you specify a
@@ -70,9 +73,12 @@ account automatically have access to use aws/secretsmanager. Creating aws/secret
 can result in a one-time significant delay in returning the result. If the secret is in a
 different Amazon Web Services account from the credentials calling the API, then you can't
 use aws/secretsmanager to encrypt the secret, and you must create and use a customer
-managed KMS key.   Required permissions:  secretsmanager:CreateSecret. If you include tags
-in the secret, you also need secretsmanager:TagResource. For more information, see  IAM
-policy actions for Secrets Manager and Authentication and access control in Secrets
+managed KMS key.  Secrets Manager generates a CloudTrail log entry when you call this
+action. Do not include sensitive information in request parameters except SecretBinary or
+SecretString because it might be logged. For more information, see Logging Secrets Manager
+events with CloudTrail.  Required permissions:  secretsmanager:CreateSecret. If you include
+tags in the secret, you also need secretsmanager:TagResource. For more information, see
+IAM policy actions for Secrets Manager and Authentication and access control in Secrets
 Manager.  To encrypt the secret with a KMS key other than aws/secretsmanager, you need
 kms:GenerateDataKey and kms:Decrypt permission to the key.
 
@@ -180,9 +186,12 @@ end
     delete_resource_policy(secret_id, params::Dict{String,<:Any})
 
 Deletes the resource-based permission policy attached to the secret. To attach a policy to
-a secret, use PutResourcePolicy.  Required permissions:
-secretsmanager:DeleteResourcePolicy. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+a secret, use PutResourcePolicy. Secrets Manager generates a CloudTrail log entry when you
+call this action. Do not include sensitive information in request parameters because it
+might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
+Required permissions:  secretsmanager:DeleteResourcePolicy. For more information, see  IAM
+policy actions for Secrets Manager and Authentication and access control in Secrets
+Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to delete the attached resource-based policy
@@ -235,9 +244,12 @@ a background task with low priority. There is no guarantee of a specific time af
 recovery window for the permanent delete to occur. At any time before recovery window ends,
 you can use RestoreSecret to remove the DeletionDate and cancel the deletion of the secret.
 When a secret is scheduled for deletion, you cannot retrieve the secret value. You must
-first cancel the deletion with RestoreSecret and then you can retrieve the secret.
-Required permissions:  secretsmanager:DeleteSecret. For more information, see  IAM policy
-actions for Secrets Manager and Authentication and access control in Secrets Manager.
+first cancel the deletion with RestoreSecret and then you can retrieve the secret. Secrets
+Manager generates a CloudTrail log entry when you call this action. Do not include
+sensitive information in request parameters because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
+secretsmanager:DeleteSecret. For more information, see  IAM policy actions for Secrets
+Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to delete. For an ARN, we recommend that you
@@ -289,9 +301,12 @@ end
     describe_secret(secret_id, params::Dict{String,<:Any})
 
 Retrieves the details of a secret. It does not include the encrypted secret value. Secrets
-Manager only returns fields that have a value in the response.   Required permissions:
-secretsmanager:DescribeSecret. For more information, see  IAM policy actions for Secrets
-Manager and Authentication and access control in Secrets Manager.
+Manager only returns fields that have a value in the response.  Secrets Manager generates a
+CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:  secretsmanager:DescribeSecret. For
+more information, see  IAM policy actions for Secrets Manager and Authentication and access
+control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret.  For an ARN, we recommend that you specify a
@@ -326,10 +341,12 @@ end
     get_random_password(params::Dict{String,<:Any})
 
 Generates a random password. We recommend that you specify the maximum length and include
-every character type that the system you are generating a password for can support.
-Required permissions:  secretsmanager:GetRandomPassword. For more information, see  IAM
-policy actions for Secrets Manager and Authentication and access control in Secrets
-Manager.
+every character type that the system you are generating a password for can support. Secrets
+Manager generates a CloudTrail log entry when you call this action. Do not include
+sensitive information in request parameters because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
+secretsmanager:GetRandomPassword. For more information, see  IAM policy actions for Secrets
+Manager and Authentication and access control in Secrets Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -370,9 +387,11 @@ end
 
 Retrieves the JSON text of the resource-based policy document attached to the secret. For
 more information about permissions policies attached to a secret, see Permissions policies
-attached to a secret.  Required permissions:  secretsmanager:GetResourcePolicy. For more
-information, see  IAM policy actions for Secrets Manager and Authentication and access
-control in Secrets Manager.
+attached to a secret. Secrets Manager generates a CloudTrail log entry when you call this
+action. Do not include sensitive information in request parameters because it might be
+logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required
+permissions:  secretsmanager:GetResourcePolicy. For more information, see  IAM policy
+actions for Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to retrieve the attached resource-based policy
@@ -412,11 +431,14 @@ specified version of a secret, whichever contains content. We recommend that you
 secret values by using client-side caching. Caching secrets improves speed and reduces your
 costs. For more information, see Cache secrets for your applications. To retrieve the
 previous version of a secret, use VersionStage and specify AWSPREVIOUS. To revert to the
-previous version of a secret, call UpdateSecretVersionStage.  Required permissions:
-secretsmanager:GetSecretValue. If the secret is encrypted using a customer-managed key
-instead of the Amazon Web Services managed key aws/secretsmanager, then you also need
-kms:Decrypt permissions for that key. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+previous version of a secret, call UpdateSecretVersionStage. Secrets Manager generates a
+CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:  secretsmanager:GetSecretValue. If
+the secret is encrypted using a customer-managed key instead of the Amazon Web Services
+managed key aws/secretsmanager, then you also need kms:Decrypt permissions for that key.
+For more information, see  IAM policy actions for Secrets Manager and Authentication and
+access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to retrieve. For an ARN, we recommend that you
@@ -464,7 +486,10 @@ end
 
 Lists the versions of a secret. Secrets Manager uses staging labels to indicate the
 different versions of a secret. For more information, see  Secrets Manager concepts:
-Versions. To list the secrets in the account, use ListSecrets.  Required permissions:
+Versions. To list the secrets in the account, use ListSecrets. Secrets Manager generates a
+CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:
 secretsmanager:ListSecretVersionIds. For more information, see  IAM policy actions for
 Secrets Manager and Authentication and access control in Secrets Manager.
 
@@ -521,8 +546,11 @@ reflect changes from the last five minutes. To get the latest information for a 
 secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To
 get the secret value from SecretString or SecretBinary, call GetSecretValue. For
 information about finding secrets in the console, see Find secrets in Secrets Manager.
-Required permissions:  secretsmanager:ListSecrets. For more information, see  IAM policy
-actions for Secrets Manager and Authentication and access control in Secrets Manager.
+Secrets Manager generates a CloudTrail log entry when you call this action. Do not include
+sensitive information in request parameters because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
+secretsmanager:ListSecrets. For more information, see  IAM policy actions for Secrets
+Manager and Authentication and access control in Secrets Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -555,9 +583,11 @@ end
 Attaches a resource-based permission policy to a secret. A resource-based policy is
 optional. For more information, see Authentication and access control for Secrets Manager
 For information about attaching a policy in the console, see Attach a permissions policy to
-a secret.  Required permissions:  secretsmanager:PutResourcePolicy. For more information,
-see  IAM policy actions for Secrets Manager and Authentication and access control in
-Secrets Manager.
+a secret. Secrets Manager generates a CloudTrail log entry when you call this action. Do
+not include sensitive information in request parameters because it might be logged. For
+more information, see Logging Secrets Manager events with CloudTrail.  Required
+permissions:  secretsmanager:PutResourcePolicy. For more information, see  IAM policy
+actions for Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `resource_policy`: A JSON-formatted string for an Amazon Web Services resource-based
@@ -618,13 +648,16 @@ quota for secret versions. You can specify the staging labels to attach to the n
 in VersionStages. If you don't include VersionStages, then Secrets Manager automatically
 moves the staging label AWSCURRENT to this version. If this operation creates the first
 version for the secret, then Secrets Manager automatically attaches the staging label
-AWSCURRENT to it . If this operation moves the staging label AWSCURRENT from another
-version to this version, then Secrets Manager also automatically moves the staging label
+AWSCURRENT to it. If this operation moves the staging label AWSCURRENT from another version
+to this version, then Secrets Manager also automatically moves the staging label
 AWSPREVIOUS to the version that AWSCURRENT was removed from. This operation is idempotent.
 If you call this operation with a ClientRequestToken that matches an existing version's
 VersionId, and you specify the same secret data, the operation succeeds but does nothing.
 However, if the secret data is different, then the operation fails because you can't modify
-an existing version; you can only create new ones.  Required permissions:
+an existing version; you can only create new ones. Secrets Manager generates a CloudTrail
+log entry when you call this action. Do not include sensitive information in request
+parameters except SecretBinary or SecretString because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
 secretsmanager:PutSecretValue. For more information, see  IAM policy actions for Secrets
 Manager and Authentication and access control in Secrets Manager.
 
@@ -703,9 +736,12 @@ end
     remove_regions_from_replication(remove_replica_regions, secret_id, params::Dict{String,<:Any})
 
 For a secret that is replicated to other Regions, deletes the secret replicas from the
-Regions you specify.  Required permissions:  secretsmanager:RemoveRegionsFromReplication.
-For more information, see  IAM policy actions for Secrets Manager and Authentication and
-access control in Secrets Manager.
+Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this
+action. Do not include sensitive information in request parameters because it might be
+logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required
+permissions:  secretsmanager:RemoveRegionsFromReplication. For more information, see  IAM
+policy actions for Secrets Manager and Authentication and access control in Secrets
+Manager.
 
 # Arguments
 - `remove_replica_regions`: The Regions of the replicas to remove.
@@ -750,7 +786,10 @@ end
     replicate_secret_to_regions(add_replica_regions, secret_id)
     replicate_secret_to_regions(add_replica_regions, secret_id, params::Dict{String,<:Any})
 
-Replicates the secret to a new Regions. See Multi-Region secrets.  Required permissions:
+Replicates the secret to a new Regions. See Multi-Region secrets. Secrets Manager generates
+a CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:
 secretsmanager:ReplicateSecretToRegions. For more information, see  IAM policy actions for
 Secrets Manager and Authentication and access control in Secrets Manager.
 
@@ -800,9 +839,12 @@ end
     restore_secret(secret_id, params::Dict{String,<:Any})
 
 Cancels the scheduled deletion of a secret by removing the DeletedDate time stamp. You can
-access a secret again after it has been restored.  Required permissions:
-secretsmanager:RestoreSecret. For more information, see  IAM policy actions for Secrets
-Manager and Authentication and access control in Secrets Manager.
+access a secret again after it has been restored. Secrets Manager generates a CloudTrail
+log entry when you call this action. Do not include sensitive information in request
+parameters because it might be logged. For more information, see Logging Secrets Manager
+events with CloudTrail.  Required permissions:  secretsmanager:RestoreSecret. For more
+information, see  IAM policy actions for Secrets Manager and Authentication and access
+control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to restore. For an ARN, we recommend that you
@@ -855,8 +897,11 @@ matches your Rotation strategy. When rotation is successful, the AWSPENDING stag
 might be attached to the same version as the AWSCURRENT version, or it might not be
 attached to any version. If the AWSPENDING staging label is present but not attached to the
 same version as AWSCURRENT, then any later invocation of RotateSecret assumes that a
-previous rotation request is still in progress and returns an error.  Required permissions:
- secretsmanager:RotateSecret. For more information, see  IAM policy actions for Secrets
+previous rotation request is still in progress and returns an error. Secrets Manager
+generates a CloudTrail log entry when you call this action. Do not include sensitive
+information in request parameters because it might be logged. For more information, see
+Logging Secrets Manager events with CloudTrail.  Required permissions:
+secretsmanager:RotateSecret. For more information, see  IAM policy actions for Secrets
 Manager and Authentication and access control in Secrets Manager. You also need
 lambda:InvokeFunction permissions on the rotation function. For more information, see
 Permissions for rotation.
@@ -924,7 +969,10 @@ end
 
 Removes the link between the replica secret and the primary secret and promotes the replica
 to a primary secret in the replica Region. You must call this operation from the Region in
-which you want to promote the replica to a primary secret.  Required permissions:
+which you want to promote the replica to a primary secret. Secrets Manager generates a
+CloudTrail log entry when you call this action. Do not include sensitive information in
+request parameters because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:
 secretsmanager:StopReplicationToReplica. For more information, see  IAM policy actions for
 Secrets Manager and Authentication and access control in Secrets Manager.
 
@@ -975,9 +1023,11 @@ letters, spaces, and numbers representable in UTF-8, plus the following special 
 + - = . _ : / @.    If you use tags as part of your security strategy, then adding or
 removing a tag can change permissions. If successfully completing this operation would
 result in you losing your permissions for this secret, then the operation is blocked and
-returns an Access Denied error.   Required permissions:  secretsmanager:TagResource. For
-more information, see  IAM policy actions for Secrets Manager and Authentication and access
-control in Secrets Manager.
+returns an Access Denied error.  Secrets Manager generates a CloudTrail log entry when you
+call this action. Do not include sensitive information in request parameters because it
+might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
+Required permissions:  secretsmanager:TagResource. For more information, see  IAM policy
+actions for Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The identifier for the secret to attach tags to. You can specify either the
@@ -1025,9 +1075,12 @@ Removes specific tags from a secret. This operation is idempotent. If a requeste
 not attached to the secret, no error is returned and the secret metadata is unchanged.  If
 you use tags as part of your security strategy, then removing a tag can change permissions.
 If successfully completing this operation would result in you losing your permissions for
-this secret, then the operation is blocked and returns an Access Denied error.   Required
-permissions:  secretsmanager:UntagResource. For more information, see  IAM policy actions
-for Secrets Manager and Authentication and access control in Secrets Manager.
+this secret, then the operation is blocked and returns an Access Denied error.  Secrets
+Manager generates a CloudTrail log entry when you call this action. Do not include
+sensitive information in request parameters because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
+secretsmanager:UntagResource. For more information, see  IAM policy actions for Secrets
+Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret. For an ARN, we recommend that you specify a
@@ -1082,12 +1135,16 @@ outdated versions when there are more than 100, but it does not remove versions 
 less than 24 hours ago. If you update the secret value more than once every 10 minutes, you
 create more versions than Secrets Manager removes, and you will reach the quota for secret
 versions. If you include SecretString or SecretBinary to create a new secret version,
-Secrets Manager automatically attaches the staging label AWSCURRENT to the new version.  If
-you call this operation with a ClientRequestToken that matches an existing version's
-VersionId, the operation results in an error. You can't modify an existing version, you can
-only create a new version. To remove a version, remove all staging labels from it. See
-UpdateSecretVersionStage.  Required permissions:  secretsmanager:UpdateSecret. For more
-information, see  IAM policy actions for Secrets Manager and Authentication and access
+Secrets Manager automatically moves the staging label AWSCURRENT to the new version. Then
+it attaches the label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you
+call this operation with a ClientRequestToken that matches an existing version's VersionId,
+the operation results in an error. You can't modify an existing version, you can only
+create a new version. To remove a version, remove all staging labels from it. See
+UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry when you call
+this action. Do not include sensitive information in request parameters except SecretBinary
+or SecretString because it might be logged. For more information, see Logging Secrets
+Manager events with CloudTrail.  Required permissions:  secretsmanager:UpdateSecret. For
+more information, see  IAM policy actions for Secrets Manager and Authentication and access
 control in Secrets Manager. If you use a customer managed key, you must also have
 kms:GenerateDataKey and kms:Decrypt permissions on the key. For more information, see
 Secret encryption and decryption.
@@ -1175,9 +1232,12 @@ version.  You can move the AWSCURRENT staging label to this version by including
 call.  Whenever you move AWSCURRENT, Secrets Manager automatically moves the label
 AWSPREVIOUS to the version that AWSCURRENT was removed from.  If this action results in the
 last label being removed from a version, then the version is considered to be 'deprecated'
-and can be deleted by Secrets Manager.  Required permissions:
-secretsmanager:UpdateSecretVersionStage. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+and can be deleted by Secrets Manager. Secrets Manager generates a CloudTrail log entry
+when you call this action. Do not include sensitive information in request parameters
+because it might be logged. For more information, see Logging Secrets Manager events with
+CloudTrail.  Required permissions:  secretsmanager:UpdateSecretVersionStage. For more
+information, see  IAM policy actions for Secrets Manager and Authentication and access
+control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or the name of the secret with the version and staging labelsto
@@ -1236,9 +1296,12 @@ secret. A resource-based policy is optional for secrets. The API performs three 
 validating the policy:   Sends a call to Zelkova, an automated reasoning engine, to ensure
 your resource policy does not allow broad access to your secret, for example policies that
 use a wildcard for the principal.   Checks for correct syntax in a policy.   Verifies the
-policy does not lock out a caller.    Required permissions:
-secretsmanager:ValidateResourcePolicy. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+policy does not lock out a caller.   Secrets Manager generates a CloudTrail log entry when
+you call this action. Do not include sensitive information in request parameters because it
+might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
+Required permissions:  secretsmanager:ValidateResourcePolicy. For more information, see
+IAM policy actions for Secrets Manager and Authentication and access control in Secrets
+Manager.
 
 # Arguments
 - `resource_policy`: A JSON-formatted string that contains an Amazon Web Services

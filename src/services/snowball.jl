@@ -138,7 +138,7 @@ these five node jobs have been created.
   In addition, most countries in the EU have access to standard shipping, which typically
   takes less than a week, one way.   In India, Snow devices are delivered in one to seven
   days.   In the US, you have access to one-day shipping and two-day shipping.
-- `snowball_type`: The type of Snow Family Devices to use for this cluster.   For cluster
+- `snowball_type`: The type of Snow Family devices to use for this cluster.   For cluster
   jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  For
   more information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
@@ -231,18 +231,19 @@ you only need to provide the clusterId value; the other job attributes are inher
 the cluster.   Only the Snowball; Edge device type is supported when ordering clustered
 jobs. The device capacity is optional. Availability of device types differ by Amazon Web
 Services Region. For more information about Region availability, see Amazon Web Services
-Regional Services.    Snow Family Devices and their capacities.    Snow Family device type:
+Regional Services.    Snow Family devices and their capacities.    Snow Family device type:
 SNC1_SSD    Capacity: T14   Description: Snowcone       Snow Family device type: SNC1_HDD
  Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98
 Description: Snowball Edge Storage Optimized for data transfer only       Device type:
 EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU
 Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without
 GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized
-with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original
-Snowball device  This device is only available in the Ningxia, Beijing, and Singapore
-Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description:
+with EC2 Compute      Device type: V3_5C    Capacity: T32   Description: Snowball Edge
+Compute Optimized without GPU      Device type: STANDARD    Capacity: T50   Description:
 Original Snowball device  This device is only available in the Ningxia, Beijing, and
-Singapore Amazon Web Services Region.
+Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80
+Description: Original Snowball device  This device is only available in the Ningxia,
+Beijing, and Singapore Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -298,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"SnowballType"`: The type of Snow Family Devices to use for this job.   For cluster
+- `"SnowballType"`: The type of Snow Family devices to use for this job.   For cluster
   jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The
   type of Amazon Web Services Snow device to use for this job. Currently, the only supported
   device type for cluster jobs is EDGE. For more information, see Snowball Edge Device
@@ -334,9 +335,9 @@ Services provides discounts for long-term pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
-  the device should be renewed.
-- `"SnowballType"`: The type of Snow Family Devices to use for the long-term pricing job.
+- `"IsLongTermPricingAutoRenew"`: snowballty Specifies whether the current long-term
+  pricing type for the device should be renewed.
+- `"SnowballType"`: The type of Snow Family devices to use for the long-term pricing job.
 """
 function create_long_term_pricing(
     LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -572,14 +573,15 @@ Returns a link to an Amazon S3 presigned URL for the manifest file associated wi
 specified JobId value. You can access the manifest file for up to 60 minutes after this
 request has been made. To access the manifest file after 60 minutes have passed, you'll
 have to make another call to the GetJobManifest action. The manifest is an encrypted file
-that you can download after your job enters the WithCustomer status. The manifest is
-decrypted by using the UnlockCode code value, when you pass both values to the Snow device
-through the Snowball client when the client is started for the first time. As a best
-practice, we recommend that you don't save a copy of an UnlockCode value in the same
-location as the manifest file for that job. Saving these separately helps prevent
-unauthorized parties from gaining access to the Snow device associated with that job. The
-credentials of a given job, including its manifest file and unlock code, expire 360 days
-after the job is created.
+that you can download after your job enters the WithCustomer status. This is the only valid
+status for calling this API as the manifest and UnlockCode code value are used for securing
+your device and should only be used when you have the device. The manifest is decrypted by
+using the UnlockCode code value, when you pass both values to the Snow device through the
+Snowball client when the client is started for the first time.  As a best practice, we
+recommend that you don't save a copy of an UnlockCode value in the same location as the
+manifest file for that job. Saving these separately helps prevent unauthorized parties from
+gaining access to the Snow device associated with that job. The credentials of a given job,
+including its manifest file and unlock code, expire 360 days after the job is created.
 
 # Arguments
 - `job_id`: The ID for a job that you want to get the manifest file for, for example
@@ -613,10 +615,12 @@ Returns the UnlockCode code value for the specified job. A particular UnlockCode
 be accessed for up to 360 days after the associated job has been created. The UnlockCode
 value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is
 used to decrypt the manifest file when it is passed along with the manifest to the Snow
-device through the Snowball client when the client is started for the first time. As a best
-practice, we recommend that you don't save a copy of the UnlockCode in the same location as
-the manifest file for that job. Saving these separately helps prevent unauthorized parties
-from gaining access to the Snow device associated with that job.
+device through the Snowball client when the client is started for the first time. The only
+valid status for calling this API is WithCustomer as the manifest and Unlock code values
+are used for securing your device and should only be used when you have the device. As a
+best practice, we recommend that you don't save a copy of the UnlockCode in the same
+location as the manifest file for that job. Saving these separately helps prevent
+unauthorized parties from gaining access to the Snow device associated with that job.
 
 # Arguments
 - `job_id`: The ID for the job that you want to get the UnlockCode value for, for example

@@ -182,6 +182,7 @@ const connect_contact_lens = AWS.RestJSONService("connect", "contact-lens", "202
 const connectcampaigns = AWS.RestJSONService(
     "connect-campaigns", "connect-campaigns", "2021-01-30"
 )
+const connectcases = AWS.RestJSONService("cases", "cases", "2022-10-03")
 const connectparticipant = AWS.RestJSONService(
     "execute-api", "participant.connect", "2018-09-07"
 )
@@ -457,6 +458,9 @@ const migration_hub_refactor_spaces = AWS.RestJSONService(
 )
 const migrationhub_config = AWS.JSONService(
     "mgh", "migrationhub-config", "2019-06-30", "1.1", "AWSMigrationHubMultiAccountService"
+)
+const migrationhuborchestrator = AWS.RestJSONService(
+    "migrationhub-orchestrator", "migrationhub-orchestrator", "2021-08-28"
 )
 const migrationhubstrategy = AWS.RestJSONService(
     "migrationhub-strategy", "migrationhub-strategy", "2020-02-19"

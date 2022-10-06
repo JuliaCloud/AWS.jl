@@ -122,6 +122,9 @@ Creates a new Cost Category with the requested name and rules.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DefaultValue"`:
+- `"EffectiveStart"`: The Cost Category's effective start date. It can only be a billing
+  start date (first day of the month). If the date isn't provided, it's the first day of the
+  current month. Dates can't be before the previous twelve months, or in the future.
 - `"ResourceTags"`: An optional list of tags to associate with the specified  CostCategory
   . You can use resource tags to control access to your cost category using IAM policies.
   Each tag consists of a key and a value, and each key must be unique for the resource. The
@@ -740,7 +743,8 @@ search the dimension values for an arbitrary string.
 
 # Arguments
 - `dimension`: The name of the dimension. Each Dimension is available for a different
-  Context. For more information, see Context.
+  Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be
+  used in CostCategoryRule.
 - `time_period`: The start date and end date for retrieving the dimension values. The start
   date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and
   end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and
@@ -1897,6 +1901,9 @@ categorization for the previous months.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DefaultValue"`:
+- `"EffectiveStart"`: The Cost Category's effective start date. It can only be a billing
+  start date (first day of the month). If the date isn't provided, it's the first day of the
+  current month. Dates can't be before the previous twelve months, or in the future.
 - `"SplitChargeRules"`:  The split charge rules used to allocate your charges between your
   Cost Category values.
 """

@@ -76,7 +76,7 @@ end
     delete_lifecycle_policy(policy_id, params::Dict{String,<:Any})
 
 Deletes the specified lifecycle policy and halts the automated operations that the policy
-specified.
+specified. For more information about deleting a policy, see Delete lifecycle policies.
 
 # Arguments
 - `policy_id`: The identifier of the lifecycle policy.
@@ -276,7 +276,8 @@ end
     update_lifecycle_policy(policy_id)
     update_lifecycle_policy(policy_id, params::Dict{String,<:Any})
 
-Updates the specified lifecycle policy.
+Updates the specified lifecycle policy. For more information about updating a policy, see
+Modify lifecycle policies.
 
 # Arguments
 - `policy_id`: The identifier of the lifecycle policy.

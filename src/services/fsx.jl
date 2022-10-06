@@ -249,8 +249,8 @@ function create_backup(
 end
 
 """
-    create_data_repository_association(data_repository_path, file_system_id, file_system_path)
-    create_data_repository_association(data_repository_path, file_system_id, file_system_path, params::Dict{String,<:Any})
+    create_data_repository_association(data_repository_path, file_system_id)
+    create_data_repository_association(data_repository_path, file_system_id, params::Dict{String,<:Any})
 
 Creates an Amazon FSx for Lustre data repository association (DRA). A data repository
 association is a link between a directory on the file system and an Amazon S3 bucket or
@@ -260,7 +260,8 @@ deployment type. Each data repository association must have a unique Amazon FSx 
 directory and a unique S3 bucket or prefix associated with it. You can configure a data
 repository association for automatic import only, for automatic export only, or for both.
 To learn more about linking a data repository to your file system, see Linking your file
-system to an S3 bucket.
+system to an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File
+Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
 
 # Arguments
 - `data_repository_path`: The path to the Amazon S3 data repository that will be linked to
@@ -268,17 +269,6 @@ system to an S3 bucket.
   s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be
   imported from or exported to.
 - `file_system_id`:
-- `file_system_path`: A path on the file system that points to a high-level directory (such
-  as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with
-  DataRepositoryPath. The leading forward slash in the name is required. Two data repository
-  associations cannot have overlapping file system paths. For example, if a data repository
-  is associated with file system path /ns1/, then you cannot link another data repository
-  with file system path /ns1/ns2. This path specifies where in your file system files will be
-  exported from or imported to. This file system directory can be linked to only one Amazon
-  S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a
-  forward slash (/) as the file system path, you can link only 1 data repository to the file
-  system. You can only specify \"/\" as the file system path for the first data repository
-  associated with a file system.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -286,6 +276,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   import metadata from the data repository to the file system after the data repository
   association is created. Default is false.
 - `"ClientRequestToken"`:
+- `"FileSystemPath"`: A path on the file system that points to a high-level directory (such
+  as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with
+  DataRepositoryPath. The leading forward slash in the name is required. Two data repository
+  associations cannot have overlapping file system paths. For example, if a data repository
+  is associated with file system path /ns1/, then you cannot link another data repository
+  with file system path /ns1/ns2. This path specifies where in your file system files will be
+  exported from or imported to. This file system directory can be linked to only one Amazon
+  S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a
+  forward slash (/) as the file system path, you can link only one data repository to the
+  file system. You can only specify \"/\" as the file system path for the first data
+  repository associated with a file system.
 - `"ImportedFileChunkSize"`: For files imported from a data repository, this value
   determines the stripe count and maximum amount of data per file (in MiB) stored on a single
   physical disk. The maximum number of disks that a single file can be striped across is
@@ -300,17 +301,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 function create_data_repository_association(
-    DataRepositoryPath,
-    FileSystemId,
-    FileSystemPath;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DataRepositoryPath, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
         "CreateDataRepositoryAssociation",
         Dict{String,Any}(
             "DataRepositoryPath" => DataRepositoryPath,
             "FileSystemId" => FileSystemId,
-            "FileSystemPath" => FileSystemPath,
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
@@ -320,7 +317,6 @@ end
 function create_data_repository_association(
     DataRepositoryPath,
     FileSystemId,
-    FileSystemPath,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -332,7 +328,6 @@ function create_data_repository_association(
                 Dict{String,Any}(
                     "DataRepositoryPath" => DataRepositoryPath,
                     "FileSystemId" => FileSystemId,
-                    "FileSystemPath" => FileSystemPath,
                     "ClientRequestToken" => string(uuid4()),
                 ),
                 params,
@@ -366,6 +361,8 @@ repository to your file system, see Linking your file system to an S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CapacityToRelease"`: Specifies the amount of data to release, in GiB, by an Amazon File
+  Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
 - `"ClientRequestToken"`:
 - `"Paths"`: A list of paths for the data repository task to use when the task is
   processed. If a path that you provide isn't valid, the task fails.   For export tasks, the
@@ -421,6 +418,109 @@ function create_data_repository_task(
 end
 
 """
+    create_file_cache(file_cache_type, file_cache_type_version, storage_capacity, subnet_ids)
+    create_file_cache(file_cache_type, file_cache_type_version, storage_capacity, subnet_ids, params::Dict{String,<:Any})
+
+Creates a new Amazon File Cache resource. You can use this operation with a client request
+token in the request that Amazon File Cache uses to ensure idempotent creation. If a cache
+with the specified client request token exists and the parameters match, CreateFileCache
+returns the description of the existing cache. If a cache with the specified client request
+token exists and the parameters don't match, this call returns IncompatibleParameterError.
+If a file cache with the specified client request token doesn't exist, CreateFileCache does
+the following:    Creates a new, empty Amazon File Cache resourcewith an assigned ID, and
+an initial lifecycle state of CREATING.   Returns the description of the cache in JSON
+format.    The CreateFileCache call returns while the cache's lifecycle state is still
+CREATING. You can check the cache creation status by calling the DescribeFileCaches
+operation, which returns the cache state along with other information.
+
+# Arguments
+- `file_cache_type`: The type of cache that you're creating, which must be LUSTRE.
+- `file_cache_type_version`: Sets the Lustre version for the cache that you're creating,
+  which must be 2.12.
+- `storage_capacity`: The storage capacity of the cache in gibibytes (GiB). Valid values
+  are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
+- `subnet_ids`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: An idempotency token for resource creation, in a string of up to
+  64 ASCII characters. This token is automatically filled on your behalf when you use the
+  Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent
+  operation, you can retry a CreateFileCache operation without the risk of creating an extra
+  cache. This approach can be useful when an initial call fails in a way that makes it
+  unclear whether a cache was created. Examples are if a transport level timeout occurred, or
+  your connection was reset. If you use the same client request token and the initial call
+  created a cache, the client receives success as long as the parameters are the same.
+- `"CopyTagsToDataRepositoryAssociations"`: A boolean flag indicating whether tags for the
+  cache should be copied to data repository associations. This value defaults to false.
+- `"DataRepositoryAssociations"`: A list of up to 8 configurations for data repository
+  associations (DRAs) to be created during the cache creation. The DRAs link the cache to
+  either an Amazon S3 data repository or a Network File System (NFS) data repository that
+  supports the NFSv3 protocol. The DRA configurations must meet the following requirements:
+  All configurations on the list must be of the same data repository type, either all S3 or
+  all NFS. A cache can't link to different data repository types at the same time.   An NFS
+  DRA must link to an NFS file system that supports the NFSv3 protocol.   DRA automatic
+  import and automatic export is not supported.
+- `"KmsKeyId"`: Specifies the ID of the Key Management Service (KMS) key to use for
+  encrypting data on an Amazon File Cache. If a KmsKeyId isn't specified, the Amazon
+  FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key
+  Management Service API Reference.
+- `"LustreConfiguration"`: The configuration for the Amazon File Cache resource being
+  created.
+- `"SecurityGroupIds"`: A list of IDs specifying the security groups to apply to all
+  network interfaces created for Amazon File Cache access. This list isn't returned in later
+  requests to describe the cache.
+- `"Tags"`:
+"""
+function create_file_cache(
+    FileCacheType,
+    FileCacheTypeVersion,
+    StorageCapacity,
+    SubnetIds;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "CreateFileCache",
+        Dict{String,Any}(
+            "FileCacheType" => FileCacheType,
+            "FileCacheTypeVersion" => FileCacheTypeVersion,
+            "StorageCapacity" => StorageCapacity,
+            "SubnetIds" => SubnetIds,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_file_cache(
+    FileCacheType,
+    FileCacheTypeVersion,
+    StorageCapacity,
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "CreateFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheType" => FileCacheType,
+                    "FileCacheTypeVersion" => FileCacheTypeVersion,
+                    "StorageCapacity" => StorageCapacity,
+                    "SubnetIds" => SubnetIds,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_file_system(file_system_type, storage_capacity, subnet_ids)
     create_file_system(file_system_type, storage_capacity, subnet_ids, params::Dict{String,<:Any})
 
@@ -441,15 +541,7 @@ the specified client request token exists and the parameters don't match, this c
 IncompatibleParameterError. If a file system with the specified client request token
 doesn't exist, CreateFileSystem does the following:    Creates a new, empty Amazon FSx file
 system with an assigned ID, and an initial lifecycle state of CREATING.   Returns the
-description of the file system in JSON format.   This operation requires a client request
-token in the request that Amazon FSx uses to ensure idempotent creation. This means that
-calling the operation multiple times with the same client request token has no effect. By
-using the idempotent operation, you can retry a CreateFileSystem operation without the risk
-of creating an extra file system. This approach can be useful when an initial call fails in
-a way that makes it unclear whether a file system was created. Examples are if a
-transport-level timeout occurred, or your connection was reset. If you use the same client
-request token and the initial call created a file system, the client receives a success
-message as long as the parameters are the same.  The CreateFileSystem call returns while
+description of the file system in JSON format.    The CreateFileSystem call returns while
 the file system's lifecycle state is still CREATING. You can check the file-system creation
 status by calling the DescribeFileSystems operation, which returns the file system state
 along with other information.
@@ -610,6 +702,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroupIds"`: A list of IDs for the security groups that apply to the specified
   network interfaces created for file system access. These security groups apply to all
   network interfaces. This value isn't returned in later DescribeFileSystem requests.
+- `"StorageCapacity"`: Sets the storage capacity of the OpenZFS file system that you're
+  creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB
+  (512 TiB). However, the value that you specify must be equal to or greater than the
+  backup's storage capacity value. If you don't use the StorageCapacity parameter, the
+  default is the backup's StorageCapacity value. If used to create a file system other than
+  OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you
+  provide any other value, Amazon FSx responds with a 400 Bad Request.
 - `"StorageType"`: Sets the storage type for the Windows or OpenZFS file system that you're
   creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive
   storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use
@@ -948,8 +1047,8 @@ function delete_backup(
 end
 
 """
-    delete_data_repository_association(association_id, delete_data_in_file_system)
-    delete_data_repository_association(association_id, delete_data_in_file_system, params::Dict{String,<:Any})
+    delete_data_repository_association(association_id)
+    delete_data_repository_association(association_id, params::Dict{String,<:Any})
 
 Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the
 data repository association unlinks the file system from the Amazon S3 bucket. When
@@ -959,22 +1058,20 @@ associations are supported only for file systems with the Persistent_2 deploymen
 
 # Arguments
 - `association_id`: The ID of the data repository association that you want to delete.
-- `delete_data_in_file_system`: Set to true to delete the data in the file system that
-  corresponds to the data repository association.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
+- `"DeleteDataInFileSystem"`: Set to true to delete the data in the file system that
+  corresponds to the data repository association.
 """
 function delete_data_repository_association(
-    AssociationId, DeleteDataInFileSystem; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
         "DeleteDataRepositoryAssociation",
         Dict{String,Any}(
-            "AssociationId" => AssociationId,
-            "DeleteDataInFileSystem" => DeleteDataInFileSystem,
-            "ClientRequestToken" => string(uuid4()),
+            "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -982,7 +1079,6 @@ function delete_data_repository_association(
 end
 function delete_data_repository_association(
     AssociationId,
-    DeleteDataInFileSystem,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -993,8 +1089,56 @@ function delete_data_repository_association(
                 _merge,
                 Dict{String,Any}(
                     "AssociationId" => AssociationId,
-                    "DeleteDataInFileSystem" => DeleteDataInFileSystem,
                     "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_file_cache(file_cache_id)
+    delete_file_cache(file_cache_id, params::Dict{String,<:Any})
+
+Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its
+data is gone. The DeleteFileCache operation returns while the cache has the DELETING
+status. You can check the cache deletion status by calling the DescribeFileCaches
+operation, which returns a list of caches in your account. If you pass the cache ID for a
+deleted cache, the DescribeFileCaches operation returns a FileCacheNotFound error.  The
+data in a deleted cache is also deleted and can't be recovered by any means.
+
+# Arguments
+- `file_cache_id`: The ID of the cache that's being deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+"""
+function delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config())
+    return fsx(
+        "DeleteFileCache",
+        Dict{String,Any}(
+            "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_file_cache(
+    FileCacheId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "DeleteFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -1259,20 +1403,22 @@ end
     describe_data_repository_associations()
     describe_data_repository_associations(params::Dict{String,<:Any})
 
-Returns the description of specific Amazon FSx for Lustre data repository associations, if
-one or more AssociationIds values are provided in the request, or if filters are used in
-the request. Data repository associations are supported only for file systems with the
-Persistent_2 deployment type. You can use filters to narrow the response to include just
-data repository associations for specific file systems (use the file-system-id filter with
-the ID of the file system) or data repository associations for a specific repository type
-(use the data-repository-type filter with a value of S3). If you don't use filters, the
+Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data
+repository associations, if one or more AssociationIds values are provided in the request,
+or if filters are used in the request. Data repository associations are supported only for
+Amazon FSx for Lustre file systems with the Persistent_2 deployment type and for Amazon
+File Cache resources. You can use filters to narrow the response to include just data
+repository associations for specific file systems (use the file-system-id filter with the
+ID of the file system) or caches (use the file-cache-id filter with the ID of the cache),
+or data repository associations for a specific repository type (use the
+data-repository-type filter with a value of S3 or NFS). If you don't use filters, the
 response returns all data repository associations owned by your Amazon Web Services account
 in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all
 data repository associations, you can paginate the response by using the optional
 MaxResults parameter to limit the number of data repository associations returned in a
-response. If more data repository associations remain, Amazon FSx returns a NextToken value
-in the response. In this case, send a later request with the NextToken request parameter
-set to the value of NextToken from the last response.
+response. If more data repository associations remain, a NextToken value is returned in the
+response. In this case, send a later request with the NextToken request parameter set to
+the value of NextToken from the last response.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1307,16 +1453,16 @@ end
     describe_data_repository_tasks()
     describe_data_repository_tasks(params::Dict{String,<:Any})
 
-Returns the description of specific Amazon FSx for Lustre data repository tasks, if one or
-more TaskIds values are provided in the request, or if filters are used in the request. You
-can use filters to narrow the response to include just tasks for specific file systems, or
-tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned
-by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that
-you're calling. When retrieving all tasks, you can paginate the response by using the
-optional MaxResults parameter to limit the number of tasks returned in a response. If more
-tasks remain, Amazon FSx returns a NextToken value in the response. In this case, send a
-later request with the NextToken request parameter set to the value of NextToken from the
-last response.
+Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data
+repository tasks, if one or more TaskIds values are provided in the request, or if filters
+are used in the request. You can use filters to narrow the response to include just tasks
+for specific file systems or caches, or tasks in a specific lifecycle state. Otherwise, it
+returns all data repository tasks owned by your Amazon Web Services account in the Amazon
+Web Services Region of the endpoint that you're calling. When retrieving all tasks, you can
+paginate the response by using the optional MaxResults parameter to limit the number of
+tasks returned in a response. If more tasks remain, a NextToken value is returned in the
+response. In this case, send a later request with the NextToken request parameter set to
+the value of NextToken from the last response.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1342,6 +1488,43 @@ function describe_data_repository_tasks(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_file_caches()
+    describe_file_caches(params::Dict{String,<:Any})
+
+Returns the description of a specific Amazon File Cache resource, if a FileCacheIds value
+is provided for that cache. Otherwise, it returns descriptions of all caches owned by your
+Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're
+calling. When retrieving all cache descriptions, you can optionally specify the MaxResults
+parameter to limit the number of descriptions in a response. If more cache descriptions
+remain, the operation returns a NextToken value in the response. In this case, send a later
+request with the NextToken request parameter set to the value of NextToken from the last
+response. This operation is used in an iterative process to retrieve a list of your cache
+descriptions. DescribeFileCaches is called first without a NextTokenvalue. Then the
+operation continues to be called with the NextToken parameter set to the value of the last
+NextToken value until a response has no NextToken. When using this operation, keep the
+following in mind:   The implementation might return fewer than MaxResults cache
+descriptions while still including a NextToken value.   The order of caches returned in the
+response of one DescribeFileCaches call and the order of caches returned across the
+responses of a multicall iteration is unspecified.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FileCacheIds"`: IDs of the caches whose descriptions you want to retrieve (String).
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function describe_file_caches(; aws_config::AbstractAWSConfig=global_aws_config())
+    return fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function describe_file_caches(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fsx(
+        "DescribeFileCaches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1900,6 +2083,52 @@ function update_data_repository_association(
                 Dict{String,Any}(
                     "AssociationId" => AssociationId,
                     "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_file_cache(file_cache_id)
+    update_file_cache(file_cache_id, params::Dict{String,<:Any})
+
+Updates the configuration of an existing Amazon File Cache resource. You can update
+multiple properties in a single request.
+
+# Arguments
+- `file_cache_id`: The ID of the cache that you are updating.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"LustreConfiguration"`: The configuration updates for an Amazon File Cache resource.
+"""
+function update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config())
+    return fsx(
+        "UpdateFileCache",
+        Dict{String,Any}(
+            "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_file_cache(
+    FileCacheId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "UpdateFileCache",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
                 ),
                 params,
             ),
