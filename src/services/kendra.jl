@@ -8,13 +8,13 @@ using AWS.UUIDs
     associate_entities_to_experience(entity_list, id, index_id)
     associate_entities_to_experience(entity_list, id, index_id, params::Dict{String,<:Any})
 
-Grants users or groups in your Amazon Web Services SSO identity source access to your
-Amazon Kendra experience. You can create an Amazon Kendra experience such as a search
-application. For more information on creating a search application experience, see Building
-a search experience with no code.
+Grants users or groups in your IAM Identity Center identity source access to your Amazon
+Kendra experience. You can create an Amazon Kendra experience such as a search application.
+For more information on creating a search application experience, see Building a search
+experience with no code.
 
 # Arguments
-- `entity_list`: Lists users or groups in your Amazon Web Services SSO identity source.
+- `entity_list`: Lists users or groups in your IAM Identity Center identity source.
 - `id`: The identifier of your Amazon Kendra experience.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
@@ -56,18 +56,17 @@ end
     associate_personas_to_entities(id, index_id, personas)
     associate_personas_to_entities(id, index_id, personas, params::Dict{String,<:Any})
 
-Defines the specific permissions of users or groups in your Amazon Web Services SSO
-identity source with access to your Amazon Kendra experience. You can create an Amazon
-Kendra experience such as a search application. For more information on creating a search
+Defines the specific permissions of users or groups in your IAM Identity Center identity
+source with access to your Amazon Kendra experience. You can create an Amazon Kendra
+experience such as a search application. For more information on creating a search
 application experience, see Building a search experience with no code.
 
 # Arguments
 - `id`: The identifier of your Amazon Kendra experience.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 - `personas`: The personas that define the specific permissions of users or groups in your
-  Amazon Web Services SSO identity source. The available personas or access roles are Owner
-  and Viewer. For more information on these personas, see Providing access to your search
-  page.
+  IAM Identity Center identity source. The available personas or access roles are Owner and
+  Viewer. For more information on these personas, see Providing access to your search page.
 
 """
 function associate_personas_to_entities(
@@ -484,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access to your Amazon Kendra experience.
 - `"Description"`: A description for your Amazon Kendra experience.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access Query
-  API, QuerySuggestions API, SubmitFeedback API, and Amazon Web Services SSO that stores your
+  API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your
   user and group information. For more information, see IAM roles for Amazon Kendra.
 """
 function create_experience(IndexId, Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -636,8 +635,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control to filter search results on user context. All documents with no access control and
   all documents accessible to the user will be searchable and displayable.
 - `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an Amazon Web Services Single Sign On identity source. To configure this, see
-  UserGroupResolutionConfiguration.
+  from an IAM Identity Center (successor to Single Sign-On) identity source. To configure
+  this, see UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1484,13 +1483,13 @@ end
     disassociate_entities_from_experience(entity_list, id, index_id)
     disassociate_entities_from_experience(entity_list, id, index_id, params::Dict{String,<:Any})
 
-Prevents users or groups in your Amazon Web Services SSO identity source from accessing
-your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search
+Prevents users or groups in your IAM Identity Center identity source from accessing your
+Amazon Kendra experience. You can create an Amazon Kendra experience such as a search
 application. For more information on creating a search application experience, see Building
 a search experience with no code.
 
 # Arguments
-- `entity_list`: Lists users or groups in your Amazon Web Services SSO identity source.
+- `entity_list`: Lists users or groups in your IAM Identity Center identity source.
 - `id`: The identifier of your Amazon Kendra experience.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
@@ -1532,13 +1531,13 @@ end
     disassociate_personas_from_entities(entity_ids, id, index_id)
     disassociate_personas_from_entities(entity_ids, id, index_id, params::Dict{String,<:Any})
 
-Removes the specific permissions of users or groups in your Amazon Web Services SSO
-identity source with access to your Amazon Kendra experience. You can create an Amazon
-Kendra experience such as a search application. For more information on creating a search
+Removes the specific permissions of users or groups in your IAM Identity Center identity
+source with access to your Amazon Kendra experience. You can create an Amazon Kendra
+experience such as a search application. For more information on creating a search
 application experience, see Building a search experience with no code.
 
 # Arguments
-- `entity_ids`: The identifiers of users or groups in your Amazon Web Services SSO identity
+- `entity_ids`: The identifiers of users or groups in your IAM Identity Center identity
   source. For example, user IDs could be user emails.
 - `id`: The identifier of your Amazon Kendra experience.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
@@ -1862,9 +1861,9 @@ end
     list_experience_entities(id, index_id)
     list_experience_entities(id, index_id, params::Dict{String,<:Any})
 
-Lists users or groups in your Amazon Web Services SSO identity source that are granted
-access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as
-a search application. For more information on creating a search application experience, see
+Lists users or groups in your IAM Identity Center identity source that are granted access
+to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a
+search application. For more information on creating a search application experience, see
 Building a search experience with no code.
 
 # Arguments
@@ -2676,7 +2675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A new description for your Amazon Kendra experience.
 - `"Name"`: A new name for your Amazon Kendra experience.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access Query
-  API, QuerySuggestions API, SubmitFeedback API, and Amazon Web Services SSO that stores your
+  API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your
   user and group information. For more information, see IAM roles for Amazon Kendra.
 """
 function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2727,8 +2726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permission to access Amazon CloudWatch logs and metrics.
 - `"UserContextPolicy"`: The user context policy.
 - `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an Amazon Web Services Single Sign On identity source. To configure this, see
-  UserGroupResolutionConfiguration.
+  from an IAM Identity Center (successor to Single Sign-On) identity source. To configure
+  this, see UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())

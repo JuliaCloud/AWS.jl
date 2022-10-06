@@ -174,6 +174,42 @@ function get_application(
 end
 
 """
+    get_dashboard_for_job_run(application_id, job_run_id)
+    get_dashboard_for_job_run(application_id, job_run_id, params::Dict{String,<:Any})
+
+Returns a URL to access the job run dashboard.
+
+# Arguments
+- `application_id`: The ID of the application.
+- `job_run_id`: The ID of the job run.
+
+"""
+function get_dashboard_for_job_run(
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_dashboard_for_job_run(
+    applicationId,
+    jobRunId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_job_run(application_id, job_run_id)
     get_job_run(application_id, job_run_id, params::Dict{String,<:Any})
 

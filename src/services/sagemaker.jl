@@ -1354,6 +1354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asynchronous inference. This is a required field in order for your Endpoint to be invoked
   using InvokeEndpointAsync.
 - `"DataCaptureConfig"`:
+- `"ExplainerConfig"`: A member of CreateEndpointConfig that enables explainers.
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
   Service key that SageMaker uses to encrypt data on the storage volume attached to the ML
   compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:
@@ -9666,6 +9667,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that retrieves only training jobs with a specific status.
+- `"WarmPoolStatusEquals"`: A filter that retrieves only training jobs with a specific warm
+  pool status.
 """
 function list_training_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
@@ -12074,7 +12077,8 @@ end
     update_training_job(training_job_name)
     update_training_job(training_job_name, params::Dict{String,<:Any})
 
-Update a model training job to request a new Debugger profiling configuration.
+Update a model training job to request a new Debugger profiling configuration or to change
+warm pool retention length.
 
 # Arguments
 - `training_job_name`: The name of a training job to update the Debugger profiling
@@ -12086,6 +12090,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profiling, and storage paths.
 - `"ProfilerRuleConfigurations"`: Configuration information for Debugger rules for
   profiling system and framework metrics.
+- `"ResourceConfig"`: The training job ResourceConfig to update warm pool retention length.
 """
 function update_training_job(
     TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()

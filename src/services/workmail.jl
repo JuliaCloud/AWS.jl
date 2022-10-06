@@ -105,6 +105,54 @@ function associate_member_to_group(
 end
 
 """
+    assume_impersonation_role(impersonation_role_id, organization_id)
+    assume_impersonation_role(impersonation_role_id, organization_id, params::Dict{String,<:Any})
+
+Assumes an impersonation role for the given WorkMail organization. This method returns an
+authentication token you can use to make impersonated calls.
+
+# Arguments
+- `impersonation_role_id`: The impersonation role ID to assume.
+- `organization_id`: The WorkMail organization under which the impersonation role will be
+  assumed.
+
+"""
+function assume_impersonation_role(
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "AssumeImpersonationRole",
+        Dict{String,Any}(
+            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function assume_impersonation_role(
+    ImpersonationRoleId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "AssumeImpersonationRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImpersonationRoleId" => ImpersonationRoleId,
+                    "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_mailbox_export_job(client_token, job_id, organization_id)
     cancel_mailbox_export_job(client_token, job_id, organization_id, params::Dict{String,<:Any})
 
@@ -160,7 +208,7 @@ end
     create_alias(alias, entity_id, organization_id)
     create_alias(alias, entity_id, organization_id, params::Dict{String,<:Any})
 
-Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
+Adds an alias to the set of a given member (user or group) of WorkMail.
 
 # Arguments
 - `alias`: The alias to add to the member set.
@@ -213,8 +261,8 @@ Creates an AvailabilityConfiguration for the given WorkMail organization and dom
 
 # Arguments
 - `domain_name`: The domain to which the provider applies.
-- `organization_id`: The Amazon WorkMail organization for which the
-  AvailabilityConfiguration will be created.
+- `organization_id`: The WorkMail organization for which the AvailabilityConfiguration will
+  be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -267,8 +315,7 @@ end
     create_group(name, organization_id)
     create_group(name, organization_id, params::Dict{String,<:Any})
 
-Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail
-operation.
+Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
 
 # Arguments
 - `name`: The name of the group.
@@ -306,15 +353,80 @@ function create_group(
 end
 
 """
+    create_impersonation_role(name, organization_id, rules, type)
+    create_impersonation_role(name, organization_id, rules, type, params::Dict{String,<:Any})
+
+Creates an impersonation role for the given WorkMail organization.  Idempotency ensures
+that an API request completes no more than one time. With an idempotent request, if the
+original request completes successfully, any subsequent retries also complete successfully
+without performing any further actions.
+
+# Arguments
+- `name`: The name of the new impersonation role.
+- `organization_id`: The WorkMail organization to create the new impersonation role within.
+- `rules`: The list of rules for the impersonation role.
+- `type`: The impersonation role's type. The available impersonation role types are
+  READ_ONLY or FULL_ACCESS.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The idempotency token for the client request.
+- `"Description"`: The description of the new impersonation role.
+"""
+function create_impersonation_role(
+    Name, OrganizationId, Rules, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "CreateImpersonationRole",
+        Dict{String,Any}(
+            "Name" => Name,
+            "OrganizationId" => OrganizationId,
+            "Rules" => Rules,
+            "Type" => Type,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_impersonation_role(
+    Name,
+    OrganizationId,
+    Rules,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "CreateImpersonationRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "OrganizationId" => OrganizationId,
+                    "Rules" => Rules,
+                    "Type" => Type,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_mobile_device_access_rule(effect, name, organization_id)
     create_mobile_device_access_rule(effect, name, organization_id, params::Dict{String,<:Any})
 
-Creates a new mobile device access rule for the specified Amazon WorkMail organization.
+Creates a new mobile device access rule for the specified WorkMail organization.
 
 # Arguments
 - `effect`: The effect of the rule when it matches. Allowed values are ALLOW or DENY.
 - `name`: The rule name.
-- `organization_id`: The Amazon WorkMail organization under which the rule will be created.
+- `organization_id`: The WorkMail organization under which the rule will be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -378,18 +490,18 @@ end
     create_organization(alias)
     create_organization(alias, params::Dict{String,<:Any})
 
-Creates a new Amazon WorkMail organization. Optionally, you can choose to associate an
-existing AWS Directory Service directory with your organization. If an AWS Directory
-Service directory ID is specified, the organization alias must match the directory alias.
-If you choose not to associate an existing directory with your organization, then we create
-a new Amazon WorkMail directory for you. For more information, see Adding an organization
-in the Amazon WorkMail Administrator Guide. You can associate multiple email domains with
-an organization, then set your default email domain from the Amazon WorkMail console. You
-can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For
-more information, see Adding a domain and Choosing the default domain in the Amazon
-WorkMail Administrator Guide. Optionally, you can use a customer managed master key from
-AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't
-associate an AWS KMS key, Amazon WorkMail creates a default AWS managed master key for you.
+Creates a new WorkMail organization. Optionally, you can choose to associate an existing
+AWS Directory Service directory with your organization. If an AWS Directory Service
+directory ID is specified, the organization alias must match the directory alias. If you
+choose not to associate an existing directory with your organization, then we create a new
+WorkMail directory for you. For more information, see Adding an organization in the
+WorkMail Administrator Guide. You can associate multiple email domains with an
+organization, then choose your default email domain from the WorkMail console. You can also
+associate a domain that is managed in an Amazon Route 53 public hosted zone. For more
+information, see Adding a domain and Choosing the default domain in the WorkMail
+Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management
+Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS
+key, WorkMail creates a default, AWS managed key for you.
 
 # Arguments
 - `alias`: The organization alias.
@@ -400,10 +512,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DirectoryId"`: The AWS Directory Service directory ID.
 - `"Domains"`: The email domains to associate with the organization.
 - `"EnableInteroperability"`: When true, allows organization interoperability between
-  Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector
-  directory ID is included in the request.
-- `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed master key from AWS
-  KMS.
+  WorkMail and Microsoft Exchange. If true, you must include a AD Connector directory ID in
+  the request.
+- `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 """
 function create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_config())
     return workmail(
@@ -434,7 +545,7 @@ end
     create_resource(name, organization_id, type)
     create_resource(name, organization_id, type, params::Dict{String,<:Any})
 
-Creates a new Amazon WorkMail resource.
+Creates a new WorkMail resource.
 
 # Arguments
 - `name`: The name of the new resource.
@@ -482,8 +593,7 @@ end
     create_user(display_name, name, organization_id, password)
     create_user(display_name, name, organization_id, password, params::Dict{String,<:Any})
 
-Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkMail
-operation.
+Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
 
 # Arguments
 - `display_name`: The display name for the new user.
@@ -641,8 +751,8 @@ Deletes the AvailabilityConfiguration for the given WorkMail organization and do
 
 # Arguments
 - `domain_name`: The domain for which the AvailabilityConfiguration will be deleted.
-- `organization_id`: The Amazon WorkMail organization for which the
-  AvailabilityConfiguration will be deleted.
+- `organization_id`: The WorkMail organization for which the AvailabilityConfiguration will
+  be deleted.
 
 """
 function delete_availability_configuration(
@@ -717,7 +827,7 @@ end
     delete_group(group_id, organization_id)
     delete_group(group_id, organization_id, params::Dict{String,<:Any})
 
-Deletes a group from Amazon WorkMail.
+Deletes a group from WorkMail.
 
 # Arguments
 - `group_id`: The identifier of the group to be deleted.
@@ -746,6 +856,52 @@ function delete_group(
             mergewith(
                 _merge,
                 Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_impersonation_role(impersonation_role_id, organization_id)
+    delete_impersonation_role(impersonation_role_id, organization_id, params::Dict{String,<:Any})
+
+Deletes an impersonation role for the given WorkMail organization.
+
+# Arguments
+- `impersonation_role_id`: The ID of the impersonation role to delete.
+- `organization_id`: The WorkMail organization from which to delete the impersonation role.
+
+"""
+function delete_impersonation_role(
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeleteImpersonationRole",
+        Dict{String,Any}(
+            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_impersonation_role(
+    ImpersonationRoleId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeleteImpersonationRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImpersonationRoleId" => ImpersonationRoleId,
+                    "OrganizationId" => OrganizationId,
+                ),
                 params,
             ),
         );
@@ -818,7 +974,7 @@ those cases, the service sends back an HTTP 200 response with an empty HTTP body
 # Arguments
 - `device_id`: The mobile device for which you delete the override. DeviceId is case
   insensitive.
-- `organization_id`: The Amazon WorkMail organization for which the access override will be
+- `organization_id`: The WorkMail organization for which the access override will be
   deleted.
 - `user_id`: The WorkMail user for which you want to delete the override. Accepts the
   following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
@@ -867,13 +1023,13 @@ end
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id)
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id, params::Dict{String,<:Any})
 
-Deletes a mobile device access rule for the specified Amazon WorkMail organization.
-Deleting already deleted and non-existing rules does not produce an error. In those cases,
-the service sends back an HTTP 200 response with an empty HTTP body.
+Deletes a mobile device access rule for the specified WorkMail organization.  Deleting
+already deleted and non-existing rules does not produce an error. In those cases, the
+service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `mobile_device_access_rule_id`: The identifier of the rule to be deleted.
-- `organization_id`: The Amazon WorkMail organization under which the rule will be deleted.
+- `organization_id`: The WorkMail organization under which the rule will be deleted.
 
 """
 function delete_mobile_device_access_rule(
@@ -918,10 +1074,9 @@ end
     delete_organization(delete_directory, organization_id)
     delete_organization(delete_directory, organization_id, params::Dict{String,<:Any})
 
-Deletes an Amazon WorkMail organization and all underlying AWS resources managed by Amazon
-WorkMail as part of the organization. You can choose whether to delete the associated
-directory. For more information, see Removing an organization in the Amazon WorkMail
-Administrator Guide.
+Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as
+part of the organization. You can choose whether to delete the associated directory. For
+more information, see Removing an organization in the WorkMail Administrator Guide.
 
 # Arguments
 - `delete_directory`: If true, deletes the AWS Directory Service directory associated with
@@ -1059,10 +1214,10 @@ end
     delete_user(organization_id, user_id)
     delete_user(organization_id, user_id, params::Dict{String,<:Any})
 
-Deletes a user from Amazon WorkMail and all subsequent systems. Before you can delete a
-user, the user state must be DISABLED. Use the DescribeUser action to confirm the user
-state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes
-for 30 days before they are permanently removed.
+Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the
+user state must be DISABLED. Use the DescribeUser action to confirm the user state.
+Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30
+days before they are permanently removed.
 
 # Arguments
 - `organization_id`: The organization that contains the user to be deleted.
@@ -1103,14 +1258,14 @@ end
     deregister_from_work_mail(entity_id, organization_id)
     deregister_from_work_mail(entity_id, organization_id, params::Dict{String,<:Any})
 
-Mark a user, group, or resource as no longer used in Amazon WorkMail. This action
-disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30
-days before they are permanently removed. The functionality in the console is Disable.
+Mark a user, group, or resource as no longer used in WorkMail. This action disassociates
+the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they
+are permanently removed. The functionality in the console is Disable.
 
 # Arguments
 - `entity_id`: The identifier for the member (user or group) to be updated.
-- `organization_id`: The identifier for the organization under which the Amazon WorkMail
-  entity exists.
+- `organization_id`: The identifier for the organization under which the WorkMail entity
+  exists.
 
 """
 function deregister_from_work_mail(
@@ -1149,15 +1304,14 @@ end
     deregister_mail_domain(domain_name, organization_id)
     deregister_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
 
-Removes a domain from Amazon WorkMail, stops email routing to WorkMail, and removes the
+Removes a domain from WorkMail, stops email routing to WorkMail, and removes the
 authorization allowing WorkMail use. SES keeps the domain because other applications may
 use it. You must first remove any email address used by WorkMail entities before you remove
 the domain.
 
 # Arguments
 - `domain_name`: The domain to deregister in WorkMail and SES.
-- `organization_id`: The Amazon WorkMail organization for which the domain will be
-  deregistered.
+- `organization_id`: The WorkMail organization for which the domain will be deregistered.
 
 """
 function deregister_mail_domain(
@@ -1568,34 +1722,32 @@ function disassociate_member_from_group(
 end
 
 """
-    get_access_control_effect(action, ip_address, organization_id, user_id)
-    get_access_control_effect(action, ip_address, organization_id, user_id, params::Dict{String,<:Any})
+    get_access_control_effect(action, ip_address, organization_id)
+    get_access_control_effect(action, ip_address, organization_id, params::Dict{String,<:Any})
 
 Gets the effects of an organization's access control rules as they apply to a specified
-IPv4 address, access protocol action, or user ID.
+IPv4 address, access protocol action, and user ID or impersonation role ID. You must
+provide either the user ID or impersonation role ID. Impersonation role ID can only be used
+with Action EWS.
 
 # Arguments
 - `action`: The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS,
   IMAP, SMTP, WindowsOutlook, and WebMail.
 - `ip_address`: The IPv4 address.
 - `organization_id`: The identifier for the organization.
-- `user_id`: The user ID.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ImpersonationRoleId"`: The impersonation role ID.
+- `"UserId"`: The user ID.
 """
 function get_access_control_effect(
-    Action,
-    IpAddress,
-    OrganizationId,
-    UserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Action, IpAddress, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workmail(
         "GetAccessControlEffect",
         Dict{String,Any}(
-            "Action" => Action,
-            "IpAddress" => IpAddress,
-            "OrganizationId" => OrganizationId,
-            "UserId" => UserId,
+            "Action" => Action, "IpAddress" => IpAddress, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1605,7 +1757,6 @@ function get_access_control_effect(
     Action,
     IpAddress,
     OrganizationId,
-    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1618,7 +1769,6 @@ function get_access_control_effect(
                     "Action" => Action,
                     "IpAddress" => IpAddress,
                     "OrganizationId" => OrganizationId,
-                    "UserId" => UserId,
                 ),
                 params,
             ),
@@ -1664,6 +1814,110 @@ function get_default_retention_policy(
 end
 
 """
+    get_impersonation_role(impersonation_role_id, organization_id)
+    get_impersonation_role(impersonation_role_id, organization_id, params::Dict{String,<:Any})
+
+Gets the impersonation role details for the given WorkMail organization.
+
+# Arguments
+- `impersonation_role_id`: The impersonation role ID to retrieve.
+- `organization_id`: The WorkMail organization from which to retrieve the impersonation
+  role.
+
+"""
+function get_impersonation_role(
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "GetImpersonationRole",
+        Dict{String,Any}(
+            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_impersonation_role(
+    ImpersonationRoleId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetImpersonationRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImpersonationRoleId" => ImpersonationRoleId,
+                    "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_impersonation_role_effect(impersonation_role_id, organization_id, target_user)
+    get_impersonation_role_effect(impersonation_role_id, organization_id, target_user, params::Dict{String,<:Any})
+
+Tests whether the given impersonation role can impersonate a target user.
+
+# Arguments
+- `impersonation_role_id`: The impersonation role ID to test.
+- `organization_id`: The WorkMail organization where the impersonation role is defined.
+- `target_user`: The WorkMail organization user chosen to test the impersonation role. The
+  following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012
+  or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+"""
+function get_impersonation_role_effect(
+    ImpersonationRoleId,
+    OrganizationId,
+    TargetUser;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetImpersonationRoleEffect",
+        Dict{String,Any}(
+            "ImpersonationRoleId" => ImpersonationRoleId,
+            "OrganizationId" => OrganizationId,
+            "TargetUser" => TargetUser,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_impersonation_role_effect(
+    ImpersonationRoleId,
+    OrganizationId,
+    TargetUser,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetImpersonationRoleEffect",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImpersonationRoleId" => ImpersonationRoleId,
+                    "OrganizationId" => OrganizationId,
+                    "TargetUser" => TargetUser,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_mail_domain(domain_name, organization_id)
     get_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
 
@@ -1672,7 +1926,7 @@ with recommended security.
 
 # Arguments
 - `domain_name`: The domain from which you want to retrieve details.
-- `organization_id`: The Amazon WorkMail organization for which the domain is retrieved.
+- `organization_id`: The WorkMail organization for which the domain is retrieved.
 
 """
 function get_mail_domain(
@@ -1755,10 +2009,10 @@ end
 
 Simulates the effect of the mobile device access rules for the given attributes of a sample
 access event. Use this method to test the effects of the current set of mobile device
-access rules for the Amazon WorkMail organization for a particular user's attributes.
+access rules for the WorkMail organization for a particular user's attributes.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization to simulate the access effect for.
+- `organization_id`: The WorkMail organization to simulate the access effect for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1802,8 +2056,7 @@ device.
 # Arguments
 - `device_id`: The mobile device to which the override applies. DeviceId is case
   insensitive.
-- `organization_id`: The Amazon WorkMail organization to which you want to apply the
-  override.
+- `organization_id`: The WorkMail organization to which you want to apply the override.
 - `user_id`: Identifies the WorkMail user for the override. Accepts the following types of
   user identities:    User ID: 12345678-1234-1234-1234-123456789012 or
   S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
@@ -1937,8 +2190,8 @@ end
 List all the AvailabilityConfiguration's for the given WorkMail organization.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization for which the
-  AvailabilityConfiguration's will be listed.
+- `organization_id`: The WorkMail organization for which the AvailabilityConfiguration's
+  will be listed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2057,13 +2310,54 @@ function list_groups(
 end
 
 """
+    list_impersonation_roles(organization_id)
+    list_impersonation_roles(organization_id, params::Dict{String,<:Any})
+
+Lists all the impersonation roles for the given WorkMail organization.
+
+# Arguments
+- `organization_id`: The WorkMail organization to which the listed impersonation roles
+  belong.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results returned in a single call.
+- `"NextToken"`: The token used to retrieve the next page of results. The first call
+  doesn't require a token.
+"""
+function list_impersonation_roles(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListImpersonationRoles",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_impersonation_roles(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListImpersonationRoles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_mail_domains(organization_id)
     list_mail_domains(organization_id, params::Dict{String,<:Any})
 
-Lists the mail domains in a given Amazon WorkMail organization.
+Lists the mail domains in a given WorkMail organization.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization for which to list domains.
+- `organization_id`: The WorkMail organization for which to list domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2194,8 +2488,8 @@ Lists all the mobile device access overrides for any given combination of WorkMa
 organization, user, or device.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization under which to list mobile device
-  access overrides.
+- `organization_id`: The WorkMail organization under which to list mobile device access
+  overrides.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2237,10 +2531,10 @@ end
     list_mobile_device_access_rules(organization_id)
     list_mobile_device_access_rules(organization_id, params::Dict{String,<:Any})
 
-Lists the mobile device access rules for the specified Amazon WorkMail organization.
+Lists the mobile device access rules for the specified WorkMail organization.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization for which to list the rules.
+- `organization_id`: The WorkMail organization for which to list the rules.
 
 """
 function list_mobile_device_access_rules(
@@ -2385,7 +2679,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags applied to an Amazon WorkMail organization resource.
+Lists the tags applied to an WorkMail organization resource.
 
 # Arguments
 - `resource_arn`: The resource ARN.
@@ -2459,8 +2753,9 @@ end
     put_access_control_rule(description, effect, name, organization_id, params::Dict{String,<:Any})
 
 Adds a new access control rule for the specified organization. The rule allows or denies
-access to the organization for the specified IPv4 addresses, access protocol actions, and
-user IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
+access to the organization for the specified IPv4 addresses, access protocol actions, user
+IDs and impersonation IDs. Adding a new rule with the same name as an existing rule
+replaces the older rule.
 
 # Arguments
 - `description`: The rule description.
@@ -2472,9 +2767,11 @@ user IDs. Adding a new rule with the same name as an existing rule replaces the 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Actions"`: Access protocol actions to include in the rule. Valid values include
   ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+- `"ImpersonationRoleIds"`: Impersonation role IDs to include in the rule.
 - `"IpRanges"`: IPv4 CIDR ranges to include in the rule.
 - `"NotActions"`: Access protocol actions to exclude from the rule. Valid values include
   ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+- `"NotImpersonationRoleIds"`: Impersonation role IDs to exclude from the rule.
 - `"NotIpRanges"`: IPv4 CIDR ranges to exclude from the rule.
 - `"NotUserIds"`: User IDs to exclude from the rule.
 - `"UserIds"`: User IDs to include in the rule.
@@ -2700,8 +2997,7 @@ user, and device.
 - `device_id`: The mobile device for which you create the override. DeviceId is case
   insensitive.
 - `effect`: The effect of the override, ALLOW or DENY.
-- `organization_id`: Identifies the Amazon WorkMail organization for which you create the
-  override.
+- `organization_id`: Identifies the WorkMail organization for which you create the override.
 - `user_id`: The WorkMail user for which you create the override. Accepts the following
   types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
   S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
@@ -2819,15 +3115,14 @@ end
     register_mail_domain(domain_name, organization_id)
     register_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
 
-Registers a new domain in Amazon WorkMail and SES, and configures it for use by WorkMail.
-Emails received by SES for this domain are routed to the specified WorkMail organization,
-and WorkMail has permanent permission to use the specified domain for sending your users'
+Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails
+received by SES for this domain are routed to the specified WorkMail organization, and
+WorkMail has permanent permission to use the specified domain for sending your users'
 emails.
 
 # Arguments
-- `domain_name`: The name of the mail domain to create in Amazon WorkMail and SES.
-- `organization_id`: The Amazon WorkMail organization under which you're creating the
-  domain.
+- `domain_name`: The name of the mail domain to create in WorkMail and SES.
+- `organization_id`: The WorkMail organization under which you're creating the domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2875,13 +3170,13 @@ end
     register_to_work_mail(email, entity_id, organization_id)
     register_to_work_mail(email, entity_id, organization_id, params::Dict{String,<:Any})
 
-Registers an existing and disabled user, group, or resource for Amazon WorkMail use by
-associating a mailbox and calendaring capabilities. It performs no change if the user,
-group, or resource is enabled and fails if the user, group, or resource is deleted. This
-operation results in the accumulation of costs. For more information, see Pricing. The
-equivalent console functionality for this operation is Enable.  Users can either be created
-by calling the CreateUser API operation or they can be synchronized from your directory.
-For more information, see DeregisterFromWorkMail.
+Registers an existing and disabled user, group, or resource for WorkMail use by associating
+a mailbox and calendaring capabilities. It performs no change if the user, group, or
+resource is enabled and fails if the user, group, or resource is deleted. This operation
+results in the accumulation of costs. For more information, see Pricing. The equivalent
+console functionality for this operation is Enable. Users can either be created by calling
+the CreateUser API operation or they can be synchronized from your directory. For more
+information, see DeregisterFromWorkMail.
 
 # Arguments
 - `email`: The email for the user, group, or resource to be updated.
@@ -2983,8 +3278,7 @@ end
 
 Starts a mailbox export job to export MIME-format email messages and calendar items from
 the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket.
-For more information, see Exporting mailbox content in the Amazon WorkMail Administrator
-Guide.
+For more information, see Exporting mailbox content in the WorkMail Administrator Guide.
 
 # Arguments
 - `client_token`: The idempotency token for the client request.
@@ -3063,7 +3357,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies the specified tags to the specified Amazon WorkMail organization resource.
+Applies the specified tags to the specified WorkMailorganization resource.
 
 # Arguments
 - `resource_arn`: The resource ARN.
@@ -3111,8 +3405,8 @@ definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the D
 parameter is provided, the configuration stored under the DomainName will be tested.
 
 # Arguments
-- `organization_id`: The Amazon WorkMail organization where the availability provider will
-  be tested.
+- `organization_id`: The WorkMail organization where the availability provider will be
+  tested.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3150,7 +3444,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Untags the specified tags from the specified Amazon WorkMail organization resource.
+Untags the specified tags from the specified WorkMail organization resource.
 
 # Arguments
 - `resource_arn`: The resource ARN.
@@ -3196,8 +3490,8 @@ domain.
 
 # Arguments
 - `domain_name`: The domain to which the provider applies the availability configuration.
-- `organization_id`: The Amazon WorkMail organization for which the
-  AvailabilityConfiguration will be updated.
+- `organization_id`: The WorkMail organization for which the AvailabilityConfiguration will
+  be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3250,7 +3544,7 @@ have one default domain.
 
 # Arguments
 - `domain_name`: The domain name that will become the default domain.
-- `organization_id`: The Amazon WorkMail organization for which to list domains.
+- `organization_id`: The WorkMail organization for which to list domains.
 
 """
 function update_default_mail_domain(
@@ -3276,6 +3570,74 @@ function update_default_mail_domain(
                 _merge,
                 Dict{String,Any}(
                     "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_impersonation_role(impersonation_role_id, name, organization_id, rules, type)
+    update_impersonation_role(impersonation_role_id, name, organization_id, rules, type, params::Dict{String,<:Any})
+
+Updates an impersonation role for the given WorkMail organization.
+
+# Arguments
+- `impersonation_role_id`: The ID of the impersonation role to update.
+- `name`: The updated impersonation role name.
+- `organization_id`: The WorkMail organization that contains the impersonation role to
+  update.
+- `rules`: The updated list of rules.
+- `type`: The updated impersonation role type.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The updated impersonation role description.
+"""
+function update_impersonation_role(
+    ImpersonationRoleId,
+    Name,
+    OrganizationId,
+    Rules,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateImpersonationRole",
+        Dict{String,Any}(
+            "ImpersonationRoleId" => ImpersonationRoleId,
+            "Name" => Name,
+            "OrganizationId" => OrganizationId,
+            "Rules" => Rules,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_impersonation_role(
+    ImpersonationRoleId,
+    Name,
+    OrganizationId,
+    Rules,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateImpersonationRole",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImpersonationRoleId" => ImpersonationRoleId,
+                    "Name" => Name,
+                    "OrganizationId" => OrganizationId,
+                    "Rules" => Rules,
+                    "Type" => Type,
                 ),
                 params,
             ),
@@ -3341,13 +3703,13 @@ end
     update_mobile_device_access_rule(effect, mobile_device_access_rule_id, name, organization_id)
     update_mobile_device_access_rule(effect, mobile_device_access_rule_id, name, organization_id, params::Dict{String,<:Any})
 
-Updates a mobile device access rule for the specified Amazon WorkMail organization.
+Updates a mobile device access rule for the specified WorkMail organization.
 
 # Arguments
 - `effect`: The effect of the rule when it matches. Allowed values are ALLOW or DENY.
 - `mobile_device_access_rule_id`: The identifier of the rule to be updated.
 - `name`: The updated rule name.
-- `organization_id`: The Amazon WorkMail organization under which the rule will be updated.
+- `organization_id`: The WorkMail organization under which the rule will be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

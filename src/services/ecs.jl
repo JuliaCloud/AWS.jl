@@ -1734,7 +1734,10 @@ setting has been specified. Account settings are set on a per-Region basis.
   affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your
   Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit
   for your Amazon ECS container instances is affected. If containerInsights is specified, the
-  default setting for CloudWatch Container Insights for your clusters is affected.
+  default setting for CloudWatch Container Insights for your clusters is affected. Fargate is
+  transitioning from task count-based quotas to vCPU-based quotas. You can set the name to
+  fargateVCPULimit to opt in or opt out of the vCPU-based quotas. For information about the
+  opt in timeline, see Fargate vCPU-based quotas timeline in the Amazon ECS Developer Guide.
 - `value`: The account setting value for the specified principal ARN. Accepted values are
   enabled and disabled.
 
@@ -2003,7 +2006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default amount, for tasks hosted on Fargate. For more information, see Fargate task storage
   in the Amazon ECS User Guide for Fargate.  This parameter is only supported for tasks
   hosted on Fargate using the following platform versions:   Linux platform version 1.4.0 or
-  later.   Windows platform version 1.0.0 or later.
+  later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
   grants the Amazon ECS container agent permission to make Amazon Web Services API calls on
   your behalf. The task execution IAM role is required depending on the requirements of your

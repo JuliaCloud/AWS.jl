@@ -23563,6 +23563,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to
   IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames
   attributes in the same request. Use separate requests for each attribute.
+- `"EnableNetworkAddressUsageMetrics"`: Indicates whether Network Address Usage metrics are
+  enabled for your VPC.
 """
 function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -24787,6 +24789,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket must have the aws-exec-read canned access control list (ACL) to ensure that it can
   be accessed by Amazon EC2. For more information, see Canned ACLs in the Amazon S3 Service
   Developer Guide.
+- `"ImdsSupport"`: Set to v2.0 to indicate that IMDSv2 is specified in the AMI. Instances
+  launched from this AMI will have HttpTokens automatically set to required so that, by
+  default, the instance requires that IMDSv2 is used when requesting instance metadata. In
+  addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI
+  in the Amazon Elastic Compute Cloud User Guide.  If you set the value to v2.0, make sure
+  that your AMI software can support IMDSv2.
 - `"TpmSupport"`: Set to v2.0 to enable Trusted Platform Module (TPM) support. For more
   information, see NitroTPM in the Amazon Elastic Compute Cloud User Guide.
 - `"UefiData"`: Base64 representation of the non-volatile UEFI variable store. To retrieve

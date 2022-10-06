@@ -16,8 +16,10 @@ be used to fetch short-term credentials for the assigned roles in the AWS accoun
   the persisted result of the RegisterClient API.
 - `client_secret`: A secret string generated for the client. This value should come from
   the persisted result of the RegisterClient API.
-- `grant_type`: Supports grant types for authorization code, refresh token, and device code
-  request.
+- `grant_type`: Supports grant types for the authorization code, refresh token, and device
+  code request. For device code requests, specify the following value:
+  urn:ietf:params:oauth:grant-type:device_code   For information about how to obtain the
+  device code, see the StartDeviceAuthorization topic.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -28,8 +30,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in-memory reference to the result of the StartDeviceAuthorization API.
 - `"redirectUri"`: The location of the application that will receive the authorization
   code. Users authorize the service to send the request to this location.
-- `"refreshToken"`: The token used to obtain an access token in the event that the access
-  token is invalid or expired. This token is not issued by the service.
+- `"refreshToken"`: Currently, refreshToken is not yet implemented and is not supported.
+  For more information about the features and limitations of the current IAM Identity Center
+  OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center
+  OIDC API Reference. The token used to obtain an access token in the event that the access
+  token is invalid or expired.
 - `"scope"`: The list of scopes that is defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
@@ -76,8 +81,9 @@ end
     register_client(client_name, client_type)
     register_client(client_name, client_type, params::Dict{String,<:Any})
 
-Registers a client with AWS SSO. This allows clients to initiate device authorization. The
-output should be persisted for reuse through many authentication requests.
+Registers a client with IAM Identity Center. This allows clients to initiate device
+authorization. The output should be persisted for reuse through many authentication
+requests.
 
 # Arguments
 - `client_name`: The friendly name of the client.
@@ -129,12 +135,13 @@ Initiates device authorization by requesting a pair of verification codes from t
 authorization service.
 
 # Arguments
-- `client_id`: The unique identifier string for the client that is registered with AWS SSO.
-  This value should come from the persisted result of the RegisterClient API operation.
+- `client_id`: The unique identifier string for the client that is registered with IAM
+  Identity Center. This value should come from the persisted result of the RegisterClient API
+  operation.
 - `client_secret`: A secret string that is generated for the client. This value should come
   from the persisted result of the RegisterClient API operation.
-- `start_url`: The URL for the AWS SSO user portal. For more information, see Using the
-  User Portal in the AWS Single Sign-On User Guide.
+- `start_url`: The URL for the AWS access portal. For more information, see Using the AWS
+  access portal in the IAM Identity Center User Guide.
 
 """
 function start_device_authorization(
