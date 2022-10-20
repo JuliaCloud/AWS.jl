@@ -181,7 +181,8 @@ the database only when you specify the schema in the table-mapping rules of the 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CertificateArn"`: The Amazon Resource Name (ARN) for the certificate.
 - `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
-  endpoint, do not specify DatabaseName.
+  endpoint, do not specify DatabaseName. To migrate to a specific database, use this setting
+  and targetDbType.
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
   endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon
   Resource Name (ARN) used by the service access IAM role. The role must allow the
@@ -376,6 +377,66 @@ function create_event_subscription(
                 _merge,
                 Dict{String,Any}(
                     "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_fleet_advisor_collector(collector_name, s3_bucket_name, service_access_role_arn)
+    create_fleet_advisor_collector(collector_name, s3_bucket_name, service_access_role_arn, params::Dict{String,<:Any})
+
+Creates a Fleet Advisor collector using the specified parameters.
+
+# Arguments
+- `collector_name`: The name of your Fleet Advisor collector (for example,
+  sample-collector).
+- `s3_bucket_name`: The Amazon S3 bucket that the Fleet Advisor collector uses to store
+  inventory metadata.
+- `service_access_role_arn`: The IAM role that grants permissions to access the specified
+  Amazon S3 bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A summary description of your Fleet Advisor collector.
+"""
+function create_fleet_advisor_collector(
+    CollectorName,
+    S3BucketName,
+    ServiceAccessRoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateFleetAdvisorCollector",
+        Dict{String,Any}(
+            "CollectorName" => CollectorName,
+            "S3BucketName" => S3BucketName,
+            "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_fleet_advisor_collector(
+    CollectorName,
+    S3BucketName,
+    ServiceAccessRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateFleetAdvisorCollector",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectorName" => CollectorName,
+                    "S3BucketName" => S3BucketName,
+                    "ServiceAccessRoleArn" => ServiceAccessRoleArn,
                 ),
                 params,
             ),
@@ -816,6 +877,80 @@ function delete_event_subscription(
             mergewith(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_fleet_advisor_collector(collector_referenced_id)
+    delete_fleet_advisor_collector(collector_referenced_id, params::Dict{String,<:Any})
+
+Deletes the specified Fleet Advisor collector.
+
+# Arguments
+- `collector_referenced_id`: The reference ID of the Fleet Advisor collector to delete.
+
+"""
+function delete_fleet_advisor_collector(
+    CollectorReferencedId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorCollector",
+        Dict{String,Any}("CollectorReferencedId" => CollectorReferencedId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_fleet_advisor_collector(
+    CollectorReferencedId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorCollector",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CollectorReferencedId" => CollectorReferencedId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_fleet_advisor_databases(database_ids)
+    delete_fleet_advisor_databases(database_ids, params::Dict{String,<:Any})
+
+Deletes the specified Fleet Advisor collector databases.
+
+# Arguments
+- `database_ids`: The IDs of the Fleet Advisor collector databases to delete.
+
+"""
+function delete_fleet_advisor_databases(
+    DatabaseIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorDatabases",
+        Dict{String,Any}("DatabaseIds" => DatabaseIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_fleet_advisor_databases(
+    DatabaseIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteFleetAdvisorDatabases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseIds" => DatabaseIds), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1359,6 +1494,202 @@ function describe_events(
 )
     return database_migration_service(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_fleet_advisor_collectors()
+    describe_fleet_advisor_collectors(params::Dict{String,<:Any})
+
+Returns a list of the Fleet Advisor collectors in your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  If you specify any of the following filters, the output includes
+  information for only those collectors that meet the filter criteria:
+  collector-referenced-id – The ID of the collector agent, for example
+  d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    collector-name – The name of the collector
+  agent.   An example is: describe-fleet-advisor-collectors --filter
+  Name=\"collector-referenced-id\",Values=\"d4610ac5-e323-4ad9-bc50-eaf7249dfe9d\"
+- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"NextToken"`: If NextToken is returned by a previous response, there are more results
+  available. The value of NextToken is a unique pagination token for each page. Make the call
+  again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
+"""
+function describe_fleet_advisor_collectors(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorCollectors";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fleet_advisor_collectors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorCollectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_fleet_advisor_databases()
+    describe_fleet_advisor_databases(params::Dict{String,<:Any})
+
+Returns a list of Fleet Advisor databases in your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  If you specify any of the following filters, the output includes
+  information for only those databases that meet the filter criteria:     database-id – The
+  ID of the database.    database-name – The name of the database.    database-engine –
+  The name of the database engine.    server-ip-address – The IP address of the database
+  server.    database-ip-address – The IP address of the database.    collector-name –
+  The name of the associated Fleet Advisor collector.   An example is:
+  describe-fleet-advisor-databases --filter Name=\"database-id\",Values=\"45\"
+- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"NextToken"`: If NextToken is returned by a previous response, there are more results
+  available. The value of NextToken is a unique pagination token for each page. Make the call
+  again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
+"""
+function describe_fleet_advisor_databases(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorDatabases";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fleet_advisor_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorDatabases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_fleet_advisor_lsa_analysis()
+    describe_fleet_advisor_lsa_analysis(params::Dict{String,<:Any})
+
+Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet
+Advisor collectors.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"NextToken"`: If NextToken is returned by a previous response, there are more results
+  available. The value of NextToken is a unique pagination token for each page. Make the call
+  again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
+"""
+function describe_fleet_advisor_lsa_analysis(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorLsaAnalysis";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fleet_advisor_lsa_analysis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorLsaAnalysis",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_fleet_advisor_schema_object_summary()
+    describe_fleet_advisor_schema_object_summary(params::Dict{String,<:Any})
+
+Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  If you specify any of the following filters, the output includes
+  information for only those schema objects that meet the filter criteria:    schema-id –
+  The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.   Example:
+  describe-fleet-advisor-schema-object-summary --filter Name=\"schema-id\",Values=\"50\"
+- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"NextToken"`: If NextToken is returned by a previous response, there are more results
+  available. The value of NextToken is a unique pagination token for each page. Make the call
+  again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
+"""
+function describe_fleet_advisor_schema_object_summary(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemaObjectSummary";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fleet_advisor_schema_object_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemaObjectSummary",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_fleet_advisor_schemas()
+    describe_fleet_advisor_schemas(params::Dict{String,<:Any})
+
+Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  If you specify any of the following filters, the output includes
+  information for only those schemas that meet the filter criteria:    complexity – The
+  schema's complexity, for example Simple.    database-id – The ID of the schema's
+  database.    database-ip-address – The IP address of the schema's database.
+  database-name – The name of the schema's database.    database-engine – The name of the
+  schema database's engine.    original-schema-name – The name of the schema's database's
+  main schema.    schema-id – The ID of the schema, for example 15.    schema-name – The
+  name of the schema.    server-ip-address – The IP address of the schema database's
+  server.   An example is: describe-fleet-advisor-schemas --filter
+  Name=\"schema-id\",Values=\"50\"
+- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"NextToken"`: If NextToken is returned by a previous response, there are more results
+  available. The value of NextToken is a unique pagination token for each page. Make the call
+  again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
+"""
+function describe_fleet_advisor_schemas(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemas";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fleet_advisor_schemas(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeFleetAdvisorSchemas",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2573,6 +2904,29 @@ function remove_tags_from_resource(
 end
 
 """
+    run_fleet_advisor_lsa_analysis()
+    run_fleet_advisor_lsa_analysis(params::Dict{String,<:Any})
+
+Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
+
+"""
+function run_fleet_advisor_lsa_analysis(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "RunFleetAdvisorLsaAnalysis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function run_fleet_advisor_lsa_analysis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "RunFleetAdvisorLsaAnalysis",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_replication_task(replication_task_arn, start_replication_task_type)
     start_replication_task(replication_task_arn, start_replication_task_type, params::Dict{String,<:Any})
 
@@ -2866,6 +3220,48 @@ function test_connection(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_subscriptions_to_event_bridge()
+    update_subscriptions_to_event_bridge(params::Dict{String,<:Any})
+
+Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to
+corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions
+only when all your replication instance versions are 3.4.6 or higher. If any replication
+instances are from versions earlier than 3.4.6, the operation raises an error and tells you
+to upgrade these instances to version 3.4.6 or higher. To enable migration regardless of
+version, set the Force option to true. However, if you don't upgrade instances earlier than
+version 3.4.6, some types of events might not be available when you use Amazon EventBridge.
+To call this operation, make sure that you have certain permissions added to your user
+account. For more information, see Migrating event subscriptions to Amazon EventBridge in
+the Amazon Web Services Database Migration Service User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ForceMove"`: When set to true, this operation migrates DMS subscriptions for Amazon SNS
+  notifications no matter what your replication instance version is. If not set or set to
+  false, this operation runs only when all your replication instances are from DMS version
+  3.4.6 or higher.
+"""
+function update_subscriptions_to_event_bridge(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "UpdateSubscriptionsToEventBridge";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_subscriptions_to_event_bridge(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "UpdateSubscriptionsToEventBridge",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

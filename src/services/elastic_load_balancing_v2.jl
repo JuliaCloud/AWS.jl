@@ -197,24 +197,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroups"`: [Application Load Balancers] The IDs of the security groups for the
   load balancer.
 - `"SubnetMappings"`: The IDs of the public subnets. You can specify only one subnet per
-  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
-  Balancers] You must specify subnets from at least two Availability Zones. You cannot
-  specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You
-  must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can
-  specify subnets from one or more Local Zones. [Network Load Balancers] You can specify
-  subnets from one or more Availability Zones. You can specify one Elastic IP address per
-  subnet if you need static IP addresses for your internet-facing load balancer. For internal
-  load balancers, you can specify one private IP address per subnet from the IPv4 range of
-  the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
-  [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You
-  cannot specify Elastic IP addresses for your subnets.
+  Availability Zone. You must specify either subnets or subnet mappings, but not both.
+  [Application Load Balancers] You must specify subnets from at least two Availability Zones.
+  You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on
+  Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones]
+  You can specify subnets from one or more Local Zones. [Network Load Balancers] You can
+  specify subnets from one or more Availability Zones. You can specify one Elastic IP address
+  per subnet if you need static IP addresses for your internet-facing load balancer. For
+  internal load balancers, you can specify one private IP address per subnet from the IPv4
+  range of the subnet. For internet-facing load balancer, you can specify one IPv6 address
+  per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability
+  Zones. You cannot specify Elastic IP addresses for your subnets.
 - `"Subnets"`: The IDs of the public subnets. You can specify only one subnet per
-  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
-  Balancers] You must specify subnets from at least two Availability Zones. [Application Load
-  Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on
-  Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers]
-  You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You
-  can specify subnets from one or more Availability Zones.
+  Availability Zone. You must specify either subnets or subnet mappings, but not both. To
+  specify an Elastic IP address, specify subnet mappings instead of subnets. [Application
+  Load Balancers] You must specify subnets from at least two Availability Zones. [Application
+  Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load
+  Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network
+  Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load
+  Balancers] You can specify subnets from one or more Availability Zones.
 - `"Tags"`: The tags to assign to the load balancer.
 - `"Type"`: The type of load balancer. The default is application.
 """
@@ -326,10 +327,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is lambda, health checks are disabled by default but can be enabled. If the target type is
   instance, ip, or alb, health checks are always enabled and cannot be disabled.
 - `"HealthCheckIntervalSeconds"`: The approximate amount of time, in seconds, between
-  health checks of an individual target. If the target group protocol is TCP, TLS, UDP, or
-  TCP_UDP, the supported values are 10 and 30 seconds. If the target group protocol is HTTP
-  or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is
-  10 seconds. If the target type is lambda, the default is 35 seconds.
+  health checks of an individual target. If the target group protocol is HTTP or HTTPS, the
+  default is 30 seconds. If the target group protocol is TCP, TLS, UDP, or TCP_UDP, the
+  supported values are 10 and 30 seconds and the default is 30 seconds. If the target group
+  protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is
+  35 seconds.
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
   targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
   version] The path of a custom health check method with the format /package.service/method.
@@ -1119,7 +1121,8 @@ end
     modify_target_group(target_group_arn, params::Dict{String,<:Any})
 
 Modifies the health checks used when evaluating the health state of the targets in the
-specified target group.
+specified target group. If the protocol of the target group is TCP, TLS, UDP, or TCP_UDP,
+you can't modify the health check protocol, interval, timeout, or success codes.
 
 # Arguments
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
@@ -1129,7 +1132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthCheckEnabled"`: Indicates whether health checks are enabled.
 - `"HealthCheckIntervalSeconds"`: The approximate amount of time, in seconds, between
   health checks of an individual target. For TCP health checks, the supported values are 10
-  or 30 seconds. With Network Load Balancers, you can't modify this setting.
+  or 30 seconds.
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
   targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
   version] The path of a custom health check method with the format /package.service/method.
@@ -1141,16 +1144,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported
   for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for
   health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The
-  GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks. With Network
-  Load Balancers, you can't modify this setting.
+  GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
 - `"HealthCheckTimeoutSeconds"`: [HTTP/HTTPS health checks] The amount of time, in seconds,
-  during which no response means a failed health check. With Network Load Balancers, you
-  can't modify this setting.
+  during which no response means a failed health check.
 - `"HealthyThresholdCount"`: The number of consecutive health checks successes required
   before considering an unhealthy target healthy.
 - `"Matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
-  successful response from a target. With Network Load Balancers, you can't modify this
-  setting.
+  successful response from a target.
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
   before considering the target unhealthy. For target groups with a protocol of TCP or TLS,
   this value must be the same as the healthy threshold count.

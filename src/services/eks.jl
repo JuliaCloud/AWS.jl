@@ -72,8 +72,7 @@ information see Using RBAC Authorization in the Kubernetes documentation.
 
 # Arguments
 - `name`: The name of the cluster to associate the configuration to.
-- `oidc`: An object that represents an OpenID Connect (OIDC) identity provider
-  configuration.
+- `oidc`: An object representing an OpenID Connect (OIDC) identity provider configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -135,8 +134,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned by  DescribeAddonVersions .
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
-- `"resolveConflicts"`: How to resolve parameter value conflicts when migrating an existing
-  add-on to an Amazon EKS add-on.
+- `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on.
+  Conflicts are handled based on the value you choose:    None – If the self-managed
+  version of the add-on is installed on your cluster, Amazon EKS doesn't change the value.
+  Creation of the add-on might fail.    Overwrite – If the self-managed version of the
+  add-on is installed on your cluster and the Amazon EKS default value is different than the
+  existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve
+  – Not supported. You can set this value when updating an add-on though. For more
+  information, see UpdateAddon.   If you don't currently have the self-managed version of the
+  add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all
+  values to default values, regardless of the option that you specify.
 - `"serviceAccountRoleArn"`: The Amazon Resource Name (ARN) of an existing IAM role to bind
   to the add-on's service account. The role must be assigned the IAM permissions required by
   the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions
@@ -223,10 +230,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
+- `"outpostConfig"`: An object representing the configuration of your local Amazon EKS
+  cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost,
+  review Creating an Amazon EKS cluster on an Amazon Web Services Outpost in the Amazon EKS
+  User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web
+  Services cloud.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
   organization. Each tag consists of a key and an optional value. You define both.
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a
-  value here, the latest version available in Amazon EKS is used.
+  value here, the default version available in Amazon EKS is used.  The default version might
+  not be the latest version available.
 """
 function create_cluster(
     name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -442,7 +455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization. Each tag consists of a key and an optional value. You define both. Node group
   tags do not propagate to any other resources associated with the node group, such as the
   Amazon EC2 instances or subnets.
-- `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
+- `"taints"`: The Kubernetes taints to be applied to the nodes in the node group. For more
+  information, see Node taints on managed node groups.
 - `"updateConfig"`: The node group update configuration.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
   Kubernetes version of the cluster is used, and this is the only accepted specified value.
@@ -830,7 +844,7 @@ end
 Returns descriptive information about an identity provider configuration.
 
 # Arguments
-- `identity_provider_config`: An object that represents an identity provider configuration.
+- `identity_provider_config`: An object representing an identity provider configuration.
 - `name`: The cluster name that the identity provider configuration is associated to.
 
 """
@@ -907,9 +921,9 @@ end
     describe_update(name, update_id, params::Dict{String,<:Any})
 
 Returns descriptive information about an update against your Amazon EKS cluster or
-associated managed node group. When the status of the update is Succeeded, the update is
-complete. If an update fails, the status is Failed, and an error detail explains the reason
-for the failure.
+associated managed node group or Amazon EKS add-on. When the status of the update is
+Succeeded, the update is complete. If an update fails, the status is Failed, and an error
+detail explains the reason for the failure.
 
 # Arguments
 - `name`: The name of the Amazon EKS cluster associated with the update.
@@ -918,8 +932,9 @@ for the failure.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"addonName"`: The name of the add-on. The name must match one of the names returned by
-  ListAddons .
-- `"nodegroupName"`: The name of the Amazon EKS node group associated with the update.
+  ListAddons . This parameter is required if the update is an add-on update.
+- `"nodegroupName"`: The name of the Amazon EKS node group associated with the update. This
+  parameter is required if the update is a node group update.
 """
 function describe_update(name, updateId; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
@@ -953,7 +968,7 @@ identity provider from your cluster, users included in the provider can no longe
 the cluster. However, you can still access the cluster with Amazon Web Services IAM users.
 
 # Arguments
-- `identity_provider_config`: An object that represents an identity provider configuration.
+- `identity_provider_config`: An object representing an identity provider configuration.
 - `name`: The name of the cluster to disassociate an identity provider from.
 
 # Optional Parameters
@@ -1451,8 +1466,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned by  DescribeAddonVersions .
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"resolveConflicts"`: How to resolve parameter value conflicts when applying the new
-  version of the add-on to the cluster.
+- `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on if
+  you've changed a value from the Amazon EKS default value. Conflicts are handled based on
+  the option you choose:    None – Amazon EKS doesn't change the value. The update might
+  fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS
+  default value.    Preserve – Amazon EKS preserves the value. If you choose this option,
+  we recommend that you test any field and value changes on a non-production cluster before
+  updating the add-on on your production cluster.
 - `"serviceAccountRoleArn"`: The Amazon Resource Name (ARN) of an existing IAM role to bind
   to the add-on's service account. The role must be assigned the IAM permissions required by
   the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions
@@ -1628,7 +1648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scalingConfig"`: The scaling configuration details for the Auto Scaling group after the
   update.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group after the
-  update.
+  update. For more information, see Node taints on managed node groups.
 - `"updateConfig"`: The node group update configuration.
 """
 function update_nodegroup_config(

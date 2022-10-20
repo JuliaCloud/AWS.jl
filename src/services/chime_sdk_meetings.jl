@@ -46,6 +46,72 @@ function batch_create_attendee(
 end
 
 """
+    batch_update_attendee_capabilities_except(capabilities, excluded_attendee_ids, meeting_id)
+    batch_update_attendee_capabilities_except(capabilities, excluded_attendee_ids, meeting_id, params::Dict{String,<:Any})
+
+Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds
+table.  You use the capabilities with a set of values that control what the capabilities
+can do, such as SendReceive data. For more information about those values, see .  When
+using capabilities, be aware of these corner cases:   You can't set content capabilities to
+SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If
+you don't set the video capability to receive, the response will contain an HTTP 400 Bad
+Request status code. However, you can set your video capability to receive and you set your
+content capability to not receive.   When you change an audio capability from None or
+Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio
+will flow from the attendee to the other meeting participants.   When you change a video or
+content capability from None or Receive to Send or SendReceive , and if the attendee turned
+on their video or content streams, remote attendess can receive those streams, but only
+after media renegotiation between the client and the Amazon Chime back-end server.
+
+# Arguments
+- `capabilities`: The capabilities (audio, video, or content) that you want to update.
+- `excluded_attendee_ids`: The AttendeeIDs that you want to exclude from one or more
+  capabilities.
+- `meeting_id`: The ID of the meeting associated with the update request.
+
+"""
+function batch_update_attendee_capabilities_except(
+    Capabilities,
+    ExcludedAttendeeIds,
+    MeetingId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except",
+        Dict{String,Any}(
+            "Capabilities" => Capabilities, "ExcludedAttendeeIds" => ExcludedAttendeeIds
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_attendee_capabilities_except(
+    Capabilities,
+    ExcludedAttendeeIds,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/capabilities?operation=batch-update-except",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Capabilities" => Capabilities,
+                    "ExcludedAttendeeIds" => ExcludedAttendeeIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_attendee(external_user_id, meeting_id)
     create_attendee(external_user_id, meeting_id, params::Dict{String,<:Any})
 
@@ -57,6 +123,23 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
   the attendee to an identity managed by a builder application.
 - `meeting_id`: The unique ID of the meeting.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Capabilities"`: The capabilities (audio, video, or content) that you want to grant an
+  attendee. If you don't specify capabilities, all users have send and receive capabilities
+  on all media channels by default.  You use the capabilities with a set of values that
+  control what the capabilities can do, such as SendReceive data. For more information about
+  those values, see .  When using capabilities, be aware of these corner cases:   You can't
+  set content capabilities to SendReceive or Receive unless you also set video capabilities
+  to SendReceive or Receive. If you don't set the video capability to receive, the response
+  will contain an HTTP 400 Bad Request status code. However, you can set your video
+  capability to receive and you set your content capability to not receive.   When you change
+  an audio capability from None or Receive to Send or SendReceive , and if the attendee left
+  their microphone unmuted, audio will flow from the attendee to the other meeting
+  participants.   When you change a video or content capability from None or Receive to Send
+  or SendReceive , and if the attendee turned on their video or content streams, remote
+  attendess can receive those streams, but only after media renegotiation between the client
+  and the Amazon Chime back-end server.
 """
 function create_attendee(
     ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -99,10 +182,11 @@ SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
 - `external_meeting_id`: The external meeting ID.
-- `media_region`: The Region in which to create the meeting.  Available values: af-south-1
-  , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 ,
-  ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 ,
-  sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
+- `media_region`: The Region in which to create the meeting.  Available values: af-south-1,
+  ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,
+  eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1,
+  us-east-1, us-east-2, us-west-1, us-west-2.  Available values in AWS GovCloud (US) Regions:
+  us-gov-east-1, us-gov-west-1.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -111,6 +195,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MeetingHostId"`: Reserved.
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
+- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to
+  the new meeting.
+- `"Tags"`: Applies one or more tags to an Amazon Chime SDK meeting. Note the following:
+  Not all resources have tags. For a list of services with resources that support tagging
+  using this operation, see Services that support the Resource Groups Tagging API. If the
+  resource doesn't yet support this operation, the resource's service might support tagging
+  using its own API operations. For more information, refer to the documentation for that
+  service.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage
+  Conventions in the AWS General Reference.   You can only tag resources that are located in
+  the specified AWS Region for the AWS account.   To add tags to a resource, you need the
+  necessary permissions for the service that the resource belongs to as well as permissions
+  for adding tags. For more information, see the documentation for each service.    Do not
+  store personally identifiable information (PII) or other confidential or sensitive
+  information in tags. We use tags to provide you with billing and administration services.
+  Tags are not intended to be used for private or sensitive data.   Minimum permissions   In
+  addition to the tag:TagResources permission required by this operation, you must also have
+  the tagging permission defined by the service that created the resource. For example, to
+  tag a ChimeSDKMeetings instance using the TagResources operation, you must have both of the
+  following permissions:  tag:TagResources   ChimeSDKMeetings:CreateTags   Some services
+  might have specific requirements for tagging some resources. For example, to tag an Amazon
+  S3 bucket, you must also have the s3:GetBucketTagging permission. If the expected minimum
+  permissions don't work, check the documentation for that service's tagging APIs for more
+  information.
+- `"TenantIds"`: A consistent and opaque identifier, created and maintained by the builder
+  to represent a segment of their users.
 """
 function create_meeting(
     ClientRequestToken,
@@ -170,7 +279,11 @@ the Amazon Chime SDK in the Amazon Chime Developer Guide.
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
 - `external_meeting_id`: The external meeting ID.
-- `media_region`: The Region in which to create the meeting.
+- `media_region`: The Region in which to create the meeting.  Available values: af-south-1,
+  ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,
+  eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1,
+  us-east-1, us-east-2, us-west-1, us-west-2.  Available values in AWS GovCloud (US) Regions:
+  us-gov-east-1, us-gov-west-1.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -179,6 +292,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MeetingHostId"`: Reserved.
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
+- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to
+  the new meeting.
+- `"Tags"`: The tags in the request.
+- `"TenantIds"`: A consistent and opaque identifier, created and maintained by the builder
+  to represent a segment of their users.
 """
 function create_meeting_with_attendees(
     Attendees,
@@ -412,6 +530,37 @@ function list_attendees(
 end
 
 """
+    list_tags_for_resource(arn)
+    list_tags_for_resource(arn, params::Dict{String,<:Any})
+
+Returns a list of the tags available for the specified resource.
+
+# Arguments
+- `arn`: The ARN of the resource.
+
+"""
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_meetings(
+        "GET",
+        "/tags",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_meetings(
+        "GET",
+        "/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_meeting_transcription(meeting_id, transcription_configuration)
     start_meeting_transcription(meeting_id, transcription_configuration, params::Dict{String,<:Any})
 
@@ -486,6 +635,154 @@ function stop_meeting_transcription(
         "POST",
         "/meetings/$(MeetingId)/transcription?operation=stop",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+The resource that supports tags.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+- `tags`: Lists the requested tags.
+
+"""
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the specified resources. When you specify a tag key, the
+action removes both that key and its associated value. The operation succeeds even if you
+attempt to remove tags from a resource that were already removed. Note the following:   To
+remove tags from a resource, you need the necessary permissions for the service that the
+resource belongs to as well as permissions for removing tags. For more information, see the
+documentation for the service whose resource you want to untag.   You can only tag
+resources that are located in the specified AWS Region for the calling AWS account.
+Minimum permissions  In addition to the tag:UntagResources permission required by this
+operation, you must also have the remove tags permission defined by the service that
+created the resource. For example, to remove the tags from an Amazon EC2 instance using the
+UntagResources operation, you must have both of the following permissions:
+tag:UntagResource   ChimeSDKMeetings:DeleteTags
+
+# Arguments
+- `resource_arn`: The ARN of the resource that you're removing tags from.
+- `tag_keys`: The tag keys being removed from the resources.
+
+"""
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_meetings(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_attendee_capabilities(attendee_id, capabilities, meeting_id)
+    update_attendee_capabilities(attendee_id, capabilities, meeting_id, params::Dict{String,<:Any})
+
+The capabilties that you want to update.  You use the capabilities with a set of values
+that control what the capabilities can do, such as SendReceive data. For more information
+about those values, see .  When using capabilities, be aware of these corner cases:   You
+can't set content capabilities to SendReceive or Receive unless you also set video
+capabilities to SendReceive or Receive. If you don't set the video capability to receive,
+the response will contain an HTTP 400 Bad Request status code. However, you can set your
+video capability to receive and you set your content capability to not receive.   When you
+change an audio capability from None or Receive to Send or SendReceive , and if the
+attendee left their microphone unmuted, audio will flow from the attendee to the other
+meeting participants.   When you change a video or content capability from None or Receive
+to Send or SendReceive , and if the attendee turned on their video or content streams,
+remote attendess can receive those streams, but only after media renegotiation between the
+client and the Amazon Chime back-end server.
+
+# Arguments
+- `attendee_id`: The ID of the attendee associated with the update request.
+- `capabilities`: The capabilties that you want to update.
+- `meeting_id`: The ID of the meeting associated with the update request.
+
+"""
+function update_attendee_capabilities(
+    AttendeeId, Capabilities, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities",
+        Dict{String,Any}("Capabilities" => Capabilities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_attendee_capabilities(
+    AttendeeId,
+    Capabilities,
+    MeetingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_meetings(
+        "PUT",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

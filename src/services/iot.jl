@@ -210,8 +210,9 @@ end
     attach_principal_policy(policy_name, x-amzn-iot-principal, params::Dict{String,<:Any})
 
 Attaches the specified policy to the specified principal (certificate or other credential).
- Note: This action is deprecated. Please use AttachPolicy instead. Requires permission to
-access the AttachPrincipalPolicy action.
+ Note: This action is deprecated and works as expected for backward compatibility, but we
+won't add enhancements. Use AttachPolicy instead. Requires permission to access the
+AttachPrincipalPolicy action.
 
 # Arguments
 - `policy_name`: The policy name.
@@ -899,15 +900,17 @@ Requires permission to access the CreateCustomMetric action.
   exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
   generate a unique client request.
 - `metric_name`:  The name of the custom metric. This will be used in the metric report
-  submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
-- `metric_type`:  The type of the custom metric. Types include string-list,
-  ip-address-list, number-list, and number.
+  submitted from the device/thing. The name can't begin with aws:. You can't change the name
+  after you define it.
+- `metric_type`:  The type of the custom metric.   The type number only takes a single
+  metric value as an input, but when you submit the metrics value in the DeviceMetrics
+  report, you must pass it as an array with a single value.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"displayName"`:  Field represents a friendly name in the console for the custom metric;
-  it doesn't have to be unique. Don't use this name as the metric identifier in the device
-  metric report. Can be updated once defined.
+- `"displayName"`:  The friendly name in the console for the custom metric. This name
+  doesn't have to be unique. Don't use this name as the metric identifier in the device
+  metric report. You can update the friendly name after you define it.
 - `"tags"`:  Metadata that can be used to manage the custom metric.
 """
 function create_custom_metric(
@@ -1211,8 +1214,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
-- `"documentParameters"`: Parameters of a managed template that you can specify to create
-  the job document.
+- `"documentParameters"`: Parameters of an Amazon Web Services managed template that you
+  can specify to create the job document.   documentParameters can only be used when creating
+  jobs from Amazon Web Services managed templates. This parameter can't be used with custom
+  job templates or to create jobs from them.
 - `"documentSource"`: An S3 link to the job document. Required if you don't specify a value
   for document.  If the job document resides in an S3 bucket, you must use a placeholder link
   when specifying the document. The placeholder link is of the following form:
@@ -1232,7 +1237,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be complete after all those things specified as targets have completed the job (SNAPSHOT).
   If continuous, the job may also be run on a thing when a change is detected in a target.
   For example, a job will run on a thing when the thing is added to a target group, even
-  after the job was completed by all things originally in the group.
+  after the job was completed by all things originally in the group.  We recommend that you
+  use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using
+  continuous jobs, devices that join the group receive the job execution even after the job
+  has been created.
 - `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
   of the job. The timer is started when the job execution status is set to IN_PROGRESS. If
   the job execution status is not set to another terminal state before the time expires, it
@@ -1615,24 +1623,28 @@ end
     create_provisioning_template(provisioning_role_arn, template_body, template_name)
     create_provisioning_template(provisioning_role_arn, template_body, template_name, params::Dict{String,<:Any})
 
-Creates a fleet provisioning template. Requires permission to access the
+Creates a provisioning template. Requires permission to access the
 CreateProvisioningTemplate action.
 
 # Arguments
-- `provisioning_role_arn`: The role ARN for the role associated with the fleet provisioning
+- `provisioning_role_arn`: The role ARN for the role associated with the provisioning
   template. This IoT role grants permission to provision a device.
-- `template_body`: The JSON formatted contents of the fleet provisioning template.
-- `template_name`: The name of the fleet provisioning template.
+- `template_body`: The JSON formatted contents of the provisioning template.
+- `template_name`: The name of the provisioning template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"description"`: The description of the fleet provisioning template.
-- `"enabled"`: True to enable the fleet provisioning template, otherwise false.
+- `"description"`: The description of the provisioning template.
+- `"enabled"`: True to enable the provisioning template, otherwise false.
 - `"preProvisioningHook"`: Creates a pre-provisioning hook template.
-- `"tags"`: Metadata which can be used to manage the fleet provisioning template.  For URI
+- `"tags"`: Metadata which can be used to manage the provisioning template.  For URI
   Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line
   parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the
   cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\"
+- `"type"`: The type you define in a provisioning template. You can create a template with
+  only one type. You can't change the template type after its creation. The default value is
+  FLEET_PROVISIONING. For more information about provisioning template, see: Provisioning
+  template.
 """
 function create_provisioning_template(
     provisioningRoleArn,
@@ -1682,12 +1694,12 @@ end
     create_provisioning_template_version(template_body, template_name)
     create_provisioning_template_version(template_body, template_name, params::Dict{String,<:Any})
 
-Creates a new version of a fleet provisioning template. Requires permission to access the
+Creates a new version of a provisioning template. Requires permission to access the
 CreateProvisioningTemplateVersion action.
 
 # Arguments
-- `template_body`: The JSON formatted contents of the fleet provisioning template.
-- `template_name`: The name of the fleet provisioning template.
+- `template_body`: The JSON formatted contents of the provisioning template.
+- `template_name`: The name of the provisioning template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1735,7 +1747,8 @@ Creates a role alias. Requires permission to access the CreateRoleAlias action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"credentialDurationSeconds"`: How long (in seconds) the credentials will be valid. The
-  default value is 3,600 seconds.
+  default value is 3,600 seconds. This value must be less than or equal to the maximum
+  session duration of the IAM role that the role alias references.
 - `"tags"`: Metadata which can be used to manage the role alias.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
@@ -2851,7 +2864,7 @@ end
     delete_provisioning_template(template_name)
     delete_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Deletes a fleet provisioning template. Requires permission to access the
+Deletes a provisioning template. Requires permission to access the
 DeleteProvisioningTemplate action.
 
 # Arguments
@@ -2886,12 +2899,12 @@ end
     delete_provisioning_template_version(template_name, version_id)
     delete_provisioning_template_version(template_name, version_id, params::Dict{String,<:Any})
 
-Deletes a fleet provisioning template version. Requires permission to access the
+Deletes a provisioning template version. Requires permission to access the
 DeleteProvisioningTemplateVersion action.
 
 # Arguments
-- `template_name`: The name of the fleet provisioning template version to delete.
-- `version_id`: The fleet provisioning template version ID to delete.
+- `template_name`: The name of the provisioning template version to delete.
+- `version_id`: The provisioning template version ID to delete.
 
 """
 function delete_provisioning_template_version(
@@ -4121,11 +4134,11 @@ end
     describe_provisioning_template(template_name)
     describe_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Returns information about a fleet provisioning template. Requires permission to access the
+Returns information about a provisioning template. Requires permission to access the
 DescribeProvisioningTemplate action.
 
 # Arguments
-- `template_name`: The name of the fleet provisioning template.
+- `template_name`: The name of the provisioning template.
 
 """
 function describe_provisioning_template(
@@ -4156,12 +4169,12 @@ end
     describe_provisioning_template_version(template_name, version_id)
     describe_provisioning_template_version(template_name, version_id, params::Dict{String,<:Any})
 
-Returns information about a fleet provisioning template version. Requires permission to
-access the DescribeProvisioningTemplateVersion action.
+Returns information about a provisioning template version. Requires permission to access
+the DescribeProvisioningTemplateVersion action.
 
 # Arguments
 - `template_name`: The template name.
-- `version_id`: The fleet provisioning template version ID.
+- `version_id`: The provisioning template version ID.
 
 """
 function describe_provisioning_template_version(
@@ -4502,9 +4515,9 @@ end
     detach_principal_policy(policy_name, x-amzn-iot-principal)
     detach_principal_policy(policy_name, x-amzn-iot-principal, params::Dict{String,<:Any})
 
-Removes the specified policy from the specified certificate.  This action is deprecated.
-Please use DetachPolicy instead.  Requires permission to access the DetachPrincipalPolicy
-action.
+Removes the specified policy from the specified certificate.  Note: This action is
+deprecated and works as expected for backward compatibility, but we won't add enhancements.
+Use DetachPolicy instead. Requires permission to access the DetachPrincipalPolicy action.
 
 # Arguments
 - `policy_name`: The name of the policy to detach.
@@ -5659,6 +5672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"isAscendingOrder"`: Determines the order of the results.
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
+- `"templateName"`: The name of the provisioning template.
 """
 function list_cacertificates(; aws_config::AbstractAWSConfig=global_aws_config())
     return iot(
@@ -6114,7 +6128,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be complete after all those things specified as targets have completed the job (SNAPSHOT).
   If continuous, the job may also be run on a thing when a change is detected in a target.
   For example, a job will run on a thing when the thing is added to a target group, even
-  after the job was completed by all things originally in the group.
+  after the job was completed by all things originally in the group.   We recommend that you
+  use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using
+  continuous jobs, devices that join the group receive the job execution even after the job
+  has been created.
 - `"thingGroupId"`: A filter that limits the returned jobs to those for the specified group.
 - `"thingGroupName"`: A filter that limits the returned jobs to those for the specified
   group.
@@ -6159,6 +6176,74 @@ function list_managed_job_templates(
         "GET",
         "/managed-job-templates",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_metric_values(end_time, metric_name, start_time, thing_name)
+    list_metric_values(end_time, metric_name, start_time, thing_name, params::Dict{String,<:Any})
+
+Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side
+metric, or custom metric) by the given thing during the specified time period.
+
+# Arguments
+- `end_time`: The end of the time period for which metric values are returned.
+- `metric_name`: The name of the security profile metric for which values are returned.
+- `start_time`: The start of the time period for which metric values are returned.
+- `thing_name`: The name of the thing for which security profile metric values are returned.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dimensionName"`: The dimension name.
+- `"dimensionValueOperator"`: The dimension value operator.
+- `"maxResults"`: The maximum number of results to return at one time.
+- `"nextToken"`: The token for the next set of results.
+"""
+function list_metric_values(
+    endTime,
+    metricName,
+    startTime,
+    thingName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/metric-values",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "startTime" => startTime,
+            "thingName" => thingName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_metric_values(
+    endTime,
+    metricName,
+    startTime,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/metric-values",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "metricName" => metricName,
+                    "startTime" => startTime,
+                    "thingName" => thingName,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6283,9 +6368,9 @@ end
     list_policy_principals(x-amzn-iot-policy)
     list_policy_principals(x-amzn-iot-policy, params::Dict{String,<:Any})
 
-Lists the principals associated with the specified policy.  Note: This action is
-deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the
-ListPolicyPrincipals action.
+Lists the principals associated with the specified policy.  Note: This action is deprecated
+and works as expected for backward compatibility, but we won't add enhancements. Use
+ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
 
 # Arguments
 - `x-amzn-iot-policy`: The policy name.
@@ -6370,7 +6455,8 @@ end
     list_principal_policies(x-amzn-iot-principal, params::Dict{String,<:Any})
 
 Lists the policies attached to the specified principal. If you use an Cognito identity, the
-ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use
+ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as
+expected for backward compatibility, but we won't add enhancements. Use
 ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies
 action.
 
@@ -6478,11 +6564,11 @@ end
     list_provisioning_template_versions(template_name)
     list_provisioning_template_versions(template_name, params::Dict{String,<:Any})
 
-A list of fleet provisioning template versions. Requires permission to access the
+A list of provisioning template versions. Requires permission to access the
 ListProvisioningTemplateVersions action.
 
 # Arguments
-- `template_name`: The name of the fleet provisioning template.
+- `template_name`: The name of the provisioning template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6517,8 +6603,8 @@ end
     list_provisioning_templates()
     list_provisioning_templates(params::Dict{String,<:Any})
 
-Lists the fleet provisioning templates in your Amazon Web Services account. Requires
-permission to access the ListProvisioningTemplates action.
+Lists the provisioning templates in your Amazon Web Services account. Requires permission
+to access the ListProvisioningTemplates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7362,51 +7448,52 @@ function put_verification_state_on_violation(
 end
 
 """
-    register_cacertificate(ca_certificate, verification_certificate)
-    register_cacertificate(ca_certificate, verification_certificate, params::Dict{String,<:Any})
+    register_cacertificate(ca_certificate)
+    register_cacertificate(ca_certificate, params::Dict{String,<:Any})
 
-Registers a CA certificate with IoT. This CA certificate can then be used to sign device
-certificates, which can be then registered with IoT. You can register up to 10 CA
-certificates per Amazon Web Services account that have the same subject field. This enables
-you to have up to 10 certificate authorities sign your device certificates. If you have
-more than one CA certificate registered, make sure you pass the CA certificate when you
-register your device certificates with the RegisterCertificate action. Requires permission
-to access the RegisterCACertificate action.
+Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the
+number of CA certificates you can register in your Amazon Web Services account. You can
+register up to 10 CA certificates with the same CA subject field per Amazon Web Services
+account. Requires permission to access the RegisterCACertificate action.
 
 # Arguments
 - `ca_certificate`: The CA certificate.
-- `verification_certificate`: The private key verification certificate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"allowAutoRegistration"`: Allows this CA certificate to be used for auto registration of
   device certificates.
+- `"certificateMode"`: Describes the certificate mode in which the Certificate Authority
+  (CA) will be registered. If the verificationCertificate field is not provided, set
+  certificateMode to be SNI_ONLY. If the verificationCertificate field is provided, set
+  certificateMode to be DEFAULT. When certificateMode is not provided, it defaults to
+  DEFAULT. All the device certificates that are registered using this CA will be registered
+  in the same certificate mode as the CA. For more information about certificate mode for
+  device certificates, see  certificate mode.
 - `"registrationConfig"`: Information about the registration configuration.
 - `"setAsActive"`: A boolean value that specifies if the CA certificate is set to active.
+  Valid values: ACTIVE | INACTIVE
 - `"tags"`: Metadata which can be used to manage the CA certificate.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
+- `"verificationCertificate"`: The private key verification certificate. If certificateMode
+  is SNI_ONLY, the verificationCertificate field must be empty. If certificateMode is DEFAULT
+  or not provided, the verificationCertificate field must not be empty.
 """
 function register_cacertificate(
-    caCertificate,
-    verificationCertificate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    caCertificate; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot(
         "POST",
         "/cacertificate",
-        Dict{String,Any}(
-            "caCertificate" => caCertificate,
-            "verificationCertificate" => verificationCertificate,
-        );
+        Dict{String,Any}("caCertificate" => caCertificate);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_cacertificate(
     caCertificate,
-    verificationCertificate,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -7414,14 +7501,7 @@ function register_cacertificate(
         "POST",
         "/cacertificate",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "caCertificate" => caCertificate,
-                    "verificationCertificate" => verificationCertificate,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("caCertificate" => caCertificate), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7432,10 +7512,10 @@ end
     register_certificate(certificate_pem)
     register_certificate(certificate_pem, params::Dict{String,<:Any})
 
-Registers a device certificate with IoT. If you have more than one CA certificate that has
-the same subject field, you must specify the CA certificate that was used to sign the
-device certificate being registered. Requires permission to access the RegisterCertificate
-action.
+Registers a device certificate with IoT in the same certificate mode as the signing CA. If
+you have more than one CA certificate that has the same subject field, you must specify the
+CA certificate that was used to sign the device certificate being registered. Requires
+permission to access the RegisterCertificate action.
 
 # Arguments
 - `certificate_pem`: The certificate data, in PEM format.
@@ -7445,7 +7525,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"caCertificatePem"`: The CA certificate used to sign the device certificate being
   registered.
 - `"setAsActive"`: A boolean value that specifies if the certificate is set to active.
-- `"status"`: The status of the register certificate request.
+  Valid values: ACTIVE | INACTIVE
+- `"status"`: The status of the register certificate request. Valid values that you can use
+  include ACTIVE, INACTIVE, and REVOKED.
 """
 function register_certificate(
     certificatePem; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7725,7 +7807,8 @@ end
 The query search index. Requires permission to access the SearchIndex action.
 
 # Arguments
-- `query_string`: The search query string.
+- `query_string`: The search query string. For more information about the search query
+  syntax, see Query syntax.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9125,17 +9208,17 @@ end
     update_provisioning_template(template_name)
     update_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Updates a fleet provisioning template. Requires permission to access the
+Updates a provisioning template. Requires permission to access the
 UpdateProvisioningTemplate action.
 
 # Arguments
-- `template_name`: The name of the fleet provisioning template.
+- `template_name`: The name of the provisioning template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"defaultVersionId"`: The ID of the default provisioning template version.
-- `"description"`: The description of the fleet provisioning template.
-- `"enabled"`: True to enable the fleet provisioning template, otherwise false.
+- `"description"`: The description of the provisioning template.
+- `"enabled"`: True to enable the provisioning template, otherwise false.
 - `"preProvisioningHook"`: Updates the pre-provisioning hook template.
 - `"provisioningRoleArn"`: The ARN of the role associated with the provisioning template.
   This IoT role grants permission to provision a device.
@@ -9176,7 +9259,9 @@ Updates a role alias. Requires permission to access the UpdateRoleAlias action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"credentialDurationSeconds"`: The number of seconds the credential will be valid.
+- `"credentialDurationSeconds"`: The number of seconds the credential will be valid. This
+  value must be less than or equal to the maximum session duration of the IAM role that the
+  role alias references.
 - `"roleArn"`: The role ARN.
 """
 function update_role_alias(roleAlias; aws_config::AbstractAWSConfig=global_aws_config())

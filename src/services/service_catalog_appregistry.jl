@@ -595,6 +595,46 @@ function list_attribute_groups(
 end
 
 """
+    list_attribute_groups_for_application(application)
+    list_attribute_groups_for_application(application, params::Dict{String,<:Any})
+
+Lists the details of all attribute groups associated with a specific application. The
+results display in pages.
+
+# Arguments
+- `application`: The name or ID of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The upper bound of the number of results to return. The value cannot
+  exceed 25. If you omit this parameter, it defaults to 25. This value is optional.
+- `"nextToken"`: This token retrieves the next page of results after a previous API call.
+"""
+function list_attribute_groups_for_application(
+    application; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return service_catalog_appregistry(
+        "GET",
+        "/applications/$(application)/attribute-group-details";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_attribute_groups_for_application(
+    application,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog_appregistry(
+        "GET",
+        "/applications/$(application)/attribute-group-details",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -756,8 +796,9 @@ Updates an existing application with new attributes.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new description of the application.
-- `"name"`: The new name of the application. The name must be unique in the region in which
-  you are updating the application.
+- `"name"`: Deprecated: The new name of the application. The name must be unique in the
+  region in which you are updating the application. Please do not use this field as we have
+  stopped supporting name updates.
 """
 function update_application(application; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog_appregistry(
@@ -796,8 +837,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: A JSON string in the form of nested key-value pairs that represent the
   attributes in the group and describes an application and its components.
 - `"description"`: The description of the attribute group that the user provides.
-- `"name"`: The new name of the attribute group. The name must be unique in the region in
-  which you are updating the attribute group.
+- `"name"`: Deprecated: The new name of the attribute group. The name must be unique in the
+  region in which you are updating the attribute group. Please do not use this field as we
+  have stopped supporting name updates.
 """
 function update_attribute_group(
     attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()

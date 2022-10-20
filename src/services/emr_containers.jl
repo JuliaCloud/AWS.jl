@@ -61,7 +61,7 @@ Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"certificateArn"`: The certificate ARN provided by users for the managed endpoint. This
-  fiedd is under deprecation and will be removed in future releases.
+  field is under deprecation and will be removed in future releases.
 - `"configurationOverrides"`: The configuration settings that will be used to override
   existing configurations.
 - `"tags"`: The tags of the managed endpoint.

@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_dataset(client_token, dataset_name, dataset_schema)
-    create_dataset(client_token, dataset_name, dataset_schema, params::Dict{String,<:Any})
+    create_dataset(client_token, dataset_name)
+    create_dataset(client_token, dataset_name, params::Dict{String,<:Any})
 
 Creates a container for a collection of data being ingested for analysis. The dataset
 contains the metadata describing where the data is and what the data actually looks like.
@@ -17,28 +17,21 @@ information. A dataset also contains any tags associated with the ingested data.
 - `client_token`:  A unique identifier for the request. If you do not set the client
   request token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset being created.
-- `dataset_schema`: A JSON description of the data that is in each time series dataset,
-  including names, column names, and data types.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatasetSchema"`: A JSON description of the data that is in each time series dataset,
+  including names, column names, and data types.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt dataset
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the ingested data described in the dataset.
 """
 function create_dataset(
-    ClientToken,
-    DatasetName,
-    DatasetSchema;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClientToken, DatasetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lookoutequipment(
         "CreateDataset",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "DatasetName" => DatasetName,
-            "DatasetSchema" => DatasetSchema,
-        );
+        Dict{String,Any}("ClientToken" => ClientToken, "DatasetName" => DatasetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -46,7 +39,6 @@ end
 function create_dataset(
     ClientToken,
     DatasetName,
-    DatasetSchema,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -56,9 +48,7 @@ function create_dataset(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "DatasetName" => DatasetName,
-                    "DatasetSchema" => DatasetSchema,
+                    "ClientToken" => ClientToken, "DatasetName" => DatasetName
                 ),
                 params,
             ),
@@ -85,12 +75,12 @@ You must also provide an S3 bucket location for the output data.
   the inference scheduler, including delimiter, format, and dataset location.
 - `data_output_configuration`: Specifies configuration information for the output results
   for the inference scheduler, including the S3 location for the output.
-- `data_upload_frequency`:  How often data is uploaded to the source S3 bucket for the
-  input data. The value chosen is the length of time between data uploads. For instance, if
-  you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the
+- `data_upload_frequency`:  How often data is uploaded to the source Amazon S3 bucket for
+  the input data. The value chosen is the length of time between data uploads. For instance,
+  if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the
   source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout
-  for Equipment starts a scheduled inference on your data. In this example, it starts once
-  every 5 minutes.
+  for Equipment runs inference on your data. For more information, see Understanding the
+  inference process.
 - `inference_scheduler_name`: The name of the inference scheduler being created.
 - `model_name`: The name of the previously trained ML model being used to create the
   inference scheduler.
@@ -99,13 +89,14 @@ You must also provide an S3 bucket location for the output data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataDelayOffsetInMinutes"`: A period of time (in minutes) by which inference on the
-  data is delayed after the data starts. For instance, if you select an offset delay time of
-  five minutes, inference will not begin on the data until the first data measurement after
-  the five minute mark. For example, if five minutes is selected, the inference scheduler
-  will wake up at the configured frequency with the additional five minute delay time to
-  check the customer S3 bucket. The customer can upload data at the same frequency and they
-  don't need to stop and restart the scheduler when uploading new data.
+- `"DataDelayOffsetInMinutes"`: The interval (in minutes) of planned delay at the start of
+  each inference segment. For example, if inference is set to run every ten minutes, the
+  delay is set to five minutes and the time is 09:08. The inference scheduler will wake up at
+  the configured interval (which, without a delay configured, would be 09:10) plus the
+  additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The delay
+  provides a buffer for you to upload data at the same frequency, so that you don't have to
+  stop and restart the scheduler when uploading new data. For more information, see
+  Understanding the inference process.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt inference
   scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
@@ -159,6 +150,136 @@ function create_inference_scheduler(
                     "InferenceSchedulerName" => InferenceSchedulerName,
                     "ModelName" => ModelName,
                     "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_label(client_token, end_time, label_group_name, rating, start_time)
+    create_label(client_token, end_time, label_group_name, rating, start_time, params::Dict{String,<:Any})
+
+ Creates a label for an event.
+
+# Arguments
+- `client_token`:  A unique identifier for the request to create a label. If you do not set
+  the client request token, Lookout for Equipment generates one.
+- `end_time`:  The end time of the labeled event.
+- `label_group_name`:  The name of a group of labels.  Data in this field will be retained
+  for service usage. Follow best practices for the security of your data.
+- `rating`:  Indicates whether a labeled event represents an anomaly.
+- `start_time`:  The start time of the labeled event.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Equipment"`:  Indicates that a label pertains to a particular piece of equipment.  Data
+  in this field will be retained for service usage. Follow best practices for the security of
+  your data.
+- `"FaultCode"`:  Provides additional information about the label. The fault code must be
+  defined in the FaultCodes attribute of the label group. Data in this field will be retained
+  for service usage. Follow best practices for the security of your data.
+- `"Notes"`:  Metadata providing additional information about the label.  Data in this
+  field will be retained for service usage. Follow best practices for the security of your
+  data.
+"""
+function create_label(
+    ClientToken,
+    EndTime,
+    LabelGroupName,
+    Rating,
+    StartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateLabel",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "EndTime" => EndTime,
+            "LabelGroupName" => LabelGroupName,
+            "Rating" => Rating,
+            "StartTime" => StartTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_label(
+    ClientToken,
+    EndTime,
+    LabelGroupName,
+    Rating,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "EndTime" => EndTime,
+                    "LabelGroupName" => LabelGroupName,
+                    "Rating" => Rating,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_label_group(client_token, label_group_name)
+    create_label_group(client_token, label_group_name, params::Dict{String,<:Any})
+
+ Creates a group of labels.
+
+# Arguments
+- `client_token`:  A unique identifier for the request to create a label group. If you do
+  not set the client request token, Lookout for Equipment generates one.
+- `label_group_name`:  Names a group of labels. Data in this field will be retained for
+  service usage. Follow best practices for the security of your data.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FaultCodes"`:  The acceptable fault codes (indicating the type of anomaly associated
+  with the label) that can be used with this label group. Data in this field will be retained
+  for service usage. Follow best practices for the security of your data.
+- `"Tags"`:  Tags that provide metadata about the label group you are creating.  Data in
+  this field will be retained for service usage. Follow best practices for the security of
+  your data.
+"""
+function create_label_group(
+    ClientToken, LabelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "CreateLabelGroup",
+        Dict{String,Any}("ClientToken" => ClientToken, "LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_label_group(
+    ClientToken,
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateLabelGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "LabelGroupName" => LabelGroupName
                 ),
                 params,
             ),
@@ -333,6 +454,86 @@ function delete_inference_scheduler(
 end
 
 """
+    delete_label(label_group_name, label_id)
+    delete_label(label_group_name, label_id, params::Dict{String,<:Any})
+
+ Deletes a label.
+
+# Arguments
+- `label_group_name`:  The name of the label group that contains the label that you want to
+  delete. Data in this field will be retained for service usage. Follow best practices for
+  the security of your data.
+- `label_id`:  The ID of the label that you want to delete.
+
+"""
+function delete_label(
+    LabelGroupName, LabelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DeleteLabel",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_label(
+    LabelGroupName,
+    LabelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_label_group(label_group_name)
+    delete_label_group(label_group_name, params::Dict{String,<:Any})
+
+ Deletes a group of labels.
+
+# Arguments
+- `label_group_name`:  The name of the label group that you want to delete. Data in this
+  field will be retained for service usage. Follow best practices for the security of your
+  data.
+
+"""
+function delete_label_group(
+    LabelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DeleteLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_model(model_name)
     delete_model(model_name, params::Dict{String,<:Any})
 
@@ -371,7 +572,7 @@ end
     describe_data_ingestion_job(job_id, params::Dict{String,<:Any})
 
 Provides information on a specific data ingestion job such as creation time, dataset ARN,
-status, and so on.
+and status.
 
 # Arguments
 - `job_id`: The job ID of the data ingestion job.
@@ -402,8 +603,8 @@ end
     describe_dataset(dataset_name)
     describe_dataset(dataset_name, params::Dict{String,<:Any})
 
-Provides a JSON description of the data that is in each time series dataset, including
-names, column names, and data types.
+Provides a JSON description of the data in each time series dataset, including names,
+column names, and data types.
 
 # Arguments
 - `dataset_name`: The name of the dataset to be described.
@@ -473,6 +674,82 @@ function describe_inference_scheduler(
 end
 
 """
+    describe_label(label_group_name, label_id)
+    describe_label(label_group_name, label_id, params::Dict{String,<:Any})
+
+ Returns the name of the label.
+
+# Arguments
+- `label_group_name`:  Returns the name of the group containing the label.
+- `label_id`:  Returns the ID of the label.
+
+"""
+function describe_label(
+    LabelGroupName, LabelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeLabel",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_label(
+    LabelGroupName,
+    LabelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_label_group(label_group_name)
+    describe_label_group(label_group_name, params::Dict{String,<:Any})
+
+ Returns information about the label group.
+
+# Arguments
+- `label_group_name`:  Returns the name of the label group.
+
+"""
+function describe_label_group(
+    LabelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_model(model_name)
     describe_model(model_name, params::Dict{String,<:Any})
 
@@ -517,7 +794,7 @@ the input data, status, and so on.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DatasetName"`: The name of the dataset being used for the data ingestion job.
 - `"MaxResults"`:  Specifies the maximum number of data ingestion jobs to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
 """
@@ -560,6 +837,68 @@ function list_datasets(
 )
     return lookoutequipment(
         "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time)
+    list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time, params::Dict{String,<:Any})
+
+ Lists all inference events that have been found for the specified inference scheduler.
+
+# Arguments
+- `inference_scheduler_name`: The name of the inference scheduler for the inference events
+  listed.
+- `interval_end_time`: Returns all the inference events with an end start time equal to or
+  greater than less than the end time given
+- `interval_start_time`:  Lookout for Equipment will return all the inference events with
+  an end time equal to or greater than the start time given.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the maximum number of inference events to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
+  inference events.
+"""
+function list_inference_events(
+    InferenceSchedulerName,
+    IntervalEndTime,
+    IntervalStartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListInferenceEvents",
+        Dict{String,Any}(
+            "InferenceSchedulerName" => InferenceSchedulerName,
+            "IntervalEndTime" => IntervalEndTime,
+            "IntervalStartTime" => IntervalStartTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_inference_events(
+    InferenceSchedulerName,
+    IntervalEndTime,
+    IntervalStartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListInferenceEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InferenceSchedulerName" => InferenceSchedulerName,
+                    "IntervalEndTime" => IntervalEndTime,
+                    "IntervalStartTime" => IntervalStartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -646,6 +985,77 @@ function list_inference_schedulers(
 end
 
 """
+    list_label_groups()
+    list_label_groups(params::Dict{String,<:Any})
+
+ Returns a list of the label groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LabelGroupNameBeginsWith"`:  The beginning of the name of the label groups to be
+  listed.
+- `"MaxResults"`:  Specifies the maximum number of label groups to list.
+- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+  label groups.
+"""
+function list_label_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_label_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ListLabelGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_labels(label_group_name)
+    list_labels(label_group_name, params::Dict{String,<:Any})
+
+ Provides a list of labels.
+
+# Arguments
+- `label_group_name`:  Retruns the name of the label group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Equipment"`:  Lists the labels that pertain to a particular piece of equipment.
+- `"FaultCode"`:  Returns labels with a particular fault code.
+- `"IntervalEndTime"`:  Returns all labels with a start time earlier than the end time
+  given.
+- `"IntervalStartTime"`:  Returns all the labels with a end time equal to or later than the
+  start time given.
+- `"MaxResults"`:  Specifies the maximum number of labels to list.
+- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+  label groups.
+"""
+function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "ListLabels",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_labels(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListLabels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_models()
     list_models(params::Dict{String,<:Any})
 
@@ -672,6 +1082,51 @@ function list_models(
 )
     return lookoutequipment(
         "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_sensor_statistics(dataset_name)
+    list_sensor_statistics(dataset_name, params::Dict{String,<:Any})
+
+ Lists statistics about the data collected for each of the sensors that have been
+successfully ingested in the particular dataset. Can also be used to retreive Sensor
+Statistics for a previous ingestion job.
+
+# Arguments
+- `dataset_name`:  The name of the dataset associated with the list of Sensor Statistics.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IngestionJobId"`:  The ingestion job id associated with the list of Sensor Statistics.
+  To get sensor statistics for a particular ingestion job id, both dataset name and ingestion
+  job id must be submitted as inputs.
+- `"MaxResults"`: Specifies the maximum number of sensors for which to retrieve statistics.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
+  sensor statistics.
+"""
+function list_sensor_statistics(
+    DatasetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ListSensorStatistics",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sensor_statistics(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListSensorStatistics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -992,6 +1447,46 @@ function update_inference_scheduler(
                 Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_label_group(label_group_name)
+    update_label_group(label_group_name, params::Dict{String,<:Any})
+
+ Updates the label group.
+
+# Arguments
+- `label_group_name`:  The name of the label group to be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FaultCodes"`:  Updates the code indicating the type of anomaly associated with the
+  label.  Data in this field will be retained for service usage. Follow best practices for
+  the security of your data.
+"""
+function update_label_group(
+    LabelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "UpdateLabelGroup",
+        Dict{String,Any}("LabelGroupName" => LabelGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_label_group(
+    LabelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateLabelGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

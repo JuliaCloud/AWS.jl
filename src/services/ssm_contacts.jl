@@ -775,7 +775,9 @@ end
     put_contact_policy(contact_arn, policy)
     put_contact_policy(contact_arn, policy, params::Dict{String,<:Any})
 
-Adds a resource to the specified contact or escalation plan.
+Adds a resource policy to the specified contact or escalation plan. The resource policy is
+used to share the contact or escalation plan using Resource Access Manager (RAM). For more
+information about cross-account sharing, see Setting up cross-account functionality.
 
 # Arguments
 - `contact_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.

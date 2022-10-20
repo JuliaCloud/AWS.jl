@@ -589,7 +589,7 @@ AWS API Standard.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
-- `"Tags"`: Tags assigned to the AppInstanceUser.
+- `"Tags"`: Tags assigned to the AppInstance.
 """
 function create_app_instance(
     ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6015,7 +6015,7 @@ end
 
 Adds a streaming configuration for the specified Amazon Chime Voice Connector. The
 streaming configuration specifies whether media streaming is enabled for sending to
-Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis data.
+Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
 
 # Arguments
 - `streaming_configuration`: The streaming configuration details to add.
@@ -7394,8 +7394,8 @@ end
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id)
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id, params::Dict{String,<:Any})
 
-Allows you to trigger a Lambda function at any time while a call is active, and replace the
-current actions with new actions returned by the invocation.
+Invokes the AWS Lambda function associated with the SIP media application and transaction
+ID in an update request. The Lambda function can then return a new set of actions.
 
 # Arguments
 - `arguments`: Arguments made available to the Lambda function as part of the
@@ -7648,6 +7648,85 @@ function update_voice_connector_group(
                 _merge,
                 Dict{String,Any}(
                     "Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    validate_e911_address(aws_account_id, city, country, postal_code, state, street_info, street_number)
+    validate_e911_address(aws_account_id, city, country, postal_code, state, street_info, street_number, params::Dict{String,<:Any})
+
+Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You
+can use validated addresses in a Presence Information Data Format Location Object file that
+you include in SIP requests. That helps ensure that addresses are routed to the appropriate
+Public Safety Answering Point.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `city`: The address city, such as Portland.
+- `country`: The address country, such as US.
+- `postal_code`: The address postal code, such as 04352.
+- `state`: The address state, such as ME.
+- `street_info`: The address street information, such as 8th Avenue.
+- `street_number`: The address street number, such as 200 or 2121.
+
+"""
+function validate_e911_address(
+    AwsAccountId,
+    City,
+    Country,
+    PostalCode,
+    State,
+    StreetInfo,
+    StreetNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime(
+        "POST",
+        "/emergency-calling/address",
+        Dict{String,Any}(
+            "AwsAccountId" => AwsAccountId,
+            "City" => City,
+            "Country" => Country,
+            "PostalCode" => PostalCode,
+            "State" => State,
+            "StreetInfo" => StreetInfo,
+            "StreetNumber" => StreetNumber,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function validate_e911_address(
+    AwsAccountId,
+    City,
+    Country,
+    PostalCode,
+    State,
+    StreetInfo,
+    StreetNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime(
+        "POST",
+        "/emergency-calling/address",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AwsAccountId" => AwsAccountId,
+                    "City" => City,
+                    "Country" => Country,
+                    "PostalCode" => PostalCode,
+                    "State" => State,
+                    "StreetInfo" => StreetInfo,
+                    "StreetNumber" => StreetNumber,
                 ),
                 params,
             ),

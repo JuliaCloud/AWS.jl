@@ -5,6 +5,50 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_extended_source_server(source_server_arn)
+    create_extended_source_server(source_server_arn, params::Dict{String,<:Any})
+
+Create an extended source server in the target Account based on the source server in
+staging account.
+
+# Arguments
+- `source_server_arn`: This defines the ARN of the source server in staging Account based
+  on which you want to create an extended source server.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: A list of tags associated with the extended source server.
+"""
+function create_extended_source_server(
+    sourceServerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/CreateExtendedSourceServer",
+        Dict{String,Any}("sourceServerArn" => sourceServerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_extended_source_server(
+    sourceServerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/CreateExtendedSourceServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceServerArn" => sourceServerArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, pit_policy, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server)
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, pit_policy, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server, params::Dict{String,<:Any})
 
@@ -158,7 +202,7 @@ Elastic Disaster Recovery. The Recovery Instance must be disconnected first in o
 delete it.
 
 # Arguments
-- `recovery_instance_id`: RThe ID of the Recovery Instance to be deleted.
+- `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 
 """
 function delete_recovery_instance(
@@ -310,8 +354,8 @@ function describe_job_log_items(
 end
 
 """
-    describe_jobs(filters)
-    describe_jobs(filters, params::Dict{String,<:Any})
+    describe_jobs()
+    describe_jobs(params::Dict{String,<:Any})
 
 Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs
 are returned. The response is sorted by creationDataTime - latest date first. Jobs are
@@ -319,67 +363,56 @@ created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch
 are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs
 available only to *Support* and only used in response to relevant support tickets.
 
-# Arguments
-- `filters`: A set of filters by which to return Jobs.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: A set of filters by which to return Jobs.
 - `"maxResults"`: Maximum number of Jobs to retrieve.
 - `"nextToken"`: The token of the next Job to retrieve.
 """
-function describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return drs(
-        "POST",
-        "/DescribeJobs",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_jobs(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return drs(
         "POST",
         "/DescribeJobs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    describe_recovery_instances(filters)
-    describe_recovery_instances(filters, params::Dict{String,<:Any})
+    describe_recovery_instances()
+    describe_recovery_instances(params::Dict{String,<:Any})
 
 Lists all Recovery Instances or multiple Recovery Instances by ID.
 
-# Arguments
-- `filters`: A set of filters by which to return Recovery Instances.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: A set of filters by which to return Recovery Instances.
 - `"maxResults"`: Maximum number of Recovery Instances to retrieve.
 - `"nextToken"`: The token of the next Recovery Instance to retrieve.
 """
-function describe_recovery_instances(
-    filters; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_recovery_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return drs(
         "POST",
-        "/DescribeRecoveryInstances",
-        Dict{String,Any}("filters" => filters);
+        "/DescribeRecoveryInstances";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_recovery_instances(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return drs(
         "POST",
         "/DescribeRecoveryInstances",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -429,86 +462,67 @@ function describe_recovery_snapshots(
 end
 
 """
-    describe_replication_configuration_templates(replication_configuration_template_ids)
-    describe_replication_configuration_templates(replication_configuration_template_ids, params::Dict{String,<:Any})
+    describe_replication_configuration_templates()
+    describe_replication_configuration_templates(params::Dict{String,<:Any})
 
 Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
-
-# Arguments
-- `replication_configuration_template_ids`: The IDs of the Replication Configuration
-  Templates to retrieve. An empty list means all Replication Configuration Templates.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: Maximum number of Replication Configuration Templates to retrieve.
 - `"nextToken"`: The token of the next Replication Configuration Template to retrieve.
+- `"replicationConfigurationTemplateIDs"`: The IDs of the Replication Configuration
+  Templates to retrieve. An empty list means all Replication Configuration Templates.
 """
-function describe_replication_configuration_templates(
-    replicationConfigurationTemplateIDs; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_replication_configuration_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return drs(
         "POST",
-        "/DescribeReplicationConfigurationTemplates",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateIDs" => replicationConfigurationTemplateIDs
-        );
+        "/DescribeReplicationConfigurationTemplates";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_configuration_templates(
-    replicationConfigurationTemplateIDs,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return drs(
         "POST",
         "/DescribeReplicationConfigurationTemplates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "replicationConfigurationTemplateIDs" =>
-                        replicationConfigurationTemplateIDs,
-                ),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    describe_source_servers(filters)
-    describe_source_servers(filters, params::Dict{String,<:Any})
+    describe_source_servers()
+    describe_source_servers(params::Dict{String,<:Any})
 
 Lists all Source Servers or multiple Source Servers filtered by ID.
 
-# Arguments
-- `filters`: A set of filters by which to return Source Servers.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: A set of filters by which to return Source Servers.
 - `"maxResults"`: Maximum number of Source Servers to retrieve.
 - `"nextToken"`: The token of the next Source Server to retrieve.
 """
-function describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_config())
     return drs(
         "POST",
-        "/DescribeSourceServers",
-        Dict{String,Any}("filters" => filters);
+        "/DescribeSourceServers";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_source_servers(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return drs(
         "POST",
         "/DescribeSourceServers",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -741,6 +755,83 @@ function initialize_service(
     return drs(
         "POST",
         "/InitializeService",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_extensible_source_servers(staging_account_id)
+    list_extensible_source_servers(staging_account_id, params::Dict{String,<:Any})
+
+Returns a list of source servers on a staging account that are extensible, which means
+that: a. The source server is not already extended into this Account. b. The source server
+on the Account we’re reading from is not an extension of another source server.
+
+# Arguments
+- `staging_account_id`: The Id of the staging Account to retrieve extensible source servers
+  from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of extensible source servers to retrieve.
+- `"nextToken"`: The token of the next extensible source server to retrieve.
+"""
+function list_extensible_source_servers(
+    stagingAccountID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/ListExtensibleSourceServers",
+        Dict{String,Any}("stagingAccountID" => stagingAccountID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_extensible_source_servers(
+    stagingAccountID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/ListExtensibleSourceServers",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stagingAccountID" => stagingAccountID), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_staging_accounts()
+    list_staging_accounts(params::Dict{String,<:Any})
+
+Returns an array of staging accounts for existing extended source servers.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of staging Accounts to retrieve.
+- `"nextToken"`: The token of the next staging Account to retrieve.
+"""
+function list_staging_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
+    return drs(
+        "GET",
+        "/ListStagingAccounts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_staging_accounts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "GET",
+        "/ListStagingAccounts",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

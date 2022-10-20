@@ -56,24 +56,25 @@ function send_serial_console_sshpublic_key(
 end
 
 """
-    send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key)
-    send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key, params::Dict{String,<:Any})
+    send_sshpublic_key(instance_id, instance_osuser, sshpublic_key)
+    send_sshpublic_key(instance_id, instance_osuser, sshpublic_key, params::Dict{String,<:Any})
 
 Pushes an SSH public key to the specified EC2 instance for use by the specified user. The
 key remains for 60 seconds. For more information, see Connect to your Linux instance using
 EC2 Instance Connect in the Amazon EC2 User Guide.
 
 # Arguments
-- `availability_zone`: The Availability Zone in which the EC2 instance was launched.
 - `instance_id`: The ID of the EC2 instance.
 - `instance_osuser`: The OS user on the EC2 instance for whom the key can be used to
   authenticate.
 - `sshpublic_key`: The public key material. To use the public key, you must have the
   matching private key.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZone"`: The Availability Zone in which the EC2 instance was launched.
 """
 function send_sshpublic_key(
-    AvailabilityZone,
     InstanceId,
     InstanceOSUser,
     SSHPublicKey;
@@ -82,7 +83,6 @@ function send_sshpublic_key(
     return ec2_instance_connect(
         "SendSSHPublicKey",
         Dict{String,Any}(
-            "AvailabilityZone" => AvailabilityZone,
             "InstanceId" => InstanceId,
             "InstanceOSUser" => InstanceOSUser,
             "SSHPublicKey" => SSHPublicKey,
@@ -92,7 +92,6 @@ function send_sshpublic_key(
     )
 end
 function send_sshpublic_key(
-    AvailabilityZone,
     InstanceId,
     InstanceOSUser,
     SSHPublicKey,
@@ -105,7 +104,6 @@ function send_sshpublic_key(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AvailabilityZone" => AvailabilityZone,
                     "InstanceId" => InstanceId,
                     "InstanceOSUser" => InstanceOSUser,
                     "SSHPublicKey" => SSHPublicKey,

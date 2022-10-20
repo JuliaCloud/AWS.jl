@@ -12,9 +12,9 @@ Determines the dominant language of the input text for a batch of documents. For
 languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
 
 # Arguments
-- `text_list`: A list containing the text of the input documents. The list can contain a
-  maximum of 25 documents. Each document should contain at least 20 characters and must
-  contain fewer than 5,000 bytes of UTF-8 encoded characters.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. Each document should contain at least 20 characters.
+  The maximum size of each document is 5 KB.
 
 """
 function batch_detect_dominant_language(
@@ -47,14 +47,14 @@ end
     batch_detect_entities(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects the text of a batch of documents for named entities and returns information about
-them. For more information about named entities, see how-entities
+them. For more information about named entities, see Entities in the Comprehend Developer
+Guide.
 
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text_list`: A list containing the text of the input documents. The list can contain a
-  maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded
-  characters.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
 
 """
 function batch_detect_entities(
@@ -96,9 +96,8 @@ Detects the key noun phrases found in a batch of documents.
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text_list`: A list containing the text of the input documents. The list can contain a
-  maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded
-  characters.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
 
 """
 function batch_detect_key_phrases(
@@ -141,9 +140,10 @@ POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text_list`: A list containing the text of the input documents. The list can contain a
-  maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded
-  characters.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.   Amazon
+  Comprehend performs real-time sentiment analysis on the first 500 characters of the input
+  text and ignores any additional text in the input.
 
 """
 function batch_detect_sentiment(
@@ -181,16 +181,16 @@ end
     batch_detect_syntax(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects the text of a batch of documents for the syntax and part of speech of the words in
-the document and returns information about them. For more information, see how-syntax.
+the document and returns information about them. For more information, see Syntax in the
+Comprehend Developer Guide.
 
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the
   following languages supported by Amazon Comprehend: German (\"de\"), English (\"en\"),
   Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), or Portuguese (\"pt\"). All documents
   must be in the same language.
-- `text_list`: A list containing the text of the input documents. The list can contain a
-  maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded
-  characters.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. The maximum size for each document is 5 KB.
 
 """
 function batch_detect_syntax(
@@ -224,6 +224,50 @@ function batch_detect_syntax(
 end
 
 """
+    batch_detect_targeted_sentiment(language_code, text_list)
+    batch_detect_targeted_sentiment(language_code, text_list, params::Dict{String,<:Any})
+
+Inspects a batch of documents and returns a sentiment analysis for each entity identified
+in the documents. For more information about targeted sentiment, see Targeted sentiment.
+
+# Arguments
+- `language_code`: The language of the input documents. Currently, English is the only
+  supported language.
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
+
+"""
+function batch_detect_targeted_sentiment(
+    LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "BatchDetectTargetedSentiment",
+        Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_detect_targeted_sentiment(
+    LanguageCode,
+    TextList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "BatchDetectTargetedSentiment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     classify_document(endpoint_arn, text)
     classify_document(endpoint_arn, text, params::Dict{String,<:Any})
 
@@ -231,7 +275,8 @@ Creates a new document classification request to analyze a single document in re
 using a previously created and trained custom model and an endpoint.
 
 # Arguments
-- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint.
+- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint. For information about
+  endpoints, see Managing endpoints.
 - `text`: The document text to be analyzed.
 
 """
@@ -274,9 +319,9 @@ returns the labels of identified PII entity types such as name, address, bank ac
 number, or phone number.
 
 # Arguments
-- `language_code`: The language of the input documents.
-- `text`: Creates a new document classification request to analyze a single document in
-  real-time, returning personally identifiable information (PII) entity labels.
+- `language_code`: The language of the input documents. Currently, English is the only
+  valid language.
+- `text`: A UTF-8 text string. The maximum string size is 100 KB.
 
 """
 function contains_pii_entities(
@@ -316,8 +361,8 @@ end
 Creates a new document classifier that you can use to categorize documents. To create a
 classifier, you provide a set of training documents that labeled with the categories that
 you want to use. After the classifier is trained you can use it to categorize a set of
-labeled documents into the categories. For more information, see
-how-document-classification.
+labeled documents into the categories. For more information, see Document Classification in
+the Comprehend Developer Guide.
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Management
@@ -343,6 +388,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
   (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+- `"ModelPolicy"`: The resource-based policy to attach to your custom document classifier
+  model. You can use this policy to allow another AWS account to import your custom model.
+  Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line
+  breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If
+  the JSON body is also enclosed in double quotes, then you must escape the double quotes
+  that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To
+  avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to
+  enclose the JSON names and values:  '{\"attribute\": \"value\", \"attribute\":
+  [\"value\"]}'
 - `"OutputDataConfig"`: Enables the addition of output results configuration parameters for
   custom classifier jobs.
 - `"Tags"`: Tags to be associated with the document classifier being created. A tag is a
@@ -416,7 +470,7 @@ end
     create_endpoint(desired_inference_units, endpoint_name, model_arn, params::Dict{String,<:Any})
 
 Creates a model-specific endpoint for synchronous inference for a previously trained custom
-model
+model For information about endpoints, see Managing endpoints.
 
 # Arguments
 - `desired_inference_units`:  The desired number of inference units to be used by the model
@@ -512,6 +566,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   formats   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
   (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+- `"ModelPolicy"`: The JSON resource-based policy to attach to your custom entity
+  recognizer model. You can use this policy to allow another AWS account to import your
+  custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide
+  valid JSON for your policy, enclose the attribute names and values in double quotes. If the
+  JSON body is also enclosed in double quotes, then you must escape the double quotes that
+  are inside the policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To
+  avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to
+  enclose the JSON names and values:  '{\"attribute\": \"value\", \"attribute\":
+  [\"value\"]}'
 - `"Tags"`: Tags to be associated with the entity recognizer being created. A tag is a
   key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
   example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
@@ -627,7 +690,8 @@ end
     delete_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must
-be deleted in order for the model to be deleted.
+be deleted in order for the model to be deleted. For information about endpoints, see
+Managing endpoints.
 
 # Arguments
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being deleted.
@@ -694,6 +758,45 @@ function delete_entity_recognizer(
                 Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes a resource-based policy that is attached to a custom model.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the custom model version that has the
+  policy to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: The revision ID of the policy to delete.
+"""
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -811,7 +914,7 @@ end
     describe_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Gets the properties associated with a specific endpoint. Use this operation to get the
-status of an endpoint.
+status of an endpoint. For information about endpoints, see Managing endpoints.
 
 # Arguments
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being described.
@@ -1012,6 +1115,42 @@ function describe_pii_entities_detection_job(
 end
 
 """
+    describe_resource_policy(resource_arn)
+    describe_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Gets the details of a resource-based policy that is attached to a custom model, including
+the JSON body of the policy.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the policy to describe.
+
+"""
+function describe_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DescribeResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "DescribeResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_sentiment_detection_job(job_id)
     describe_sentiment_detection_job(job_id, params::Dict{String,<:Any})
 
@@ -1038,6 +1177,39 @@ function describe_sentiment_detection_job(
 )
     return comprehend(
         "DescribeSentimentDetectionJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_targeted_sentiment_detection_job(job_id)
+    describe_targeted_sentiment_detection_job(job_id, params::Dict{String,<:Any})
+
+Gets the properties associated with a targeted sentiment detection job. Use this operation
+to get the status of the job.
+
+# Arguments
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The operation
+  returns this identifier in its response.
+
+"""
+function describe_targeted_sentiment_detection_job(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DescribeTargetedSentimentDetectionJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_targeted_sentiment_detection_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DescribeTargetedSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1084,8 +1256,8 @@ Determines the dominant language of the input text. For a list of languages that
 Comprehend can detect, see Amazon Comprehend Supported Languages.
 
 # Arguments
-- `text`: A UTF-8 text string. Each string should contain at least 20 characters and must
-  contain fewer that 5,000 bytes of UTF-8 encoded characters.
+- `text`: A UTF-8 text string. The string must contain at least 20 characters. The maximum
+  string size is 100 KB.
 
 """
 function detect_dominant_language(Text; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1112,11 +1284,10 @@ end
     detect_entities(text, params::Dict{String,<:Any})
 
 Inspects text for named entities, and returns information about them. For more information,
-about named entities, see how-entities.
+about named entities, see Entities in the Comprehend Developer Guide.
 
 # Arguments
-- `text`: A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8
-  encoded characters.
+- `text`: A UTF-8 text string. The maximum string size is 100 KB.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1124,7 +1295,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entity recognition model. Provide an endpoint if you want to detect entities by using your
   own custom model instead of the default model that is used by Amazon Comprehend. If you
   specify an endpoint, Amazon Comprehend uses the language of your custom model, and it
-  ignores any language code that you provide in your request.
+  ignores any language code that you provide in your request. For information about
+  endpoints, see Managing endpoints.
 - `"LanguageCode"`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language. If
   your request includes the endpoint for a custom entity recognition model, Amazon Comprehend
@@ -1159,8 +1331,8 @@ Detects the key noun phrases found in the text.
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text`: A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8
-  encoded characters.
+- `text`: A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded
+  characters.
 
 """
 function detect_key_phrases(
@@ -1201,9 +1373,9 @@ Inspects the input text for entities that contain personally identifiable inform
 and returns information about them.
 
 # Arguments
-- `language_code`: The language of the input documents.
-- `text`: A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8
-  encoded characters.
+- `language_code`: The language of the input documents. Currently, English is the only
+  valid language.
+- `text`: A UTF-8 text string. The maximum string size is 100 KB.
 
 """
 function detect_pii_entities(
@@ -1246,8 +1418,9 @@ MIXED, or NEGATIVE).
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text`: A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8
-  encoded characters.
+- `text`: A UTF-8 text string. The maximum string size is 5 KB.  Amazon Comprehend performs
+  real-time sentiment analysis on the first 500 characters of the input text and ignores any
+  additional text in the input.
 
 """
 function detect_sentiment(
@@ -1285,14 +1458,13 @@ end
     detect_syntax(language_code, text, params::Dict{String,<:Any})
 
 Inspects text for syntax and the part of speech of words in the document. For more
-information, how-syntax.
+information, see Syntax in the Comprehend Developer Guide.
 
 # Arguments
 - `language_code`: The language code of the input documents. You can specify any of the
   following languages supported by Amazon Comprehend: German (\"de\"), English (\"en\"),
   Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), or Portuguese (\"pt\").
-- `text`: A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF encoded
-  characters.
+- `text`: A UTF-8 string. The maximum string size is 5 KB.
 
 """
 function detect_syntax(
@@ -1319,6 +1491,106 @@ function detect_syntax(
                 Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    detect_targeted_sentiment(language_code, text)
+    detect_targeted_sentiment(language_code, text, params::Dict{String,<:Any})
+
+Inspects the input text and returns a sentiment analysis for each entity identified in the
+text. For more information about targeted sentiment, see Targeted sentiment.
+
+# Arguments
+- `language_code`: The language of the input documents. Currently, English is the only
+  supported language.
+- `text`: A UTF-8 text string. The maximum string length is 5 KB.
+
+"""
+function detect_targeted_sentiment(
+    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DetectTargetedSentiment",
+        Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function detect_targeted_sentiment(
+    LanguageCode,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "DetectTargetedSentiment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    import_model(source_model_arn)
+    import_model(source_model_arn, params::Dict{String,<:Any})
+
+Creates a new custom model that replicates a source custom model that you import. The
+source model can be in your AWS account or another one. If the source model is in another
+AWS account, then it must have a resource-based policy that authorizes you to import it.
+The source model must be in the same AWS region that you're using when you import. You
+can't import a model that's in a different region.
+
+# Arguments
+- `source_model_arn`: The Amazon Resource Name (ARN) of the custom model to import.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the AWS Identity and Management
+  (IAM) role that allows Amazon Comprehend to use Amazon Key Management Service (KMS) to
+  encrypt or decrypt the custom model.
+- `"ModelKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
+  uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following
+  formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
+  (ARN) of a KMS Key:
+  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+- `"ModelName"`: The name to assign to the custom model that is created in Amazon
+  Comprehend by this import.
+- `"Tags"`: Tags to be associated with the custom model that is created by this import. A
+  tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend.
+  For example, a tag with \"Sales\" as the key might be added to a resource to indicate its
+  use by the sales department.
+- `"VersionName"`: The version name given to the custom model that is created by this
+  import. Version names can have a maximum of 256 characters. Alphanumeric characters,
+  hyphens (-) and underscores (_) are allowed. The version name must be unique among all
+  models with the same classifier name in the account/AWS Region.
+"""
+function import_model(SourceModelArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return comprehend(
+        "ImportModel",
+        Dict{String,Any}("SourceModelArn" => SourceModelArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_model(
+    SourceModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "ImportModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SourceModelArn" => SourceModelArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1458,7 +1730,8 @@ end
     list_endpoints()
     list_endpoints(params::Dict{String,<:Any})
 
-Gets a list of all existing endpoints that you've created.
+Gets a list of all existing endpoints that you've created. For information about endpoints,
+see Managing endpoints.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1740,6 +2013,40 @@ function list_tags_for_resource(
 end
 
 """
+    list_targeted_sentiment_detection_jobs()
+    list_targeted_sentiment_detection_jobs(params::Dict{String,<:Any})
+
+Gets a list of targeted sentiment detection jobs that you have submitted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
+  status, or the date and time that they were submitted. You can only set one filter at a
+  time.
+- `"MaxResults"`: The maximum number of results to return in each page. The default is 100.
+- `"NextToken"`: Identifies the next page of results to return.
+"""
+function list_targeted_sentiment_detection_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "ListTargetedSentimentDetectionJobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_targeted_sentiment_detection_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "ListTargetedSentimentDetectionJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_topics_detection_jobs()
     list_topics_detection_jobs(params::Dict{String,<:Any})
 
@@ -1764,6 +2071,63 @@ function list_topics_detection_jobs(
     return comprehend(
         "ListTopicsDetectionJobs",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(resource_arn, resource_policy)
+    put_resource_policy(resource_arn, resource_policy, params::Dict{String,<:Any})
+
+Attaches a resource-based policy to a custom model. You can use this policy to authorize an
+entity in another AWS account to import the custom model, which replicates it in Amazon
+Comprehend in their account.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the custom model to attach the policy
+  to.
+- `resource_policy`: The JSON resource-based policy to attach to your custom model. Provide
+  your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your
+  policy, enclose the attribute names and values in double quotes. If the JSON body is also
+  enclosed in double quotes, then you must escape the double quotes that are inside the
+  policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To avoid escaping
+  quotes, you can use single quotes to enclose the policy and double quotes to enclose the
+  JSON names and values:  '{\"attribute\": \"value\", \"attribute\": [\"value\"]}'
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: The revision ID that Amazon Comprehend assigned to the policy that
+  you are updating. If you are creating a new policy that has no prior version, don't use
+  this parameter. Amazon Comprehend creates the revision ID for you.
+"""
+function put_resource_policy(
+    ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "PutResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    ResourceArn,
+    ResourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2194,7 +2558,8 @@ Starts an asynchronous PII entity detection job for a collection of documents.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend read access to your input data.
 - `input_data_config`: The input properties for a PII entities detection job.
-- `language_code`: The language of the input documents.
+- `language_code`: The language of the input documents. Currently, English is the only
+  valid language.
 - `mode`: Specifies whether the output provides the locations (offsets) of PII entities or
   a file in which PII entities are redacted.
 - `output_data_config`: Provides conﬁguration parameters for the output of PII entity
@@ -2269,7 +2634,7 @@ end
     start_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
     start_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous sentiment detection job for a collection of documents. use the
+Starts an asynchronous sentiment detection job for a collection of documents. Use the
 operation to track the status of a job.
 
 # Arguments
@@ -2332,6 +2697,86 @@ function start_sentiment_detection_job(
 )
     return comprehend(
         "StartSentimentDetectionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataAccessRoleArn" => DataAccessRoleArn,
+                    "InputDataConfig" => InputDataConfig,
+                    "LanguageCode" => LanguageCode,
+                    "OutputDataConfig" => OutputDataConfig,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_targeted_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
+    start_targeted_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
+
+Starts an asynchronous targeted sentiment detection job for a collection of documents. Use
+the operation to track the status of a job.
+
+# Arguments
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
+  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
+  more information, see Role-based permissions.
+- `input_data_config`:
+- `language_code`: The language of the input documents. Currently, English is the only
+  supported language.
+- `output_data_config`: Specifies where to send the output files.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `"JobName"`: The identifier of the job.
+- `"Tags"`: Tags to be associated with the targeted sentiment detection job. A tag is a
+  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
+  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
+- `"VolumeKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt data on the
+  storage volume attached to the ML compute instance(s) that process the analysis job. The
+  VolumeKmsKeyId can be either of the following formats:   KMS Key ID:
+  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
+  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+- `"VpcConfig"`:
+"""
+function start_targeted_sentiment_detection_job(
+    DataAccessRoleArn,
+    InputDataConfig,
+    LanguageCode,
+    OutputDataConfig;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "StartTargetedSentimentDetectionJob",
+        Dict{String,Any}(
+            "DataAccessRoleArn" => DataAccessRoleArn,
+            "InputDataConfig" => InputDataConfig,
+            "LanguageCode" => LanguageCode,
+            "OutputDataConfig" => OutputDataConfig,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_targeted_sentiment_detection_job(
+    DataAccessRoleArn,
+    InputDataConfig,
+    LanguageCode,
+    OutputDataConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "StartTargetedSentimentDetectionJob",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2607,7 +3052,7 @@ end
     stop_sentiment_detection_job(job_id)
     stop_sentiment_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is
+Stops a sentiment detection job in progress. If the job state is IN_PROGRESS, the job is
 marked for termination and put into the STOP_REQUESTED state. If the job completes before
 it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and
 put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call
@@ -2634,6 +3079,43 @@ function stop_sentiment_detection_job(
 )
     return comprehend(
         "StopSentimentDetectionJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_targeted_sentiment_detection_job(job_id)
+    stop_targeted_sentiment_detection_job(job_id, params::Dict{String,<:Any})
+
+Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS, the
+job is marked for termination and put into the STOP_REQUESTED state. If the job completes
+before it can be stopped, it is put into the COMPLETED state; otherwise the job is be
+stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when
+you call the StopDominantLanguageDetectionJob operation, the operation returns a 400
+Internal Request Exception.  When a job is stopped, any documents already processed are
+written to the output location.
+
+# Arguments
+- `job_id`: The identifier of the targeted sentiment detection job to stop.
+
+"""
+function stop_targeted_sentiment_detection_job(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "StopTargetedSentimentDetectionJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_targeted_sentiment_detection_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "StopTargetedSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2821,7 +3303,8 @@ end
     update_endpoint(endpoint_arn)
     update_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
-Updates information about the specified endpoint.
+Updates information about the specified endpoint. For information about endpoints, see
+Managing endpoints.
 
 # Arguments
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being updated.

@@ -71,14 +71,36 @@ your unmanaged compute environment, you can use the DescribeComputeEnvironments 
 to find the Amazon ECS cluster that's associated with it. Then, launch your container
 instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS
 container instance in the Amazon Elastic Container Service Developer Guide.  Batch doesn't
-upgrade the AMIs in a compute environment after the environment is created. For example, it
-doesn't update the AMIs when a newer version of the Amazon ECS optimized AMI is available.
-Therefore, you're responsible for managing the guest operating system (including its
-updates and security patches) and any additional application software or utilities that you
-install on the compute resources. To use a new AMI for your Batch jobs, complete these
-steps:   Create a new compute environment with the new AMI.   Add the compute environment
-to an existing job queue.   Remove the earlier compute environment from your job queue.
-Delete the earlier compute environment.
+automatically upgrade the AMIs in a compute environment after it's created. For example, it
+also doesn't update the AMIs in your compute environment when a newer version of the Amazon
+ECS optimized AMI is available. You're responsible for the management of the guest
+operating system. This includes any updates and security patches. You're also responsible
+for any additional application software or utilities that you install on the compute
+resources. There are two ways to use a new AMI for your Batch jobs. The original method is
+to complete these steps:   Create a new compute environment with the new AMI.   Add the
+compute environment to an existing job queue.   Remove the earlier compute environment from
+your job queue.   Delete the earlier compute environment.   In April 2022, Batch added
+enhanced support for updating compute environments. For more information, see Updating
+compute environments. To use the enhanced updating of compute environments to update AMIs,
+follow these rules:   Either do not set the service role (serviceRole) parameter or set it
+to the AWSBatchServiceRole service-linked role.   Set the allocation strategy
+(allocationStrategy) parameter to BEST_FIT_PROGRESSIVE or SPOT_CAPACITY_OPTIMIZED.   Set
+the update to latest image version (updateToLatestImageVersion) parameter to true.   Do not
+specify an AMI ID in imageId, imageIdOverride (in  ec2Configuration ), or in the launch
+template (launchTemplate). In that case Batch will select the latest Amazon ECS optimized
+AMI supported by Batch at the time the infrastructure update is initiated. Alternatively
+you can specify the AMI ID in the imageId or imageIdOverride parameters, or the launch
+template identified by the LaunchTemplate properties. Changing any of these properties will
+trigger an infrastructure update. If the AMI ID is specified in the launch template, it can
+not be replaced by specifying an AMI ID in either the imageId or imageIdOverride
+parameters. It can only be replaced by specifying a different launch template, or if the
+launch template version is set to Default or Latest, by setting either a new default
+version for the launch template (if Default)or by adding a new version to the launch
+template (if Latest).   If these rules are followed, any update that triggers an
+infrastructure update will cause the AMI ID to be re-selected. If the version setting in
+the launch template (launchTemplate) is set to Latest or Default, the latest or default
+version of the launch template will be evaluated up at the time of the infrastructure
+update, even if the launchTemplate was not updated.
 
 # Arguments
 - `compute_environment_name`: The name for your compute environment. It can be up to 128
@@ -125,7 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter is only used for fair share scheduling to reserve vCPU capacity for new
   share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU
   capacity is reserved.  This parameter is only supported when the type parameter is set to
-  UNMANAGED/
+  UNMANAGED.
 """
 function create_compute_environment(
     computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -177,13 +199,13 @@ preference for scheduling jobs to that compute environment.
 # Arguments
 - `compute_environment_order`: The set of compute environments mapped to a job queue and
   their order relative to each other. The job scheduler uses this parameter to determine
-  which compute environment should run a specific job. Compute environments must be in the
-  VALID state before you can associate them with a job queue. You can associate up to three
-  compute environments with a job queue. All of the compute environments must be either EC2
-  (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments
-  can't be mixed.  All compute environments that are associated with a job queue must share
-  the same architecture. Batch doesn't support mixing compute environment architecture types
-  in a single job queue.
+  which compute environment runs a specific job. Compute environments must be in the VALID
+  state before you can associate them with a job queue. You can associate up to three compute
+  environments with a job queue. All of the compute environments must be either EC2 (EC2 or
+  SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be
+  mixed.  All compute environments that are associated with a job queue must share the same
+  architecture. Batch doesn't support mixing compute environment architecture types in a
+  single job queue.
 - `job_queue_name`: The name of the job queue. It can be up to 128 letters long. It can
   contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
 - `priority`: The priority of the job queue. Job queues with a higher priority (or a higher
@@ -453,7 +475,7 @@ end
 
 Describes one or more of your compute environments. If you're using an unmanaged compute
 environment, you can use the DescribeComputeEnvironment operation to determine the
-ecsClusterArn that you should launch your Amazon ECS container instances into.
+ecsClusterArn that you launch your Amazon ECS container instances into.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -902,7 +924,7 @@ Submits an Batch job from a job definition. Parameters that are specified during
 override parameters defined in the job definition. vCPU and memory requirements that are
 specified in the resourceRequirements objects in the job definition are the exception. They
 can't be overridden this way using the memory and vcpus parameters. Rather, you must
-specify updates to job definition parameters in a ResourceRequirements object that's
+specify updates to job definition parameters in a resourceRequirements object that's
 included in the containerOverrides parameter.  Job queues with a scheduling policy are
 limited to 500 active fair share identifiers at a time.    Jobs that run on Fargate
 resources can't be guaranteed to run for more than 14 days. This is because, after 14 days,
@@ -924,11 +946,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array. The array size can be between 2 and 10,000. If you specify array properties for a
   job, it becomes an array job. For more information, see Array Jobs in the Batch User Guide.
 - `"containerOverrides"`: A list of container overrides in the JSON format that specify the
-  name of a container in the specified job definition and the overrides it should receive.
-  You can override the default command for a container, which is specified in the job
-  definition or the Docker image, with a command override. You can also override existing
-  environment variables on a container or add new environment variables to it with an
-  environment override.
+  name of a container in the specified job definition and the overrides it receives. You can
+  override the default command for a container, which is specified in the job definition or
+  the Docker image, with a command override. You can also override existing environment
+  variables on a container or add new environment variables to it with an environment
+  override.
 - `"dependsOn"`: A list of dependencies for the job. A job can depend upon a maximum of 20
   jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array
   jobs so that each child array job completes sequentially, starting at index 0. You can also
@@ -956,7 +978,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be scheduled before jobs with a lower scheduling priority. This will override any
   scheduling priority in the job definition. The minimum supported value is 0 and the maximum
   supported value is 9999.
-- `"shareIdentifier"`: The share identifier for the job.
+- `"shareIdentifier"`: The share identifier for the job. If the job queue does not have a
+  scheduling policy, then this parameter must not be specified. If the job queue has a
+  scheduling policy, then this parameter must be specified.
 - `"tags"`: The tags that you apply to the job request to help you categorize and organize
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
@@ -1155,12 +1179,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Batch service IAM role in the Batch User Guide.  If the compute environment has a
   service-linked role, it can't be changed to use a regular IAM role. Likewise, if the
   compute environment has a regular IAM role, it can't be changed to use a service-linked
-  role.  If your specified role has a path other than /, then you must either specify the
-  full role ARN (this is recommended) or prefix the role name with the path.  Depending on
-  how you created your Batch service role, its ARN might contain the service-role path
-  prefix. When you only specify the name of the service role, Batch assumes that your ARN
-  doesn't use the service-role path prefix. Because of this, we recommend that you specify
-  the full ARN of your service role when you create compute environments.
+  role. To update the parameters for the compute environment that require an infrastructure
+  update to change, the AWSServiceRoleForBatch service-linked role must be used. For more
+  information, see Updating compute environments in the Batch User Guide.  If your specified
+  role has a path other than /, then you must either specify the full role ARN (recommended)
+  or prefix the role name with the path.  Depending on how you created your Batch service
+  role, its ARN might contain the service-role path prefix. When you only specify the name of
+  the service role, Batch assumes that your ARN doesn't use the service-role path prefix.
+  Because of this, we recommend that you specify the full ARN of your service role when you
+  create compute environments.
 - `"state"`: The state of the compute environment. Compute environments in the ENABLED
   state can accept jobs from a queue and scale in or out automatically based on the workload
   demand of its associated queues. If the state is ENABLED, then the Batch scheduler can
@@ -1171,10 +1198,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RUNNING state continue to progress normally. Managed compute environments in the DISABLED
   state don't scale out. However, they scale in to minvCpus value after instances become idle.
 - `"unmanagedvCpus"`: The maximum number of vCPUs expected to be used for an unmanaged
-  compute environment. This parameter should not be specified for a managed compute
-  environment. This parameter is only used for fair share scheduling to reserve vCPU capacity
-  for new share identifiers. If this parameter is not provided for a fair share job queue, no
-  vCPU capacity will be reserved.
+  compute environment. Do not specify this parameter for a managed compute environment. This
+  parameter is only used for fair share scheduling to reserve vCPU capacity for new share
+  identifiers. If this parameter is not provided for a fair share job queue, no vCPU capacity
+  will be reserved.
+- `"updatePolicy"`: Specifies the updated infrastructure update policy for the compute
+  environment. For more information about infrastructure updates, see Updating compute
+  environments in the Batch User Guide.
 """
 function update_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1218,15 +1248,15 @@ Updates a job queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"computeEnvironmentOrder"`: Details the set of compute environments mapped to a job
   queue and their order relative to each other. This is one of the parameters used by the job
-  scheduler to determine which compute environment should run a given job. Compute
-  environments must be in the VALID state before you can associate them with a job queue. All
-  of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or
-  FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.  All compute
-  environments that are associated with a job queue must share the same architecture. Batch
-  doesn't support mixing compute environment architecture types in a single job queue.
+  scheduler to determine which compute environment runs a given job. Compute environments
+  must be in the VALID state before you can associate them with a job queue. All of the
+  compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT).
+  EC2 and Fargate compute environments can't be mixed.  All compute environments that are
+  associated with a job queue must share the same architecture. Batch doesn't support mixing
+  compute environment architecture types in a single job queue.
 - `"priority"`: The priority of the job queue. Job queues with a higher priority (or a
   higher integer value for the priority parameter) are evaluated first when associated with
-  the same compute environment. Priority is determined in descending order, for example, a
+  the same compute environment. Priority is determined in descending order. For example, a
   job queue with a priority value of 10 is given scheduling preference over a job queue with
   a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or
   Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.

@@ -685,34 +685,81 @@ function list_revision_assets(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 This operation lists the tags on the resource.
 
 # Arguments
-- `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
+- `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return dataexchange(
         "GET",
-        "/tags/$(resource-arn)";
+        "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
         "GET",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    revoke_revision(data_set_id, revision_id, revocation_comment)
+    revoke_revision(data_set_id, revision_id, revocation_comment, params::Dict{String,<:Any})
+
+This operation revokes subscribers' access to a revision.
+
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
+- `revocation_comment`: A required comment to inform subscribers of the reason their access
+  to the revision was revoked.
+
+"""
+function revoke_revision(
+    DataSetId,
+    RevisionId,
+    RevocationComment;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/revoke",
+        Dict{String,Any}("RevocationComment" => RevocationComment);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function revoke_revision(
+    DataSetId,
+    RevisionId,
+    RevocationComment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/revoke",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RevocationComment" => RevocationComment), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -742,7 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request.
   Alternatively, you can use the appropriate verb in your request.
 - `"x-amzn-dataexchange-path"`: URI path value for the API request. Alternatively, you can
-  set the URI path directly by invoking /v1/{pathValue}
+  set the URI path directly by invoking /v1/{pathValue}.
 """
 function send_api_asset(
     x_amzn_dataexchange_asset_id,
@@ -822,34 +869,34 @@ function start_job(
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 This operation tags a resource.
 
 # Arguments
-- `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
+- `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 - `tags`: A label that consists of a customer-defined key and an optional value.
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
     return dataexchange(
         "POST",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
-    resource_arn,
+    ResourceArn,
     tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
         "POST",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -857,36 +904,36 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 This operation removes one or more tags from a resource.
 
 # Arguments
-- `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
+- `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 - `tag_keys`: The key tags.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return dataexchange(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

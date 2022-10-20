@@ -17,18 +17,22 @@ TABLE Block object contains information about a detected table. A CELL Block obj
 returned for each cell in a table.   Lines and words of text. A LINE Block object contains
 one or more WORD Block objects. All lines and words that are detected in the document are
 returned (including text that doesn't have a relationship with the value of FeatureTypes).
-  Selection elements such as check boxes and option buttons (radio buttons) can be detected
-in form data and in tables. A SELECTION_ELEMENT Block object contains information about a
-selection element, including the selection status. You can choose which type of analysis to
-perform by specifying the FeatureTypes list.  The output is returned in a list of Block
-objects.  AnalyzeDocument is a synchronous operation. To analyze documents asynchronously,
-use StartDocumentAnalysis. For more information, see Document Text Analysis.
+  Queries.A QUERIES_RESULT Block object contains the answer to the query, the alias
+associated and an ID that connect it to the query asked. This Block also contains a
+location and attached confidence score.   Selection elements such as check boxes and option
+buttons (radio buttons) can be detected in form data and in tables. A SELECTION_ELEMENT
+Block object contains information about a selection element, including the selection
+status. You can choose which type of analysis to perform by specifying the FeatureTypes
+list.  The output is returned in a list of Block objects.  AnalyzeDocument is a synchronous
+operation. To analyze documents asynchronously, use StartDocumentAnalysis. For more
+information, see Document Text Analysis.
 
 # Arguments
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
   the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document
-  must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract,
-  you might not need to base64-encode image bytes that are passed using the Bytes field.
+  must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call
+  Amazon Textract, you might not need to base64-encode image bytes that are passed using the
+  Bytes field.
 - `feature_types`: A list of the types of analysis to perform. Add TABLES to the list to
   return information about the tables that are detected in the input document. Add FORMS to
   return detected form data. To perform both types of analysis, add TABLES and FORMS to
@@ -39,6 +43,8 @@ use StartDocumentAnalysis. For more information, see Document Text Analysis.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HumanLoopConfig"`: Sets the configuration for the human in the loop workflow for
   analyzing documents.
+- `"QueriesConfig"`: Contains Queries and the alias for those Queries, as determined by the
+  input.
 """
 function analyze_document(
     Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
@@ -113,7 +119,8 @@ end
 
 Analyzes identity documents for relevant information. This information is extracted and
 returned as IdentityDocumentFields, which records both the normalized field and value of
-the extracted text.
+the extracted text.Unlike other Amazon Textract operations, AnalyzeID doesn't return any
+Geometry data.
 
 # Arguments
 - `document_pages`: The document being passed to AnalyzeID.
@@ -147,13 +154,14 @@ end
     detect_document_text(document, params::Dict{String,<:Any})
 
 Detects text in the input document. Amazon Textract can detect lines of text and the words
-that make up a line of text. The input document must be an image in JPEG or PNG format.
-DetectDocumentText returns the detected text in an array of Block objects.  Each document
-page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE
-Block objects that represent the lines of detected text on a page. A LINE Block object is a
-parent for each word that makes up the line. Words are represented by Block objects of type
-WORD.  DetectDocumentText is a synchronous operation. To analyze documents asynchronously,
-use StartDocumentTextDetection. For more information, see Document Text Detection.
+that make up a line of text. The input document must be an image in JPEG, PNG, PDF, or TIFF
+format. DetectDocumentText returns the detected text in an array of Block objects.  Each
+document page has as an associated Block of type PAGE. Each PAGE Block object is the parent
+of LINE Block objects that represent the lines of detected text on a page. A LINE Block
+object is a parent for each word that makes up the line. Words are represented by Block
+objects of type WORD.  DetectDocumentText is a synchronous operation. To analyze documents
+asynchronously, use StartDocumentTextDetection. For more information, see Document Text
+Detection.
 
 # Arguments
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
@@ -205,15 +213,18 @@ Table and table cell data. A TABLE Block object contains information about a det
 table. A CELL Block object is returned for each cell in a table.   Lines and words of text.
 A LINE Block object contains one or more WORD Block objects. All lines and words that are
 detected in the document are returned (including text that doesn't have a relationship with
-the value of the StartDocumentAnalysis FeatureTypes input parameter).    Selection elements
-such as check boxes and option buttons (radio buttons) can be detected in form data and in
-tables. A SELECTION_ELEMENT Block object contains information about a selection element,
-including the selection status. Use the MaxResults parameter to limit the number of blocks
-that are returned. If there are more results than specified in MaxResults, the value of
-NextToken in the operation response contains a pagination token for getting the next set of
-results. To get the next page of results, call GetDocumentAnalysis, and populate the
-NextToken request parameter with the token value that's returned from the previous call to
-GetDocumentAnalysis. For more information, see Document Text Analysis.
+the value of the StartDocumentAnalysis FeatureTypes input parameter).    Queries. A
+QUERIES_RESULT Block object contains the answer to the query, the alias associated and an
+ID that connect it to the query asked. This Block also contains a location and attached
+confidence score   Selection elements such as check boxes and option buttons (radio
+buttons) can be detected in form data and in tables. A SELECTION_ELEMENT Block object
+contains information about a selection element, including the selection status. Use the
+MaxResults parameter to limit the number of blocks that are returned. If there are more
+results than specified in MaxResults, the value of NextToken in the operation response
+contains a pagination token for getting the next set of results. To get the next page of
+results, call GetDocumentAnalysis, and populate the NextToken request parameter with the
+token value that's returned from the previous call to GetDocumentAnalysis. For more
+information, see Document Text Analysis.
 
 # Arguments
 - `job_id`: A unique identifier for the text-detection job. The JobId is returned from
@@ -399,6 +410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis
   operation.
+- `"QueriesConfig"`:
 """
 function start_document_analysis(
     DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()

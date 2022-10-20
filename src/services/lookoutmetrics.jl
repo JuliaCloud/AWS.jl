@@ -83,29 +83,27 @@ function back_test_anomaly_detector(
 end
 
 """
-    create_alert(action, alert_name, alert_sensitivity_threshold, anomaly_detector_arn)
-    create_alert(action, alert_name, alert_sensitivity_threshold, anomaly_detector_arn, params::Dict{String,<:Any})
+    create_alert(action, alert_name, anomaly_detector_arn)
+    create_alert(action, alert_name, anomaly_detector_arn, params::Dict{String,<:Any})
 
 Creates an alert for an anomaly detector.
 
 # Arguments
 - `action`: Action that will be triggered when there is an alert.
 - `alert_name`: The name of the alert.
-- `alert_sensitivity_threshold`: An integer from 0 to 100 specifying the alert sensitivity
-  threshold.
 - `anomaly_detector_arn`: The ARN of the detector to which the alert is attached.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AlertDescription"`: A description of the alert.
+- `"AlertFilters"`: The configuration of the alert filters, containing MetricList and
+  DimensionFilterList.
+- `"AlertSensitivityThreshold"`: An integer from 0 to 100 specifying the alert sensitivity
+  threshold.
 - `"Tags"`: A list of tags to apply to the alert.
 """
 function create_alert(
-    Action,
-    AlertName,
-    AlertSensitivityThreshold,
-    AnomalyDetectorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Action, AlertName, AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -113,7 +111,6 @@ function create_alert(
         Dict{String,Any}(
             "Action" => Action,
             "AlertName" => AlertName,
-            "AlertSensitivityThreshold" => AlertSensitivityThreshold,
             "AnomalyDetectorArn" => AnomalyDetectorArn,
         );
         aws_config=aws_config,
@@ -123,7 +120,6 @@ end
 function create_alert(
     Action,
     AlertName,
-    AlertSensitivityThreshold,
     AnomalyDetectorArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -137,7 +133,6 @@ function create_alert(
                 Dict{String,Any}(
                     "Action" => Action,
                     "AlertName" => AlertName,
-                    "AlertSensitivityThreshold" => AlertSensitivityThreshold,
                     "AnomalyDetectorArn" => AnomalyDetectorArn,
                 ),
                 params,
@@ -219,12 +214,14 @@ Creates a dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DimensionFilterList"`: A list of filters that specify which data is kept for anomaly
+  detection.
 - `"DimensionList"`: A list of the fields you want to treat as dimensions.
 - `"MetricSetDescription"`: A description of the dataset you are creating.
 - `"MetricSetFrequency"`: The frequency with which the source data will be analyzed for
   anomalies.
 - `"Offset"`: After an interval ends, the amount of seconds that the detector waits before
-  importing data. Offset is only supported for S3 and Redshift datasources.
+  importing data. Offset is only supported for S3, Redshift, Athena and datasources.
 - `"Tags"`: A list of tags to apply to the dataset.
 - `"TimestampColumn"`: Contains information about the column used for tracking time in your
   source data.
@@ -271,6 +268,45 @@ function create_metric_set(
                     "MetricSource" => MetricSource,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deactivate_anomaly_detector(anomaly_detector_arn)
+    deactivate_anomaly_detector(anomaly_detector_arn, params::Dict{String,<:Any})
+
+Deactivates an anomaly detector.
+
+# Arguments
+- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
+
+"""
+function deactivate_anomaly_detector(
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutmetrics(
+        "POST",
+        "/DeactivateAnomalyDetector",
+        Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deactivate_anomaly_detector(
+    AnomalyDetectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/DeactivateAnomalyDetector",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
             ),
         );
         aws_config=aws_config,
@@ -516,6 +552,57 @@ function describe_metric_set(
 end
 
 """
+    detect_metric_set_config(anomaly_detector_arn, auto_detection_metric_source)
+    detect_metric_set_config(anomaly_detector_arn, auto_detection_metric_source, params::Dict{String,<:Any})
+
+Detects an Amazon S3 dataset's file format, interval, and offset.
+
+# Arguments
+- `anomaly_detector_arn`: An anomaly detector ARN.
+- `auto_detection_metric_source`: A data source.
+
+"""
+function detect_metric_set_config(
+    AnomalyDetectorArn,
+    AutoDetectionMetricSource;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/DetectMetricSetConfig",
+        Dict{String,Any}(
+            "AnomalyDetectorArn" => AnomalyDetectorArn,
+            "AutoDetectionMetricSource" => AutoDetectionMetricSource,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function detect_metric_set_config(
+    AnomalyDetectorArn,
+    AutoDetectionMetricSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/DetectMetricSetConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnomalyDetectorArn" => AnomalyDetectorArn,
+                    "AutoDetectionMetricSource" => AutoDetectionMetricSource,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_anomaly_group(anomaly_detector_arn, anomaly_group_id)
     get_anomaly_group(anomaly_detector_arn, anomaly_group_id, params::Dict{String,<:Any})
 
@@ -556,6 +643,49 @@ function get_anomaly_group(
                     "AnomalyGroupId" => AnomalyGroupId,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_metrics(anomaly_detector_arn)
+    get_data_quality_metrics(anomaly_detector_arn, params::Dict{String,<:Any})
+
+Returns details about the requested data quality metrics.
+
+# Arguments
+- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector that you
+  want to investigate.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MetricSetArn"`: The Amazon Resource Name (ARN) of a specific data quality metric set.
+"""
+function get_data_quality_metrics(
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutmetrics(
+        "POST",
+        "/GetDataQualityMetrics",
+        Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_metrics(
+    AnomalyDetectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/GetDataQualityMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
             ),
         );
         aws_config=aws_config,
@@ -1079,6 +1209,49 @@ function untag_resource(
 end
 
 """
+    update_alert(alert_arn)
+    update_alert(alert_arn, params::Dict{String,<:Any})
+
+Make changes to an existing alert.
+
+# Arguments
+- `alert_arn`: The ARN of the alert to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Action"`: Action that will be triggered when there is an alert.
+- `"AlertDescription"`: A description of the alert.
+- `"AlertFilters"`: The configuration of the alert filters, containing MetricList and
+  DimensionFilterList.
+- `"AlertSensitivityThreshold"`: An integer from 0 to 100 specifying the alert sensitivity
+  threshold.
+"""
+function update_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutmetrics(
+        "POST",
+        "/UpdateAlert",
+        Dict{String,Any}("AlertArn" => AlertArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_alert(
+    AlertArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutmetrics(
+        "POST",
+        "/UpdateAlert",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AlertArn" => AlertArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_anomaly_detector(anomaly_detector_arn)
     update_anomaly_detector(anomaly_detector_arn, params::Dict{String,<:Any})
 
@@ -1135,13 +1308,17 @@ Updates a dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DimensionFilterList"`: Describes a list of filters for choosing specific dimensions and
+  specific values. Each filter consists of the dimension and one of its values that you want
+  to include. When multiple dimensions or values are specified, the dimensions are joined
+  with an AND operation and the values are joined with an OR operation.
 - `"DimensionList"`: The dimension list.
 - `"MetricList"`: The metric list.
 - `"MetricSetDescription"`: The dataset's description.
 - `"MetricSetFrequency"`: The dataset's interval.
 - `"MetricSource"`:
 - `"Offset"`: After an interval ends, the amount of seconds that the detector waits before
-  importing data. Offset is only supported for S3 and Redshift datasources.
+  importing data. Offset is only supported for S3, Redshift, Athena and datasources.
 - `"TimestampColumn"`: The timestamp column.
 """
 function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config())

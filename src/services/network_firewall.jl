@@ -67,7 +67,7 @@ end
     associate_subnets(subnet_mappings, params::Dict{String,<:Any})
 
 Associates the specified subnets in the Amazon VPC to the firewall. You can specify one
-subnet for each of the Availability Zones that the VPC spans.  This request creates an AWS
+subnet for each of the Availability Zones that the VPC spans.  This request creates an
 Network Firewall firewall endpoint in each of the subnets. To enable the firewall's
 protections, you must also modify the VPC's route tables for each subnet's Availability
 Zone, to redirect the traffic that's coming into and going out of the zone through the
@@ -124,16 +124,17 @@ end
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id, params::Dict{String,<:Any})
 
-Creates an AWS Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The
-firewall defines the configuration settings for an AWS Network Firewall firewall. The
-settings that you can define at creation include the firewall policy, the subnets in your
-VPC to use for the firewall endpoints, and any tags that are attached to the firewall AWS
-resource.  After you create a firewall, you can provide additional settings, like the
-logging configuration.  To update the settings for a firewall, you use the operations that
-apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets,
-and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard AWS
-resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To
-retrieve information about firewalls, use ListFirewalls and DescribeFirewall.
+Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The
+firewall defines the configuration settings for an Network Firewall firewall. The settings
+that you can define at creation include the firewall policy, the subnets in your VPC to use
+for the firewall endpoints, and any tags that are attached to the firewall Amazon Web
+Services resource.  After you create a firewall, you can provide additional settings, like
+the logging configuration.  To update the settings for a firewall, you use the operations
+that apply to the settings themselves, for example UpdateLoggingConfiguration,
+AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the
+standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource,
+and UntagResource. To retrieve information about firewalls, use ListFirewalls and
+DescribeFirewall.
 
 # Arguments
 - `firewall_name`: The descriptive name of the firewall. You can't change the name of a
@@ -153,6 +154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to protect against accidentally deleting a firewall that is in use. When you create a
   firewall, the operation initializes this flag to TRUE.
 - `"Description"`: A description of the firewall.
+- `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
+  firewall resources.
 - `"FirewallPolicyChangeProtection"`: A setting indicating whether the firewall is
   protected against a change to the firewall policy association. Use this setting to protect
   against accidentally modifying the firewall policy for a firewall that is in use. When you
@@ -213,10 +216,10 @@ end
     create_firewall_policy(firewall_policy, firewall_policy_name)
     create_firewall_policy(firewall_policy, firewall_policy_name, params::Dict{String,<:Any})
 
-Creates the firewall policy for the firewall according to the specifications.  An AWS
-Network Firewall firewall policy defines the behavior of a firewall, in a collection of
-stateless and stateful rule groups and other settings. You can use one firewall policy for
-multiple firewalls.
+Creates the firewall policy for the firewall according to the specifications.  An Network
+Firewall firewall policy defines the behavior of a firewall, in a collection of stateless
+and stateful rule groups and other settings. You can use one firewall policy for multiple
+firewalls.
 
 # Arguments
 - `firewall_policy`: The rule groups and policy actions to use in the firewall policy.
@@ -234,6 +237,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
+- `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
+  firewall policy resources.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
 function create_firewall_policy(
@@ -318,6 +323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
+- `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
+  rule group resources.
 - `"RuleGroup"`: An object that defines the rule group rules.   You must provide either
   this rule group setting or a Rules setting, but not both.
 - `"Rules"`: A string containing stateful rule group rules specifications in Suricata flat
@@ -326,6 +333,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not both.   You can provide your rule group specification in Suricata flat format through
   this setting when you create or update your rule group. The call response returns a
   RuleGroup object that Network Firewall has populated from your string.
+- `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
+  own rule group is copied from. You can use the metadata to keep track of updates made to
+  the originating rule group.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
 function create_rule_group(
@@ -816,6 +826,8 @@ list.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ManagedType"`: Indicates the general category of the Amazon Web Services managed rule
+  group.
 - `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
   for this request. If more objects are available, in the response, Network Firewall provides
   a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -826,6 +838,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Scope"`: The scope of the request. The default setting of ACCOUNT or a setting of NULL
   returns all of the rule groups in your account. A setting of MANAGED returns all available
   managed rule groups.
+- `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
+  stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return network_firewall(
@@ -847,9 +861,9 @@ end
 Retrieves the tags associated with the specified resource. Tags are key:value pairs that
 you can use to categorize and manage your resources, for purposes like billing. For
 example, you might set the tag key to \"customer\" and the value to the customer name or
-ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a
-resource. You can tag the AWS resources that you manage through AWS Network Firewall:
-firewalls, firewall policies, and rule groups.
+ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50
+tags for a resource. You can tag the Amazon Web Services resources that you manage through
+Network Firewall: firewalls, firewall policies, and rule groups.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -893,28 +907,27 @@ end
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
-Creates or updates an AWS Identity and Access Management policy for your rule group or
-firewall policy. Use this to share rule groups and firewall policies between accounts. This
-operation works in conjunction with the AWS Resource Access Manager (RAM) service to manage
-resource sharing for Network Firewall.  Use this operation to create or update a resource
-policy for your rule group or firewall policy. In the policy, you specify the accounts that
-you want to share the resource with and the operations that you want the accounts to be
-able to perform.  When you add an account in the resource policy, you then run the
-following Resource Access Manager (RAM) operations to access and accept the shared rule
-group or firewall policy.     GetResourceShareInvitations - Returns the Amazon Resource
-Names (ARNs) of the resource share invitations.     AcceptResourceShareInvitation - Accepts
-the share invitation for a specified resource share.    For additional information about
-resource sharing using RAM, see AWS Resource Access Manager User Guide.
+Creates or updates an IAM policy for your rule group or firewall policy. Use this to share
+rule groups and firewall policies between accounts. This operation works in conjunction
+with the Amazon Web Services Resource Access Manager (RAM) service to manage resource
+sharing for Network Firewall.  Use this operation to create or update a resource policy for
+your rule group or firewall policy. In the policy, you specify the accounts that you want
+to share the resource with and the operations that you want the accounts to be able to
+perform.  When you add an account in the resource policy, you then run the following
+Resource Access Manager (RAM) operations to access and accept the shared rule group or
+firewall policy.     GetResourceShareInvitations - Returns the Amazon Resource Names (ARNs)
+of the resource share invitations.     AcceptResourceShareInvitation - Accepts the share
+invitation for a specified resource share.    For additional information about resource
+sharing using RAM, see Resource Access Manager User Guide.
 
 # Arguments
-- `policy`: The AWS Identity and Access Management policy statement that lists the accounts
-  that you want to share your rule group or firewall policy with and the operations that you
-  want the accounts to be able to perform.  For a rule group resource, you can specify the
-  following operations in the Actions section of the statement:
-  network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy
-  network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the
-  following operations in the Actions section of the statement:
-  network-firewall:CreateFirewall   network-firewall:UpdateFirewall
+- `policy`: The IAM policy statement that lists the accounts that you want to share your
+  rule group or firewall policy with and the operations that you want the accounts to be able
+  to perform.  For a rule group resource, you can specify the following operations in the
+  Actions section of the statement:   network-firewall:CreateFirewallPolicy
+  network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall
+  policy resource, you can specify the following operations in the Actions section of the
+  statement:   network-firewall:CreateFirewall   network-firewall:UpdateFirewall
   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the
   Resource section of the statement, you specify the ARNs for the rule groups and firewall
   policies that you want to share with the account that you specified in Arn.
@@ -959,9 +972,9 @@ end
 Adds the specified tags to the specified resource. Tags are key:value pairs that you can
 use to categorize and manage your resources, for purposes like billing. For example, you
 might set the tag key to \"customer\" and the value to the customer name or ID. You can
-specify one or more tags to add to each AWS resource, up to 50 tags for a resource. You can
-tag the AWS resources that you manage through AWS Network Firewall: firewalls, firewall
-policies, and rule groups.
+specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
+resource. You can tag the Amazon Web Services resources that you manage through Network
+Firewall: firewalls, firewall policies, and rule groups.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -1003,9 +1016,9 @@ end
 Removes the tags with the specified keys from the specified resource. Tags are key:value
 pairs that you can use to categorize and manage your resources, for purposes like billing.
 For example, you might set the tag key to \"customer\" and the value to the customer name
-or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a
-resource. You can manage tags for the AWS resources that you manage through AWS Network
-Firewall: firewalls, firewall policies, and rule groups.
+or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to
+50 tags for a resource. You can manage tags for the Amazon Web Services resources that you
+manage through Network Firewall: firewalls, firewall policies, and rule groups.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -1147,6 +1160,50 @@ function update_firewall_description(
 end
 
 """
+    update_firewall_encryption_configuration()
+    update_firewall_encryption_configuration(params::Dict{String,<:Any})
+
+A complex type that contains settings for encryption of your firewall resources.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionConfiguration"`:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
+  Firewall returns a token to your requests that access the firewall. The token marks the
+  state of the firewall resource at the time of the request.  To make an unconditional change
+  to the firewall, omit the token in your update request. Without the token, Network Firewall
+  performs your updates regardless of whether the firewall has changed since you last
+  retrieved it. To make a conditional change to the firewall, provide the token in your
+  update request. Network Firewall uses the token to ensure that the firewall hasn't changed
+  since you last retrieved it. If it has changed, the operation fails with an
+  InvalidTokenException. If this happens, retrieve the firewall again to get a current copy
+  of it with a new token. Reapply your changes as needed, then try the operation again using
+  the new token.
+"""
+function update_firewall_encryption_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallEncryptionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_firewall_encryption_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallEncryptionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_firewall_policy(firewall_policy, update_token)
     update_firewall_policy(firewall_policy, update_token, params::Dict{String,<:Any})
 
@@ -1174,6 +1231,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
+- `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
+  firewall policy resources.
 - `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy. You must
   specify the ARN or the name, and you can specify both.
 - `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
@@ -1352,6 +1411,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
+- `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
+  rule group resources.
 - `"RuleGroup"`: An object that defines the rule group rules.   You must provide either
   this rule group setting or a Rules setting, but not both.
 - `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group. You must specify the
@@ -1365,6 +1426,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not both.   You can provide your rule group specification in Suricata flat format through
   this setting when you create or update your rule group. The call response returns a
   RuleGroup object that Network Firewall has populated from your string.
+- `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
+  own rule group is copied from. You can use the metadata to keep track of updates made to
+  the originating rule group.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.

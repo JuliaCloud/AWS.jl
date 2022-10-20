@@ -74,11 +74,16 @@ end
 Returns the data in a block in an Amazon Elastic Block Store snapshot.
 
 # Arguments
-- `block_index`: The block index of the block from which to get data. Obtain the BlockIndex
-  by running the ListChangedBlocks or ListSnapshotBlocks operations.
-- `block_token`: The block token of the block from which to get data. Obtain the BlockToken
-  by running the ListChangedBlocks or ListSnapshotBlocks operations.
-- `snapshot_id`: The ID of the snapshot containing the block from which to get data.
+- `block_index`: The block index of the block in which to read the data. A block index is a
+  logical index in units of 512 KiB blocks. To identify the block index, divide the logical
+  offset of the data in the logical volume by the block size (logical offset of data/524288).
+  The logical offset of the data must be 512 KiB aligned.
+- `block_token`: The block token of the block from which to get data. You can obtain the
+  BlockToken by running the ListChangedBlocks or ListSnapshotBlocks operations.
+- `snapshot_id`: The ID of the snapshot containing the block from which to get data.  If
+  the specified snapshot is encrypted, you must have permission to use the KMS key that was
+  used to encrypt the snapshot. For more information, see  Using encryption in the Amazon
+  Elastic Compute Cloud User Guide.
 
 """
 function get_snapshot_block(
@@ -127,11 +132,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"firstSnapshotId"`: The ID of the first snapshot to use for the comparison.  The
   FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise,
   an error occurs.
-- `"maxResults"`: The number of results to return.
-- `"pageToken"`: The token to request the next page of results.
+- `"maxResults"`: The maximum number of blocks to be returned by the request. Even if
+  additional blocks can be retrieved from the snapshot, the request can return less blocks
+  than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the
+  snapshot, make another request with the returned NextToken value. The value of NextToken is
+  null when there are no more blocks to return.
+- `"pageToken"`: The token to request the next page of results. If you specify NextToken,
+  then StartingBlockIndex is ignored.
 - `"startingBlockIndex"`: The block index from which the comparison should start. The list
   in the response will start from this block index or the next valid block index in the
-  snapshots.
+  snapshots. If you specify NextToken, then StartingBlockIndex is ignored.
 """
 function list_changed_blocks(
     secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -168,10 +178,16 @@ Returns information about the blocks in an Amazon Elastic Block Store snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The number of results to return.
-- `"pageToken"`: The token to request the next page of results.
+- `"maxResults"`: The maximum number of blocks to be returned by the request. Even if
+  additional blocks can be retrieved from the snapshot, the request can return less blocks
+  than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the
+  snapshot, make another request with the returned NextToken value. The value of NextToken is
+  null when there are no more blocks to return.
+- `"pageToken"`: The token to request the next page of results. If you specify NextToken,
+  then StartingBlockIndex is ignored.
 - `"startingBlockIndex"`: The block index from which the list should start. The list in the
-  response will start from this block index or the next valid block index in the snapshot.
+  response will start from this block index or the next valid block index in the snapshot. If
+  you specify NextToken, then StartingBlockIndex is ignored.
 """
 function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config())
     return ebs(
@@ -217,7 +233,9 @@ snapshot must be aligned with 512-KiB sectors.
   a logical index in units of 512 KiB blocks. To identify the block index, divide the logical
   offset of the data in the logical volume by the block size (logical offset of data/524288).
   The logical offset of the data must be 512 KiB aligned.
-- `snapshot_id`: The ID of the snapshot.
+- `snapshot_id`: The ID of the snapshot.  If the specified snapshot is encrypted, you must
+  have permission to use the KMS key that was used to encrypt the snapshot. For more
+  information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide..
 - `x-amz-_checksum`: A Base64-encoded SHA256 checksum of the data. Only SHA256 checksums
   are supported.
 - `x-amz-_checksum-_algorithm`: The algorithm used to generate the checksum. Currently, the
@@ -306,26 +324,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically generated by the Amazon Web Services SDK. For more information, see
   Idempotency for StartSnapshot API in the Amazon Elastic Compute Cloud User Guide.
 - `"Description"`: A description for the snapshot.
-- `"Encrypted"`: Indicates whether to encrypt the snapshot. To create an encrypted
-  snapshot, specify true. To create an unencrypted snapshot, omit this parameter. If you
-  specify a value for ParentSnapshotId, omit this parameter. If you specify true, the
-  snapshot is encrypted using the KMS key specified using the KmsKeyArn parameter. If no
-  value is specified for KmsKeyArn, the default KMS key for your account is used. If no
-  default KMS key has been specified for your account, the Amazon Web Services managed KMS
-  key is used. To set a default KMS key for your account, use  ModifyEbsDefaultKmsKeyId. If
-  your account is enabled for encryption by default, you cannot set this parameter to false.
-  In this case, you can omit this parameter. For more information, see  Using encryption in
-  the Amazon Elastic Compute Cloud User Guide.
+- `"Encrypted"`: Indicates whether to encrypt the snapshot. You can't specify Encrypted and
+   ParentSnapshotId in the same request. If you specify both parameters, the request fails
+  with ValidationException. The encryption status of the snapshot depends on the values that
+  you specify for Encrypted, KmsKeyArn, and ParentSnapshotId, and whether your Amazon Web
+  Services account is enabled for  encryption by default. For more information, see  Using
+  encryption in the Amazon Elastic Compute Cloud User Guide.  To create an encrypted
+  snapshot, you must have permission to use the KMS key. For more information, see
+  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User
+  Guide.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to
-  be used to encrypt the snapshot. If you do not specify a KMS key, the default Amazon Web
-  Services managed KMS key is used. If you specify a ParentSnapshotId, omit this parameter;
-  the snapshot will be encrypted using the same KMS key that was used to encrypt the parent
-  snapshot. If Encrypted is set to true, you must specify a KMS key ARN.
+  be used to encrypt the snapshot. The encryption status of the snapshot depends on the
+  values that you specify for Encrypted, KmsKeyArn, and ParentSnapshotId, and whether your
+  Amazon Web Services account is enabled for  encryption by default. For more information,
+  see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  To create an
+  encrypted snapshot, you must have permission to use the KMS key. For more information, see
+  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User
+  Guide.
 - `"ParentSnapshotId"`: The ID of the parent snapshot. If there is no parent snapshot, or
-  if you are creating the first snapshot for an on-premises volume, omit this parameter. If
-  your account is enabled for encryption by default, you cannot use an unencrypted snapshot
-  as a parent snapshot. You must first create an encrypted copy of the parent snapshot using
-  CopySnapshot.
+  if you are creating the first snapshot for an on-premises volume, omit this parameter. You
+  can't specify ParentSnapshotId and Encrypted in the same request. If you specify both
+  parameters, the request fails with ValidationException. The encryption status of the
+  snapshot depends on the values that you specify for Encrypted, KmsKeyArn, and
+  ParentSnapshotId, and whether your Amazon Web Services account is enabled for  encryption
+  by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud
+  User Guide.  If you specify an encrypted parent snapshot, you must have permission to use
+  the KMS key that was used to encrypt the parent snapshot. For more information, see
+  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User
+  Guide.
 - `"Tags"`: The tags to apply to the snapshot.
 - `"Timeout"`: The amount of time (in minutes) after which the snapshot is automatically
   cancelled if:   No blocks are written to the snapshot.   The snapshot is not completed

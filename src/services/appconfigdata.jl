@@ -8,15 +8,15 @@ using AWS.UUIDs
     get_latest_configuration(configuration_token)
     get_latest_configuration(configuration_token, params::Dict{String,<:Any})
 
-Retrieves the latest deployed configuration. This API may return empty Configuration data
-if the client already has the latest version. See StartConfigurationSession to obtain an
-InitialConfigurationToken to call this API.  Each call to GetLatestConfiguration returns a
-new ConfigurationToken (NextPollConfigurationToken in the response). This new token MUST be
-provided to the next call to GetLatestConfiguration when polling for configuration updates.
-To avoid excess charges, we recommend that you include the ClientConfigurationVersion value
-with every call to GetConfiguration. This value must be saved on your client. Subsequent
-calls to GetConfiguration must pass this value by using the ClientConfigurationVersion
-parameter.
+Retrieves the latest deployed configuration. This API may return empty configuration data
+if the client already has the latest version. For more information about this API action
+and to view example CLI commands that show how to use it with the StartConfigurationSession
+API action, see Receiving the configuration in the AppConfig User Guide.   Note the
+following important information.   Each configuration token is only valid for one call to
+GetLatestConfiguration. The GetLatestConfiguration response includes a
+NextPollConfigurationToken that should always replace the token used for the just-completed
+call in preparation for the next one.     GetLatestConfiguration is a priced call. For more
+information, see Pricing.
 
 # Arguments
 - `configuration_token`: Token describing the current state of the configuration session.
@@ -60,8 +60,10 @@ end
     start_configuration_session(application_identifier, configuration_profile_identifier, environment_identifier)
     start_configuration_session(application_identifier, configuration_profile_identifier, environment_identifier, params::Dict{String,<:Any})
 
-Starts a configuration session used to retrieve a deployed configuration. See the
-GetLatestConfiguration API for more details.
+Starts a configuration session used to retrieve a deployed configuration. For more
+information about this API action and to view example CLI commands that show how to use it
+with the GetLatestConfiguration API action, see Receiving the configuration in the
+AppConfig User Guide.
 
 # Arguments
 - `application_identifier`: The application ID or the application name.
@@ -71,10 +73,9 @@ GetLatestConfiguration API for more details.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RequiredMinimumPollIntervalInSeconds"`: The interval at which your client will poll for
-  configuration. If provided, the service will throw a BadRequestException if the client
-  polls before the specified poll interval. By default, client poll intervals are not
-  enforced.
+- `"RequiredMinimumPollIntervalInSeconds"`: Sets a constraint on a session. If you specify
+  a value of, for example, 60 seconds, then the client that established the session can't
+  call GetLatestConfiguration more frequently then every 60 seconds.
 """
 function start_configuration_session(
     ApplicationIdentifier,

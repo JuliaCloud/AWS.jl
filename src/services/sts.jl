@@ -406,74 +406,74 @@ end
     assume_role_with_web_identity(role_arn, role_session_name, web_identity_token, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials for users who have been authenticated in a
-mobile or web application with a web identity provider. Example providers include Amazon
-Cognito, Login with Amazon, Facebook, Google, or any OpenID Connect-compatible identity
-provider.  For mobile applications, we recommend that you use Amazon Cognito. You can use
-Amazon Cognito with the Amazon Web Services SDK for iOS Developer Guide and the Amazon Web
-Services SDK for Android Developer Guide to uniquely identify a user. You can also supply
-the user with a consistent identity throughout the lifetime of an application. To learn
-more about Amazon Cognito, see Amazon Cognito Overview in Amazon Web Services SDK for
-Android Developer Guide and Amazon Cognito Overview in the Amazon Web Services SDK for iOS
-Developer Guide.  Calling AssumeRoleWithWebIdentity does not require the use of Amazon Web
-Services security credentials. Therefore, you can distribute an application (for example,
-on mobile devices) that requests temporary security credentials without including long-term
-Amazon Web Services credentials in the application. You also don't need to deploy
-server-based proxy services that use long-term Amazon Web Services credentials. Instead,
-the identity of the caller is validated by using a token from the web identity provider.
-For a comparison of AssumeRoleWithWebIdentity with the other API operations that produce
-temporary credentials, see Requesting Temporary Security Credentials and Comparing the
-Amazon Web Services STS API operations in the IAM User Guide. The temporary security
-credentials returned by this API consist of an access key ID, a secret access key, and a
-security token. Applications can use these temporary security credentials to sign calls to
-Amazon Web Services service API operations.  Session Duration  By default, the temporary
-security credentials created by AssumeRoleWithWebIdentity last for one hour. However, you
-can use the optional DurationSeconds parameter to specify the duration of your session. You
-can provide a value from 900 seconds (15 minutes) up to the maximum session duration
-setting for the role. This setting can have a value from 1 hour to 12 hours. To learn how
-to view the maximum value for your role, see View the Maximum Session Duration Setting for
-a Role in the IAM User Guide. The maximum session duration limit applies when you use the
-AssumeRole* API operations or the assume-role* CLI commands. However the limit does not
-apply when you use those operations to create a console URL. For more information, see
-Using IAM Roles in the IAM User Guide.   Permissions  The temporary security credentials
-created by AssumeRoleWithWebIdentity can be used to make API calls to any Amazon Web
-Services service with the following exception: you cannot call the STS GetFederationToken
-or GetSessionToken API operations. (Optional) You can pass inline or managed session
-policies to this operation. You can pass a single JSON policy document to use as an inline
-session policy. You can also specify up to 10 managed policies to use as managed session
-policies. The plaintext that you use for both inline and managed session policies can't
-exceed 2,048 characters. Passing policies to this operation returns new temporary
-credentials. The resulting session's permissions are the intersection of the role's
-identity-based policy and the session policies. You can use the role's temporary
-credentials in subsequent Amazon Web Services API calls to access resources in the account
-that owns the role. You cannot use session policies to grant more permissions than those
-allowed by the identity-based policy of the role that is being assumed. For more
-information, see Session Policies in the IAM User Guide.  Tags  (Optional) You can
-configure your IdP to pass attributes into your web identity token as session tags. Each
-session tag consists of a key name and an associated value. For more information about
-session tags, see Passing Session Tags in STS in the IAM User Guide. You can pass up to 50
-session tags. The plaintext session tag keys can’t exceed 128 characters and the values
-can’t exceed 256 characters. For these and additional limits, see IAM and STS Character
-Limits in the IAM User Guide.  An Amazon Web Services conversion compresses the passed
-session policies and session tags into a packed binary format that has a separate limit.
-Your request can fail for this limit even if your plaintext meets the other requirements.
-The PackedPolicySize response element indicates by percentage how close the policies and
-tags for your request are to the upper size limit.   You can pass a session tag with the
-same key as a tag that is attached to the role. When you do, the session tag overrides the
-role tag with the same key. An administrator must grant you the permissions necessary to
-pass session tags. The administrator can also create granular permissions to allow you to
-pass only specific session tags. For more information, see Tutorial: Using Tags for
-Attribute-Based Access Control in the IAM User Guide. You can set the session tags as
-transitive. Transitive tags persist during role chaining. For more information, see
-Chaining Roles with Session Tags in the IAM User Guide.  Identities  Before your
-application can call AssumeRoleWithWebIdentity, you must have an identity token from a
-supported identity provider and create a role that the application can assume. The role
-that your application assumes must trust the identity provider that is associated with the
-identity token. In other words, the identity provider must be specified in the role's trust
-policy.   Calling AssumeRoleWithWebIdentity can result in an entry in your CloudTrail logs.
-The entry includes the Subject of the provided web identity token. We recommend that you
-avoid using any personally identifiable information (PII) in this field. For example, you
-could instead use a GUID or a pairwise identifier, as suggested in the OIDC specification.
-For more information about how to use web identity federation and the
+mobile or web application with a web identity provider. Example providers include the OAuth
+2.0 providers Login with Amazon and Facebook, or any OpenID Connect-compatible identity
+provider such as Google or Amazon Cognito federated identities.  For mobile applications,
+we recommend that you use Amazon Cognito. You can use Amazon Cognito with the Amazon Web
+Services SDK for iOS Developer Guide and the Amazon Web Services SDK for Android Developer
+Guide to uniquely identify a user. You can also supply the user with a consistent identity
+throughout the lifetime of an application. To learn more about Amazon Cognito, see Amazon
+Cognito Overview in Amazon Web Services SDK for Android Developer Guide and Amazon Cognito
+Overview in the Amazon Web Services SDK for iOS Developer Guide.  Calling
+AssumeRoleWithWebIdentity does not require the use of Amazon Web Services security
+credentials. Therefore, you can distribute an application (for example, on mobile devices)
+that requests temporary security credentials without including long-term Amazon Web
+Services credentials in the application. You also don't need to deploy server-based proxy
+services that use long-term Amazon Web Services credentials. Instead, the identity of the
+caller is validated by using a token from the web identity provider. For a comparison of
+AssumeRoleWithWebIdentity with the other API operations that produce temporary credentials,
+see Requesting Temporary Security Credentials and Comparing the Amazon Web Services STS API
+operations in the IAM User Guide. The temporary security credentials returned by this API
+consist of an access key ID, a secret access key, and a security token. Applications can
+use these temporary security credentials to sign calls to Amazon Web Services service API
+operations.  Session Duration  By default, the temporary security credentials created by
+AssumeRoleWithWebIdentity last for one hour. However, you can use the optional
+DurationSeconds parameter to specify the duration of your session. You can provide a value
+from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This
+setting can have a value from 1 hour to 12 hours. To learn how to view the maximum value
+for your role, see View the Maximum Session Duration Setting for a Role in the IAM User
+Guide. The maximum session duration limit applies when you use the AssumeRole* API
+operations or the assume-role* CLI commands. However the limit does not apply when you use
+those operations to create a console URL. For more information, see Using IAM Roles in the
+IAM User Guide.   Permissions  The temporary security credentials created by
+AssumeRoleWithWebIdentity can be used to make API calls to any Amazon Web Services service
+with the following exception: you cannot call the STS GetFederationToken or GetSessionToken
+API operations. (Optional) You can pass inline or managed session policies to this
+operation. You can pass a single JSON policy document to use as an inline session policy.
+You can also specify up to 10 managed policies to use as managed session policies. The
+plaintext that you use for both inline and managed session policies can't exceed 2,048
+characters. Passing policies to this operation returns new temporary credentials. The
+resulting session's permissions are the intersection of the role's identity-based policy
+and the session policies. You can use the role's temporary credentials in subsequent Amazon
+Web Services API calls to access resources in the account that owns the role. You cannot
+use session policies to grant more permissions than those allowed by the identity-based
+policy of the role that is being assumed. For more information, see Session Policies in the
+IAM User Guide.  Tags  (Optional) You can configure your IdP to pass attributes into your
+web identity token as session tags. Each session tag consists of a key name and an
+associated value. For more information about session tags, see Passing Session Tags in STS
+in the IAM User Guide. You can pass up to 50 session tags. The plaintext session tag keys
+can’t exceed 128 characters and the values can’t exceed 256 characters. For these and
+additional limits, see IAM and STS Character Limits in the IAM User Guide.  An Amazon Web
+Services conversion compresses the passed session policies and session tags into a packed
+binary format that has a separate limit. Your request can fail for this limit even if your
+plaintext meets the other requirements. The PackedPolicySize response element indicates by
+percentage how close the policies and tags for your request are to the upper size limit.
+You can pass a session tag with the same key as a tag that is attached to the role. When
+you do, the session tag overrides the role tag with the same key. An administrator must
+grant you the permissions necessary to pass session tags. The administrator can also create
+granular permissions to allow you to pass only specific session tags. For more information,
+see Tutorial: Using Tags for Attribute-Based Access Control in the IAM User Guide. You can
+set the session tags as transitive. Transitive tags persist during role chaining. For more
+information, see Chaining Roles with Session Tags in the IAM User Guide.  Identities
+Before your application can call AssumeRoleWithWebIdentity, you must have an identity token
+from a supported identity provider and create a role that the application can assume. The
+role that your application assumes must trust the identity provider that is associated with
+the identity token. In other words, the identity provider must be specified in the role's
+trust policy.   Calling AssumeRoleWithWebIdentity can result in an entry in your CloudTrail
+logs. The entry includes the Subject of the provided web identity token. We recommend that
+you avoid using any personally identifiable information (PII) in this field. For example,
+you could instead use a GUID or a pairwise identifier, as suggested in the OIDC
+specification.  For more information about how to use web identity federation and the
 AssumeRoleWithWebIdentity API, see the following resources:     Using Web Identity
 Federation API Operations for Mobile Apps and Federation Through a Web-based Identity
 Provider.      Web Identity Federation Playground. Walk through the process of
@@ -547,11 +547,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use session policies to grant more permissions than those allowed by the identity-based
   policy of the role that is being assumed. For more information, see Session Policies in the
   IAM User Guide.
-- `"ProviderId"`: The fully qualified host component of the domain name of the identity
-  provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and
-  graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens.
-  Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect
-  ID tokens.
+- `"ProviderId"`: The fully qualified host component of the domain name of the OAuth 2.0
+  identity provider. Do not specify this value for an OpenID Connect identity provider.
+  Currently www.amazon.com and graph.facebook.com are the only supported identity providers
+  for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify
+  this value for OpenID Connect ID tokens.
 """
 function assume_role_with_web_identity(
     RoleArn,
@@ -893,28 +893,31 @@ IAM users can then make programmatic calls to API operations that require MFA
 authentication. If you do not supply a correct MFA code, then the API returns an access
 denied error. For a comparison of GetSessionToken with the other API operations that
 produce temporary credentials, see Requesting Temporary Security Credentials and Comparing
-the Amazon Web Services STS API operations in the IAM User Guide.  Session Duration  The
-GetSessionToken operation must be called by using the long-term Amazon Web Services
-security credentials of the Amazon Web Services account root user or an IAM user.
-Credentials that are created by IAM users are valid for the duration that you specify. This
-duration can range from 900 seconds (15 minutes) up to a maximum of 129,600 seconds (36
-hours), with a default of 43,200 seconds (12 hours). Credentials based on account
-credentials can range from 900 seconds (15 minutes) up to 3,600 seconds (1 hour), with a
-default of 1 hour.   Permissions  The temporary security credentials created by
-GetSessionToken can be used to make API calls to any Amazon Web Services service with the
-following exceptions:   You cannot call any IAM API operations unless MFA authentication
-information is included in the request.   You cannot call any STS API except AssumeRole or
-GetCallerIdentity.    We recommend that you do not call GetSessionToken with Amazon Web
-Services account root user credentials. Instead, follow our best practices by creating one
-or more IAM users, giving them the necessary permissions, and using IAM users for everyday
-interaction with Amazon Web Services.   The credentials that are returned by
-GetSessionToken are based on permissions associated with the user whose credentials were
-used to call the operation. If GetSessionToken is called using Amazon Web Services account
-root user credentials, the temporary credentials have root user permissions. Similarly, if
-GetSessionToken is called using the credentials of an IAM user, the temporary credentials
-have the same permissions as the IAM user.  For more information about using
-GetSessionToken to create temporary credentials, go to Temporary Credentials for Users in
-Untrusted Environments in the IAM User Guide.
+the Amazon Web Services STS API operations in the IAM User Guide.  No permissions are
+required for users to perform this operation. The purpose of the sts:GetSessionToken
+operation is to authenticate the user using MFA. You cannot use policies to control
+authentication operations. For more information, see Permissions for GetSessionToken in the
+IAM User Guide.   Session Duration  The GetSessionToken operation must be called by using
+the long-term Amazon Web Services security credentials of the Amazon Web Services account
+root user or an IAM user. Credentials that are created by IAM users are valid for the
+duration that you specify. This duration can range from 900 seconds (15 minutes) up to a
+maximum of 129,600 seconds (36 hours), with a default of 43,200 seconds (12 hours).
+Credentials based on account credentials can range from 900 seconds (15 minutes) up to
+3,600 seconds (1 hour), with a default of 1 hour.   Permissions  The temporary security
+credentials created by GetSessionToken can be used to make API calls to any Amazon Web
+Services service with the following exceptions:   You cannot call any IAM API operations
+unless MFA authentication information is included in the request.   You cannot call any STS
+API except AssumeRole or GetCallerIdentity.    We recommend that you do not call
+GetSessionToken with Amazon Web Services account root user credentials. Instead, follow our
+best practices by creating one or more IAM users, giving them the necessary permissions,
+and using IAM users for everyday interaction with Amazon Web Services.   The credentials
+that are returned by GetSessionToken are based on permissions associated with the user
+whose credentials were used to call the operation. If GetSessionToken is called using
+Amazon Web Services account root user credentials, the temporary credentials have root user
+permissions. Similarly, if GetSessionToken is called using the credentials of an IAM user,
+the temporary credentials have the same permissions as the IAM user.  For more information
+about using GetSessionToken to create temporary credentials, go to Temporary Credentials
+for Users in Untrusted Environments in the IAM User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

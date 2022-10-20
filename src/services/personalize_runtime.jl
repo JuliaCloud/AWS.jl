@@ -105,10 +105,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items, you must provide values for all parameters that are defined in the expression. For
   filters with expressions that use an EXCLUDE element to exclude items, you can omit the
   filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
-  to filter recommendations. For more information, see Filtering Recommendations.
+  to filter recommendations. For more information, see Filtering recommendations and user
+  segments.
 - `"itemId"`: The item ID to provide recommendations for. Required for RELATED_ITEMS recipe
   type.
 - `"numResults"`: The number of results to return. The default is 25. The maximum is 500.
+- `"promotions"`: The promotions to apply to the recommendation request. A promotion
+  defines additional business rules that apply to a configurable subset of recommended items.
 - `"recommenderArn"`: The Amazon Resource Name (ARN) of the recommender to use to get
   recommendations. Provide a recommender ARN if you created a Domain dataset group with a
   recommender for a domain use case.

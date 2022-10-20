@@ -13,11 +13,21 @@ operations for multiple records using a DML statement with different parameter s
 operations can provide a significant performance improvement over individual insert and
 update operations.  If a call isn't part of a transaction because it doesn't include the
 transactionID parameter, changes that result from the call are committed automatically.
+There isn't a fixed upper limit on the number of parameter sets. However, the maximum size
+of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this
+limit, the Data API returns an error and doesn't process the request. This 4-MiB limit
+includes the size of the HTTP headers and the JSON notation in the request. Thus, the
+number of parameter sets that you can include depends on a combination of factors, such as
+the size of the SQL statement and the size of each parameter set. The response size limit
+is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
-- `secret_arn`: The name or ARN of the secret that enables access to the DB cluster.
-- `sql`: The SQL statement to run.
+- `secret_arn`: The ARN of the secret that enables access to the DB cluster. Enter the
+  database user name and password for the credentials in the secret. For information about
+  creating the secret, see Create a database secret.
+- `sql`: The SQL statement to run. Don't include a semicolon (;) at the end of the SQL
+  statement.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -74,14 +84,12 @@ end
     begin_transaction(resource_arn, secret_arn)
     begin_transaction(resource_arn, secret_arn, params::Dict{String,<:Any})
 
-Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for a maximum
-of 24 hours. A transaction is terminated and rolled back automatically after 24
-hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use its transaction ID in
-three minutes. If a transaction times out before it's committed, it's rolled back
-automatically.&lt;/p&gt; &lt;p&gt;DDL statements inside a transaction cause an implicit
-commit. We recommend that you run each DDL statement in a separate
-&lt;code&gt;ExecuteStatement&lt;/code&gt; call with
-&lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt; &lt;/important&gt;
+Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction
+is terminated and rolled back automatically after 24 hours. A transaction times out if no
+calls use its transaction ID in three minutes. If a transaction times out before it's
+committed, it's rolled back automatically. DDL statements inside a transaction cause an
+implicit commit. We recommend that you run each DDL statement in a separate
+ExecuteStatement call with continueAfterTimeout enabled.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -186,7 +194,8 @@ BatchExecuteStatement or ExecuteStatement operation.
 
 # Arguments
 - `aws_secret_store_arn`: The Amazon Resource Name (ARN) of the secret that enables access
-  to the DB cluster.
+  to the DB cluster. Enter the database user name and password for the credentials in the
+  secret. For information about creating the secret, see Create a database secret.
 - `db_cluster_or_instance_arn`: The ARN of the Aurora Serverless DB cluster.
 - `sql_statements`: One or more SQL statements to run on the DB cluster. You can separate
   SQL statements from each other with a semicolon (;). Any valid SQL statement is permitted,
@@ -247,12 +256,14 @@ end
 
 Runs a SQL statement against a database.  If a call isn't part of a transaction because it
 doesn't include the transactionID parameter, changes that result from the call are
-committed automatically.  The response size limit is 1 MB. If the call returns more than 1
-MB of response data, the call is terminated.
+committed automatically. If the binary response data from the database is more than 1 MB,
+the call is terminated.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
-- `secret_arn`: The name or ARN of the secret that enables access to the DB cluster.
+- `secret_arn`: The ARN of the secret that enables access to the DB cluster. Enter the
+  database user name and password for the credentials in the secret. For information about
+  creating the secret, see Create a database secret.
 - `sql`: The SQL statement to run.
 
 # Optional Parameters
@@ -263,6 +274,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   times out. When a DDL statement terminates before it is finished running, it can result in
   errors and possibly corrupted data structures.
 - `"database"`: The name of the database.
+- `"formatRecordsAs"`: A value that indicates whether to format the result set as a single
+  JSON string. This parameter only applies to SELECT statements and is ignored for other
+  types of statements. Allowed values are NONE and JSON. The default value is NONE. The
+  result is returned in the formattedRecords field. For usage information about the JSON
+  format for result sets, see Using the Data API in the Amazon Aurora User Guide.
 - `"includeResultMetadata"`: A value that indicates whether to include metadata in the
   results.
 - `"parameters"`: The parameters for the SQL statement.  Array parameters are not

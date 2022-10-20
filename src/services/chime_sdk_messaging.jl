@@ -76,6 +76,8 @@ Adds a specified number of users to a channel.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SubChannelId"`: The ID of the SubChannel in the request.   Only required when creating
+  membership in a SubChannel for a moderator in an elastic channel.
 - `"Type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
   returned as part of ListChannelMemberships. Hidden members are only returned if the type
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
@@ -198,10 +200,16 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChannelId"`: The ID of the channel in the request.
+- `"ElasticChannelConfiguration"`: The attributes required to configure and create an
+  elastic channel. An elastic channel can support a maximum of 1-million users, excluding
+  moderators.
+- `"MemberArns"`: The ARNs of the channel members in the request.
 - `"Metadata"`: The metadata of the creation request. Limited to 1KB and UTF-8.
 - `"Mode"`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and
   channel members can add themselves and other members to unrestricted channels. Only
   administrators and moderators can add members to restricted channels.
+- `"ModeratorArns"`: The ARNs of the channel moderators in the request.
 - `"Privacy"`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't
   discoverable by users outside the channel. Public channels are discoverable by anyone in
   the AppInstance.
@@ -408,6 +416,10 @@ of the user that makes the API call as the value in the header.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SubChannelId"`: The ID of the SubChannel in the request.  Only required when creating
+  membership in a SubChannel for a moderator in an elastic channel.
 """
 function create_channel_membership(
     MemberArn,
@@ -527,6 +539,9 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 - `channel_arn`: The ARN of the channel being deleted.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request.
 """
 function delete_channel(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
@@ -670,6 +685,9 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 - `member_arn`: The AppInstanceUserArn of the member that you're removing from the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only for use by moderators.
 """
 function delete_channel_membership(
     channelArn,
@@ -726,6 +744,10 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 - `message_id`: The ID of the message being deleted.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when deleting
+  messages in a SubChannel that the user belongs to.
 """
 function delete_channel_message(
     channelArn,
@@ -975,6 +997,11 @@ value in the header.
 - `member_arn`: The AppInstanceUserArn of the member.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request. The response contains an
+  ElasticChannelConfiguration object.  Only required to get a user’s SubChannel membership
+  details.
 """
 function describe_channel_membership(
     channelArn,
@@ -1313,6 +1340,10 @@ the header.
 - `message_id`: The ID of the message.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when getting
+  messages in a SubChannel that the user belongs to.
 """
 function get_channel_message(
     channelArn,
@@ -1374,6 +1405,10 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 - `message_id`: The ID of the message.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when getting
+  message status in a SubChannel that the user belongs to.
 """
 function get_channel_message_status(
     channelArn,
@@ -1561,6 +1596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of channel memberships that you want returned.
 - `"next-token"`: The token passed by previous API calls until all requested channel
   memberships are returned.
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when listing
+  a user's memberships in a particular sub-channel of an elastic channel.
 - `"type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are returned
   as part of ListChannelMemberships if no type is specified. Hidden members are only returned
   if the type filter in ListChannelMemberships equals HIDDEN.
@@ -1681,6 +1718,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"not-before"`: The initial or starting time stamp for your requested messages.
 - `"sort-order"`: The order in which you want messages sorted. Default is Descending, based
   on time created.
+- `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when listing
+  the messages in a SubChannel that the user belongs to.
 """
 function list_channel_messages(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1937,6 +1976,60 @@ function list_channels_moderated_by_app_instance_user(
 end
 
 """
+    list_sub_channels(channel_arn, x-amz-chime-bearer)
+    list_sub_channels(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Lists all the SubChannels in an elastic channel when given a channel ID. Available only to
+the app instance admins and channel moderators of elastic channels.
+
+# Arguments
+- `channel_arn`: The ARN of elastic channel.
+- `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of sub-channels that you want to return.
+- `"next-token"`: The token passed by previous API calls until all requested sub-channels
+  are returned.
+"""
+function list_sub_channels(
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/subchannels",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sub_channels(
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/subchannels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(arn)
     list_tags_for_resource(arn, params::Dict{String,<:Any})
 
@@ -2043,6 +2136,9 @@ as the value in the header.
 - `message_id`: The ID of the message being redacted.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SubChannelId"`: The ID of the SubChannel in the request.
 """
 function redact_channel_message(
     channelArn,
@@ -2086,6 +2182,45 @@ function redact_channel_message(
 end
 
 """
+    search_channels(fields)
+    search_channels(fields, params::Dict{String,<:Any})
+
+Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser
+can search by membership or external ID. An AppInstanceAdmin can search across all channels
+within the AppInstance.
+
+# Arguments
+- `fields`: A list of the Field objects in the channel being searched.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of channels that you want returned.
+- `"next-token"`: The token returned from previous API requests until the number of
+  channels is reached.
+- `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user making the API call.
+"""
+function search_channels(Fields; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_messaging(
+        "POST",
+        "/channels?operation=search",
+        Dict{String,Any}("Fields" => Fields);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_channels(
+    Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels?operation=search",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Fields" => Fields), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer)
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
@@ -2110,6 +2245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with a FilterRule defined in the PushNotificationPreferences.
 - `"Metadata"`: The optional metadata for each message.
 - `"PushNotification"`: The push notification configuration of the message.
+- `"SubChannelId"`: The ID of the SubChannel in the request.
 """
 function send_channel_message(
     ClientRequestToken,
@@ -2251,45 +2387,37 @@ function untag_resource(
 end
 
 """
-    update_channel(mode, name, channel_arn, x-amz-chime-bearer)
-    update_channel(mode, name, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+    update_channel(channel_arn, x-amz-chime-bearer)
+    update_channel(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
 makes the API call as the value in the header.
 
 # Arguments
-- `mode`: The mode of the update request.
-- `name`: The name of the channel.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata for the update request.
+- `"Mode"`: The mode of the update request.
+- `"Name"`: The name of the channel.
 """
 function update_channel(
-    Mode,
-    Name,
-    channelArn,
-    x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return chime_sdk_messaging(
         "PUT",
         "/channels/$(channelArn)",
         Dict{String,Any}(
-            "Mode" => Mode,
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_channel(
-    Mode,
-    Name,
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
@@ -2302,8 +2430,6 @@ function update_channel(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "Mode" => Mode,
-                    "Name" => Name,
                     "headers" =>
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
                 ),
@@ -2374,6 +2500,8 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content"`: The content of the message being updated.
 - `"Metadata"`: The metadata of the message being updated.
+- `"SubChannelId"`: The ID of the SubChannel in the request.  Only required when updating
+  messages in a SubChannel that the user belongs to.
 """
 function update_channel_message(
     channelArn,
@@ -2428,6 +2556,9 @@ makes the API call as the value in the header.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SubChannelId"`: The ID of the SubChannel in the request.
 """
 function update_channel_read_marker(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()

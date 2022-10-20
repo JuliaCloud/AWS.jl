@@ -10,7 +10,7 @@ using AWS.UUIDs
 
 Cancels the specified resource operation request. For more information, see Canceling
 resource operation requests in the Amazon Web Services Cloud Control API User Guide. Only
-resource operations requests with a status of PENDING or IN_PROGRESS can be cancelled.
+resource operations requests with a status of PENDING or IN_PROGRESS can be canceled.
 
 # Arguments
 - `request_token`: The RequestToken of the ProgressEvent object returned by the resource
@@ -53,13 +53,19 @@ using the RequestToken of the ProgressEvent type returned by CreateResource.
 
 # Arguments
 - `desired_state`: Structured data format representing the desired state of the resource,
-  consisting of that resource's properties and their desired values.   Cloud Control API
-  currently supports JSON as a structured data format.  Specify the desired state as one of
-  the following:   A JSON blob   A local path containing the desired state in JSON data
-  format   For more information, see Composing the desired state of the resource in the
-  Amazon Web Services Cloud Control API User Guide. For more information about the properties
-  of a specific resource, refer to the related topic for the resource in the Resource and
-  property types reference in the Amazon Web Services CloudFormation Users Guide.
+  consisting of that resource's properties and their desired values.  Cloud Control API
+  currently supports JSON as a structured data format.   &lt;p&gt;Specify the desired state
+  as one of the following:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;A JSON blob&lt;/p&gt;
+  &lt;/li&gt; &lt;li&gt; &lt;p&gt;A local path containing the desired state in JSON data
+  format&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;For more information, see &lt;a
+  href=&quot;https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations
+  -create.html#resource-operations-create-desiredstate&quot;&gt;Composing the desired state
+  of the resource&lt;/a&gt; in the &lt;i&gt;Amazon Web Services Cloud Control API User
+  Guide&lt;/i&gt;.&lt;/p&gt; &lt;p&gt;For more information about the properties of a specific
+  resource, refer to the related topic for the resource in the &lt;a
+  href=&quot;https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resou
+  rce-type-ref.html&quot;&gt;Resource and property types reference&lt;/a&gt; in the
+  &lt;i&gt;CloudFormation Users Guide&lt;/i&gt;.&lt;/p&gt;
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
@@ -73,12 +79,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  for Cloud Control API to use when performing this resource operation. The role specified
-  must have the permissions required for this operation. The necessary permissions for each
-  event handler are defined in the  handlers  section of the resource type definition schema.
-  If you do not specify a role, Cloud Control API uses a temporary session created using your
-  Amazon Web Services user credentials. For more information, see Specifying credentials in
-  the Amazon Web Services Cloud Control API User Guide.
+  role for Cloud Control API to use when performing this resource operation. The role
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the  handlers  section of the resource type
+  definition schema. If you do not specify a role, Cloud Control API uses a temporary session
+  created using your Amazon Web Services user credentials. For more information, see
+  Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -137,7 +143,7 @@ using the RequestToken of the ProgressEvent returned by DeleteResource.
   identifiers must be specified as JSON. For compound primary identifiers (that is, one that
   consists of multiple resource properties strung together), to specify the primary
   identifier as a string, list the property values in the order they are specified in the
-  primary identifier definition, separated by |.  For more information, see Identifying
+  primary identifier definition, separated by |. For more information, see Identifying
   resources in the Amazon Web Services Cloud Control API User Guide.
 - `type_name`: The name of the resource type.
 
@@ -152,12 +158,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  for Cloud Control API to use when performing this resource operation. The role specified
-  must have the permissions required for this operation. The necessary permissions for each
-  event handler are defined in the  handlers  section of the resource type definition schema.
-  If you do not specify a role, Cloud Control API uses a temporary session created using your
-  Amazon Web Services user credentials. For more information, see Specifying credentials in
-  the Amazon Web Services Cloud Control API User Guide.
+  role for Cloud Control API to use when performing this resource operation. The role
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the  handlers  section of the resource type
+  definition schema. If you do not specify a role, Cloud Control API uses a temporary session
+  created using your Amazon Web Services user credentials. For more information, see
+  Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -206,8 +212,8 @@ end
 
 Returns information about the current state of the specified resource. For details, see
 Reading a resource's current state. You can use this action to return information about an
-existing resource in your account and Amazon Web Services Region, whether or not those
-resources were provisioned using Cloud Control API.
+existing resource in your account and Amazon Web Services Region, whether those resources
+were provisioned using Cloud Control API.
 
 # Arguments
 - `identifier`: The identifier for the resource. You can specify the primary identifier, or
@@ -216,19 +222,19 @@ resources were provisioned using Cloud Control API.
   identifiers must be specified as JSON. For compound primary identifiers (that is, one that
   consists of multiple resource properties strung together), to specify the primary
   identifier as a string, list the property values in the order they are specified in the
-  primary identifier definition, separated by |.  For more information, see Identifying
+  primary identifier definition, separated by |. For more information, see Identifying
   resources in the Amazon Web Services Cloud Control API User Guide.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  for Cloud Control API to use when performing this resource operation. The role specified
-  must have the permissions required for this operation. The necessary permissions for each
-  event handler are defined in the  handlers  section of the resource type definition schema.
-  If you do not specify a role, Cloud Control API uses a temporary session created using your
-  Amazon Web Services user credentials. For more information, see Specifying credentials in
-  the Amazon Web Services Cloud Control API User Guide.
+  role for Cloud Control API to use when performing this resource operation. The role
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the  handlers  section of the resource type
+  definition schema. If you do not specify a role, Cloud Control API uses a temporary session
+  created using your Amazon Web Services user credentials. For more information, see
+  Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -308,8 +314,7 @@ end
 
 Returns existing resource operation requests. This includes requests of all status types.
 For more information, see Listing active resource operation requests in the Amazon Web
-Services Cloud Control API User Guide.  Resource operation requests expire after seven
-days.
+Services Cloud Control API User Guide.  Resource operation requests expire after 7 days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -347,17 +352,14 @@ end
 Returns information about the specified resources. For more information, see Discovering
 resources in the Amazon Web Services Cloud Control API User Guide. You can use this action
 to return information about existing resources in your account and Amazon Web Services
-Region, whether or not those resources were provisioned using Cloud Control API.
+Region, whether those resources were provisioned using Cloud Control API.
 
 # Arguments
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to be returned with a single call. If the
-  number of available results exceeds this maximum, the response includes a NextToken value
-  that you can assign to the NextToken request parameter to get the next set of results. The
-  default is 20.
+- `"MaxResults"`: Reserved.
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
   results, the response object's NextToken parameter value is set to a token. To retrieve the
   next set of results, call this action again and assign that token to the request object's
@@ -365,12 +367,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 - `"ResourceModel"`: The resource model to use to select the resources to return.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  for Cloud Control API to use when performing this resource operation. The role specified
-  must have the permissions required for this operation. The necessary permissions for each
-  event handler are defined in the  handlers  section of the resource type definition schema.
-  If you do not specify a role, Cloud Control API uses a temporary session created using your
-  Amazon Web Services user credentials. For more information, see Specifying credentials in
-  the Amazon Web Services Cloud Control API User Guide.
+  role for Cloud Control API to use when performing this resource operation. The role
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the  handlers  section of the resource type
+  definition schema. If you do not specify a role, Cloud Control API uses a temporary session
+  created using your Amazon Web Services user credentials. For more information, see
+  Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -410,7 +412,7 @@ Services Cloud Control API User Guide. After you have initiated a resource updat
 you can monitor the progress of your request by calling GetResourceRequestStatus using the
 RequestToken of the ProgressEvent returned by UpdateResource. For more information about
 the properties of a specific resource, refer to the related topic for the resource in the
-Resource and property types reference in the Amazon Web Services CloudFormation Users Guide.
+Resource and property types reference in the CloudFormation Users Guide.
 
 # Arguments
 - `identifier`: The identifier for the resource. You can specify the primary identifier, or
@@ -419,7 +421,7 @@ Resource and property types reference in the Amazon Web Services CloudFormation 
   identifiers must be specified as JSON. For compound primary identifiers (that is, one that
   consists of multiple resource properties strung together), to specify the primary
   identifier as a string, list the property values in the order they are specified in the
-  primary identifier definition, separated by |.  For more information, see Identifying
+  primary identifier definition, separated by |. For more information, see Identifying
   resources in the Amazon Web Services Cloud Control API User Guide.
 - `patch_document`: A JavaScript Object Notation (JSON) document listing the patch
   operations that represent the updates to apply to the current resource properties. For
@@ -438,12 +440,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  for Cloud Control API to use when performing this resource operation. The role specified
-  must have the permissions required for this operation. The necessary permissions for each
-  event handler are defined in the  handlers  section of the resource type definition schema.
-  If you do not specify a role, Cloud Control API uses a temporary session created using your
-  Amazon Web Services user credentials. For more information, see Specifying credentials in
-  the Amazon Web Services Cloud Control API User Guide.
+  role for Cloud Control API to use when performing this resource operation. The role
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the  handlers  section of the resource type
+  definition schema. If you do not specify a role, Cloud Control API uses a temporary session
+  created using your Amazon Web Services user credentials. For more information, see
+  Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.

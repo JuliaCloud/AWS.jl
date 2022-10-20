@@ -126,8 +126,8 @@ Creates Wisdom content. Before to calling this API, use StartContentUpload to up
 asset.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 - `name`: The name of the content. Each piece of content in a knowledge base must have a
   unique name. You can retrieve a piece of content using only its knowledge base and its name
   with the SearchContent API.
@@ -393,8 +393,8 @@ Deletes the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function delete_content(
@@ -542,8 +542,8 @@ Retrieves content, including a pre-signed URL to download the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function get_content(
@@ -580,8 +580,8 @@ Retrieves summary information about the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function get_content_summary(
@@ -616,8 +616,8 @@ end
 Retrieves information about the knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function get_knowledge_base(
@@ -803,8 +803,8 @@ end
 Lists the content.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -948,6 +948,66 @@ function notify_recommendations_received(
 end
 
 """
+    put_feedback(assistant_id, feedback, target_id, target_type)
+    put_feedback(assistant_id, feedback, target_id, target_type, params::Dict{String,<:Any})
+
+Submits feedback to Wisdom. The feedback is used to improve future recommendations from
+GetRecommendations or results from QueryAssistant. Feedback can be resubmitted up to 6
+hours after submission.
+
+# Arguments
+- `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
+  URLs cannot contain the ARN.
+- `feedback`: The feedback.
+- `target_id`: The identifier of a recommendation. or The identifier of the result data.
+- `target_type`: The type of the targetId for which The feedback. is targeted.
+
+"""
+function put_feedback(
+    assistantId,
+    feedback,
+    targetId,
+    targetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "PUT",
+        "/assistants/$(assistantId)/feedback",
+        Dict{String,Any}(
+            "feedback" => feedback, "targetId" => targetId, "targetType" => targetType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_feedback(
+    assistantId,
+    feedback,
+    targetId,
+    targetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "PUT",
+        "/assistants/$(assistantId)/feedback",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "feedback" => feedback,
+                    "targetId" => targetId,
+                    "targetType" => targetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     query_assistant(assistant_id, query_text)
     query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
 
@@ -1000,8 +1060,8 @@ end
 Removes a URI template from a knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function remove_knowledge_base_template_uri(
@@ -1036,8 +1096,8 @@ Searches for content in a specified knowledge base. Can be used to get a specifi
 resource by its name.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
@@ -1134,8 +1194,8 @@ an existing resource. You can only upload content to a knowledge base of type CU
 
 # Arguments
 - `content_type`: The type of content to upload.
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 
 """
 function start_content_upload(
@@ -1247,8 +1307,7 @@ Updates information about the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the ARN
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1304,8 +1363,8 @@ value, and you can set the template URI to
 https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*{Id}*/view.
 
 # Arguments
-- `knowledge_base_id`: The the identifier of the knowledge base. Can be either the ID or
-  the ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
 - `template_uri`: The template URI to update.
 
 """

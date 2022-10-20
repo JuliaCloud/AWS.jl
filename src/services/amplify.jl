@@ -15,14 +15,22 @@ using AWS.UUIDs
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accessToken"`:  The personal access token for a third-party source control system for
-  an Amplify app. The personal access token is used to create a webhook and a read-only
-  deploy key. The token is not stored.
+- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app.
+  The personal access token is used to authorize access to a GitHub repository using the
+  Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only.
+  To authorize access to a repository provider such as Bitbucket or CodeCommit, use
+  oauthToken. You must specify either accessToken or oauthToken when you create a new app.
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the
+  Amplify User Guide .
 - `"autoBranchCreationConfig"`:  The automated branch creation configuration for an Amplify
   app.
 - `"autoBranchCreationPatterns"`:  The automated branch creation glob patterns for an
   Amplify app.
 - `"basicAuthCredentials"`:  The credentials for basic authorization for an Amplify app.
+  You must base64-encode the authorization credentials and provide them in the format
+  user:password.
 - `"buildSpec"`:  The build specification (build spec) for an Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`:  The custom rewrite and redirect rules for an Amplify app.
@@ -36,9 +44,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environmentVariables"`:  The environment variables map for an Amplify app.
 - `"iamServiceRoleArn"`:  The AWS Identity and Access Management (IAM) service role for an
   Amplify app.
-- `"oauthToken"`:  The OAuth token for a third-party source control system for an Amplify
-  app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth
-  token is not stored.
+- `"oauthToken"`: The OAuth token for a third-party source control system for an Amplify
+  app. The OAuth token is used to create a webhook and a read-only deploy key using SSH
+  cloning. The OAuth token is not stored. Use oauthToken for repository providers other than
+  GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository
+  provider, use accessToken. You must specify either oauthToken or accessToken when you
+  create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth
+  continue to work with CI/CD. However, we strongly recommend that you migrate these apps to
+  use the GitHub App. For more information, see Migrating an existing OAuth app to the
+  Amplify GitHub App in the Amplify User Guide .
 - `"platform"`:  The platform or framework for an Amplify app.
 - `"repository"`:  The repository for an Amplify app.
 - `"tags"`:  The tag for an Amplify app.
@@ -123,7 +137,8 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"backendEnvironmentArn"`:  The Amazon Resource Name (ARN) for a backend environment that
   is part of an Amplify app.
-- `"basicAuthCredentials"`:  The basic authorization credentials for the branch.
+- `"basicAuthCredentials"`:  The basic authorization credentials for the branch. You must
+  base64-encode the authorization credentials and provide them in the format user:password.
 - `"buildSpec"`:  The build specification (build spec) for the branch.
 - `"description"`:  The description for the branch.
 - `"displayName"`:  The display name for a branch. This is used as the default domain
@@ -1295,14 +1310,22 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accessToken"`:  The personal access token for a third-party source control system for
-  an Amplify app. The token is used to create webhook and a read-only deploy key. The token
-  is not stored.
+- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app.
+  The personal access token is used to authorize access to a GitHub repository using the
+  Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only.
+  To authorize access to a repository provider such as Bitbucket or CodeCommit, use
+  oauthToken. You must specify either accessToken or oauthToken when you update an app.
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the
+  Amplify User Guide .
 - `"autoBranchCreationConfig"`:  The automated branch creation configuration for an Amplify
   app.
 - `"autoBranchCreationPatterns"`:  Describes the automated branch creation glob patterns
   for an Amplify app.
-- `"basicAuthCredentials"`:  The basic authorization credentials for an Amplify app.
+- `"basicAuthCredentials"`:  The basic authorization credentials for an Amplify app. You
+  must base64-encode the authorization credentials and provide them in the format
+  user:password.
 - `"buildSpec"`:  The build specification (build spec) for an Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`:  The custom redirect and rewrite rules for an Amplify app.
@@ -1316,9 +1339,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"iamServiceRoleArn"`:  The AWS Identity and Access Management (IAM) service role for an
   Amplify app.
 - `"name"`:  The name for an Amplify app.
-- `"oauthToken"`:  The OAuth token for a third-party source control system for an Amplify
-  app. The token is used to create a webhook and a read-only deploy key. The OAuth token is
-  not stored.
+- `"oauthToken"`: The OAuth token for a third-party source control system for an Amplify
+  app. The OAuth token is used to create a webhook and a read-only deploy key using SSH
+  cloning. The OAuth token is not stored. Use oauthToken for repository providers other than
+  GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository
+  provider, use accessToken. You must specify either oauthToken or accessToken when you
+  update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue
+  to work with CI/CD. However, we strongly recommend that you migrate these apps to use the
+  GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub
+  App in the Amplify User Guide .
 - `"platform"`:  The platform for an Amplify app.
 - `"repository"`:  The name of the repository for an Amplify app
 """
@@ -1353,7 +1382,8 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"backendEnvironmentArn"`:  The Amazon Resource Name (ARN) for a backend environment that
   is part of an Amplify app.
-- `"basicAuthCredentials"`:  The basic authorization credentials for the branch.
+- `"basicAuthCredentials"`:  The basic authorization credentials for the branch. You must
+  base64-encode the authorization credentials and provide them in the format user:password.
 - `"buildSpec"`:  The build specification (build spec) for the branch.
 - `"description"`:  The description for the branch.
 - `"displayName"`:  The display name for a branch. This is used as the default domain
@@ -1396,15 +1426,14 @@ function update_branch(
 end
 
 """
-    update_domain_association(app_id, domain_name, sub_domain_settings)
-    update_domain_association(app_id, domain_name, sub_domain_settings, params::Dict{String,<:Any})
+    update_domain_association(app_id, domain_name)
+    update_domain_association(app_id, domain_name, params::Dict{String,<:Any})
 
  Creates a new domain association for an Amplify app.
 
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 - `domain_name`:  The name of the domain.
-- `sub_domain_settings`:  Describes the settings for the subdomain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1413,14 +1442,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoSubDomainIAMRole"`:  The required AWS Identity and Access Management (IAM) service
   role for the Amazon Resource Name (ARN) for automatically creating subdomains.
 - `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
+- `"subDomainSettings"`:  Describes the settings for the subdomain.
 """
 function update_domain_association(
-    appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amplify(
         "POST",
-        "/apps/$(appId)/domains/$(domainName)",
-        Dict{String,Any}("subDomainSettings" => subDomainSettings);
+        "/apps/$(appId)/domains/$(domainName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1428,18 +1457,13 @@ end
 function update_domain_association(
     appId,
     domainName,
-    subDomainSettings,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return amplify(
         "POST",
         "/apps/$(appId)/domains/$(domainName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("subDomainSettings" => subDomainSettings), params
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

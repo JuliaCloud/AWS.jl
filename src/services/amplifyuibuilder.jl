@@ -61,6 +61,56 @@ function create_component(
 end
 
 """
+    create_form(app_id, environment_name, form_to_create)
+    create_form(app_id, environment_name, form_to_create, params::Dict{String,<:Any})
+
+Creates a new form for an Amplify app.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app to associate with the form.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+- `form_to_create`: Represents the configuration of the form to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The unique client token.
+"""
+function create_form(
+    appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/forms",
+        Dict{String,Any}("formToCreate" => formToCreate, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_form(
+    appId,
+    environmentName,
+    formToCreate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/forms",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "formToCreate" => formToCreate, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_theme(app_id, environment_name, theme_to_create)
     create_theme(app_id, environment_name, theme_to_create, params::Dict{String,<:Any})
 
@@ -144,6 +194,44 @@ function delete_component(
     return amplifyuibuilder(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_form(app_id, environment_name, id)
+    delete_form(app_id, environment_name, id, params::Dict{String,<:Any})
+
+Deletes a form from an Amplify app.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app associated with the form to delete.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+- `id`: The unique ID of the form to delete.
+
+"""
+function delete_form(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_form(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -235,6 +323,9 @@ Exports component configurations to code that is ready to integrate into an Ampl
 - `app_id`: The unique ID of the Amplify app to export components to.
 - `environment_name`: The name of the backend environment that is a part of the Amplify app.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token to request the next page of results.
 """
 function export_components(
     appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -262,6 +353,45 @@ function export_components(
 end
 
 """
+    export_forms(app_id, environment_name)
+    export_forms(app_id, environment_name, params::Dict{String,<:Any})
+
+Exports form configurations to code that is ready to integrate into an Amplify app.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app to export forms to.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token to request the next page of results.
+"""
+function export_forms(
+    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/forms";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function export_forms(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/export/app/$(appId)/environment/$(environmentName)/forms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     export_themes(app_id, environment_name)
     export_themes(app_id, environment_name, params::Dict{String,<:Any})
 
@@ -271,6 +401,9 @@ Exports theme configurations to code that is ready to integrate into an Amplify 
 - `app_id`: The unique ID of the Amplify app to export the themes to.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token to request the next page of results.
 """
 function export_themes(
     appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -329,6 +462,80 @@ function get_component(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_form(app_id, environment_name, id)
+    get_form(app_id, environment_name, id, params::Dict{String,<:Any})
+
+Returns an existing form for an Amplify app.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app.
+- `environment_name`: The name of the backend environment that is part of the Amplify app.
+- `id`: The unique ID of the form.
+
+"""
+function get_form(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_form(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_metadata(app_id, environment_name)
+    get_metadata(app_id, environment_name, params::Dict{String,<:Any})
+
+Returns existing metadata for an Amplify app.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app.
+- `environment_name`: The name of the backend environment that is part of the Amplify app.
+
+"""
+function get_metadata(
+    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_metadata(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/metadata",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -414,6 +621,46 @@ function list_components(
 end
 
 """
+    list_forms(app_id, environment_name)
+    list_forms(app_id, environment_name, params::Dict{String,<:Any})
+
+Retrieves a list of forms for a specified Amplify app and backend environment.
+
+# Arguments
+- `app_id`: The unique ID for the Amplify app.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of forms to retrieve.
+- `"nextToken"`: The token to request the next page of results.
+"""
+function list_forms(
+    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_forms(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/forms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_themes(app_id, environment_name)
     list_themes(app_id, environment_name, params::Dict{String,<:Any})
 
@@ -448,6 +695,51 @@ function list_themes(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_metadata_flag(app_id, body, environment_name, feature_name)
+    put_metadata_flag(app_id, body, environment_name, feature_name, params::Dict{String,<:Any})
+
+Stores the metadata information about a feature on a form or view.
+
+# Arguments
+- `app_id`: The unique ID for the Amplify app.
+- `body`: The metadata information to store.
+- `environment_name`: The name of the backend environment that is part of the Amplify app.
+- `feature_name`: The name of the feature associated with the metadata.
+
+"""
+function put_metadata_flag(
+    appId,
+    body,
+    environmentName,
+    featureName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "PUT",
+        "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_metadata_flag(
+    appId,
+    body,
+    environmentName,
+    featureName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "PUT",
+        "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -543,6 +835,62 @@ function update_component(
                 _merge,
                 Dict{String,Any}(
                     "updatedComponent" => updatedComponent, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_form(app_id, environment_name, id, updated_form)
+    update_form(app_id, environment_name, id, updated_form, params::Dict{String,<:Any})
+
+Updates an existing form.
+
+# Arguments
+- `app_id`: The unique ID for the Amplify app.
+- `environment_name`: The name of the backend environment that is part of the Amplify app.
+- `id`: The unique ID for the form.
+- `updated_form`: The request accepts the following data in JSON format.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The unique client token.
+"""
+function update_form(
+    appId,
+    environmentName,
+    id,
+    updatedForm;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "PATCH",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        Dict{String,Any}("updatedForm" => updatedForm, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_form(
+    appId,
+    environmentName,
+    id,
+    updatedForm,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "PATCH",
+        "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "updatedForm" => updatedForm, "clientToken" => string(uuid4())
                 ),
                 params,
             ),

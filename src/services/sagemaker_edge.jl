@@ -5,6 +5,52 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    get_deployments(device_fleet_name, device_name)
+    get_deployments(device_fleet_name, device_name, params::Dict{String,<:Any})
+
+Use to get the active deployments from a device.
+
+# Arguments
+- `device_fleet_name`: The name of the fleet that the device belongs to.
+- `device_name`: The unique name of the device you want to get the configuration of active
+  deployments from.
+
+"""
+function get_deployments(
+    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker_edge(
+        "POST",
+        "/GetDeployments",
+        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_deployments(
+    DeviceFleetName,
+    DeviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_edge(
+        "POST",
+        "/GetDeployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_device_registration(device_fleet_name, device_name)
     get_device_registration(device_fleet_name, device_name, params::Dict{String,<:Any})
 
@@ -64,6 +110,7 @@ Use to get the current status of devices registered on SageMaker Edge Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AgentMetrics"`: For internal use. Returns a list of SageMaker Edge Manager agent
   operating metrics.
+- `"DeploymentResult"`: Returns the result of a deployment on the device.
 - `"Models"`: Returns a list of models deployed on the the device.
 """
 function send_heartbeat(

@@ -10,15 +10,14 @@ using AWS.UUIDs
 
 Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received,
 we close the WebSocket connections between the client and proxy server so no data can be
-transmitted.
+transmitted. Requires permission to access the CloseTunnel action.
 
 # Arguments
 - `tunnel_id`: The ID of the tunnel to close.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"delete"`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data
-  immediately.
+- `"delete"`: When set to true, IoT Secure Tunneling deletes the tunnel data immediately.
 """
 function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsecuretunneling(
@@ -47,7 +46,8 @@ end
     describe_tunnel(tunnel_id)
     describe_tunnel(tunnel_id, params::Dict{String,<:Any})
 
-Gets information about a tunnel identified by the unique tunnel id.
+Gets information about a tunnel identified by the unique tunnel id. Requires permission to
+access the DescribeTunnel action.
 
 # Arguments
 - `tunnel_id`: The tunnel to describe.
@@ -115,13 +115,15 @@ end
     list_tunnels()
     list_tunnels(params::Dict{String,<:Any})
 
-List all tunnels for an AWS account. Tunnels are listed by creation time in descending
-order, newer tunnels will be listed before older tunnels.
+List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
+descending order, newer tunnels will be listed before older tunnels. Requires permission to
+access the ListTunnels action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to return at once.
-- `"nextToken"`: A token to retrieve the next set of results.
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `"thingName"`: The name of the IoT thing associated with the destination device.
 """
 function list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -142,7 +144,7 @@ end
     open_tunnel(params::Dict{String,<:Any})
 
 Creates a new tunnel, and returns two client access tokens for clients to use to connect to
-the AWS IoT Secure Tunneling proxy server.
+the IoT Secure Tunneling proxy server. Requires permission to access the OpenTunnel action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -161,6 +163,56 @@ function open_tunnel(
 )
     return iotsecuretunneling(
         "OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    rotate_tunnel_access_token(client_mode, tunnel_id)
+    rotate_tunnel_access_token(client_mode, tunnel_id, params::Dict{String,<:Any})
+
+Revokes the current client access token (CAT) and returns new CAT for clients to use when
+reconnecting to secure tunneling to access the same tunnel. Requires permission to access
+the RotateTunnelAccessToken action.  Rotating the CAT doesn't extend the tunnel duration.
+For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4
+hours. When you rotate the access tokens, the new tokens that are generated can only be
+used for the remaining 8 hours.
+
+# Arguments
+- `client_mode`: The mode of the client that will use the client token, which can be either
+  the source or destination, or both source and destination.
+- `tunnel_id`: The tunnel for which you want to rotate the access tokens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationConfig"`:
+"""
+function rotate_tunnel_access_token(
+    clientMode, tunnelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsecuretunneling(
+        "RotateTunnelAccessToken",
+        Dict{String,Any}("clientMode" => clientMode, "tunnelId" => tunnelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function rotate_tunnel_access_token(
+    clientMode,
+    tunnelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "RotateTunnelAccessToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("clientMode" => clientMode, "tunnelId" => tunnelId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

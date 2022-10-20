@@ -828,5 +828,17 @@ end
                 @test aws_get_region() == AWS.DEFAULT_REGION
             end
         end
+
+        @testset "instance profile" begin
+            withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
+                patch = @patch function HTTP.request(method::String, url; kwargs...)
+                    return HTTP.Response("ap-atlantis-1")  # Made up region
+                end
+
+                apply(patch) do
+                    @test aws_get_region() == "ap-atlantis-1"
+                end
+            end
+        end
     end
 end

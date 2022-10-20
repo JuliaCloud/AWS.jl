@@ -262,6 +262,7 @@ to compose the resolver logic.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The Function description.
+- `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"requestMappingTemplate"`: The Function request mapping template. Functions support only
   the 2018-05-29 version of the request mapping template.
 - `"responseMappingTemplate"`: The Function response mapping template.
@@ -390,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to
   invoke a series of Function objects in a serial manner. You can use a pipeline resolver to
   run a GraphQL query against multiple data sources.
+- `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"pipelineConfig"`: The PipelineConfig.
 - `"requestMappingTemplate"`: The mapping template to use for requests. A resolver uses a
   request mapping template to convert a GraphQL expression into a format that a data source
@@ -770,6 +772,56 @@ function disassociate_api(
         "DELETE",
         "/v1/domainnames/$(domainName)/apiassociation",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    evaluate_mapping_template(context, template)
+    evaluate_mapping_template(context, template, params::Dict{String,<:Any})
+
+Evaluates a given template and returns the response. The mapping template can be a request
+or response template. Request templates take the incoming request after a GraphQL operation
+is parsed and convert it into a request configuration for the selected data source
+operation. Response templates interpret responses from the data source and map it to the
+shape of the GraphQL field output type. Mapping templates are written in the Apache
+Velocity Template Language (VTL).
+
+# Arguments
+- `context`: The map that holds all of the contextual information for your resolver
+  invocation. A context is required for this action.
+- `template`: The mapping template; this can be a request or response template. A template
+  is required for this action.
+
+"""
+function evaluate_mapping_template(
+    context, template; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/dataplane-evaluatetemplate",
+        Dict{String,Any}("context" => context, "template" => template);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function evaluate_mapping_template(
+    context,
+    template,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/dataplane-evaluatetemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("context" => context, "template" => template),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1773,6 +1825,7 @@ Updates a Function object.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The Function description.
+- `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"requestMappingTemplate"`: The Function request mapping template. Functions support only
   the 2018-05-29 version of the request mapping template.
 - `"responseMappingTemplate"`: The Function request mapping template.
@@ -1892,6 +1945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to
   invoke a series of Function objects in a serial manner. You can use a pipeline resolver to
   run a GraphQL query against multiple data sources.
+- `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"pipelineConfig"`: The PipelineConfig.
 - `"requestMappingTemplate"`: The new request mapping template. A resolver uses a request
   mapping template to convert a GraphQL expression into a format that a data source can

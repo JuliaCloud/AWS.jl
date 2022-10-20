@@ -10,7 +10,10 @@ using AWS.UUIDs
 
 Deletes the specified alternate contact from an Amazon Web Services account. For complete
 details about how to use the alternate contact operations, see Access or updating the
-alternate contacts.
+alternate contacts.  Before you can update the alternate contact information for an Amazon
+Web Services account that is managed by Organizations, you must first enable integration
+between Amazon Web Services Account Management and Organizations. For more information, see
+Enabling trusted access for Amazon Web Services Account Management.
 
 # Arguments
 - `alternate_contact_type`: Specifies which of the alternate contacts to delete.
@@ -67,7 +70,10 @@ end
 
 Retrieves the specified alternate contact attached to an Amazon Web Services account. For
 complete details about how to use the alternate contact operations, see Access or updating
-the alternate contacts.
+the alternate contacts.  Before you can update the alternate contact information for an
+Amazon Web Services account that is managed by Organizations, you must first enable
+integration between Amazon Web Services Account Management and Organizations. For more
+information, see Enabling trusted access for Amazon Web Services Account Management.
 
 # Arguments
 - `alternate_contact_type`: Specifies which alternate contact you want to retrieve.
@@ -119,12 +125,58 @@ function get_alternate_contact(
 end
 
 """
+    get_contact_information()
+    get_contact_information(params::Dict{String,<:Any})
+
+Retrieves the primary contact information of an Amazon Web Services account. For complete
+details about how to use the primary contact operations, see Update the primary and
+alternate contact information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+"""
+function get_contact_information(; aws_config::AbstractAWSConfig=global_aws_config())
+    return account(
+        "POST",
+        "/getContactInformation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_contact_information(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/getContactInformation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title)
     put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title, params::Dict{String,<:Any})
 
 Modifies the specified alternate contact attached to an Amazon Web Services account. For
 complete details about how to use the alternate contact operations, see Access or updating
-the alternate contacts.
+the alternate contacts.  Before you can update the alternate contact information for an
+Amazon Web Services account that is managed by Organizations, you must first enable
+integration between Amazon Web Services Account Management and Organizations. For more
+information, see Enabling trusted access for Amazon Web Services Account Management.
 
 # Arguments
 - `alternate_contact_type`: Specifies which alternate contact you want to create or update.
@@ -193,6 +245,62 @@ function put_alternate_contact(
                     "Title" => Title,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_contact_information(contact_information)
+    put_contact_information(contact_information, params::Dict{String,<:Any})
+
+Updates the primary contact information of an Amazon Web Services account. For complete
+details about how to use the primary contact operations, see Update the primary and
+alternate contact information.
+
+# Arguments
+- `contact_information`: Contains the details of the primary contact information associated
+  with an Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+"""
+function put_contact_information(
+    ContactInformation; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/putContactInformation",
+        Dict{String,Any}("ContactInformation" => ContactInformation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_contact_information(
+    ContactInformation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/putContactInformation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactInformation" => ContactInformation), params
             ),
         );
         aws_config=aws_config,

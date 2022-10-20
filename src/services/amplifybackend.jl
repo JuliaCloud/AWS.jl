@@ -66,7 +66,7 @@ the time of app creation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"resourceConfig"`: The resource configuration for creating backend storage.
+- `"resourceConfig"`: The resource configuration for creating a backend.
 - `"resourceName"`: The name of the resource.
 """
 function create_backend(

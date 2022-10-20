@@ -478,6 +478,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance level). Default: false.
 - `"EngineVersion"`: The version number of the database engine to use for the new DB
   cluster. Example: 1.0.2.1
+- `"GlobalClusterIdentifier"`: The ID of the Neptune global database to which this new DB
+  cluster should be added.
 - `"KmsKeyId"`: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key
   identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
   creating a DB cluster with the same Amazon account that owns the KMS encryption key used to
@@ -1126,6 +1128,62 @@ function create_event_subscription(
 end
 
 """
+    create_global_cluster(global_cluster_identifier)
+    create_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Creates a Neptune global database spread across multiple Amazon Regions. The global
+database contains a single primary cluster with read-write capability, and read-only
+secondary clusters that receive data from the primary cluster through high-speed
+replication performed by the Neptune storage subsystem. You can create a global database
+that is initially empty, and then add a primary cluster and secondary clusters to it, or
+you can specify an existing Neptune cluster during the create operation to become the
+primary cluster of the global database.
+
+# Arguments
+- `global_cluster_identifier`: The cluster identifier of the new global database cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeletionProtection"`: The deletion protection setting for the new global database. The
+  global database can't be deleted when deletion protection is enabled.
+- `"Engine"`: The name of the database engine to be used in the global database. Valid
+  values: neptune
+- `"EngineVersion"`: The Neptune engine version to be used by the global database. Valid
+  values: 1.2.0.0 or above.
+- `"SourceDBClusterIdentifier"`: (Optional) The Amazon Resource Name (ARN) of an existing
+  Neptune DB cluster to use as the primary cluster of the new global database.
+- `"StorageEncrypted"`: The storage encryption setting for the new global database cluster.
+"""
+function create_global_cluster(
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return neptune(
+        "CreateGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_global_cluster(
+    GlobalClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "CreateGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_dbcluster(dbcluster_identifier)
     delete_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
@@ -1486,6 +1544,47 @@ function delete_event_subscription(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_global_cluster(global_cluster_identifier)
+    delete_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Deletes a global database. The primary and all secondary clusters must already be detached
+or deleted first.
+
+# Arguments
+- `global_cluster_identifier`: The cluster identifier of the global database cluster being
+  deleted.
+
+"""
+function delete_global_cluster(
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return neptune(
+        "DeleteGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_global_cluster(
+    GlobalClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "DeleteGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -2221,6 +2320,42 @@ function describe_events(
 end
 
 """
+    describe_global_clusters()
+    describe_global_clusters(params::Dict{String,<:Any})
+
+Returns information about Neptune global database clusters. This API supports pagination.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GlobalClusterIdentifier"`: The user-supplied DB cluster identifier. If this parameter
+  is specified, only information about the specified DB cluster is returned. This parameter
+  is not case-sensitive. Constraints: If supplied, must match an existing DB cluster
+  identifier.
+- `"Marker"`: (Optional) A pagination token returned by a previous call to
+  DescribeGlobalClusters. If this parameter is specified, the response will only include
+  records beyond the marker, up to the number specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination marker token is included in the
+  response that you can use to retrieve the remaining results. Default: 100  Constraints:
+  Minimum 20, maximum 100.
+"""
+function describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return neptune(
+        "DescribeGlobalClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_global_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return neptune(
+        "DescribeGlobalClusters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_orderable_dbinstance_options(engine)
     describe_orderable_dbinstance_options(engine, params::Dict{String,<:Any})
 
@@ -2383,6 +2518,67 @@ function failover_dbcluster(
 )
     return neptune(
         "FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
+    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
+
+Initiates the failover process for a Neptune global database. A failover for a Neptune
+global database promotes one of secondary read-only DB clusters to be the primary DB
+cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In
+other words, the role of the current primary DB cluster and the selected target secondary
+DB cluster are switched. The selected secondary DB cluster assumes full read/write
+capabilities for the Neptune global database.  This action applies only to Neptune global
+databases. This action is only intended for use on healthy Neptune global databases with
+healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios
+or to reconfigure the global database topology.
+
+# Arguments
+- `global_cluster_identifier`: Identifier of the Neptune global database that should be
+  failed over. The identifier is the unique key assigned by the user when the Neptune global
+  database was created. In other words, it's the name of the global database that you want to
+  fail over. Constraints: Must match the identifier of an existing Neptune global database.
+- `target_db_cluster_identifier`: The Amazon Resource Name (ARN) of the secondary Neptune
+  DB cluster that you want to promote to primary for the global database.
+
+"""
+function failover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "FailoverGlobalCluster",
+        Dict{String,Any}(
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function failover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "FailoverGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+                    "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3064,6 +3260,66 @@ function modify_event_subscription(
 end
 
 """
+    modify_global_cluster(global_cluster_identifier)
+    modify_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Modify a setting for an Amazon Neptune global cluster. You can change one or more database
+configuration parameters by specifying these parameters and their new values in the request.
+
+# Arguments
+- `global_cluster_identifier`: The DB cluster identifier for the global cluster being
+  modified. This parameter is not case-sensitive. Constraints: Must match the identifier of
+  an existing global database cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowMajorVersionUpgrade"`: A value that indicates whether major version upgrades are
+  allowed. Constraints: You must allow major version upgrades if you specify a value for the
+  EngineVersion parameter that is a different major version than the DB cluster's current
+  version. If you upgrade the major version of a global database, the cluster and DB instance
+  parameter groups are set to the default parameter groups for the new version, so you will
+  need to apply any custom parameter groups after completing the upgrade.
+- `"DeletionProtection"`: Indicates whether the global database has deletion protection
+  enabled. The global database cannot be deleted when deletion protection is enabled.
+- `"EngineVersion"`: The version number of the database engine to which you want to
+  upgrade. Changing this parameter will result in an outage. The change is applied during the
+  next maintenance window unless ApplyImmediately is enabled. To list all of the available
+  Neptune engine versions, use the following command:
+- `"NewGlobalClusterIdentifier"`: A new cluster identifier to assign to the global
+  database. This value is stored as a lowercase string. Constraints:   Must contain from 1 to
+  63 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a
+  hyphen or contain two consecutive hyphens   Example: my-cluster2
+"""
+function modify_global_cluster(
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return neptune(
+        "ModifyGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_global_cluster(
+    GlobalClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "ModifyGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     promote_read_replica_dbcluster(dbcluster_identifier)
     promote_read_replica_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
@@ -3142,6 +3398,59 @@ function reboot_dbinstance(
             mergewith(
                 _merge,
                 Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier)
+    remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier, params::Dict{String,<:Any})
+
+Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a
+normal standalone cluster with read-write capability instead of being read-only, and no
+longer receives data from a the primary cluster.
+
+# Arguments
+- `db_cluster_identifier`: The Amazon Resource Name (ARN) identifying the cluster to be
+  detached from the Neptune global database cluster.
+- `global_cluster_identifier`: The identifier of the Neptune global database from which to
+  detach the specified Neptune DB cluster.
+
+"""
+function remove_from_global_cluster(
+    DbClusterIdentifier,
+    GlobalClusterIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "RemoveFromGlobalCluster",
+        Dict{String,Any}(
+            "DbClusterIdentifier" => DbClusterIdentifier,
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function remove_from_global_cluster(
+    DbClusterIdentifier,
+    GlobalClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return neptune(
+        "RemoveFromGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DbClusterIdentifier" => DbClusterIdentifier,
+                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+                ),
                 params,
             ),
         );

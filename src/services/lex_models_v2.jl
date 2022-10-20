@@ -416,6 +416,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transaction with the user. For example, in a pizza ordering bot, the Lambda function can
   look up the closest pizza restaurant to the customer's location and then place an order on
   the customer's behalf.
+- `"initialResponseSetting"`: Configuration settings for the response that is sent to the
+  user at the beginning of a conversation, before eliciting slot values.
 - `"inputContexts"`: A list of contexts that must be active for this intent to be
   considered by Amazon Lex. When an intent has an input context list, Amazon Lex only
   considers using the intent in an interaction with the user when the specified contexts are
@@ -608,8 +610,8 @@ function create_resource_policy_statement(
 end
 
 """
-    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting)
-    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting, params::Dict{String,<:Any})
+    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, value_elicitation_setting)
+    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, value_elicitation_setting, params::Dict{String,<:Any})
 
 Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example,
 an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot,
@@ -624,8 +626,6 @@ you define one or more utterances that Amazon Lex uses to elicit a response from
   by the slot must have the same locale. For more information, see Supported languages.
 - `slot_name`: The name of the slot. Slot names must be unique within the bot that contains
   the slot.
-- `slot_type_id`: The unique identifier for the slot type associated with this slot. The
-  slot type determines the values that can be entered into the slot.
 - `value_elicitation_setting`: Specifies prompts that Amazon Lex sends to the user to
   elicit a response that provides the value for the slot.
 
@@ -640,6 +640,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are
   obfuscated in the log output. If the value is None, the actual value is present in the log
   output. The default is to obfuscate values in the CloudWatch logs.
+- `"slotTypeId"`: The unique identifier for the slot type associated with this slot. The
+  slot type determines the values that can be entered into the slot.
+- `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
+  the composite slot.
 """
 function create_slot(
     botId,
@@ -647,7 +651,6 @@ function create_slot(
     intentId,
     localeId,
     slotName,
-    slotTypeId,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -655,9 +658,7 @@ function create_slot(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
         Dict{String,Any}(
-            "slotName" => slotName,
-            "slotTypeId" => slotTypeId,
-            "valueElicitationSetting" => valueElicitationSetting,
+            "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -669,7 +670,6 @@ function create_slot(
     intentId,
     localeId,
     slotName,
-    slotTypeId,
     valueElicitationSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -682,7 +682,6 @@ function create_slot(
                 _merge,
                 Dict{String,Any}(
                     "slotName" => slotName,
-                    "slotTypeId" => slotTypeId,
                     "valueElicitationSetting" => valueElicitationSetting,
                 ),
                 params,
@@ -712,6 +711,7 @@ and a set of enumeration values, the values that a slot of this type can assume.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"compositeSlotTypeSetting"`: Specifications for a composite slot type.
 - `"description"`: A description of the slot type. Use the description to help identify the
   slot type in lists.
 - `"externalSourceSetting"`: Sets the type of external information used to create the slot
@@ -941,6 +941,45 @@ function delete_bot_version(
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_custom_vocabulary(bot_id, bot_version, locale_id)
+    delete_custom_vocabulary(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Removes a custom vocabulary from the specified locale in the specified bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot to remove the custom vocabulary from.
+- `bot_version`: The version of the bot to remove the custom vocabulary from.
+- `locale_id`: The locale identifier for the locale that contains the custom vocabulary to
+  remove.
+
+"""
+function delete_custom_vocabulary(
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_vocabulary(
+    botId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1475,6 +1514,45 @@ function describe_bot_version(
 end
 
 """
+    describe_custom_vocabulary_metadata(bot_id, bot_version, locale_id)
+    describe_custom_vocabulary_metadata(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Provides metadata information about a custom vocabulary.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot that contains the custom vocabulary.
+- `bot_version`: The bot version of the bot to return metadata for.
+- `locale_id`: The locale to return the custom vocabulary information for. The locale must
+  be en_GB.
+
+"""
+function describe_custom_vocabulary_metadata(
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_custom_vocabulary_metadata(
+    botId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_export(export_id)
     describe_export(export_id, params::Dict{String,<:Any})
 
@@ -1977,8 +2055,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are fewer results than the maximum page size, only the actual number of results are
   returned.
 - `"nextToken"`: If the response from the ListBots operation contains more results than
-  specified in the maxResults parameter, a token is returned in the response. Use that token
-  in the nextToken parameter to return the next page of results.
+  specified in the maxResults parameter, a token is returned in the response.  Use the
+  returned token in the nextToken parameter of a ListBots request to return the next page of
+  results. For a complete set of results, call the ListBots operation until the nextToken
+  returned in the response is null.
 - `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
 """
@@ -2093,7 +2173,8 @@ end
     list_exports()
     list_exports(params::Dict{String,<:Any})
 
-Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list
+for 7 days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2102,11 +2183,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Provides the specification of a filter used to limit the exports in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
+- `"localeId"`: Specifies the resources that should be exported. If you don't specify a
+  resource type in the filters parameter, both bot locales and custom vocabularies are
+  exported.
 - `"maxResults"`: The maximum number of exports to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response from the ListExports operation contains more results that
-  specified in the maxResults parameter, a token is returned in the response. Use that token
-  in the nextToken parameter to return the next page of results.
+  specified in the maxResults parameter, a token is returned in the response.  Use the
+  returned token in the nextToken parameter of a ListExports request to return the next page
+  of results. For a complete set of results, call the ListExports operation until the
+  nextToken returned in the response is null.
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
@@ -2127,7 +2213,8 @@ end
     list_imports()
     list_imports(params::Dict{String,<:Any})
 
-Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list
+for 7 days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2136,11 +2223,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Provides the specification of a filter used to limit the bots in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
+- `"localeId"`: Specifies the locale that should be present in the list. If you don't
+  specify a resource type in the filters parameter, the list contains both bot locales and
+  custom vocabularies.
 - `"maxResults"`: The maximum number of imports to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response from the ListImports operation contains more results than
-  specified in the maxResults parameter, a token is returned in the response. Use that token
-  in the nextToken parameter to return the next page of results.
+  specified in the maxResults parameter, a token is returned in the response. Use the
+  returned token in the nextToken parameter of a ListImports request to return the next page
+  of results. For a complete set of results, call the ListImports operation until the
+  nextToken returned in the response is null.
 - `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
@@ -2177,8 +2269,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of intents to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response from the ListIntents operation contains more results than
-  specified in the maxResults parameter, a token is returned in the response. Use that token
-  in the nextToken parameter to return the next page of results.
+  specified in the maxResults parameter, a token is returned in the response. Use the
+  returned token in the nextToken parameter of a ListIntents request to return the next page
+  of results. For a complete set of results, call the ListIntents operation until the
+  nextToken returned in the response is null.
 - `"sortBy"`: Determines the sort order for the response from the ListIntents operation.
   You can choose to sort by the intent name or last updated date in either ascending or
   descending order.
@@ -2531,7 +2625,8 @@ end
     start_import(import_id, merge_strategy, resource_specification)
     start_import(import_id, merge_strategy, resource_specification, params::Dict{String,<:Any})
 
-Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
+Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you
+uploaded to an S3 bucket.
 
 # Arguments
 - `import_id`: The unique identifier for the import. It is included in the response from
@@ -2539,13 +2634,14 @@ Starts importing a bot or bot locale from a zip archive that you uploaded to an 
 - `merge_strategy`: The strategy to use when there is a name conflict between the imported
   resource and an existing resource. When the merge strategy is FailOnConflict existing
   resources are not overwritten and the import fails.
-- `resource_specification`: Parameters for creating the bot or bot locale.
+- `resource_specification`: Parameters for creating the bot, bot locale or custom
+  vocabulary.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filePassword"`: The password used to encrypt the zip archive that contains the bot or
-  bot locale definition. You should always encrypt the zip archive to protect it during
-  transit between your site and Amazon Lex.
+- `"filePassword"`: The password used to encrypt the zip archive that contains the resource
+  definition. You should always encrypt the zip archive to protect it during transit between
+  your site and Amazon Lex.
 """
 function start_import(
     importId,
@@ -2586,6 +2682,53 @@ function start_import(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id)
+    stop_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Stop an already running Bot Recommendation request.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot containing the bot recommendation to be
+  stopped.
+- `bot_recommendation_id`: The unique identifier of the bot recommendation to be stopped.
+- `bot_version`: The version of the bot containing the bot recommendation.
+- `locale_id`: The identifier of the language and locale of the bot recommendation to stop.
+  The string must match one of the supported locales. For more information, see Supported
+  languages
+
+"""
+function stop_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/stopbotrecommendation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_bot_recommendation(
+    botId,
+    botRecommendationId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/stopbotrecommendation",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2971,6 +3114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the bot.
 - `"fulfillmentCodeHook"`: The new Lambda function to call when all of the intents required
   slots are provided and the intent is ready for fulfillment.
+- `"initialResponseSetting"`:
 - `"inputContexts"`: A new list of contexts that must be active in order for Amazon Lex to
   consider the intent.
 - `"intentClosingSetting"`: The new response that Amazon Lex sends the user when the intent
@@ -3072,8 +3216,8 @@ function update_resource_policy(
 end
 
 """
-    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting)
-    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting, params::Dict{String,<:Any})
+    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, value_elicitation_setting)
+    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, value_elicitation_setting, params::Dict{String,<:Any})
 
 Updates the settings for a slot.
 
@@ -3085,7 +3229,6 @@ Updates the settings for a slot.
   must match one of the supported locales. For more information, see Supported languages.
 - `slot_id`: The unique identifier for the slot to update.
 - `slot_name`: The new name for the slot.
-- `slot_type_id`: The unique identifier of the new slot type to associate with this slot.
 - `value_elicitation_setting`: A new set of prompts that Amazon Lex sends to the user to
   elicit a response the provides a value for the slot.
 
@@ -3098,6 +3241,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multipleValuesSetting is not set, the default value is false.
 - `"obfuscationSetting"`: New settings that determine how slot values are formatted in
   Amazon CloudWatch logs.
+- `"slotTypeId"`: The unique identifier of the new slot type to associate with this slot.
+- `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
+  the composite slot.
 """
 function update_slot(
     botId,
@@ -3106,7 +3252,6 @@ function update_slot(
     localeId,
     slotId,
     slotName,
-    slotTypeId,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -3114,9 +3259,7 @@ function update_slot(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
         Dict{String,Any}(
-            "slotName" => slotName,
-            "slotTypeId" => slotTypeId,
-            "valueElicitationSetting" => valueElicitationSetting,
+            "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3129,7 +3272,6 @@ function update_slot(
     localeId,
     slotId,
     slotName,
-    slotTypeId,
     valueElicitationSetting,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -3142,7 +3284,6 @@ function update_slot(
                 _merge,
                 Dict{String,Any}(
                     "slotName" => slotName,
-                    "slotTypeId" => slotTypeId,
                     "valueElicitationSetting" => valueElicitationSetting,
                 ),
                 params,
@@ -3170,6 +3311,7 @@ Updates the configuration of an existing slot type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"compositeSlotTypeSetting"`: Specifications for a composite slot type.
 - `"description"`: The new description of the slot type.
 - `"externalSourceSetting"`:
 - `"parentSlotTypeSignature"`: The new built-in slot type that should be used as the parent

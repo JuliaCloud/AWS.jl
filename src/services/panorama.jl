@@ -325,7 +325,8 @@ end
     delete_package(package_id)
     delete_package(package_id, params::Dict{String,<:Any})
 
-Deletes a package.
+Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in
+addition to permissions for the AWS Panorama API.
 
 # Arguments
 - `package_id`: The package's ID.
@@ -414,23 +415,23 @@ Returns information about an application instance on a device.
 
 """
 function describe_application_instance(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)";
+        "/application-instances/$(ApplicationInstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_application_instance(
-    applicationInstanceId,
+    ApplicationInstanceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)",
+        "/application-instances/$(ApplicationInstanceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -448,23 +449,23 @@ Returns information about an application instance's configuration manifest.
 
 """
 function describe_application_instance_details(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/details";
+        "/application-instances/$(ApplicationInstanceId)/details";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_application_instance_details(
-    applicationInstanceId,
+    ApplicationInstanceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/details",
+        "/application-instances/$(ApplicationInstanceId)/details",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -713,23 +714,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_application_instance_dependencies(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/package-dependencies";
+        "/application-instances/$(ApplicationInstanceId)/package-dependencies";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_application_instance_dependencies(
-    applicationInstanceId,
+    ApplicationInstanceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/package-dependencies",
+        "/application-instances/$(ApplicationInstanceId)/package-dependencies",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -752,23 +753,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_application_instance_node_instances(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/node-instances";
+        "/application-instances/$(ApplicationInstanceId)/node-instances";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_application_instance_node_instances(
-    applicationInstanceId,
+    ApplicationInstanceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return panorama(
         "GET",
-        "/application-instances/$(applicationInstanceId)/node-instances",
+        "/application-instances/$(ApplicationInstanceId)/node-instances",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -818,9 +819,14 @@ Returns a list of devices.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceAggregatedStatusFilter"`: Filter based on a device's status.
 - `"MaxResults"`: The maximum number of devices to return in one page of results.
+- `"NameFilter"`: Filter based on device's name. Prefixes supported.
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
+- `"SortBy"`: The target column to be sorted on. Default column sort is CREATED_TIME.
+- `"SortOrder"`: The sorting order for the returned list. SortOrder is DESCENDING by
+  default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
     return panorama(
@@ -1017,8 +1023,10 @@ end
     provision_device(name, params::Dict{String,<:Any})
 
 Creates a device and returns a configuration archive. The configuration archive is a ZIP
-file that contains a provisioning certificate that is valid for 5 minutes. Transfer the
-configuration archive to the device with the included USB storage device within 5 minutes.
+file that contains a provisioning certificate that is valid for 5 minutes. Name the
+configuration archive certificates-omni_device-name.zip and transfer it to the device
+within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port
+next to the HDMI output.
 
 # Arguments
 - `name`: A name for the device.
@@ -1106,23 +1114,23 @@ Removes an application instance.
 
 """
 function remove_application_instance(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "DELETE",
-        "/application-instances/$(applicationInstanceId)";
+        "/application-instances/$(ApplicationInstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_application_instance(
-    applicationInstanceId,
+    ApplicationInstanceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return panorama(
         "DELETE",
-        "/application-instances/$(applicationInstanceId)",
+        "/application-instances/$(ApplicationInstanceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

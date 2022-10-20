@@ -636,6 +636,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new instance. Specify a value between 600 and 360000.
 - `"Platform"`: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for
   Elastic fleets.
+- `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
+  file. This only applies to Elastic fleets.
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
   from the fleet. When APP is specified, only the windows of applications opened by users
   display. When DESKTOP is specified, the standard desktop that is provided by the operating
@@ -825,6 +827,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   link. If no URL is specified, no Send Feedback link is displayed.
 - `"RedirectURL"`: The URL that users are redirected to after their streaming session ends.
 - `"StorageConnectors"`: The storage connectors to enable.
+- `"StreamingExperienceSettings"`: The streaming protocol you want your stack to prefer.
+  This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
 - `"Tags"`: The tags to associate with the stack. A tag is a key-value pair, and the value
   is optional. For example, Environment=Test. If you do not specify a value, Environment=.
   If you do not specify a value, the value is set to an empty string. Generally allowed
@@ -2687,9 +2691,9 @@ attribute except the fleet name. If the fleet is in the RUNNING state, you can u
 following based on the fleet type:   Always-On and On-Demand fleet types You can update the
 DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and
 DisconnectTimeoutInSeconds attributes.   Elastic fleet type You can update the DisplayName,
-IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions, and
-UsbDeviceFilterStrings attributes.   If the fleet is in the STARTING or STOPPED state, you
-can't update it.
+IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions,
+SessionScriptS3Location and UsbDeviceFilterStrings attributes.   If the fleet is in the
+STARTING or STOPPED state, you can't update it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2758,6 +2762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A unique name for the fleet.
 - `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
   supported for Elastic fleets.
+- `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
+  file. This only applies to Elastic fleets.
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
   from the fleet. When APP is specified, only the windows of applications opened by users
   display. When DESKTOP is specified, the standard desktop that is provided by the operating
@@ -2863,6 +2869,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   link. If no URL is specified, no Send Feedback link is displayed.
 - `"RedirectURL"`: The URL that users are redirected to after their streaming session ends.
 - `"StorageConnectors"`: The storage connectors to enable.
+- `"StreamingExperienceSettings"`: The streaming protocol you want your stack to prefer.
+  This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """

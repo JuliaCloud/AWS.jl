@@ -43,6 +43,87 @@ function accept_invitation(
 end
 
 """
+    batch_get_graph_member_datasources(account_ids, graph_arn)
+    batch_get_graph_member_datasources(account_ids, graph_arn, params::Dict{String,<:Any})
+
+Gets data source package information for the behavior graph.
+
+# Arguments
+- `account_ids`: The list of Amazon Web Services accounts to get data source package
+  information on.
+- `graph_arn`: The ARN of the behavior graph.
+
+"""
+function batch_get_graph_member_datasources(
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/datasources/get",
+        Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_graph_member_datasources(
+    AccountIds,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/datasources/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_membership_datasources(graph_arns)
+    batch_get_membership_datasources(graph_arns, params::Dict{String,<:Any})
+
+Gets information on the data source package history for an account.
+
+# Arguments
+- `graph_arns`: The ARN of the behavior graph.
+
+"""
+function batch_get_membership_datasources(
+    GraphArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/membership/datasources/get",
+        Dict{String,Any}("GraphArns" => GraphArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_membership_datasources(
+    GraphArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/membership/datasources/get",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArns" => GraphArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_graph()
     create_graph(params::Dict{String,<:Any})
 
@@ -286,10 +367,13 @@ end
     disable_organization_admin_account()
     disable_organization_admin_account(params::Dict{String,<:Any})
 
-Removes the Detective administrator account for the organization in the current Region.
-Deletes the behavior graph for that account. Can only be called by the organization
-management account. Before you can select a different Detective administrator account, you
-must remove the Detective administrator account in all Regions.
+Removes the Detective administrator account in the current Region. Deletes the organization
+behavior graph. Can only be called by the organization management account. Removing the
+Detective administrator account does not affect the delegated administrator account for
+Detective in Organizations. To remove the delegated administrator account in Organizations,
+use the Organizations API. Removing the delegated administrator account also removes the
+Detective administrator account in all Regions, except for Regions where the Detective
+administrator account is the organization management account.
 
 """
 function disable_organization_admin_account(;
@@ -362,10 +446,15 @@ end
 
 Designates the Detective administrator account for the organization in the current Region.
 If the account does not have Detective enabled, then enables Detective for that account and
-creates a new behavior graph. Can only be called by the organization management account.
-The Detective administrator account for an organization must be the same in all Regions. If
-you already designated a Detective administrator account in another Region, then you must
-designate the same account.
+creates a new behavior graph. Can only be called by the organization management account. If
+the organization has a delegated administrator account in Organizations, then the Detective
+administrator account must be either the delegated administrator account or the
+organization management account. If the organization does not have a delegated
+administrator account in Organizations, then you can choose any account in the
+organization. If you choose an account other than the organization management account,
+Detective calls Organizations to make that account the delegated administrator account for
+Detective. The organization management account cannot be the delegated administrator
+account.
 
 # Arguments
 - `account_id`: The Amazon Web Services account identifier of the account to designate as
@@ -439,6 +528,49 @@ function get_members(
                 Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_datasource_packages(graph_arn)
+    list_datasource_packages(graph_arn, params::Dict{String,<:Any})
+
+Lists data source packages in the behavior graph.
+
+# Arguments
+- `graph_arn`: The ARN of the behavior graph.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: For requests to get the next page of results, the pagination token that
+  was returned with the previous set of results. The initial request does not include a
+  pagination token.
+"""
+function list_datasource_packages(
+    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/datasources/list",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_datasource_packages(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/datasources/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -788,6 +920,53 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_datasource_packages(datasource_packages, graph_arn)
+    update_datasource_packages(datasource_packages, graph_arn, params::Dict{String,<:Any})
+
+Starts a data source packages for the behavior graph.
+
+# Arguments
+- `datasource_packages`: The data source package start for the behavior graph.
+- `graph_arn`: The ARN of the behavior graph.
+
+"""
+function update_datasource_packages(
+    DatasourcePackages, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/datasources/update",
+        Dict{String,Any}(
+            "DatasourcePackages" => DatasourcePackages, "GraphArn" => GraphArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_datasource_packages(
+    DatasourcePackages,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/datasources/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatasourcePackages" => DatasourcePackages, "GraphArn" => GraphArn
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

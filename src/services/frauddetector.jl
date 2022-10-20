@@ -592,7 +592,8 @@ end
     delete_batch_import_job(job_id)
     delete_batch_import_job(job_id, params::Dict{String,<:Any})
 
-Deletes data that was batch imported to Amazon Fraud Detector.
+Deletes the specified batch import job ID record. This action does not delete the data that
+was batch imported.
 
 # Arguments
 - `job_id`: The ID of the batch import job to delete.
@@ -1536,6 +1537,75 @@ function get_event_prediction(
 end
 
 """
+    get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp)
+    get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp, params::Dict{String,<:Any})
+
+ Gets details of the past fraud predictions for the specified event ID, event type,
+detector ID, and detector version ID that was generated in the specified time period.
+
+# Arguments
+- `detector_id`:  The detector ID.
+- `detector_version_id`:  The detector version ID.
+- `event_id`:  The event ID.
+- `event_type_name`:  The event type associated with the detector specified for the
+  prediction.
+- `prediction_timestamp`:  The timestamp that defines when the prediction was generated.
+  The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling
+  ListEventPredictions first, and using the predictionTimestamp value in the response to
+  provide an accurate prediction timestamp value.
+
+"""
+function get_event_prediction_metadata(
+    detectorId,
+    detectorVersionId,
+    eventId,
+    eventTypeName,
+    predictionTimestamp;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "GetEventPredictionMetadata",
+        Dict{String,Any}(
+            "detectorId" => detectorId,
+            "detectorVersionId" => detectorVersionId,
+            "eventId" => eventId,
+            "eventTypeName" => eventTypeName,
+            "predictionTimestamp" => predictionTimestamp,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_prediction_metadata(
+    detectorId,
+    detectorVersionId,
+    eventId,
+    eventTypeName,
+    predictionTimestamp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "GetEventPredictionMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "detectorId" => detectorId,
+                    "detectorVersionId" => detectorVersionId,
+                    "eventId" => eventId,
+                    "eventTypeName" => eventTypeName,
+                    "predictionTimestamp" => predictionTimestamp,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_event_types()
     get_event_types(params::Dict{String,<:Any})
 
@@ -1834,6 +1904,47 @@ function get_variables(
 )
     return frauddetector(
         "GetVariables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_event_predictions()
+    list_event_predictions(params::Dict{String,<:Any})
+
+Gets a list of past predictions. The list can be filtered by detector ID, detector version
+ID, event ID, event type, or by specifying a time period. If filter is not specified, the
+most recent prediction is returned. For example, the following filter lists all past
+predictions for xyz event type - { \"eventType\":{ \"value\": \"xyz\" }” }   This is a
+paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10
+records per page. If you provide a maxResults, the value must be between 50 and 100. To get
+the next page results, provide the nextToken from the response as part of your request. A
+null nextToken fetches the records from the beginning.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"detectorId"`:  The detector ID.
+- `"detectorVersionId"`:  The detector version ID.
+- `"eventId"`:  The event ID.
+- `"eventType"`:  The event type associated with the detector.
+- `"maxResults"`:  The maximum number of predictions to return for the request.
+- `"nextToken"`:  Identifies the next page of results to return. Use the token to make the
+  call again to retrieve the next page. Keep all other arguments unchanged. Each pagination
+  token expires after 24 hours.
+- `"predictionTimeRange"`:  The time period for when the predictions were generated.
+"""
+function list_event_predictions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_event_predictions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "ListEventPredictions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2709,7 +2820,8 @@ end
     update_model_version_status(model_id, model_type, model_version_number, status, params::Dict{String,<:Any})
 
 Updates the status of a model version. You can perform the following status updates:
-Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
+Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED.   Change the
+TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
 
 # Arguments
 - `model_id`: The model ID of the model version to update.

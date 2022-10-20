@@ -233,7 +233,12 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/region")
+ec2_instance_region() =
+    try
+        ec2_instance_metadata("/latest/meta-data/placement/region")
+    catch
+        nothing
+    end
 
 """
     ec2_instance_credentials(profile::AbstractString) -> AWSCredentials
@@ -562,7 +567,8 @@ precedence mirrors what is [used by the AWS CLI](https://docs.aws.amazon.com/cli
 1. Environmental variable: as specified by the `AWS_DEFAULT_REGION` environmental variable.
 2. AWS configuration file: `region` as specified by the `profile` in the configuration
    file, typically "~/.aws/config".
-3. Default region: use the specified `default`, typically "$DEFAULT_REGION".
+3. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
+4. Default region: use the specified `default`, typically "$DEFAULT_REGION".
 
 # Keywords
 - `profile`: Name of the AWS configuration profile, if any. Defaults to `nothing` which
@@ -576,6 +582,7 @@ function aws_get_region(; profile=nothing, config=nothing, default=DEFAULT_REGIO
     @something(
         get(ENV, "AWS_DEFAULT_REGION", nothing),
         get(_aws_profile_config(config, profile), "region", nothing),
+        ec2_instance_region(),
         Some(default),
     )
 end

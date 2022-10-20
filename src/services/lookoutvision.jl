@@ -536,11 +536,14 @@ end
 
 Detects anomalies in an image that you supply.  The response from DetectAnomalies includes
 a boolean prediction that the image contains one or more anomalies and a confidence value
-for the prediction.  Before calling DetectAnomalies, you must first start your model with
-the StartModel operation. You are charged for the amount of time, in minutes, that a model
-runs and for the number of anomaly detection units that your model uses. If you are not
-using a model, use the StopModel operation to stop your model.   This operation requires
-permissions to perform the lookoutvision:DetectAnomalies operation.
+for the prediction. If the model is an image segmentation model, the response also includes
+segmentation information for each type of anomaly found in the image.  Before calling
+DetectAnomalies, you must first start your model with the StartModel operation. You are
+charged for the amount of time, in minutes, that a model runs and for the number of anomaly
+detection units that your model uses. If you are not using a model, use the StopModel
+operation to stop your model.   For more information, see Detecting anomalies in an image
+in the Amazon Lookout for Vision developer guide. This operation requires permissions to
+perform the lookoutvision:DetectAnomalies operation.
 
 # Arguments
 - `body`: The unencrypted image bytes that you want to analyze.
@@ -749,10 +752,11 @@ end
     list_projects()
     list_projects(params::Dict{String,<:Any})
 
-Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects
-operation is eventually consistent. Recent calls to CreateProject and DeleteProject might
-take a while to appear in the response from ListProjects. This operation requires
-permissions to perform the lookoutvision:ListProjects operation.
+Lists the Amazon Lookout for Vision projects in your AWS account that are in the AWS Region
+in which you call ListProjects. The ListProjects operation is eventually consistent. Recent
+calls to CreateProject and DeleteProject might take a while to appear in the response from
+ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects
+operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -839,6 +843,8 @@ requires permissions to perform the lookoutvision:StartModel operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxInferenceUnits"`: The maximum number of inference units to use for auto-scaling the
+  model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
   StartModel completes only once. You choose the value to pass. For example, An issue might
   prevent you from getting a response from StartModel. In this case, safely retry your call
@@ -902,7 +908,7 @@ DescribeModelPackagingJob API to determine the current status of the job. The mo
 packaging job is complete if the value of Status is SUCCEEDED. To deploy the component to
 the target device, use the component name and component version with the AWS IoT Greengrass
 CreateDeployment API. This operation requires the following permissions:
-lookoutvision:StartModelPackagingJobs     s3:PutObject     s3:GetBucketLocation
+lookoutvision:StartModelPackagingJob     s3:PutObject     s3:GetBucketLocation
 greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional)
 greengrass:TagResource. Only required if you want to tag the component.   For more
 information, see Using your Amazon Lookout for Vision model on an edge device in the Amazon

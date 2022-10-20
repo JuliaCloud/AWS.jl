@@ -11,7 +11,7 @@ using AWS.UUIDs
 In a management account, an environment account connection request is accepted. When the
 environment account connection request is accepted, Proton can use the associated IAM role
 to provision environment infrastructure resources in the associated environment account.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection.
@@ -39,12 +39,49 @@ function accept_environment_account_connection(
 end
 
 """
+    cancel_component_deployment(component_name)
+    cancel_component_deployment(component_name, params::Dict{String,<:Any})
+
+Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS
+deployment status). For more information about components, see Proton components in the
+Proton User Guide.
+
+# Arguments
+- `component_name`: The name of the component with the deployment to cancel.
+
+"""
+function cancel_component_deployment(
+    componentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CancelComponentDeployment",
+        Dict{String,Any}("componentName" => componentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_component_deployment(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CancelComponentDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_environment_deployment(environment_name)
     cancel_environment_deployment(environment_name, params::Dict{String,<:Any})
 
 Attempts to cancel an environment deployment on an UpdateEnvironment action, if the
 deployment is IN_PROGRESS. For more information, see Update an environment in the Proton
-Administrator guide. The following list includes potential cancellation scenarios.   If the
+User guide. The following list includes potential cancellation scenarios.   If the
 cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
 cancellation attempt fails, the resulting deployment state is FAILED.   If the current
 UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting
@@ -87,12 +124,11 @@ end
 
 Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the
 deployment is IN_PROGRESS. For more information, see Update a service instance in the
-Proton Administrator guide or the Proton User guide. The following list includes potential
-cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment
-state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is
-FAILED.   If the current UpdateServiceInstance action succeeds before the cancellation
-attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt
-has no effect.
+Proton User guide. The following list includes potential cancellation scenarios.   If the
+cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
+cancellation attempt fails, the resulting deployment state is FAILED.   If the current
+UpdateServiceInstance action succeeds before the cancellation attempt starts, the resulting
+deployment state is SUCCEEDED and the cancellation attempt has no effect.
 
 # Arguments
 - `service_instance_name`: The name of the service instance with the deployment to cancel.
@@ -140,12 +176,11 @@ end
 
 Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the
 deployment is IN_PROGRESS. For more information, see Update a service pipeline in the
-Proton Administrator guide or the Proton User guide. The following list includes potential
-cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment
-state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is
-FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation
-attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt
-has no effect.
+Proton User guide. The following list includes potential cancellation scenarios.   If the
+cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
+cancellation attempt fails, the resulting deployment state is FAILED.   If the current
+UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting
+deployment state is SUCCEEDED and the cancellation attempt has no effect.
 
 # Arguments
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
@@ -177,46 +212,123 @@ function cancel_service_pipeline_deployment(
 end
 
 """
+    create_component(manifest, name, template_file)
+    create_component(manifest, name, template_file, params::Dict{String,<:Any})
+
+Create an Proton component. A component is an infrastructure extension for a service
+instance. For more information about components, see Proton components in the Proton User
+Guide.
+
+# Arguments
+- `manifest`: A path to a manifest file that lists the Infrastructure as Code (IaC) file,
+  template language, and rendering engine for infrastructure that a custom component
+  provisions.
+- `name`: The customer-provided name of the component.
+- `template_file`: A path to the Infrastructure as Code (IaC) file describing
+  infrastructure that a custom component provisions.  Components support a single IaC file,
+  even if you use Terraform as your template language.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: An optional customer-provided description of the component.
+- `"environmentName"`: The name of the Proton environment that you want to associate this
+  component with. You must specify this when you don't specify serviceInstanceName and
+  serviceName.
+- `"serviceInstanceName"`: The name of the service instance that you want to attach this
+  component to. If you don't specify this, the component isn't attached to any service
+  instance. Specify both serviceInstanceName and serviceName or neither of them.
+- `"serviceName"`: The name of the service that serviceInstanceName is associated with. If
+  you don't specify this, the component isn't attached to any service instance. Specify both
+  serviceInstanceName and serviceName or neither of them.
+- `"serviceSpec"`: The service spec that you want the component to use to access service
+  inputs. Set this only when you attach the component to a service instance.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  component. A tag is a key-value pair. For more information, see Proton resources and
+  tagging in the Proton User Guide.
+"""
+function create_component(
+    manifest, name, templateFile; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateComponent",
+        Dict{String,Any}(
+            "manifest" => manifest, "name" => name, "templateFile" => templateFile
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_component(
+    manifest,
+    name,
+    templateFile,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "manifest" => manifest, "name" => name, "templateFile" => templateFile
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_environment(name, spec, template_major_version, template_name)
     create_environment(name, spec, template_major_version, template_name, params::Dict{String,<:Any})
 
 Deploy a new environment. An Proton environment is created from an environment template
 that defines infrastructure and resources that can be shared across services.  You can
-provision environments using the following methods:    Standard provisioning: Proton makes
-direct calls to provision your resources.   Pull request provisioning: Proton makes pull
-requests on your repository to provide compiled infrastructure as code (IaC) files that
-your IaC engine uses to provision resources.   For more information, see the Environments
-in the Proton Administrator Guide.
+provision environments using the following methods:    Amazon Web Services-managed
+provisioning: Proton makes direct calls to provision your resources.   Self-managed
+provisioning: Proton makes pull requests on your repository to provide compiled
+infrastructure as code (IaC) files that your IaC engine uses to provision resources.   For
+more information, see Environments and Provisioning methods in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the environment.
-- `spec`: A link to a YAML formatted spec file that provides inputs as defined in the
-  environment template bundle schema file. For more information, see Environments in the
-  Proton Administrator Guide.
+- `spec`: A YAML formatted string that provides inputs as defined in the environment
+  template bundle schema file. For more information, see Environments in the Proton User
+  Guide.
 - `template_major_version`: The major version of the environment template.
 - `template_name`: The name of the environment template. For more information, see
-  Environment Templates in the Proton Administrator Guide.
+  Environment Templates in the Proton User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
+  uses when provisioning directly defined components in this environment. It determines the
+  scope of infrastructure that a component can provision. You must specify componentRoleArn
+  to allow directly defined components to be associated with this environment. For more
+  information about components, see Proton components in the Proton User Guide.
 - `"description"`: A description of the environment that's being created and deployed.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection that you
   provide if you're provisioning your environment infrastructure resources to an environment
-  account. You must include either the environmentAccountConnectionId or protonServiceRoleArn
-  parameter and value and omit the provisioningRepository parameter and values. For more
-  information, see Environment account connections in the Proton Administrator guide.
+  account. For more information, see Environment account connections in the Proton User
+  guide. To use Amazon Web Services-managed provisioning for the environment, specify either
+  the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the
+  provisioningRepository parameter.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton service role that
-  allows Proton to make calls to other services on your behalf. You must include either the
-  environmentAccountConnectionId or protonServiceRoleArn parameter and value and omit the
-  provisioningRepository parameter when you use standard provisioning.
-- `"provisioningRepository"`: The repository that you provide with pull request
-  provisioning. If you provide this parameter, you must omit the
-  environmentAccountConnectionId and protonServiceRoleArn parameters.  Provisioning by pull
-  request is currently in feature preview and is only usable with Terraform based Proton
-  Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on
-  Beta and Previews.
-- `"tags"`: Create tags for your environment. For more information, see Proton resources
-  and tagging in the Proton Administrator Guide or Proton User Guide.
+  allows Proton to make calls to other services on your behalf. To use Amazon Web
+  Services-managed provisioning for the environment, specify either the
+  environmentAccountConnectionId or protonServiceRoleArn parameter and omit the
+  provisioningRepository parameter.
+- `"provisioningRepository"`: The linked repository that you use to host your rendered
+  infrastructure templates for self-managed provisioning. A linked repository is a repository
+  that has been registered with Proton. For more information, see CreateRepository. To use
+  self-managed provisioning for the environment, specify this parameter and omit the
+  environmentAccountConnectionId and protonServiceRoleArn parameters.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  environment. A tag is a key-value pair. For more information, see Proton resources and
+  tagging in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the environment template.
 """
 function create_environment(
@@ -273,13 +385,13 @@ Create an environment account connection in an environment account so that envir
 infrastructure resources can be provisioned in the environment account from a management
 account. An environment account connection is a secure bi-directional connection between a
 management account and an environment account that maintains authorization and permissions.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `environment_name`: The name of the Proton environment that's created in the associated
   management account.
 - `management_account_id`: The ID of the management account that accepts or rejects the
-  environment account connection. You create an manage the Proton environment in this
+  environment account connection. You create and manage the Proton environment in this
   account. If the management account accepts the environment account connection, Proton can
   use the associated IAM role to provision environment infrastructure resources in the
   associated environment account.
@@ -291,8 +403,15 @@ For more information, see Environment account connections in the Proton Administ
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: When included, if two identical requests are made with the same client
   token, Proton returns the environment account connection that the first request created.
-- `"tags"`: Tags for your environment account connection. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide.
+- `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
+  uses when provisioning directly defined components in the associated environment account.
+  It determines the scope of infrastructure that a component can provision in the account.
+  You must specify componentRoleArn to allow directly defined components to be associated
+  with any environments running in this account. For more information about components, see
+  Proton components in the Proton User Guide.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  environment account connection. A tag is a key-value pair. For more information, see Proton
+  resources and tagging in the Proton User Guide.
 """
 function create_environment_account_connection(
     environmentName,
@@ -343,15 +462,15 @@ end
     create_environment_template(name, params::Dict{String,<:Any})
 
 Create an environment template for Proton. For more information, see Environment Templates
-in the Proton Administrator Guide. You can create an environment template in one of the two
+in the Proton User Guide. You can create an environment template in one of the two
 following ways:   Register and publish a standard environment template that instructs
 Proton to deploy and manage environment infrastructure.   Register and publish a customer
 managed environment template that connects Proton to your existing provisioned
 infrastructure that you manage. Proton doesn't manage your existing provisioned
 infrastructure. To create an environment template for customer provisioned and managed
 infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED.
-For more information, see Register and publish an environment template in the Proton
-Administrator Guide.
+For more information, see Register and publish an environment template in the Proton User
+Guide.
 
 # Arguments
 - `name`: The name of the environment template.
@@ -363,8 +482,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryptionKey"`: A customer provided encryption key that Proton uses to encrypt data.
 - `"provisioning"`: When included, indicates that the environment template is for customer
   provisioned and managed infrastructure.
-- `"tags"`: Create tags for your environment template. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide or Proton User Guide.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  environment template. A tag is a key-value pair. For more information, see Proton resources
+  and tagging in the Proton User Guide.
 """
 function create_environment_template(
     name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -405,10 +525,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: When included, if two identical requests are made with the same client
   token, Proton returns the environment template version that the first request created.
 - `"description"`: A description of the new version of an environment template.
-- `"majorVersion"`: To create a new minor version of the environment template, include a
+- `"majorVersion"`: To create a new minor version of the environment template, include
   major Version. To create a new major and minor version of the environment template, exclude
   major Version.
-- `"tags"`: Create tags for a new version of an environment template.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  environment template version. A tag is a key-value pair. For more information, see Proton
+  resources and tagging in the Proton User Guide.
 """
 function create_environment_template_version(
     source, templateName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -452,21 +574,27 @@ end
     create_repository(connection_arn, name, provider)
     create_repository(connection_arn, name, provider, params::Dict{String,<:Any})
 
-Create and register a link to a repository that can be used with pull request provisioning
-or template sync configurations. For more information, see Template bundles and Template
-sync configurations in the Proton Administrator Guide.
+Create and register a link to a repository. Proton uses the link to repeatedly access the
+repository, to either push to it (self-managed provisioning) or pull from it (template
+sync). You can share a linked repository across multiple resources (like environments using
+self-managed provisioning, or synced templates). When you create a repository link, Proton
+creates a service-linked role for you. For more information, see Self-managed provisioning,
+Template bundles, and Template sync configurations in the Proton User Guide.
 
 # Arguments
-- `connection_arn`: The Amazon Resource Name (ARN) of your Amazon Web Services CodeStar
-  connection. For more information, see Setting up for Proton in the Proton Administrator
-  Guide.
-- `name`: The repository name, for example myrepos/myrepo.
+- `connection_arn`: The Amazon Resource Name (ARN) of your AWS CodeStar connection that
+  connects Proton to your repository provider account. For more information, see Setting up
+  for Proton in the Proton User Guide.
+- `name`: The repository name (for example, myrepos/myrepo).
 - `provider`: The repository provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"encryptionKey"`: The ARN of your customer Amazon Web Services Key Management Service
   (Amazon Web Services KMS) key.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  repository. A tag is a key-value pair. For more information, see Proton resources and
+  tagging in the Proton User Guide.
 """
 function create_repository(
     connectionArn, name, provider; aws_config::AbstractAWSConfig=global_aws_config()
@@ -509,15 +637,14 @@ end
 
 Create an Proton service. An Proton service is an instantiation of a service template and
 often includes several service instances and pipeline. For more information, see Services
-in the Proton Administrator Guide and Services in the Proton User Guide.
+in the Proton User Guide.
 
 # Arguments
 - `name`: The service name.
 - `spec`: A link to a spec file that provides inputs as defined in the service template
   bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the
   spec if your service template doesn’t include a service pipeline. For more information,
-  see Create a service in the Proton Administrator Guide and Create a service in the Proton
-  User Guide.
+  see Create a service in the Proton User Guide.
 - `template_major_version`: The major version of the service template that was used to
   create the service.
 - `template_name`: The name of the service template that's used to create the service.
@@ -529,13 +656,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service pipeline.
 - `"description"`: A description of the Proton service.
 - `"repositoryConnectionArn"`: The Amazon Resource Name (ARN) of the repository connection.
-  For more information, see Set up repository connection in the Proton Administrator Guide
-  and Setting up with Proton in the Proton User Guide. Don't include this parameter if your
-  service template doesn't include a service pipeline.
+  For more information, see Setting up an AWS CodeStar connection in the Proton User Guide.
+  Don't include this parameter if your service template doesn't include a service pipeline.
 - `"repositoryId"`: The ID of the code repository. Don't include this parameter if your
   service template doesn't include a service pipeline.
-- `"tags"`: Create tags for your service. For more information, see Proton resources and
-  tagging in the Proton Administrator Guide or Proton User Guide.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  service. A tag is a key-value pair. For more information, see Proton resources and tagging
+  in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service.
 """
@@ -590,11 +717,11 @@ end
     create_service_template(name, params::Dict{String,<:Any})
 
 Create a service template. The administrator creates a service template to define
-standardized infrastructure and an optional CICD service pipeline. Developers, in turn,
+standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn,
 select the service template from Proton. If the selected service template includes a
 service pipeline definition, they provide a link to their source code repository. Proton
 then deploys and manages the infrastructure defined by the selected service template. For
-more information, see Service Templates in the Proton Administrator Guide.
+more information, see Proton templates in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service template.
@@ -604,12 +731,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the service template.
 - `"displayName"`: The name of the service template as displayed in the developer interface.
 - `"encryptionKey"`: A customer provided encryption key that's used to encrypt data.
-- `"pipelineProvisioning"`: Proton includes a service pipeline for your service by default.
-  When included, this parameter indicates that an Proton service pipeline won't be included
-  for your service. Once specified, this parameter can't be changed. For more information,
-  see Service template bundles in the Proton Administrator Guide.
-- `"tags"`: Create tags for your service template. For more information, see Proton
-  resources and tagging in the Proton Administrator Guide or Proton User Guide.
+- `"pipelineProvisioning"`: By default, Proton provides a service pipeline for your
+  service. When this parameter is included, it indicates that an Proton service pipeline
+  isn't provided for your service. After it's included, it can't be changed. For more
+  information, see Template bundles in the Proton User Guide.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  service template. A tag is a key-value pair. For more information, see Proton resources and
+  tagging in the Proton User Guide.
 """
 function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -639,8 +767,9 @@ template is a version that isn't backward compatible. A minor version of a servi
 is a version that's backward compatible within its major version.
 
 # Arguments
-- `compatible_environment_templates`: An array of compatible environment template objects
-  for the new version of a service template.
+- `compatible_environment_templates`: An array of environment template objects that are
+  compatible with the new service template version. A service instance based on this service
+  template version can run in environments based on compatible templates.
 - `source`: An object that includes the template bundle S3 bucket path and name for the new
   version of a service template.
 - `template_name`: The name of the service template.
@@ -653,7 +782,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"majorVersion"`: To create a new minor version of the service template, include a major
   Version. To create a new major and minor version of the service template, exclude major
   Version.
-- `"tags"`: Create tags for a new version of a service template.
+- `"supportedComponentSources"`: An array of supported component sources. Components with
+  supported sources can be attached to service instances based on this service template
+  version. For more information about components, see Proton components in the Proton User
+  Guide.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  service template version. A tag is a key-value pair. For more information, see Proton
+  resources and tagging in the Proton User Guide.
 """
 function create_service_template_version(
     compatibleEnvironmentTemplates,
@@ -703,15 +838,17 @@ end
     create_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
     create_template_sync_config(branch, repository_name, repository_provider, template_name, template_type, params::Dict{String,<:Any})
 
-Set up a template for automated template version creation. When a commit is pushed to your
-registered repository, Proton checks for changes to your repository template bundles. If it
-detects a template bundle change, a new minor or major version of its template is created,
-if the version doesn’t already exist. For more information, see Template sync
-configurations in the Proton Administrator Guide.
+Set up a template to create new template versions automatically by tracking a linked
+repository. A linked repository is a repository that has been registered with Proton. For
+more information, see CreateRepository. When a commit is pushed to your linked repository,
+Proton checks for changes to your repository template bundles. If it detects a template
+bundle change, a new major or minor version of its template is created, if the version
+doesn’t already exist. For more information, see Template sync configurations in the
+Proton User Guide.
 
 # Arguments
-- `branch`: The branch of the registered repository for your template.
-- `repository_name`: The name of your repository, for example myrepos/myrepo.
+- `branch`: The repository branch for your template.
+- `repository_name`: The repository name (for example, myrepos/myrepo).
 - `repository_provider`: The provider type for your repository.
 - `template_name`: The name of your registered template.
 - `template_type`: The type of the registered template.
@@ -772,6 +909,36 @@ function create_template_sync_config(
 end
 
 """
+    delete_component(name)
+    delete_component(name, params::Dict{String,<:Any})
+
+Delete an Proton component resource. For more information about components, see Proton
+components in the Proton User Guide.
+
+# Arguments
+- `name`: The name of the component to delete.
+
+"""
+function delete_component(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "DeleteComponent",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_component(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteComponent",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_environment(name)
     delete_environment(name, params::Dict{String,<:Any})
 
@@ -809,7 +976,7 @@ environment account connection that’s in use by an Proton environment, Proton 
 manage the environment infrastructure resources until a new environment account connection
 is accepted for the environment account and associated environment. You're responsible for
 cleaning up provisioned resources that remain without an environment connection. For more
-information, see Environment account connections in the Proton Administrator guide.
+information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to delete.
@@ -936,7 +1103,7 @@ end
 De-register and unlink your repository.
 
 # Arguments
-- `name`: The name of the repository.
+- `name`: The repository name.
 - `provider`: The repository provider.
 
 """
@@ -972,7 +1139,9 @@ end
     delete_service(name)
     delete_service(name, params::Dict{String,<:Any})
 
-Delete a service.
+Delete a service, with its instances and pipeline.  You can't delete a service if it has
+any service instances that have components attached to them. For more information about
+components, see Proton components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service to delete.
@@ -1135,7 +1304,7 @@ end
     get_account_settings()
     get_account_settings(params::Dict{String,<:Any})
 
-Get detail data for the Proton pipeline service role.
+Get detail data for Proton account-wide settings.
 
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1152,13 +1321,43 @@ function get_account_settings(
 end
 
 """
+    get_component(name)
+    get_component(name, params::Dict{String,<:Any})
+
+Get detailed data for a component. For more information about components, see Proton
+components in the Proton User Guide.
+
+# Arguments
+- `name`: The name of the component that you want to get the detailed data for.
+
+"""
+function get_component(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "GetComponent",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_component(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetComponent",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_environment(name)
     get_environment(name, params::Dict{String,<:Any})
 
-Get detail data for an environment.
+Get detailed data for an environment.
 
 # Arguments
-- `name`: The name of the environment that you want to get the detail data for.
+- `name`: The name of the environment that you want to get the detailed data for.
 
 """
 function get_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1184,11 +1383,12 @@ end
     get_environment_account_connection(id)
     get_environment_account_connection(id, params::Dict{String,<:Any})
 
-In an environment account, view the detail data for an environment account connection. For
-more information, see Environment account connections in the Proton Administrator guide.
+In an environment account, get the detailed data for an environment account connection. For
+more information, see Environment account connections in the Proton User guide.
 
 # Arguments
-- `id`: The ID of the environment account connection.
+- `id`: The ID of the environment account connection that you want to get the detailed data
+  for.
 
 """
 function get_environment_account_connection(
@@ -1216,10 +1416,10 @@ end
     get_environment_template(name)
     get_environment_template(name, params::Dict{String,<:Any})
 
-Get detail data for an environment template.
+Get detailed data for an environment template.
 
 # Arguments
-- `name`: The name of the environment template that you want to get the detail data for.
+- `name`: The name of the environment template that you want to get the detailed data for.
 
 """
 function get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1245,14 +1445,15 @@ end
     get_environment_template_version(major_version, minor_version, template_name)
     get_environment_template_version(major_version, minor_version, template_name, params::Dict{String,<:Any})
 
-View detail data for a major or minor version of an environment template.
+Get detailed data for a major or minor version of an environment template.
 
 # Arguments
-- `major_version`: To view environment template major version detail data, include major
+- `major_version`: To get environment template major version detail data, include major
   Version.
-- `minor_version`: To view environment template minor version detail data, include
+- `minor_version`: To get environment template minor version detail data, include
   minorVersion.
-- `template_name`: The name of the environment template.
+- `template_name`: The name of the environment template a version of which you want to get
+  detailed data for.
 
 """
 function get_environment_template_version(
@@ -1301,7 +1502,7 @@ end
     get_repository(name, provider)
     get_repository(name, provider, params::Dict{String,<:Any})
 
-Get detail data for a repository.
+Get detail data for a linked repository.
 
 # Arguments
 - `name`: The repository name, for example myrepos/myrepo.
@@ -1338,7 +1539,12 @@ end
     get_repository_sync_status(branch, repository_name, repository_provider, sync_type)
     get_repository_sync_status(branch, repository_name, repository_provider, sync_type, params::Dict{String,<:Any})
 
-Get the repository sync status.
+Get the sync status of a repository used for Proton template sync. For more information
+about template sync, see .  A repository sync status isn't tied to the Proton Repository
+resource (or any other Proton resource). Therefore, tags on an Proton Repository resource
+have no effect on this action. Specifically, you can't use these tags to control access to
+this action using Attribute-based access control (ABAC). For more information about ABAC,
+see ABAC in the Proton User Guide.
 
 # Arguments
 - `branch`: The repository branch.
@@ -1397,10 +1603,10 @@ end
     get_service(name)
     get_service(name, params::Dict{String,<:Any})
 
-Get detail data for a service.
+Get detailed data for a service.
 
 # Arguments
-- `name`: The name of the service that you want to get the detail data for.
+- `name`: The name of the service that you want to get the detailed data for.
 
 """
 function get_service(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1426,11 +1632,11 @@ end
     get_service_instance(name, service_name)
     get_service_instance(name, service_name, params::Dict{String,<:Any})
 
-Get detail data for a service instance. A service instance is an instantiation of service
-template, which is running in a specific environment.
+Get detailed data for a service instance. A service instance is an instantiation of service
+template and it runs in a specific environment.
 
 # Arguments
-- `name`: The name of a service instance that you want to get the detail data for.
+- `name`: The name of a service instance that you want to get the detailed data for.
 - `service_name`: The name of the service that the service instance belongs to.
 
 """
@@ -1468,10 +1674,10 @@ end
     get_service_template(name)
     get_service_template(name, params::Dict{String,<:Any})
 
-Get detail data for a service template.
+Get detailed data for a service template.
 
 # Arguments
-- `name`: The name of the service template that you want to get detail data for.
+- `name`: The name of the service template that you want to get detailed data for.
 
 """
 function get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1497,13 +1703,13 @@ end
     get_service_template_version(major_version, minor_version, template_name)
     get_service_template_version(major_version, minor_version, template_name, params::Dict{String,<:Any})
 
-View detail data for a major or minor version of a service template.
+Get detailed data for a major or minor version of a service template.
 
 # Arguments
-- `major_version`: To view service template major version detail data, include major
-  Version.
-- `minor_version`: To view service template minor version detail data, include minorVersion.
-- `template_name`: The name of the service template.
+- `major_version`: To get service template major version detail data, include major Version.
+- `minor_version`: To get service template minor version detail data, include minorVersion.
+- `template_name`: The name of the service template a version of which you want to get
+  detailed data for.
 
 """
 function get_service_template_version(
@@ -1600,7 +1806,7 @@ Get the status of a template sync.
 # Arguments
 - `template_name`: The template name.
 - `template_type`: The template type.
-- `template_version`: The template version.
+- `template_version`: The template major version.
 
 """
 function get_template_sync_status(
@@ -1646,11 +1852,123 @@ function get_template_sync_status(
 end
 
 """
+    list_component_outputs(component_name)
+    list_component_outputs(component_name, params::Dict{String,<:Any})
+
+Get a list of component Infrastructure as Code (IaC) outputs. For more information about
+components, see Proton components in the Proton User Guide.
+
+# Arguments
+- `component_name`: The name of the component whose outputs you want.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: A token that indicates the location of the next output in the array of
+  outputs, after the list of outputs that was previously requested.
+"""
+function list_component_outputs(
+    componentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListComponentOutputs",
+        Dict{String,Any}("componentName" => componentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_component_outputs(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListComponentOutputs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_component_provisioned_resources(component_name)
+    list_component_provisioned_resources(component_name, params::Dict{String,<:Any})
+
+List provisioned resources for a component with details. For more information about
+components, see Proton components in the Proton User Guide.
+
+# Arguments
+- `component_name`: The name of the component whose provisioned resources you want.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: A token that indicates the location of the next provisioned resource in
+  the array of provisioned resources, after the list of provisioned resources that was
+  previously requested.
+"""
+function list_component_provisioned_resources(
+    componentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListComponentProvisionedResources",
+        Dict{String,Any}("componentName" => componentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_component_provisioned_resources(
+    componentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListComponentProvisionedResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentName" => componentName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_components()
+    list_components(params::Dict{String,<:Any})
+
+List components with summary data. You can filter the result list by environment, service,
+or a single service instance. For more information about components, see Proton components
+in the Proton User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"environmentName"`: The name of an environment for result list filtering. Proton returns
+  components associated with the environment or attached to service instances running in it.
+- `"maxResults"`: The maximum number of components to list.
+- `"nextToken"`: A token that indicates the location of the next component in the array of
+  components, after the list of components that was previously requested.
+- `"serviceInstanceName"`: The name of a service instance for result list filtering. Proton
+  returns the component attached to the service instance, if any.
+- `"serviceName"`: The name of a service for result list filtering. Proton returns
+  components attached to service instances of the service.
+"""
+function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListComponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_environment_account_connections(requested_by)
     list_environment_account_connections(requested_by, params::Dict{String,<:Any})
 
 View a list of environment account connections. For more information, see Environment
-account connections in the Proton Administrator guide.
+account connections in the Proton User guide.
 
 # Arguments
 - `requested_by`: The type of account making the ListEnvironmentAccountConnections request.
@@ -1660,7 +1978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environmentName"`: The environment name that's associated with each listed environment
   account connection.
 - `"maxResults"`: The maximum number of environment account connections to list.
-- `"nextToken"`: A token to indicate the location of the next environment account
+- `"nextToken"`: A token that indicates the location of the next environment account
   connection in the array of environment account connections, after the list of environment
   account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
@@ -1701,7 +2019,7 @@ List the infrastructure as code outputs for your environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next environment output in the
+- `"nextToken"`: A token that indicates the location of the next environment output in the
   array of environment outputs, after the list of environment outputs that was previously
   requested.
 """
@@ -1743,7 +2061,7 @@ List the provisioned resources for your environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next environment provisioned
+- `"nextToken"`: A token that indicates the location of the next environment provisioned
   resource in the array of environment provisioned resources, after the list of environment
   provisioned resources that was previously requested.
 """
@@ -1790,8 +2108,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment template, exclude major Version.
 - `"maxResults"`: The maximum number of major or minor versions of an environment template
   to list.
-- `"nextToken"`: A token to indicate the location of the next major or minor version in the
-  array of major or minor versions of an environment template, after the list of major or
+- `"nextToken"`: A token that indicates the location of the next major or minor version in
+  the array of major or minor versions of an environment template, after the list of major or
   minor versions that was previously requested.
 """
 function list_environment_template_versions(
@@ -1828,9 +2146,9 @@ List environment templates.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of environment templates to list.
-- `"nextToken"`: A token to indicate the location of the next environment template in the
-  array of environment templates, after the list of environment templates that was previously
-  requested.
+- `"nextToken"`: A token that indicates the location of the next environment template in
+  the array of environment templates, after the list of environment templates that was
+  previously requested.
 """
 function list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -1858,8 +2176,8 @@ List environments with detail data summaries.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"environmentTemplates"`: An array of the versions of the environment template.
 - `"maxResults"`: The maximum number of environments to list.
-- `"nextToken"`: A token to indicate the location of the next environment in the array of
-  environments, after the list of environments that was previously requested.
+- `"nextToken"`: A token that indicates the location of the next environment in the array
+  of environments, after the list of environments that was previously requested.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -1878,12 +2196,12 @@ end
     list_repositories()
     list_repositories(params::Dict{String,<:Any})
 
-List repositories with detail data.
+List linked repositories with detail data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of repositories to list.
-- `"nextToken"`: A token to indicate the location of the next repository in the array of
+- `"nextToken"`: A token that indicates the location of the next repository in the array of
   repositories, after the list of repositories previously requested.
 """
 function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1912,8 +2230,8 @@ List repository sync definitions with detail data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next repository sync definition in
-  the array of repository sync definitions, after the list of repository sync definitions
+- `"nextToken"`: A token that indicates the location of the next repository sync definition
+  in the array of repository sync definitions, after the list of repository sync definitions
   previously requested.
 """
 function list_repository_sync_definitions(
@@ -1962,15 +2280,15 @@ end
     list_service_instance_outputs(service_instance_name, service_name)
     list_service_instance_outputs(service_instance_name, service_name, params::Dict{String,<:Any})
 
-View a list service instance infrastructure as code outputs with detail data.
+Get a list service of instance Infrastructure as Code (IaC) outputs.
 
 # Arguments
-- `service_instance_name`: The service instance name.
-- `service_name`: The service name.
+- `service_instance_name`: The name of the service instance whose outputs you want.
+- `service_name`: The name of the service that serviceInstanceName is associated to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next output in the array of
+- `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
 function list_service_instance_outputs(
@@ -2015,14 +2333,15 @@ end
 List provisioned resources for a service instance with details.
 
 # Arguments
-- `service_instance_name`: The service instance name.
-- `service_name`: The service name.
+- `service_instance_name`: The name of the service instance whose provisioned resources you
+  want.
+- `service_name`: The name of the service that serviceInstanceName is associated to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next provisioned resource in the
-  array of provisioned resources, after the list of provisioned resources that was previously
-  requested.
+- `"nextToken"`: A token that indicates the location of the next provisioned resource in
+  the array of provisioned resources, after the list of provisioned resources that was
+  previously requested.
 """
 function list_service_instance_provisioned_resources(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2063,12 +2382,12 @@ end
     list_service_instances()
     list_service_instances(params::Dict{String,<:Any})
 
-List service instances with summaries of detail data.
+List service instances with summary data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of service instances to list.
-- `"nextToken"`: A token to indicate the location of the next service in the array of
+- `"nextToken"`: A token that indicates the location of the next service in the array of
   service instances, after the list of service instances that was previously requested.
 - `"serviceName"`: The name of the service that the service instance belongs to.
 """
@@ -2092,14 +2411,14 @@ end
     list_service_pipeline_outputs(service_name)
     list_service_pipeline_outputs(service_name, params::Dict{String,<:Any})
 
-View a list service pipeline infrastructure as code outputs with detail.
+Get a list of service pipeline Infrastructure as Code (IaC) outputs.
 
 # Arguments
-- `service_name`: The service name.
+- `service_name`: The name of the service whose pipeline's outputs you want.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next output in the array of
+- `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
 function list_service_pipeline_outputs(
@@ -2134,13 +2453,13 @@ end
 List provisioned resources for a service and pipeline with details.
 
 # Arguments
-- `service_name`: The service name.
+- `service_name`: The name of the service whose pipeline's provisioned resources you want.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token to indicate the location of the next provisioned resource in the
-  array of provisioned resources, after the list of provisioned resources that was previously
-  requested.
+- `"nextToken"`: A token that indicates the location of the next provisioned resource in
+  the array of provisioned resources, after the list of provisioned resources that was
+  previously requested.
 """
 function list_service_pipeline_provisioned_resources(
     serviceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2183,9 +2502,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exclude major Version.
 - `"maxResults"`: The maximum number of major or minor versions of a service template to
   list.
-- `"nextToken"`: A token to indicate the location of the next major or minor version in the
-  array of major or minor versions of a service template, after the list of major or minor
-  versions that was previously requested.
+- `"nextToken"`: A token that indicates the location of the next major or minor version in
+  the array of major or minor versions of a service template, after the list of major or
+  minor versions that was previously requested.
 """
 function list_service_template_versions(
     templateName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2221,8 +2540,8 @@ List service templates with detail data.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of service templates to list.
-- `"nextToken"`: A token to indicate the location of the next service template in the array
-  of service templates, after the list of service templates previously requested.
+- `"nextToken"`: A token that indicates the location of the next service template in the
+  array of service templates, after the list of service templates previously requested.
 """
 function list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2249,7 +2568,7 @@ List services with summaries of detail data.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of services to list.
-- `"nextToken"`: A token to indicate the location of the next service in the array of
+- `"nextToken"`: A token that indicates the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2268,7 +2587,7 @@ end
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 List tags for a resource. For more information, see Proton resources and tagging in the
-Proton Administrator Guide or Proton User Guide.
+Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for the listed tags.
@@ -2276,8 +2595,8 @@ Proton Administrator Guide or Proton User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of tags to list.
-- `"nextToken"`: A token to indicate the location of the next resource tag in the array of
-  resource tags, after the list of resource tags that was previously requested.
+- `"nextToken"`: A token that indicates the location of the next resource tag in the array
+  of resource tags, after the list of resource tags that was previously requested.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2308,11 +2627,8 @@ end
     notify_resource_deployment_status_change(resource_arn, status)
     notify_resource_deployment_status_change(resource_arn, status, params::Dict{String,<:Any})
 
-Notify Proton of status changes to a provisioned resource when you use pull request
-provisioning. For more information, see Template bundles.  Provisioning by pull request is
-currently in feature preview and is only usable with Terraform based Proton Templates. To
-learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and
-Previews.
+Notify Proton of status changes to a provisioned resource when you use self-managed
+provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
 
 # Arguments
 - `resource_arn`: The provisioned resource Amazon Resource Name (ARN).
@@ -2359,10 +2675,10 @@ end
     reject_environment_account_connection(id, params::Dict{String,<:Any})
 
 In a management account, reject an environment account connection from another environment
-account. After you reject an environment account connection request, you won’t be able to
-accept or use the rejected environment account connection. You can’t reject an
-environment account connection that is connected to an environment. For more information,
-see Environment account connections in the Proton Administrator guide.
+account. After you reject an environment account connection request, you can't accept or
+use the rejected environment account connection. You can’t reject an environment account
+connection that's connected to an environment. For more information, see Environment
+account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to reject.
@@ -2393,13 +2709,13 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Tag a resource. For more information, see Proton resources and tagging in the Proton
-Administrator Guide or Proton User Guide.
+Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton
+resource. For more information, see Proton resources and tagging in the Proton User Guide.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that the resource tag is
-  applied to.
-- `tags`: An array of resource tags to apply to a resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Proton resource to apply customer
+  tags to.
+- `tags`: A list of customer tags to apply to the Proton resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2434,14 +2750,15 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Remove a tag from a resource. For more information, see Proton resources and tagging in the
-Proton Administrator Guide or Proton User Guide.
+Remove a customer tag from a resource. A tag is a key-value pair of metadata associated
+with an Proton resource. For more information, see Proton resources and tagging in the
+Proton User Guide.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that the tag is to be
-  removed from.
-- `tag_keys`: An array of tag keys indicating the resource tags to be removed from the
-  resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove customer tags
+  from.
+- `tag_keys`: A list of customer tag keys that indicate the customer tags to be removed
+  from the resource.
 
 """
 function untag_resource(
@@ -2478,18 +2795,24 @@ end
     update_account_settings()
     update_account_settings(params::Dict{String,<:Any})
 
-Update the Proton service pipeline role or repository settings.
+Update Proton settings that are used for multiple services in the Amazon Web Services
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"pipelineProvisioningRepository"`: The repository that you provide with pull request
-  provisioning.  Provisioning by pull request is currently in feature preview and is only
-  usable with Terraform based Proton Templates. To learn more about Amazon Web Services
-  Feature Preview terms, see section 2 on Beta and Previews.
-- `"pipelineServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton pipeline service
-  role.  Provisioning by pull request is currently in feature preview and is only usable with
-  Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview
-  terms, see section 2 on Beta and Previews.
+- `"deletePipelineProvisioningRepository"`: Set to true to remove a configured pipeline
+  repository from the account settings. Don't set this field if you are updating the
+  configured pipeline repository.
+- `"pipelineProvisioningRepository"`: A linked repository for pipeline provisioning.
+  Specify it if you have environments configured for self-managed provisioning with services
+  that include pipelines. A linked repository is a repository that has been registered with
+  Proton. For more information, see CreateRepository. To remove a previously configured
+  repository, set deletePipelineProvisioningRepository to true, and don't set
+  pipelineProvisioningRepository.
+- `"pipelineServiceRoleArn"`: The Amazon Resource Name (ARN) of the service role you want
+  to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed
+  provisioning, and by customer-owned automation for self-managed provisioning. To remove a
+  previously configured ARN, specify an empty string.
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2508,52 +2831,125 @@ function update_account_settings(
 end
 
 """
+    update_component(deployment_type, name)
+    update_component(deployment_type, name, params::Dict{String,<:Any})
+
+Update a component. There are a few modes for updating a component. The deploymentType
+field defines the mode.  You can't update a component while its deployment status, or the
+deployment status of a service instance attached to it, is IN_PROGRESS.  For more
+information about components, see Proton components in the Proton User Guide.
+
+# Arguments
+- `deployment_type`: The deployment type. It defines the mode for updating a component, as
+  follows:     NONE  In this mode, a deployment doesn't occur. Only the requested metadata
+  parameters are updated. You can only specify description in this mode.     CURRENT_VERSION
+  In this mode, the component is deployed and updated with the new serviceSpec,
+  templateSource, and/or type that you provide. Only requested parameters are updated.
+- `name`: The name of the component to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: An optional customer-provided description of the component.
+- `"serviceInstanceName"`: The name of the service instance that you want to attach this
+  component to. Don't specify to keep the component's current service instance attachment.
+  Specify an empty string to detach the component from the service instance it's attached to.
+  Specify non-empty values for both serviceInstanceName and serviceName or for neither of
+  them.
+- `"serviceName"`: The name of the service that serviceInstanceName is associated with.
+  Don't specify to keep the component's current service instance attachment. Specify an empty
+  string to detach the component from the service instance it's attached to. Specify
+  non-empty values for both serviceInstanceName and serviceName or for neither of them.
+- `"serviceSpec"`: The service spec that you want the component to use to access service
+  inputs. Set this only when the component is attached to a service instance.
+- `"templateFile"`: A path to the Infrastructure as Code (IaC) file describing
+  infrastructure that a custom component provisions.  Components support a single IaC file,
+  even if you use Terraform as your template language.
+"""
+function update_component(
+    deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateComponent",
+        Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_component(
+    deploymentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deploymentType" => deploymentType, "name" => name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_environment(deployment_type, name)
     update_environment(deployment_type, name, params::Dict{String,<:Any})
 
 Update an environment. If the environment is associated with an environment account
 connection, don't update or include the protonServiceRoleArn and provisioningRepository
 parameter to update or connect to an environment account connection. You can only update to
-a new environment account connection if it was created in the same environment account that
-the current environment account connection was created in and is associated with the
-current environment. If the environment isn't associated with an environment account
-connection, don't update or include the environmentAccountConnectionId parameter to update
-or connect to an environment account connection. You can update either the
-environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t
-update both. If the environment was provisioned with pull request provisioning, include the
+a new environment account connection if that connection was created in the same environment
+account that the current environment account connection was created in. The account
+connection must also be associated with the current environment. If the environment isn't
+associated with an environment account connection, don't update or include the
+environmentAccountConnectionId parameter. You can't update or connect the environment to an
+environment account connection if it isn't already associated with an environment
+connection. You can update either the environmentAccountConnectionId or
+protonServiceRoleArn parameter and value. You can’t update both. If the environment was
+configured for Amazon Web Services-managed provisioning, omit the provisioningRepository
+parameter. If the environment was configured for self-managed provisioning, specify the
 provisioningRepository parameter and omit the protonServiceRoleArn and
-environmentAccountConnectionId parameters. If the environment wasn't provisioned with pull
-request provisioning, omit the provisioningRepository parameter. There are four modes for
-updating an environment as described in the following. The deploymentType field defines the
-mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata
-parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and
-updated with the new spec that you provide. Only requested parameters are updated. Don’t
-include minor or major version parameters when you use this deployment-type.
-MINOR_VERSION  In this mode, the environment is deployed and updated with the published,
-recommended (latest) minor version of the current major version in use, by default. You can
-also specify a different minor version of the current major version in use.
-MAJOR_VERSION  In this mode, the environment is deployed and updated with the published,
-recommended (latest) major and minor version of the current template, by default. You can
-also specify a different major version that's higher than the major version in use and a
-minor version (optional).
+environmentAccountConnectionId parameters. For more information, see Environments and
+Provisioning methods in the Proton User Guide. There are four modes for updating an
+environment. The deploymentType field defines the mode.     NONE  In this mode, a
+deployment doesn't occur. Only the requested metadata parameters are updated.
+CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec
+that you provide. Only requested parameters are updated. Don’t include minor or major
+version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the
+environment is deployed and updated with the published, recommended (latest) minor version
+of the current major version in use, by default. You can also specify a different minor
+version of the current major version in use.     MAJOR_VERSION  In this mode, the
+environment is deployed and updated with the published, recommended (latest) major and
+minor version of the current template, by default. You can also specify a different major
+version that's higher than the major version in use and a minor version.
 
 # Arguments
-- `deployment_type`: There are four modes for updating an environment as described in the
-  following. The deploymentType field defines the mode.     NONE  In this mode, a deployment
-  doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In
-  this mode, the environment is deployed and updated with the new spec that you provide. Only
-  requested parameters are updated. Don’t include minor or major version parameters when
-  you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed
-  and updated with the published, recommended (latest) minor version of the current major
-  version in use, by default. You can also specify a different minor version of the current
-  major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and
-  updated with the published, recommended (latest) major and minor version of the current
-  template, by default. You can also specify a different major version that is higher than
-  the major version in use and a minor version (optional).
+- `deployment_type`: There are four modes for updating an environment. The deploymentType
+  field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the
+  requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the
+  environment is deployed and updated with the new spec that you provide. Only requested
+  parameters are updated. Don’t include major or minor version parameters when you use this
+  deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated
+  with the published, recommended (latest) minor version of the current major version in use,
+  by default. You can also specify a different minor version of the current major version in
+  use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the
+  published, recommended (latest) major and minor version of the current template, by
+  default. You can also specify a different major version that is higher than the major
+  version in use and a minor version (optional).
 - `name`: The name of the environment to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
+  uses when provisioning directly defined components in this environment. It determines the
+  scope of infrastructure that a component can provision. The environment must have a
+  componentRoleArn to allow directly defined components to be associated with the
+  environment. For more information about components, see Proton components in the Proton
+  User Guide.
 - `"description"`: A description of the environment update.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection. You can
   only update to a new environment account connection if it was created in the same
@@ -2561,10 +2957,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the current environment.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton service role that
   allows Proton to make API calls to other services your behalf.
-- `"provisioningRepository"`: The repository that you provide with pull request
-  provisioning.  Provisioning by pull request is currently in feature preview and is only
-  usable with Terraform based Proton Templates. To learn more about Amazon Web Services
-  Feature Preview terms, see section 2 on Beta and Previews.
+- `"provisioningRepository"`: The linked repository that you use to host your rendered
+  infrastructure templates for self-managed provisioning. A linked repository is a repository
+  that has been registered with Proton. For more information, see CreateRepository.
 - `"spec"`: The formatted specification that defines the update.
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
@@ -2600,39 +2995,42 @@ function update_environment(
 end
 
 """
-    update_environment_account_connection(id, role_arn)
-    update_environment_account_connection(id, role_arn, params::Dict{String,<:Any})
+    update_environment_account_connection(id)
+    update_environment_account_connection(id, params::Dict{String,<:Any})
 
 In an environment account, update an environment account connection to use a new IAM role.
-For more information, see Environment account connections in the Proton Administrator guide.
+For more information, see Environment account connections in the Proton User guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to update.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM service role that is associated
-  with the environment account connection to update.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
+  uses when provisioning directly defined components in the associated environment account.
+  It determines the scope of infrastructure that a component can provision in the account.
+  The environment account connection must have a componentRoleArn to allow directly defined
+  components to be associated with any environments running in the account. For more
+  information about components, see Proton components in the Proton User Guide.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's associated
+  with the environment account connection to update.
 """
 function update_environment_account_connection(
-    id, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
         "UpdateEnvironmentAccountConnection",
-        Dict{String,Any}("id" => id, "roleArn" => roleArn);
+        Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_environment_account_connection(
-    id,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
         "UpdateEnvironmentAccountConnection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "roleArn" => roleArn), params)
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2741,7 +3139,9 @@ end
 Edit a service description or use a spec to add and delete service instances.  Existing
 service instances and the service pipeline can't be edited using this API. They can only be
 deleted.  Use the description parameter to modify the description. Edit the spec parameter
-to add or delete instances.
+to add or delete instances.  You can't delete a service instance (remove it from the spec)
+if it has an attached component. For more information about components, see Proton
+components in the Proton User Guide.
 
 # Arguments
 - `name`: The name of the service to edit.
@@ -2752,7 +3152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"spec"`: Lists the service instances to add and the existing service instances to
   remain. Omit the existing service instances to delete from the list. Don't include edits to
   the existing service instances or pipeline. For more information, see Edit a service in the
-  Proton Administrator Guide or the Proton User Guide.
+  Proton User Guide.
 """
 function update_service(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2777,34 +3177,24 @@ end
     update_service_instance(deployment_type, name, service_name)
     update_service_instance(deployment_type, name, service_name, params::Dict{String,<:Any})
 
-Update a service instance. There are four modes for updating a service instance as
-described in the following. The deploymentType field defines the mode.     NONE  In this
-mode, a deployment doesn't occur. Only the requested metadata parameters are updated.
-CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new
-spec that you provide. Only requested parameters are updated. Don’t include minor or
-major version parameters when you use this deployment-type.     MINOR_VERSION  In this
-mode, the service instance is deployed and updated with the published, recommended (latest)
-minor version of the current major version in use, by default. You can also specify a
-different minor version of the current major version in use.     MAJOR_VERSION  In this
-mode, the service instance is deployed and updated with the published, recommended (latest)
-major and minor version of the current template, by default. You can also specify a
-different major version that is higher than the major version in use and a minor version
-(optional).
+Update a service instance. There are a few modes for updating a service instance. The
+deploymentType field defines the mode.  You can't update a service instance while its
+deployment status, or the deployment status of a component attached to it, is IN_PROGRESS.
+For more information about components, see Proton components in the Proton User Guide.
 
 # Arguments
-- `deployment_type`: The deployment type. There are four modes for updating a service
-  instance as described in the following. The deploymentType field defines the mode.     NONE
-   In this mode, a deployment doesn't occur. Only the requested metadata parameters are
-  updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated
-  with the new spec that you provide. Only requested parameters are updated. Don’t include
-  minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In
-  this mode, the service instance is deployed and updated with the published, recommended
-  (latest) minor version of the current major version in use, by default. You can also
-  specify a different minor version of the current major version in use.     MAJOR_VERSION
-  In this mode, the service instance is deployed and updated with the published, recommended
-  (latest) major and minor version of the current template, by default. You can also specify
-  a different major version that is higher than the major version in use and a minor version
-  (optional).
+- `deployment_type`: The deployment type. It defines the mode for updating a service
+  instance, as follows:     NONE  In this mode, a deployment doesn't occur. Only the
+  requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service
+  instance is deployed and updated with the new spec that you provide. Only requested
+  parameters are updated. Don’t include major or minor version parameters when you use this
+  deployment type.     MINOR_VERSION  In this mode, the service instance is deployed and
+  updated with the published, recommended (latest) minor version of the current major version
+  in use, by default. You can also specify a different minor version of the current major
+  version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and
+  updated with the published, recommended (latest) major and minor version of the current
+  template, by default. You can specify a different major version that's higher than the
+  major version in use and a minor version.
 - `name`: The name of the service instance to update.
 - `service_name`: The name of the service that the service instance belongs to.
 
@@ -2855,34 +3245,32 @@ end
     update_service_pipeline(deployment_type, service_name, spec)
     update_service_pipeline(deployment_type, service_name, spec, params::Dict{String,<:Any})
 
-Update the service pipeline. There are four modes for updating a service pipeline as
-described in the following. The deploymentType field defines the mode.     NONE  In this
-mode, a deployment doesn't occur. Only the requested metadata parameters are updated.
-CURRENT_VERSION  In this mode, the service pipeline is deployed and updated with the new
-spec that you provide. Only requested parameters are updated. Don’t include minor or
-major version parameters when you use this deployment-type.     MINOR_VERSION  In this
-mode, the service pipeline is deployed and updated with the published, recommended (latest)
-minor version of the current major version in use, by default. You can also specify a
-different minor version of the current major version in use.     MAJOR_VERSION  In this
-mode, the service pipeline is deployed and updated with the published, recommended (latest)
-major and minor version of the current template by default. You can also specify a
-different major version that is higher than the major version in use and a minor version
-(optional).
+Update the service pipeline. There are four modes for updating a service pipeline. The
+deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur.
+Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the
+service pipeline is deployed and updated with the new spec that you provide. Only requested
+parameters are updated. Don’t include major or minor version parameters when you use this
+deployment-type.     MINOR_VERSION  In this mode, the service pipeline is deployed and
+updated with the published, recommended (latest) minor version of the current major version
+in use, by default. You can specify a different minor version of the current major version
+in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and updated with
+the published, recommended (latest) major and minor version of the current template by
+default. You can specify a different major version that's higher than the major version in
+use and a minor version.
 
 # Arguments
 - `deployment_type`: The deployment type. There are four modes for updating a service
-  pipeline as described in the following. The deploymentType field defines the mode.     NONE
-   In this mode, a deployment doesn't occur. Only the requested metadata parameters are
-  updated.     CURRENT_VERSION  In this mode, the service pipeline is deployed and updated
-  with the new spec that you provide. Only requested parameters are updated. Don’t include
-  minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In
-  this mode, the service pipeline is deployed and updated with the published, recommended
-  (latest) minor version of the current major version in use, by default. You can also
-  specify a different minor version of the current major version in use.     MAJOR_VERSION
-  In this mode, the service pipeline is deployed and updated with the published, recommended
-  (latest) major and minor version of the current template, by default. You can also specify
-  a different major version that is higher than the major version in use and a minor version
-  (optional).
+  pipeline. The deploymentType field defines the mode.     NONE  In this mode, a deployment
+  doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In
+  this mode, the service pipeline is deployed and updated with the new spec that you provide.
+  Only requested parameters are updated. Don’t include major or minor version parameters
+  when you use this deployment-type.     MINOR_VERSION  In this mode, the service pipeline is
+  deployed and updated with the published, recommended (latest) minor version of the current
+  major version in use, by default. You can specify a different minor version of the current
+  major version in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and
+  updated with the published, recommended (latest) major and minor version of the current
+  template, by default. You can specify a different major version that's higher than the
+  major version in use and a minor version.
 - `service_name`: The name of the service to that the pipeline is associated with.
 - `spec`: The spec for the service pipeline to update.
 
@@ -2942,8 +3330,8 @@ Update a service template.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the service template update.
-- `"displayName"`: The name of the service template to update as displayed in the developer
-  interface.
+- `"displayName"`: The name of the service template to update that's displayed in the
+  developer interface.
 """
 function update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2977,10 +3365,17 @@ Update a major or minor version of a service template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"compatibleEnvironmentTemplates"`: An array of compatible environment names for a
-  service template major or minor version to update.
+- `"compatibleEnvironmentTemplates"`: An array of environment template objects that are
+  compatible with this service template version. A service instance based on this service
+  template version can run in environments based on compatible templates.
 - `"description"`: A description of a service template version to update.
 - `"status"`: The status of the service template minor version to update.
+- `"supportedComponentSources"`: An array of supported component sources. Components with
+  supported sources can be attached to service instances based on this service template
+  version.  A change to supportedComponentSources doesn't impact existing component
+  attachments to instances based on this template version. A change only affects later
+  associations.  For more information about components, see Proton components in the Proton
+  User Guide.
 """
 function update_service_template_version(
     majorVersion,
@@ -3028,11 +3423,14 @@ end
     update_template_sync_config(branch, repository_name, repository_provider, template_name, template_type)
     update_template_sync_config(branch, repository_name, repository_provider, template_name, template_type, params::Dict{String,<:Any})
 
-Update template sync configuration parameters, except for the templateName and templateType.
+Update template sync configuration parameters, except for the templateName and
+templateType. Repository details (branch, name, and provider) should be of a linked
+repository. A linked repository is a repository that has been registered with Proton. For
+more information, see CreateRepository.
 
 # Arguments
-- `branch`: The repository branch.
-- `repository_name`: The name of the repository, for example myrepos/myrepo.
+- `branch`: The repository branch for your template.
+- `repository_name`: The repository name (for example, myrepos/myrepo).
 - `repository_provider`: The repository provider.
 - `template_name`: The synced template name.
 - `template_type`: The synced template type.

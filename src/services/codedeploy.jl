@@ -54,7 +54,7 @@ Gets information about one or more application revisions. The maximum number of 
 revisions that can be returned is 25.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application about which to get revision
+- `application_name`: The name of an CodeDeploy application about which to get revision
   information.
 - `revisions`: An array of RevisionLocation objects that specify information to get about
   the application revisions, including type and location. The maximum number of
@@ -139,8 +139,8 @@ end
 Gets information about one or more deployment groups.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the
-  applicable IAM user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the applicable
+  IAM or Amazon Web Services account.
 - `deployment_group_names`: The names of the deployment groups.
 
 """
@@ -186,7 +186,7 @@ end
 
   This method works, but is deprecated. Use BatchGetDeploymentTargets instead.    Returns
 an array of one or more instances associated with a deployment. This method works with
-EC2/On-premises and AWS Lambda compute platforms. The newer BatchGetDeploymentTargets works
+EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works
 with all compute platforms. The maximum number of instances that can be returned is 25.
 
 # Arguments
@@ -235,7 +235,7 @@ end
 with all compute types and should be used instead of the deprecated
 BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25.  The
 type of targets returned depends on the deployment's compute platform or deployment method:
-    EC2/On-premises: Information about EC2 instance targets.     AWS Lambda: Information
+    EC2/On-premises: Information about Amazon EC2 instance targets.     Lambda: Information
 about Lambda functions targets.     Amazon ECS: Information about Amazon ECS service
 targets.     CloudFormation: Information about targets of blue/green deployments initiated
 by a CloudFormation stack update.
@@ -246,14 +246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetIds"`:  The unique IDs of the deployment targets. The compute platform of the
   deployment determines the type of the targets and their formats. The maximum number of
   deployment target IDs you can specify is 25.    For deployments that use the
-  EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and
-  their target type is instanceTarget.     For deployments that use the AWS Lambda compute
-  platform, the target IDs are the names of Lambda functions, and their target type is
-  instanceTarget.     For deployments that use the Amazon ECS compute platform, the target
+  EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances
+  IDs, and their target type is instanceTarget.     For deployments that use the Lambda
+  compute platform, the target IDs are the names of Lambda functions, and their target type
+  is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target
   IDs are pairs of Amazon ECS clusters and services specified using the format
   &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.     For
-  deployments that are deployed with AWS CloudFormation, the target IDs are CloudFormation
-  stack IDs. Their target type is cloudFormationTarget.
+  deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack
+  IDs. Their target type is cloudFormationTarget.
 """
 function batch_get_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config())
     return codedeploy(
@@ -384,7 +384,7 @@ Creates an application.
 
 # Arguments
 - `application_name`: The name of the application. This name must be unique with the
-  applicable IAM user or AWS account.
+  applicable IAM or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -428,26 +428,26 @@ end
 Deploys an application revision through the specified deployment group.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"autoRollbackConfiguration"`: Configuration information for an automatic rollback that
   is added when a deployment is created.
 - `"deploymentConfigName"`: The name of a deployment configuration associated with the IAM
-  user or AWS account. If not specified, the value configured in the deployment group is used
-  as the default. If the deployment group does not have a deployment configuration associated
-  with it, CodeDeployDefault.OneAtATime is used by default.
+  user or Amazon Web Services account. If not specified, the value configured in the
+  deployment group is used as the default. If the deployment group does not have a deployment
+  configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
 - `"deploymentGroupName"`: The name of the deployment group.
 - `"description"`: A comment about the deployment.
-- `"fileExistsBehavior"`: Information about how AWS CodeDeploy handles files that already
-  exist in a deployment target location but weren't part of the previous successful
-  deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW:
-  The deployment fails. This is also the default behavior if no option is specified.
-  OVERWRITE: The version of the file from the application revision currently being deployed
-  replaces the version already on the instance.   RETAIN: The version of the file already on
-  the instance is kept and used as part of the new deployment.
+- `"fileExistsBehavior"`: Information about how CodeDeploy handles files that already exist
+  in a deployment target location but weren't part of the previous successful deployment. The
+  fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment
+  fails. This is also the default behavior if no option is specified.   OVERWRITE: The
+  version of the file from the application revision currently being deployed replaces the
+  version already on the instance.   RETAIN: The version of the file already on the instance
+  is kept and used as part of the new deployment.
 - `"ignoreApplicationStopFailures"`:  If true, then if an ApplicationStop,
   BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails,
   then the deployment continues to the next deployment lifecycle event. For example, if
@@ -457,7 +457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   event fails during a deployment to an instance, that deployment fails. If deployment to
   that instance is part of an overall deployment and the number of healthy hosts is not less
   than the minimum number of healthy hosts, then a deployment to the next instance is
-  attempted.   During a deployment, the AWS CodeDeploy agent runs the scripts specified for
+  attempted.   During a deployment, the CodeDeploy agent runs the scripts specified for
   ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the
   previous successful deployment. (All other scripts are run from the AppSpec file in the
   current deployment.) If one of these scripts contains an error and does not run
@@ -465,6 +465,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   last successful deployment that will never run successfully, create a new deployment and
   use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic,
   and AfterBlockTraffic failures should be ignored.
+- `"overrideAlarmConfiguration"`: Allows you to specify information about alarms associated
+  with a deployment. The alarm configuration that you specify here will override the alarm
+  configuration at the deployment group level. Consider overriding the alarm configuration if
+  you have set up alarms at the deployment group level that are causing deployment failures.
+  In this case, you would call CreateDeployment to create a new deployment that uses a
+  previous application revision that is known to work, and set its alarm configuration to
+  turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds
+  without being blocked by the alarm that was generated by the previous, failed, deployment.
+  If you specify an overrideAlarmConfiguration, you need the UpdateDeploymentGroup IAM
+  permission when calling CreateDeployment.
 - `"revision"`:  The type and location of the revision to deploy.
 - `"targetInstances"`:  Information about the instances that belong to the replacement
   environment in a blue/green deployment.
@@ -517,10 +527,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter represents the minimum number of healthy instances as an absolute value.
   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a
   percentage of the total number of instances in the deployment. If you specify
-  FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to
-  the equivalent number of instances and rounds up fractional instances.   The value
-  parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify
-  a type of FLEET_PERCENT and a value of 95.
+  FLEET_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to the
+  equivalent number of instances and rounds up fractional instances.   The value parameter
+  takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of
+  FLEET_PERCENT and a value of 95.
 - `"trafficRoutingConfig"`: The configuration that specifies how the deployment traffic is
   routed.
 """
@@ -560,11 +570,11 @@ end
 Creates a deployment group to which application revisions are deployed.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 - `deployment_group_name`: The name of a new deployment group for the specified application.
-- `service_role_arn`: A service role Amazon Resource Name (ARN) that allows AWS CodeDeploy
-  to act on the user's behalf when interacting with AWS services.
+- `service_role_arn`: A service role Amazon Resource Name (ARN) that allows CodeDeploy to
+  act on the user's behalf when interacting with Amazon Web Services services.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -576,19 +586,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"blueGreenDeploymentConfiguration"`: Information about blue/green deployment options for
   a deployment group.
 - `"deploymentConfigName"`: If specified, the deployment configuration name can be either
-  one of the predefined configurations provided with AWS CodeDeploy or a custom deployment
+  one of the predefined configurations provided with CodeDeploy or a custom deployment
   configuration that you create by calling the create deployment configuration operation.
   CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a
   configuration isn't specified for the deployment or deployment group. For more information
-  about the predefined deployment configurations in AWS CodeDeploy, see Working with
-  Deployment Configurations in CodeDeploy in the AWS CodeDeploy User Guide.
+  about the predefined deployment configurations in CodeDeploy, see Working with Deployment
+  Configurations in CodeDeploy in the CodeDeploy User Guide.
 - `"deploymentStyle"`: Information about the type of deployment, in-place or blue/green,
   that you want to run and whether to route deployment traffic behind a load balancer.
 - `"ec2TagFilters"`: The Amazon EC2 tags on which to filter. The deployment group includes
-  EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
-- `"ec2TagSet"`: Information about groups of tags applied to EC2 instances. The deployment
-  group includes only EC2 instances identified by all the tag groups. Cannot be used in the
-  same call as ec2TagFilters.
+  Amazon EC2 instances with any of the specified tags. Cannot be used in the same call as
+  ec2TagSet.
+- `"ec2TagSet"`: Information about groups of tags applied to Amazon EC2 instances. The
+  deployment group includes only Amazon EC2 instances identified by all the tag groups.
+  Cannot be used in the same call as ec2TagFilters.
 - `"ecsServices"`:  The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
@@ -600,18 +611,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"onPremisesTagSet"`: Information about groups of tags applied to on-premises instances.
   The deployment group includes only on-premises instances identified by all of the tag
   groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
-- `"outdatedInstancesStrategy"`: Indicates what happens when new EC2 instances are launched
-  mid-deployment and do not receive the deployed application revision. If this option is set
-  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
-  instances' deployments to apply the deployed application revision to the new EC2 instances.
-  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
-  new EC2 instances. This may result in instances having different revisions.
+- `"outdatedInstancesStrategy"`: Indicates what happens when new Amazon EC2 instances are
+  launched mid-deployment and do not receive the deployed application revision. If this
+  option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update
+  outdated instances' deployments to apply the deployed application revision to the new
+  Amazon EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a
+  deployment to update the new Amazon EC2 instances. This may result in instances having
+  different revisions.
 - `"tags"`:  The metadata that you apply to CodeDeploy deployment groups to help you
   organize and categorize them. Each tag consists of a key and an optional value, both of
   which you define.
 - `"triggerConfigurations"`: Information about triggers to create when the deployment group
-  is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS
-  CodeDeploy User Guide.
+  is created. For examples, see Create a Trigger for an CodeDeploy Event in the CodeDeploy
+  User Guide.
 """
 function create_deployment_group(
     applicationName,
@@ -662,8 +674,8 @@ end
 Deletes an application.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 
 """
 function delete_application(
@@ -702,7 +714,7 @@ currently in use. Predefined configurations cannot be deleted.
 
 # Arguments
 - `deployment_config_name`: The name of a deployment configuration associated with the IAM
-  user or AWS account.
+  user or Amazon Web Services account.
 
 """
 function delete_deployment_config(
@@ -741,8 +753,8 @@ end
 Deletes a deployment group.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
@@ -881,8 +893,8 @@ end
 Gets information about an application.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 
 """
 function get_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -963,8 +975,8 @@ the returned revision is always null. Use GetApplicationRevision and the sha256 
 the returned appSpecContent object to get the content of the deployment’s AppSpec file.
 
 # Arguments
-- `deployment_id`:  The unique ID of a deployment associated with the IAM user or AWS
-  account.
+- `deployment_id`:  The unique ID of a deployment associated with the IAM user or Amazon
+  Web Services account.
 
 """
 function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -998,7 +1010,7 @@ Gets information about a deployment configuration.
 
 # Arguments
 - `deployment_config_name`: The name of a deployment configuration associated with the IAM
-  user or AWS account.
+  user or Amazon Web Services account.
 
 """
 function get_deployment_config(
@@ -1037,8 +1049,8 @@ end
 Gets information about a deployment group.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
@@ -1190,8 +1202,8 @@ end
 Lists information about revisions for an application.
 
 # Arguments
-- `application_name`:  The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`:  The name of an CodeDeploy application associated with the IAM user
+  or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1206,10 +1218,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3KeyPrefix"`:  A key prefix for the set of Amazon S3 objects to limit the search for
   revisions.
 - `"sortBy"`: The column name to use to sort the list results:    registerTime: Sort by the
-  time the revisions were registered with AWS CodeDeploy.    firstUsedTime: Sort by the time
-  the revisions were first used in a deployment.    lastUsedTime: Sort by the time the
-  revisions were last used in a deployment.    If not specified or set to null, the results
-  are returned in an arbitrary order.
+  time the revisions were registered with CodeDeploy.    firstUsedTime: Sort by the time the
+  revisions were first used in a deployment.    lastUsedTime: Sort by the time the revisions
+  were last used in a deployment.    If not specified or set to null, the results are
+  returned in an arbitrary order.
 - `"sortOrder"`:  The order in which to sort the list results:     ascending: ascending
   order.    descending: descending order.   If not specified, the results are sorted in
   ascending order. If set to null, the results are sorted in an arbitrary order.
@@ -1245,7 +1257,7 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-Lists the applications registered with the IAM user or AWS account.
+Lists the applications registered with the IAM user or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1269,7 +1281,7 @@ end
     list_deployment_configs()
     list_deployment_configs(params::Dict{String,<:Any})
 
-Lists the deployment configurations with the IAM user or AWS account.
+Lists the deployment configurations with the IAM user or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1296,11 +1308,12 @@ end
     list_deployment_groups(application_name)
     list_deployment_groups(application_name, params::Dict{String,<:Any})
 
-Lists the deployment groups for an application registered with the IAM user or AWS account.
+Lists the deployment groups for an application registered with the IAM user or Amazon Web
+Services account.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1340,8 +1353,8 @@ end
 
   The newer BatchGetDeploymentTargets should be used instead because it works with all
 compute types. ListDeploymentInstances throws an exception if it is used with a compute
-platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment
-associated with the IAM user or AWS account.
+platform other than EC2/On-premises or Lambda.    Lists the instance for a deployment
+associated with the IAM user or Amazon Web Services account.
 
 # Arguments
 - `deployment_id`:  The unique ID of a deployment.
@@ -1422,13 +1435,13 @@ end
     list_deployments(params::Dict{String,<:Any})
 
 Lists the deployments in a deployment group for an application registered with the IAM user
-or AWS account.
+or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationName"`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.  If applicationName is specified, then deploymentGroupName must be
-  specified. If it is not specified, then deploymentGroupName must not be specified.
+- `"applicationName"`: The name of an CodeDeploy application associated with the IAM user
+  or Amazon Web Services account.  If applicationName is specified, then deploymentGroupName
+  must be specified. If it is not specified, then deploymentGroupName must not be specified.
 - `"createTimeRange"`: A time range (start and end) for returning a subset of the list of
   deployments.
 - `"deploymentGroupName"`: The name of a deployment group for the specified application.
@@ -1570,12 +1583,12 @@ end
     put_lifecycle_event_hook_execution_status(params::Dict{String,<:Any})
 
  Sets the result of a Lambda validation function. The function validates lifecycle hooks
-during a deployment that uses the AWS Lambda or Amazon ECS compute platform. For AWS Lambda
+during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda
 deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic.
 For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall,
 AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation
 functions return Succeeded or Failed. For more information, see AppSpec 'hooks' Section for
-an AWS Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
+an Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1584,7 +1597,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"lifecycleEventHookExecutionId"`:  The execution ID of a deployment's lifecycle hook. A
   deployment lifecycle hook is specified in the hooks section of the AppSpec file.
 - `"status"`: The result of a Lambda function that validates a deployment lifecycle event.
-  Succeeded and Failed are the only valid values for status.
+  The values listed in Valid Values are valid for lifecycle statuses in general; however,
+  only Succeeded and Failed can be passed successfully in your API call.
 """
 function put_lifecycle_event_hook_execution_status(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -1610,11 +1624,11 @@ end
     register_application_revision(application_name, revision)
     register_application_revision(application_name, revision, params::Dict{String,<:Any})
 
-Registers with AWS CodeDeploy a revision for the specified application.
+Registers with CodeDeploy a revision for the specified application.
 
 # Arguments
-- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
-  user or AWS account.
+- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+  Amazon Web Services account.
 - `revision`: Information about the application revision to register, including type and
   location.
 
@@ -1934,8 +1948,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoRollbackConfiguration"`: Information for an automatic rollback configuration that
   is added or changed when a deployment group is updated.
 - `"autoScalingGroups"`: The replacement list of Auto Scaling groups to be included in the
-  deployment group, if you want to change them. To keep the Auto Scaling groups, enter their
-  names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
+  deployment group, if you want to change them.   To keep the Auto Scaling groups, enter
+  their names or do not specify this parameter.    To remove Auto Scaling groups, specify a
+  non-null empty list of Auto Scaling group names to detach all CodeDeploy-managed Auto
+  Scaling lifecycle hooks. For examples, see Amazon EC2 instances in an Amazon EC2 Auto
+  Scaling group fail to launch and receive the error \"Heartbeat Timeout\" in the CodeDeploy
+  User Guide.
 - `"blueGreenDeploymentConfiguration"`: Information about blue/green deployment options for
   a deployment group.
 - `"deploymentConfigName"`: The replacement deployment configuration name to use, if you
@@ -1946,7 +1964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to change them. To keep the existing tags, enter their names. To remove tags, do not enter
   any tag names.
 - `"ec2TagSet"`: Information about groups of tags applied to on-premises instances. The
-  deployment group includes only EC2 instances identified by all the tag groups.
+  deployment group includes only Amazon EC2 instances identified by all the tag groups.
 - `"ecsServices"`:  The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
@@ -1959,15 +1977,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To remove tags, do not enter any tag names.
 - `"onPremisesTagSet"`: Information about an on-premises instance tag set. The deployment
   group includes only on-premises instances identified by all the tag groups.
-- `"outdatedInstancesStrategy"`: Indicates what happens when new EC2 instances are launched
-  mid-deployment and do not receive the deployed application revision. If this option is set
-  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
-  instances' deployments to apply the deployed application revision to the new EC2 instances.
-  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
-  new EC2 instances. This may result in instances having different revisions.
+- `"outdatedInstancesStrategy"`: Indicates what happens when new Amazon EC2 instances are
+  launched mid-deployment and do not receive the deployed application revision. If this
+  option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update
+  outdated instances' deployments to apply the deployed application revision to the new
+  Amazon EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a
+  deployment to update the new Amazon EC2 instances. This may result in instances having
+  different revisions.
 - `"serviceRoleArn"`: A replacement ARN for the service role, if you want to change it.
 - `"triggerConfigurations"`: Information about triggers to change when the deployment group
-  is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS
+  is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the
   CodeDeploy User Guide.
 """
 function update_deployment_group(

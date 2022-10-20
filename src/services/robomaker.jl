@@ -72,7 +72,8 @@ end
     cancel_deployment_job(job)
     cancel_deployment_job(job, params::Dict{String,<:Any})
 
-Cancels the specified deployment job.
+Cancels the specified deployment job.  This API will no longer be supported as of May 2,
+2022. Use it to remove resources that were created for Deployment Service.
 
 # Arguments
 - `job`: The deployment job ARN to cancel.
@@ -230,11 +231,11 @@ end
     create_deployment_job(client_request_token, deployment_application_configs, fleet)
     create_deployment_job(client_request_token, deployment_application_configs, fleet, params::Dict{String,<:Any})
 
-Deploys a specific version of a robot application to robots in a fleet. The robot
-application must have a numbered applicationVersion for consistency reasons. To create a
-new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.
-  After 90 days, deployment jobs expire and will be deleted. They will no longer be
-accessible.
+Deploys a specific version of a robot application to robots in a fleet.  This API is no
+longer supported and will throw an error if used.  The robot application must have a
+numbered applicationVersion for consistency reasons. To create a new version, use
+CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days,
+deployment jobs expire and will be deleted. They will no longer be accessible.
 
 # Arguments
 - `client_request_token`: Unique, case-sensitive identifier that you provide to ensure the
@@ -296,7 +297,8 @@ end
     create_fleet(name)
     create_fleet(name, params::Dict{String,<:Any})
 
-Creates a fleet, a logical group of robots running the same robot application.
+Creates a fleet, a logical group of robots running the same robot application.  This API is
+no longer supported and will throw an error if used.
 
 # Arguments
 - `name`: The name of the fleet.
@@ -330,7 +332,7 @@ end
     create_robot(architecture, greengrass_group_id, name)
     create_robot(architecture, greengrass_group_id, name, params::Dict{String,<:Any})
 
-Creates a robot.
+Creates a robot.  This API is no longer supported and will throw an error if used.
 
 # Arguments
 - `architecture`: The target architecture of the robot.
@@ -830,7 +832,8 @@ end
     delete_fleet(fleet)
     delete_fleet(fleet, params::Dict{String,<:Any})
 
-Deletes a fleet.
+Deletes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove
+resources that were created for Deployment Service.
 
 # Arguments
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
@@ -861,7 +864,8 @@ end
     delete_robot(robot)
     delete_robot(robot, params::Dict{String,<:Any})
 
-Deletes a robot.
+Deletes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove
+resources that were created for Deployment Service.
 
 # Arguments
 - `robot`: The Amazon Resource Name (ARN) of the robot.
@@ -1007,7 +1011,8 @@ end
     deregister_robot(fleet, robot)
     deregister_robot(fleet, robot, params::Dict{String,<:Any})
 
-Deregisters a robot.
+Deregisters a robot.  This API will no longer be supported as of May 2, 2022. Use it to
+remove resources that were created for Deployment Service.
 
 # Arguments
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
@@ -1044,7 +1049,8 @@ end
     describe_deployment_job(job)
     describe_deployment_job(job, params::Dict{String,<:Any})
 
-Describes a deployment job.
+Describes a deployment job.  This API will no longer be supported as of May 2, 2022. Use it
+to remove resources that were created for Deployment Service.
 
 # Arguments
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
@@ -1075,7 +1081,8 @@ end
     describe_fleet(fleet)
     describe_fleet(fleet, params::Dict{String,<:Any})
 
-Describes a fleet.
+Describes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to
+remove resources that were created for Deployment Service.
 
 # Arguments
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
@@ -1106,7 +1113,8 @@ end
     describe_robot(robot)
     describe_robot(robot, params::Dict{String,<:Any})
 
-Describes a robot.
+Describes a robot.  This API will no longer be supported as of May 2, 2022. Use it to
+remove resources that were created for Deployment Service.
 
 # Arguments
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
@@ -1445,7 +1453,8 @@ end
     list_deployment_jobs(params::Dict{String,<:Any})
 
 Returns a list of deployment jobs for a fleet. You can optionally provide filters to
-retrieve specific deployment jobs.
+retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022.
+Use it to remove resources that were created for Deployment Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1490,6 +1499,8 @@ end
     list_fleets(params::Dict{String,<:Any})
 
 Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+were created for Deployment Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1576,6 +1587,8 @@ end
     list_robots(params::Dict{String,<:Any})
 
 Returns a list of robots. You can optionally provide filters to retrieve specific robots.
+This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+were created for Deployment Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1940,7 +1953,8 @@ end
     register_robot(fleet, robot)
     register_robot(fleet, robot, params::Dict{String,<:Any})
 
-Registers a robot with a fleet.
+Registers a robot with a fleet.  This API is no longer supported and will throw an error if
+used.
 
 # Arguments
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
@@ -2065,7 +2079,8 @@ end
     sync_deployment_job(client_request_token, fleet, params::Dict{String,<:Any})
 
 Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
-added after a deployment.
+added after a deployment.  This API will no longer be supported as of May 2, 2022. Use it
+to remove resources that were created for Deployment Service.
 
 # Arguments
 - `client_request_token`: Unique, case-sensitive identifier that you provide to ensure the

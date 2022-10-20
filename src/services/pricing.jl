@@ -42,9 +42,9 @@ end
     get_attribute_values(attribute_name, service_code)
     get_attribute_values(attribute_name, service_code, params::Dict{String,<:Any})
 
-Returns a list of attribute values. Attibutes are similar to the details in a Price List
+Returns a list of attribute values. Attributes are similar to the details in a Price List
 API offer file. For a list of available attributes, see Offer File Definitions in the
-Amazon Web Services Billing and Cost Management User Guide.
+Billing and Cost Management User Guide.
 
 # Arguments
 - `attribute_name`: The name of the attribute that you want to retrieve the values for,
@@ -91,10 +91,13 @@ function get_attribute_values(
 end
 
 """
-    get_products()
-    get_products(params::Dict{String,<:Any})
+    get_products(service_code)
+    get_products(service_code, params::Dict{String,<:Any})
 
 Returns a list of all products that match the filter criteria.
+
+# Arguments
+- `service_code`: The code for the service whose products you want to retrieve.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -105,15 +108,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the response.
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
-- `"ServiceCode"`: The code for the service whose products you want to retrieve.
 """
-function get_products(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pricing("GetProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_products(ServiceCode; aws_config::AbstractAWSConfig=global_aws_config())
+    return pricing(
+        "GetProducts",
+        Dict{String,Any}("ServiceCode" => ServiceCode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return pricing(
-        "GetProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetProducts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

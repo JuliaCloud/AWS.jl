@@ -173,11 +173,12 @@ Copies the specified cluster parameter group.
 # Arguments
 - `source_dbcluster_parameter_group_identifier`: The identifier or Amazon Resource Name
   (ARN) for the source cluster parameter group. Constraints:   Must specify a valid cluster
-  parameter group.   If the source cluster parameter group is in the same Region as the copy,
-  specify a valid parameter group identifier; for example, my-db-cluster-param-group, or a
-  valid ARN.   If the source parameter group is in a different Region than the copy, specify
-  a valid cluster parameter group ARN; for example,
-  arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group.
+  parameter group.   If the source cluster parameter group is in the same Amazon Web Services
+  Region as the copy, specify a valid parameter group identifier; for example,
+  my-db-cluster-param-group, or a valid ARN.   If the source parameter group is in a
+  different Amazon Web Services Region than the copy, specify a valid cluster parameter group
+  ARN; for example, arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group.
+  
 - `target_dbcluster_parameter_group_description`: A description for the copied cluster
   parameter group.
 - `target_dbcluster_parameter_group_identifier`: The identifier for the copied cluster
@@ -244,16 +245,17 @@ end
 Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster
 snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the
 shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted
-or not, in the same Region. To cancel the copy operation after it is in progress, delete
-the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that
-cluster snapshot is in the copying status.
+or not, in the same Amazon Web Services Region. To cancel the copy operation after it is in
+progress, delete the target cluster snapshot identified by
+TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
 
 # Arguments
 - `source_dbcluster_snapshot_identifier`: The identifier of the cluster snapshot to copy.
   This parameter is not case sensitive. Constraints:   Must specify a valid system snapshot
-  in the available state.   If the source snapshot is in the same Region as the copy, specify
-  a valid snapshot identifier.   If the source snapshot is in a different Region than the
-  copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
+  in the available state.   If the source snapshot is in the same Amazon Web Services Region
+  as the copy, specify a valid snapshot identifier.   If the source snapshot is in a
+  different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.
+  Example: my-cluster-snapshot1
 - `target_dbcluster_snapshot_identifier`: The identifier of the new cluster snapshot to
   create from the source cluster snapshot. This parameter is not case sensitive. Constraints:
     Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a
@@ -266,31 +268,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster snapshot, and otherwise false. The default is false.
 - `"KmsKeyId"`: The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the
   Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption
-  key.  If you copy an encrypted cluster snapshot from your account, you can specify a value
-  for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a
-  value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same KMS
-  key as the source cluster snapshot. If you copy an encrypted cluster snapshot that is
-  shared from another account, then you must specify a value for KmsKeyId. To copy an
-  encrypted cluster snapshot to another Region, set KmsKeyId to the KMS key ID that you want
-  to use to encrypt the copy of the cluster snapshot in the destination Region. KMS
-  encryption keys are specific to the Region that they are created in, and you can't use
-  encryption keys from one Region in another Region. If you copy an unencrypted cluster
+  key.  If you copy an encrypted cluster snapshot from your Amazon Web Services account, you
+  can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you
+  don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with
+  the same KMS key as the source cluster snapshot. If you copy an encrypted cluster snapshot
+  that is shared from another Amazon Web Services account, then you must specify a value for
+  KmsKeyId. To copy an encrypted cluster snapshot to another Amazon Web Services Region, set
+  KmsKeyId to the KMS key ID that you want to use to encrypt the copy of the cluster snapshot
+  in the destination Region. KMS encryption keys are specific to the Amazon Web Services
+  Region that they are created in, and you can't use encryption keys from one Amazon Web
+  Services Region in another Amazon Web Services Region. If you copy an unencrypted cluster
   snapshot and specify a value for the KmsKeyId parameter, an error is returned.
 - `"PreSignedUrl"`: The URL that contains a Signature Version 4 signed request for
-  theCopyDBClusterSnapshot API action in the Region that contains the source cluster snapshot
-  to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from
-  another Region. If you are using an Amazon Web Services SDK tool or the CLI, you can
-  specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl
-  manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request
-  for the operation that can be executed in the source Region. The presigned URL must be a
-  valid request for the CopyDBClusterSnapshot API action that can be executed in the source
+  theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the
+  source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a
+  cluster snapshot from another Amazon Web Services Region. If you are using an Amazon Web
+  Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI)
+  instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a
+  pre-signed URL that is a valid request for the operation that can be executed in the source
+  Amazon Web Services Region. The presigned URL must be a valid request for the
+  CopyDBClusterSnapshot API action that can be executed in the source Amazon Web Services
   Region that contains the cluster snapshot to be copied. The presigned URL request must
   contain the following parameter values:    SourceRegion - The ID of the region that
   contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The identifier
   for the the encrypted cluster snapshot to be copied. This identifier must be in the Amazon
-  Resource Name (ARN) format for the source Region. For example, if you are copying an
-  encrypted cluster snapshot from the us-east-1 Region, then your
-  SourceDBClusterSnapshotIdentifier looks something like the following:
+  Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you
+  are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region,
+  then your SourceDBClusterSnapshotIdentifier looks something like the following:
   arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.
   TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be
   created. This parameter isn't case sensitive.
@@ -375,11 +379,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalClusterIdentifier"`: The cluster identifier of the new global cluster.
 - `"KmsKeyId"`: The KMS key identifier for an encrypted cluster. The KMS key identifier is
   the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster
-  using the same account that owns the KMS encryption key that is used to encrypt the new
-  cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an
-  encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true,
-  Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption
-  key for your account. Your account has a different default encryption key for each Regions.
+  using the same Amazon Web Services account that owns the KMS encryption key that is used to
+  encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS
+  encryption key. If an encryption key is not specified in KmsKeyId:    If the
+  StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Regions.
 - `"MasterUserPassword"`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote (\"), or the
   \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
@@ -391,14 +397,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each
-  Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
-  Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must
-  be at least 30 minutes.
+  Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must
+  be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
+  window.    Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
-  a 30-minute window selected at random from an 8-hour block of time for each Region,
-  occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
-  Constraints: Minimum 30-minute window.
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
+  Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu,
+  Fri, Sat, Sun Constraints: Minimum 30-minute window.
 - `"StorageEncrypted"`: Specifies whether the cluster is encrypted.
 - `"Tags"`: The tags to be assigned to the cluster.
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this
@@ -584,13 +590,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DocumentDB does not perform minor version upgrades regardless of the value set. Default:
   false
 - `"AvailabilityZone"`: The Amazon EC2 Availability Zone that the instance is created in.
-  Default: A random, system-chosen Availability Zone in the endpoint's Region. Example:
-  us-east-1d
+  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services
+  Region. Example: us-east-1d
+- `"CopyTagsToSnapshot"`: A value that indicates whether to copy tags from the DB instance
+  to snapshots of the DB instance. By default, tags are not copied.
+- `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
+  Insights for the DB Instance. For more information, see Using Amazon Performance Insights.
+- `"PerformanceInsightsKMSKeyId"`: The KMS key identifier for encryption of Performance
+  Insights data. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
+  the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  DocumentDB uses your default KMS key. There is a default KMS key for your Amazon Web
+  Services account. Your Amazon Web Services account has a different default KMS key for each
+  Amazon Web Services region.
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The
   default is a 30-minute window selected at random from an 8-hour block of time for each
-  Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun Constraints: Minimum 30-minute window.
+  Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue,
+  Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
 - `"PromotionTier"`: A value that specifies the order in which an Amazon DocumentDB replica
   is promoted to the primary instance after a failure of the existing primary instance.
   Default: 1 Valid values: 0-15
@@ -648,7 +664,7 @@ end
     create_dbsubnet_group(dbsubnet_group_description, dbsubnet_group_name, subnet_identifier, params::Dict{String,<:Any})
 
 Creates a new subnet group. subnet groups must contain at least one subnet in at least two
-Availability Zones in the Region.
+Availability Zones in the Amazon Web Services Region.
 
 # Arguments
 - `dbsubnet_group_description`: The description for the subnet group.
@@ -789,14 +805,14 @@ end
     create_global_cluster(global_cluster_identifier)
     create_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
 
-Creates an Amazon DocumentDB global cluster that can span multiple multiple Regions. The
-global cluster contains one primary cluster with read-write capability, and up-to give
-read-only secondary clusters. Global clusters uses storage-based fast replication across
-regions with latencies less than one second, using dedicated infrastructure with no impact
-to your workload’s performance.  You can create a global cluster that is initially empty,
-and then add a primary and a secondary to it. Or you can specify an existing cluster during
-the create operation, and this cluster becomes the primary of the global cluster.   This
-action only applies to Amazon DocumentDB clusters.
+Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web
+Services Regions. The global cluster contains one primary cluster with read-write
+capability, and up-to give read-only secondary clusters. Global clusters uses storage-based
+fast replication across regions with latencies less than one second, using dedicated
+infrastructure with no impact to your workload’s performance.  You can create a global
+cluster that is initially empty, and then add a primary and a secondary to it. Or you can
+specify an existing cluster during the create operation, and this cluster becomes the
+primary of the global cluster.   This action only applies to Amazon DocumentDB clusters.
 
 # Arguments
 - `global_cluster_identifier`: The cluster identifier of the new global cluster.
@@ -1149,7 +1165,7 @@ end
     describe_certificates(params::Dict{String,<:Any})
 
 Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for
-this account.
+this Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1284,11 +1300,12 @@ end
     describe_dbcluster_snapshot_attributes(dbcluster_snapshot_identifier, params::Dict{String,<:Any})
 
 Returns a list of cluster snapshot attribute names and values for a manual DB cluster
-snapshot. When you share snapshots with other accounts, DescribeDBClusterSnapshotAttributes
-returns the restore attribute and a list of IDs for the accounts that are authorized to
-copy or restore the manual cluster snapshot. If all is included in the list of values for
-the restore attribute, then the manual cluster snapshot is public and can be copied or
-restored by all accounts.
+snapshot. When you share snapshots with other Amazon Web Services accounts,
+DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the
+Amazon Web Services accounts that are authorized to copy or restore the manual cluster
+snapshot. If all is included in the list of values for the restore attribute, then the
+manual cluster snapshot is public and can be copied or restored by all Amazon Web Services
+accounts.
 
 # Arguments
 - `dbcluster_snapshot_identifier`: The identifier for the cluster snapshot to describe the
@@ -1345,10 +1362,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter must also be specified.
 - `"Filters"`: This parameter is not currently supported.
 - `"IncludePublic"`: Set to true to include manual cluster snapshots that are public and
-  can be copied or restored by any account, and otherwise false. The default is false.
+  can be copied or restored by any Amazon Web Services account, and otherwise false. The
+  default is false.
 - `"IncludeShared"`: Set to true to include shared manual cluster snapshots from other
-  accounts that this account has been given permission to copy or restore, and otherwise
-  false. The default is false.
+  Amazon Web Services accounts that this Amazon Web Services account has been given
+  permission to copy or restore, and otherwise false. The default is false.
 - `"Marker"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
   value specified by MaxRecords.
@@ -1358,16 +1376,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 - `"SnapshotType"`: The type of cluster snapshots to be returned. You can specify one of
   the following values:    automated - Return all cluster snapshots that Amazon DocumentDB
-  has automatically created for your account.    manual - Return all cluster snapshots that
-  you have manually created for your account.    shared - Return all manual cluster snapshots
-  that have been shared to your account.    public - Return all cluster snapshots that have
-  been marked as public.   If you don't specify a SnapshotType value, then both automated and
-  manual cluster snapshots are returned. You can include shared cluster snapshots with these
-  results by setting the IncludeShared parameter to true. You can include public cluster
-  snapshots with these results by setting theIncludePublic parameter to true. The
-  IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or
-  automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared.
-  The IncludeShared parameter doesn't apply when SnapshotType is set to public.
+  has automatically created for your Amazon Web Services account.    manual - Return all
+  cluster snapshots that you have manually created for your Amazon Web Services account.
+  shared - Return all manual cluster snapshots that have been shared to your Amazon Web
+  Services account.    public - Return all cluster snapshots that have been marked as public.
+    If you don't specify a SnapshotType value, then both automated and manual cluster
+  snapshots are returned. You can include shared cluster snapshots with these results by
+  setting the IncludeShared parameter to true. You can include public cluster snapshots with
+  these results by setting theIncludePublic parameter to true. The IncludeShared and
+  IncludePublic parameters don't apply for SnapshotType values of manual or automated. The
+  IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared
+  parameter doesn't apply when SnapshotType is set to public.
 """
 function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb(
@@ -1964,14 +1983,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each
-  Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
-  Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
-  be at least 30 minutes.
+  Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must
+  be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
+  window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
-  a 30-minute window selected at random from an 8-hour block of time for each Region,
-  occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
-  Constraints: Minimum 30-minute window.
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
+  Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu,
+  Fri, Sat, Sun Constraints: Minimum 30-minute window.
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups that the
   cluster will belong to.
 """
@@ -2071,36 +2090,38 @@ end
     modify_dbcluster_snapshot_attribute(attribute_name, dbcluster_snapshot_identifier, params::Dict{String,<:Any})
 
 Adds an attribute and values to, or removes an attribute and values from, a manual cluster
-snapshot. To share a manual cluster snapshot with other accounts, specify restore as the
-AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the accounts that
-are authorized to restore the manual cluster snapshot. Use the value all to make the manual
-cluster snapshot public, which means that it can be copied or restored by all accounts. Do
-not add the all value for any manual cluster snapshots that contain private information
-that you don't want available to all accounts. If a manual cluster snapshot is encrypted,
-it can be shared, but only by specifying a list of authorized account IDs for the
+snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts,
+specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of
+IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster
+snapshot. Use the value all to make the manual cluster snapshot public, which means that it
+can be copied or restored by all Amazon Web Services accounts. Do not add the all value for
+any manual cluster snapshots that contain private information that you don't want available
+to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be
+shared, but only by specifying a list of authorized Amazon Web Services account IDs for the
 ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
 
 # Arguments
 - `attribute_name`: The name of the cluster snapshot attribute to modify. To manage
-  authorization for other accounts to copy or restore a manual cluster snapshot, set this
-  value to restore.
+  authorization for other Amazon Web Services accounts to copy or restore a manual cluster
+  snapshot, set this value to restore.
 - `dbcluster_snapshot_identifier`: The identifier for the cluster snapshot to modify the
   attributes for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ValuesToAdd"`: A list of cluster snapshot attributes to add to the attribute specified
-  by AttributeName. To authorize other accounts to copy or restore a manual cluster snapshot,
-  set this list to include one or more account IDs. To make the manual cluster snapshot
-  restorable by any account, set it to all. Do not add the all value for any manual cluster
-  snapshots that contain private information that you don't want to be available to all
-  accounts.
+  by AttributeName. To authorize other Amazon Web Services accounts to copy or restore a
+  manual cluster snapshot, set this list to include one or more Amazon Web Services account
+  IDs. To make the manual cluster snapshot restorable by any Amazon Web Services account, set
+  it to all. Do not add the all value for any manual cluster snapshots that contain private
+  information that you don't want to be available to all Amazon Web Services accounts.
 - `"ValuesToRemove"`: A list of cluster snapshot attributes to remove from the attribute
-  specified by AttributeName. To remove authorization for other accounts to copy or restore a
-  manual cluster snapshot, set this list to include one or more account identifiers. To
-  remove authorization for any account to copy or restore the cluster snapshot, set it to all
-  . If you specify all, an account whose account ID is explicitly added to the restore
-  attribute can still copy or restore a manual cluster snapshot.
+  specified by AttributeName. To remove authorization for other Amazon Web Services accounts
+  to copy or restore a manual cluster snapshot, set this list to include one or more Amazon
+  Web Services account identifiers. To remove authorization for any Amazon Web Services
+  account to copy or restore the cluster snapshot, set it to all . If you specify all, an
+  Amazon Web Services account whose account ID is explicitly added to the restore attribute
+  can still copy or restore a manual cluster snapshot.
 """
 function modify_dbcluster_snapshot_attribute(
     AttributeName,
@@ -2162,11 +2183,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DocumentDB does not perform minor version upgrades regardless of the value set.
 - `"CACertificateIdentifier"`: Indicates the certificate that needs to be associated with
   the instance.
+- `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the DB
+  instance to snapshots of the DB instance. By default, tags are not copied.
 - `"DBInstanceClass"`: The new compute and memory capacity of the instance; for example,
-  db.r5.large. Not all instance classes are available in all Regions.  If you modify the
-  instance class, an outage occurs during the change. The change is applied during the next
-  maintenance window, unless ApplyImmediately is specified as true for this request.
-  Default: Uses existing setting.
+  db.r5.large. Not all instance classes are available in all Amazon Web Services Regions.  If
+  you modify the instance class, an outage occurs during the change. The change is applied
+  during the next maintenance window, unless ApplyImmediately is specified as true for this
+  request.  Default: Uses existing setting.
+- `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
+  Insights for the DB Instance. For more information, see Using Amazon Performance Insights.
 - `"NewDBInstanceIdentifier"`:  The new instance identifier for the instance when renaming
   an instance. When you change the instance identifier, an instance reboot occurs immediately
   if you set Apply Immediately to true. It occurs during the next maintenance window if you
@@ -2174,6 +2199,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a
   letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example:
   mydbinstance
+- `"PerformanceInsightsKMSKeyId"`: The KMS key identifier for encryption of Performance
+  Insights data. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
+  the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  DocumentDB uses your default KMS key. There is a default KMS key for your Amazon Web
+  Services account. Your Amazon Web Services account has a different default KMS key for each
+  Amazon Web Services region.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter doesn't
   result in an outage except in the following situation, and the change is asynchronously
@@ -2221,7 +2252,7 @@ end
     modify_dbsubnet_group(dbsubnet_group_name, subnet_identifier, params::Dict{String,<:Any})
 
 Modifies an existing subnet group. subnet groups must contain at least one subnet in at
-least two Availability Zones in the Region.
+least two Availability Zones in the Amazon Web Services Region.
 
 # Arguments
 - `dbsubnet_group_name`: The name for the subnet group. This value is stored as a lowercase
@@ -2654,14 +2685,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineVersion"`: The version of the database engine to use for the new cluster.
 - `"KmsKeyId"`: The KMS key identifier to use when restoring an encrypted cluster from a DB
   snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for
-  the KMS encryption key. If you are restoring a cluster with the same account that owns the
-  KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias
-  instead of the ARN for the KMS encryption key. If you do not specify a value for the
-  KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in
-  SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key
-  that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the
-  cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is
-  not encrypted.
+  the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services
+  account that owns the KMS encryption key used to encrypt the new cluster, then you can use
+  the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a
+  value for the KmsKeyId parameter, then the following occurs:   If the snapshot or cluster
+  snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using
+  the KMS key that was used to encrypt the snapshot or the cluster snapshot.   If the
+  snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored
+  DB cluster is not encrypted.
 - `"Port"`: The port number on which the new cluster accepts connections. Constraints: Must
   be a value from 1150 to 65535. Default: The same port as the original cluster.
 - `"Tags"`: The tags to be assigned to the restored cluster.
@@ -2738,16 +2769,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to Amazon CloudWatch Logs.
 - `"KmsKeyId"`: The KMS key identifier to use when restoring an encrypted cluster from an
   encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  encryption key. If you are restoring a cluster with the same account that owns the KMS
-  encryption key used to encrypt the new cluster, then you can use the KMS key alias instead
-  of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new
-  cluster with an KMS key that is different from the KMS key used to encrypt the source
-  cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId
-  parameter. If you do not specify a value for the KmsKeyId parameter, then the following
-  occurs:   If the cluster is encrypted, then the restored cluster is encrypted using the KMS
-  key that was used to encrypt the source cluster.   If the cluster is not encrypted, then
-  the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is
-  not encrypted, then the restore request is rejected.
+  encryption key. If you are restoring a cluster with the same Amazon Web Services account
+  that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS
+  key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster
+  and encrypt the new cluster with an KMS key that is different from the KMS key used to
+  encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by
+  the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the
+  following occurs:   If the cluster is encrypted, then the restored cluster is encrypted
+  using the KMS key that was used to encrypt the source cluster.   If the cluster is not
+  encrypted, then the restored cluster is not encrypted.   If DBClusterIdentifier refers to a
+  cluster that is not encrypted, then the restore request is rejected.
 - `"Port"`: The port number on which the new cluster accepts connections. Constraints: Must
   be a value from 1150 to 65535.  Default: The default port for the engine.
 - `"RestoreToTime"`: The date and time to restore the cluster to. Valid values: A time in
@@ -2756,6 +2787,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter
   is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example:
   2015-03-07T23:45:00Z
+- `"RestoreType"`: The type of restore to be performed. You can specify one of the
+  following values:    full-copy - The new DB cluster is restored as a full copy of the
+  source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the
+  source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is
+  restored as a full copy of the source DB cluster.
 - `"Tags"`: The tags to be assigned to the restored cluster.
 - `"UseLatestRestorableTime"`: A value that is set to true to restore the cluster to the
   latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be

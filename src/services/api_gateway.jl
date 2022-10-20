@@ -8,7 +8,7 @@ using AWS.UUIDs
     create_api_key()
     create_api_key(params::Dict{String,<:Any})
 
-Create an ApiKey resource.  AWS CLI
+Create an ApiKey resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -43,15 +43,14 @@ end
     create_authorizer(name, restapi_id, type)
     create_authorizer(name, restapi_id, type, params::Dict{String,<:Any})
 
-Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
+Adds a new Authorizer resource to an existing RestApi resource.
 
 # Arguments
-- `name`: [Required] The name of the authorizer.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `type`: [Required] The authorizer type. Valid values are TOKEN for a Lambda function
-  using a single authorization token submitted in a custom header, REQUEST for a Lambda
-  function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon
-  Cognito user pool.
+- `name`: The name of the authorizer.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `type`: The authorizer type. Valid values are TOKEN for a Lambda function using a single
+  authorization token submitted in a custom header, REQUEST for a Lambda function using
+  incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -77,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping
   expression for the custom header holding the authorization token submitted by the client.
   For example, if the token header name is Auth, the header mapping expression is
-  method.request.header.Auth.For the REQUEST authorizer, this is required when authorization
+  method.request.header.Auth. For the REQUEST authorizer, this is required when authorization
   caching is enabled. The value is a comma-separated string of one or more mapping
   expressions of the specified request parameters. For example, if an Auth header, a Name
   query string parameter are defined as identity sources, this value is
@@ -137,8 +136,8 @@ end
 Creates a new BasePathMapping resource.
 
 # Arguments
-- `domain_name`: [Required] The domain name of the BasePathMapping resource to create.
-- `rest_api_id`: [Required] The string identifier of the associated RestApi.
+- `domain_name`: The domain name of the BasePathMapping resource to create.
+- `rest_api_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -184,7 +183,7 @@ end
 Creates a Deployment resource, which makes a specified RestApi callable over the internet.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -229,15 +228,15 @@ end
     create_documentation_part(location, properties, restapi_id)
     create_documentation_part(location, properties, restapi_id, params::Dict{String,<:Any})
 
-
+Creates a documentation part.
 
 # Arguments
-- `location`: [Required] The location of the targeted API entity of the to-be-created
-  documentation part.
-- `properties`: [Required] The new documentation content map of the targeted API entity.
-  Enclosed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can
-  be exported and, hence, published.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `location`: The location of the targeted API entity of the to-be-created documentation
+  part.
+- `properties`: The new documentation content map of the targeted API entity. Enclosed
+  key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be
+  exported and, hence, published.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function create_documentation_part(
@@ -277,11 +276,11 @@ end
     create_documentation_version(documentation_version, restapi_id)
     create_documentation_version(documentation_version, restapi_id, params::Dict{String,<:Any})
 
-
+Creates a documentation version
 
 # Arguments
-- `documentation_version`: [Required] The version identifier of the new snapshot.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `documentation_version`: The version identifier of the new snapshot.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -327,7 +326,7 @@ end
 Creates a new domain name.
 
 # Arguments
-- `domain_name`: [Required] The name of the DomainName resource.
+- `domain_name`: The name of the DomainName resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -395,9 +394,9 @@ end
 Adds a new Model resource to an existing RestApi resource.
 
 # Arguments
-- `content_type`: [Required] The content-type for the model.
-- `name`: [Required] The name of the model. Must be alphanumeric.
-- `restapi_id`: [Required] The RestApi identifier under which the Model will be created.
+- `content_type`: The content-type for the model.
+- `name`: The name of the model. Must be alphanumeric.
+- `restapi_id`: The RestApi identifier under which the Model will be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -442,10 +441,10 @@ end
     create_request_validator(restapi_id)
     create_request_validator(restapi_id, params::Dict{String,<:Any})
 
-Creates a ReqeustValidator of a given RestApi.
+Creates a RequestValidator of a given RestApi.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -486,9 +485,9 @@ end
 Creates a Resource resource.
 
 # Arguments
-- `parent_id`: [Required] The parent resource's identifier.
+- `parent_id`: The parent resource's identifier.
 - `path_part`: The last path segment for this resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function create_resource(
@@ -527,13 +526,14 @@ end
 Creates a new RestApi resource.
 
 # Arguments
-- `name`: [Required] The name of the RestApi.
+- `name`: The name of the RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"apiKeySource"`: The source of the API key for metering requests according to a usage
-  plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request.
-  AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
+  plan. Valid values are: &gt;HEADER to read the API key from the X-API-Key header of a
+  request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom
+  authorizer.
 - `"binaryMediaTypes"`: The list of binary media types supported by the RestApi. By
   default, the RestApi supports only UTF-8-encoded text payloads.
 - `"cloneFrom"`: The ID of the RestApi that you want to clone from.
@@ -541,7 +541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"disableExecuteApiEndpoint"`: Specifies whether clients can invoke your API by using the
   default execute-api endpoint. By default, clients can invoke your API with the default
   https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a
-  custom domain name to invoke your API, disable the default endpoint.
+  custom domain name to invoke your API, disable the default endpoint
 - `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the
   endpoint types of the API.
 - `"minimumCompressionSize"`: A nullable integer that is used to enable compression (with
@@ -584,11 +584,10 @@ end
 Creates a new Stage resource that references a pre-existing Deployment for the API.
 
 # Arguments
-- `deployment_id`: [Required] The identifier of the Deployment resource for the Stage
-  resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name for the Stage resource. Stage names can only contain
-  alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
+- `deployment_id`: The identifier of the Deployment resource for the Stage resource.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name for the Stage resource. Stage names can only contain alphanumeric
+  characters, hyphens, and underscores. Maximum length is 128 characters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -646,7 +645,7 @@ Creates a usage plan with the throttle and quota limits, as well as the associat
 stages, specified in the payload.
 
 # Arguments
-- `name`: [Required] The name of the usage plan.
+- `name`: The name of the usage plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -686,10 +685,10 @@ end
 Creates a usage plan key for adding an existing API key to a usage plan.
 
 # Arguments
-- `key_id`: [Required] The identifier of a UsagePlanKey resource for a plan customer.
-- `key_type`: [Required] The type of a UsagePlanKey resource for a plan customer.
-- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
-  containing the to-be-created UsagePlanKey resource representing a plan customer.
+- `key_id`: The identifier of a UsagePlanKey resource for a plan customer.
+- `key_type`: The type of a UsagePlanKey resource for a plan customer.
+- `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
+  the to-be-created UsagePlanKey resource representing a plan customer.
 
 """
 function create_usage_plan_key(
@@ -732,9 +731,9 @@ operation that typically takes 2-4 minutes to complete and become operational. T
 must have permissions to create and update VPC Endpoint services.
 
 # Arguments
-- `name`: [Required] The name used to label and identify the VPC link.
-- `target_arns`: [Required] The ARN of the network load balancer of the VPC targeted by the
-  VPC link. The network load balancer must be owned by the same AWS account of the API owner.
+- `name`: The name used to label and identify the VPC link.
+- `target_arns`: The ARN of the network load balancer of the VPC targeted by the VPC link.
+  The network load balancer must be owned by the same AWS account of the API owner.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -780,7 +779,7 @@ end
 Deletes the ApiKey resource.
 
 # Arguments
-- `api__key`: [Required] The identifier of the ApiKey resource to be deleted.
+- `api__key`: The identifier of the ApiKey resource to be deleted.
 
 """
 function delete_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config())
@@ -807,11 +806,11 @@ end
     delete_authorizer(authorizer_id, restapi_id)
     delete_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
-Deletes an existing Authorizer resource. AWS CLI
+Deletes an existing Authorizer resource.
 
 # Arguments
-- `authorizer_id`: [Required] The identifier of the Authorizer resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `authorizer_id`: The identifier of the Authorizer resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_authorizer(
@@ -846,9 +845,9 @@ end
 Deletes the BasePathMapping resource.
 
 # Arguments
-- `base_path`: [Required] The base path name of the BasePathMapping resource to delete. To
-  specify an empty base path, set this parameter to '(none)'.
-- `domain_name`: [Required] The domain name of the BasePathMapping resource to delete.
+- `base_path`: The base path name of the BasePathMapping resource to delete. To specify an
+  empty base path, set this parameter to '(none)'.
+- `domain_name`: The domain name of the BasePathMapping resource to delete.
 
 """
 function delete_base_path_mapping(
@@ -883,8 +882,7 @@ end
 Deletes the ClientCertificate resource.
 
 # Arguments
-- `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
-  deleted.
+- `clientcertificate_id`: The identifier of the ClientCertificate resource to be deleted.
 
 """
 function delete_client_certificate(
@@ -919,8 +917,8 @@ Deletes a Deployment resource. Deleting a deployment will only succeed if there 
 Stage resources associated with it.
 
 # Arguments
-- `deployment_id`: [Required] The identifier of the Deployment resource to delete.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `deployment_id`: The identifier of the Deployment resource to delete.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_deployment(
@@ -952,11 +950,11 @@ end
     delete_documentation_part(part_id, restapi_id)
     delete_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
-
+Deletes a documentation part
 
 # Arguments
-- `part_id`: [Required] The identifier of the to-be-deleted documentation part.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `part_id`: The identifier of the to-be-deleted documentation part.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_documentation_part(
@@ -988,12 +986,11 @@ end
     delete_documentation_version(doc_version, restapi_id)
     delete_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
-
+Deletes a documentation version.
 
 # Arguments
-- `doc_version`: [Required] The version identifier of a to-be-deleted documentation
-  snapshot.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `doc_version`: The version identifier of a to-be-deleted documentation snapshot.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_documentation_version(
@@ -1028,7 +1025,7 @@ end
 Deletes the DomainName resource.
 
 # Arguments
-- `domain_name`: [Required] The name of the DomainName resource to be deleted.
+- `domain_name`: The name of the DomainName resource to be deleted.
 
 """
 function delete_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1061,8 +1058,8 @@ Clears any customization of a GatewayResponse of a specified response type on th
 RestApi and resets it with the default settings.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `response_type`: The response type of the associated GatewayResponse.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_gateway_response(
@@ -1097,9 +1094,9 @@ end
 Represents a delete integration.
 
 # Arguments
-- `http_method`: [Required] Specifies a delete integration request's HTTP method.
-- `resource_id`: [Required] Specifies a delete integration request's resource identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: Specifies a delete integration request's HTTP method.
+- `resource_id`: Specifies a delete integration request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_integration(
@@ -1135,11 +1132,10 @@ end
 Represents a delete integration response.
 
 # Arguments
-- `http_method`: [Required] Specifies a delete integration response request's HTTP method.
-- `resource_id`: [Required] Specifies a delete integration response request's resource
-  identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] Specifies a delete integration response request's status code.
+- `http_method`: Specifies a delete integration response request's HTTP method.
+- `resource_id`: Specifies a delete integration response request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: Specifies a delete integration response request's status code.
 
 """
 function delete_integration_response(
@@ -1180,9 +1176,9 @@ end
 Deletes an existing Method resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the Method resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the Method resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_method(
@@ -1218,10 +1214,10 @@ end
 Deletes an existing MethodResponse resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] The status code identifier for the MethodResponse resource.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the MethodResponse resource.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: The status code identifier for the MethodResponse resource.
 
 """
 function delete_method_response(
@@ -1262,8 +1258,8 @@ end
 Deletes a model.
 
 # Arguments
-- `model_name`: [Required] The name of the model to delete.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `model_name`: The name of the model to delete.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_model(
@@ -1298,8 +1294,8 @@ end
 Deletes a RequestValidator of a given RestApi.
 
 # Arguments
-- `requestvalidator_id`: [Required] The identifier of the RequestValidator to be deleted.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `requestvalidator_id`: The identifier of the RequestValidator to be deleted.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_request_validator(
@@ -1334,8 +1330,8 @@ end
 Deletes a Resource resource.
 
 # Arguments
-- `resource_id`: [Required] The identifier of the Resource resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `resource_id`: The identifier of the Resource resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_resource(
@@ -1370,7 +1366,7 @@ end
 Deletes the specified API.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1402,8 +1398,8 @@ end
 Deletes a Stage resource.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name of the Stage resource to delete.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name of the Stage resource to delete.
 
 """
 function delete_stage(
@@ -1438,7 +1434,7 @@ end
 Deletes a usage plan of a given plan Id.
 
 # Arguments
-- `usageplan_id`: [Required] The Id of the to-be-deleted usage plan.
+- `usageplan_id`: The Id of the to-be-deleted usage plan.
 
 """
 function delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1470,9 +1466,9 @@ end
 Deletes a usage plan key and remove the underlying API key from the associated usage plan.
 
 # Arguments
-- `key_id`: [Required] The Id of the UsagePlanKey resource to be deleted.
-- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
-  containing the to-be-deleted UsagePlanKey resource representing a plan customer.
+- `key_id`: The Id of the UsagePlanKey resource to be deleted.
+- `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
+  the to-be-deleted UsagePlanKey resource representing a plan customer.
 
 """
 function delete_usage_plan_key(
@@ -1507,8 +1503,8 @@ end
 Deletes an existing VpcLink of a specified identifier.
 
 # Arguments
-- `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
-  reference this VpcLink.
+- `vpclink_id`: The identifier of the VpcLink. It is used in an Integration to reference
+  this VpcLink.
 
 """
 function delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1576,8 +1572,8 @@ end
 Flushes a stage's cache.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name of the stage to flush its cache.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name of the stage to flush its cache.
 
 """
 function flush_stage_cache(
@@ -1665,7 +1661,7 @@ end
 Gets information about the current ApiKey resource.
 
 # Arguments
-- `api__key`: [Required] The identifier of the ApiKey resource.
+- `api__key`: The identifier of the ApiKey resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1723,11 +1719,11 @@ end
     get_authorizer(authorizer_id, restapi_id)
     get_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
-Describe an existing Authorizer resource. AWS CLI
+Describe an existing Authorizer resource.
 
 # Arguments
-- `authorizer_id`: [Required] The identifier of the Authorizer resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `authorizer_id`: The identifier of the Authorizer resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_authorizer(
@@ -1759,10 +1755,10 @@ end
     get_authorizers(restapi_id)
     get_authorizers(restapi_id, params::Dict{String,<:Any})
 
-Describe an existing Authorizers resource. AWS CLI
+Describe an existing Authorizers resource.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1799,11 +1795,11 @@ end
 Describe a BasePathMapping resource.
 
 # Arguments
-- `base_path`: [Required] The base path name that callers of the API must provide as part
-  of the URL after the domain name. This value must be unique for all of the mappings across
-  a single API. Specify '(none)' if you do not want callers to specify any base path name
-  after the domain name.
-- `domain_name`: [Required] The domain name of the BasePathMapping resource to be described.
+- `base_path`: The base path name that callers of the API must provide as part of the URL
+  after the domain name. This value must be unique for all of the mappings across a single
+  API. Specify '(none)' if you do not want callers to specify any base path name after the
+  domain name.
+- `domain_name`: The domain name of the BasePathMapping resource to be described.
 
 """
 function get_base_path_mapping(
@@ -1838,7 +1834,7 @@ end
 Represents a collection of BasePathMapping resources.
 
 # Arguments
-- `domain_name`: [Required] The domain name of a BasePathMapping resource.
+- `domain_name`: The domain name of a BasePathMapping resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1877,8 +1873,7 @@ end
 Gets information about the current ClientCertificate resource.
 
 # Arguments
-- `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
-  described.
+- `clientcertificate_id`: The identifier of the ClientCertificate resource to be described.
 
 """
 function get_client_certificate(
@@ -1941,9 +1936,8 @@ end
 Gets information about a Deployment resource.
 
 # Arguments
-- `deployment_id`: [Required] The identifier of the Deployment resource to get information
-  about.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `deployment_id`: The identifier of the Deployment resource to get information about.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1988,7 +1982,7 @@ end
 Gets information about a Deployments collection.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2022,11 +2016,11 @@ end
     get_documentation_part(part_id, restapi_id)
     get_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
-
+Gets a documentation part.
 
 # Arguments
-- `part_id`: [Required] The string identifier of the associated RestApi.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `part_id`: The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_documentation_part(
@@ -2058,10 +2052,10 @@ end
     get_documentation_parts(restapi_id)
     get_documentation_parts(restapi_id, params::Dict{String,<:Any})
 
-
+Gets documentation parts.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2103,12 +2097,11 @@ end
     get_documentation_version(doc_version, restapi_id)
     get_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
-
+Gets a documentation version.
 
 # Arguments
-- `doc_version`: [Required] The version identifier of the to-be-retrieved documentation
-  snapshot.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `doc_version`: The version identifier of the to-be-retrieved documentation snapshot.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_documentation_version(
@@ -2140,10 +2133,10 @@ end
     get_documentation_versions(restapi_id)
     get_documentation_versions(restapi_id, params::Dict{String,<:Any})
 
-
+Gets documentation versions.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2183,7 +2176,7 @@ Represents a domain name that is contained in a simpler, more intuitive URL that
 called.
 
 # Arguments
-- `domain_name`: [Required] The name of the DomainName resource.
+- `domain_name`: The name of the DomainName resource.
 
 """
 function get_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2244,10 +2237,10 @@ end
 Exports a deployed version of a RestApi in a specified format.
 
 # Arguments
-- `export_type`: [Required] The type of export. Acceptable values are 'oas30' for OpenAPI
-  3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name of the Stage that will be exported.
+- `export_type`: The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and
+  'swagger' for Swagger/OpenAPI 2.0.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name of the Stage that will be exported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2295,8 +2288,8 @@ end
 Gets a GatewayResponse of a specified response type on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `response_type`: The response type of the associated GatewayResponse.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_gateway_response(
@@ -2333,7 +2326,7 @@ added any definitions for gateway responses, the result will be the API Gateway-
 default GatewayResponses collection for the supported response types.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2374,9 +2367,9 @@ end
 Get the integration settings.
 
 # Arguments
-- `http_method`: [Required] Specifies a get integration request's HTTP method.
-- `resource_id`: [Required] Specifies a get integration request's resource identifier
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: Specifies a get integration request's HTTP method.
+- `resource_id`: Specifies a get integration request's resource identifier
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_integration(
@@ -2412,11 +2405,10 @@ end
 Represents a get integration response.
 
 # Arguments
-- `http_method`: [Required] Specifies a get integration response request's HTTP method.
-- `resource_id`: [Required] Specifies a get integration response request's resource
-  identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] Specifies a get integration response request's status code.
+- `http_method`: Specifies a get integration response request's HTTP method.
+- `resource_id`: Specifies a get integration response request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: Specifies a get integration response request's status code.
 
 """
 function get_integration_response(
@@ -2457,9 +2449,9 @@ end
 Describe an existing Method resource.
 
 # Arguments
-- `http_method`: [Required] Specifies the method request's HTTP method type.
-- `resource_id`: [Required] The Resource identifier for the Method resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: Specifies the method request's HTTP method type.
+- `resource_id`: The Resource identifier for the Method resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_method(
@@ -2495,10 +2487,10 @@ end
 Describes a MethodResponse resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] The status code for the MethodResponse resource.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the MethodResponse resource.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: The status code for the MethodResponse resource.
 
 """
 function get_method_response(
@@ -2539,8 +2531,8 @@ end
 Describes an existing model defined for a RestApi resource.
 
 # Arguments
-- `model_name`: [Required] The name of the model as an identifier.
-- `restapi_id`: [Required] The RestApi identifier under which the Model exists.
+- `model_name`: The name of the model as an identifier.
+- `restapi_id`: The RestApi identifier under which the Model exists.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2580,8 +2572,8 @@ Generates a sample mapping template that can be used to transform a payload into
 structure of a model.
 
 # Arguments
-- `model_name`: [Required] The name of the model for which to generate a template.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `model_name`: The name of the model for which to generate a template.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_model_template(
@@ -2616,7 +2608,7 @@ end
 Describes existing Models defined for a RestApi resource.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2653,8 +2645,8 @@ end
 Gets a RequestValidator of a given RestApi.
 
 # Arguments
-- `requestvalidator_id`: [Required] The identifier of the RequestValidator to be retrieved.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `requestvalidator_id`: The identifier of the RequestValidator to be retrieved.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_request_validator(
@@ -2689,7 +2681,7 @@ end
 Gets the RequestValidators collection of a given RestApi.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2728,8 +2720,8 @@ end
 Lists information about a resource.
 
 # Arguments
-- `resource_id`: [Required] The identifier for the Resource resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `resource_id`: The identifier for the Resource resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2772,7 +2764,7 @@ end
 Lists information about a collection of Resource resources.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2815,7 +2807,7 @@ end
 Lists the RestApi resource in the collection.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 """
 function get_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2872,10 +2864,10 @@ end
 Generates a client SDK for a RestApi and Stage.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `sdk_type`: [Required] The language for the generated SDK. Currently java, javascript,
-  android, objectivec (for iOS), swift (for iOS), and ruby are supported.
-- `stage_name`: [Required] The name of the Stage that the SDK will use.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `sdk_type`: The language for the generated SDK. Currently java, javascript, android,
+  objectivec (for iOS), swift (for iOS), and ruby are supported.
+- `stage_name`: The name of the Stage that the SDK will use.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2915,10 +2907,10 @@ end
     get_sdk_type(sdktype_id)
     get_sdk_type(sdktype_id, params::Dict{String,<:Any})
 
-
+Gets an SDK type.
 
 # Arguments
-- `sdktype_id`: [Required] The identifier of the queried SdkType instance.
+- `sdktype_id`: The identifier of the queried SdkType instance.
 
 """
 function get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2947,7 +2939,7 @@ end
     get_sdk_types()
     get_sdk_types(params::Dict{String,<:Any})
 
-
+Gets SDK types
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2975,8 +2967,8 @@ end
 Gets information about a Stage resource.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name of the Stage resource to get information about.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name of the Stage resource to get information about.
 
 """
 function get_stage(
@@ -3011,7 +3003,7 @@ end
 Gets information about one or more Stage resources.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3046,7 +3038,7 @@ end
 Gets the Tags collection for a given resource.
 
 # Arguments
-- `resource_arn`: [Required] The ARN of a resource that can be tagged.
+- `resource_arn`: The ARN of a resource that can be tagged.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3084,9 +3076,9 @@ end
 Gets the usage data of a usage plan in a specified time interval.
 
 # Arguments
-- `end_date`: [Required] The ending date (e.g., 2016-12-31) of the usage data.
-- `start_date`: [Required] The starting date (e.g., 2016-01-01) of the usage data.
-- `usageplan_id`: [Required] The Id of the usage plan associated with the usage data.
+- `end_date`: The ending date (e.g., 2016-12-31) of the usage data.
+- `start_date`: The starting date (e.g., 2016-01-01) of the usage data.
+- `usageplan_id`: The Id of the usage plan associated with the usage data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3135,7 +3127,7 @@ end
 Gets a usage plan of a given plan identifier.
 
 # Arguments
-- `usageplan_id`: [Required] The identifier of the UsagePlan resource to be retrieved.
+- `usageplan_id`: The identifier of the UsagePlan resource to be retrieved.
 
 """
 function get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3167,10 +3159,10 @@ end
 Gets a usage plan key of a given key identifier.
 
 # Arguments
-- `key_id`: [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing
-  a plan customer.
-- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
-  containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+- `key_id`: The key Id of the to-be-retrieved UsagePlanKey resource representing a plan
+  customer.
+- `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
+  the to-be-retrieved UsagePlanKey resource representing a plan customer.
 
 """
 function get_usage_plan_key(
@@ -3205,8 +3197,8 @@ end
 Gets all the usage plan keys representing the API keys added to a specified usage plan.
 
 # Arguments
-- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
-  containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+- `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
+  the to-be-retrieved UsagePlanKey resource representing a plan customer.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3270,8 +3262,8 @@ end
 Gets a specified VPC link under the caller's account in a region.
 
 # Arguments
-- `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
-  reference this VpcLink.
+- `vpclink_id`: The identifier of the VpcLink. It is used in an Integration to reference
+  this VpcLink.
 
 """
 function get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3368,12 +3360,12 @@ end
     import_documentation_parts(body, restapi_id)
     import_documentation_parts(body, restapi_id, params::Dict{String,<:Any})
 
-
+Imports documentation parts
 
 # Arguments
-- `body`: [Required] Raw byte array representing the to-be-imported documentation parts. To
-  import from an OpenAPI file, this is a JSON object.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `body`: Raw byte array representing the to-be-imported documentation parts. To import
+  from an OpenAPI file, this is a JSON object.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3417,9 +3409,9 @@ A feature of the API Gateway control service for creating a new API from an exte
 definition file.
 
 # Arguments
-- `body`: [Required] The POST request body containing external API definitions. Currently,
-  only OpenAPI definition JSON/YAML files are supported. The maximum size of the API
-  definition file is 6MB.
+- `body`: The POST request body containing external API definitions. Currently, only
+  OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition
+  file is 6MB.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3432,11 +3424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or
   endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported
   basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For
-  example, the AWS CLI command to exclude documentation from the imported API is: aws
-  apigateway import-rest-api --parameters ignore=documentation --body
-  'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint
-  on the imported API is: aws apigateway import-rest-api --parameters
-  endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
+  example, the AWS CLI command to exclude documentation from the imported API is: The AWS CLI
+  command to set the regional endpoint on the imported API is:
 """
 function import_rest_api(body; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -3467,8 +3456,8 @@ Creates a customization of a GatewayResponse of a specified response type and st
 on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `response_type`: The response type of the associated GatewayResponse
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3510,10 +3499,10 @@ end
 Sets up a method's integration.
 
 # Arguments
-- `http_method`: [Required] Specifies a put integration request's HTTP method.
-- `resource_id`: [Required] Specifies a put integration request's resource ID.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `type`: [Required] Specifies a put integration input's type.
+- `http_method`: Specifies the HTTP method for the integration.
+- `resource_id`: Specifies a put integration request's resource ID.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `type`: Specifies a put integration input's type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3523,31 +3512,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cacheNamespace"`: Specifies a group of related cached parameters. By default, API
   Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace
   across resources to return the same cached data for requests to different resources.
-- `"connectionId"`: The (id) of the VpcLink used for the integration when
-  connectionType=VPC_LINK and undefined, otherwise.
+- `"connectionId"`: The ID of the VpcLink used for the integration. Specify this value only
+  if you specify VPC_LINK as the connection type.
 - `"connectionType"`: The type of the network connection to the integration endpoint. The
   valid value is INTERNET for connections through the public routable internet or VPC_LINK
   for private connections between API Gateway and a network load balancer in a VPC. The
   default value is INTERNET.
 - `"contentHandling"`: Specifies how to handle request payload content type conversions.
   Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:
-  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the
-  corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob
-  to a Base64-encoded string.  If this property is not defined, the request payload will be
-  passed through from the method request to integration request without modification,
-  provided that the passthroughBehavior is configured to support payload pass-through.
+  If this property is not defined, the request payload will be passed through from the method
+  request to integration request without modification, provided that the passthroughBehavior
+  is configured to support payload pass-through.
 - `"credentials"`: Specifies whether credentials are required for a put integration.
-- `"httpMethod"`: Specifies a put integration HTTP method. When the integration type is
-  HTTP or AWS, this field is required.
+- `"httpMethod"`: The HTTP method for the integration.
 - `"passthroughBehavior"`: Specifies the pass-through behavior for incoming requests based
   on the Content-Type header in the request, and the available mapping templates specified as
   the requestTemplates property on the Integration resource. There are three valid values:
-  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for
-  unmapped content types through to the integration back end without transformation. NEVER
-  rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response.
-  WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to
-  templates. However if there is at least one content type defined, unmapped content types
-  will be rejected with the same 415 response.
+  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
 - `"requestParameters"`: A key-value map specifying request parameters that are passed from
   the method request to the back end. The key is an integration request parameter name and
   the associated value is a method request parameter value or static value that must be
@@ -3561,24 +3542,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeoutInMillis"`: Custom timeout between 50 and 29,000 milliseconds. The default value
   is 29,000 milliseconds or 29 seconds.
 - `"tlsConfig"`:
-- `"uri"`: Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For
+- `"uri"`: Specifies Uniform Resource Identifier (URI) of the integration endpoint. For
   HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL
   according to the RFC-3986 specification, for either standard integration, where
   connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK.
-  For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY
+  For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY
   integrations, the URI is of the form
   arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here,
   {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the
-  integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by
-  certain AWS service for fast host-name lookup. action can be used for an AWS service
-  action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The
-  ensuing {service_api} refers to a supported action {name} plus any required input
-  parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing
-  service_api refers to the path to an AWS service resource, including the region of the
-  integrated AWS service, if applicable. For example, for integration with the S3 API of
+  integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated
+  subdomain supported by certain Amazon Web Services service for fast host-name lookup.
+  action can be used for an Amazon Web Services service action-based API, using an
+  Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers
+  to a supported action {name} plus any required input parameters. Alternatively, path can be
+  used for an Amazon Web Services service path-based API. The ensuing service_api refers to
+  the path to an Amazon Web Services service resource, including the region of the integrated
+  Amazon Web Services service, if applicable. For example, for integration with the S3 API of
   GetObject, the uri can be either
   arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or
-  arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
+  arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}.
 """
 function put_integration(
     http_method,
@@ -3619,21 +3601,18 @@ end
 Represents a put integration.
 
 # Arguments
-- `http_method`: [Required] Specifies a put integration response request's HTTP method.
-- `resource_id`: [Required] Specifies a put integration response request's resource
-  identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] Specifies the status code that is used to map the integration
-  response to an existing MethodResponse.
+- `http_method`: Specifies a put integration response request's HTTP method.
+- `resource_id`: Specifies a put integration response request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: Specifies the status code that is used to map the integration response to
+  an existing MethodResponse.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contentHandling"`: Specifies how to handle response payload content type conversions.
   Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:
-  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the
-  corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob
-  to a Base64-encoded string.  If this property is not defined, the response payload will be
-  passed through from the integration response to the method response without modification.
+  If this property is not defined, the response payload will be passed through from the
+  integration response to the method response without modification.
 - `"responseParameters"`: A key-value map specifying response parameters that are passed to
   the method response from the back end. The key is a method response header parameter name
   and the mapped value is an integration response header value, a static value enclosed
@@ -3684,12 +3663,12 @@ end
 Add a method to an existing Resource resource.
 
 # Arguments
-- `authorization_type`: [Required] The method's authorization type. Valid values are NONE
-  for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom
-  authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
-- `http_method`: [Required] Specifies the method request's HTTP method type.
-- `resource_id`: [Required] The Resource identifier for the new Method resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `authorization_type`: The method's authorization type. Valid values are NONE for open
+  access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or
+  COGNITO_USER_POOLS for using a Cognito user pool.
+- `http_method`: Specifies the method request's HTTP method type.
+- `resource_id`: The Resource identifier for the new Method resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3762,10 +3741,10 @@ end
 Adds a MethodResponse to an existing Method resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the Method resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] The method response's status code.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the Method resource.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: The method response's status code.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3824,10 +3803,10 @@ external API definitions. The update can take the form of merging the supplied d
 into the existing API or overwriting the existing API.
 
 # Arguments
-- `body`: [Required] The PUT request body containing external API definitions. Currently,
-  only OpenAPI definition JSON/YAML files are supported. The maximum size of the API
-  definition file is 6MB.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `body`: The PUT request body containing external API definitions. Currently, only OpenAPI
+  definition JSON/YAML files are supported. The maximum size of the API definition file is
+  6MB.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3871,10 +3850,10 @@ end
 Adds or updates a tag on a given resource.
 
 # Arguments
-- `resource_arn`: [Required] The ARN of a resource that can be tagged.
-- `tags`: [Required] The key-value map of strings. The valid character set is
-  [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The
-  tag value can be up to 256 characters.
+- `resource_arn`: The ARN of a resource that can be tagged.
+- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
+  key can be up to 128 characters and must not start with aws:. The tag value can be up to
+  256 characters.
 
 """
 function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3906,26 +3885,23 @@ end
     test_invoke_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
 Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an
-incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as
-Authorizer
+incoming request body.
 
 # Arguments
-- `authorizer_id`: [Required] Specifies a test invoke authorizer request's Authorizer ID.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `authorizer_id`: Specifies a test invoke authorizer request's Authorizer ID.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"additionalContext"`: [Optional] A key-value map of additional context variables.
-- `"body"`: [Optional] The simulated request body of an incoming invocation request.
-- `"headers"`: [Required] A key-value map of headers to simulate an incoming invocation
-  request. This is where the incoming authorization token, or identity source, should be
-  specified.
-- `"multiValueHeaders"`: [Optional] The headers as a map from string to list of values to
-  simulate an incoming invocation request. This is where the incoming authorization token, or
-  identity source, may be specified.
-- `"pathWithQueryString"`: [Optional] The URI path, including query string, of the
-  simulated invocation request. Use this to specify path parameters and query string
-  parameters.
+- `"additionalContext"`: A key-value map of additional context variables.
+- `"body"`: The simulated request body of an incoming invocation request.
+- `"headers"`: A key-value map of headers to simulate an incoming invocation request. This
+  is where the incoming authorization token, or identity source, should be specified.
+- `"multiValueHeaders"`: The headers as a map from string to list of values to simulate an
+  incoming invocation request. This is where the incoming authorization token, or identity
+  source, may be specified.
+- `"pathWithQueryString"`: The URI path, including query string, of the simulated
+  invocation request. Use this to specify path parameters and query string parameters.
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
@@ -3958,13 +3934,13 @@ end
     test_invoke_method(http_method, resource_id, restapi_id)
     test_invoke_method(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
-Simulate the execution of a Method in your RestApi with headers, parameters, and an
+Simulate the invocation of a Method in your RestApi with headers, parameters, and an
 incoming request body.
 
 # Arguments
-- `http_method`: [Required] Specifies a test invoke method request's HTTP method.
-- `resource_id`: [Required] Specifies a test invoke method request's resource ID.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: Specifies a test invoke method request's HTTP method.
+- `resource_id`: Specifies a test invoke method request's resource ID.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4013,8 +3989,8 @@ end
 Removes a tag from a given resource.
 
 # Arguments
-- `resource_arn`: [Required] The ARN of a resource that can be tagged.
-- `tag_keys`: [Required] The Tag keys to delete.
+- `resource_arn`: The ARN of a resource that can be tagged.
+- `tag_keys`: The Tag keys to delete.
 
 """
 function untag_resource(
@@ -4051,8 +4027,8 @@ Changes information about the current Account resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_account(; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4074,12 +4050,12 @@ end
 Changes information about an ApiKey resource.
 
 # Arguments
-- `api__key`: [Required] The identifier of the ApiKey resource to be updated.
+- `api__key`: The identifier of the ApiKey resource to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4105,16 +4081,16 @@ end
     update_authorizer(authorizer_id, restapi_id)
     update_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
-Updates an existing Authorizer resource. AWS CLI
+Updates an existing Authorizer resource.
 
 # Arguments
-- `authorizer_id`: [Required] The identifier of the Authorizer resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `authorizer_id`: The identifier of the Authorizer resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_authorizer(
     authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4148,14 +4124,14 @@ end
 Changes information about the BasePathMapping resource.
 
 # Arguments
-- `base_path`: [Required] The base path of the BasePathMapping resource to change. To
-  specify an empty base path, set this parameter to '(none)'.
-- `domain_name`: [Required] The domain name of the BasePathMapping resource to change.
+- `base_path`: The base path of the BasePathMapping resource to change. To specify an empty
+  base path, set this parameter to '(none)'.
+- `domain_name`: The domain name of the BasePathMapping resource to change.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_base_path_mapping(
     base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4189,13 +4165,12 @@ end
 Changes information about an ClientCertificate resource.
 
 # Arguments
-- `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
-  updated.
+- `clientcertificate_id`: The identifier of the ClientCertificate resource to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_client_certificate(
     clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4230,12 +4205,12 @@ Changes information about a Deployment resource.
 # Arguments
 - `deployment_id`: The replacement identifier for the Deployment resource to change
   information about.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_deployment(
     deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4266,16 +4241,16 @@ end
     update_documentation_part(part_id, restapi_id)
     update_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
-
+Updates a documentation part.
 
 # Arguments
-- `part_id`: [Required] The identifier of the to-be-updated documentation part.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `part_id`: The identifier of the to-be-updated documentation part.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_documentation_part(
     part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4306,17 +4281,16 @@ end
     update_documentation_version(doc_version, restapi_id)
     update_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
-
+Updates a documentation version.
 
 # Arguments
-- `doc_version`: [Required] The version identifier of the to-be-updated documentation
-  version.
-- `restapi_id`: [Required] The string identifier of the associated RestApi..
+- `doc_version`: The version identifier of the to-be-updated documentation version.
+- `restapi_id`: The string identifier of the associated RestApi..
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_documentation_version(
     doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4350,12 +4324,12 @@ end
 Changes information about the DomainName resource.
 
 # Arguments
-- `domain_name`: [Required] The name of the DomainName resource to be changed.
+- `domain_name`: The name of the DomainName resource to be changed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4386,13 +4360,13 @@ end
 Updates a GatewayResponse of a specified response type on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `response_type`: The response type of the associated GatewayResponse.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_gateway_response(
     response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4426,14 +4400,14 @@ end
 Represents an update integration.
 
 # Arguments
-- `http_method`: [Required] Represents an update integration request's HTTP method.
-- `resource_id`: [Required] Represents an update integration request's resource identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: Represents an update integration request's HTTP method.
+- `resource_id`: Represents an update integration request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_integration(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4468,16 +4442,15 @@ end
 Represents an update integration response.
 
 # Arguments
-- `http_method`: [Required] Specifies an update integration response request's HTTP method.
-- `resource_id`: [Required] Specifies an update integration response request's resource
-  identifier.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] Specifies an update integration response request's status code.
+- `http_method`: Specifies an update integration response request's HTTP method.
+- `resource_id`: Specifies an update integration response request's resource identifier.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: Specifies an update integration response request's status code.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_integration_response(
     http_method,
@@ -4517,14 +4490,14 @@ end
 Updates an existing Method resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the Method resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the Method resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_method(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4559,15 +4532,15 @@ end
 Updates an existing MethodResponse resource.
 
 # Arguments
-- `http_method`: [Required] The HTTP verb of the Method resource.
-- `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `status_code`: [Required] The status code for the MethodResponse resource.
+- `http_method`: The HTTP verb of the Method resource.
+- `resource_id`: The Resource identifier for the MethodResponse resource.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `status_code`: The status code for the MethodResponse resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_method_response(
     http_method,
@@ -4607,13 +4580,13 @@ end
 Changes information about a model.
 
 # Arguments
-- `model_name`: [Required] The name of the model to update.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `model_name`: The name of the model to update.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_model(
     model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4647,13 +4620,13 @@ end
 Updates a RequestValidator of a given RestApi.
 
 # Arguments
-- `requestvalidator_id`: [Required] The identifier of RequestValidator to be updated.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `requestvalidator_id`: The identifier of RequestValidator to be updated.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_request_validator(
     requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4687,13 +4660,13 @@ end
 Changes information about a Resource resource.
 
 # Arguments
-- `resource_id`: [Required] The identifier of the Resource resource.
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `resource_id`: The identifier of the Resource resource.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_resource(
     resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4727,12 +4700,12 @@ end
 Changes information about the specified API.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4763,13 +4736,13 @@ end
 Changes information about a Stage resource.
 
 # Arguments
-- `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stage_name`: [Required] The name of the Stage resource to change information about.
+- `restapi_id`: The string identifier of the associated RestApi.
+- `stage_name`: The name of the Stage resource to change information about.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_stage(
     restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4804,14 +4777,14 @@ Grants a temporary extension to the remaining quota of a usage plan associated w
 specified API key.
 
 # Arguments
-- `key_id`: [Required] The identifier of the API key associated with the usage plan in
-  which a temporary extension is granted to the remaining quota.
-- `usageplan_id`: [Required] The Id of the usage plan associated with the usage data.
+- `key_id`: The identifier of the API key associated with the usage plan in which a
+  temporary extension is granted to the remaining quota.
+- `usageplan_id`: The Id of the usage plan associated with the usage data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_usage(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4843,12 +4816,12 @@ end
 Updates a usage plan of a given plan Id.
 
 # Arguments
-- `usageplan_id`: [Required] The Id of the to-be-updated usage plan.
+- `usageplan_id`: The Id of the to-be-updated usage plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4879,13 +4852,13 @@ end
 Updates an existing VpcLink of a specified identifier.
 
 # Arguments
-- `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
-  reference this VpcLink.
+- `vpclink_id`: The identifier of the VpcLink. It is used in an Integration to reference
+  this VpcLink.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"patchOperations"`: A list of update operations to be applied to the specified resource
-  and in the order specified in this list.
+- `"patchOperations"`: For more information about supported patch operations, see Patch
+  Operations.
 """
 function update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(

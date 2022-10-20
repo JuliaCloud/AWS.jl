@@ -62,3 +62,58 @@ function query_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
+"""
+    query_what_if_forecast(filters, what_if_forecast_arn)
+    query_what_if_forecast(filters, what_if_forecast_arn, params::Dict{String,<:Any})
+
+Retrieves a what-if forecast.
+
+# Arguments
+- `filters`: The filtering criteria to apply when retrieving the forecast. For example, to
+  get the forecast for client_21 in the electricity usage dataset, specify the following:
+  {\"item_id\" : \"client_21\"}  To get the full what-if forecast, use the
+  CreateForecastExportJob operation.
+- `what_if_forecast_arn`: The Amazon Resource Name (ARN) of the what-if forecast to query.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndDate"`: The end date for the what-if forecast. Specify the date using this format:
+  yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
+- `"NextToken"`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+- `"StartDate"`: The start date for the what-if forecast. Specify the date using this
+  format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
+"""
+function query_what_if_forecast(
+    Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecastquery(
+        "QueryWhatIfForecast",
+        Dict{String,Any}("Filters" => Filters, "WhatIfForecastArn" => WhatIfForecastArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function query_what_if_forecast(
+    Filters,
+    WhatIfForecastArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecastquery(
+        "QueryWhatIfForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Filters" => Filters, "WhatIfForecastArn" => WhatIfForecastArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
