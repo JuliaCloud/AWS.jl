@@ -47,7 +47,8 @@ The order of precedence for this search is as follows:
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
 3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
 4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html).
-   This includes [single sign-on (sso)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
+   This includes [Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
+   SSO users should follow the configuration instructions at the above link, and use `aws sso login` to log in.
 5. Assume Role provider via the aws config file
 6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
 
