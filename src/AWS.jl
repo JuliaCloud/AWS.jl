@@ -9,7 +9,6 @@ using MbedTLS
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Random
-using Retry
 using SHA
 using Sockets
 using URIs
