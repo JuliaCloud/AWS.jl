@@ -46,7 +46,9 @@ The order of precedence for this search is as follows:
 1. Passing credentials directly to the `AWSCredentials` constructor
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
 3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
-4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
+4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html).
+   This includes [Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
+   SSO users should follow the configuration instructions at the above link, and use `aws sso login` to log in.
 5. Assume Role provider via the aws config file
 6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
 
@@ -405,7 +407,8 @@ end
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
 
 Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
-If this fails try to retrieve credentials from `_aws_get_role()`, otherwise return `nothing`
+Single sign-on profiles are also valid. If this fails, try to retrieve credentials from
+`_aws_get_role()`, otherwise return `nothing`
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -416,10 +419,20 @@ function dot_aws_config(profile=nothing)
     if isfile(config_file)
         ini = read(Inifile(), config_file)
         p = @something profile _aws_get_profile()
-        access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
-        if access_key !== nothing
+        # get all the fields for that profile
+        settings = _aws_profile_config(ini, p)
+        isempty(settings) && return nothing
+
+        access_key = get(settings, "aws_access_key_id", nothing)
+        sso_start_url = get(settings, "sso_start_url", nothing)
+
+        if !isnothing(access_key)
+            access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
+        elseif !isnothing(sso_start_url)
+            access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
+            return AWSCredentials(access_key, secret_key, token; expiry=expiry)
         else
             return _aws_get_role(p, ini)
         end

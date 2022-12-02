@@ -200,4 +200,23 @@ function gen_http_options_400_patches(message)
     ]
 end
 
+_sso_access_token_patch = @patch function AWS._sso_cache_access_token(sso_start_url)
+    return "123token456"
+end
+
+function sso_service_patches(access_key_id, secret_access_key)
+    p = @patch function AWSServices.sso(args...; kwargs...)
+        return Dict(
+            "roleCredentials" => Dict(
+                "accessKeyId" => access_key_id,
+                "secretAccessKey" => secret_access_key,
+                "sessionToken" => "",
+                "expiration" =>
+                    floor(Int, Dates.datetime2unix(Dates.now(UTC) + Dates.Hour(1))) * 1000,  # ms
+            ),
+        )
+    end
+
+    return [p, _sso_access_token_patch]
+end
 end

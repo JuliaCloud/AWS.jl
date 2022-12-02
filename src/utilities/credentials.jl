@@ -163,3 +163,52 @@ function _ec2_metadata(metadata_endpoint::String)
 
     return nothing
 end
+
+"""
+Retrieve the SSO access token from cache.
+"""
+function _sso_cache_access_token(sso_start_url::Union{AbstractString,Nothing})
+    isnothing(sso_start_url) && return nothing
+
+    cache_path = joinpath(homedir(), ".aws", "sso", "cache")
+    cache_file = joinpath(cache_path, bytes2hex(sha1(sso_start_url)) * ".json")
+
+    !isfile(cache_file) && return nothing
+
+    _cache = JSON.parsefile(cache_file)
+    token = get(_cache, "accessToken", nothing)
+
+    return token
+end
+
+"""
+Retrieve sso-specific details for the given `profile`.
+"""
+function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
+    sso_start_url = _get_ini_value(ini, profile, "sso_start_url")
+    sso_account_id = _get_ini_value(ini, profile, "sso_account_id")
+    sso_role_name = _get_ini_value(ini, profile, "sso_role_name"; default_value="default")
+    sso_region = _get_ini_value(ini, profile, "sso_region"; default_value=DEFAULT_REGION)
+
+    # sso cache access token
+    access_token = @mock _sso_cache_access_token(sso_start_url)
+
+    headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
+    tmp_config = AWSConfig(;creds=nothing, region=sso_region)
+
+    sso_creds = @mock AWSServices.sso(
+        "GET",
+        "/federation/credentials?account_id=$(sso_account_id)&role_name=$(sso_role_name)",
+        Dict{String,Any}("headers" => headers),
+        aws_config=tmp_config,
+    )
+
+    access_key = sso_creds["roleCredentials"]["accessKeyId"]
+    secret_key = sso_creds["roleCredentials"]["secretAccessKey"]
+    token = sso_creds["roleCredentials"]["sessionToken"]
+    expiry = DateTime(
+        Dates.UTM(Dates.UNIXEPOCH + sso_creds["roleCredentials"]["expiration"])
+    )
+
+    return (access_key, secret_key, token, expiry)
+end

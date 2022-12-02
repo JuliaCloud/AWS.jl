@@ -8,11 +8,12 @@ using HTTP
 using MbedTLS
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
+using Random
+using SHA
 using Sockets
 using URIs
 using UUIDs: UUIDs
 using XMLDict
-using Random
 
 export @service
 export _merge
