@@ -222,7 +222,7 @@ end
     end
 
     @testset "Custom throttling" begin
-        aws = AWS.AWSConfig(max_attempts=1)
+        aws = AWS.AWSConfig(; max_attempts=1)
         @test AWS.max_attempts(aws) == 1
 
         request = Request(;

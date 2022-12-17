@@ -80,7 +80,7 @@ function _throttling_patch(retries::Ref{Int})
 
     p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
         retries[] += 1
-        resp = _response(status=status, body=body).response
+        resp = _response(; status=status, body=body).response
         err = HTTP.StatusError(status, request.request_method, request.resource, resp)
         throw(AWS.AWSException(err, body))
     end
