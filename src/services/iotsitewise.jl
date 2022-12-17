@@ -395,13 +395,13 @@ end
     create_access_policy(access_policy_identity, access_policy_permission, access_policy_resource)
     create_access_policy(access_policy_identity, access_policy_permission, access_policy_resource, params::Dict{String,<:Any})
 
-Creates an access policy that grants the specified identity (Amazon Web Services SSO user,
-Amazon Web Services SSO group, or IAM user) access to the specified IoT SiteWise Monitor
-portal or project resource.
+Creates an access policy that grants the specified identity (IAM Identity Center user, IAM
+Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or
+project resource.
 
 # Arguments
-- `access_policy_identity`: The identity for this access policy. Choose an Amazon Web
-  Services SSO user, an Amazon Web Services SSO group, or an IAM user.
+- `access_policy_identity`: The identity for this access policy. Choose an IAM Identity
+  Center user, an IAM Identity Center group, or an IAM user.
 - `access_policy_permission`: The permission level for this access policy. Note that a
   project ADMINISTRATOR is also known as a project owner.
 - `access_policy_resource`: The IoT SiteWise Monitor resource for this access policy.
@@ -786,10 +786,10 @@ end
     create_portal(portal_contact_email, portal_name, role_arn)
     create_portal(portal_contact_email, portal_name, role_arn, params::Dict{String,<:Any})
 
-Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses
-Amazon Web Services SSO or IAM to authenticate portal users and manage user permissions.
-Before you can sign in to a new portal, you must add at least one identity to that portal.
-For more information, see Adding or removing portal administrators in the IoT SiteWise User
+Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM
+Identity Center or IAM to authenticate portal users and manage user permissions.  Before
+you can sign in to a new portal, you must add at least one identity to that portal. For
+more information, see Adding or removing portal administrators in the IoT SiteWise User
 Guide.
 
 # Arguments
@@ -812,10 +812,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use the IoT Events managed Lambda function to manage your emails, you must verify the
   sender email address in Amazon SES.
 - `"portalAuthMode"`: The service to use to authenticate users to the portal. Choose from
-  the following options:    SSO – The portal uses Amazon Web Services Single Sign On to
-  authenticate users and manage user permissions. Before you can create a portal that uses
-  Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see
-  Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only
+  the following options:    SSO – The portal uses IAM Identity Center (successor to Single
+  Sign-On) to authenticate users and manage user permissions. Before you can create a portal
+  that uses IAM Identity Center, you must enable IAM Identity Center. For more information,
+  see Enabling IAM Identity Center in the IoT SiteWise User Guide. This option is only
   available in Amazon Web Services Regions other than the China Regions.    IAM – The
   portal uses Identity and Access Management to authenticate users and manage user
   permissions.   You can't change this value after you create a portal. Default: SSO
@@ -1300,6 +1300,9 @@ Retrieves information about an asset.
 # Arguments
 - `asset_id`: The ID of the asset.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"excludeProperties"`:  Whether or not to exclude asset properties from the response.
 """
 function describe_asset(assetId; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
@@ -1327,6 +1330,10 @@ Retrieves information about an asset model.
 # Arguments
 - `asset_model_id`: The ID of the asset model.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"excludeProperties"`:  Whether or not to exclude asset model properties from the
+  response.
 """
 function describe_asset_model(
     assetModelId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2110,9 +2117,9 @@ end
     list_access_policies()
     list_access_policies(params::Dict{String,<:Any})
 
-Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO
-user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource
-(a portal or project).
+Retrieves a paginated list of access policies for an identity (an IAM Identity Center user,
+an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal
+or project).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2120,8 +2127,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide. This parameter is required if you specify IAM for identityType.
 - `"identityId"`: The ID of the identity. This parameter is required if you specify USER or
   GROUP for identityType.
-- `"identityType"`: The type of identity (Amazon Web Services SSO user, Amazon Web Services
-  SSO group, or IAM user). This parameter is required if you specify identityId.
+- `"identityType"`: The type of identity (IAM Identity Center user, IAM Identity Center
+  group, or IAM user). This parameter is required if you specify identityId.
 - `"maxResults"`: The maximum number of results to return for each paginated request.
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
@@ -2141,6 +2148,51 @@ function list_access_policies(
     return iotsitewise(
         "GET",
         "/access-policies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_asset_model_properties(asset_model_id)
+    list_asset_model_properties(asset_model_id, params::Dict{String,<:Any})
+
+Retrieves a paginated list of properties associated with an asset model. If you update
+properties associated with the model before you finish listing all the properties, you need
+to start all over again.
+
+# Arguments
+- `asset_model_id`: The ID of the asset model.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`:  Filters the requested list of asset model properties. You can choose one of
+  the following options:    ALL – The list includes all asset model properties for a given
+  asset model ID.     BASE – The list includes only base asset model properties for a given
+  asset model ID.    Default: BASE
+- `"maxResults"`: The maximum number of results to return for each paginated request. If
+  not specified, the default value is 50.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function list_asset_model_properties(
+    assetModelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET",
+        "/asset-models/$(assetModelId)/properties";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_asset_model_properties(
+    assetModelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsitewise(
+        "GET",
+        "/asset-models/$(assetModelId)/properties",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2170,6 +2222,47 @@ function list_asset_models(
     return iotsitewise(
         "GET",
         "/asset-models",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_asset_properties(asset_id)
+    list_asset_properties(asset_id, params::Dict{String,<:Any})
+
+Retrieves a paginated list of properties associated with an asset. If you update properties
+associated with the model before you finish listing all the properties, you need to start
+all over again.
+
+# Arguments
+- `asset_id`: The ID of the asset.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`:  Filters the requested list of asset properties. You can choose one of the
+  following options:    ALL – The list includes all asset properties for a given asset
+  model ID.     BASE – The list includes only base asset properties for a given asset model
+  ID.    Default: BASE
+- `"maxResults"`: The maximum number of results to return for each paginated request. If
+  not specified, the default value is 50.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+function list_asset_properties(assetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsitewise(
+        "GET",
+        "/assets/$(assetId)/properties";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_asset_properties(
+    assetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsitewise(
+        "GET",
+        "/assets/$(assetId)/properties",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2797,8 +2890,8 @@ Monitor portal or project resource.
 
 # Arguments
 - `access_policy_id`: The ID of the access policy.
-- `access_policy_identity`: The identity for this access policy. Choose an Amazon Web
-  Services SSO user, an Amazon Web Services SSO group, or an IAM user.
+- `access_policy_identity`: The identity for this access policy. Choose an IAM Identity
+  Center user, an IAM Identity Center group, or an IAM user.
 - `access_policy_permission`: The permission level for this access policy. Note that a
   project ADMINISTRATOR is also known as a project owner.
 - `access_policy_resource`: The IoT SiteWise Monitor resource for this access policy.

@@ -17,15 +17,18 @@ TABLE Block object contains information about a detected table. A CELL Block obj
 returned for each cell in a table.   Lines and words of text. A LINE Block object contains
 one or more WORD Block objects. All lines and words that are detected in the document are
 returned (including text that doesn't have a relationship with the value of FeatureTypes).
-  Queries.A QUERIES_RESULT Block object contains the answer to the query, the alias
-associated and an ID that connect it to the query asked. This Block also contains a
-location and attached confidence score.   Selection elements such as check boxes and option
-buttons (radio buttons) can be detected in form data and in tables. A SELECTION_ELEMENT
-Block object contains information about a selection element, including the selection
-status. You can choose which type of analysis to perform by specifying the FeatureTypes
-list.  The output is returned in a list of Block objects.  AnalyzeDocument is a synchronous
-operation. To analyze documents asynchronously, use StartDocumentAnalysis. For more
-information, see Document Text Analysis.
+  Signatures. A SIGNATURE Block object contains the location information of a signature in
+a document. If used in conjunction with forms or tables, a signature can be given a
+Key-Value pairing or be detected in the cell of a table.   Query. A QUERY Block object
+contains the query text, alias and link to the associated Query results block object.
+Query Result. A QUERY_RESULT Block object contains the answer to the query and an ID that
+connects it to the query asked. This Block also contains a confidence score.   Selection
+elements such as check boxes and option buttons (radio buttons) can be detected in form
+data and in tables. A SELECTION_ELEMENT Block object contains information about a selection
+element, including the selection status. You can choose which type of analysis to perform
+by specifying the FeatureTypes list.  The output is returned in a list of Block objects.
+AnalyzeDocument is a synchronous operation. To analyze documents asynchronously, use
+StartDocumentAnalysis. For more information, see Document Text Analysis.
 
 # Arguments
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
@@ -35,9 +38,11 @@ information, see Document Text Analysis.
   Bytes field.
 - `feature_types`: A list of the types of analysis to perform. Add TABLES to the list to
   return information about the tables that are detected in the input document. Add FORMS to
-  return detected form data. To perform both types of analysis, add TABLES and FORMS to
-  FeatureTypes. All lines and words detected in the document are included in the response
-  (including text that isn't related to the value of FeatureTypes).
+  return detected form data. Add SIGNATURES to return the locations of detected signatures.
+  To perform both forms and table analysis, add TABLES and FORMS to FeatureTypes. To detect
+  signatures within form data and table data, add SIGNATURES to either TABLES or FORMS. All
+  lines and words detected in the document are included in the response (including text that
+  isn't related to the value of FeatureTypes).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -82,7 +87,7 @@ end
 
  AnalyzeExpense synchronously analyzes an input document for financially related
 relationships between text. Information is returned as ExpenseDocuments and seperated as
-follows.    LineItemGroups- A data set containing LineItems which store information about
+follows:    LineItemGroups- A data set containing LineItems which store information about
 the lines of text, such as an item purchased and its price on a receipt.    SummaryFields-
 Contains all other information a receipt, such as header information or the vendors name.
 
@@ -154,14 +159,14 @@ end
     detect_document_text(document, params::Dict{String,<:Any})
 
 Detects text in the input document. Amazon Textract can detect lines of text and the words
-that make up a line of text. The input document must be an image in JPEG, PNG, PDF, or TIFF
-format. DetectDocumentText returns the detected text in an array of Block objects.  Each
-document page has as an associated Block of type PAGE. Each PAGE Block object is the parent
-of LINE Block objects that represent the lines of detected text on a page. A LINE Block
-object is a parent for each word that makes up the line. Words are represented by Block
-objects of type WORD.  DetectDocumentText is a synchronous operation. To analyze documents
-asynchronously, use StartDocumentTextDetection. For more information, see Document Text
-Detection.
+that make up a line of text. The input document must be in one of the following image
+formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array
+of Block objects.  Each document page has as an associated Block of type PAGE. Each PAGE
+Block object is the parent of LINE Block objects that represent the lines of detected text
+on a page. A LINE Block object is a parent for each word that makes up the line. Words are
+represented by Block objects of type WORD.  DetectDocumentText is a synchronous operation.
+To analyze documents asynchronously, use StartDocumentTextDetection. For more information,
+see Document Text Detection.
 
 # Arguments
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
@@ -213,18 +218,21 @@ Table and table cell data. A TABLE Block object contains information about a det
 table. A CELL Block object is returned for each cell in a table.   Lines and words of text.
 A LINE Block object contains one or more WORD Block objects. All lines and words that are
 detected in the document are returned (including text that doesn't have a relationship with
-the value of the StartDocumentAnalysis FeatureTypes input parameter).    Queries. A
-QUERIES_RESULT Block object contains the answer to the query, the alias associated and an
-ID that connect it to the query asked. This Block also contains a location and attached
-confidence score   Selection elements such as check boxes and option buttons (radio
-buttons) can be detected in form data and in tables. A SELECTION_ELEMENT Block object
-contains information about a selection element, including the selection status. Use the
-MaxResults parameter to limit the number of blocks that are returned. If there are more
-results than specified in MaxResults, the value of NextToken in the operation response
-contains a pagination token for getting the next set of results. To get the next page of
-results, call GetDocumentAnalysis, and populate the NextToken request parameter with the
-token value that's returned from the previous call to GetDocumentAnalysis. For more
-information, see Document Text Analysis.
+the value of the StartDocumentAnalysis FeatureTypes input parameter).    Query. A QUERY
+Block object contains the query text, alias and link to the associated Query results block
+object.   Query Results. A QUERY_RESULT Block object contains the answer to the query and
+an ID that connects it to the query asked. This Block also contains a confidence score.
+While processing a document with queries, look out for INVALID_REQUEST_PARAMETERS output.
+This indicates that either the per page query limit has been exceeded or that the operation
+is trying to query a page in the document which doesn’t exist.   Selection elements such
+as check boxes and option buttons (radio buttons) can be detected in form data and in
+tables. A SELECTION_ELEMENT Block object contains information about a selection element,
+including the selection status. Use the MaxResults parameter to limit the number of blocks
+that are returned. If there are more results than specified in MaxResults, the value of
+NextToken in the operation response contains a pagination token for getting the next set of
+results. To get the next page of results, call GetDocumentAnalysis, and populate the
+NextToken request parameter with the token value that's returned from the previous call to
+GetDocumentAnalysis. For more information, see Document Text Analysis.
 
 # Arguments
 - `job_id`: A unique identifier for the text-detection job. The JobId is returned from
@@ -362,6 +370,93 @@ function get_expense_analysis(
 )
     return textract(
         "GetExpenseAnalysis",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lending_analysis(job_id)
+    get_lending_analysis(job_id, params::Dict{String,<:Any})
+
+Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
+lending document.  You start asynchronous text analysis by calling StartLendingAnalysis,
+which returns a job identifier (JobId). When the text analysis operation finishes, Amazon
+Textract publishes a completion status to the Amazon Simple Notification Service (Amazon
+SNS) topic that's registered in the initial call to StartLendingAnalysis.  To get the
+results of the text analysis operation, first check that the status value published to the
+Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the job identifier
+(JobId) from the initial call to StartLendingAnalysis.
+
+# Arguments
+- `job_id`: A unique identifier for the lending or text-detection job. The JobId is
+  returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+  value that you can specify is 30. If you specify a value greater than 30, a maximum of 30
+  results is returned. The default value is 30.
+- `"NextToken"`: If the previous response was incomplete, Amazon Textract returns a
+  pagination token in the response. You can use this pagination token to retrieve the next
+  set of lending results.
+"""
+function get_lending_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "GetLendingAnalysis",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lending_analysis(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetLendingAnalysis",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lending_analysis_summary(job_id)
+    get_lending_analysis_summary(job_id, params::Dict{String,<:Any})
+
+Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a
+lending document. The returned summary consists of information about documents grouped
+together by a common document type. Information like detected signatures, page numbers, and
+split documents is returned with respect to the type of grouped document.  You start
+asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier
+(JobId). When the text analysis operation finishes, Amazon Textract publishes a completion
+status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in
+the initial call to StartLendingAnalysis.  To get the results of the text analysis
+operation, first check that the status value published to the Amazon SNS topic is
+SUCCEEDED. If so, call GetLendingAnalysisSummary, and pass the job identifier (JobId) from
+the initial call to StartLendingAnalysis.
+
+# Arguments
+- `job_id`:  A unique identifier for the lending or text-detection job. The JobId is
+  returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+
+"""
+function get_lending_analysis_summary(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetLendingAnalysisSummary",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lending_analysis_summary(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetLendingAnalysisSummary",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -567,6 +662,74 @@ function start_expense_analysis(
 )
     return textract(
         "StartExpenseAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_lending_analysis(document_location)
+    start_lending_analysis(document_location, params::Dict{String,<:Any})
+
+Starts the classification and analysis of an input document. StartLendingAnalysis initiates
+the classification and analysis of a packet of lending documents. StartLendingAnalysis
+operates on a document file located in an Amazon S3 bucket.  StartLendingAnalysis can
+analyze text in documents that are in one of the following formats: JPEG, PNG, TIFF, PDF.
+Use DocumentLocation to specify the bucket name and the file name of the document.
+StartLendingAnalysis returns a job identifier (JobId) that you use to get the results of
+the operation. When the text analysis is finished, Amazon Textract publishes a completion
+status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in
+NotificationChannel. To get the results of the text analysis operation, first check that
+the status value published to the Amazon SNS topic is SUCCEEDED. If the status is SUCCEEDED
+you can call either GetLendingAnalysis or GetLendingAnalysisSummary and provide the JobId
+to obtain the results of the analysis. If using OutputConfig to specify an Amazon S3
+bucket, the output will be contained within the specified prefix in a directory labeled
+with the job-id. In the directory there are 3 sub-directories:    detailedResponse
+(contains the GetLendingAnalysis response)   summaryResponse (for the
+GetLendingAnalysisSummary response)   splitDocuments (documents split across logical
+boundaries)
+
+# Arguments
+- `document_location`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: The idempotent token that you use to identify the start request.
+  If you use the same token with multiple StartLendingAnalysis requests, the same JobId is
+  returned. Use ClientRequestToken to prevent the same job from being accidentally started
+  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+- `"JobTag"`: An identifier that you specify to be included in the completion notification
+  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
+  document that the completion notification corresponds to (such as a tax form or a receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
+  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
+  server-side encryption of the objects in the customer bucket. When this parameter is not
+  enabled, the result will be encrypted server side, using SSE-S3.
+- `"NotificationChannel"`:
+- `"OutputConfig"`:
+"""
+function start_lending_analysis(
+    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "StartLendingAnalysis",
+        Dict{String,Any}("DocumentLocation" => DocumentLocation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_lending_analysis(
+    DocumentLocation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "StartLendingAnalysis",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params

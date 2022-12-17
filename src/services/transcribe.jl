@@ -9,25 +9,36 @@ using AWS.UUIDs
     create_call_analytics_category(category_name, rules, params::Dict{String,<:Any})
 
 Creates a new Call Analytics category. All categories are automatically applied to your
-Call Analytics jobs. Note that in order to apply your categories to your jobs, you must
-create them before submitting your job request, as categories cannot be applied
-retroactively. Call Analytics categories are composed of rules. For each category, you must
-create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an
-existing category, see . To learn more about:   Call Analytics categories, see Creating
-categories    Using rules, see Rule criteria and refer to the data type   Call Analytics,
-see Analyzing call center audio with Call Analytics
+Call Analytics transcriptions. Note that in order to apply categories to your
+transcriptions, you must create them before submitting your transcription request, as
+categories cannot be applied retroactively. When creating a new category, you can use the
+InputType parameter to label the category as a batch category (POST_CALL) or a streaming
+category (REAL_TIME). Batch categories can only be applied to batch transcriptions and
+streaming categories can only be applied to streaming transcriptions. If you do not include
+InputType, your category is created as a batch category by default. Call Analytics
+categories are composed of rules. For each category, you must create between 1 and 20
+rules. Rules can include these parameters: , , , and . To update an existing category, see
+. To learn more about Call Analytics categories, see Creating categories for batch
+transcriptions and Creating categories for streaming transcriptions.
 
 # Arguments
 - `category_name`: A unique name, chosen by you, for your Call Analytics category. It's
   helpful to use a detailed naming system that will make sense to you in the future. For
   example, it's better to use sentiment-positive-last30seconds for a category over a generic
   name like test-category. Category names are case sensitive.
-- `rules`: Rules define a Call Analytics category. When creating a new Call Analytics
-  category, you must create between 1 and 20 rules for that category. For each rule, you
-  specify a filter you want applied to the attributes of a call. For example, you can choose
-  a sentiment filter that detects if a customer's sentiment was positive during the last 30
-  seconds of the call.
+- `rules`: Rules define a Call Analytics category. When creating a new category, you must
+  create between 1 and 20 rules for that category. For each rule, you specify a filter you
+  want applied to the attributes of a call. For example, you can choose a sentiment filter
+  that detects if a customer's sentiment was positive during the last 30 seconds of the call.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InputType"`: Choose whether you want to create a streaming or a batch category for your
+  Call Analytics transcription. Specifying POST_CALL assigns your category to batch
+  transcriptions; categories with this input type cannot be applied to streaming (real-time)
+  transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions;
+  categories with this input type cannot be applied to batch (post-call) transcriptions. If
+  you do not include InputType, your category is created as a batch category by default.
 """
 function create_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
@@ -63,11 +74,11 @@ end
     create_language_model(base_model_name, input_data_config, language_code, model_name)
     create_language_model(base_model_name, input_data_config, language_code, model_name, params::Dict{String,<:Any})
 
-Creates a new custom language model. When creating a new language model, you must specify:
- If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample
-rates under 16,000 Hz) base model   The location of your training and tuning files (this
-must be an Amazon S3 URI)   The language of your model   A unique name for your model   For
-more information, see Custom language models.
+Creates a new custom language model. When creating a new custom language model, you must
+specify:   If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio
+sample rates under 16,000 Hz) base model   The location of your training and tuning files
+(this must be an Amazon S3 URI)   The language of your model   A unique name for your model
+
 
 # Arguments
 - `base_model_name`: The Amazon Transcribe standard language model, or base model, used to
@@ -84,17 +95,17 @@ more information, see Custom language models.
   you specify different Amazon S3 locations for training and tuning data, the ARN you use
   must have permissions to access both locations.
 - `language_code`: The language code that represents the language of your model. Each
-  language model must contain terms in only one language, and the language you select for
-  your model must match the language of your training and tuning data. For a list of
-  supported languages and their associated language codes, refer to the Supported languages
-  table. Note that U.S. English (en-US) is the only language supported with Amazon Transcribe
-  Medical. A custom language model can only be used to transcribe files in the same language
-  as the model. For example, if you create a language model using US English (en-US), you can
-  only apply this model to files that contain English audio.
+  custom language model must contain terms in only one language, and the language you select
+  for your custom language model must match the language of your training and tuning data.
+  For a list of supported languages and their associated language codes, refer to the
+  Supported languages table. Note that US English (en-US) is the only language supported with
+  Amazon Transcribe Medical. A custom language model can only be used to transcribe files in
+  the same language as the model. For example, if you create a custom language model using US
+  English (en-US), you can only apply this model to files that contain English audio.
 - `model_name`: A unique name, chosen by you, for your custom language model. This name is
   case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services
-  account. If you try to create a new language model with the same name as an existing
-  language model, you get a ConflictException error.
+  account. If you try to create a new custom language model with the same name as an existing
+  custom language model, you get a ConflictException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -152,14 +163,14 @@ end
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name)
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name, params::Dict{String,<:Any})
 
-Creates a new custom medical vocabulary. Prior to creating a new medical vocabulary, you
-must first upload a text file that contains your new entries, phrases, and terms into an
-Amazon S3 bucket. Note that this differs from , where you can include a list of terms
+Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary,
+you must first upload a text file that contains your new entries, phrases, and terms into
+an Amazon S3 bucket. Note that this differs from , where you can include a list of terms
 within your request using the Phrases flag; CreateMedicalVocabulary does not support the
 Phrases flag. Each language has a character set that contains all allowed characters for
-that specific language. If you use unsupported characters, your vocabulary request fails.
-Refer to Character Sets for Custom Vocabularies to get the character set for your language.
-For more information, see Creating a custom vocabulary.
+that specific language. If you use unsupported characters, your custom vocabulary request
+fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
+language. For more information, see Custom vocabularies.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in your
@@ -171,14 +182,14 @@ For more information, see Creating a custom vocabulary.
   s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
 - `vocabulary_name`: A unique name, chosen by you, for your new custom medical vocabulary.
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web
-  Services account. If you try to create a new medical vocabulary with the same name as an
-  existing medical vocabulary, you get a ConflictException error.
+  Services account. If you try to create a new custom medical vocabulary with the same name
+  as an existing custom medical vocabulary, you get a ConflictException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
-  medical vocabulary at the time you create this new vocabulary. To learn more about using
-  tags with Amazon Transcribe, refer to Tagging resources.
+  custom medical vocabulary at the time you create this new custom vocabulary. To learn more
+  about using tags with Amazon Transcribe, refer to Tagging resources.
 """
 function create_medical_vocabulary(
     LanguageCode,
@@ -226,40 +237,41 @@ end
     create_vocabulary(language_code, vocabulary_name)
     create_vocabulary(language_code, vocabulary_name, params::Dict{String,<:Any})
 
-Creates a new custom vocabulary. When creating a new vocabulary, you can either upload a
-text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and
-include the URI in your request, or you can include a list of terms directly in your
-request using the Phrases flag. Each language has a character set that contains all allowed
-characters for that specific language. If you use unsupported characters, your vocabulary
-request fails. Refer to Character Sets for Custom Vocabularies to get the character set for
-your language. For more information, see Creating a custom vocabulary.
+Creates a new custom vocabulary. When creating a new custom vocabulary, you can either
+upload a text file that contains your new entries, phrases, and terms into an Amazon S3
+bucket and include the URI in your request. Or you can include a list of terms directly in
+your request using the Phrases flag. Each language has a character set that contains all
+allowed characters for that specific language. If you use unsupported characters, your
+custom vocabulary request fails. Refer to Character Sets for Custom Vocabularies to get the
+character set for your language. For more information, see Custom vocabularies.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in your
-  custom vocabulary. Each vocabulary must contain terms in only one language. A custom
-  vocabulary can only be used to transcribe files in the same language as the vocabulary. For
-  example, if you create a vocabulary using US English (en-US), you can only apply this
-  vocabulary to files that contain English audio. For a list of supported languages and their
-  associated language codes, refer to the Supported languages table.
+  custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom
+  vocabulary can only be used to transcribe files in the same language as the custom
+  vocabulary. For example, if you create a custom vocabulary using US English (en-US), you
+  can only apply this custom vocabulary to files that contain English audio. For a list of
+  supported languages and their associated language codes, refer to the Supported languages
+  table.
 - `vocabulary_name`: A unique name, chosen by you, for your new custom vocabulary. This
   name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web
-  Services account. If you try to create a new vocabulary with the same name as an existing
-  vocabulary, you get a ConflictException error.
+  Services account. If you try to create a new custom vocabulary with the same name as an
+  existing custom vocabulary, you get a ConflictException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Phrases"`: Use this parameter if you want to create your vocabulary by including all
-  desired terms, as comma-separated values, within your request. The other option for
-  creating your vocabulary is to save your entries in a text file and upload them to an
-  Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri
+- `"Phrases"`: Use this parameter if you want to create your custom vocabulary by including
+  all desired terms, as comma-separated values, within your request. The other option for
+  creating your custom vocabulary is to save your entries in a text file and upload them to
+  an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri
   parameter. Note that if you include Phrases in your request, you cannot use
   VocabularyFileUri; you must choose one or the other. Each language has a character set that
   contains all allowed characters for that specific language. If you use unsupported
-  characters, your vocabulary filter request fails. Refer to Character Sets for Custom
+  characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom
   Vocabularies to get the character set for your language.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
-  custom vocabulary at the time you create this new vocabulary. To learn more about using
-  tags with Amazon Transcribe, refer to Tagging resources.
+  custom vocabulary at the time you create this new custom vocabulary. To learn more about
+  using tags with Amazon Transcribe, refer to Tagging resources.
 - `"VocabularyFileUri"`: The Amazon S3 location of the text file that contains your custom
   vocabulary. The URI must be located in the same Amazon Web Services Region as the resource
   you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt  Note
@@ -304,46 +316,45 @@ end
     create_vocabulary_filter(language_code, vocabulary_filter_name)
     create_vocabulary_filter(language_code, vocabulary_filter_name, params::Dict{String,<:Any})
 
-Creates a new custom vocabulary filter. You can use vocabulary filters to mask, delete, or
-flag specific words from your transcript. Vocabulary filters are commonly used to mask
-profanity in transcripts. Each language has a character set that contains all allowed
-characters for that specific language. If you use unsupported characters, your vocabulary
-filter request fails. Refer to Character Sets for Custom Vocabularies to get the character
-set for your language. For more information, see Using vocabulary filtering with unwanted
-words.
+Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask,
+delete, or flag specific words from your transcript. Custom vocabulary filters are commonly
+used to mask profanity in transcripts. Each language has a character set that contains all
+allowed characters for that specific language. If you use unsupported characters, your
+custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to
+get the character set for your language. For more information, see Vocabulary filtering.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in your
-  vocabulary filter. Each vocabulary filter must contain terms in only one language. A
-  vocabulary filter can only be used to transcribe files in the same language as the filter.
-  For example, if you create a vocabulary filter using US English (en-US), you can only apply
-  this filter to files that contain English audio. For a list of supported languages and
-  their associated language codes, refer to the Supported languages table.
+  vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A
+  custom vocabulary filter can only be used to transcribe files in the same language as the
+  filter. For example, if you create a custom vocabulary filter using US English (en-US), you
+  can only apply this filter to files that contain English audio. For a list of supported
+  languages and their associated language codes, refer to the Supported languages table.
 - `vocabulary_filter_name`: A unique name, chosen by you, for your new custom vocabulary
   filter. This name is case sensitive, cannot contain spaces, and must be unique within an
-  Amazon Web Services account. If you try to create a new vocabulary filter with the same
-  name as an existing vocabulary filter, you get a ConflictException error.
+  Amazon Web Services account. If you try to create a new custom vocabulary filter with the
+  same name as an existing custom vocabulary filter, you get a ConflictException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
-  custom vocabulary filter at the time you create this new filter. To learn more about using
-  tags with Amazon Transcribe, refer to Tagging resources.
+  custom vocabulary filter at the time you create this new vocabulary filter. To learn more
+  about using tags with Amazon Transcribe, refer to Tagging resources.
 - `"VocabularyFilterFileUri"`: The Amazon S3 location of the text file that contains your
   custom vocabulary filter terms. The URI must be located in the same Amazon Web Services
   Region as the resource you're calling. Here's an example URI path:
   s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include
   VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the
   other.
-- `"Words"`: Use this parameter if you want to create your vocabulary filter by including
-  all desired terms, as comma-separated values, within your request. The other option for
-  creating your vocabulary filter is to save your entries in a text file and upload them to
-  an Amazon S3 bucket, then specify the location of your file using the
+- `"Words"`: Use this parameter if you want to create your custom vocabulary filter by
+  including all desired terms, as comma-separated values, within your request. The other
+  option for creating your vocabulary filter is to save your entries in a text file and
+  upload them to an Amazon S3 bucket, then specify the location of your file using the
   VocabularyFilterFileUri parameter. Note that if you include Words in your request, you
   cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a
   character set that contains all allowed characters for that specific language. If you use
-  unsupported characters, your vocabulary filter request fails. Refer to Character Sets for
-  Custom Vocabularies to get the character set for your language.
+  unsupported characters, your custom vocabulary filter request fails. Refer to Character
+  Sets for Custom Vocabularies to get the character set for your language.
 """
 function create_vocabulary_filter(
     LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -463,7 +474,7 @@ end
     delete_language_model(model_name, params::Dict{String,<:Any})
 
 Deletes a custom language model. To use this operation, specify the name of the language
-model you want to delete using ModelName. Language model names are case sensitive.
+model you want to delete using ModelName. custom language model names are case sensitive.
 
 # Arguments
 - `model_name`: The name of the custom language model you want to delete. Model names are
@@ -540,12 +551,13 @@ end
     delete_medical_vocabulary(vocabulary_name)
     delete_medical_vocabulary(vocabulary_name, params::Dict{String,<:Any})
 
-Deletes a custom medical vocabulary. To use this operation, specify the name of the
-vocabulary you want to delete using VocabularyName. Vocabulary names are case sensitive.
+Deletes a custom medical vocabulary. To use this operation, specify the name of the custom
+vocabulary you want to delete using VocabularyName. Custom vocabulary names are case
+sensitive.
 
 # Arguments
-- `vocabulary_name`: The name of the custom medical vocabulary you want to delete.
-  Vocabulary names are case sensitive.
+- `vocabulary_name`: The name of the custom medical vocabulary you want to delete. Custom
+  medical vocabulary names are case sensitive.
 
 """
 function delete_medical_vocabulary(
@@ -618,12 +630,13 @@ end
     delete_vocabulary(vocabulary_name)
     delete_vocabulary(vocabulary_name, params::Dict{String,<:Any})
 
-Deletes a custom vocabulary. To use this operation, specify the name of the vocabulary you
-want to delete using VocabularyName. Vocabulary names are case sensitive.
+Deletes a custom vocabulary. To use this operation, specify the name of the custom
+vocabulary you want to delete using VocabularyName. Custom vocabulary names are case
+sensitive.
 
 # Arguments
-- `vocabulary_name`: The name of the custom vocabulary you want to delete. Vocabulary names
-  are case sensitive.
+- `vocabulary_name`: The name of the custom vocabulary you want to delete. Custom
+  vocabulary names are case sensitive.
 
 """
 function delete_vocabulary(
@@ -655,13 +668,13 @@ end
     delete_vocabulary_filter(vocabulary_filter_name)
     delete_vocabulary_filter(vocabulary_filter_name, params::Dict{String,<:Any})
 
-Deletes a vocabulary filter. To use this operation, specify the name of the vocabulary
-filter you want to delete using VocabularyFilterName. Vocabulary filter names are case
-sensitive.
+Deletes a custom vocabulary filter. To use this operation, specify the name of the custom
+vocabulary filter you want to delete using VocabularyFilterName. Custom vocabulary filter
+names are case sensitive.
 
 # Arguments
 - `vocabulary_filter_name`: The name of the custom vocabulary filter you want to delete.
-  Vocabulary filter names are case sensitive.
+  Custom vocabulary filter names are case sensitive.
 
 """
 function delete_vocabulary_filter(
@@ -698,11 +711,11 @@ end
     describe_language_model(model_name, params::Dict{String,<:Any})
 
 Provides information about the specified custom language model. This operation also shows
-if the base language model you used to create your custom language model has been updated.
-If Amazon Transcribe has updated the base model, you can create a new custom language model
-using the updated base model. If you tried to create a new custom language model and the
-request wasn't successful, you can use DescribeLanguageModel to help identify the reason
-for this failure. To get a list of your custom language models, use the operation.
+if the base language model that you used to create your custom language model has been
+updated. If Amazon Transcribe has updated the base model, you can create a new custom
+language model using the updated base model. If you tried to create a new custom language
+model and the request wasn't successful, you can use DescribeLanguageModel to help identify
+the reason for this failure.
 
 # Arguments
 - `model_name`: The name of the custom language model you want information about. Model
@@ -824,7 +837,7 @@ end
 
 Provides information about the specified medical transcription job. To view the status of
 the specified medical transcription job, check the TranscriptionJobStatus field. If the
-status is COMPLETED, the job is finished and you can find the results at the location
+status is COMPLETED, the job is finished. You can find the results at the location
 specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on
 why your transcription job failed. To get a list of your medical transcription jobs, use
 the operation.
@@ -870,14 +883,14 @@ end
     get_medical_vocabulary(vocabulary_name, params::Dict{String,<:Any})
 
 Provides information about the specified custom medical vocabulary. To view the status of
-the specified medical vocabulary, check the VocabularyState field. If the status is READY,
-your vocabulary is available to use. If the status is FAILED, FailureReason provides
-details on why your vocabulary failed. To get a list of your custom medical vocabularies,
-use the operation.
+the specified custom medical vocabulary, check the VocabularyState field. If the status is
+READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason
+provides details on why your vocabulary failed. To get a list of your custom medical
+vocabularies, use the operation.
 
 # Arguments
 - `vocabulary_name`: The name of the custom medical vocabulary you want information about.
-  Vocabulary names are case sensitive.
+  Custom medical vocabulary names are case sensitive.
 
 """
 function get_medical_vocabulary(
@@ -911,7 +924,7 @@ end
 
 Provides information about the specified transcription job. To view the status of the
 specified transcription job, check the TranscriptionJobStatus field. If the status is
-COMPLETED, the job is finished and you can find the results at the location specified in
+COMPLETED, the job is finished. You can find the results at the location specified in
 TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your
 transcription job failed. If you enabled content redaction, the redacted transcript can be
 found at the location specified in RedactedTranscriptFileUri. To get a list of your
@@ -956,13 +969,14 @@ end
     get_vocabulary(vocabulary_name, params::Dict{String,<:Any})
 
 Provides information about the specified custom vocabulary. To view the status of the
-specified vocabulary, check the VocabularyState field. If the status is READY, your
-vocabulary is available to use. If the status is FAILED, FailureReason provides details on
-why your vocabulary failed. To get a list of your custom vocabularies, use the operation.
+specified custom vocabulary, check the VocabularyState field. If the status is READY, your
+custom vocabulary is available to use. If the status is FAILED, FailureReason provides
+details on why your custom vocabulary failed. To get a list of your custom vocabularies,
+use the operation.
 
 # Arguments
-- `vocabulary_name`: The name of the custom vocabulary you want information about.
-  Vocabulary names are case sensitive.
+- `vocabulary_name`: The name of the custom vocabulary you want information about. Custom
+  vocabulary names are case sensitive.
 
 """
 function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -992,15 +1006,12 @@ end
     get_vocabulary_filter(vocabulary_filter_name)
     get_vocabulary_filter(vocabulary_filter_name, params::Dict{String,<:Any})
 
-Provides information about the specified custom vocabulary filter. To view the status of
-the specified vocabulary filter, check the VocabularyState field. If the status is READY,
-your vocabulary is available to use. If the status is FAILED, FailureReason provides
-details on why your vocabulary filter failed. To get a list of your custom vocabulary
-filters, use the operation.
+Provides information about the specified custom vocabulary filter. To get a list of your
+custom vocabulary filters, use the operation.
 
 # Arguments
 - `vocabulary_filter_name`: The name of the custom vocabulary filter you want information
-  about. Vocabulary filter names are case sensitive.
+  about. Custom vocabulary filter names are case sensitive.
 
 """
 function get_vocabulary_filter(
@@ -1043,8 +1054,8 @@ operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of Call Analytics categories to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NextToken"`: If your ListCallAnalyticsCategories request returns more results than can
   be displayed, NextToken is displayed in the response with an associated string. To get the
   next page of results, copy this string and repeat your request, including NextToken with
@@ -1081,8 +1092,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobNameContains"`: Returns only the Call Analytics jobs that contain the specified
   string. The search is not case sensitive.
 - `"MaxResults"`: The maximum number of Call Analytics jobs to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NextToken"`: If your ListCallAnalyticsJobs request returns more results than can be
   displayed, NextToken is displayed in the response with an associated string. To get the
   next page of results, copy this string and repeat your request, including NextToken with
@@ -1112,14 +1123,14 @@ end
     list_language_models(params::Dict{String,<:Any})
 
 Provides a list of custom language models that match the specified criteria. If no criteria
-are specified, all language models are returned. To get detailed information about a
+are specified, all custom language models are returned. To get detailed information about a
 specific custom language model, use the operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of custom language models to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NameContains"`: Returns only the custom language models that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your ListLanguageModels request returns more results than can be
@@ -1156,8 +1167,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobNameContains"`: Returns only the medical transcription jobs that contain the
   specified string. The search is not case sensitive.
 - `"MaxResults"`: The maximum number of medical transcription jobs to return in each page
-  of results. If there are fewer results than the value you specify, only the actual results
-  are returned. If you don't specify a value, a default of 5 is used.
+  of results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NextToken"`: If your ListMedicalTranscriptionJobs request returns more results than can
   be displayed, NextToken is displayed in the response with an associated string. To get the
   next page of results, copy this string and repeat your request, including NextToken with
@@ -1197,8 +1208,8 @@ information about a specific custom medical vocabulary, use the operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of custom medical vocabularies to return in each page
-  of results. If there are fewer results than the value you specify, only the actual results
-  are returned. If you don't specify a value, a default of 5 is used.
+  of results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NameContains"`: Returns only the custom medical vocabularies that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your ListMedicalVocabularies request returns more results than can be
@@ -1206,8 +1217,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results, copy this string and repeat your request, including NextToken with
   the value of the copied string. Repeat as needed to view all your results.
 - `"StateEquals"`: Returns only custom medical vocabularies with the specified state.
-  Vocabularies are ordered by creation date, with the newest vocabulary first. If you don't
-  include StateEquals, all custom medical vocabularies are returned.
+  Custom vocabularies are ordered by creation date, with the newest vocabulary first. If you
+  don't include StateEquals, all custom medical vocabularies are returned.
 """
 function list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config())
     return transcribe(
@@ -1236,7 +1247,7 @@ resource. To learn more about using tags with Amazon Transcribe, refer to Taggin
 - `resource_arn`: Returns a list of all tags associated with the specified Amazon Resource
   Name (ARN). ARNs have the format
   arn:partition:service:region:account-id:resource-type/resource-id. For example,
-  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid
+  arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid
   values for resource-type are: transcription-job, medical-transcription-job, vocabulary,
   medical-vocabulary, vocabulary-filter, and language-model.
 
@@ -1279,8 +1290,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobNameContains"`: Returns only the transcription jobs that contain the specified
   string. The search is not case sensitive.
 - `"MaxResults"`: The maximum number of transcription jobs to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NextToken"`: If your ListTranscriptionJobs request returns more results than can be
   displayed, NextToken is displayed in the response with an associated string. To get the
   next page of results, copy this string and repeat your request, including NextToken with
@@ -1316,8 +1327,8 @@ specific custom vocabulary, use the operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of custom vocabularies to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NameContains"`: Returns only the custom vocabularies that contain the specified string.
   The search is not case sensitive.
 - `"NextToken"`: If your ListVocabularies request returns more results than can be
@@ -1352,8 +1363,8 @@ about a specific custom vocabulary filter, use the operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of custom vocabulary filters to return in each page of
-  results. If there are fewer results than the value you specify, only the actual results are
-  returned. If you don't specify a value, a default of 5 is used.
+  results. If there are fewer results than the value that you specify, only the actual
+  results are returned. If you don't specify a value, a default of 5 is used.
 - `"NameContains"`: Returns only the custom vocabulary filters that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your ListVocabularyFilters request returns more results than can be
@@ -1382,7 +1393,7 @@ end
     start_call_analytics_job(call_analytics_job_name, media, params::Dict{String,<:Any})
 
 Transcribes the audio from a customer service call and applies any additional Request
-Parameters you choose to include in your request. In addition to many of the standard
+Parameters you choose to include in your request. In addition to many standard
 transcription features, Call Analytics provides you with call characteristics, call
 summarization, speaker sentiment, and optional redaction of your text transcript and your
 audio file. You can also apply custom categories to flag specified conditions. To learn
@@ -1390,13 +1401,14 @@ more about these features and insights, refer to Analyzing call center audio wit
 Analytics. If you want to apply categories to your Call Analytics job, you must create them
 before submitting your job request. Categories cannot be retroactively applied to a job. To
 create a new category, use the operation. To learn more about Call Analytics categories,
-see Creating categories. To make a StartCallAnalyticsJob request, you must first upload
-your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of
-the file using the Media parameter. You must include the following parameters in your
+see Creating categories for batch transcriptions and Creating categories for streaming
+transcriptions. To make a StartCallAnalyticsJob request, you must first upload your media
+file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file
+using the Media parameter. You must include the following parameters in your
 StartCallAnalyticsJob request:    region: The Amazon Web Services Region where you are
 making your request. For a list of Amazon Web Services Regions supported with Amazon
 Transcribe, refer to Amazon Transcribe endpoints and quotas.    CallAnalyticsJobName: A
-custom name you create for your transcription job that is unique within your Amazon Web
+custom name that you create for your transcription job that's unique within your Amazon Web
 Services account.    DataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that
 has permissions to access the Amazon S3 bucket that contains your input files.    Media
 (MediaFileUri or RedactedMediaFileUri): The Amazon S3 location of your media file.    With
@@ -1410,16 +1422,17 @@ specified in the RedactedMediaFileUri field of your response.
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web
   Services account. If you try to create a new job with the same name as an existing job, you
   get a ConflictException error.
-- `media`:
+- `media`: Describes the Amazon S3 location of the media file you want to use in your Call
+  Analytics request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChannelDefinitions"`: Allows you to specify which speaker is on which channel. For
-  example, if your agent is the first participant to speak, you would set ChannelId to 0 (to
-  indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent
-  speaking).
+- `"ChannelDefinitions"`: Makes it possible to specify which speaker is on which channel.
+  For example, if your agent is the first participant to speak, you would set ChannelId to 0
+  (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the
+  agent speaking).
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-  to access the Amazon S3 bucket that contains your input files. If the role you specify
+  to access the Amazon S3 bucket that contains your input files. If the role that you specify
   doesn’t have the appropriate permissions to access the specified Amazon S3 location, your
   request fails. IAM role ARNs have the format
   arn:partition:iam::account:role/role-name-with-path. For example:
@@ -1491,13 +1504,13 @@ end
     start_medical_transcription_job(language_code, media, medical_transcription_job_name, output_bucket_name, specialty, type, params::Dict{String,<:Any})
 
 Transcribes the audio from a medical dictation or conversation and applies any additional
-Request Parameters you choose to include in your request. In addition to many of the
-standard transcription features, Amazon Transcribe Medical provides you with a robust
-medical vocabulary and, optionally, content identification, which adds flags to personal
-health information (PHI). To learn more about these features, refer to How Amazon
-Transcribe Medical works. To make a StartMedicalTranscriptionJob request, you must first
-upload your media file into an Amazon S3 bucket; you can then specify the S3 location of
-the file using the Media parameter. You must include the following parameters in your
+Request Parameters you choose to include in your request. In addition to many standard
+transcription features, Amazon Transcribe Medical provides you with a robust medical
+vocabulary and, optionally, content identification, which adds flags to personal health
+information (PHI). To learn more about these features, refer to How Amazon Transcribe
+Medical works. To make a StartMedicalTranscriptionJob request, you must first upload your
+media file into an Amazon S3 bucket; you can then specify the S3 location of the file using
+the Media parameter. You must include the following parameters in your
 StartMedicalTranscriptionJob request:    region: The Amazon Web Services Region where you
 are making your request. For a list of Amazon Web Services Regions supported with Amazon
 Transcribe, refer to Amazon Transcribe endpoints and quotas.
@@ -1514,7 +1527,7 @@ PRIMARYCARE.    Type: Choose whether your audio is a conversation or a dictation
   value you enter for language code results in a BadRequestException error.
 - `media`:
 - `medical_transcription_job_name`: A unique name, chosen by you, for your medical
-  transcription job. The name you specify is also used as the default name of your
+  transcription job. The name that you specify is also used as the default name of your
   transcription output file. If you want to specify a different name for your transcription
   output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces,
   and must be unique within an Amazon Web Services account. If you try to create a new job
@@ -1528,8 +1541,7 @@ PRIMARYCARE.    Type: Choose whether your audio is a conversation or a dictation
   OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon
   Transcribe must have permission to use the specified location. You can change Amazon S3
   permissions using the Amazon Web Services Management Console. See also Permissions Required
-  for IAM User Roles. If you don't specify OutputBucketName, your transcript is placed in a
-  service-managed Amazon S3 bucket and you are provided with a URI to access your transcript.
+  for IAM User Roles.
 - `specialty`: Specify the predominant medical specialty represented in your media. For
   batch transcriptions, PRIMARYCARE is the only valid value. If you require additional
   specialties, refer to .
@@ -1547,10 +1559,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption context pairs, that provide an added layer of security for your data. For more
   information, see KMS encryption context and Asymmetric keys in KMS.
 - `"MediaFormat"`: Specify the format of your input media file.
-- `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in your input
+- `"MediaSampleRateHertz"`: The sample rate, in hertz, of the audio track in your input
   media file. If you don't specify the media sample rate, Amazon Transcribe Medical
   determines it for you. If you specify the sample rate, it must match the rate detected by
-  Amazon Transcribe Medical; if there's a mismatch between the value you specify and the
+  Amazon Transcribe Medical; if there's a mismatch between the value that you specify and the
   value detected, your job fails. Therefore, in most cases, it's advised to omit
   MediaSampleRateHertz and let Amazon Transcribe Medical determine the sample rate.
 - `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your medical
@@ -1589,8 +1601,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is created for
   you.
 - `"Settings"`: Specify additional optional settings in your request, including channel
-  identification, alternative transcriptions, and speaker labeling; allows you to apply
-  custom vocabularies to your transcription job.
+  identification, alternative transcriptions, and speaker partitioning. You can use that to
+  apply custom vocabularies to your transcription job.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
   medical transcription job at the time you start this new job. To learn more about using
   tags with Amazon Transcribe, refer to Tagging resources.
@@ -1672,39 +1684,46 @@ Transcribe identify the languages for you.
 - `media`: Describes the Amazon S3 location of the media file you want to use in your
   request.
 - `transcription_job_name`: A unique name, chosen by you, for your transcription job. The
-  name you specify is also used as the default name of your transcription output file. If you
-  want to specify a different name for your transcription output, use the OutputKey
+  name that you specify is also used as the default name of your transcription output file.
+  If you want to specify a different name for your transcription output, use the OutputKey
   parameter. This name is case sensitive, cannot contain spaces, and must be unique within an
   Amazon Web Services account. If you try to create a new job with the same name as an
   existing job, you get a ConflictException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ContentRedaction"`: Allows you to redact or flag specified personally identifiable
-  information (PII) in your transcript. If you use ContentRedaction, you must also include
-  the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
+- `"ContentRedaction"`: Makes it possible to redact or flag specified personally
+  identifiable information (PII) in your transcript. If you use ContentRedaction, you must
+  also include the sub-parameters: PiiEntityTypes, RedactionOutput, and RedactionType.
 - `"IdentifyLanguage"`: Enables automatic language identification in your transcription job
-  request. If you include IdentifyLanguage, you can optionally include a list of language
-  codes, using LanguageOptions, that you think may be present in your media file. Including
-  language options can improve transcription accuracy. If you want to apply a custom language
-  model, a custom vocabulary, or a custom vocabulary filter to your automatic language
-  identification request, include LanguageIdSettings with the relevant sub-parameters
-  (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that you must include
-  one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you
-  include more than one of these parameters, your transcription job fails.
+  request. Use this parameter if your media file contains only one language. If your media
+  contains multiple languages, use IdentifyMultipleLanguages instead. If you include
+  IdentifyLanguage, you can optionally include a list of language codes, using
+  LanguageOptions, that you think may be present in your media file. Including
+  LanguageOptions restricts IdentifyLanguage to only the language options that you specify,
+  which can improve transcription accuracy. If you want to apply a custom language model, a
+  custom vocabulary, or a custom vocabulary filter to your automatic language identification
+  request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName,
+  LanguageModelName, and VocabularyFilterName). If you include LanguageIdSettings, also
+  include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage,
+  or IdentifyMultipleLanguages in your request. If you include more than one of these
+  parameters, your transcription job fails.
 - `"IdentifyMultipleLanguages"`: Enables automatic multi-language identification in your
   transcription job request. Use this parameter if your media file contains more than one
-  language. If you include IdentifyMultipleLanguages, you can optionally include a list of
-  language codes, using LanguageOptions, that you think may be present in your media file.
-  Including language options can improve transcription accuracy. If you want to apply a
-  custom vocabulary or a custom vocabulary filter to your automatic language identification
-  request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName and
-  VocabularyFilterName). Note that you must include one of LanguageCode, IdentifyLanguage, or
+  language. If your media contains only one language, use IdentifyLanguage instead. If you
+  include IdentifyMultipleLanguages, you can optionally include a list of language codes,
+  using LanguageOptions, that you think may be present in your media file. Including
+  LanguageOptions restricts IdentifyLanguage to only the language options that you specify,
+  which can improve transcription accuracy. If you want to apply a custom vocabulary or a
+  custom vocabulary filter to your automatic language identification request, include
+  LanguageIdSettings with the relevant sub-parameters (VocabularyName and
+  VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions.
+  Note that you must include one of LanguageCode, IdentifyLanguage, or
   IdentifyMultipleLanguages in your request. If you include more than one of these
   parameters, your transcription job fails.
-- `"JobExecutionSettings"`: Allows you to control how your transcription job is processed.
-  Currently, the only JobExecutionSettings modification you can choose is enabling job
-  queueing using the AllowDeferredExecution sub-parameter. If you include
+- `"JobExecutionSettings"`: Makes it possible to control how your transcription job is
+  processed. Currently, the only JobExecutionSettings modification you can choose is enabling
+  job queueing using the AllowDeferredExecution sub-parameter. If you include
   JobExecutionSettings in your request, you must also include the sub-parameters:
   AllowDeferredExecution and DataAccessRoleArn.
 - `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
@@ -1719,37 +1738,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated language codes, refer to the Supported languages table.  To transcribe speech in
   Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000
   Hz or higher.
-- `"LanguageIdSettings"`: If using automatic language identification (IdentifyLanguage) in
-  your request and you want to apply a custom language model, a custom vocabulary, or a
-  custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters
-  (VocabularyName, LanguageModelName, and VocabularyFilterName). You can specify two or more
-  language codes that represent the languages you think may be present in your media;
-  including more than five is not recommended. Each language code you include can have an
-  associated custom language model, custom vocabulary, and custom vocabulary filter. The
-  languages you specify must match the languages of the specified custom language models,
-  custom vocabularies, and custom vocabulary filters. To include language options using
-  IdentifyLanguage without including a custom language model, a custom vocabulary, or a
-  custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including
-  language options can improve the accuracy of automatic language identification. If you want
-  to include a custom language model with your request but do not want to use automatic
-  language identification, use instead the  parameter with the LanguageModelName
-  sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or
-  both) with your request but do not want to use automatic language identification, use
-  instead the  parameter with the VocabularyName or VocabularyFilterName (or both)
-  sub-parameter.
+- `"LanguageIdSettings"`: If using automatic language identification in your request and
+  you want to apply a custom language model, a custom vocabulary, or a custom vocabulary
+  filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName,
+  LanguageModelName, and VocabularyFilterName). Note that multi-language identification
+  (IdentifyMultipleLanguages) doesn't support custom language models.  LanguageIdSettings
+  supports two to five language codes. Each language code you include can have an associated
+  custom language model, custom vocabulary, and custom vocabulary filter. The language codes
+  that you specify must match the languages of the associated custom language models, custom
+  vocabularies, and custom vocabulary filters. It's recommended that you include
+  LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect
+  is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon
+  Transcribe determines that the language spoken in your media is en-AU, your custom
+  vocabulary is not applied to your transcription. If you include LanguageOptions and include
+  en-US as the only English language dialect, your custom vocabulary is applied to your
+  transcription. If you want to include a custom language model with your request but do not
+  want to use automatic language identification, use instead the  parameter with the
+  LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom
+  vocabulary filter (or both) with your request but do not want to use automatic language
+  identification, use instead the  parameter with the VocabularyName or VocabularyFilterName
+  (or both) sub-parameter.
 - `"LanguageOptions"`: You can specify two or more language codes that represent the
-  languages you think may be present in your media; including more than five is not
+  languages you think may be present in your media. Including more than five is not
   recommended. If you're unsure what languages are present, do not include this parameter. If
   you include LanguageOptions in your request, you must also include IdentifyLanguage. For
   more information, refer to Supported languages. To transcribe speech in Modern Standard
   Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
 - `"MediaFormat"`: Specify the format of your input media file.
-- `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in your input
+- `"MediaSampleRateHertz"`: The sample rate, in hertz, of the audio track in your input
   media file. If you don't specify the media sample rate, Amazon Transcribe determines it for
-  you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe;
-  if there's a mismatch between the value you specify and the value detected, your job fails.
-  Therefore, in most cases, it's advised to omit MediaSampleRateHertz and let Amazon
-  Transcribe determine the sample rate.
+  you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe.
+  If there's a mismatch between the value that you specify and the value detected, your job
+  fails. In most cases, you can omit MediaSampleRateHertz and let Amazon Transcribe determine
+  the sample rate.
 - `"ModelSettings"`: Specify the custom language model you want to include with your
   transcription job. If you include ModelSettings in your request, you must include the
   LanguageModelName sub-parameter. For more information, see Custom language models.
@@ -1799,14 +1820,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is created for
   you.
 - `"Settings"`: Specify additional optional settings in your request, including channel
-  identification, alternative transcriptions, speaker labeling; allows you to apply custom
-  vocabularies and vocabulary filters. If you want to include a custom vocabulary or a custom
-  vocabulary filter (or both) with your request but do not want to use automatic language
-  identification, use Settings with the VocabularyName or VocabularyFilterName (or both)
-  sub-parameter. If you're using automatic language identification with your request and want
-  to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use
-  instead the  parameter with the LanguageModelName, VocabularyName or VocabularyFilterName
-  sub-parameters.
+  identification, alternative transcriptions, speaker partitioning. You can use that to apply
+  custom vocabularies and vocabulary filters. If you want to include a custom vocabulary or a
+  custom vocabulary filter (or both) with your request but do not want to use automatic
+  language identification, use Settings with the VocabularyName or VocabularyFilterName (or
+  both) sub-parameter. If you're using automatic language identification with your request
+  and want to include a custom language model, a custom vocabulary, or a custom vocabulary
+  filter, use instead the  parameter with the LanguageModelName, VocabularyName or
+  VocabularyFilterName sub-parameters.
 - `"Subtitles"`: Produces subtitle files for your input media. You can specify WebVTT
   (*.vtt) and SubRip (*.srt) formats.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
@@ -1855,7 +1876,7 @@ resource. To learn more about using tags with Amazon Transcribe, refer to Taggin
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have
   the format arn:partition:service:region:account-id:resource-type/resource-id. For example,
-  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid
+  arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid
   values for resource-type are: transcription-job, medical-transcription-job, vocabulary,
   medical-vocabulary, vocabulary-filter, and language-model.
 - `tags`: Adds one or more custom tags, each in the form of a key:value pair, to the
@@ -1902,7 +1923,7 @@ UntagResource in your request, you must also include ResourceArn and TagKeys.
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
   to remove tags from. ARNs have the format
   arn:partition:service:region:account-id:resource-type/resource-id. For example,
-  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid
+  arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid
   values for resource-type are: transcription-job, medical-transcription-job, vocabulary,
   medical-vocabulary, vocabulary-filter, and language-model.
 - `tag_keys`: Removes the specified tag keys from the specified Amazon Transcribe resource.
@@ -1953,6 +1974,12 @@ a new category, see .
 - `rules`: The rules used for the updated Call Analytics category. The rules you provide in
   this field replace the ones that are currently being used in the specified category.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InputType"`: Choose whether you want to update a streaming or a batch Call Analytics
+  category. The input type you specify must match the input type specified when the category
+  was created. For example, if you created a category with the POST_CALL input type, you must
+  use POST_CALL as the input type when updating this category.
 """
 function update_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1990,7 +2017,7 @@ end
 
 Updates an existing custom medical vocabulary with new values. This operation overwrites
 all existing information with your new values; you cannot append new terms onto an existing
-vocabulary.
+custom vocabulary.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in the
@@ -2000,8 +2027,8 @@ vocabulary.
   medical vocabulary. The URI must be located in the same Amazon Web Services Region as the
   resource you're calling. Here's an example URI path:
   s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
-- `vocabulary_name`: The name of the custom medical vocabulary you want to update.
-  Vocabulary names are case sensitive.
+- `vocabulary_name`: The name of the custom medical vocabulary you want to update. Custom
+  medical vocabulary names are case sensitive.
 
 """
 function update_medical_vocabulary(
@@ -2052,28 +2079,29 @@ end
 
 Updates an existing custom vocabulary with new values. This operation overwrites all
 existing information with your new values; you cannot append new terms onto an existing
-vocabulary.
+custom vocabulary.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in the
-  custom vocabulary you want to update. Each vocabulary must contain terms in only one
+  custom vocabulary you want to update. Each custom vocabulary must contain terms in only one
   language. A custom vocabulary can only be used to transcribe files in the same language as
-  the vocabulary. For example, if you create a vocabulary using US English (en-US), you can
-  only apply this vocabulary to files that contain English audio. For a list of supported
-  languages and their associated language codes, refer to the Supported languages table.
-- `vocabulary_name`: The name of the custom vocabulary you want to update. Vocabulary names
-  are case sensitive.
+  the custom vocabulary. For example, if you create a custom vocabulary using US English
+  (en-US), you can only apply this custom vocabulary to files that contain English audio. For
+  a list of supported languages and their associated language codes, refer to the Supported
+  languages table.
+- `vocabulary_name`: The name of the custom vocabulary you want to update. Custom
+  vocabulary names are case sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Phrases"`: Use this parameter if you want to update your vocabulary by including all
-  desired terms, as comma-separated values, within your request. The other option for
-  updating your vocabulary is to save your entries in a text file and upload them to an
-  Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri
+- `"Phrases"`: Use this parameter if you want to update your custom vocabulary by including
+  all desired terms, as comma-separated values, within your request. The other option for
+  updating your custom vocabulary is to save your entries in a text file and upload them to
+  an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri
   parameter. Note that if you include Phrases in your request, you cannot use
   VocabularyFileUri; you must choose one or the other. Each language has a character set that
   contains all allowed characters for that specific language. If you use unsupported
-  characters, your vocabulary filter request fails. Refer to Character Sets for Custom
+  characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom
   Vocabularies to get the character set for your language.
 - `"VocabularyFileUri"`: The Amazon S3 location of the text file that contains your custom
   vocabulary. The URI must be located in the same Amazon Web Services Region as the resource
@@ -2121,11 +2149,11 @@ end
 
 Updates an existing custom vocabulary filter with a new list of words. The new list you
 provide overwrites all previous entries; you cannot append new terms onto an existing
-vocabulary filter.
+custom vocabulary filter.
 
 # Arguments
 - `vocabulary_filter_name`: The name of the custom vocabulary filter you want to update.
-  Vocabulary filter names are case sensitive.
+  Custom vocabulary filter names are case sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2135,15 +2163,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include
   VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the
   other.
-- `"Words"`: Use this parameter if you want to update your vocabulary filter by including
-  all desired terms, as comma-separated values, within your request. The other option for
-  updating your vocabulary filter is to save your entries in a text file and upload them to
-  an Amazon S3 bucket, then specify the location of your file using the
+- `"Words"`: Use this parameter if you want to update your custom vocabulary filter by
+  including all desired terms, as comma-separated values, within your request. The other
+  option for updating your vocabulary filter is to save your entries in a text file and
+  upload them to an Amazon S3 bucket, then specify the location of your file using the
   VocabularyFilterFileUri parameter. Note that if you include Words in your request, you
   cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a
   character set that contains all allowed characters for that specific language. If you use
-  unsupported characters, your vocabulary filter request fails. Refer to Character Sets for
-  Custom Vocabularies to get the character set for your language.
+  unsupported characters, your custom vocabulary filter request fails. Refer to Character
+  Sets for Custom Vocabularies to get the character set for your language.
 """
 function update_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()

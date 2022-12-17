@@ -307,8 +307,8 @@ end
     create_notification_subscription(endpoint, organization_id, protocol, subscription_type, params::Dict{String,<:Any})
 
 Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
-confirmation message, and must confirm the subscription. For more information, see
-Subscribe to Notifications in the Amazon WorkDocs Developer Guide.
+confirmation message, and must confirm the subscription. For more information, see Setting
+up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide.
 
 # Arguments
 - `endpoint`: The endpoint to receive the notifications. If the protocol is HTTPS, the
@@ -585,6 +585,60 @@ function delete_document(
         "DELETE",
         "/api/v1/documents/$(DocumentId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_document_version(document_id, version_id, delete_prior_versions)
+    delete_document_version(document_id, version_id, delete_prior_versions, params::Dict{String,<:Any})
+
+Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to
+delete prior versions.
+
+# Arguments
+- `document_id`: The ID of a document.
+- `version_id`: The version ID of a document.
+- `delete_prior_versions`: When set to TRUE, deletes the specified version and all prior
+  versions of a document.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
+  administrator credentials to access the API.
+"""
+function delete_document_version(
+    DocumentId,
+    VersionId,
+    deletePriorVersions;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workdocs(
+        "DELETE",
+        "/api/v1/documentVersions/$(DocumentId)/versions/$(VersionId)",
+        Dict{String,Any}("deletePriorVersions" => deletePriorVersions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_document_version(
+    DocumentId,
+    VersionId,
+    deletePriorVersions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workdocs(
+        "DELETE",
+        "/api/v1/documentVersions/$(DocumentId)/versions/$(VersionId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deletePriorVersions" => deletePriorVersions),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1153,7 +1207,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"order"`: The order for the results.
 - `"organizationId"`: The ID of the organization.
-- `"query"`: A query to filter users by user name.
+- `"query"`: A query to filter users by user name. Remember the following about the Userids
+  and Query parameters:   If you don't use either parameter, the API returns a paginated list
+  of all users on the site.   If you use both parameters, the API ignores the Query
+  parameter.   The Userid parameter only returns user names that match a corresponding user
+  ID.   The Query parameter runs a \"prefix\" search for users by the GivenName, SurName, or
+  UserName fields included in a CreateUser API call. For example, querying on Ma returns
+  Márcia Oliveira, María García, and Mateo Jackson. If you use multiple characters, the
+  API only returns data that matches all characters. For example, querying on Ma J only
+  returns Mateo Jackson.
 - `"sort"`: The sorting criteria.
 - `"userIds"`: The IDs of the users.
 """
@@ -1458,17 +1520,14 @@ function get_resources(
 end
 
 """
-    initiate_document_version_upload(parent_folder_id)
-    initiate_document_version_upload(parent_folder_id, params::Dict{String,<:Any})
+    initiate_document_version_upload()
+    initiate_document_version_upload(params::Dict{String,<:Any})
 
 Creates a new document object and version object. The client specifies the parent folder ID
 and name of the document to upload. The ID is optionally specified when creating a new
 version of an existing document. This is the first step to upload a document. Next, upload
 the document to the URL returned from the call, and then call UpdateDocumentVersion. To
 cancel the document upload, call AbortDocumentVersionUpload.
-
-# Arguments
-- `parent_folder_id`: The ID of the parent folder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1481,29 +1540,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentSizeInBytes"`: The size of the document, in bytes.
 - `"Id"`: The ID of the document.
 - `"Name"`: The name of the document.
+- `"ParentFolderId"`: The ID of the parent folder.
 """
-function initiate_document_version_upload(
-    ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()
+function initiate_document_version_upload(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workdocs(
-        "POST",
-        "/api/v1/documents",
-        Dict{String,Any}("ParentFolderId" => ParentFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/api/v1/documents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function initiate_document_version_upload(
-    ParentFolderId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workdocs(
         "POST",
         "/api/v1/documents",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ParentFolderId" => ParentFolderId), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1582,6 +1634,44 @@ function remove_resource_permission(
     return workdocs(
         "DELETE",
         "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_document_versions(document_id)
+    restore_document_versions(document_id, params::Dict{String,<:Any})
+
+Recovers a deleted version of an Amazon WorkDocs document.
+
+# Arguments
+- `document_id`: The ID of the document.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
+  administrator credentials to access the API.
+"""
+function restore_document_versions(
+    DocumentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workdocs(
+        "POST",
+        "/api/v1/documentVersions/restore/$(DocumentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_document_versions(
+    DocumentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workdocs(
+        "POST",
+        "/api/v1/documentVersions/restore/$(DocumentId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

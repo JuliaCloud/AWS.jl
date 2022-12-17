@@ -234,18 +234,56 @@ function list_entities(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists all tags that have been added to a resource (either an entity or change set).
+
+# Arguments
+- `resource_arn`: Required. The Amazon Resource Name (ARN) associated with the resource you
+  want to list tags on.
+
+"""
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return marketplace_catalog(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_change_set(catalog, change_set)
     start_change_set(catalog, change_set, params::Dict{String,<:Any})
 
-This operation allows you to request changes for your entities. Within a single ChangeSet,
-you cannot start the same change type against the same entity multiple times. Additionally,
-when a ChangeSet is running, all the entities targeted by the different changes are locked
-until the ChangeSet has completed (either succeeded, cancelled, or failed). If you try to
-start a ChangeSet containing a change against an entity that is already locked, you will
-receive a ResourceInUseException. For example, you cannot start the ChangeSet described in
-the example later in this topic, because it contains two changes to execute the same change
-type (AddRevisions) against the same entity (entity-id@1). For more information about
-working with change sets, see  Working with change sets.
+Allows you to request changes for your entities. Within a single ChangeSet, you can't start
+the same change type against the same entity multiple times. Additionally, when a ChangeSet
+is running, all the entities targeted by the different changes are locked until the change
+set has completed (either succeeded, cancelled, or failed). If you try to start a change
+set containing a change against an entity that is already locked, you will receive a
+ResourceInUseException error. For example, you can't start the ChangeSet described in the
+example later in this topic because it contains two changes to run the same change type
+(AddRevisions) against the same entity (entity-id@1). For more information about working
+with change sets, see  Working with change sets.
 
 # Arguments
 - `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
@@ -255,6 +293,8 @@ working with change sets, see  Working with change sets.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ChangeSetName"`: Optional case sensitive string of up to 100 ASCII characters. The
   change set name can be used to filter the list of change sets.
+- `"ChangeSetTags"`: A list of objects specifying each key name and value for the
+  ChangeSetTags property.
 - `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
 """
 function start_change_set(
@@ -289,6 +329,94 @@ function start_change_set(
                     "ChangeSet" => ChangeSet,
                     "ClientRequestToken" => string(uuid4()),
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Tags a resource (either an entity or change set).
+
+# Arguments
+- `resource_arn`: Required. The Amazon Resource Name (ARN) associated with the resource you
+  want to tag.
+- `tags`: Required. A list of objects specifying each key name and value. Number of objects
+  allowed: 1-50.
+
+"""
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return marketplace_catalog(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes a tag or list of tags from a resource (either an entity or change set).
+
+# Arguments
+- `resource_arn`: Required. The Amazon Resource Name (ARN) associated with the resource you
+  want to remove the tag from.
+- `tag_keys`: Required. A list of key names of tags to be removed. Number of strings
+  allowed: 0-256.
+
+"""
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return marketplace_catalog(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
                 params,
             ),
         );

@@ -44,8 +44,8 @@ end
     create_application(definition, engine_type, name)
     create_application(definition, engine_type, name, params::Dict{String,<:Any})
 
-Creates a new application with given parameters. Requires an existing environment and
-application definition file.
+Creates a new application with given parameters. Requires an existing runtime environment
+and application definition file.
 
 # Arguments
 - `definition`: The application definition for this application. You can specify either
@@ -61,6 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   within this timeframe with the same clientToken, you will get the same response. The
   service also handles deleting the clientToken after it expires.
 - `"description"`: The description of the application.
+- `"kmsKeyId"`: The identifier of a customer managed key.
 - `"tags"`: A list of tags to apply to the application.
 """
 function create_application(
@@ -163,13 +164,13 @@ end
     create_deployment(application_id, application_version, environment_id)
     create_deployment(application_id, application_version, environment_id, params::Dict{String,<:Any})
 
-Creates and starts a deployment to deploy an application into an environment.
+Creates and starts a deployment to deploy an application into a runtime environment.
 
 # Arguments
 - `application_id`: The application identifier.
 - `application_version`: The version of the application to deploy.
-- `environment_id`: The identifier of the environment where this application will be
-  deployed.
+- `environment_id`: The identifier of the runtime environment where you want to deploy this
+  application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -230,9 +231,9 @@ end
 Creates a runtime environment for a given runtime engine.
 
 # Arguments
-- `engine_type`: The engine type for the environment.
-- `instance_type`: The type of instance for the environment.
-- `name`: The unique identifier of the environment.
+- `engine_type`: The engine type for the runtime environment.
+- `instance_type`: The type of instance for the runtime environment.
+- `name`: The name of the runtime environment. Must be unique within the account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -241,19 +242,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call is triggered. The token expires after one hour, so if you retry the API within this
   timeframe with the same clientToken, you will get the same response. The service also
   handles deleting the clientToken after it expires.
-- `"description"`: The description of the environment.
-- `"engineVersion"`: The version of the engine type for the environment.
+- `"description"`: The description of the runtime environment.
+- `"engineVersion"`: The version of the engine type for the runtime environment.
 - `"highAvailabilityConfig"`: The details of a high availability configuration for this
   runtime environment.
-- `"preferredMaintenanceWindow"`: Configures a desired maintenance window for the
-  environment. If you do not provide a value, a random system-generated value will be
+- `"kmsKeyId"`: The identifier of a customer managed key.
+- `"preferredMaintenanceWindow"`: Configures the maintenance window you want for the
+  runtime environment. If you do not provide a value, a random system-generated value will be
   assigned.
-- `"publiclyAccessible"`: Specifies whether the environment is publicly accessible.
+- `"publiclyAccessible"`: Specifies whether the runtime environment is publicly accessible.
 - `"securityGroupIds"`: The list of security groups for the VPC associated with this
+  runtime environment.
+- `"storageConfigurations"`: Optional. The storage configurations for this runtime
   environment.
-- `"storageConfigurations"`: Optional. The storage configurations for this environment.
-- `"subnetIds"`: The list of subnets associated with the VPC for this environment.
-- `"tags"`: The tags for the environment.
+- `"subnetIds"`: The list of subnets associated with the VPC for this runtime environment.
+- `"tags"`: The tags for the runtime environment.
 """
 function create_environment(
     engineType, instanceType, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -336,10 +339,10 @@ end
     delete_application_from_environment(application_id, environment_id)
     delete_application_from_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Deletes a specific application from a specified environment where it has been previously
-deployed. You cannot delete an environment using DeleteEnvironment, if any application has
-ever been deployed to it. This API removes the association of the application with the
-environment so you can delete the environment smoothly.
+Deletes a specific application from the specific runtime environment where it was
+previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any
+application has ever been deployed to it. This API removes the association of the
+application with the runtime environment so you can delete the environment smoothly.
 
 # Arguments
 - `application_id`: The unique identifier of the application you want to delete.
@@ -376,8 +379,9 @@ end
     delete_environment(environment_id)
     delete_environment(environment_id, params::Dict{String,<:Any})
 
-Deletes a specific environment. The environment cannot contain deployed applications. If it
-does, you must delete those applications before you delete the environment.
+Deletes a specific runtime environment. The environment cannot contain deployed
+applications. If it does, you must delete those applications before you delete the
+environment.
 
 # Arguments
 - `environment_id`: The unique identifier of the runtime environment you want to delete.
@@ -698,8 +702,8 @@ end
     list_applications(params::Dict{String,<:Any})
 
 Lists the applications associated with a specific Amazon Web Services account. You can
-provide the unique identifier of a specific environment in a query parameter to see all
-applications associated with that environment.
+provide the unique identifier of a specific runtime environment in a query parameter to see
+all applications associated with that environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -732,7 +736,7 @@ end
     list_batch_job_definitions(application_id, params::Dict{String,<:Any})
 
 Lists all the available batch job definitions based on the batch job resources uploaded
-during the application creation. The listed batch job definitions can then be used to start
+during the application creation. You can use the batch job definitions in the list to start
 a batch job.
 
 # Arguments
@@ -860,9 +864,9 @@ end
     list_data_sets(application_id, params::Dict{String,<:Any})
 
 Lists the data sets imported for a specific application. In Amazon Web Services Mainframe
-Modernization, data sets are associated with applications deployed on environments. This is
-known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can
-import data sets into catalogs using CreateDataSetImportTask.
+Modernization, data sets are associated with applications deployed on runtime environments.
+This is known as importing data sets. Currently, Amazon Web Services Mainframe
+Modernization can import data sets into catalogs using CreateDataSetImportTask.
 
 # Arguments
 - `application_id`: The unique identifier of the application for which you want to list the
@@ -978,11 +982,11 @@ Lists the runtime environments.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"engineType"`: The engine type for the environment.
-- `"maxResults"`: The maximum number of environments to return.
-- `"names"`: The name of the environment.
-- `"nextToken"`: A pagination token to control the number of environments displayed in the
-  list.
+- `"engineType"`: The engine type for the runtime environment.
+- `"maxResults"`: The maximum number of runtime environments to return.
+- `"names"`: The names of the runtime environments. Must be unique within the account.
+- `"nextToken"`: A pagination token to control the number of runtime environments displayed
+  in the list.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return m2(
@@ -1276,7 +1280,7 @@ end
     update_environment(environment_id)
     update_environment(environment_id, params::Dict{String,<:Any})
 
-Updates the configuration details for a specific environment.
+Updates the configuration details for a specific runtime environment.
 
 # Arguments
 - `environment_id`: The unique identifier of the runtime environment that you want to
@@ -1284,16 +1288,16 @@ Updates the configuration details for a specific environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applyDuringMaintenanceWindow"`: Indicates whether to update the environment during the
-  maintenance window. The default is false. Currently, Amazon Web Services Mainframe
-  Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is
-  true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it
-  will fail if applyDuringMaintenanceWindow is set to true.
-- `"desiredCapacity"`: The desired capacity for the environment to update.
-- `"engineVersion"`: The version of the runtime engine for the environment.
-- `"instanceType"`: The instance type for the environment to update.
-- `"preferredMaintenanceWindow"`: Configures a desired maintenance window for the
-  environment. If you do not provide a value, a random system-generated value will be
+- `"applyDuringMaintenanceWindow"`: Indicates whether to update the runtime environment
+  during the maintenance window. The default is false. Currently, Amazon Web Services
+  Mainframe Modernization accepts the engineVersion parameter only if
+  applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided
+  in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
+- `"desiredCapacity"`: The desired capacity for the runtime environment to update.
+- `"engineVersion"`: The version of the runtime engine for the runtime environment.
+- `"instanceType"`: The instance type for the runtime environment to update.
+- `"preferredMaintenanceWindow"`: Configures the maintenance window you want for the
+  runtime environment. If you do not provide a value, a random system-generated value will be
   assigned.
 """
 function update_environment(

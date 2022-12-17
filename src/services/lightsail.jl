@@ -706,8 +706,8 @@ in Amazon Lightsail in the Lightsail Dev Guide.
   container service is typically
   https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If
   the name of your container service is container-service-1, and it's located in the US East
-  (Ohio) AWS region (us-east-2), then the domain for your container service will be like the
-  following example:
+  (Ohio) Amazon Web Services Region (us-east-2), then the domain for your container service
+  will be like the following example:
   https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following
   are the requirements for container service names:   Must be unique within each Amazon Web
   Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must
@@ -1723,10 +1723,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created for your new database if automated backups are enabled. The default is a 30-minute
   window selected at random from an 8-hour block of time for each AWS Region. For more
   information about the preferred backup window time blocks for each region, see the Working
-  With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation.
-  Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in
-  Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance
-  window.   Must be at least 30 minutes.
+  With Backups guide in the Amazon Relational Database Service documentation. Constraints:
+  Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated
+  Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be
+  at least 30 minutes.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your new database. The default is a 30-minute window selected at random from an
   8-hour block of time for each AWS Region, occurring on a random day of the week.
@@ -3652,7 +3652,8 @@ Returns the log events of a container of your Amazon Lightsail container service
 container service has more than one node (i.e., a scale greater than 1), then the log
 events that are returned for the specified container are merged from all nodes on your
 container service.  Container logs are retained for a certain amount of time. For more
-information, see Amazon Lightsail endpoints and quotas in the AWS General Reference.
+information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General
+Reference.
 
 # Arguments
 - `container_name`: The name of the container that is either running or previously ran on
@@ -3725,7 +3726,7 @@ the settings, such as the ports and launch command, of containers that are deplo
 container service. The deployments are ordered by version in ascending order. The newest
 version is listed at the top of the response.  A set number of deployments are kept before
 the oldest one is replaced with the newest one. For more information, see Amazon Lightsail
-endpoints and quotas in the AWS General Reference.
+endpoints and quotas in the Amazon Web Services General Reference.
 
 # Arguments
 - `service_name`: The name of the container service for which to return deployments.
@@ -6835,16 +6836,16 @@ end
 
 Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket
 bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You
-can update a bucket's bundle only one time within a monthly AWS billing cycle. To determine
-if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle
-parameter in the response will indicate whether you can currently update a bucket's bundle.
-Update a bucket's bundle if it's consistently going over its storage space or data transfer
-quota, or if a bucket's usage is consistently in the lower range of its storage space or
-data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
-experience, we strongly recommend that you update a bucket's bundle only as a long-term
-strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
-that will provide the bucket with ample storage space and data transfer for a long time to
-come.
+can update a bucket's bundle only one time within a monthly Amazon Web Services billing
+cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The
+ableToUpdateBundle parameter in the response will indicate whether you can currently update
+a bucket's bundle. Update a bucket's bundle if it's consistently going over its storage
+space or data transfer quota, or if a bucket's usage is consistently in the lower range of
+its storage space or data transfer quota. Due to the unpredictable usage fluctuations that
+a bucket might experience, we strongly recommend that you update a bucket's bundle only as
+a long-term strategy, instead of as a short-term, monthly cost-cutting measure. Choose a
+bucket bundle that will provide the bucket with ample storage space and data transfer for a
+long time to come.
 
 # Arguments
 - `bucket_name`: The name of the bucket for which to update the bundle.
@@ -7005,10 +7006,10 @@ Updates the bundle of your Amazon Lightsail content delivery network (CDN) distr
 distribution bundle specifies the monthly network transfer quota and monthly cost of your
 distribution. Update your distribution's bundle if your distribution is going over its
 monthly network transfer quota and is incurring an overage fee. You can update your
-distribution's bundle only one time within your monthly AWS billing cycle. To determine if
-you can update your distribution's bundle, use the GetDistributions action. The
-ableToUpdateBundle parameter in the result will indicate whether you can currently update
-your distribution's bundle.
+distribution's bundle only one time within your monthly Amazon Web Services billing cycle.
+To determine if you can update your distribution's bundle, use the GetDistributions action.
+The ableToUpdateBundle parameter in the result will indicate whether you can currently
+update your distribution's bundle.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7247,10 +7248,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minutes.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your database. The default is a 30-minute window selected at random from an 8-hour
-  block of time for each AWS Region, occurring on a random day of the week. Constraints:
-  Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).
-  Example: Tue:17:00-Tue:17:30
+  block of time for each Amazon Web Services Region, occurring on a random day of the week.
+  Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed,
+  Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal
+  Time (UTC).   Example: Tue:17:00-Tue:17:30
 - `"publiclyAccessible"`: Specifies the accessibility options for your database. A value of
   true specifies a database that is available to resources outside of your Lightsail account.
   A value of false specifies a database that is available only to your Lightsail resources in

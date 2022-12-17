@@ -194,7 +194,7 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     access_token = @mock _sso_cache_access_token(sso_start_url)
 
     headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
-    tmp_config = AWSConfig(;creds=nothing, region=sso_region)
+    tmp_config = AWSConfig(; creds=nothing, region=sso_region)
 
     sso_creds = @mock AWSServices.sso(
         "GET",

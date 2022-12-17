@@ -26,20 +26,13 @@ an invitation to join private channels.
   perform operations on Amazon Web Services. For more information, see Managing access to the
   Amazon Web Services Support App in the Amazon Web Services Support User Guide.
 - `notify_on_case_severity`: The case severity for a support case that you want to receive
-  notifications.  &lt;p&gt;If you specify &lt;code&gt;high&lt;/code&gt; or
-  &lt;code&gt;all&lt;/code&gt;, you must specify &lt;code&gt;true&lt;/code&gt; for at least
-  one of the following parameters:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  &lt;code&gt;notifyOnAddCorrespondenceToCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-  &lt;p&gt; &lt;code&gt;notifyOnCreateOrReopenCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;li&gt; &lt;p&gt; &lt;code&gt;notifyOnResolveCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;/ul&gt; &lt;p&gt;If you specify &lt;code&gt;none&lt;/code&gt;, the following parameters
-  must be null or &lt;code&gt;false&lt;/code&gt;:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  &lt;code&gt;notifyOnAddCorrespondenceToCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-  &lt;p&gt; &lt;code&gt;notifyOnCreateOrReopenCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;li&gt; &lt;p&gt; &lt;code&gt;notifyOnResolveCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;/ul&gt; &lt;note&gt; &lt;p&gt;If you don't specify these parameters in your request,
-  they default to &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt; &lt;/note&gt;
-- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace.
+  notifications. If you specify high or all, you must specify true for at least one of the
+  following parameters:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase
+  notifyOnResolveCase    If you specify none, the following parameters must be null or false:
+     notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase
+    If you don't specify these parameters in your request, they default to false.
+- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  T012ABCDEFG.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -138,7 +131,8 @@ doesn't delete your Slack channel.
 # Arguments
 - `channel_id`: The channel ID in Slack. This ID identifies a channel within a Slack
   workspace.
-- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace.
+- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  T012ABCDEFG.
 
 """
 function delete_slack_channel_configuration(
@@ -181,7 +175,8 @@ Deletes a Slack workspace configuration from your Amazon Web Services account. T
 operation doesn't delete your Slack workspace.
 
 # Arguments
-- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace.
+- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  T012ABCDEFG.
 
 """
 function delete_slack_workspace_configuration(
@@ -344,6 +339,55 @@ function put_account_alias(
 end
 
 """
+    register_slack_workspace_for_organization(team_id)
+    register_slack_workspace_for_organization(team_id, params::Dict{String,<:Any})
+
+Registers a Slack workspace for your Amazon Web Services account. To call this API, your
+account must be part of an organization in Organizations. If you're the management account
+and you want to register Slack workspaces for your organization, you must complete the
+following tasks:   Sign in to the Amazon Web Services Support Center and authorize the
+Slack workspaces where you want your organization to have access to. See Authorize a Slack
+workspace in the Amazon Web Services Support User Guide.   Call the
+RegisterSlackWorkspaceForOrganization API to authorize each Slack workspace for the
+organization.   After the management account authorizes the Slack workspace, member
+accounts can call this API to authorize the same Slack workspace for their individual
+accounts. Member accounts don't need to authorize the Slack workspace manually through the
+Amazon Web Services Support Center. To use the Amazon Web Services Support App, each
+account must then complete the following tasks:   Create an Identity and Access Management
+(IAM) role with the required permission. For more information, see Managing access to the
+Amazon Web Services Support App.   Configure a Slack channel to use the Amazon Web Services
+Support App for support cases for that account. For more information, see Configuring a
+Slack channel.
+
+# Arguments
+- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  T012ABCDEFG. Specify the Slack workspace that you want to use for your organization.
+
+"""
+function register_slack_workspace_for_organization(
+    teamId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/register-slack-workspace-for-organization",
+        Dict{String,Any}("teamId" => teamId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_slack_workspace_for_organization(
+    teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return support_app(
+        "POST",
+        "/control/register-slack-workspace-for-organization",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("teamId" => teamId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_slack_channel_configuration(channel_id, team_id)
     update_slack_channel_configuration(channel_id, team_id, params::Dict{String,<:Any})
 
@@ -352,7 +396,8 @@ Updates the configuration for a Slack channel, such as case update notifications
 # Arguments
 - `channel_id`: The channel ID in Slack. This ID identifies a channel within a Slack
   workspace.
-- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace.
+- `team_id`: The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  T012ABCDEFG.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -363,21 +408,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"notifyOnAddCorrespondenceToCase"`: Whether you want to get notified when a support case
   has a new correspondence.
 - `"notifyOnCaseSeverity"`: The case severity for a support case that you want to receive
-  notifications.  &lt;p&gt;If you specify &lt;code&gt;high&lt;/code&gt; or
-  &lt;code&gt;all&lt;/code&gt;, at least one of the following parameters must be
-  &lt;code&gt;true&lt;/code&gt;:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  &lt;code&gt;notifyOnAddCorrespondenceToCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-  &lt;p&gt; &lt;code&gt;notifyOnCreateOrReopenCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;li&gt; &lt;p&gt; &lt;code&gt;notifyOnResolveCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;/ul&gt; &lt;p&gt;If you specify &lt;code&gt;none&lt;/code&gt;, any of the following
-  parameters that you specify in your request must be
-  &lt;code&gt;false&lt;/code&gt;:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  &lt;code&gt;notifyOnAddCorrespondenceToCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-  &lt;p&gt; &lt;code&gt;notifyOnCreateOrReopenCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;li&gt; &lt;p&gt; &lt;code&gt;notifyOnResolveCase&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-  &lt;/ul&gt; &lt;note&gt; &lt;p&gt;If you don't specify these parameters in your request,
-  the Amazon Web Services Support App uses the current values by default.&lt;/p&gt;
-  &lt;/note&gt;
+  notifications. If you specify high or all, at least one of the following parameters must be
+  true:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase
+  notifyOnResolveCase    If you specify none, any of the following parameters that you
+  specify in your request must be false:    notifyOnAddCorrespondenceToCase
+  notifyOnCreateOrReopenCase     notifyOnResolveCase     If you don't specify these
+  parameters in your request, the Amazon Web Services Support App uses the current values by
+  default.
 - `"notifyOnCreateOrReopenCase"`: Whether you want to get notified when a support case is
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.

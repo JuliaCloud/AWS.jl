@@ -2278,7 +2278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services account must be registered as a delegated administrator in the management account.
   For more information, see Register a delegated administrator in the CloudFormation User
   Guide.
-- `"Filters"`: The status that stack instances are filtered by.
+- `"Filters"`: The filter to apply to stack instances
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results.
@@ -2379,6 +2379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services account must be registered as a delegated administrator in the management account.
   For more information, see Register a delegated administrator in the CloudFormation User
   Guide.
+- `"Filters"`: The filter to apply to operation results.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results.
@@ -3220,10 +3221,11 @@ public extension prior to publishing in the CloudFormation CLI User Guide. If yo
 specify a version, CloudFormation uses the default version of the extension in your account
 and region for testing. To perform testing, CloudFormation assumes the execution role
 specified when the type was registered. For more information, see RegisterType. Once you've
-initiated testing on an extension using TestType, you can use DescribeType to monitor the
-current test status and test status description for the extension. An extension must have a
-test status of PASSED before it can be published. For more information, see Publishing
-extensions to make them available for public use in the CloudFormation CLI User Guide.
+initiated testing on an extension using TestType, you can pass the returned TypeVersionArn
+into DescribeType to monitor the current test status and test status description for the
+extension. An extension must have a test status of PASSED before it can be published. For
+more information, see Publishing extensions to make them available for public use in the
+CloudFormation CLI User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

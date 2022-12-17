@@ -1149,37 +1149,53 @@ Detects instances of real-world entities within an image (JPEG or PNG) provided 
 This includes objects like flower, tree, and table; events like wedding, graduation, and
 birthday party; and concepts like landscape, evening, and nature.  For an example, see
 Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide.
-DetectLabels does not support the detection of activities. However, activity detection is
-supported for label detection in videos. For more information, see StartLabelDetection in
-the Amazon Rekognition Developer Guide.  You pass the input image as base64-encoded image
-bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call
-Amazon Rekognition operations, passing image bytes is not supported. The image must be
-either a PNG or JPEG formatted file.   For each object, scene, and concept the API returns
-one or more labels. Each label provides the object name, and the level of confidence that
-the image contains the object. For example, suppose the input image has a lighthouse, the
-sea, and a rock. The response includes all three labels, one for each object.   {Name:
-lighthouse, Confidence: 98.4629}   {Name: rock,Confidence: 79.2097}    {Name:
-sea,Confidence: 75.061}  In the preceding example, the operation returns one label for each
-of the three objects. The operation can also return multiple labels for the same object in
-the image. For example, if the input image shows a flower (for example, a tulip), the
-operation might return the following three labels.   {Name: flower,Confidence: 99.0562}
-{Name: plant,Confidence: 99.0562}   {Name: tulip,Confidence: 99.0562}  In this example, the
-detection algorithm more precisely identifies the flower as a tulip. In response, the API
-returns an array of labels. In addition, the response also includes the orientation
-correction. Optionally, you can specify MinConfidence to control the confidence threshold
-for the labels returned. The default is 55%. You can also add the MaxLabels parameter to
-limit the number of labels returned.   If the object detected is a person, the operation
-doesn't provide the same facial details that the DetectFaces operation provides.
-DetectLabels returns bounding boxes for instances of common object labels in an array of
-Instance objects. An Instance object contains a BoundingBox object, for the location of the
-label on the image. It also includes the confidence by which the bounding box was detected.
- DetectLabels also returns a hierarchical taxonomy of detected labels. For example, a
-detected car might be assigned the label car. The label car has two parent labels: Vehicle
-(its parent) and Transportation (its grandparent). The response returns the entire list of
-ancestors for a label. Each ancestor is a unique label in the response. In the previous
-example, Car, Vehicle, and Transportation are returned as unique labels in the response.
-This is a stateless API operation. That is, the operation does not persist any data. This
-operation requires permissions to perform the rekognition:DetectLabels action.
+You pass the input image as base64-encoded image bytes or as a reference to an image in an
+Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing
+image bytes is not supported. The image must be either a PNG or JPEG formatted file.
+Optional Parameters  You can specify one or both of the GENERAL_LABELS and IMAGE_PROPERTIES
+feature types when calling the DetectLabels API. Including GENERAL_LABELS will ensure the
+response includes the labels detected in the input image, while including IMAGE_PROPERTIES
+will ensure the response includes information about the image quality and color. When using
+GENERAL_LABELS and/or IMAGE_PROPERTIES you can provide filtering criteria to the Settings
+parameter. You can filter with sets of individual labels or with label categories. You can
+specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive
+filters. For more information on filtering see Detecting Labels in an Image. You can
+specify MinConfidence to control the confidence threshold for the labels returned. The
+default is 55%. You can also add the MaxLabels parameter to limit the number of labels
+returned. The default and upper limit is 1000 labels.  Response Elements   For each object,
+scene, and concept the API returns one or more labels. The API returns the following types
+of information regarding labels:    Name - The name of the detected label.     Confidence -
+The level of confidence in the label assigned to a detected object.     Parents - The
+ancestor labels for a detected label. DetectLabels returns a hierarchical taxonomy of
+detected labels. For example, a detected car might be assigned the label car. The label car
+has two parent labels: Vehicle (its parent) and Transportation (its grandparent). The
+response includes the all ancestors for a label, where every ancestor is a unique label. In
+the previous example, Car, Vehicle, and Transportation are returned as unique labels in the
+response.     Aliases - Possible Aliases for the label.     Categories - The label
+categories that the detected label belongs to.     BoundingBox — Bounding boxes are
+described for all instances of detected common object labels, returned in an array of
+Instance objects. An Instance object contains a BoundingBox object, describing the location
+of the label on the input image. It also includes the confidence for the accuracy of the
+detected bounding box.     The API returns the following information regarding the image,
+as part of the ImageProperties structure:   Quality - Information about the Sharpness,
+Brightness, and Contrast of the input image, scored between 0 to 100. Image quality is
+returned for the entire image, as well as the background and the foreground.    Dominant
+Color - An array of the dominant colors in the image.    Foreground - Information about the
+sharpness, brightness, and dominant colors of the input image’s foreground.    Background
+- Information about the sharpness, brightness, and dominant colors of the input image’s
+background.   The list of returned labels will include at least one label for every
+detected object, along with information about that label. In the following example, suppose
+the input image has a lighthouse, the sea, and a rock. The response includes all three
+labels, one for each object, as well as the confidence in the label:  {Name: lighthouse,
+Confidence: 98.4629}   {Name: rock,Confidence: 79.2097}    {Name: sea,Confidence: 75.061}
+The list of labels can include multiple labels for the same object. For example, if the
+input image shows a flower (for example, a tulip), the operation might return the following
+three labels.   {Name: flower,Confidence: 99.0562}   {Name: plant,Confidence: 99.0562}
+{Name: tulip,Confidence: 99.0562}  In this example, the detection algorithm more precisely
+identifies the flower as a tulip.  If the object detected is a person, the operation
+doesn't provide the same facial details that the DetectFaces operation provides.  This is a
+stateless API operation. That is, the operation does not persist any data. This operation
+requires permissions to perform the rekognition:DetectLabels action.
 
 # Arguments
 - `image`: The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI
@@ -1190,12 +1206,21 @@ operation requires permissions to perform the rekognition:DetectLabels action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Features"`: A list of the types of analysis to perform. Specifying GENERAL_LABELS uses
+  the label detection feature, while specifying IMAGE_PROPERTIES returns information
+  regarding image color and quality. If no option is specified GENERAL_LABELS is used by
+  default.
 - `"MaxLabels"`: Maximum number of labels you want the service to return in the response.
   The service returns the specified number of highest confidence labels.
 - `"MinConfidence"`: Specifies the minimum confidence level for the labels to return.
   Amazon Rekognition doesn't return any labels with confidence lower than this specified
   value. If MinConfidence is not specified, the operation returns labels with a confidence
   values greater than or equal to 55 percent.
+- `"Settings"`: A list of the filters to be applied to returned detected labels and image
+  properties. Specified filters can be inclusive, exclusive, or a combination of both.
+  Filters can be used for individual labels or label categories. The exact label names or
+  label categories must be supplied. For a full list of labels and label categories, see LINK
+  HERE.
 """
 function detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -1703,21 +1728,41 @@ Gets the label detection results of a Amazon Rekognition Video analysis started 
 StartLabelDetection.  The label detection operation is started by a call to
 StartLabelDetection which returns a job identifier (JobId). When the label detection
 operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple
-Notification Service topic registered in the initial call to StartlabelDetection. To get
+Notification Service topic registered in the initial call to StartlabelDetection.  To get
 the results of the label detection operation, first check that the status value published
 to the Amazon SNS topic is SUCCEEDED. If so, call GetLabelDetection and pass the job
 identifier (JobId) from the initial call to StartLabelDetection.  GetLabelDetection returns
 an array of detected labels (Labels) sorted by the time the labels were detected. You can
-also sort by the label name by specifying NAME for the SortBy input parameter. The labels
-returned include the label name, the percentage confidence in the accuracy of the detected
-label, and the time the label was detected in the video. The returned labels also include
-bounding box information for common objects, a hierarchical taxonomy of detected labels,
-and the version of the label model used for detection. Use MaxResults parameter to limit
-the number of labels returned. If there are more results than specified in MaxResults, the
-value of NextToken in the operation response contains a pagination token for getting the
-next set of results. To get the next page of results, call GetlabelDetection and populate
-the NextToken request parameter with the token value returned from the previous call to
-GetLabelDetection.
+also sort by the label name by specifying NAME for the SortBy input parameter. If there is
+no NAME specified, the default sort is by timestamp. You can select how results are
+aggregated by using the AggregateBy input parameter. The default aggregation method is
+TIMESTAMPS. You can also aggregate by SEGMENTS, which aggregates all instances of labels
+detected in a given segment.  The returned Labels array may include the following
+attributes:   Name - The name of the detected label.   Confidence - The level of confidence
+in the label assigned to a detected object.    Parents - The ancestor labels for a detected
+label. GetLabelDetection returns a hierarchical taxonomy of detected labels. For example, a
+detected car might be assigned the label car. The label car has two parent labels: Vehicle
+(its parent) and Transportation (its grandparent). The response includes the all ancestors
+for a label, where every ancestor is a unique label. In the previous example, Car, Vehicle,
+and Transportation are returned as unique labels in the response.     Aliases - Possible
+Aliases for the label.    Categories - The label categories that the detected label belongs
+to.   BoundingBox — Bounding boxes are described for all instances of detected common
+object labels, returned in an array of Instance objects. An Instance object contains a
+BoundingBox object, describing the location of the label on the input image. It also
+includes the confidence for the accuracy of the detected bounding box.   Timestamp - Time,
+in milliseconds from the start of the video, that the label was detected. For aggregation
+by SEGMENTS, the StartTimestampMillis, EndTimestampMillis, and DurationMillis structures
+are what define a segment. Although the “Timestamp” structure is still returned with
+each label, its value is set to be the same as StartTimestampMillis.   Timestamp and
+Bounding box information are returned for detected Instances, only if aggregation is done
+by TIMESTAMPS. If aggregating by SEGMENTS, information about detected instances isn’t
+returned.  The version of the label model used for the detection is also returned.  Note
+DominantColors isn't returned for Instances, although it is shown as part of the response
+in the sample seen below.  Use MaxResults parameter to limit the number of labels returned.
+If there are more results than specified in MaxResults, the value of NextToken in the
+operation response contains a pagination token for getting the next set of results. To get
+the next page of results, call GetlabelDetection and populate the NextToken request
+parameter with the token value returned from the previous call to GetLabelDetection.
 
 # Arguments
 - `job_id`: Job identifier for the label detection operation for which you want results
@@ -1725,6 +1770,8 @@ GetLabelDetection.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AggregateBy"`: Defines how to aggregate the returned results. Results can be aggregated
+  by timestamps or segments.
 - `"MaxResults"`: Maximum number of results to return per paginated call. The largest value
   you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
@@ -2851,7 +2898,13 @@ is finished, Amazon Rekognition Video publishes a completion status to the Amazo
 Notification Service topic that you specify in NotificationChannel. To get the results of
 the label detection operation, first check that the status value published to the Amazon
 SNS topic is SUCCEEDED. If so, call GetLabelDetection and pass the job identifier (JobId)
-from the initial call to StartLabelDetection.
+from the initial call to StartLabelDetection.  Optional Parameters   StartLabelDetection
+has the GENERAL_LABELS Feature applied by default. This feature allows you to provide
+filtering criteria to the Settings parameter. You can filter with sets of individual labels
+or with label categories. You can specify inclusive filters, exclusive filters, or a
+combination of inclusive and exclusive filters. For more information on filtering, see
+Detecting labels in a video. You can specify MinConfidence to control the confidence
+threshold for the labels returned. The default is 50.
 
 # Arguments
 - `video`: The video in which you want to detect labels. The video must be stored in an
@@ -2862,6 +2915,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartLabelDetection requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidently started more than once.
+- `"Features"`: The features to return after video analysis. You can specify that
+  GENERAL_LABELS are returned.
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
@@ -2870,11 +2925,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the
   highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence
   level lower than this specified value. If you don't specify MinConfidence, the operation
-  returns labels with confidence values greater than or equal to 50 percent.
+  returns labels and bounding boxes (if detected) with confidence values greater than or
+  equal to 50 percent.
 - `"NotificationChannel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
   publish the completion status of the label detection operation to. The Amazon SNS topic
   must have a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy.
+- `"Settings"`: The settings for a StartLabelDetection request.Contains the specified
+  parameters for the label detection request of an asynchronous label analysis operation.
+  Settings can include filters for GENERAL_LABELS.
 """
 function start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -3094,8 +3153,9 @@ selector and a Stop selector to determine the length of the stream processing ti
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StartSelector"`:  Specifies the starting point in the Kinesis stream to start
-  processing. You can use the producer timestamp or the fragment number. For more
-  information, see Fragment.  This is a required parameter for label detection stream
+  processing. You can use the producer timestamp or the fragment number. If you use the
+  producer timestamp, you must put the time in milliseconds. For more information about
+  fragment numbers, see Fragment.  This is a required parameter for label detection stream
   processors and should not be used to start a face search stream processor.
 - `"StopSelector"`:  Specifies when to stop processing the stream. You can specify a
   maximum amount of time to process the video.  This is a required parameter for label

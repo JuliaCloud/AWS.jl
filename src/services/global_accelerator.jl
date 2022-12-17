@@ -65,6 +65,62 @@ function add_custom_routing_endpoints(
 end
 
 """
+    add_endpoints(endpoint_configurations, endpoint_group_arn)
+    add_endpoints(endpoint_configurations, endpoint_group_arn, params::Dict{String,<:Any})
+
+Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended
+option for adding endpoints. The alternative options are to add endpoints when you create
+an endpoint group (with the CreateEndpointGroup API) or when you update an endpoint group
+(with the UpdateEndpointGroup API).  There are two advantages to using AddEndpoints to add
+endpoints:   It's faster, because Global Accelerator only has to resolve the new endpoints
+that you're adding.   It's more convenient, because you don't need to specify all of the
+current endpoints that are already in the endpoint group in addition to the new endpoints
+that you want to add.
+
+# Arguments
+- `endpoint_configurations`: The list of endpoint objects.
+- `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group.
+
+"""
+function add_endpoints(
+    EndpointConfigurations,
+    EndpointGroupArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "AddEndpoints",
+        Dict{String,Any}(
+            "EndpointConfigurations" => EndpointConfigurations,
+            "EndpointGroupArn" => EndpointGroupArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function add_endpoints(
+    EndpointConfigurations,
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "AddEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointConfigurations" => EndpointConfigurations,
+                    "EndpointGroupArn" => EndpointGroupArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     advertise_byoip_cidr(cidr)
     advertise_byoip_cidr(cidr, params::Dict{String,<:Any})
 
@@ -1709,6 +1765,61 @@ function remove_custom_routing_endpoints(
                 _merge,
                 Dict{String,Any}(
                     "EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_endpoints(endpoint_group_arn, endpoint_identifiers)
+    remove_endpoints(endpoint_group_arn, endpoint_identifiers, params::Dict{String,<:Any})
+
+Remove endpoints from an endpoint group.  The RemoveEndpoints API operation is the
+recommended option for removing endpoints. The alternative is to remove endpoints by
+updating an endpoint group by using the UpdateEndpointGroup API operation. There are two
+advantages to using AddEndpoints to remove endpoints instead:   It's more convenient,
+because you only need to specify the endpoints that you want to remove. With the
+UpdateEndpointGroup API operation, you must specify all of the endpoints in the endpoint
+group except the ones that you want to remove from the group.   It's faster, because Global
+Accelerator doesn't need to resolve any endpoints. With the UpdateEndpointGroup API
+operation, Global Accelerator must resolve all of the endpoints that remain in the group.
+
+# Arguments
+- `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group.
+- `endpoint_identifiers`: The identifiers of the endpoints that you want to remove.
+
+"""
+function remove_endpoints(
+    EndpointGroupArn, EndpointIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "RemoveEndpoints",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn,
+            "EndpointIdentifiers" => EndpointIdentifiers,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function remove_endpoints(
+    EndpointGroupArn,
+    EndpointIdentifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "RemoveEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointGroupArn" => EndpointGroupArn,
+                    "EndpointIdentifiers" => EndpointIdentifiers,
                 ),
                 params,
             ),

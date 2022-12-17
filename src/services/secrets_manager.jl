@@ -266,7 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and retry logic.  Use this parameter with caution. This parameter causes the operation to
   skip the normal recovery window before the permanent deletion that Secrets Manager would
   normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the
-  ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret.
+  ForceDeleteWithoutRecovery parameter, then you have no opportunity to recover the secret.
   You lose the secret permanently.
 - `"RecoveryWindowInDays"`: The number of days from 7 to 30 that Secrets Manager waits
   before permanently deleting the secret. You can't use both this parameter and
@@ -561,7 +561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token that indicates where the output should continue from, if a
   previous call did not show all results. To get the next results, call ListSecrets again
   with this value.
-- `"SortOrder"`: Lists secrets in the requested order.
+- `"SortOrder"`: Secrets are listed by CreatedDate.
 """
 function list_secrets(; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
@@ -897,10 +897,12 @@ matches your Rotation strategy. When rotation is successful, the AWSPENDING stag
 might be attached to the same version as the AWSCURRENT version, or it might not be
 attached to any version. If the AWSPENDING staging label is present but not attached to the
 same version as AWSCURRENT, then any later invocation of RotateSecret assumes that a
-previous rotation request is still in progress and returns an error. Secrets Manager
-generates a CloudTrail log entry when you call this action. Do not include sensitive
-information in request parameters because it might be logged. For more information, see
-Logging Secrets Manager events with CloudTrail.  Required permissions:
+previous rotation request is still in progress and returns an error. When rotation is
+unsuccessful, the AWSPENDING staging label might be attached to an empty secret version.
+For more information, see Troubleshoot rotation in the Secrets Manager User Guide. Secrets
+Manager generates a CloudTrail log entry when you call this action. Do not include
+sensitive information in request parameters because it might be logged. For more
+information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
 secretsmanager:RotateSecret. For more information, see  IAM policy actions for Secrets
 Manager and Authentication and access control in Secrets Manager. You also need
 lambda:InvokeFunction permissions on the rotation function. For more information, see

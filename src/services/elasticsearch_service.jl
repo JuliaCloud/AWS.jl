@@ -116,6 +116,44 @@ function associate_package(
 end
 
 """
+    authorize_vpc_endpoint_access(account, domain_name)
+    authorize_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+
+Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC
+endpoint.
+
+# Arguments
+- `account`: The account ID to grant access to.
+- `domain_name`: The name of the OpenSearch Service domain to provide access to.
+
+"""
+function authorize_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function authorize_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_elasticsearch_service_software_update(domain_name)
     cancel_elasticsearch_service_software_update(domain_name, params::Dict{String,<:Any})
 
@@ -343,6 +381,52 @@ function create_package(
 end
 
 """
+    create_vpc_endpoint(domain_arn, vpc_options)
+    create_vpc_endpoint(domain_arn, vpc_options, params::Dict{String,<:Any})
+
+Creates an Amazon OpenSearch Service-managed VPC endpoint.
+
+# Arguments
+- `domain_arn`: The Amazon Resource Name (ARN) of the domain to grant access to.
+- `vpc_options`: Options to specify the subnets and security groups for the endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+"""
+function create_vpc_endpoint(
+    DomainArn, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints",
+        Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpc_endpoint(
+    DomainArn,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_elasticsearch_domain(domain_name)
     delete_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
 
@@ -506,6 +590,40 @@ function delete_package(
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/packages/$(PackageID)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_vpc_endpoint(vpc_endpoint_id)
+    delete_vpc_endpoint(vpc_endpoint_id, params::Dict{String,<:Any})
+
+Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+
+# Arguments
+- `vpc_endpoint_id`: The unique identifier of the endpoint to be deleted.
+
+"""
+function delete_vpc_endpoint(
+    VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "DELETE",
+        "/2015-01-01/es/vpcEndpoints/$(VpcEndpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vpc_endpoint(
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "DELETE",
+        "/2015-01-01/es/vpcEndpoints/$(VpcEndpointId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -933,6 +1051,43 @@ function describe_reserved_elasticsearch_instances(
 end
 
 """
+    describe_vpc_endpoints(vpc_endpoint_ids)
+    describe_vpc_endpoints(vpc_endpoint_ids, params::Dict{String,<:Any})
+
+Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+
+# Arguments
+- `vpc_endpoint_ids`: The unique identifiers of the endpoints to get information about.
+
+"""
+function describe_vpc_endpoints(
+    VpcEndpointIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints/describe",
+        Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vpc_endpoints(
+    VpcEndpointIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints/describe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     dissociate_package(domain_name, package_id)
     dissociate_package(domain_name, package_id, params::Dict{String,<:Any})
 
@@ -1326,6 +1481,114 @@ function list_tags(
 end
 
 """
+    list_vpc_endpoint_access(domain_name)
+    list_vpc_endpoint_access(domain_name, params::Dict{String,<:Any})
+
+Retrieves information about each principal that is allowed to access a given Amazon
+OpenSearch Service domain through the use of an interface VPC endpoint.
+
+# Arguments
+- `domain_name`: The name of the OpenSearch Service domain to retrieve access information
+  for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
+"""
+function list_vpc_endpoint_access(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/listVpcEndpointAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoint_access(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/listVpcEndpointAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpc_endpoints()
+    list_vpc_endpoints(params::Dict{String,<:Any})
+
+Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and
+Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: Identifier to allow retrieval of paginated results.
+"""
+function list_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/vpcEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpc_endpoints_for_domain(domain_name)
+    list_vpc_endpoints_for_domain(domain_name, params::Dict{String,<:Any})
+
+Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular
+domain.
+
+# Arguments
+- `domain_name`: Name of the ElasticSearch domain whose VPC endpoints are to be listed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
+"""
+function list_vpc_endpoints_for_domain(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoints_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id)
     purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id, params::Dict{String,<:Any})
 
@@ -1451,6 +1714,44 @@ function remove_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    revoke_vpc_endpoint_access(account, domain_name)
+    revoke_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+
+Revokes access to an Amazon OpenSearch Service domain that was provided through an
+interface VPC endpoint.
+
+# Arguments
+- `account`: The account ID to revoke access from.
+- `domain_name`: The name of the OpenSearch Service domain.
+
+"""
+function revoke_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function revoke_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1598,6 +1899,51 @@ function update_package(
                 _merge,
                 Dict{String,Any}(
                     "PackageID" => PackageID, "PackageSource" => PackageSource
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_vpc_endpoint(vpc_endpoint_id, vpc_options)
+    update_vpc_endpoint(vpc_endpoint_id, vpc_options, params::Dict{String,<:Any})
+
+Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+
+# Arguments
+- `vpc_endpoint_id`: Unique identifier of the VPC endpoint to be updated.
+- `vpc_options`: The security groups and/or subnets to add, remove, or modify.
+
+"""
+function update_vpc_endpoint(
+    VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints/update",
+        Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_vpc_endpoint(
+    VpcEndpointId,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions
                 ),
                 params,
             ),

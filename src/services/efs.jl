@@ -14,8 +14,12 @@ file system request made through the access point. The operating system user and
 override any identity information provided by the NFS client. The file system path is
 exposed as the access point's root directory. Applications using the access point can only
 access data in the application's own directory and any subdirectories. To learn more, see
-Mounting a file system using EFS access points. This operation requires permissions for the
-elasticfilesystem:CreateAccessPoint action.
+Mounting a file system using EFS access points.  If multiple requests to create access
+points on the same file system are sent in quick succession, and the file system is near
+the limit of 120 access points, you may experience a throttling response for these
+requests. This is to ensure that the file system does not exceed the stated access point
+limit.  This operation requires permissions for the elasticfilesystem:CreateAccessPoint
+action.
 
 # Arguments
 - `client_token`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
@@ -159,13 +163,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Key\":\"Name\",\"Value\":\"{value}\" key-value pair. Each key must be unique. For more
   information, see Tagging Amazon Web Services resources in the Amazon Web Services General
   Reference Guide.
-- `"ThroughputMode"`: Specifies the throughput mode for the file system, either bursting or
-  provisioned. If you set ThroughputMode to provisioned, you must also set a value for
-  ProvisionedThroughputInMibps. After you create the file system, you can decrease your file
-  system's throughput in Provisioned Throughput mode or change between the throughput modes,
-  as long as it’s been more than 24 hours since the last decrease or throughput mode
-  change. For more information, see Specifying throughput with provisioned mode in the Amazon
-  EFS User Guide.  Default is bursting.
+- `"ThroughputMode"`: Specifies the throughput mode for the file system. The mode can be
+  bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also
+  set a value for ProvisionedThroughputInMibps. After you create the file system, you can
+  decrease your file system's throughput in Provisioned Throughput mode or change between the
+  throughput modes, with certain time restrictions. For more information, see Specifying
+  throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
 """
 function create_file_system(
     CreationToken; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1309,26 +1312,26 @@ end
     put_lifecycle_configuration(file_system_id, lifecycle_policies)
     put_lifecycle_configuration(file_system_id, lifecycle_policies, params::Dict{String,<:Any})
 
-Use this action to manage EFS lifecycle management and intelligent tiering. A
+Use this action to manage EFS lifecycle management and EFS Intelligent-Tiering. A
 LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the
 following:    EFS Lifecycle management - When Amazon EFS automatically transitions files in
-a file system into the lower-cost Infrequent Access (IA) storage class. To enable EFS
+a file system into the lower-cost EFS Infrequent Access (IA) storage class. To enable EFS
 Lifecycle management, set the value of TransitionToIA to one of the available options.
-EFS Intelligent tiering - When Amazon EFS automatically transitions files from IA back into
-the file system's primary storage class (Standard or One Zone Standard. To enable EFS
-Intelligent Tiering, set the value of TransitionToPrimaryStorageClass to AFTER_1_ACCESS.
-For more information, see EFS Lifecycle Management. Each Amazon EFS file system supports
-one lifecycle configuration, which applies to all files in the file system. If a
-LifecycleConfiguration object already exists for the specified file system, a
+EFS Intelligent-Tiering - When Amazon EFS automatically transitions files from IA back into
+the file system's primary storage class (EFS Standard or EFS One Zone Standard). To enable
+EFS Intelligent-Tiering, set the value of TransitionToPrimaryStorageClass to
+AFTER_1_ACCESS.   For more information, see EFS Lifecycle Management. Each Amazon EFS file
+system supports one lifecycle configuration, which applies to all files in the file system.
+If a LifecycleConfiguration object already exists for the specified file system, a
 PutLifecycleConfiguration call modifies the existing configuration. A
 PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body
-deletes any existing LifecycleConfiguration and turns off lifecycle management and
-intelligent tiering for the file system. In the request, specify the following:    The ID
+deletes any existing LifecycleConfiguration and turns off lifecycle management and EFS
+Intelligent-Tiering for the file system. In the request, specify the following:    The ID
 for the file system for which you are enabling, disabling, or modifying lifecycle
-management and intelligent tiering.   A LifecyclePolicies array of LifecyclePolicy objects
-that define when files are moved into IA storage, and when they are moved back to Standard
-storage.  Amazon EFS requires that each LifecyclePolicy object have only have a single
-transition, so the LifecyclePolicies array needs to be structured with separate
+management and EFS Intelligent-Tiering.   A LifecyclePolicies array of LifecyclePolicy
+objects that define when files are moved into IA storage, and when they are moved back to
+Standard storage.  Amazon EFS requires that each LifecyclePolicy object have only have a
+single transition, so the LifecyclePolicies array needs to be structured with separate
 LifecyclePolicy objects. See the example requests in the following section for more
 information.    This operation requires permissions for the
 elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration

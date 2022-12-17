@@ -233,8 +233,8 @@ function create_account_subscription(
 end
 
 """
-    create_analysis(analysis_id, aws_account_id, name, source_entity)
-    create_analysis(analysis_id, aws_account_id, name, source_entity, params::Dict{String,<:Any})
+    create_analysis(analysis_id, aws_account_id, name)
+    create_analysis(analysis_id, aws_account_id, name, params::Dict{String,<:Any})
 
 Creates an analysis in Amazon QuickSight.
 
@@ -245,12 +245,11 @@ Creates an analysis in Amazon QuickSight.
   analysis.
 - `name`: A descriptive name for the analysis that you're creating. This name displays for
   the analysis in the Amazon QuickSight console.
-- `source_entity`: A source entity to use for the analysis that you're creating. This
-  metadata structure contains details that describe a source template and one or more
-  datasets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Definition"`: The definition of an analysis. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
 - `"Parameters"`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
 - `"Permissions"`: A structure that describes the principals and the resource-level
@@ -258,22 +257,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   providing a list of Identity and Access Management (IAM) action information for each
   principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit
   Permissions.
+- `"SourceEntity"`: A source entity to use for the analysis that you're creating. This
+  metadata structure contains details that describe a source template and one or more
+  datasets.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the analysis.
 - `"ThemeArn"`: The ARN for the theme to apply to the analysis that you're creating. To see
   the theme in the Amazon QuickSight console, make sure that you have access to it.
 """
 function create_analysis(
-    AnalysisId,
-    AwsAccountId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "POST",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -282,28 +280,21 @@ function create_analysis(
     AnalysisId,
     AwsAccountId,
     Name,
-    SourceEntity,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return quicksight(
         "POST",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    create_dashboard(aws_account_id, dashboard_id, name, source_entity)
-    create_dashboard(aws_account_id, dashboard_id, name, source_entity, params::Dict{String,<:Any})
+    create_dashboard(aws_account_id, dashboard_id, name)
+    create_dashboard(aws_account_id, dashboard_id, name, params::Dict{String,<:Any})
 
 Creates a dashboard from a template. To first create a template, see the  CreateTemplate
 API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon
@@ -317,15 +308,6 @@ Amazon Web Services account.
   dashboard.
 - `dashboard_id`: The ID for the dashboard, also added to the IAM policy.
 - `name`: The display name of the dashboard.
-- `source_entity`: The entity that you are using as a source when you create the dashboard.
-  In SourceEntity, you specify the type of object you're using as source. You can only create
-  a dashboard from a template, so you use a SourceTemplate entity. If you need to create a
-  dashboard from an analysis, first convert the analysis to a template by using the
-  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN)
-  of the source template. The SourceTemplateARN can contain any Amazon Web Services account
-  and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
-  entity within SourceTemplate to list the replacement datasets for the placeholders listed
-  in the original. The schema in each dataset must match its placeholder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -338,12 +320,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for
   SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This
   option is COLLAPSED by default.
+- `"Definition"`: The definition of a dashboard. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
 - `"Parameters"`: The parameters for the creation of the dashboard, which you want to use
   to override the default settings. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
 - `"Permissions"`: A structure that contains the permissions of the dashboard. You can use
   this structure for granting permissions by providing a list of IAM action information for
   each principal ARN.  To specify no permissions, omit the permissions list.
+- `"SourceEntity"`: The entity that you are using as a source when you create the
+  dashboard. In SourceEntity, you specify the type of object you're using as source. You can
+  only create a dashboard from a template, so you use a SourceTemplate entity. If you need to
+  create a dashboard from an analysis, first convert the analysis to a template by using the
+  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN)
+  of the source template. The SourceTemplateARN can contain any Amazon Web Services account
+  and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
+  entity within SourceTemplate to list the replacement datasets for the placeholders listed
+  in the original. The schema in each dataset must match its placeholder.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dashboard.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
@@ -354,16 +347,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function create_dashboard(
-    AwsAccountId,
-    DashboardId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "POST",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -372,20 +361,13 @@ function create_dashboard(
     AwsAccountId,
     DashboardId,
     Name,
-    SourceEntity,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return quicksight(
         "POST",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -912,8 +894,8 @@ function create_namespace(
 end
 
 """
-    create_template(aws_account_id, source_entity, template_id)
-    create_template(aws_account_id, source_entity, template_id, params::Dict{String,<:Any})
+    create_template(aws_account_id, template_id)
+    create_template(aws_account_id, template_id, params::Dict{String,<:Any})
 
 Creates a template from an existing Amazon QuickSight analysis or template. You can use the
 resulting template to create a dashboard. A template is an entity in Amazon QuickSight that
@@ -926,7 +908,16 @@ create the source analysis and template.
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that the group is in. You
   use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
-- `source_entity`: The entity that you are using as a source when you create the template.
+- `template_id`: An ID for the template that you want to create. This template is unique
+  per Amazon Web Services Region; in each Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Definition"`: The definition of a template. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
+- `"Name"`: A display name for the template.
+- `"Permissions"`: A list of resource permissions to be set on the template.
+- `"SourceEntity"`: The entity that you are using as a source when you create the template.
   In SourceEntity, you specify the type of object you're using as source: SourceTemplate for
   a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name
   (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis,
@@ -935,13 +926,6 @@ create the source analysis and template.
   DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must match
   its placeholder.
-- `template_id`: An ID for the template that you want to create. This template is unique
-  per Amazon Web Services Region; in each Amazon Web Services account.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: A display name for the template.
-- `"Permissions"`: A list of resource permissions to be set on the template.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the resource.
 - `"VersionDescription"`: A description of the current template version being created. This
@@ -950,22 +934,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the version in the VersionDescription field.
 """
 function create_template(
-    AwsAccountId,
-    SourceEntity,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "POST",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}("SourceEntity" => SourceEntity);
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_template(
     AwsAccountId,
-    SourceEntity,
     TemplateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -973,9 +952,7 @@ function create_template(
     return quicksight(
         "POST",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1195,6 +1172,45 @@ function delete_account_customization(
     return quicksight(
         "DELETE",
         "/accounts/$(AwsAccountId)/customizations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_account_subscription(aws_account_id)
+    delete_account_subscription(aws_account_id, params::Dict{String,<:Any})
+
+Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This
+operation will result in an error message if you have configured your account termination
+protection settings to True. To change this setting and delete your account, call the
+UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter
+to False, then make another call to the DeleteAccountSubscription API.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account that you want to
+  delete.
+
+"""
+function delete_account_subscription(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/account/$(AwsAccountId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_account_subscription(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/account/$(AwsAccountId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1981,7 +1997,7 @@ end
     describe_account_subscription(aws_account_id)
     describe_account_subscription(aws_account_id, params::Dict{String,<:Any})
 
-Use the DescribeAccountSubscription operation to receive a description of a Amazon
+Use the DescribeAccountSubscription operation to receive a description of an Amazon
 QuickSight account's subscription. A successful API call returns an AccountInfo object that
 includes an account's name, subscription status, authentication type, edition, and
 notification email address.
@@ -2047,6 +2063,46 @@ function describe_analysis(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_analysis_definition(analysis_id, aws_account_id)
+    describe_analysis_definition(analysis_id, aws_account_id, params::Dict{String,<:Any})
+
+Provides a detailed description of the definition of an analysis.  If you do not need to
+know details about the content of an Analysis, for instance if you are trying to check the
+status of a recently created or updated Analysis, use the  DescribeAnalysis  instead.
+
+# Arguments
+- `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL
+  of the analysis.
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the analysis.
+  You must be using the Amazon Web Services account that the analysis is in.
+
+"""
+function describe_analysis_definition(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/definition";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_analysis_definition(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/definition",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2128,6 +2184,50 @@ function describe_dashboard(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_dashboard_definition(aws_account_id, dashboard_id)
+    describe_dashboard_definition(aws_account_id, dashboard_id, params::Dict{String,<:Any})
+
+Provides a detailed description of the definition of a dashboard.  If you do not need to
+know details about the content of a dashboard, for instance if you are trying to check the
+status of a recently created or updated dashboard, use the  DescribeDashboard  instead.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the dashboard
+  that you're describing.
+- `dashboard_id`: The ID for the dashboard.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias-name"`: The alias name.
+- `"version-number"`: The version number for the dashboard. If a version number isn't
+  passed, the latest published dashboard version is described.
+"""
+function describe_dashboard_definition(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/definition";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_dashboard_definition(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/definition",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2750,6 +2850,52 @@ function describe_template_alias(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_template_definition(aws_account_id, template_id)
+    describe_template_definition(aws_account_id, template_id, params::Dict{String,<:Any})
+
+Provides a detailed description of the definition of a template.  If you do not need to
+know details about the content of a template, for instance if you are trying to check the
+status of a recently created or updated template, use the  DescribeTemplate  instead.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the template.
+  You must be using the Amazon Web Services account that the template is in.
+- `template_id`: The ID of the template that you're describing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alias-name"`: The alias of the template that you want to describe. If you name a
+  specific alias, you describe the version that the alias points to. You can specify the
+  latest version of the template by providing the keyword LATEST in the AliasName parameter.
+  The keyword PUBLISHED doesn't apply to templates.
+- `"version-number"`: The version number of the template.
+"""
+function describe_template_definition(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/definition";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_template_definition(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/definition",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4400,6 +4546,88 @@ function search_dashboards(
 end
 
 """
+    search_data_sets(aws_account_id, filters)
+    search_data_sets(aws_account_id, filters, params::Dict{String,<:Any})
+
+Use the SearchDataSets operation to search for datasets that belong to an account.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `filters`: The filters to apply to the search.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to be returned per request.
+- `"NextToken"`: A pagination token that can be used in a subsequent request.
+"""
+function search_data_sets(
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/data-sets",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_data_sets(
+    AwsAccountId,
+    Filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/data-sets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_data_sources(aws_account_id, filters)
+    search_data_sources(aws_account_id, filters, params::Dict{String,<:Any})
+
+Use the SearchDataSources operation to search for data sources that belong to an account.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `filters`: The filters to apply to the search.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to be returned per request.
+- `"NextToken"`: A pagination token that can be used in a subsequent request.
+"""
+function search_data_sources(
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/data-sources",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_data_sources(
+    AwsAccountId,
+    Filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/data-sources",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_folders(aws_account_id, filters)
     search_folders(aws_account_id, filters, params::Dict{String,<:Any})
 
@@ -4649,6 +4877,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationEmail"`: The email address that you want Amazon QuickSight to send
   notifications to regarding your Amazon Web Services account or Amazon QuickSight
   subscription.
+- `"TerminationProtectionEnabled"`: A boolean value that determines whether or not an
+  Amazon QuickSight account can be deleted. A True value doesn't allow the account to be
+  deleted and results in an error message if a user tries to make a DeleteAccountSubscription
+  request. A False value will allow the account to be deleted.
 """
 function update_account_settings(
     AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4681,8 +4913,8 @@ function update_account_settings(
 end
 
 """
-    update_analysis(analysis_id, aws_account_id, name, source_entity)
-    update_analysis(analysis_id, aws_account_id, name, source_entity, params::Dict{String,<:Any})
+    update_analysis(analysis_id, aws_account_id, name)
+    update_analysis(analysis_id, aws_account_id, name, params::Dict{String,<:Any})
 
 Updates an analysis in Amazon QuickSight
 
@@ -4693,29 +4925,27 @@ Updates an analysis in Amazon QuickSight
   that you're updating.
 - `name`: A descriptive name for the analysis that you're updating. This name displays for
   the analysis in the Amazon QuickSight console.
-- `source_entity`: A source entity to use for the analysis that you're updating. This
-  metadata structure contains details that describe a source template and one or more
-  datasets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Definition"`: The definition of an analysis. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
 - `"Parameters"`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
+- `"SourceEntity"`: A source entity to use for the analysis that you're updating. This
+  metadata structure contains details that describe a source template and one or more
+  datasets.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) for the theme to apply to the analysis that
   you're creating. To see the theme in the Amazon QuickSight console, make sure that you have
   access to it.
 """
 function update_analysis(
-    AnalysisId,
-    AwsAccountId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4724,20 +4954,13 @@ function update_analysis(
     AnalysisId,
     AwsAccountId,
     Name,
-    SourceEntity,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4789,8 +5012,8 @@ function update_analysis_permissions(
 end
 
 """
-    update_dashboard(aws_account_id, dashboard_id, name, source_entity)
-    update_dashboard(aws_account_id, dashboard_id, name, source_entity, params::Dict{String,<:Any})
+    update_dashboard(aws_account_id, dashboard_id, name)
+    update_dashboard(aws_account_id, dashboard_id, name, params::Dict{String,<:Any})
 
 Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new
 dashboard version but does not immediately publish the new version. You can update the
@@ -4802,15 +5025,6 @@ operation.
   that you're updating.
 - `dashboard_id`: The ID for the dashboard.
 - `name`: The display name of the dashboard.
-- `source_entity`: The entity that you are using as a source when you update the dashboard.
-  In SourceEntity, you specify the type of object you're using as source. You can only update
-  a dashboard from a template, so you use a SourceTemplate entity. If you need to update a
-  dashboard from an analysis, first convert the analysis to a template by using the
-  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN)
-  of the source template. The SourceTemplate ARN can contain any Amazon Web Services account
-  and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
-  entity within SourceTemplate to list the replacement datasets for the placeholders listed
-  in the original. The schema in each dataset must match its placeholder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4823,9 +5037,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for
   SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This
   option is COLLAPSED by default.
+- `"Definition"`: The definition of a dashboard. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
 - `"Parameters"`: A structure that contains the parameters of the dashboard. These are
   parameter overrides for a dashboard. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
+- `"SourceEntity"`: The entity that you are using as a source when you update the
+  dashboard. In SourceEntity, you specify the type of object you're using as source. You can
+  only update a dashboard from a template, so you use a SourceTemplate entity. If you need to
+  update a dashboard from an analysis, first convert the analysis to a template by using the
+  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN)
+  of the source template. The SourceTemplate ARN can contain any Amazon Web Services account
+  and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
+  entity within SourceTemplate to list the replacement datasets for the placeholders listed
+  in the original. The schema in each dataset must match its placeholder.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
   dashboard. If you add a value for this field, it overrides the value that was originally
   associated with the entity. The theme ARN must exist in the same Amazon Web Services
@@ -4834,16 +5059,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function update_dashboard(
-    AwsAccountId,
-    DashboardId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4852,20 +5073,13 @@ function update_dashboard(
     AwsAccountId,
     DashboardId,
     Name,
-    SourceEntity,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4961,7 +5175,7 @@ end
     update_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map, params::Dict{String,<:Any})
 
 Updates a dataset. This operation doesn't support datasets that include uploaded files as a
-source.
+source. Partial updates are not supported by this operation.
 
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
@@ -5437,15 +5651,22 @@ function update_public_sharing_settings(
 end
 
 """
-    update_template(aws_account_id, source_entity, template_id)
-    update_template(aws_account_id, source_entity, template_id, params::Dict{String,<:Any})
+    update_template(aws_account_id, template_id)
+    update_template(aws_account_id, template_id, params::Dict{String,<:Any})
 
 Updates a template from an existing Amazon QuickSight analysis or another template.
 
 # Arguments
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the template
   that you're updating.
-- `source_entity`: The entity that you are using as a source when you update the template.
+- `template_id`: The ID for the template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Definition"`: The definition of a template. A definition is the data model of all
+  features in a Dashboard, Template, or Analysis.
+- `"Name"`: The name for the template.
+- `"SourceEntity"`: The entity that you are using as a source when you update the template.
   In SourceEntity, you specify the type of object you're using as source: SourceTemplate for
   a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name
   (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis,
@@ -5454,33 +5675,23 @@ Updates a template from an existing Amazon QuickSight analysis or another templa
   DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must match
   its placeholder.
-- `template_id`: The ID for the template.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: The name for the template.
 - `"VersionDescription"`: A description of the current template version that is being
   updated. Every time you call UpdateTemplate, you create a new version of the template. Each
   version of the template maintains a description of the version in the VersionDescription
   field.
 """
 function update_template(
-    AwsAccountId,
-    SourceEntity,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return quicksight(
         "PUT",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}("SourceEntity" => SourceEntity);
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_template(
     AwsAccountId,
-    SourceEntity,
     TemplateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -5488,9 +5699,7 @@ function update_template(
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -266,7 +266,14 @@ end
     associate_phone_number_contact_flow(contact_flow_id, instance_id, phone_number_id)
     associate_phone_number_contact_flow(contact_flow_id, instance_id, phone_number_id, params::Dict{String,<:Any})
 
-Associates a flow with a phone number claimed to your Amazon Connect instance.
+Associates a flow with a phone number claimed to your Amazon Connect instance.  If the
+number is claimed to a traffic distribution group, and you are calling this API using an
+instance in the Amazon Web Services Region where the traffic distribution group was
+created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI
+request parameter. However, if the number is claimed to a traffic distribution group and
+you are calling this API using an instance in the alternate Amazon Web Services Region
+associated with the traffic distribution group, you must provide a full phone number ARN.
+If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
 
 # Arguments
 - `contact_flow_id`: The identifier of the flow.
@@ -446,18 +453,26 @@ end
     claim_phone_number(phone_number, target_arn)
     claim_phone_number(phone_number, target_arn, params::Dict{String,<:Any})
 
-Claims an available phone number to your Amazon Connect instance.
+Claims an available phone number to your Amazon Connect instance or traffic distribution
+group. You can call this API only in the same Amazon Web Services Region where the Amazon
+Connect instance or traffic distribution group was created. For more information about how
+to use this operation, see Claim a phone number in your country and Claim phone numbers to
+traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the
+SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the
+DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
 
 # Arguments
 - `phone_number`: The phone number you want to claim. Phone numbers are formatted [+]
   [country code] [subscriber number including area code].
-- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances that phone
-  numbers are claimed to.
+- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  distribution groups that phone numbers are claimed to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent
+  APIs. Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
 - `"PhoneNumberDescription"`: The description of the phone number.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
@@ -620,7 +635,8 @@ Creates a flow module for the specified Amazon Connect instance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Description"`: The description of the flow module.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
@@ -857,7 +873,15 @@ end
     create_queue(hours_of_operation_id, instance_id, name, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Creates a new
-queue for the specified Amazon Connect instance.
+queue for the specified Amazon Connect instance.  If the number being used in the input is
+claimed to a traffic distribution group, and you are calling this API using an instance in
+the Amazon Web Services Region where the traffic distribution group was created, you can
+use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of
+the OutboundCallerConfig request body parameter. However, if the number is claimed to a
+traffic distribution group and you are calling this API using an instance in the alternate
+Amazon Web Services Region associated with the traffic distribution group, you must provide
+a full phone number ARN. If a UUID is provided in this scenario, you will receive a
+ResourceNotFoundException.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
@@ -1036,6 +1060,84 @@ function create_routing_profile(
 end
 
 """
+    create_rule(actions, function, instance_id, name, publish_status, trigger_event_source)
+    create_rule(actions, function, instance_id, name, publish_status, trigger_event_source, params::Dict{String,<:Any})
+
+Creates a rule for the specified Amazon Connect instance. Use the Rules Function language
+to code conditions for the rule.
+
+# Arguments
+- `actions`: A list of actions to be run when the rule is triggered.
+- `function`: The conditions of the rule.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `name`: A unique name for the rule.
+- `publish_status`: The publish status of the rule.
+- `trigger_event_source`: The event source to trigger the rule.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+"""
+function create_rule(
+    Actions,
+    Function,
+    InstanceId,
+    Name,
+    PublishStatus,
+    TriggerEventSource;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/rules/$(InstanceId)",
+        Dict{String,Any}(
+            "Actions" => Actions,
+            "Function" => Function,
+            "Name" => Name,
+            "PublishStatus" => PublishStatus,
+            "TriggerEventSource" => TriggerEventSource,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_rule(
+    Actions,
+    Function,
+    InstanceId,
+    Name,
+    PublishStatus,
+    TriggerEventSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/rules/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions,
+                    "Function" => Function,
+                    "Name" => Name,
+                    "PublishStatus" => PublishStatus,
+                    "TriggerEventSource" => TriggerEventSource,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_security_profile(instance_id, security_profile_name)
     create_security_profile(instance_id, security_profile_name, params::Dict{String,<:Any})
 
@@ -1049,9 +1151,14 @@ security profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedAccessControlTags"`: The list of tags that a security profile uses to restrict
+  access to resources in Amazon Connect.
 - `"Description"`: The description of the security profile.
 - `"Permissions"`: Permissions assigned to the security profile. For a list of valid
   permissions, see List of security profile permissions.
+- `"TagRestrictedResources"`: The list of resources that a security profile applies tag
+  restrictions to in Amazon Connect. Following are acceptable ResourceNames: User |
+  SecurityProfile | Queue | RoutingProfile
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
@@ -1102,7 +1209,8 @@ Creates a new task template in the specified Amazon Connect instance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Constraints"`: Constraints that are applicable to the fields listed.
 - `"ContactFlowId"`: The identifier of the flow that runs by default when a task is created
   by referencing this template.
@@ -1141,6 +1249,66 @@ function create_task_template(
                 _merge,
                 Dict{String,Any}(
                     "Fields" => Fields, "Name" => Name, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_traffic_distribution_group(instance_id, name)
+    create_traffic_distribution_group(instance_id, name, params::Dict{String,<:Any})
+
+Creates a traffic distribution group given an Amazon Connect instance that has been
+replicated.  For more information about creating traffic distribution groups, see Set up
+traffic distribution groups in the Amazon Connect Administrator Guide.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance that has been replicated.
+  You can find the instanceId in the ARN of the instance.
+- `name`: The name for the traffic distribution group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"Description"`: A description for the traffic distribution group.
+- `"Tags"`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+"""
+function create_traffic_distribution_group(
+    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "PUT",
+        "/traffic-distribution-group",
+        Dict{String,Any}(
+            "InstanceId" => InstanceId, "Name" => Name, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_traffic_distribution_group(
+    InstanceId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/traffic-distribution-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceId" => InstanceId,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1352,8 +1520,10 @@ sessions for that language.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If a create request is received more than once with same client
-  token, subsequent requests return the previous response without creating a vocabulary again.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent
+  APIs. If a create request is received more than once with same client token, subsequent
+  requests return the previous response without creating a vocabulary again.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
@@ -1631,6 +1801,41 @@ function delete_quick_connect(
 end
 
 """
+    delete_rule(instance_id, rule_id)
+    delete_rule(instance_id, rule_id, params::Dict{String,<:Any})
+
+Deletes a rule for the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `rule_id`: A unique identifier for the rule.
+
+"""
+function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config())
+    return connect(
+        "DELETE",
+        "/rules/$(InstanceId)/$(RuleId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_rule(
+    InstanceId,
+    RuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/rules/$(InstanceId)/$(RuleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_security_profile(instance_id, security_profile_id)
     delete_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
@@ -1699,6 +1904,46 @@ function delete_task_template(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_traffic_distribution_group(traffic_distribution_group_id)
+    delete_traffic_distribution_group(traffic_distribution_group_id, params::Dict{String,<:Any})
+
+Deletes a traffic distribution group. This API can be called only in the Region where the
+traffic distribution group is created. For more information about deleting traffic
+distribution groups, see Delete traffic distribution groups in the Amazon Connect
+Administrator Guide.
+
+# Arguments
+- `traffic_distribution_group_id`: The identifier of the traffic distribution group. This
+  can be the ID or the ARN if the API is being called in the Region where the traffic
+  distribution group was created. The ARN must be provided if the call is from the replicated
+  Region.
+
+"""
+function delete_traffic_distribution_group(
+    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "DELETE",
+        "/traffic-distribution-group/$(TrafficDistributionGroupId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_traffic_distribution_group(
+    TrafficDistributionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/traffic-distribution-group/$(TrafficDistributionGroupId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2178,6 +2423,13 @@ end
     describe_phone_number(phone_number_id, params::Dict{String,<:Any})
 
 Gets details and status of a phone number that’s claimed to your Amazon Connect instance
+or traffic distribution group.  If the number is claimed to a traffic distribution group,
+and you are calling in the Amazon Web Services Region where the traffic distribution group
+was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI
+request parameter. However, if the number is claimed to a traffic distribution group and
+you are calling this API in the alternate Amazon Web Services Region associated with the
+traffic distribution group, you must provide a full phone number ARN. If a UUID is provided
+in this scenario, you will receive a ResourceNotFoundException.
 
 # Arguments
 - `phone_number_id`: A unique identifier for the phone number.
@@ -2320,6 +2572,43 @@ function describe_routing_profile(
 end
 
 """
+    describe_rule(instance_id, rule_id)
+    describe_rule(instance_id, rule_id, params::Dict{String,<:Any})
+
+Describes a rule for the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `rule_id`: A unique identifier for the rule.
+
+"""
+function describe_rule(
+    InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/rules/$(InstanceId)/$(RuleId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_rule(
+    InstanceId,
+    RuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/rules/$(InstanceId)/$(RuleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_security_profile(instance_id, security_profile_id)
     describe_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
@@ -2351,6 +2640,43 @@ function describe_security_profile(
     return connect(
         "GET",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_traffic_distribution_group(traffic_distribution_group_id)
+    describe_traffic_distribution_group(traffic_distribution_group_id, params::Dict{String,<:Any})
+
+Gets details and status of a traffic distribution group.
+
+# Arguments
+- `traffic_distribution_group_id`: The identifier of the traffic distribution group. This
+  can be the ID or the ARN if the API is being called in the Region where the traffic
+  distribution group was created. The ARN must be provided if the call is from the replicated
+  Region.
+
+"""
+function describe_traffic_distribution_group(
+    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/traffic-distribution-group/$(TrafficDistributionGroupId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_traffic_distribution_group(
+    TrafficDistributionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/traffic-distribution-group/$(TrafficDistributionGroupId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2682,7 +3008,7 @@ authorization from the specified instance to access the specified Amazon Lex bot
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 - `bot_name`: The name of the Amazon Lex bot. Maximum character limit of 50.
-- `lex_region`: The Region in which the Amazon Lex bot has been created.
+- `lex_region`: The Amazon Web Services Region in which the Amazon Lex bot has been created.
 
 """
 function disassociate_lex_bot(
@@ -2722,8 +3048,14 @@ end
     disassociate_phone_number_contact_flow(phone_number_id, instance_id)
     disassociate_phone_number_contact_flow(phone_number_id, instance_id, params::Dict{String,<:Any})
 
-Removes the flow association from a phone number claimed to your Amazon Connect instance,
-if a flow association exists.
+Removes the flow association from a phone number claimed to your Amazon Connect instance.
+If the number is claimed to a traffic distribution group, and you are calling this API
+using an instance in the Amazon Web Services Region where the traffic distribution group
+was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId
+URI request parameter. However, if the number is claimed to a traffic distribution group
+and you are calling this API using an instance in the alternate Amazon Web Services Region
+associated with the traffic distribution group, you must provide a full phone number ARN.
+If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
 
 # Arguments
 - `phone_number_id`: A unique identifier for the phone number.
@@ -2891,6 +3223,50 @@ function disassociate_security_key(
 end
 
 """
+    dismiss_user_contact(contact_id, instance_id, user_id)
+    dismiss_user_contact(contact_id, instance_id, user_id, params::Dict{String,<:Any})
+
+Dismisses contacts from an agent’s CCP and returns the agent to an available state, which
+allows the agent to receive a new routed contact. Contacts can only be dismissed if they
+are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
+
+# Arguments
+- `contact_id`: The identifier of the contact.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `user_id`: The identifier of the user account.
+
+"""
+function dismiss_user_contact(
+    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/users/$(InstanceId)/$(UserId)/contact",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function dismiss_user_contact(
+    ContactId,
+    InstanceId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/users/$(InstanceId)/$(UserId)/contact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_contact_attributes(initial_contact_id, instance_id)
     get_contact_attributes(initial_contact_id, instance_id, params::Dict{String,<:Any})
 
@@ -2963,9 +3339,11 @@ Administrator Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Groupings"`: The grouping applied to the metrics returned. For example, when grouped by
-  QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If
-  you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels
-  are supported. If no Grouping is included in the request, a summary of metrics is returned.
+  QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
+  If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK
+  channels are supported.   If you group by ROUTING_PROFILE, you must include either a queue
+  or routing profile filter.   If no Grouping is included in the request, a summary of
+  metrics is returned.
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results. The token
@@ -3228,6 +3606,36 @@ function get_task_template(
     return connect(
         "GET",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_traffic_distribution(id)
+    get_traffic_distribution(id, params::Dict{String,<:Any})
+
+Retrieves the current traffic distribution for a given traffic distribution group.
+
+# Arguments
+- `id`: The identifier of the traffic distribution group.
+
+"""
+function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return connect(
+        "GET",
+        "/traffic-distribution/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_traffic_distribution(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/traffic-distribution/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3825,7 +4233,11 @@ end
 
 Provides information about the phone numbers for the specified Amazon Connect instance.
 For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center
-in the Amazon Connect Administrator Guide.
+in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned
+from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number
+resources. It will fail with a ResourceNotFoundException. Instead, use the
+ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone
+number resources.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -3866,9 +4278,11 @@ end
     list_phone_numbers_v2()
     list_phone_numbers_v2(params::Dict{String,<:Any})
 
-Lists phone numbers claimed to your Amazon Connect instance.  For more information about
-phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect
-Administrator Guide.
+Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group.
+If the provided TargetArn is a traffic distribution group, you can call this API in both
+Amazon Web Services Regions associated with traffic distribution group. For more
+information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the
+Amazon Connect Administrator Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3879,9 +4293,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PhoneNumberPrefix"`: The prefix of the phone number. If provided, it must contain + as
   part of the country code.
 - `"PhoneNumberTypes"`: The type of phone number.
-- `"TargetArn"`: The Amazon Resource Name (ARN) for Amazon Connect instances that phone
-  numbers are claimed to. If TargetArn input is not provided, this API lists numbers claimed
-  to all the Amazon Connect instances belonging to your account.
+- `"TargetArn"`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  distribution groups that phone numbers are claimed to. If TargetArn input is not provided,
+  this API lists numbers claimed to all the Amazon Connect instances belonging to your
+  account in the same Amazon Web Services Region as the request.
 """
 function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=global_aws_config())
     return connect(
@@ -4155,6 +4570,46 @@ function list_routing_profiles(
 end
 
 """
+    list_rules(instance_id)
+    list_rules(instance_id, params::Dict{String,<:Any})
+
+List all rules for the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"eventSourceName"`: The name of the event source.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"publishStatus"`: The publish status of the rule.
+"""
+function list_rules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return connect(
+        "GET",
+        "/rules/$(InstanceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rules(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/rules/$(InstanceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_security_keys(instance_id)
     list_security_keys(instance_id, params::Dict{String,<:Any})
 
@@ -4360,6 +4815,42 @@ function list_task_templates(
 end
 
 """
+    list_traffic_distribution_groups()
+    list_traffic_distribution_groups(params::Dict{String,<:Any})
+
+Lists traffic distribution groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"instanceId"`: The identifier of the Amazon Connect instance. You can find the
+  instanceId in the ARN of the instance.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_traffic_distribution_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/traffic-distribution-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_traffic_distribution_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/traffic-distribution-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_use_cases(instance_id, integration_association_id)
     list_use_cases(instance_id, integration_association_id, params::Dict{String,<:Any})
 
@@ -4484,6 +4975,70 @@ function list_users(
 end
 
 """
+    monitor_contact(contact_id, instance_id, user_id)
+    monitor_contact(contact_id, instance_id, user_id, params::Dict{String,<:Any})
+
+Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user
+specified by userId will be set to silent monitoring mode on the contact.
+
+# Arguments
+- `contact_id`: The identifier of the contact.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `user_id`: The identifier of the user account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedMonitorCapabilities"`: Specify which monitoring actions the user is allowed to
+  take. For example, whether the user is allowed to escalate from silent monitoring to barge.
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+"""
+function monitor_contact(
+    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/contact/monitor",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "InstanceId" => InstanceId,
+            "UserId" => UserId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function monitor_contact(
+    ContactId,
+    InstanceId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/monitor",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "InstanceId" => InstanceId,
+                    "UserId" => UserId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_user_status(agent_status_id, instance_id, user_id)
     put_user_status(agent_status_id, instance_id, user_id, params::Dict{String,<:Any})
 
@@ -4531,7 +5086,13 @@ end
     release_phone_number(phone_number_id)
     release_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Releases a phone number previously claimed to an Amazon Connect instance.
+Releases a phone number previously claimed to an Amazon Connect instance or traffic
+distribution group. You can call this API only in the Amazon Web Services Region where the
+number was claimed.  To release phone numbers from a traffic distribution group, use the
+ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the
+phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed
+again until the period has ended. If you accidentally release a phone number, contact
+Amazon Web Services Support.
 
 # Arguments
 - `phone_number_id`: A unique identifier for the phone number.
@@ -4539,7 +5100,8 @@ Releases a phone number previously claimed to an Amazon Connect instance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function release_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4562,6 +5124,71 @@ function release_phone_number(
         "/phone-number/$(PhoneNumberId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    replicate_instance(instance_id, replica_alias, replica_region)
+    replicate_instance(instance_id, replica_alias, replica_region, params::Dict{String,<:Any})
+
+Replicates an Amazon Connect instance in the specified Amazon Web Services Region. For more
+information about replicating an Amazon Connect instance, see Create a replica of your
+existing Amazon Connect instance in the Amazon Connect Administrator Guide.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance. You can provide the InstanceId, or the entire ARN.
+- `replica_alias`: The alias for the replicated instance. The ReplicaAlias must be unique.
+- `replica_region`: The Amazon Web Services Region where to replicate the Amazon Connect
+  instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+"""
+function replicate_instance(
+    InstanceId,
+    ReplicaAlias,
+    ReplicaRegion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/instance/$(InstanceId)/replicate",
+        Dict{String,Any}(
+            "ReplicaAlias" => ReplicaAlias,
+            "ReplicaRegion" => ReplicaRegion,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function replicate_instance(
+    InstanceId,
+    ReplicaAlias,
+    ReplicaRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/instance/$(InstanceId)/replicate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicaAlias" => ReplicaAlias,
+                    "ReplicaRegion" => ReplicaRegion,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4632,13 +5259,16 @@ end
     search_available_phone_numbers(phone_number_country_code, phone_number_type, target_arn)
     search_available_phone_numbers(phone_number_country_code, phone_number_type, target_arn, params::Dict{String,<:Any})
 
-Searches for available phone numbers that you can claim to your Amazon Connect instance.
+Searches for available phone numbers that you can claim to your Amazon Connect instance or
+traffic distribution group. If the provided TargetArn is a traffic distribution group, you
+can call this API in both Amazon Web Services Regions associated with the traffic
+distribution group.
 
 # Arguments
 - `phone_number_country_code`: The ISO country code.
 - `phone_number_type`: The type of phone number.
-- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances that phone
-  numbers are claimed to.
+- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  distribution groups that phone numbers are claimed to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4708,7 +5338,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"SearchCriteria"`: The search criteria to be used to return queues.
+- `"SearchCriteria"`: The search criteria to be used to return queues.  The name and
+  description fields support \"contains\" queries with a minimum of 2 characters and a
+  maximum of 25 characters. Any queries with character lengths outside of this range will
+  throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4752,7 +5385,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"SearchCriteria"`: The search criteria to be used to return routing profiles.
+- `"SearchCriteria"`: The search criteria to be used to return routing profiles.  The name
+  and description fields support \"contains\" queries with a minimum of 2 characters and a
+  maximum of 25 characters. Any queries with character lengths outside of this range will
+  throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_routing_profiles(
@@ -4798,7 +5434,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"SearchCriteria"`: The search criteria to be used to return security profiles.
+- `"SearchCriteria"`: The search criteria to be used to return security profiles.   The
+  name field support \"contains\" queries with a minimum of 2 characters and maximum of 25
+  characters. Any queries with character lengths outside of this range will throw invalid
+  results.   The currently supported value for FieldName: name
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_security_profiles(
@@ -4833,6 +5472,7 @@ end
     search_users(params::Dict{String,<:Any})
 
 Searches users in an Amazon Connect instance, with optional filtering.
+AfterContactWorkTimeLimit is returned in milliseconds.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4943,7 +5583,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the chat session duration defaults to 25 hour. The minumum configurable time is
   60 minutes. The maximum configurable time is 10,080 minutes (7 days).
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"InitialMessage"`: The initial message to be sent to the newly created chat.
 - `"SupportedMessagingContentTypes"`: The supported chat message content types. Content
   types can be text/plain or both text/plain and text/markdown.
@@ -5077,7 +5718,8 @@ Administrator Guide.
 - `chat_streaming_configuration`: The streaming configuration, such as the Amazon SNS
   streaming endpoint.
 - `client_token`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `contact_id`: The identifier of the contact. This is the identifier of the contact
   associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -5170,8 +5812,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
 - `"CampaignId"`: The campaign identifier of the outbound communication.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. The token is valid for 7 days after creation. If a contact is
-  already started, the contact ID is returned.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent
+  APIs. The token is valid for 7 days after creation. If a contact is already started, the
+  contact ID is returned.
 - `"QueueId"`: The queue for the call. If you specify a queue, the phone displayed for
   caller ID is the phone number specified in the queue. If you do not specify a queue, the
   queue defined in the flow is used. If you do not specify a queue, you must specify a source
@@ -5246,7 +5890,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per
   contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"ContactFlowId"`: The identifier of the flow for initiating the tasks. To see the
   ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to
   Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow,
@@ -5592,7 +6237,8 @@ transferred more than 11 times.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"QueueId"`: The identifier for the queue.
 - `"UserId"`: The identifier for the user.
 """
@@ -5849,7 +6495,7 @@ Flow language.
 # Arguments
 - `contact_flow_id`: The identifier of the flow.
 - `content`: The JSON string that represents flow's content. For an example, see Example
-  contact flow in Amazon Connect Flow language in the Amazon Connect Administrator Guide.
+  contact flow in Amazon Connect Flow language.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
@@ -6251,18 +6897,21 @@ end
     update_phone_number(phone_number_id, target_arn)
     update_phone_number(phone_number_id, target_arn, params::Dict{String,<:Any})
 
-Updates your claimed phone number from its current Amazon Connect instance to another
-Amazon Connect instance in the same Region.
+Updates your claimed phone number from its current Amazon Connect instance or traffic
+distribution group to another Amazon Connect instance or traffic distribution group in the
+same Amazon Web Services Region.  You can call DescribePhoneNumber API to verify the status
+of a previous UpdatePhoneNumber operation.
 
 # Arguments
 - `phone_number_id`: A unique identifier for the phone number.
-- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances that phone
-  numbers are claimed to.
+- `target_arn`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  distribution groups that phone numbers are claimed to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function update_phone_number(
     PhoneNumberId, TargetArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6435,7 +7084,15 @@ end
     update_queue_outbound_caller_config(instance_id, outbound_caller_config, queue_id, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
-outbound caller ID name, number, and outbound whisper flow for a specified queue.
+outbound caller ID name, number, and outbound whisper flow for a specified queue.  If the
+number being used in the input is claimed to a traffic distribution group, and you are
+calling this API using an instance in the Amazon Web Services Region where the traffic
+distribution group was created, you can use either a full phone number ARN or UUID value
+for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter.
+However, if the number is claimed to a traffic distribution group and you are calling this
+API using an instance in the alternate Amazon Web Services Region associated with the
+traffic distribution group, you must provide a full phone number ARN. If a UUID is provided
+in this scenario, you will receive a ResourceNotFoundException.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -6799,6 +7456,77 @@ function update_routing_profile_queues(
 end
 
 """
+    update_rule(actions, function, instance_id, name, publish_status, rule_id)
+    update_rule(actions, function, instance_id, name, publish_status, rule_id, params::Dict{String,<:Any})
+
+Updates a rule for the specified Amazon Connect instance. Use the Rules Function language
+to code conditions for the rule.
+
+# Arguments
+- `actions`: A list of actions to be run when the rule is triggered.
+- `function`: The conditions of the rule.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `name`: The name of the rule. You can change the name only if TriggerEventSource is one
+  of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate |
+  OnSalesforceCaseCreate
+- `publish_status`: The publish status of the rule.
+- `rule_id`: A unique identifier for the rule.
+
+"""
+function update_rule(
+    Actions,
+    Function,
+    InstanceId,
+    Name,
+    PublishStatus,
+    RuleId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/rules/$(InstanceId)/$(RuleId)",
+        Dict{String,Any}(
+            "Actions" => Actions,
+            "Function" => Function,
+            "Name" => Name,
+            "PublishStatus" => PublishStatus,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_rule(
+    Actions,
+    Function,
+    InstanceId,
+    Name,
+    PublishStatus,
+    RuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/rules/$(InstanceId)/$(RuleId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions,
+                    "Function" => Function,
+                    "Name" => Name,
+                    "PublishStatus" => PublishStatus,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_security_profile(instance_id, security_profile_id)
     update_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
@@ -6812,9 +7540,13 @@ security profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedAccessControlTags"`: The list of tags that a security profile uses to restrict
+  access to resources in Amazon Connect.
 - `"Description"`: The description of the security profile.
 - `"Permissions"`: The permissions granted to a security profile. For a list of valid
   permissions, see List of security profile permissions.
+- `"TagRestrictedResources"`: The list of resources that a security profile applies tag
+  restrictions to in Amazon Connect.
 """
 function update_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6887,6 +7619,43 @@ function update_task_template(
     return connect(
         "POST",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_traffic_distribution(id)
+    update_traffic_distribution(id, params::Dict{String,<:Any})
+
+Updates the traffic distribution for a given traffic distribution group.  For more
+information about updating a traffic distribution group, see Update telephony traffic
+distribution across Amazon Web Services Regions  in the Amazon Connect Administrator Guide.
+
+# Arguments
+- `id`: The identifier of the traffic distribution group. This can be the ID or the ARN if
+  the API is being called in the Region where the traffic distribution group was created. The
+  ARN must be provided if the call is from the replicated Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TelephonyConfig"`: The distribution of traffic between the instance and its replica(s).
+"""
+function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return connect(
+        "PUT",
+        "/traffic-distribution/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_traffic_distribution(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "PUT",
+        "/traffic-distribution/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

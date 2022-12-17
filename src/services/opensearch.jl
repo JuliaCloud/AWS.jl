@@ -8,10 +8,12 @@ using AWS.UUIDs
     accept_inbound_connection(connection_id)
     accept_inbound_connection(connection_id, params::Dict{String,<:Any})
 
-Allows the remote domain owner to accept an inbound cross-cluster connection request.
+Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
+cross-cluster search connection request. For more information, see Cross-cluster search for
+Amazon OpenSearch Service.
 
 # Arguments
-- `connection_id`: The ID of the inbound connection you want to accept.
+- `connection_id`: The ID of the inbound connection to accept.
 
 """
 function accept_inbound_connection(
@@ -42,13 +44,14 @@ end
     add_tags(arn, tag_list)
     add_tags(arn, tag_list, params::Dict{String,<:Any})
 
-Attaches tags to an existing domain. Tags are a set of case-sensitive key value pairs. An
-domain can have up to 10 tags. See  Tagging Amazon OpenSearch Service domains for more
-information.
+Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of
+case-sensitive key-value pairs. An domain can have up to 10 tags. For more information, see
+ Tagging Amazon OpenSearch Service domains.
 
 # Arguments
-- `arn`: Specify the ARN of the domain you want to add tags to.
-- `tag_list`: List of Tag to add to the domain.
+- `arn`: Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to
+  attach resource tags.
+- `tag_list`: List of resource tags.
 
 """
 function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config())
@@ -81,10 +84,11 @@ end
     associate_package(domain_name, package_id)
     associate_package(domain_name, package_id, params::Dict{String,<:Any})
 
-Associates a package with an Amazon OpenSearch Service domain.
+Associates a package with an Amazon OpenSearch Service domain. For more information, see
+Custom packages for Amazon OpenSearch Service.
 
 # Arguments
-- `domain_name`: The name of the domain to associate the package with.
+- `domain_name`: Name of the domain to associate the package with.
 - `package_id`: Internal ID of the package to associate with a domain. Use DescribePackages
   to find this value.
 
@@ -115,16 +119,55 @@ function associate_package(
 end
 
 """
+    authorize_vpc_endpoint_access(account, domain_name)
+    authorize_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+
+Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC
+endpoint.
+
+# Arguments
+- `account`: The Amazon Web Services account ID to grant access to.
+- `domain_name`: The name of the OpenSearch Service domain to provide access to.
+
+"""
+function authorize_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function authorize_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_service_software_update(domain_name)
     cancel_service_software_update(domain_name, params::Dict{String,<:Any})
 
 Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You
-can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is
-in the PENDING_UPDATE state.
+can only perform this operation before the AutomatedUpdateDate and when the domain's
+UpdateStatus is PENDING_UPDATE. For more information, see Service software updates in
+Amazon OpenSearch Service.
 
 # Arguments
-- `domain_name`: The name of the domain that you want to stop the latest service software
-  update on.
+- `domain_name`: Name of the OpenSearch Service domain that you want to cancel the service
+  software update on.
 
 """
 function cancel_service_software_update(
@@ -158,46 +201,55 @@ end
     create_domain(domain_name)
     create_domain(domain_name, params::Dict{String,<:Any})
 
-Creates a new Amazon OpenSearch Service domain. For more information, see Creating and
-managing Amazon OpenSearch Service domains  in the Amazon OpenSearch Service Developer
-Guide.
+Creates an Amazon OpenSearch Service domain. For more information, see Creating and
+managing Amazon OpenSearch Service domains.
 
 # Arguments
-- `domain_name`: The name of the Amazon OpenSearch Service domain you're creating. Domain
-  names are unique across the domains owned by an account within an AWS region. Domain names
-  must start with a lowercase letter and can contain the following characters: a-z
-  (lowercase), 0-9, and - (hyphen).
+- `domain_name`: Name of the OpenSearch Service domain to create. Domain names are unique
+  across the domains owned by an account within an Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`: Option to allow references to indices in an HTTP request body. Must
-  be false when configuring access to individual sub-resources. By default, the value is
-  true. See Advanced cluster parameters  for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"ClusterConfig"`: Configuration options for a domain. Specifies the instance type and
-  number of instances in the domain.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for OpenSearch
-  Dashboards authentication. For more information, see Configuring Amazon Cognito
-  authentication for OpenSearch Dashboards.
-- `"DomainEndpointOptions"`: Options to specify configurations that will be applied to the
-  domain endpoint.
-- `"EBSOptions"`: Options to enable, disable, and specify the type and size of EBS storage
-  volumes.
-- `"EncryptionAtRestOptions"`: Options for encryption of data at rest.
+- `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
+  access policies for the new domain.
+- `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
+  following key-value pairs are supported:    \"rest.action.multi.allow_explicit_index\":
+  \"true\" | \"false\" - Note the use of a string rather than a boolean. Specifies whether
+  explicit references to indexes are allowed inside the body of HTTP requests. If you want to
+  configure access policies for domain sub-resources, such as specific indexes and domain
+  APIs, you must disable this property. Default is true.    \"indices.fielddata.cache.size\":
+  \"80\"  - Note the use of a string rather than a boolean. Specifies the percentage of heap
+  space allocated to field data. Default is unbounded.
+  \"indices.query.bool.max_clause_count\": \"1024\" - Note the use of a string rather than a
+  boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default
+  is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses
+  error.    \"override_main_response_version\": \"true\" | \"false\" - Note the use of a
+  string rather than a boolean. Specifies whether the domain reports its version as 7.10 to
+  allow Elasticsearch OSS clients and plugins to continue working with it. Default is false
+  when creating a domain and true when upgrading a domain.   For more information, see
+  Advanced cluster parameters.
+- `"AdvancedSecurityOptions"`: Options for fine-grained access control.
+- `"AutoTuneOptions"`: Options for Auto-Tune.
+- `"ClusterConfig"`: Container for the cluster configuration of a domain.
+- `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication. For more
+  information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+- `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
+  require HTTPS for all traffic.
+- `"EBSOptions"`: Container for the parameters required to enable EBS-based storage for an
+  OpenSearch Service domain.
+- `"EncryptionAtRestOptions"`: Key-value pairs to enable encryption at rest.
 - `"EngineVersion"`: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the
-  engine version for the Amazon OpenSearch Service domain. For example, \"OpenSearch_1.0\" or
-  \"Elasticsearch_7.9\". For more information, see Creating and managing Amazon OpenSearch
-  Service domains .
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of OpenSearch log.
-- `"NodeToNodeEncryptionOptions"`: Node-to-node encryption options.
-- `"SnapshotOptions"`: Option to set time, in UTC format, of the daily automated snapshot.
-  Default value is 0 hours.
-- `"TagList"`: A list of Tag added during domain creation.
-- `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
-  For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
+  engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or
+  Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch
+  Service domains.
+- `"LogPublishingOptions"`: Key-value pairs to configure slow log publishing.
+- `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
+- `"SnapshotOptions"`: DEPRECATED. Container for the parameters required to configure
+  automated snapshots of domain indexes.
+- `"TagList"`: List of tags to add to the domain upon creation.
+- `"VPCOptions"`: Container for the values required to configure VPC access domains. If you
+  don't specify these values, OpenSearch Service creates the domain with a public endpoint.
+  For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
 """
 function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -228,14 +280,14 @@ end
     create_outbound_connection(connection_alias, local_domain_info, remote_domain_info)
     create_outbound_connection(connection_alias, local_domain_info, remote_domain_info, params::Dict{String,<:Any})
 
-Creates a new cross-cluster connection from a local OpenSearch domain to a remote
-OpenSearch domain.
+Creates a new cross-cluster search connection from a source Amazon OpenSearch Service
+domain to a destination domain. For more information, see Cross-cluster search for Amazon
+OpenSearch Service.
 
 # Arguments
-- `connection_alias`: The connection alias used used by the customer for this cross-cluster
-  connection.
-- `local_domain_info`: The  AWSDomainInformation  for the local OpenSearch domain.
-- `remote_domain_info`: The  AWSDomainInformation  for the remote OpenSearch domain.
+- `connection_alias`: Name of the connection.
+- `local_domain_info`: Name and Region of the source (local) domain.
+- `remote_domain_info`: Name and Region of the destination (remote) domain.
 
 """
 function create_outbound_connection(
@@ -286,12 +338,13 @@ end
     create_package(package_name, package_source, package_type)
     create_package(package_name, package_source, package_type, params::Dict{String,<:Any})
 
-Create a package for use with Amazon OpenSearch Service domains.
+Creates a package for use with Amazon OpenSearch Service domains. For more information, see
+Custom packages for Amazon OpenSearch Service.
 
 # Arguments
-- `package_name`: Unique identifier for the package.
+- `package_name`: Unique name for the package.
 - `package_source`: The Amazon S3 location from which to import the package.
-- `package_type`: Type of package. Currently supports only TXT-DICTIONARY.
+- `package_type`: Type of package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -342,11 +395,57 @@ function create_package(
 end
 
 """
+    create_vpc_endpoint(domain_arn, vpc_options)
+    create_vpc_endpoint(domain_arn, vpc_options, params::Dict{String,<:Any})
+
+Creates an Amazon OpenSearch Service-managed VPC endpoint.
+
+# Arguments
+- `domain_arn`: The Amazon Resource Name (ARN) of the domain to grant access to.
+- `vpc_options`: Options to specify the subnets and security groups for the endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+"""
+function create_vpc_endpoint(
+    DomainArn, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints",
+        Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpc_endpoint(
+    DomainArn,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_domain(domain_name)
     delete_domain(domain_name, params::Dict{String,<:Any})
 
-Permanently deletes the specified domain and all of its data. Once a domain is deleted, it
-cannot be recovered.
+Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain
+after you delete it.
 
 # Arguments
 - `domain_name`: The name of the domain you want to permanently delete.
@@ -378,7 +477,9 @@ end
     delete_inbound_connection(connection_id)
     delete_inbound_connection(connection_id, params::Dict{String,<:Any})
 
-Allows the remote domain owner to delete an existing inbound cross-cluster connection.
+Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound
+cross-cluster search connection. For more information, see Cross-cluster search for Amazon
+OpenSearch Service.
 
 # Arguments
 - `connection_id`: The ID of the inbound connection to permanently delete.
@@ -412,7 +513,9 @@ end
     delete_outbound_connection(connection_id)
     delete_outbound_connection(connection_id, params::Dict{String,<:Any})
 
-Allows the local domain owner to delete an existing outbound cross-cluster connection.
+Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound
+cross-cluster search connection. For more information, see Cross-cluster search for Amazon
+OpenSearch Service.
 
 # Arguments
 - `connection_id`: The ID of the outbound connection you want to permanently delete.
@@ -446,7 +549,8 @@ end
     delete_package(package_id)
     delete_package(package_id, params::Dict{String,<:Any})
 
-Deletes the package.
+Deletes an Amazon OpenSearch Service package. For more information, see Custom packages for
+Amazon OpenSearch Service.
 
 # Arguments
 - `package_id`: The internal ID of the package you want to delete. Use DescribePackages to
@@ -476,14 +580,48 @@ function delete_package(
 end
 
 """
+    delete_vpc_endpoint(vpc_endpoint_id)
+    delete_vpc_endpoint(vpc_endpoint_id, params::Dict{String,<:Any})
+
+Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+
+# Arguments
+- `vpc_endpoint_id`: The unique identifier of the endpoint.
+
+"""
+function delete_vpc_endpoint(
+    VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vpc_endpoint(
+    VpcEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/vpcEndpoints/$(VpcEndpointId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_domain(domain_name)
     describe_domain(domain_name, params::Dict{String,<:Any})
 
-Returns domain configuration information about the specified domain, including the domain
-ID, domain endpoint, and domain ARN.
+Describes the domain configuration for the specified Amazon OpenSearch Service domain,
+including the domain ID, domain service endpoint, and domain ARN.
 
 # Arguments
-- `domain_name`: The name of the domain for which you want information.
+- `domain_name`: The name of the domain that you want information about.
 
 """
 function describe_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -512,18 +650,19 @@ end
     describe_domain_auto_tunes(domain_name)
     describe_domain_auto_tunes(domain_name, params::Dict{String,<:Any})
 
-Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type,
-description, severity, and scheduled date.
+Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service
+domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
 
 # Arguments
-- `domain_name`: The domain name for which you want Auto-Tune action details.
+- `domain_name`: Name of the domain that you want Auto-Tune details about.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
-  NextToken. Used for pagination.
+- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"NextToken"`: If your initial DescribeDomainAutoTunes operation returns a nextToken, you
+  can include the returned nextToken in subsequent DescribeDomainAutoTunes operations, which
+  returns results in the next page.
 """
 function describe_domain_auto_tunes(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -553,17 +692,17 @@ end
     describe_domain_change_progress(domain_name)
     describe_domain_change_progress(domain_name, params::Dict{String,<:Any})
 
-Returns information about the current blue/green deployment happening on a domain,
-including a change ID, status, and progress stages.
+Returns information about the current blue/green deployment happening on an Amazon
+OpenSearch Service domain. For more information, see Making configuration changes in Amazon
+OpenSearch Service.
 
 # Arguments
-- `domain_name`: The domain you want to get the progress information about.
+- `domain_name`: The name of the domain to get progress information for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"changeid"`: The specific change ID for which you want to get progress information. This
-  is an optional parameter. If omitted, the service returns information about the most recent
-  configuration change.
+- `"changeid"`: The specific change ID for which you want to get progress information. If
+  omitted, the request returns information about the most recent configuration change.
 """
 function describe_domain_change_progress(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -593,11 +732,11 @@ end
     describe_domain_config(domain_name)
     describe_domain_config(domain_name, params::Dict{String,<:Any})
 
-Provides cluster configuration information about the specified domain, such as the state,
-creation date, update version, and update date for cluster options.
+Returns the configuration of an Amazon OpenSearch Service domain.
 
 # Arguments
-- `domain_name`: The domain you want to get information about.
+- `domain_name`: Name of the OpenSearch Service domain configuration that you want to
+  describe.
 
 """
 function describe_domain_config(
@@ -628,11 +767,13 @@ end
     describe_domains(domain_names)
     describe_domains(domain_names, params::Dict{String,<:Any})
 
-Returns domain configuration information about the specified domains, including the domain
-ID, domain endpoint, and domain ARN.
+Returns domain configuration information about the specified Amazon OpenSearch Service
+domains.
 
 # Arguments
-- `domain_names`: The domains for which you want information.
+- `domain_names`: Array of OpenSearch Service domain names that you want information about.
+  If you don't specify any domains, OpenSearch Service returns information about all domains
+  owned by the account.
 
 """
 function describe_domains(DomainNames; aws_config::AbstractAWSConfig=global_aws_config())
@@ -664,17 +805,19 @@ end
     describe_inbound_connections()
     describe_inbound_connections(params::Dict{String,<:Any})
 
-Lists all the inbound cross-cluster connections for a remote domain.
+Lists all the inbound cross-cluster search connections for a destination (remote) Amazon
+OpenSearch Service domain. For more information, see Cross-cluster search for Amazon
+OpenSearch Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`:  A list of filters used to match properties for inbound cross-cluster
-  connections. Available  Filter  values are:  connection-id local-domain-info.domain-name
-  local-domain-info.owner-id local-domain-info.region remote-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: If more results are available and NextToken is present, make the next
-  request to the same API with the received NextToken to paginate the remaining results.
+  connections.
+- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"NextToken"`: If your initial DescribeInboundConnections operation returns a nextToken,
+  you can include the returned nextToken in subsequent DescribeInboundConnections operations,
+  which returns results in the next page.
 """
 function describe_inbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -700,19 +843,19 @@ end
     describe_instance_type_limits(engine_version, instance_type)
     describe_instance_type_limits(engine_version, instance_type, params::Dict{String,<:Any})
 
- Describe the limits for a given instance type and OpenSearch or Elasticsearch version.
-When modifying an existing domain, specify the  DomainName  to see which limits you can
-modify.
+Describes the instance count, storage, and master node limits for a given OpenSearch or
+Elasticsearch version and instance type.
 
 # Arguments
-- `engine_version`:  Version of OpenSearch for which  Limits  are needed.
-- `instance_type`:  The instance type for an OpenSearch cluster for which OpenSearch
-  Limits  are needed.
+- `engine_version`: Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y
+  or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
+- `instance_type`: The OpenSearch Service instance type for which you need limit
+  information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:  The name of the domain you want to modify. Only include this value if
-  you're querying OpenSearch  Limits  for an existing domain.
+- `"domainName"`: The name of the domain. Only specify if you need the limits for an
+  existing domain.
 """
 function describe_instance_type_limits(
     EngineVersion, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -743,18 +886,18 @@ end
     describe_outbound_connections()
     describe_outbound_connections(params::Dict{String,<:Any})
 
-Lists all the outbound cross-cluster connections for a local domain.
+Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch
+Service domain. For more information, see Cross-cluster search for Amazon OpenSearch
+Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  A list of filters used to match properties for outbound cross-cluster
-  connections. Available  Filter  names for this operation are:  connection-id
-  remote-domain-info.domain-name remote-domain-info.owner-id remote-domain-info.region
-  local-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
-  NextToken parameter. Used for pagination.
+- `"Filters"`: List of filter names and values that you can use for requests.
+- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"NextToken"`: If your initial DescribeOutboundConnections operation returns a nextToken,
+  you can include the returned nextToken in subsequent DescribeOutboundConnections
+  operations, which returns results in the next page.
 """
 function describe_outbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -780,15 +923,17 @@ end
     describe_packages()
     describe_packages(params::Dict{String,<:Any})
 
-Describes all packages available to Amazon OpenSearch Service domains. Includes options for
-filtering, limiting the number of results, and pagination.
+Describes all packages available to OpenSearch Service. For more information, see Custom
+packages for Amazon OpenSearch Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Only returns packages that match the DescribePackagesFilterList values.
-- `"MaxResults"`: Limits results to a maximum number of packages.
-- `"NextToken"`: Used for pagination. Only necessary if a previous API call includes a
-  non-null NextToken value. If provided, returns results for the next page.
+- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"NextToken"`: If your initial DescribePackageFilters operation returns a nextToken, you
+  can include the returned nextToken in subsequent DescribePackageFilters operations, which
+  returns results in the next page.
 """
 function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -814,15 +959,18 @@ end
     describe_reserved_instance_offerings()
     describe_reserved_instance_offerings(params::Dict{String,<:Any})
 
-Lists available reserved OpenSearch instance offerings.
+Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given
+Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
-- `"offeringId"`: The offering identifier filter value. Use this parameter to show only the
-  available offering that matches the specified reservation identifier.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial DescribeReservedInstanceOfferings operation returns a
+  nextToken, you can include the returned nextToken in subsequent
+  DescribeReservedInstanceOfferings operations, which returns results in the next page.
+- `"offeringId"`: The Reserved Instance identifier filter value. Use this parameter to show
+  only the available instance types that match the specified reservation identifier.
 """
 function describe_reserved_instance_offerings(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -850,13 +998,16 @@ end
     describe_reserved_instances()
     describe_reserved_instances(params::Dict{String,<:Any})
 
-Returns information about reserved OpenSearch instances for this account.
+Describes the Amazon OpenSearch Service instances that you have reserved in a given Region.
+For more information, see Reserved Instances in Amazon OpenSearch Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial DescribeReservedInstances operation returns a nextToken,
+  you can include the returned nextToken in subsequent DescribeReservedInstances operations,
+  which returns results in the next page.
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved OpenSearch instance ID.
 """
@@ -881,15 +1032,55 @@ function describe_reserved_instances(
 end
 
 """
+    describe_vpc_endpoints(vpc_endpoint_ids)
+    describe_vpc_endpoints(vpc_endpoint_ids, params::Dict{String,<:Any})
+
+Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+
+# Arguments
+- `vpc_endpoint_ids`: The unique identifiers of the endpoints to get information about.
+
+"""
+function describe_vpc_endpoints(
+    VpcEndpointIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/describe",
+        Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vpc_endpoints(
+    VpcEndpointIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/describe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     dissociate_package(domain_name, package_id)
     dissociate_package(domain_name, package_id, params::Dict{String,<:Any})
 
-Dissociates a package from the Amazon OpenSearch Service domain.
+Removes a package from the specified Amazon OpenSearch Service domain. The package can't be
+in use with any OpenSearch index for the dissociation to succeed. The package is still
+available in OpenSearch Service for association later. For more information, see Custom
+packages for Amazon OpenSearch Service.
 
 # Arguments
-- `domain_name`: The name of the domain to associate the package with.
-- `package_id`: The internal ID of the package to associate with a domain. Use
-  DescribePackages to find this value.
+- `domain_name`: Name of the domain to dissociate the package from.
+- `package_id`: Internal ID of the package to dissociate from the domain. Use
+  ListPackagesForDomain to find this value.
 
 """
 function dissociate_package(
@@ -921,13 +1112,13 @@ end
     get_compatible_versions()
     get_compatible_versions(params::Dict{String,<:Any})
 
- Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch. You can
-optionally pass a  DomainName  to get all upgrade-compatible versions of
-OpenSearch/Elasticsearch for that specific domain.
+Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them
+to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:
+- `"domainName"`: The name of an existing domain. Provide this parameter to limit the
+  results to a single domain.
 """
 function get_compatible_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -953,16 +1144,20 @@ end
     get_package_version_history(package_id)
     get_package_version_history(package_id, params::Dict{String,<:Any})
 
-Returns a list of package versions, along with their creation time and commit message.
+Returns a list of Amazon OpenSearch Service package versions, along with their creation
+time and commit message. For more information, see Custom packages for Amazon OpenSearch
+Service.
 
 # Arguments
-- `package_id`: Returns an audit history of package versions.
+- `package_id`: The unique identifier of the package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of package versions.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
-  non-null NextToken value. If provided, returns results for the next page.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial GetPackageVersionHistory operation returns a nextToken,
+  you can include the returned nextToken in subsequent GetPackageVersionHistory operations,
+  which returns results in the next page.
 """
 function get_package_version_history(
     PackageID; aws_config::AbstractAWSConfig=global_aws_config()
@@ -992,15 +1187,19 @@ end
     get_upgrade_history(domain_name)
     get_upgrade_history(domain_name, params::Dict{String,<:Any})
 
-Retrieves the complete history of the last 10 upgrades performed on the domain.
+Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
+Service domain.
 
 # Arguments
-- `domain_name`:
+- `domain_name`: The name of an existing domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial GetUpgradeHistory operation returns a nextToken, you can
+  include the returned nextToken in subsequent GetUpgradeHistory operations, which returns
+  results in the next page.
 """
 function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -1028,11 +1227,11 @@ end
     get_upgrade_status(domain_name)
     get_upgrade_status(domain_name, params::Dict{String,<:Any})
 
-Retrieves the latest status of the last upgrade or upgrade eligibility check performed on
-the domain.
+Returns the most recent status of the last upgrade or upgrade eligibility check performed
+on an Amazon OpenSearch Service domain.
 
 # Arguments
-- `domain_name`:
+- `domain_name`: The domain of the domain to get upgrade status information for.
 
 """
 function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1061,12 +1260,12 @@ end
     list_domain_names()
     list_domain_names(params::Dict{String,<:Any})
 
-Returns the names of all domains owned by the current user's account.
+Returns the names of all Amazon OpenSearch Service domains owned by the current user in the
+active Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"engineType"`:  Optional parameter to filter the output by domain engine type.
-  Acceptable values are 'Elasticsearch' and 'OpenSearch'.
+- `"engineType"`: Filters the output by domain engine type.
 """
 function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -1089,16 +1288,19 @@ end
     list_domains_for_package(package_id)
     list_domains_for_package(package_id, params::Dict{String,<:Any})
 
-Lists all Amazon OpenSearch Service domains associated with the package.
+Lists all Amazon OpenSearch Service domains associated with a given package. For more
+information, see Custom packages for Amazon OpenSearch Service.
 
 # Arguments
-- `package_id`: The package for which to list associated domains.
+- `package_id`: The unique identifier of the package for which to list associated domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits the results to a maximum number of domains.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
-  non-null NextToken value. If provided, returns results for the next page.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListDomainsForPackage operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListDomainsForPackage operations, which
+  returns results in the next page.
 """
 function list_domains_for_package(
     PackageID; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1128,16 +1330,21 @@ end
     list_instance_type_details(engine_version)
     list_instance_type_details(engine_version, params::Dict{String,<:Any})
 
-
+Lists all instance types and available features for a given OpenSearch or Elasticsearch
+version.
 
 # Arguments
-- `engine_version`:
+- `engine_version`: Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y
+  or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:
-- `"maxResults"`:
-- `"nextToken"`:
+- `"domainName"`: Name of the domain to list instance type details for.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListInstanceTypeDetails operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which
+  returns results in the next page.
 """
 function list_instance_type_details(
     EngineVersion; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1167,16 +1374,19 @@ end
     list_packages_for_domain(domain_name)
     list_packages_for_domain(domain_name, params::Dict{String,<:Any})
 
-Lists all packages associated with the Amazon OpenSearch Service domain.
+Lists all packages associated with an Amazon OpenSearch Service domain. For more
+information, see Custom packages for Amazon OpenSearch Service.
 
 # Arguments
 - `domain_name`: The name of the domain for which you want to list associated packages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of packages.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
-  non-null NextToken value. If provided, returns results for the next page.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListPackagesForDomain operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListPackagesForDomain operations, which
+  returns results in the next page.
 """
 function list_packages_for_domain(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1206,10 +1416,11 @@ end
     list_tags(arn)
     list_tags(arn, params::Dict{String,<:Any})
 
-Returns all tags for the given domain.
+Returns all resource tags for an Amazon OpenSearch Service domain. For more information,
+see Tagging Amazon OpenSearch Service domains.
 
 # Arguments
-- `arn`: Specify the ARN of the domain that the tags you want to view are attached to.
+- `arn`: Amazon Resource Name (ARN) for the domain to view tags for.
 
 """
 function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1237,13 +1448,15 @@ end
     list_versions()
     list_versions(params::Dict{String,<:Any})
 
-List all supported versions of OpenSearch and Elasticsearch.
+Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Set this value to limit the number of results returned. Value must be
-  greater than 10 or it won't be honored.
-- `"nextToken"`:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListVersions operation returns a nextToken, you can
+  include the returned nextToken in subsequent ListVersions operations, which returns results
+  in the next page.
 """
 function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -1266,15 +1479,128 @@ function list_versions(
 end
 
 """
+    list_vpc_endpoint_access(domain_name)
+    list_vpc_endpoint_access(domain_name, params::Dict{String,<:Any})
+
+Retrieves information about each Amazon Web Services principal that is allowed to access a
+given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+
+# Arguments
+- `domain_name`: The name of the OpenSearch Service domain to retrieve access information
+  for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: If your initial ListVpcEndpointAccess operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListVpcEndpointAccess operations, which
+  returns results in the next page.
+"""
+function list_vpc_endpoint_access(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoint_access(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/listVpcEndpointAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpc_endpoints()
+    list_vpc_endpoints(params::Dict{String,<:Any})
+
+Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web
+Services account and Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: If your initial ListVpcEndpoints operation returns a nextToken, you can
+  include the returned nextToken in subsequent ListVpcEndpoints operations, which returns
+  results in the next page.
+"""
+function list_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/vpcEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpc_endpoints_for_domain(domain_name)
+    list_vpc_endpoints_for_domain(domain_name, params::Dict{String,<:Any})
+
+Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular
+domain.
+
+# Arguments
+- `domain_name`: The name of the domain to list associated VPC endpoints for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: If your initial ListEndpointsForDomain operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListEndpointsForDomain operations, which
+  returns results in the next page.
+"""
+function list_vpc_endpoints_for_domain(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpc_endpoints_for_domain(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/vpcEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id)
     purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id, params::Dict{String,<:Any})
 
-Allows you to purchase reserved OpenSearch instances.
+Allows you to purchase Amazon OpenSearch Service Reserved Instances.
 
 # Arguments
 - `reservation_name`: A customer-specified identifier to track this reservation.
-- `reserved_instance_offering_id`: The ID of the reserved OpenSearch instance offering to
-  purchase.
+- `reserved_instance_offering_id`: The ID of the Reserved Instance offering to purchase.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1324,10 +1650,11 @@ end
     reject_inbound_connection(connection_id)
     reject_inbound_connection(connection_id, params::Dict{String,<:Any})
 
-Allows the remote domain owner to reject an inbound cross-cluster connection request.
+Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster
+connection request.
 
 # Arguments
-- `connection_id`: The ID of the inbound connection to reject.
+- `connection_id`: The unique identifier of the inbound connection to reject.
 
 """
 function reject_inbound_connection(
@@ -1358,11 +1685,13 @@ end
     remove_tags(arn, tag_keys)
     remove_tags(arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified set of tags from the given domain.
+Removes the specified set of tags from an Amazon OpenSearch Service domain. For more
+information, see  Tagging Amazon OpenSearch Service domains.
 
 # Arguments
-- `arn`: The ARN of the domain from which you want to delete the specified tags.
-- `tag_keys`: The TagKey list you want to remove from the domain.
+- `arn`: The Amazon Resource Name (ARN) of the domain from which you want to delete the
+  specified tags.
+- `tag_keys`: The list of tag keys to remove from the domain.
 
 """
 function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1392,10 +1721,49 @@ function remove_tags(
 end
 
 """
+    revoke_vpc_endpoint_access(account, domain_name)
+    revoke_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+
+Revokes access to an Amazon OpenSearch Service domain that was provided through an
+interface VPC endpoint.
+
+# Arguments
+- `account`: The account ID to revoke access from.
+- `domain_name`: The name of the OpenSearch Service domain.
+
+"""
+function revoke_vpc_endpoint_access(
+    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function revoke_vpc_endpoint_access(
+    Account,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_service_software_update(domain_name)
     start_service_software_update(domain_name, params::Dict{String,<:Any})
 
-Schedules a service software update for an Amazon OpenSearch Service domain.
+Schedules a service software update for an Amazon OpenSearch Service domain. For more
+information, see Service software updates in Amazon OpenSearch Service.
 
 # Arguments
 - `domain_name`: The name of the domain that you want to update to the latest service
@@ -1433,38 +1801,49 @@ end
     update_domain_config(domain_name)
     update_domain_config(domain_name, params::Dict{String,<:Any})
 
-Modifies the cluster configuration of the specified domain, such as setting the instance
-type and the number of instances.
+Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
 
 # Arguments
-- `domain_name`: The name of the domain you're updating.
+- `domain_name`: The name of the domain that you're updating.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`: Modifies the advanced option to allow references to indices in an
-  HTTP request body. Must be false when configuring access to individual sub-resources. By
-  default, the value is true. See Advanced options  for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"ClusterConfig"`: The type and number of instances to instantiate for the domain cluster.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for OpenSearch
-  Dashboards authentication. For more information, see Configuring Amazon Cognito
-  authentication for OpenSearch Dashboards.
-- `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
-  domain endpoint.
+- `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a
+  JSON-formatted string.
+- `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
+  following key-value pairs are supported:    \"rest.action.multi.allow_explicit_index\":
+  \"true\" | \"false\" - Note the use of a string rather than a boolean. Specifies whether
+  explicit references to indexes are allowed inside the body of HTTP requests. If you want to
+  configure access policies for domain sub-resources, such as specific indexes and domain
+  APIs, you must disable this property. Default is true.    \"indices.fielddata.cache.size\":
+  \"80\"  - Note the use of a string rather than a boolean. Specifies the percentage of heap
+  space allocated to field data. Default is unbounded.
+  \"indices.query.bool.max_clause_count\": \"1024\" - Note the use of a string rather than a
+  boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default
+  is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses
+  error.    \"override_main_response_version\": \"true\" | \"false\" - Note the use of a
+  string rather than a boolean. Specifies whether the domain reports its version as 7.10 to
+  allow Elasticsearch OSS clients and plugins to continue working with it. Default is false
+  when creating a domain and true when upgrading a domain.   For more information, see
+  Advanced cluster parameters.
+- `"AdvancedSecurityOptions"`: Options for fine-grained access control.
+- `"AutoTuneOptions"`: Options for Auto-Tune.
+- `"ClusterConfig"`: Changes that you want to make to the cluster configuration, such as
+  the instance type and number of EC2 instances.
+- `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication for
+  OpenSearch Dashboards.
+- `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
+  require HTTPS for all traffic.
 - `"DryRun"`: This flag, when set to True, specifies whether the UpdateDomain request
-  should return the results of validation checks (DryRunResults) without actually applying
-  the change.
-- `"EBSOptions"`: Specify the type and size of the EBS volume to use.
-- `"EncryptionAtRestOptions"`: Specifies encryption of data at rest options.
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of OpenSearch log.
-- `"NodeToNodeEncryptionOptions"`: Specifies node-to-node encryption options.
+  should return the results of validation check without actually applying the change.
+- `"EBSOptions"`: The type and size of the EBS volume to attach to instances in the domain.
+- `"EncryptionAtRestOptions"`: Encryption at rest options for the domain.
+- `"LogPublishingOptions"`: Options to publish OpenSearch lots to Amazon CloudWatch Logs.
+- `"NodeToNodeEncryptionOptions"`: Node-To-Node Encryption options for the domain.
 - `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is 0 hours.
-- `"VPCOptions"`: Options to specify the subnets and security groups for the VPC endpoint.
-  For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
+- `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
+  For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
 """
 function update_domain_config(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch(
@@ -1492,15 +1871,16 @@ end
     update_package(package_id, package_source)
     update_package(package_id, package_source, params::Dict{String,<:Any})
 
-Updates a package for use with Amazon OpenSearch Service domains.
+Updates a package for use with Amazon OpenSearch Service domains. For more information, see
+Custom packages for Amazon OpenSearch Service.
 
 # Arguments
 - `package_id`: The unique identifier for the package.
-- `package_source`:
+- `package_source`: Amazon S3 bucket and key for the package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommitMessage"`: A commit message for the new version which is shown as part of
+- `"CommitMessage"`: Commit message for the updated file, which is shown as part of
   GetPackageVersionHistoryResponse.
 - `"PackageDescription"`: A new description of the package.
 """
@@ -1539,20 +1919,69 @@ function update_package(
 end
 
 """
+    update_vpc_endpoint(vpc_endpoint_id, vpc_options)
+    update_vpc_endpoint(vpc_endpoint_id, vpc_options, params::Dict{String,<:Any})
+
+Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+
+# Arguments
+- `vpc_endpoint_id`: The unique identifier of the endpoint.
+- `vpc_options`: The security groups and/or subnets to add, remove, or modify.
+
+"""
+function update_vpc_endpoint(
+    VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/update",
+        Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_vpc_endpoint(
+    VpcEndpointId,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/vpcEndpoints/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     upgrade_domain(domain_name, target_version)
     upgrade_domain(domain_name, target_version, params::Dict{String,<:Any})
 
-Allows you to either upgrade your domain or perform an upgrade eligibility check to a
-compatible version of OpenSearch or Elasticsearch.
+Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade
+eligibility check to a compatible version of OpenSearch or Elasticsearch.
 
 # Arguments
-- `domain_name`:
-- `target_version`: The version of OpenSearch you intend to upgrade the domain to.
+- `domain_name`: Name of the OpenSearch Service domain that you want to upgrade.
+- `target_version`: OpenSearch or Elasticsearch version to which you want to upgrade, in
+  the format Opensearch_X.Y or Elasticsearch_X.Y.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AdvancedOptions"`:
-- `"PerformCheckOnly"`:  When true, indicates that an upgrade eligibility check needs to be
+- `"AdvancedOptions"`: Only supports the override_main_response_version parameter and not
+  other advanced options. You can only include this option when upgrading to an OpenSearch
+  version. Specifies whether the domain reports its version as 7.10 so that it continues to
+  work with Elasticsearch OSS clients and plugins.
+- `"PerformCheckOnly"`: When true, indicates that an upgrade eligibility check needs to be
   performed. Does not actually perform the upgrade.
 """
 function upgrade_domain(

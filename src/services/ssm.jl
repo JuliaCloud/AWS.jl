@@ -243,7 +243,8 @@ servers and VMs that are configured for Systems Manager are all called managed n
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
   information, see Create an IAM service role for a hybrid environment in the Amazon Web
-  Services Systems Manager User Guide.
+  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
+  parameter. You must create a unique role.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -388,10 +389,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter for the PutComplianceItems API operation. In this case, compliance data isn't
   managed by State Manager. It is managed by your direct call to the PutComplianceItems API
   operation. By default, all associations use AUTO mode.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag an association to identify the type of resource to which it applies, the
-  environment, or the purpose of the association.
+- `"Tags"`: Adds or overwrites one or more tags for a State Manager association. Tags are
+  metadata that you can assign to your Amazon Web Services resources. Tags enable you to
+  categorize your resources in different ways, for example, by purpose, owner, or
+  environment. Each tag consists of a key and an optional value, both of which you define.
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   create an association in multiple Regions and multiple accounts.
@@ -663,6 +664,10 @@ Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The target Amazon Web Services account where you want to create an
+  OpsItem. To make this call, your account must be configured to work with OpsItems across
+  accounts. For more information, see Setting up OpsCenter to work with OpsItems across
+  accounts in the Amazon Web Services Systems Manager User Guide.
 - `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type /aws/changerequest.
 - `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
@@ -684,8 +689,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the /aws/automations key in OperationalData to associate an Automation runbook with the
   OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-- `"OpsItemType"`: The type of OpsItem to create. Currently, the only valid values are
-  /aws/changerequest and /aws/issue.
+- `"OpsItemType"`: The type of OpsItem to create. Systems Manager supports the following
+  types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created
+  by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for
+  reviewing and approving or rejecting change requests.     /aws/insights  This type of
+  OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type /aws/changerequest.
 - `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
@@ -1285,6 +1293,61 @@ function delete_resource_data_sync(
         "DeleteResourceDataSync",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SyncName" => SyncName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(policy_hash, policy_id, resource_arn)
+    delete_resource_policy(policy_hash, policy_id, resource_arn, params::Dict{String,<:Any})
+
+Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM
+entity (for example, an Amazon Web Services account) that can manage your Systems Manager
+resources. Currently, OpsItemGroup is the only resource that supports Systems Manager
+resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
+accounts to view and interact with OpsCenter operational work items (OpsItems).
+
+# Arguments
+- `policy_hash`: ID of the current policy version. The hash helps to prevent multiple calls
+  from attempting to overwrite a policy.
+- `policy_id`: The policy ID.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
+  attached.
+
+"""
+function delete_resource_policy(
+    PolicyHash, PolicyId, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            "PolicyHash" => PolicyHash, "PolicyId" => PolicyId, "ResourceArn" => ResourceArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    PolicyHash,
+    PolicyId,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyHash" => PolicyHash,
+                    "PolicyId" => PolicyId,
+                    "ResourceArn" => ResourceArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3435,6 +3498,9 @@ Web Services Systems Manager User Guide.
 # Arguments
 - `ops_item_id`: The ID of the OpsItem that you want to get.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
 """
 function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -3763,6 +3829,47 @@ function get_patch_baseline_for_patch_group(
         "GetPatchBaselineForPatchGroup",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PatchGroup" => PatchGroup), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_policies(resource_arn)
+    get_resource_policies(resource_arn, params::Dict{String,<:Any})
+
+Returns an array of the Policy object.
+
+# Arguments
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
+  attached.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+"""
+function get_resource_policies(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "GetResourcePolicies",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policies(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "GetResourcePolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4779,6 +4886,57 @@ function put_parameter(
         "PutParameter",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Value" => Value), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Creates or updates a Systems Manager resource policy. A resource policy helps you to define
+the IAM entity (for example, an Amazon Web Services account) that can manage your Systems
+Manager resources. Currently, OpsItemGroup is the only resource that supports Systems
+Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
+accounts to view and interact with OpsCenter operational work items (OpsItems).
+
+# Arguments
+- `policy`: A policy you want to associate with a resource.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
+  attached.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyHash"`: ID of the current policy version. The hash helps to prevent a situation
+  where multiple users attempt to overwrite a policy.
+- `"PolicyId"`: The policy ID.
+"""
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6336,7 +6494,12 @@ server, edge device, or virtual machines (VM). IAM roles are first assigned to t
 nodes during the activation process. For more information, see CreateActivation.
 
 # Arguments
-- `iam_role`: The IAM role you want to assign or change.
+- `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
+  assign to the managed node. This IAM role must provide AssumeRole permissions for the
+  Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
+  information, see Create an IAM service role for a hybrid environment in the Amazon Web
+  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
+  parameter. You must create a unique role.
 - `instance_id`: The ID of the managed node where you want to update the role.
 
 """
@@ -6412,6 +6575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
 - `"OperationalDataToDelete"`: Keys that you want to remove from the OperationalData map.
+- `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type /aws/changerequest.
 - `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to

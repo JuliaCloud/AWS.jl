@@ -398,8 +398,8 @@ Hub User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
-  comma-separated list of Regions that do not aggregate findings to the aggregation Region.
-  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
+  space-separated list of Regions that do not aggregate findings to the aggregation Region.
+  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions
   that do aggregate findings to the aggregation Region.
 """
 function create_finding_aggregator(
@@ -1960,8 +1960,8 @@ Region.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
-  comma-separated list of Regions that do not aggregate findings to the aggregation Region.
-  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
+  space-separated list of Regions that do not aggregate findings to the aggregation Region.
+  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions
   that do aggregate findings to the aggregation Region.
 """
 function update_finding_aggregator(

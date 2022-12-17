@@ -8,7 +8,11 @@ using AWS.UUIDs
     associate_user(identity_provider, instance_id, username)
     associate_user(identity_provider, instance_id, username, params::Dict{String,<:Any})
 
-Associates the user to an EC2 instance to utilize user-based subscriptions.
+Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated
+bill for charges on the number of users and related costs will take 48 hours to appear for
+billing periods that haven't closed (marked as Pending billing status) in Amazon Web
+Services Billing. For more information, see Viewing your monthly charges in the Amazon Web
+Services Billing User Guide.
 
 # Arguments
 - `identity_provider`: The identity provider of the user.
@@ -345,6 +349,10 @@ Registers an identity provider for user-based subscriptions.
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Settings"`: The registered identity provider’s product related configuration settings
+  such as the subnets to provision VPC endpoints.
 """
 function register_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=global_aws_config()
@@ -384,7 +392,11 @@ end
     start_product_subscription(identity_provider, product, username)
     start_product_subscription(identity_provider, product, username, params::Dict{String,<:Any})
 
-Starts a product subscription for a user with the specified identity provider.
+Starts a product subscription for a user with the specified identity provider.  Your
+estimated bill for charges on the number of users and related costs will take 48 hours to
+appear for billing periods that haven't closed (marked as Pending billing status) in Amazon
+Web Services Billing. For more information, see Viewing your monthly charges in the Amazon
+Web Services Billing User Guide.
 
 # Arguments
 - `identity_provider`: An object that specifies details for the identity provider.
@@ -483,6 +495,66 @@ function stop_product_subscription(
                     "IdentityProvider" => IdentityProvider,
                     "Product" => Product,
                     "Username" => Username,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_identity_provider_settings(identity_provider, product, update_settings)
+    update_identity_provider_settings(identity_provider, product, update_settings, params::Dict{String,<:Any})
+
+Updates additional product configuration settings for the registered identity provider.
+
+# Arguments
+- `identity_provider`:
+- `product`: The name of the user-based subscription product.
+- `update_settings`: Updates the registered identity provider’s product related
+  configuration settings. You can update any combination of settings in a single operation
+  such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which
+  you want to remove the VPC endpoints from.   Security group ID which permits traffic to the
+  VPC endpoints.
+
+"""
+function update_identity_provider_settings(
+    IdentityProvider,
+    Product,
+    UpdateSettings;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/UpdateIdentityProviderSettings",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "Product" => Product,
+            "UpdateSettings" => UpdateSettings,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_identity_provider_settings(
+    IdentityProvider,
+    Product,
+    UpdateSettings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/UpdateIdentityProviderSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdentityProvider" => IdentityProvider,
+                    "Product" => Product,
+                    "UpdateSettings" => UpdateSettings,
                 ),
                 params,
             ),

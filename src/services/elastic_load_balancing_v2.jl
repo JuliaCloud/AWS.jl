@@ -327,9 +327,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is lambda, health checks are disabled by default but can be enabled. If the target type is
   instance, ip, or alb, health checks are always enabled and cannot be disabled.
 - `"HealthCheckIntervalSeconds"`: The approximate amount of time, in seconds, between
-  health checks of an individual target. If the target group protocol is HTTP or HTTPS, the
-  default is 30 seconds. If the target group protocol is TCP, TLS, UDP, or TCP_UDP, the
-  supported values are 10 and 30 seconds and the default is 30 seconds. If the target group
+  health checks of an individual target. The range is 5-300. If the target group protocol is
+  TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group
   protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is
   35 seconds.
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
@@ -346,19 +345,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS,
   UDP, and TCP_UDP protocols are not supported for health checks.
 - `"HealthCheckTimeoutSeconds"`: The amount of time, in seconds, during which no response
-  from a target means a failed health check. For target groups with a protocol of HTTP,
-  HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP or
-  TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS
-  health checks. If the target type is lambda, the default is 30 seconds.
-- `"HealthyThresholdCount"`: The number of consecutive health checks successes required
-  before considering an unhealthy target healthy. For target groups with a protocol of HTTP
-  or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the
-  default is 3. If the target type is lambda, the default is 5.
+  from a target means a failed health check. The range is 2–120 seconds. For target groups
+  with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of
+  TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE,
+  the default is 5 seconds. If the target type is lambda, the default is 30 seconds.
+- `"HealthyThresholdCount"`: The number of consecutive health check successes required
+  before considering a target healthy. The range is 2-10. If the target group protocol is
+  TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol
+  of GENEVE, the default is 3. If the target type is lambda, the default is 5.
 - `"IpAddressType"`: The type of IP address used for this target group. The possible values
   are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type
   defaults to ipv4.
 - `"Matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
-  successful response from a target.
+  successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP
+  or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range
+  is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
 - `"Port"`: The port on which the targets receive traffic. This port is used unless you
   specify a port override when registering the target. If the target is a Lambda function,
   this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
@@ -380,10 +381,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify publicly routable IP addresses.    lambda - Register a single Lambda function as a
   target.    alb - Register a single Application Load Balancer as a target.
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
-  before considering a target unhealthy. If the target group protocol is HTTP or HTTPS, the
-  default is 2. If the target group protocol is TCP or TLS, this value must be the same as
-  the healthy threshold count. If the target group protocol is GENEVE, the default is 3. If
-  the target type is lambda, the default is 2.
+  before considering a target unhealthy. The range is 2-10. If the target group protocol is
+  TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol
+  of GENEVE, the default is 3. If the target type is lambda, the default is 5.
 - `"VpcId"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
@@ -1121,8 +1121,7 @@ end
     modify_target_group(target_group_arn, params::Dict{String,<:Any})
 
 Modifies the health checks used when evaluating the health state of the targets in the
-specified target group. If the protocol of the target group is TCP, TLS, UDP, or TCP_UDP,
-you can't modify the health check protocol, interval, timeout, or success codes.
+specified target group.
 
 # Arguments
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
@@ -1131,8 +1130,7 @@ you can't modify the health check protocol, interval, timeout, or success codes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HealthCheckEnabled"`: Indicates whether health checks are enabled.
 - `"HealthCheckIntervalSeconds"`: The approximate amount of time, in seconds, between
-  health checks of an individual target. For TCP health checks, the supported values are 10
-  or 30 seconds.
+  health checks of an individual target.
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
   targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
   version] The path of a custom health check method with the format /package.service/method.
@@ -1150,10 +1148,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthyThresholdCount"`: The number of consecutive health checks successes required
   before considering an unhealthy target healthy.
 - `"Matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
-  successful response from a target.
+  successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP
+  or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range
+  is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
-  before considering the target unhealthy. For target groups with a protocol of TCP or TLS,
-  this value must be the same as the healthy threshold count.
+  before considering the target unhealthy.
 """
 function modify_target_group(
     TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1363,8 +1362,7 @@ end
     set_ip_address_type(ip_address_type, load_balancer_arn)
     set_ip_address_type(ip_address_type, load_balancer_arn, params::Dict{String,<:Any})
 
-Sets the type of IP addresses used by the subnets of the specified Application Load
-Balancer or Network Load Balancer.
+Sets the type of IP addresses used by the subnets of the specified load balancer.
 
 # Arguments
 - `ip_address_type`: The IP address type. The possible values are ipv4 (for IPv4 addresses)

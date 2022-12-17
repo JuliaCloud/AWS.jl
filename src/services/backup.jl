@@ -5,6 +5,53 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    cancel_legal_hold(cancel_description, legal_hold_id)
+    cancel_legal_hold(cancel_description, legal_hold_id, params::Dict{String,<:Any})
+
+This action removes the specified legal hold on a recovery point. This action can only be
+performed by a user with sufficient permissions.
+
+# Arguments
+- `cancel_description`: String describing the reason for removing the legal hold.
+- `legal_hold_id`: Legal hold ID required to remove the specified legal hold on a recovery
+  point.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"retainRecordInDays"`: The integer amount in days specifying amount of days after this
+  API operation to remove legal hold.
+"""
+function cancel_legal_hold(
+    cancelDescription, legalHoldId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "DELETE",
+        "/legal-holds/$(legalHoldId)",
+        Dict{String,Any}("cancelDescription" => cancelDescription);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_legal_hold(
+    cancelDescription,
+    legalHoldId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/legal-holds/$(legalHoldId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("cancelDescription" => cancelDescription), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_backup_plan(backup_plan)
     create_backup_plan(backup_plan, params::Dict{String,<:Any})
 
@@ -208,6 +255,62 @@ function create_framework(
                     "FrameworkName" => FrameworkName,
                     "IdempotencyToken" => string(uuid4()),
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_legal_hold(description, title)
+    create_legal_hold(description, title, params::Dict{String,<:Any})
+
+This action creates a legal hold on a recovery point (backup). A legal hold is a restraint
+on altering or deleting a backup until an authorized user cancels the legal hold. Any
+actions to delete or disassociate a recovery point will fail with an error if one or more
+active legal holds are on the recovery point.
+
+# Arguments
+- `description`: This is the string description of the legal hold.
+- `title`: This is the string title of the legal hold.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdempotencyToken"`: This is a user-chosen string used to distinguish between otherwise
+  identical calls. Retrying a successful request with the same idempotency token results in a
+  success message with no action taken.
+- `"RecoveryPointSelection"`: This specifies criteria to assign a set of resources, such as
+  resource types or backup vaults.
+- `"Tags"`: Optional tags to include. A tag is a key-value pair you can use to manage,
+  filter, and search for your resources. Allowed characters include UTF-8 letters, numbers,
+  spaces, and the following characters: + - = . _ : /.
+"""
+function create_legal_hold(
+    Description, Title; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "POST",
+        "/legal-holds/",
+        Dict{String,Any}("Description" => Description, "Title" => Title);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_legal_hold(
+    Description,
+    Title,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "POST",
+        "/legal-holds/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Description" => Description, "Title" => Title),
                 params,
             ),
         );
@@ -550,7 +653,13 @@ end
 
 Deletes the recovery point specified by a recovery point ID. If the recovery point ID
 belongs to a continuous backup, calling this endpoint deletes the existing continuous
-backup and stops future continuous backup.
+backup and stops future continuous backup. When an IAM role's permissions are insufficient
+to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but
+the recovery point is not deleted. Instead, it enters an EXPIRED state.  EXPIRED recovery
+points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole
+action. To learn more about adding this role, see  Troubleshooting manual deletions. If the
+user or role is deleted or the permission within the role is removed, the deletion will not
+be successful and will enter an EXPIRED state.
 
 # Arguments
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
@@ -1030,6 +1139,48 @@ function disassociate_recovery_point(
 end
 
 """
+    disassociate_recovery_point_from_parent(backup_vault_name, recovery_point_arn)
+    disassociate_recovery_point_from_parent(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+
+This action to a specific child (nested) recovery point removes the relationship between
+the specified recovery point and its parent (composite) recovery point.
+
+# Arguments
+- `backup_vault_name`: This is the name of a logical container where the child (nested)
+  recovery point is stored. Backup vaults are identified by names that are unique to the
+  account used to create them and the Amazon Web Services Region where they are created. They
+  consist of lowercase letters, numbers, and hyphens.
+- `recovery_point_arn`: This is the Amazon Resource Name (ARN) that uniquely identifies the
+  child (nested) recovery point; for example,
+  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+
+"""
+function disassociate_recovery_point_from_parent(
+    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "DELETE",
+        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/parentAssociation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_recovery_point_from_parent(
+    backupVaultName,
+    recoveryPointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/parentAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     export_backup_plan_template(backup_plan_id)
     export_backup_plan_template(backup_plan_id, params::Dict{String,<:Any})
 
@@ -1288,6 +1439,40 @@ function get_backup_vault_notifications(
 end
 
 """
+    get_legal_hold(legal_hold_id)
+    get_legal_hold(legal_hold_id, params::Dict{String,<:Any})
+
+This action returns details for a specified legal hold. The details are the body of a legal
+hold in JSON format, in addition to metadata.
+
+# Arguments
+- `legal_hold_id`: This is the ID required to use GetLegalHold. This unique ID is
+  associated with a specific legal hold.
+
+"""
+function get_legal_hold(legalHoldId; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET",
+        "/legal-holds/$(legalHoldId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_legal_hold(
+    legalHoldId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/legal-holds/$(legalHoldId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn)
     get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
 
@@ -1381,6 +1566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
+- `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
 - `"resourceArn"`: Returns only backup jobs that match the specified resource Amazon
   Resource Name (ARN).
 - `"resourceType"`: Returns only backup jobs for the specified resources:    Aurora for
@@ -1611,6 +1797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
+- `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
 - `"resourceArn"`: Returns only copy jobs that match the specified resource Amazon Resource
   Name (ARN).
 - `"resourceType"`: Returns only backup jobs for the specified resources:    Aurora for
@@ -1659,6 +1846,36 @@ function list_frameworks(
     return backup(
         "GET",
         "/audit/frameworks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_legal_holds()
+    list_legal_holds(params::Dict{String,<:Any})
+
+This action returns metadata about active and previous legal holds.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of resource list items to be returned.
+- `"nextToken"`: The next item following a partial list of returned resources. For example,
+  if a request is made to return maxResults number of resources, NextToken allows you to
+  return more items in your list starting at the location pointed to by the next token.
+"""
+function list_legal_holds(; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET", "/legal-holds/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_legal_holds(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/legal-holds/",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1716,6 +1933,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
+- `"parentRecoveryPointArn"`: This returns only recovery points that match the specified
+  parent (composite) recovery point Amazon Resource Name (ARN).
 - `"resourceArn"`: Returns only recovery points that match the specified resource Amazon
   Resource Name (ARN).
 - `"resourceType"`: Returns only recovery points that match the specified resource type.
@@ -1738,6 +1957,46 @@ function list_recovery_points_by_backup_vault(
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_recovery_points_by_legal_hold(legal_hold_id)
+    list_recovery_points_by_legal_hold(legal_hold_id, params::Dict{String,<:Any})
+
+This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold.
+
+# Arguments
+- `legal_hold_id`: This is the ID of the legal hold.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: This is the maximum number of resource list items to be returned.
+- `"nextToken"`: This is the next item following a partial list of returned resources. For
+  example, if a request is made to return maxResults number of resources, NextToken allows
+  you to return more items in your list starting at the location pointed to by the next token.
+"""
+function list_recovery_points_by_legal_hold(
+    legalHoldId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/legal-holds/$(legalHoldId)/recovery-points";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_recovery_points_by_legal_hold(
+    legalHoldId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/legal-holds/$(legalHoldId)/recovery-points",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2071,8 +2330,10 @@ Turns on notifications on a backup vault for the specified topic and events.
   to track Backup events. The following events are supported:    BACKUP_JOB_STARTED |
   BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED
   RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED
-  S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     Ignore the list below because it
-  includes deprecated events. Refer to the list above.
+  S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below shows items that are
+  deprecated events (for reference) and are no longer in use. They are no longer supported
+  and will not return statuses or notifications. Refer to the list above for current
+  supported events.
 - `snstopic_arn`: The Amazon Resource Name (ARN) that specifies the topic for a backup
   vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
@@ -2164,7 +2425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the resources that you create. Each tag is a key-value pair.
 - `"StartWindowMinutes"`: A value in minutes after a backup is scheduled before a job will
   be canceled if it doesn't start successfully. This value is optional, and the default is 8
-  hours.
+  hours. If this value is included, it must be at least 60 minutes to avoid errors.
 """
 function start_backup_job(
     BackupVaultName,
@@ -2360,7 +2621,7 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
-  the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+  the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartRestoreJob. Retrying a successful request with the same
   idempotency token results in a success message with no action taken.
@@ -2409,7 +2670,10 @@ end
     stop_backup_job(backup_job_id)
     stop_backup_job(backup_job_id, params::Dict{String,<:Any})
 
-Attempts to cancel a job to create a one-time backup of a resource.
+Attempts to cancel a job to create a one-time backup of a resource. This action is not
+supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for
+Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB
+compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
 
 # Arguments
 - `backup_job_id`: Uniquely identifies a request to Backup to back up a resource.

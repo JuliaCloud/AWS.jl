@@ -154,12 +154,16 @@ Creates a cluster. All nodes in the cluster run the same protocol-compliant engi
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoMinorVersionUpgrade"`: When set to true, the cluster will automatically receive
   minor engine version upgrades after launch.
+- `"DataTiering"`: Enables data tiering. Data tiering is only supported for clusters using
+  the r6gd node type. This parameter must be set when using r6gd nodes. For more information,
+  see Data tiering.
 - `"Description"`: An optional description of the cluster.
 - `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
-  Clock UTC). The minimum maintenance window is a 60 minute period.
+  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
 - `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
@@ -1010,7 +1014,10 @@ end
     failover_shard(cluster_name, shard_name)
     failover_shard(cluster_name, shard_name, params::Dict{String,<:Any})
 
-Used to failover a shard
+Used to failover a shard. This API is designed for testing the behavior of your application
+in case of MemoryDB failover. It is not designed to be used as a production-level tool for
+initiating a failover to overcome a problem you may have with the cluster. Moreover, in
+certain conditions such as large scale operational events, Amazon may block this API.
 
 # Arguments
 - `cluster_name`: The cluster being failed over
@@ -1310,7 +1317,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upgrade to a newer engine version, but you cannot downgrade to an earlier engine version.
   If you want to use an earlier engine version, you must delete the existing cluster and
   create it anew with the earlier engine version.
-- `"MaintenanceWindow"`: The maintenance window to update
+- `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
+  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
+  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 - `"ParameterGroupName"`: The name of the parameter group to update
 - `"ReplicaConfiguration"`: The number of replicas that will reside in each shard

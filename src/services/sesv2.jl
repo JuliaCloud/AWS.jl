@@ -5,6 +5,39 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_get_metric_data(queries)
+    batch_get_metric_data(queries, params::Dict{String,<:Any})
+
+Retrieves batches of metric data collected based on your sending activity. You can execute
+this operation no more than 16 times per second, and with at most 160 queries from the
+batches per second (cumulative).
+
+# Arguments
+- `queries`: A list of queries for metrics to be retrieved.
+
+"""
+function batch_get_metric_data(Queries; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/metrics/batch",
+        Dict{String,Any}("Queries" => Queries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_metric_data(
+    Queries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/metrics/batch",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Queries" => Queries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_configuration_set(configuration_set_name)
     create_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
@@ -32,6 +65,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the configuration set.
 - `"TrackingOptions"`: An object that defines the open and click tracking options for
   emails that you send using the configuration set.
+- `"VdmOptions"`: An object that defines the VDM options for emails that you send using the
+  configuration set.
 """
 function create_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -221,7 +256,7 @@ end
     create_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject, params::Dict{String,<:Any})
 
 Creates a new custom verification email template. For more information about custom
-verification email templates, see Using Custom Verification Email Templates in the Amazon
+verification email templates, see Using custom verification email templates in the Amazon
 SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
@@ -232,7 +267,7 @@ SES Developer Guide. You can execute this operation no more than once per second
   to if his or her address is successfully verified.
 - `template_content`: The content of the custom verification email. The total size of the
   email must be less than 10 MB. The message body may contain HTML, with some limitations.
-  For more information, see Custom Verification Email Frequently Asked Questions in the
+  For more information, see Custom verification email frequently asked questions in the
   Amazon SES Developer Guide.
 - `template_name`: The name of the custom verification email template.
 - `template_subject`: The subject line of the custom verification email.
@@ -308,6 +343,7 @@ message is sent from one of the addresses in the associated pool.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ScalingMode"`: The type of scaling mode.
 - `"Tags"`: An object that defines the tags (keys and values) that you want to associate
   with the pool.
 """
@@ -767,7 +803,7 @@ end
     delete_custom_verification_email_template(template_name, params::Dict{String,<:Any})
 
 Deletes an existing custom verification email template. For more information about custom
-verification email templates, see Using Custom Verification Email Templates in the Amazon
+verification email templates, see Using custom verification email templates in the Amazon
 SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
@@ -1200,8 +1236,8 @@ end
     get_custom_verification_email_template(template_name, params::Dict{String,<:Any})
 
 Returns the custom email verification template for the template name you specify. For more
-information about custom verification email templates, see Using Custom Verification Email
-Templates in the Amazon SES Developer Guide. You can execute this operation no more than
+information about custom verification email templates, see Using custom verification email
+templates in the Amazon SES Developer Guide. You can execute this operation no more than
 once per second.
 
 # Arguments
@@ -1261,6 +1297,38 @@ function get_dedicated_ip(
     return sesv2(
         "GET",
         "/v2/email/dedicated-ips/$(IP)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_dedicated_ip_pool(pool_name)
+    get_dedicated_ip_pool(pool_name, params::Dict{String,<:Any})
+
+Retrieve information about the dedicated pool.
+
+# Arguments
+- `pool_name`: The name of the dedicated IP pool to retrieve.
+
+"""
+function get_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "GET",
+        "/v2/email/dedicated-ip-pools/$(PoolName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_dedicated_ip_pool(
+    PoolName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "GET",
+        "/v2/email/dedicated-ip-pools/$(PoolName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1755,7 +1823,7 @@ end
 
 Lists the existing custom verification email templates for your account in the current
 Amazon Web Services Region. For more information about custom verification email templates,
-see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can
+see Using custom verification email templates in the Amazon SES Developer Guide. You can
 execute this operation no more than once per second.
 
 # Optional Parameters
@@ -1875,11 +1943,9 @@ email during a specified time range. This data is available for a domain only if
 enabled the Deliverability dashboard for the domain.
 
 # Arguments
-- `end_date`: The last day, in Unix time format, that you want to obtain deliverability
-  data for. This value has to be less than or equal to 30 days after the value of the
-  StartDate parameter.
-- `start_date`: The first day, in Unix time format, that you want to obtain deliverability
-  data for.
+- `end_date`: The last day that you want to obtain deliverability data for. This value has
+  to be less than or equal to 30 days after the value of the StartDate parameter.
+- `start_date`: The first day that you want to obtain deliverability data for.
 - `subscribed_domain`: The domain to obtain deliverability data for.
 
 # Optional Parameters
@@ -2035,6 +2101,44 @@ function list_import_jobs(
 end
 
 """
+    list_recommendations()
+    list_recommendations(params::Dict{String,<:Any})
+
+Lists the recommendations present in your Amazon SES account in the current Amazon Web
+Services Region. You can execute this operation no more than once per second.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters applied when retrieving recommendations. Can eiter be an individual
+  filter, or combinations of STATUS and IMPACT or STATUS and TYPE
+- `"NextToken"`: A token returned from a previous call to ListRecommendations to indicate
+  the position in the list of recommendations.
+- `"PageSize"`: The number of results to show in a single call to ListRecommendations. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results. The
+  value you specify has to be at least 1, and can be no more than 100.
+"""
+function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/vdm/recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/vdm/recommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_suppressed_destinations()
     list_suppressed_destinations(params::Dict{String,<:Any})
 
@@ -2043,8 +2147,7 @@ Retrieves a list of email addresses that are on the suppression list for your ac
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EndDate"`: Used to filter the list of suppressed email destinations so that it only
-  includes addresses that were added to the list before a specific date. The date that you
-  specify should be in Unix time format.
+  includes addresses that were added to the list before a specific date.
 - `"NextToken"`: A token returned from a previous call to ListSuppressedDestinations to
   indicate the position in the list of suppressed email addresses.
 - `"PageSize"`: The number of results to show in a single call to
@@ -2053,8 +2156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to obtain additional results.
 - `"Reason"`: The factors that caused the email address to be added to .
 - `"StartDate"`: Used to filter the list of suppressed email destinations so that it only
-  includes addresses that were added to the list after a specific date. The date that you
-  specify should be in Unix time format.
+  includes addresses that were added to the list after a specific date.
 """
 function list_suppressed_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
     return sesv2(
@@ -2294,6 +2396,44 @@ function put_account_suppression_attributes(
 end
 
 """
+    put_account_vdm_attributes(vdm_attributes)
+    put_account_vdm_attributes(vdm_attributes, params::Dict{String,<:Any})
+
+Update your Amazon SES account VDM attributes. You can execute this operation no more than
+once per second.
+
+# Arguments
+- `vdm_attributes`: The VDM attributes that you wish to apply to your Amazon SES account.
+
+"""
+function put_account_vdm_attributes(
+    VdmAttributes; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/account/vdm",
+        Dict{String,Any}("VdmAttributes" => VdmAttributes);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_account_vdm_attributes(
+    VdmAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/account/vdm",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VdmAttributes" => VdmAttributes), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_configuration_set_delivery_options(configuration_set_name)
     put_configuration_set_delivery_options(configuration_set_name, params::Dict{String,<:Any})
 
@@ -2491,6 +2631,44 @@ function put_configuration_set_tracking_options(
     return sesv2(
         "PUT",
         "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_configuration_set_vdm_options(configuration_set_name)
+    put_configuration_set_vdm_options(configuration_set_name, params::Dict{String,<:Any})
+
+Specify VDM preferences for email that you send using the configuration set. You can
+execute this operation no more than once per second.
+
+# Arguments
+- `configuration_set_name`: The name of the configuration set.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"VdmOptions"`: The VDM options to apply to the configuration set.
+"""
+function put_configuration_set_vdm_options(
+    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/configuration-sets/$(ConfigurationSetName)/vdm-options";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_configuration_set_vdm_options(
+    ConfigurationSetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/configuration-sets/$(ConfigurationSetName)/vdm-options",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3001,8 +3179,8 @@ Adds an email address to the list of identities for your Amazon SES account in t
 Amazon Web Services Region and attempts to verify it. As a result of executing this
 operation, a customized verification email is sent to the specified address. To use this
 operation, you must first create a custom verification email template. For more information
-about creating and using custom verification email templates, see Using Custom Verification
-Email Templates in the Amazon SES Developer Guide. You can execute this operation no more
+about creating and using custom verification email templates, see Using custom verification
+email templates in the Amazon SES Developer Guide. You can execute this operation no more
 than once per second.
 
 # Arguments
@@ -3403,7 +3581,7 @@ end
     update_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject, params::Dict{String,<:Any})
 
 Updates an existing custom verification email template. For more information about custom
-verification email templates, see Using Custom Verification Email Templates in the Amazon
+verification email templates, see Using custom verification email templates in the Amazon
 SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
@@ -3414,7 +3592,7 @@ SES Developer Guide. You can execute this operation no more than once per second
   to if his or her address is successfully verified.
 - `template_content`: The content of the custom verification email. The total size of the
   email must be less than 10 MB. The message body may contain HTML, with some limitations.
-  For more information, see Custom Verification Email Frequently Asked Questions in the
+  For more information, see Custom verification email frequently asked questions in the
   Amazon SES Developer Guide.
 - `template_name`: The name of the custom verification email template that you want to
   update.

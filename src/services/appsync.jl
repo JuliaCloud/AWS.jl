@@ -246,8 +246,8 @@ function create_domain_name(
 end
 
 """
-    create_function(api_id, data_source_name, function_version, name)
-    create_function(api_id, data_source_name, function_version, name, params::Dict{String,<:Any})
+    create_function(api_id, data_source_name, name)
+    create_function(api_id, data_source_name, name, params::Dict{String,<:Any})
 
 Creates a Function object. A function is a reusable entity. You can use multiple functions
 to compose the resolver logic.
@@ -255,34 +255,30 @@ to compose the resolver logic.
 # Arguments
 - `api_id`: The GraphQL API ID.
 - `data_source_name`: The Function DataSource name.
-- `function_version`: The version of the request mapping template. Currently, the supported
-  value is 2018-05-29.
 - `name`: The Function name. The function name does not have to be unique.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"code"`: The function code that contains the request and response functions. When code
+  is used, the runtime is required. The runtime value must be APPSYNC_JS.
 - `"description"`: The Function description.
+- `"functionVersion"`: The version of the request mapping template. Currently, the
+  supported value is 2018-05-29. Note that when using VTL and mapping templates, the
+  functionVersion is required.
 - `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"requestMappingTemplate"`: The Function request mapping template. Functions support only
   the 2018-05-29 version of the request mapping template.
 - `"responseMappingTemplate"`: The Function response mapping template.
+- `"runtime"`:
 - `"syncConfig"`:
 """
 function create_function(
-    apiId,
-    dataSourceName,
-    functionVersion,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    apiId, dataSourceName, name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appsync(
         "POST",
         "/v1/apis/$(apiId)/functions",
-        Dict{String,Any}(
-            "dataSourceName" => dataSourceName,
-            "functionVersion" => functionVersion,
-            "name" => name,
-        );
+        Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -290,7 +286,6 @@ end
 function create_function(
     apiId,
     dataSourceName,
-    functionVersion,
     name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -301,11 +296,7 @@ function create_function(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "dataSourceName" => dataSourceName,
-                    "functionVersion" => functionVersion,
-                    "name" => name,
-                ),
+                Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name),
                 params,
             ),
         );
@@ -385,6 +376,8 @@ source can understand, and converts the data source's responses into GraphQL.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"cachingConfig"`: The caching configuration for the resolver.
+- `"code"`: The resolver code that contains the request and response functions. When code
+  is used, the runtime is required. The runtime value must be APPSYNC_JS.
 - `"dataSourceName"`: The name of the data source for which the resolver is being created.
 - `"kind"`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the
   default resolver type. You can use a UNIT resolver to run a GraphQL query against a single
@@ -400,6 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data sources, VTL request and response mapping templates are required.
 - `"responseMappingTemplate"`: The mapping template to use for responses from the data
   source.
+- `"runtime"`:
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function create_resolver(
@@ -772,6 +766,65 @@ function disassociate_api(
         "DELETE",
         "/v1/domainnames/$(domainName)/apiassociation",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    evaluate_code(code, context, runtime)
+    evaluate_code(code, context, runtime, params::Dict{String,<:Any})
+
+Evaluates the given code and returns the response. The code definition requirements depend
+on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and
+response functions. The request function takes the incoming request after a GraphQL
+operation is parsed and converts it into a request configuration for the selected data
+source operation. The response function interprets responses from the data source and maps
+it to the shape of the GraphQL field output type.
+
+# Arguments
+- `code`: The code definition to be evaluated. Note that code and runtime are both required
+  for this action. The runtime value must be APPSYNC_JS.
+- `context`: The map that holds all of the contextual information for your resolver
+  invocation. A context is required for this action.
+- `runtime`: The runtime to be used when evaluating the code. Currently, only the
+  APPSYNC_JS runtime is supported.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"function"`: The function within the code to be evaluated. If provided, the valid values
+  are request and response.
+"""
+function evaluate_code(
+    code, context, runtime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/dataplane-evaluatecode",
+        Dict{String,Any}("code" => code, "context" => context, "runtime" => runtime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function evaluate_code(
+    code,
+    context,
+    runtime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/dataplane-evaluatecode",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "code" => code, "context" => context, "runtime" => runtime
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1809,8 +1862,8 @@ function update_domain_name(
 end
 
 """
-    update_function(api_id, data_source_name, function_id, function_version, name)
-    update_function(api_id, data_source_name, function_id, function_version, name, params::Dict{String,<:Any})
+    update_function(api_id, data_source_name, function_id, name)
+    update_function(api_id, data_source_name, function_id, name, params::Dict{String,<:Any})
 
 Updates a Function object.
 
@@ -1818,35 +1871,34 @@ Updates a Function object.
 - `api_id`: The GraphQL API ID.
 - `data_source_name`: The Function DataSource name.
 - `function_id`: The function ID.
-- `function_version`: The version of the request mapping template. Currently, the supported
-  value is 2018-05-29.
 - `name`: The Function name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"code"`: The function code that contains the request and response functions. When code
+  is used, the runtime is required. The runtime value must be APPSYNC_JS.
 - `"description"`: The Function description.
+- `"functionVersion"`: The version of the request mapping template. Currently, the
+  supported value is 2018-05-29. Note that when using VTL and mapping templates, the
+  functionVersion is required.
 - `"maxBatchSize"`: The maximum batching size for a resolver.
 - `"requestMappingTemplate"`: The Function request mapping template. Functions support only
   the 2018-05-29 version of the request mapping template.
 - `"responseMappingTemplate"`: The Function request mapping template.
+- `"runtime"`:
 - `"syncConfig"`:
 """
 function update_function(
     apiId,
     dataSourceName,
     functionId,
-    functionVersion,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return appsync(
         "POST",
         "/v1/apis/$(apiId)/functions/$(functionId)",
-        Dict{String,Any}(
-            "dataSourceName" => dataSourceName,
-            "functionVersion" => functionVersion,
-            "name" => name,
-        );
+        Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1855,7 +1907,6 @@ function update_function(
     apiId,
     dataSourceName,
     functionId,
-    functionVersion,
     name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1866,11 +1917,7 @@ function update_function(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "dataSourceName" => dataSourceName,
-                    "functionVersion" => functionVersion,
-                    "name" => name,
-                ),
+                Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name),
                 params,
             ),
         );
@@ -1939,6 +1986,8 @@ Updates a Resolver object.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"cachingConfig"`: The caching configuration for the resolver.
+- `"code"`: The resolver code that contains the request and response functions. When code
+  is used, the runtime is required. The runtime value must be APPSYNC_JS.
 - `"dataSourceName"`: The new data source name.
 - `"kind"`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the
   default resolver type. You can use a UNIT resolver to run a GraphQL query against a single
@@ -1953,6 +2002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request mapping templates are optional when using an Lambda data source. For all other data
   sources, VTL request and response mapping templates are required.
 - `"responseMappingTemplate"`: The new response mapping template.
+- `"runtime"`:
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function update_resolver(

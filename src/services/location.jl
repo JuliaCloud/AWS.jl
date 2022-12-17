@@ -597,7 +597,9 @@ HERE as your geolocation provider. See section 82 of the AWS service terms for m
 details.
 
 # Arguments
-- `configuration`: Specifies the map style selected from an available data provider.
+- `configuration`: Specifies the MapConfiguration, including the map style, for the map
+  resource that you create. The map style defines the look of maps and the data provider for
+  your map resource.
 - `map_name`: The name for the map resource. Requirements:   Must contain only alphanumeric
   characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be
   a unique map resource name.    No spaces allowed. For example, ExampleMap.
@@ -1370,9 +1372,15 @@ Retrieves glyphs used to display labels on a map.
   Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic
   VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation –
   Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies
-  styles:    VectorHereContrast – Fira GO Regular | Fira GO Bold    VectorHereExplore,
-  VectorHereExploreTruck – Firo GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK
-  JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular
+  styles:   VectorHereContrast – Fira GO Regular | Fira GO Bold    VectorHereExplore,
+  VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira
+  GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular
+  Valid font stacks for Open Data (Preview) styles:   VectorOpenDataStandardLight – Amazon
+  Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember
+  Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember
+  Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold
+  The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for
+  most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range U+0000
   to 00FF. Must be aligned to multiples of 256.

@@ -510,9 +510,9 @@ end
     renew_certificate(certificate_arn, params::Dict{String,<:Any})
 
 Renews an eligible ACM certificate. At this time, only exported private certificates can be
-renewed with this operation. In order to renew your ACM Private CA certificates with ACM,
-you must first grant the ACM service principal permission to do so. For more information,
-see Testing Managed Renewal in the ACM User Guide.
+renewed with this operation. In order to renew your Amazon Web Services Private CA
+certificates with ACM, you must first grant the ACM service principal permission to do so.
+For more information, see Testing Managed Renewal in the ACM User Guide.
 
 # Arguments
 - `certificate_arn`: String that contains the ARN of the ACM certificate to be renewed.
@@ -577,7 +577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateAuthorityArn"`: The Amazon Resource Name (ARN) of the private certificate
   authority (CA) that will be used to issue the certificate. If you do not provide an ARN and
   you are trying to request a private certificate, ACM will attempt to issue a public
-  certificate. For more information about private CAs, see the Certificate Manager Private
+  certificate. For more information about private CAs, see the Amazon Web Services Private
   Certificate Authority user guide. The ARN must have the following form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 - `"DomainValidationOptions"`: The domain name that you want ACM to use to send you emails
@@ -588,6 +588,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recognizes that you are requesting only one certificate and will issue only one. If you
   change the idempotency token for each call, ACM recognizes that you are requesting multiple
   certificates.
+- `"KeyAlgorithm"`: Specifies the algorithm of the public and private key pair that your
+  certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates.
+  Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security
+  comparable to RSA keys but with greater computing efficiency. However, ECDSA is not
+  supported by all network clients. Some AWS services may require RSA keys, or only support
+  ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to
+  ensure that compatibility is not broken. Check the requirements for the AWS service where
+  you plan to deploy your certificate. Default: RSA_2048
 - `"Options"`: Currently, you can use this parameter to specify whether to add the
   certificate to a certificate transparency log. Certificate transparency makes it possible
   to detect SSL/TLS certificates that have been mistakenly or maliciously issued.

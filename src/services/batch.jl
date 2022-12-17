@@ -9,9 +9,9 @@ using AWS.UUIDs
     cancel_job(job_id, reason, params::Dict{String,<:Any})
 
 Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED, PENDING, or RUNNABLE
-state are canceled. Jobs that have progressed to STARTING or RUNNING aren't canceled, but
-the API operation still succeeds, even if no job is canceled. These jobs must be terminated
-with the TerminateJob operation.
+state are canceled. Jobs that progressed to the STARTING or RUNNING state aren't canceled.
+However, the API operation still succeeds, even if no job is canceled. These jobs must be
+terminated with the TerminateJob operation.
 
 # Arguments
 - `job_id`: The Batch job ID of the job to cancel.
@@ -63,48 +63,49 @@ Fargate Spot capacity in your managed compute environment. You can optionally se
 price so that Spot Instances only launch when the Spot Instance price is less than a
 specified percentage of the On-Demand price.  Multi-node parallel jobs aren't supported on
 Spot Instances.  In an unmanaged compute environment, you can manage your own EC2 compute
-resources and have a lot of flexibility with how you configure your compute resources. For
-example, you can use custom AMIs. However, you must verify that each of your AMIs meet the
-Amazon ECS container instance AMI specification. For more information, see container
-instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created
-your unmanaged compute environment, you can use the DescribeComputeEnvironments operation
-to find the Amazon ECS cluster that's associated with it. Then, launch your container
-instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS
-container instance in the Amazon Elastic Container Service Developer Guide.  Batch doesn't
-automatically upgrade the AMIs in a compute environment after it's created. For example, it
-also doesn't update the AMIs in your compute environment when a newer version of the Amazon
-ECS optimized AMI is available. You're responsible for the management of the guest
-operating system. This includes any updates and security patches. You're also responsible
-for any additional application software or utilities that you install on the compute
-resources. There are two ways to use a new AMI for your Batch jobs. The original method is
-to complete these steps:   Create a new compute environment with the new AMI.   Add the
-compute environment to an existing job queue.   Remove the earlier compute environment from
-your job queue.   Delete the earlier compute environment.   In April 2022, Batch added
-enhanced support for updating compute environments. For more information, see Updating
-compute environments. To use the enhanced updating of compute environments to update AMIs,
-follow these rules:   Either do not set the service role (serviceRole) parameter or set it
-to the AWSBatchServiceRole service-linked role.   Set the allocation strategy
-(allocationStrategy) parameter to BEST_FIT_PROGRESSIVE or SPOT_CAPACITY_OPTIMIZED.   Set
-the update to latest image version (updateToLatestImageVersion) parameter to true.   Do not
-specify an AMI ID in imageId, imageIdOverride (in  ec2Configuration ), or in the launch
-template (launchTemplate). In that case Batch will select the latest Amazon ECS optimized
-AMI supported by Batch at the time the infrastructure update is initiated. Alternatively
-you can specify the AMI ID in the imageId or imageIdOverride parameters, or the launch
-template identified by the LaunchTemplate properties. Changing any of these properties will
-trigger an infrastructure update. If the AMI ID is specified in the launch template, it can
-not be replaced by specifying an AMI ID in either the imageId or imageIdOverride
-parameters. It can only be replaced by specifying a different launch template, or if the
-launch template version is set to Default or Latest, by setting either a new default
-version for the launch template (if Default)or by adding a new version to the launch
-template (if Latest).   If these rules are followed, any update that triggers an
-infrastructure update will cause the AMI ID to be re-selected. If the version setting in
-the launch template (launchTemplate) is set to Latest or Default, the latest or default
-version of the launch template will be evaluated up at the time of the infrastructure
-update, even if the launchTemplate was not updated.
+resources and have flexibility with how you configure your compute resources. For example,
+you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon
+ECS container instance AMI specification. For more information, see container instance AMIs
+in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged
+compute environment, you can use the DescribeComputeEnvironments operation to find the
+Amazon ECS cluster that's associated with it. Then, launch your container instances into
+that Amazon ECS cluster. For more information, see Launching an Amazon ECS container
+instance in the Amazon Elastic Container Service Developer Guide.  To create a compute
+environment that uses EKS resources, the caller must have permissions to call
+eks:DescribeCluster.   Batch doesn't automatically upgrade the AMIs in a compute
+environment after it's created. For example, it also doesn't update the AMIs in your
+compute environment when a newer version of the Amazon ECS optimized AMI is available.
+You're responsible for the management of the guest operating system. This includes any
+updates and security patches. You're also responsible for any additional application
+software or utilities that you install on the compute resources. There are two ways to use
+a new AMI for your Batch jobs. The original method is to complete these steps:   Create a
+new compute environment with the new AMI.   Add the compute environment to an existing job
+queue.   Remove the earlier compute environment from your job queue.   Delete the earlier
+compute environment.   In April 2022, Batch added enhanced support for updating compute
+environments. For more information, see Updating compute environments. To use the enhanced
+updating of compute environments to update AMIs, follow these rules:   Either don't set the
+service role (serviceRole) parameter or set it to the AWSBatchServiceRole service-linked
+role.   Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE
+or SPOT_CAPACITY_OPTIMIZED.   Set the update to latest image version
+(updateToLatestImageVersion) parameter to true.   Don't specify an AMI ID in imageId,
+imageIdOverride (in  ec2Configuration ), or in the launch template (launchTemplate). In
+that case, Batch selects the latest Amazon ECS optimized AMI that's supported by Batch at
+the time the infrastructure update is initiated. Alternatively, you can specify the AMI ID
+in the imageId or imageIdOverride parameters, or the launch template identified by the
+LaunchTemplate properties. Changing any of these properties starts an infrastructure
+update. If the AMI ID is specified in the launch template, it can't be replaced by
+specifying an AMI ID in either the imageId or imageIdOverride parameters. It can only be
+replaced by specifying a different launch template, or if the launch template version is
+set to Default or Latest, by setting either a new default version for the launch template
+(if Default) or by adding a new version to the launch template (if Latest).   If these
+rules are followed, any update that starts an infrastructure update causes the AMI ID to be
+re-selected. If the version setting in the launch template (launchTemplate) is set to
+Latest or Default, the latest or default version of the launch template is evaluated up at
+the time of the infrastructure update, even if the launchTemplate wasn't updated.
 
 # Arguments
 - `compute_environment_name`: The name for your compute environment. It can be up to 128
-  letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
   underscores (_).
 - `type`: The type of the compute environment: MANAGED or UNMANAGED. For more information,
   see Compute Environments in the Batch User Guide.
@@ -114,6 +115,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"computeResources"`: Details about the compute resources managed by the compute
   environment. This parameter is required for managed compute environments. For more
   information, see Compute Environments in the Batch User Guide.
+- `"eksConfiguration"`: The details for the Amazon EKS cluster that supports the compute
+  environment.
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   make calls to other Amazon Web Services services on your behalf. For more information, see
   Batch service IAM role in the Batch User Guide.  If your account already created the Batch
@@ -122,13 +125,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account, and no role is specified here, the service attempts to create the Batch
   service-linked role in your account.  If your specified role has a path other than /, then
   you must specify either the full role ARN (recommended) or prefix the role name with the
-  path. For example, if a role with the name bar has a path of /foo/ then you would specify
-  /foo/bar as the role name. For more information, see Friendly names and paths in the IAM
-  User Guide.  Depending on how you created your Batch service role, its ARN might contain
-  the service-role path prefix. When you only specify the name of the service role, Batch
-  assumes that your ARN doesn't use the service-role path prefix. Because of this, we
-  recommend that you specify the full ARN of your service role when you create compute
-  environments.
+  path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the
+  role name. For more information, see Friendly names and paths in the IAM User Guide.
+  Depending on how you created your Batch service role, its ARN might contain the
+  service-role path prefix. When you only specify the name of the service role, Batch assumes
+  that your ARN doesn't use the service-role path prefix. Because of this, we recommend that
+  you specify the full ARN of your service role when you create compute environments.
 - `"state"`: The state of the compute environment. If the state is ENABLED, then the
   compute environment accepts jobs from a queue and can scale out automatically based on
   queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an
@@ -223,7 +225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduling policy. After a job queue is created, you can replace but can't remove the fair
   share scheduling policy. The format is
   aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is
-  aws:aws:batch:us-west-2:012345678910:scheduling-policy/MySchedulingPolicy.
+  aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
 - `"state"`: The state of the job queue. If the job queue state is ENABLED, it is able to
   accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but
   jobs already in the queue can finish.
@@ -492,8 +494,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeComputeEnvironments request where maxResults was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the nextToken value. This value is null when there are no more results to return.
-  This token should be treated as an opaque identifier that's only used to retrieve the next
-  items in a list and not for other programmatic purposes.
+  Treat this token as an opaque identifier that's only used to retrieve the next items in a
+  list and not for other programmatic purposes.
 """
 function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return batch(
@@ -539,9 +541,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken value returned from a previous paginated
   DescribeJobDefinitions request where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
-  the nextToken value. This value is null when there are no more results to return.  This
-  token should be treated as an opaque identifier that's only used to retrieve the next items
-  in a list and not for other programmatic purposes.
+  the nextToken value. This value is null when there are no more results to return.  Treat
+  this token as an opaque identifier that's only used to retrieve the next items in a list
+  and not for other programmatic purposes.
 - `"status"`: The status used to filter job definitions.
 """
 function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -583,9 +585,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken value returned from a previous paginated DescribeJobQueues
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken
-  value. This value is null when there are no more results to return.  This token should be
-  treated as an opaque identifier that's only used to retrieve the next items in a list and
-  not for other programmatic purposes.
+  value. This value is null when there are no more results to return.  Treat this token as an
+  opaque identifier that's only used to retrieve the next items in a list and not for other
+  programmatic purposes.
 """
 function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config())
     return batch(
@@ -690,20 +692,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field,
   with the most recent jobs being first.  JOB_NAME  The value of the filter is a
   case-insensitive match for the job name. If the value ends with an asterisk (*), the filter
-  will match any job name that begins with the string before the '*'. This corresponds to the
+  matches any job name that begins with the string before the '*'. This corresponds to the
   jobName value. For example, test1 matches both Test1 and test1, and test1* matches both
   test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name
   and version.  JOB_DEFINITION  The value for the filter is the name or Amazon Resource Name
   (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case
   sensitive. When the value for the filter is the job definition name, the results include
   all the jobs that used any revision of that job definition name. If the value ends with an
-  asterisk (*), the filter will match any job definition name that begins with the string
-  before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The
-  version of the job definition that's used doesn't affect the sort order. When the
-  JOB_DEFINITION filter is used and the ARN is used (which is in the form
+  asterisk (*), the filter matches any job definition name that begins with the string before
+  the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version
+  of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION
+  filter is used and the ARN is used (which is in the form
   arn:{Partition}:batch:{Region}:{Account}:job-definition/{JobDefinitionName}:{Revision}),
   the results include jobs that used the specified revision of the job definition. Asterisk
-  (*) is not supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is
+  (*) isn't supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is
   the time that's before the job was created. This corresponds to the createdAt value. The
   value is a string representation of the number of milliseconds since 00:00:00 UTC
   (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time
@@ -727,8 +729,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken value returned from a previous paginated ListJobs request
   where maxResults was used and the results exceeded the value of that parameter. Pagination
   continues from the end of the previous results that returned the nextToken value. This
-  value is null when there are no more results to return.  This token should be treated as an
-  opaque identifier that's only used to retrieve the next items in a list and not for other
+  value is null when there are no more results to return.  Treat this token as an opaque
+  identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -766,9 +768,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken value that's returned from a previous paginated
   ListSchedulingPolicies request where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
-  the nextToken value. This value is null when there are no more results to return.  This
-  token should be treated as an opaque identifier that's only used to retrieve the next items
-  in a list and not for other programmatic purposes.
+  the nextToken value. This value is null when there are no more results to return.  Treat
+  this token as an opaque identifier that's only used to retrieve the next items in a list
+  and not for other programmatic purposes.
 """
 function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config())
     return batch(
@@ -796,13 +798,13 @@ end
 
 Lists the tags for an Batch resource. Batch resources that support tags are compute
 environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child
-jobs of array and multi-node parallel (MNP) jobs are not supported.
+jobs of array and multi-node parallel (MNP) jobs aren't supported.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource that tags are
   listed for. Batch resources that support tags are compute environments, jobs, job
   definitions, job queues, and scheduling policies. ARNs for child jobs of array and
-  multi-node parallel (MNP) jobs are not supported.
+  multi-node parallel (MNP) jobs aren't supported.
 
 """
 function list_tags_for_resource(
@@ -845,35 +847,40 @@ Registers an Batch job definition.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"containerProperties"`: An object with various properties specific to single-node
-  container-based jobs. If the job definition's type parameter is container, then you must
-  specify either containerProperties or nodeProperties.  If the job runs on Fargate
-  resources, then you must not specify nodeProperties; use only containerProperties.
+- `"containerProperties"`: An object with various properties specific to Amazon ECS based
+  single-node container-based jobs. If the job definition's type parameter is container, then
+  you must specify either containerProperties or nodeProperties. This must not be specified
+  for Amazon EKS based job definitions.  If the job runs on Fargate resources, then you must
+  not specify nodeProperties; use only containerProperties.
+- `"eksProperties"`: An object with various properties that are specific to Amazon EKS
+  based jobs. This must not be specified for Amazon ECS based job definitions.
 - `"nodeProperties"`: An object with various properties specific to multi-node parallel
   jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For
   more information, see Multi-node Parallel Jobs in the Batch User Guide. If the job
   definition's type parameter is container, then you must specify either containerProperties
   or nodeProperties.  If the job runs on Fargate resources, then you must not specify
-  nodeProperties; use containerProperties instead.
+  nodeProperties; use containerProperties instead.   If the job runs on Amazon EKS resources,
+  then you must not specify nodeProperties.
 - `"parameters"`: Default parameter substitution placeholders to set in the job definition.
   Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request
   override any corresponding parameter defaults from the job definition.
 - `"platformCapabilities"`: The platform capabilities required by the job definition. If no
   value is specified, it defaults to EC2. To run the job on Fargate resources, specify
-  FARGATE.
+  FARGATE.  If the job runs on Amazon EKS resources, then you must not specify
+  platformCapabilities.
 - `"propagateTags"`: Specifies whether to propagate the tags from the job or job definition
   to the corresponding Amazon ECS task. If no value is specified, the tags are not
   propagated. Tags can only be propagated to the tasks during task creation. For tags with
   the same name, job tags are given priority over job definitions tags. If the total number
   of combined tags from the job and job definition is over 50, the job is moved to the FAILED
-  state.
+  state.  If the job runs on Amazon EKS resources, then you must not specify propagateTags.
 - `"retryStrategy"`: The retry strategy to use for failed jobs that are submitted with this
   job definition. Any retry strategy that's specified during a SubmitJob operation overrides
   the retry strategy defined here. If a job is terminated due to a timeout, it isn't retried.
 - `"schedulingPriority"`: The scheduling priority for jobs that are submitted with this job
-  definition. This will only affect jobs in job queues with a fair share policy. Jobs with a
-  higher scheduling priority will be scheduled before jobs with a lower scheduling priority.
-  The minimum supported value is 0 and the maximum supported value is 9999.
+  definition. This only affects jobs in job queues with a fair share policy. Jobs with a
+  higher scheduling priority are scheduled before jobs with a lower scheduling priority. The
+  minimum supported value is 0 and the maximum supported value is 9999.
 - `"tags"`: The tags that you apply to the job definition to help you categorize and
   organize your resources. Each tag consists of a key and an optional value. For more
   information, see Tagging Amazon Web Services Resources in Batch User Guide.
@@ -945,18 +952,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"arrayProperties"`: The array properties for the submitted job, such as the size of the
   array. The array size can be between 2 and 10,000. If you specify array properties for a
   job, it becomes an array job. For more information, see Array Jobs in the Batch User Guide.
-- `"containerOverrides"`: A list of container overrides in the JSON format that specify the
-  name of a container in the specified job definition and the overrides it receives. You can
-  override the default command for a container, which is specified in the job definition or
-  the Docker image, with a command override. You can also override existing environment
-  variables on a container or add new environment variables to it with an environment
-  override.
+- `"containerOverrides"`: An object with various properties that override the defaults for
+  the job definition that specify the name of a container in the specified job definition and
+  the overrides it should receive. You can override the default command for a container,
+  which is specified in the job definition or the Docker image, with a command override. You
+  can also override existing environment variables on a container or add new environment
+  variables to it with an environment override.
 - `"dependsOn"`: A list of dependencies for the job. A job can depend upon a maximum of 20
   jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array
   jobs so that each child array job completes sequentially, starting at index 0. You can also
   specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index
   child of this job must wait for the corresponding index child of each dependency to
   complete before it can begin.
+- `"eksPropertiesOverride"`: An object that can only be specified for jobs that are run on
+  Amazon EKS resources with various properties that override defaults for the job definition.
 - `"nodeOverrides"`: A list of node overrides in JSON format that specify the node range to
   target and the container overrides for that node range.  This parameter isn't applicable to
   jobs that are running on Fargate resources; use containerOverrides instead.
@@ -973,12 +982,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retryStrategy"`: The retry strategy to use for failed jobs from this SubmitJob
   operation. When a retry strategy is specified here, it overrides the retry strategy defined
   in the job definition.
-- `"schedulingPriorityOverride"`: The scheduling priority for the job. This will only
-  affect jobs in job queues with a fair share policy. Jobs with a higher scheduling priority
-  will be scheduled before jobs with a lower scheduling priority. This will override any
-  scheduling priority in the job definition. The minimum supported value is 0 and the maximum
-  supported value is 9999.
-- `"shareIdentifier"`: The share identifier for the job. If the job queue does not have a
+- `"schedulingPriorityOverride"`: The scheduling priority for the job. This only affects
+  jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are
+  scheduled before jobs with a lower scheduling priority. This overrides any scheduling
+  priority in the job definition. The minimum supported value is 0 and the maximum supported
+  value is 9999.
+- `"shareIdentifier"`: The share identifier for the job. If the job queue doesn't have a
   scheduling policy, then this parameter must not be specified. If the job queue has a
   scheduling policy, then this parameter must be specified.
 - `"tags"`: The tags that you apply to the job request to help you categorize and organize
@@ -1040,13 +1049,13 @@ tags on a resource aren't specified in the request parameters, they aren't chang
 resource is deleted, the tags that are associated with that resource are deleted as well.
 Batch resources that support tags are compute environments, jobs, job definitions, job
 queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
-jobs are not supported.
+jobs aren't supported.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that tags are added to.
   Batch resources that support tags are compute environments, jobs, job definitions, job
   queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
-  jobs are not supported.
+  jobs aren't supported.
 - `tags`: The tags that you apply to the resource to help you categorize and organize your
   resources. Each tag consists of a key and an optional value. For more information, see
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
@@ -1129,7 +1138,7 @@ Deletes specified tags from an Batch resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to delete tags.
   Batch resources that support tags are compute environments, jobs, job definitions, job
   queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP)
-  jobs are not supported.
+  jobs aren't supported.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
@@ -1198,10 +1207,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RUNNING state continue to progress normally. Managed compute environments in the DISABLED
   state don't scale out. However, they scale in to minvCpus value after instances become idle.
 - `"unmanagedvCpus"`: The maximum number of vCPUs expected to be used for an unmanaged
-  compute environment. Do not specify this parameter for a managed compute environment. This
+  compute environment. Don't specify this parameter for a managed compute environment. This
   parameter is only used for fair share scheduling to reserve vCPU capacity for new share
-  identifiers. If this parameter is not provided for a fair share job queue, no vCPU capacity
-  will be reserved.
+  identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity
+  is reserved.
 - `"updatePolicy"`: Specifies the updated infrastructure update policy for the compute
   environment. For more information about infrastructure updates, see Updating compute
   environments in the Batch User Guide.
@@ -1263,7 +1272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingPolicyArn"`: Amazon Resource Name (ARN) of the fair share scheduling policy.
   Once a job queue is created, the fair share scheduling policy can be replaced but not
   removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For
-  example, aws:aws:batch:us-west-2:012345678910:scheduling-policy/MySchedulingPolicy.
+  example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
 - `"state"`: Describes the queue's ability to accept new jobs. If the job queue state is
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.

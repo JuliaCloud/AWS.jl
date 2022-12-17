@@ -386,6 +386,70 @@ function create_vpc_connector(
 end
 
 """
+    create_vpc_ingress_connection(ingress_vpc_configuration, service_arn, vpc_ingress_connection_name)
+    create_vpc_ingress_connection(ingress_vpc_configuration, service_arn, vpc_ingress_connection_name, params::Dict{String,<:Any})
+
+Create an App Runner VPC Ingress Connection resource. App Runner requires this resource
+when you want to associate your App Runner service with an Amazon VPC endpoint.
+
+# Arguments
+- `ingress_vpc_configuration`: Specifications for the customer’s Amazon VPC and the
+  related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC
+  Ingress Connection resource.
+- `service_arn`: The Amazon Resource Name (ARN) for this App Runner service that is used to
+  create the VPC Ingress Connection resource.
+- `vpc_ingress_connection_name`: A name for the VPC Ingress Connection resource. It must be
+  unique across all the active VPC Ingress Connections in your Amazon Web Services account in
+  the Amazon Web Services Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: An optional list of metadata items that you can associate with the VPC Ingress
+  Connection resource. A tag is a key-value pair.
+"""
+function create_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    ServiceArn,
+    VpcIngressConnectionName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "CreateVpcIngressConnection",
+        Dict{String,Any}(
+            "IngressVpcConfiguration" => IngressVpcConfiguration,
+            "ServiceArn" => ServiceArn,
+            "VpcIngressConnectionName" => VpcIngressConnectionName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    ServiceArn,
+    VpcIngressConnectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "CreateVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IngressVpcConfiguration" => IngressVpcConfiguration,
+                    "ServiceArn" => ServiceArn,
+                    "VpcIngressConnectionName" => VpcIngressConnectionName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_auto_scaling_configuration(auto_scaling_configuration_arn)
     delete_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
 
@@ -518,7 +582,8 @@ end
 
 Delete an App Runner service. This is an asynchronous operation. On a successful call, you
 can use the returned OperationId and the ListOperations call to track the operation's
-progress.
+progress.  Make sure that you don't have any active VPCIngressConnections associated with
+the service you want to delete.
 
 # Arguments
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -580,6 +645,48 @@ function delete_vpc_connector(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_vpc_ingress_connection(vpc_ingress_connection_arn)
+    delete_vpc_ingress_connection(vpc_ingress_connection_arn, params::Dict{String,<:Any})
+
+Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner
+service. The VPC Ingress Connection must be in one of the following states to be deleted:
+  AVAILABLE     FAILED_CREATION     FAILED_UPDATE     FAILED_DELETION
+
+# Arguments
+- `vpc_ingress_connection_arn`: The Amazon Resource Name (ARN) of the App Runner VPC
+  Ingress Connection that you want to delete.
+
+"""
+function delete_vpc_ingress_connection(
+    VpcIngressConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apprunner(
+        "DeleteVpcIngressConnection",
+        Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vpc_ingress_connection(
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "DeleteVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -785,6 +892,46 @@ function describe_vpc_connector(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_vpc_ingress_connection(vpc_ingress_connection_arn)
+    describe_vpc_ingress_connection(vpc_ingress_connection_arn, params::Dict{String,<:Any})
+
+Return a full description of an App Runner VPC Ingress Connection resource.
+
+# Arguments
+- `vpc_ingress_connection_arn`: The Amazon Resource Name (ARN) of the App Runner VPC
+  Ingress Connection that you want a description for.
+
+"""
+function describe_vpc_ingress_connection(
+    VpcIngressConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apprunner(
+        "DescribeVpcIngressConnection",
+        Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vpc_ingress_connection(
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "DescribeVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -1102,6 +1249,40 @@ function list_vpc_connectors(
 end
 
 """
+    list_vpc_ingress_connections()
+    list_vpc_ingress_connections(params::Dict{String,<:Any})
+
+Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: The VPC Ingress Connections to be listed based on either the Service Arn or
+  Vpc Endpoint Id, or both.
+- `"MaxResults"`: The maximum number of results to include in each response (result page).
+  It's used for a paginated request. If you don't specify MaxResults, the request retrieves
+  all available results in a single response.
+- `"NextToken"`: A token from a previous result page. It's used for a paginated request.
+  The request retrieves the next result page. All other parameter values must be identical to
+  the ones that are specified in the initial request. If you don't specify NextToken, the
+  request retrieves the first result page.
+"""
+function list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+    return apprunner(
+        "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_vpc_ingress_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apprunner(
+        "ListVpcIngressConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     pause_service(service_arn)
     pause_service(service_arn, params::Dict{String,<:Any})
 
@@ -1351,6 +1532,60 @@ function update_service(
         "UpdateService",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_vpc_ingress_connection(ingress_vpc_configuration, vpc_ingress_connection_arn)
+    update_vpc_ingress_connection(ingress_vpc_configuration, vpc_ingress_connection_arn, params::Dict{String,<:Any})
+
+Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection
+must be in one of the following states to be updated:    AVAILABLE     FAILED_CREATION
+FAILED_UPDATE
+
+# Arguments
+- `ingress_vpc_configuration`: Specifications for the customer’s Amazon VPC and the
+  related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC
+  Ingress Connection resource.
+- `vpc_ingress_connection_arn`: The Amazon Resource Name (Arn) for the App Runner VPC
+  Ingress Connection resource that you want to update.
+
+"""
+function update_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    VpcIngressConnectionArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "UpdateVpcIngressConnection",
+        Dict{String,Any}(
+            "IngressVpcConfiguration" => IngressVpcConfiguration,
+            "VpcIngressConnectionArn" => VpcIngressConnectionArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_vpc_ingress_connection(
+    IngressVpcConfiguration,
+    VpcIngressConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "UpdateVpcIngressConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IngressVpcConfiguration" => IngressVpcConfiguration,
+                    "VpcIngressConnectionArn" => VpcIngressConnectionArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

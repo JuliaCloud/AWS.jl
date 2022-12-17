@@ -268,42 +268,53 @@ function batch_detect_targeted_sentiment(
 end
 
 """
-    classify_document(endpoint_arn, text)
-    classify_document(endpoint_arn, text, params::Dict{String,<:Any})
+    classify_document(endpoint_arn)
+    classify_document(endpoint_arn, params::Dict{String,<:Any})
 
 Creates a new document classification request to analyze a single document in real-time,
-using a previously created and trained custom model and an endpoint.
+using a previously created and trained custom model and an endpoint. You can input plain
+text or you can upload a single-page input document (text, PDF, Word, or image).  If the
+system detects errors while processing a page in the input document, the API response
+includes an entry in Errors that describes the errors. If the system detects a
+document-level error in your input document, the API returns an InvalidRequestException
+error response. For details about this exception, see  Errors in semi-structured documents
+in the Comprehend Developer Guide.
 
 # Arguments
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint. For information about
   endpoints, see Managing endpoints.
-- `text`: The document text to be analyzed.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Bytes"`: Use the Bytes parameter to input a text, PDF, Word or image file. You can also
+  use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument
+  output file. Provide the input document as a sequence of base64-encoded bytes. If your code
+  uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file
+  bytes for you.  The maximum length of this field depends on the input document type. For
+  details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If
+  you use the Bytes parameter, do not use the Text parameter.
+- `"DocumentReaderConfig"`: Provides configuration parameters to override the default
+  actions for extracting text from PDF documents and image files.
+- `"Text"`: The document text to be analyzed. If you enter text using this parameter, do
+  not use the Bytes parameter.
 """
-function classify_document(
-    EndpointArn, Text; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function classify_document(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config())
     return comprehend(
         "ClassifyDocument",
-        Dict{String,Any}("EndpointArn" => EndpointArn, "Text" => Text);
+        Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function classify_document(
     EndpointArn,
-    Text,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return comprehend(
         "ClassifyDocument",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EndpointArn" => EndpointArn, "Text" => Text),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -550,9 +561,11 @@ request is submitted, you can check job status using the API.
 - `input_data_config`: Specifies the format and location of the input data. The S3 bucket
   containing the input data must be located in the same region as the entity recognizer being
   created.
-- `language_code`:  You can specify any of the following languages supported by Amazon
-  Comprehend: English (\"en\"), Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), German
-  (\"de\"), or Portuguese (\"pt\"). All documents must be in the same language.
+- `language_code`:  You can specify any of the following languages: English (\"en\"),
+  Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), German (\"de\"), or Portuguese
+  (\"pt\"). If you plan to use this entity recognizer with PDF, Word, or image input files,
+  you must specify English as the language. All training documents must be in the same
+  language.
 - `recognizer_name`: The name given to the newly created recognizer. Recognizer names can
   be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
   are allowed. The name must be unique in the account/region.
@@ -1122,7 +1135,8 @@ Gets the details of a resource-based policy that is attached to a custom model, 
 the JSON body of the policy.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the policy to describe.
+- `resource_arn`: The Amazon Resource Name (ARN) of the custom model version that has the
+  resource policy.
 
 """
 function describe_resource_policy(
@@ -1280,17 +1294,35 @@ function detect_dominant_language(
 end
 
 """
-    detect_entities(text)
-    detect_entities(text, params::Dict{String,<:Any})
+    detect_entities()
+    detect_entities(params::Dict{String,<:Any})
 
-Inspects text for named entities, and returns information about them. For more information,
-about named entities, see Entities in the Comprehend Developer Guide.
-
-# Arguments
-- `text`: A UTF-8 text string. The maximum string size is 100 KB.
+Detects named entities in input text when you use the pre-trained model. Detects custom
+entities if you have a custom entity recognition model.   When detecting named entities
+using the pre-trained model, use plain text as the input. For more information about named
+entities, see Entities in the Comprehend Developer Guide. When you use a custom entity
+recognition model, you can input plain text or you can upload a single-page input document
+(text, PDF, Word, or image).  If the system detects errors while processing a page in the
+input document, the API response includes an entry in Errors for each error.  If the system
+detects a document-level error in your input document, the API returns an
+InvalidRequestException error response. For details about this exception, see  Errors in
+semi-structured documents in the Comprehend Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Bytes"`: This field applies only when you use a custom entity recognition model that
+  was trained with PDF annotations. For other cases, enter your text input in the Text field.
+   Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file
+  in the Bytes parameter is equivelent to using the Text parameter (the Entities field in the
+  response is identical). You can also use the Bytes parameter to input an Amazon Textract
+  DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence
+  of base64-encoded bytes. If your code uses an Amazon Web Services SDK to detect entities,
+  the SDK may encode the document file bytes for you.  The maximum length of this field
+  depends on the input document type. For details, see  Inputs for real-time custom analysis
+  in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text
+  parameter.
+- `"DocumentReaderConfig"`: Provides configuration parameters to override the default
+  actions for extracting text from PDF documents and image files.
 - `"EndpointArn"`: The Amazon Resource Name of an endpoint that is associated with a custom
   entity recognition model. Provide an endpoint if you want to detect entities by using your
   own custom model instead of the default model that is used by Amazon Comprehend. If you
@@ -1298,27 +1330,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignores any language code that you provide in your request. For information about
   endpoints, see Managing endpoints.
 - `"LanguageCode"`: The language of the input documents. You can specify any of the primary
-  languages supported by Amazon Comprehend. All documents must be in the same language. If
-  your request includes the endpoint for a custom entity recognition model, Amazon Comprehend
-  uses the language of your custom model, and it ignores any language code that you specify
-  here.
+  languages supported by Amazon Comprehend. If your request includes the endpoint for a
+  custom entity recognition model, Amazon Comprehend uses the language of your custom model,
+  and it ignores any language code that you specify here. All input documents must be in the
+  same language.
+- `"Text"`: A UTF-8 text string. The maximum string size is 100 KB. If you enter text using
+  this parameter, do not use the Bytes parameter.
 """
-function detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config())
+function detect_entities(; aws_config::AbstractAWSConfig=global_aws_config())
     return comprehend(
-        "DetectEntities",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DetectEntities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function detect_entities(
-    Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return comprehend(
-        "DetectEntities",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DetectEntities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

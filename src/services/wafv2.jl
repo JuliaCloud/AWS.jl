@@ -387,6 +387,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
+- `"ChallengeConfig"`: Specifies how WAF should handle challenge evaluations for rules that
+  don't have their own ChallengeConfig settings. If you don't specify this, WAF uses its
+  default settings for ChallengeConfig.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you
@@ -399,6 +402,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
+- `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
+  This enables the use of tokens across multiple protected websites. When WAF provides a
+  token, it uses the domain of the Amazon Web Services resource that the web ACL is
+  protecting. If you don't specify a list of token domains, WAF accepts tokens only for the
+  domain of the protected resource. With a token domain list, WAF accepts the resource's host
+  domain plus all domains in the token domain list, including their prefixed subdomains.
+  Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
+  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
 """
 function create_web_acl(
     DefaultAction,
@@ -935,9 +946,8 @@ end
 
 Generates a presigned download URL for the specified release of the mobile SDK. The mobile
 SDK is not generally available. Customers who have access to the mobile SDK can use it to
-establish and manage Security Token Service (STS) security tokens for use in HTTP(S)
-requests from a mobile device to WAF. For more information, see WAF client application
-integration in the WAF Developer Guide.
+establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF.
+For more information, see WAF client application integration in the WAF Developer Guide.
 
 # Arguments
 - `platform`: The device platform.
@@ -1122,9 +1132,9 @@ end
 
 Retrieves information for the specified mobile SDK release, including release notes and
 tags. The mobile SDK is not generally available. Customers who have access to the mobile
-SDK can use it to establish and manage Security Token Service (STS) security tokens for use
-in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client
-application integration in the WAF Developer Guide.
+SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile
+device to WAF. For more information, see WAF client application integration in the WAF
+Developer Guide.
 
 # Arguments
 - `platform`: The device platform.
@@ -1785,9 +1795,9 @@ end
 
 Retrieves a list of the available releases for the mobile SDK and the specified device
 platform.  The mobile SDK is not generally available. Customers who have access to the
-mobile SDK can use it to establish and manage Security Token Service (STS) security tokens
-for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF
-client application integration in the WAF Developer Guide.
+mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a
+mobile device to WAF. For more information, see WAF client application integration in the
+WAF Developer Guide.
 
 # Arguments
 - `platform`: The device platform to retrieve the list for.
@@ -2059,20 +2069,22 @@ Enables the specified LoggingConfiguration, to start logging from a web ACL, acc
 the configuration provided.   You can define one logging destination per web ACL.  You can
 access information about the traffic that WAF inspects using the following steps:   Create
 your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple
-Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose. For information
-about configuring logging destinations and the permissions that are required for each, see
-Logging web ACL traffic information in the WAF Developer Guide.   Associate your logging
-destination to your web ACL using a PutLoggingConfiguration request.   When you
-successfully enable logging using a PutLoggingConfiguration request, WAF creates an
-additional role or policy that is required to write logs to the logging destination. For an
-Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an
-Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF
-creates a service-linked role. For additional information about web ACL logging, see
-Logging web ACL traffic information in the WAF Developer Guide.  This operation completely
-replaces the mutable specifications that you already have for the logging configuration
-with the ones that you provide to this call. To modify the logging configuration, retrieve
-it by calling GetLoggingConfiguration, update the settings as needed, and then provide the
-complete logging configuration specification to this call.
+Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose.  The name that you
+give the destination must start with aws-waf-logs-. Depending on the type of destination,
+you might need to configure additional settings or permissions.  For configuration
+requirements and pricing information for each destination type, see Logging web ACL traffic
+in the WAF Developer Guide.   Associate your logging destination to your web ACL using a
+PutLoggingConfiguration request.   When you successfully enable logging using a
+PutLoggingConfiguration request, WAF creates an additional role or policy that is required
+to write logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF
+creates a resource policy on the log group. For an Amazon S3 bucket, WAF creates a bucket
+policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role. For
+additional information about web ACL logging, see Logging web ACL traffic information in
+the WAF Developer Guide.  This operation completely replaces the mutable specifications
+that you already have for the logging configuration with the ones that you provide to this
+call. To modify the logging configuration, retrieve it by calling GetLoggingConfiguration,
+update the settings as needed, and then provide the complete logging configuration
+specification to this call.
 
 # Arguments
 - `logging_configuration`:
@@ -2786,6 +2798,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
+- `"ChallengeConfig"`: Specifies how WAF should handle challenge evaluations for rules that
+  don't have their own ChallengeConfig settings. If you don't specify this, WAF uses its
+  default settings for ChallengeConfig.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you
@@ -2797,6 +2812,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
+- `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
+  This enables the use of tokens across multiple protected websites. When WAF provides a
+  token, it uses the domain of the Amazon Web Services resource that the web ACL is
+  protecting. If you don't specify a list of token domains, WAF accepts tokens only for the
+  domain of the protected resource. With a token domain list, WAF accepts the resource's host
+  domain plus all domains in the token domain list, including their prefixed subdomains.
+  Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
+  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
 """
 function update_web_acl(
     DefaultAction,

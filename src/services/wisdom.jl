@@ -948,66 +948,6 @@ function notify_recommendations_received(
 end
 
 """
-    put_feedback(assistant_id, feedback, target_id, target_type)
-    put_feedback(assistant_id, feedback, target_id, target_type, params::Dict{String,<:Any})
-
-Submits feedback to Wisdom. The feedback is used to improve future recommendations from
-GetRecommendations or results from QueryAssistant. Feedback can be resubmitted up to 6
-hours after submission.
-
-# Arguments
-- `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
-  URLs cannot contain the ARN.
-- `feedback`: The feedback.
-- `target_id`: The identifier of a recommendation. or The identifier of the result data.
-- `target_type`: The type of the targetId for which The feedback. is targeted.
-
-"""
-function put_feedback(
-    assistantId,
-    feedback,
-    targetId,
-    targetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return wisdom(
-        "PUT",
-        "/assistants/$(assistantId)/feedback",
-        Dict{String,Any}(
-            "feedback" => feedback, "targetId" => targetId, "targetType" => targetType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_feedback(
-    assistantId,
-    feedback,
-    targetId,
-    targetType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return wisdom(
-        "PUT",
-        "/assistants/$(assistantId)/feedback",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "feedback" => feedback,
-                    "targetId" => targetId,
-                    "targetType" => targetType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     query_assistant(assistant_id, query_text)
     query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
 

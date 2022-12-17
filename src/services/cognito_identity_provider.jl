@@ -444,7 +444,10 @@ end
     admin_disable_user(user_pool_id, username)
     admin_disable_user(user_pool_id, username, params::Dict{String,<:Any})
 
-Disables the specified user. Calling this action requires developer credentials.
+Deactivates a user and revokes all access tokens for the user. A deactivated user can't
+sign in, but still appears in the responses to GetUser and ListUsers API requests. You must
+make this API request with Amazon Web Services credentials that have
+cognito-idp:AdminDisableUser permissions.
 
 # Arguments
 - `user_pool_id`: The user pool ID for the user pool where you want to disable the user.
@@ -968,7 +971,8 @@ security.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of authentication events to return.
+- `"MaxResults"`: The maximum number of authentication events to return. Returns 60 events
+  if you set MaxResults to 0, or if you don't include a MaxResults parameter.
 - `"NextToken"`: A pagination token.
 """
 function admin_list_user_auth_events(
@@ -2238,6 +2242,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values: phone_number, email, or preferred_username.
 - `"AutoVerifiedAttributes"`: The attributes to be auto-verified. Possible values: email,
   phone_number.
+- `"DeletionProtection"`: When active, DeletionProtection prevents accidental deletion of
+  your user pool. Before you can delete a user pool that you have protected against deletion,
+  you must deactivate this feature. When you try to delete a protected user pool in a
+  DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To
+  delete a protected user pool, send a new DeleteUserPool request after you deactivate
+  deletion protection in an UpdateUserPool API request.
 - `"DeviceConfiguration"`: The device-remembering configuration for a user pool. A null
   value indicates that you have deactivated device remembering in your user pool.  When you
   provide a value for any DeviceConfiguration field, you activate the Amazon Cognito
@@ -2328,6 +2338,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can
   authorize access with their access token for 10 hours. The default time unit for
   AccessTokenValidity in an API request is hours. Valid range is displayed below in seconds.
+  If you don't specify otherwise in the configuration of your app client, your access tokens
+  are valid for one hour.
 - `"AllowedOAuthFlows"`: The allowed OAuth flows.  code  Use a code grant flow, which
   provides an authorization code as the response. This code can be exchanged for access
   tokens with the /oauth2/token endpoint.  implicit  Issue the access token (and, optionally,
@@ -2368,19 +2380,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableTokenRevocation"`: Activates or deactivates token revocation. For more
   information about revoking tokens, see RevokeToken. If you don't include this parameter,
   token revocation is automatically activated for the new user pool client.
-- `"ExplicitAuthFlows"`: The authentication flows that are supported by the user pool
-  clients. Flow names without the ALLOW_ prefix are no longer supported, in favor of new
-  names with the ALLOW_ prefix.  Values with ALLOW_ prefix must be used only along with the
-  ALLOW_ prefix.  Valid values include:  ALLOW_ADMIN_USER_PASSWORD_AUTH  Enable admin based
-  user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the
-  ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the
-  password in the request instead of using the Secure Remote Password (SRP) protocol to
-  verify passwords.  ALLOW_CUSTOM_AUTH  Enable Lambda trigger based authentication.
-  ALLOW_USER_PASSWORD_AUTH  Enable user password-based authentication. In this flow, Amazon
-  Cognito receives the password in the request instead of using the SRP protocol to verify
-  passwords.  ALLOW_USER_SRP_AUTH  Enable SRP-based authentication.  ALLOW_REFRESH_TOKEN_AUTH
-   Enable the authflow that refreshes tokens.   If you don't specify a value for
-  ExplicitAuthFlows, your user client supports ALLOW_USER_SRP_AUTH and ALLOW_CUSTOM_AUTH.
+- `"ExplicitAuthFlows"`: The authentication flows that you want your user pool client to
+  support. For each app client in your user pool, you can sign in your users with any
+  combination of one or more flows, including with a user name and Secure Remote Password
+  (SRP), a user name and password, or a custom authentication process that you define with
+  Lambda functions.  If you don't specify a value for ExplicitAuthFlows, your user client
+  supports ALLOW_REFRESH_TOKEN_AUTH, ALLOW_USER_SRP_AUTH, and ALLOW_CUSTOM_AUTH.  Valid
+  values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password
+  authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH
+  setting. With this authentication flow, your app passes a user name and password to Amazon
+  Cognito in the request, instead of using the Secure Remote Password (SRP) protocol to
+  securely transmit the password.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based
+  authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In
+  this flow, Amazon Cognito receives the password in the request instead of using the SRP
+  protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.
+  ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   In some environments, you
+  will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You
+  can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as
+  values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
 - `"GenerateSecret"`: Boolean to specify whether you want to generate a secret for the user
   pool client being created.
 - `"IdTokenValidity"`: The ID token time limit. After this limit expires, your user can't
@@ -2388,7 +2405,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours, or days, set a TokenValidityUnits value in your API request. For example, when you
   set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their
   session with their ID token for 10 hours. The default time unit for AccessTokenValidity in
-  an API request is hours. Valid range is displayed below in seconds.
+  an API request is hours. Valid range is displayed below in seconds. If you don't specify
+  otherwise in the configuration of your app client, your ID tokens are valid for one hour.
 - `"LogoutURLs"`: A list of allowed logout URLs for the IdPs.
 - `"PreventUserExistenceErrors"`: Errors and responses that you want Amazon Cognito APIs to
   return during authentication, account confirmation, and password recovery when the user
@@ -2407,7 +2425,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can refresh their session and retrieve new access and ID tokens for 10 days. The default
   time unit for RefreshTokenValidity in an API request is days. You can't set
   RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default
-  value of 30 days. Valid range is displayed below in seconds.
+  value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise
+  in the configuration of your app client, your refresh tokens are valid for 30 days.
 - `"SupportedIdentityProviders"`: A list of provider names for the identity providers
   (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook,
   Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you
@@ -3375,7 +3394,10 @@ end
     get_signing_certificate(user_pool_id)
     get_signing_certificate(user_pool_id, params::Dict{String,<:Any})
 
-This method takes a user pool ID, and returns the signing certificate.
+This method takes a user pool ID, and returns the signing certificate. The issued
+certificate is valid for 10 years from the date of issue. Amazon Cognito issues and assigns
+a new signing certificate annually. This process returns a new value in the response to
+GetSigningCertificate, but doesn't invalidate the original certificate.
 
 # Arguments
 - `user_pool_id`: The user pool ID.
@@ -3594,10 +3616,8 @@ end
     global_sign_out(access_token, params::Dict{String,<:Any})
 
 Signs out users from all devices. It also invalidates all refresh tokens that Amazon
-Cognito has issued to a user. The user's current access and ID tokens remain valid until
-their expiry. By default, access and ID tokens expire one hour after Amazon Cognito issues
-them. A user can still use a hosted UI cookie to retrieve new tokens for the duration of
-the cookie validity period of 1 hour.
+Cognito has issued to a user. A user can still use a hosted UI cookie to retrieve new
+tokens for the duration of the 1-hour cookie validity period.
 
 # Arguments
 - `access_token`: A valid access token that Amazon Cognito issued to the user who you want
@@ -4340,8 +4360,9 @@ end
     revoke_token(client_id, token)
     revoke_token(client_id, token, params::Dict{String,<:Any})
 
-Revokes all of the access tokens generated by the specified refresh token. After the token
-is revoked, you can't use the revoked token to access Amazon Cognito authenticated APIs.
+Revokes all of the access tokens generated by, and at the same time as, the specified
+refresh token. After a token is revoked, you can't use the revoked token to access Amazon
+Cognito user APIs, or to authorize access to your resource server.
 
 # Arguments
 - `client_id`: The client ID for the token that you want to revoke.
@@ -5253,6 +5274,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdminCreateUserConfig"`: The configuration for AdminCreateUser requests.
 - `"AutoVerifiedAttributes"`: The attributes that are automatically verified when Amazon
   Cognito requests to update user pools.
+- `"DeletionProtection"`: When active, DeletionProtection prevents accidental deletion of
+  your user pool. Before you can delete a user pool that you have protected against deletion,
+  you must deactivate this feature. When you try to delete a protected user pool in a
+  DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To
+  delete a protected user pool, send a new DeleteUserPool request after you deactivate
+  deletion protection in an UpdateUserPool API request.
 - `"DeviceConfiguration"`: The device-remembering configuration for a user pool. A null
   value indicates that you have deactivated device remembering in your user pool.  When you
   provide a value for any DeviceConfiguration field, you activate the Amazon Cognito
@@ -5338,6 +5365,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can
   authorize access with their access token for 10 hours. The default time unit for
   AccessTokenValidity in an API request is hours. Valid range is displayed below in seconds.
+  If you don't specify otherwise in the configuration of your app client, your access tokens
+  are valid for one hour.
 - `"AllowedOAuthFlows"`: The allowed OAuth flows.  code  Use a code grant flow, which
   provides an authorization code as the response. This code can be exchanged for access
   tokens with the /oauth2/token endpoint.  implicit  Issue the access token (and, optionally,
@@ -5377,24 +5406,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that has a client secret.
 - `"EnableTokenRevocation"`: Activates or deactivates token revocation. For more
   information about revoking tokens, see RevokeToken.
-- `"ExplicitAuthFlows"`: The authentication flows that are supported by the user pool
-  clients. Flow names without the ALLOW_ prefix are no longer supported in favor of new names
-  with the ALLOW_ prefix. Note that values with ALLOW_ prefix must be used only along with
-  values with the ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH:
-  Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting
-  replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito
-  receives the password in the request instead of using the Secure Remote Password (SRP)
-  protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based
+- `"ExplicitAuthFlows"`: The authentication flows that you want your user pool client to
+  support. For each app client in your user pool, you can sign in your users with any
+  combination of one or more flows, including with a user name and Secure Remote Password
+  (SRP), a user name and password, or a custom authentication process that you define with
+  Lambda functions.  If you don't specify a value for ExplicitAuthFlows, your user client
+  supports ALLOW_REFRESH_TOKEN_AUTH, ALLOW_USER_SRP_AUTH, and ALLOW_CUSTOM_AUTH.  Valid
+  values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password
+  authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH
+  setting. With this authentication flow, your app passes a user name and password to Amazon
+  Cognito in the request, instead of using the Secure Remote Password (SRP) protocol to
+  securely transmit the password.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based
   authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In
   this flow, Amazon Cognito receives the password in the request instead of using the SRP
   protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.
-  ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
+  ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   In some environments, you
+  will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You
+  can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as
+  values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
 - `"IdTokenValidity"`: The ID token time limit. After this limit expires, your user can't
   use their ID token. To specify the time unit for IdTokenValidity as seconds, minutes,
   hours, or days, set a TokenValidityUnits value in your API request. For example, when you
   set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their
   session with their ID token for 10 hours. The default time unit for AccessTokenValidity in
-  an API request is hours. Valid range is displayed below in seconds.
+  an API request is hours. Valid range is displayed below in seconds. If you don't specify
+  otherwise in the configuration of your app client, your ID tokens are valid for one hour.
 - `"LogoutURLs"`: A list of allowed logout URLs for the IdPs.
 - `"PreventUserExistenceErrors"`: Errors and responses that you want Amazon Cognito APIs to
   return during authentication, account confirmation, and password recovery when the user
@@ -5413,7 +5449,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can refresh their session and retrieve new access and ID tokens for 10 days. The default
   time unit for RefreshTokenValidity in an API request is days. You can't set
   RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default
-  value of 30 days. Valid range is displayed below in seconds.
+  value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise
+  in the configuration of your app client, your refresh tokens are valid for 30 days.
 - `"SupportedIdentityProviders"`: A list of provider names for the IdPs that this client
   supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple,
   LoginWithAmazon, and the names of your own SAML and OIDC providers.
