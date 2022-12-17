@@ -143,7 +143,7 @@ end
 # https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
 # Default values for AWS's `standard` retry mode. Note: these can be overridden elsewhere.
 Base.@kwdef struct AWSExponentialBackoff
-    max_attempts::Int = 3
+    max_attempts::Int = AWS_MAX_RETRY_ATTEMPTS
     max_backoff::Float64 = 20.0
     rng::AbstractRNG = Random.GLOBAL_RNG
 end

@@ -193,6 +193,65 @@ end
         @test String(response.body) == Patches.body
     end
 
+    @testset "Default throttling" begin
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
+        )
+
+        retries = Ref{Int}(0)
+        exception = apply(Patches._throttling_patch(retries)) do
+            try
+                AWS.submit_request(aws, request)
+                return nothing
+            catch e
+                if e isa AWSException
+                    return e
+                else
+                    rethrow()
+                end
+            end
+        end
+
+        @test exception isa AWSException
+        @test exception.code == "SlowDown"
+        @test retries[] == AWS.max_attempts(aws)
+    end
+
+    @testset "Custom throttling" begin
+        aws = AWS.AWSConfig(max_attempts=1)
+        @test AWS.max_attempts(aws) == 1
+
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
+        )
+
+        retries = Ref{Int}(0)
+        exception = apply(Patches._throttling_patch(retries)) do
+            try
+                AWS.submit_request(aws, request)
+                return nothing
+            catch e
+                if e isa AWSException
+                    return e
+                else
+                    rethrow()
+                end
+            end
+        end
+
+        @test exception isa AWSException
+        @test exception.code == "SlowDown"
+        @test retries[] == AWS.max_attempts(aws)
+    end
+
     @testset "Not authorized" begin
         request = Request(;
             service="s3",
