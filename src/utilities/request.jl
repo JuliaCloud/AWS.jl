@@ -114,6 +114,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "LimitExceededException",
         "RequestThrottled",
         "PriorRequestNotComplete",
+        "SlowDown",
     ]
 
     request.headers["User-Agent"] = user_agent[]
