@@ -169,8 +169,12 @@ GetFunctionConfiguration's State response parameter in the Lambda Developer Guid
 Lambda endpoints, a check is performed to determine that a Lambda function with the
 specified ARN exists. If it does not exist, the health check fails. For public URLs, a
 connection is opened to the public endpoint. If the URL is not reachable, the health check
-fails.  For private URLS, a target group is created on the Elastic Load Balancing and the
-target group health check is run. The HealthCheckProtocol, HealthCheckPort, and
+fails.  Refactor Spaces automatically resolves the public Domain Name System (DNS) names
+that are set in CreateServiceRequestUrlEndpoint when you create a service. The DNS names
+resolve when the DNS time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60
+seconds. This periodic DNS resolution ensures that the route configuration remains
+up-to-date.  For private URLS, a target group is created on the Elastic Load Balancing and
+the target group health check is run. The HealthCheckProtocol, HealthCheckPort, and
 HealthCheckPath are the same protocol, port, and path specified in the URL or health URL,
 if used. All other settings use the default values, as described in Health checks for your
 target groups. The health check is considered successful if at least one target within the
@@ -271,7 +275,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LambdaEndpoint"`: The configuration for the Lambda endpoint type.
 - `"Tags"`: The tags to assign to the service. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key-value pair..
-- `"UrlEndpoint"`: The configuration for the URL endpoint type.
+- `"UrlEndpoint"`: The configuration for the URL endpoint type. When creating a route to a
+  service, Refactor Spaces automatically resolves the address in the UrlEndpointInput object
+  URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60 seconds for
+  TTLs less than 60 seconds.
 - `"VpcId"`: The ID of the VPC.
 """
 function create_service(

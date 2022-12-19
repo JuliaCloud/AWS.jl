@@ -722,40 +722,35 @@ function list_insights(
 end
 
 """
-    list_monitored_resources(filters)
-    list_monitored_resources(filters, params::Dict{String,<:Any})
+    list_monitored_resources()
+    list_monitored_resources(params::Dict{String,<:Any})
 
  Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
 
-# Arguments
-- `filters`:  Filters to determine which monitored resources you want to retrieve. You can
-  filter by resource type or resource permission status.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  Filters to determine which monitored resources you want to retrieve. You
+  can filter by resource type or resource permission status.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_monitored_resources(
-    Filters; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_monitored_resources(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
         "POST",
-        "/monitoredResources",
-        Dict{String,Any}("Filters" => Filters);
+        "/monitoredResources";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_monitored_resources(
-    Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return devops_guru(
         "POST",
         "/monitoredResources",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -933,10 +928,10 @@ end
     search_insights(start_time_range, type, params::Dict{String,<:Any})
 
  Returns a list of insights in your Amazon Web Services account. You can specify which
-insights are returned by their start time, one or more statuses (ONGOING, CLOSED, and
-CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE).
- Use the Filters parameter to specify status and severity search parameters. Use the Type
-parameter to specify REACTIVE or PROACTIVE in your search.
+insights are returned by their start time, one or more statuses (ONGOING or CLOSED), one or
+more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE).   Use the
+Filters parameter to specify status and severity search parameters. Use the Type parameter
+to specify REACTIVE or PROACTIVE in your search.
 
 # Arguments
 - `start_time_range`:  The start of the time range passed in. Returned insights occurred

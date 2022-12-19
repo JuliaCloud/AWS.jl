@@ -122,7 +122,7 @@ the AS2 process is identified with the LocalProfileId.
   need to provide read and write access to the parent directory of the files that you intend
   to send with StartFileTransfer.
 - `base_directory`: The landing directory (folder) for files transferred by using the AS2
-  protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory .
+  protocol. A BaseDirectory example is DOC-EXAMPLE-BUCKET/home/mydirectory.
 - `local_profile_id`: A unique identifier for the AS2 local profile.
 - `partner_profile_id`: A unique identifier for the partner profile used in the agreement.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
@@ -189,8 +189,8 @@ end
     create_connector(access_role, as2_config, url, params::Dict{String,<:Any})
 
 Creates the connector, which captures the parameters for an outbound connection for the AS2
-protocol. The connector is required for sending files from a customer's non Amazon Web
-Services server.
+protocol. The connector is required for sending files to an externally hosted AS2 server.
+For more details about connectors, see Create AS2 connectors.
 
 # Arguments
 - `access_role`: With AS2, you can send files by calling StartFileTransfer and specifying
@@ -252,16 +252,17 @@ end
     create_profile(as2_id, profile_type)
     create_profile(as2_id, profile_type, params::Dict{String,<:Any})
 
-Creates the profile for the AS2 process. The agreement is between the partner and the AS2
-process.
+Creates the local or partner profile to use for AS2 transfers.
 
 # Arguments
 - `as2_id`: The As2Id is the AS2-name, as defined in the RFC 4130. For inbound transfers,
   this is the AS2-From header for the AS2 messages sent from the partner. For outbound
   connectors, this is the AS2-To header for the AS2 messages sent to the partner using the
   StartFileTransfer API operation. This ID cannot include spaces.
-- `profile_type`: Indicates whether to list only LOCAL type profiles or only PARTNER type
-  profiles. If not supplied in the request, the command lists all types of profiles.
+- `profile_type`: Determines the type of profile to create:   Specify LOCAL to create a
+  local profile. A local profile represents the AS2-enabled Transfer Family server
+  organization or party.   Specify PARTNER to create a partner profile. A partner profile
+  represents a remote organization, external to Transfer Family.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -344,18 +345,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
   included) with your server's endpoint and use VPC security groups to restrict traffic by
   the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
-- `"HostKey"`: The RSA, ECDSA, or ED25519 private key to use for your server. Use the
-  following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b
-  2048 -N \"\" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option.
-  You can create a stronger key by using 3072 or 4096. Use the following command to generate
-  an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N \"\" -m PEM -f
-  my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the
-  following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N
-  \"\" -f my-new-server-key. For all of these commands, you can replace my-new-server-key
-  with a string of your choice.  If you aren't planning to migrate existing users from an
-  existing SFTP-enabled server to a new server, don't update the host key. Accidentally
-  changing a server's host key can be disruptive.  For more information, see Change the host
-  key for your SFTP-enabled server in the Transfer Family User Guide.
+- `"HostKey"`: The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server.
+  You can add multiple host keys, in case you want to rotate keys, or have a set of active
+  keys that use different algorithms. Use the following command to generate an RSA 2048 bit
+  key with no passphrase:  ssh-keygen -t rsa -b 2048 -N \"\" -m PEM -f my-new-server-key. Use
+  a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or
+  4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:
+  ssh-keygen -t ecdsa -b 256 -N \"\" -m PEM -f my-new-server-key. Valid values for the -b
+  option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519
+  key with no passphrase:  ssh-keygen -t ed25519 -N \"\" -f my-new-server-key. For all of
+  these commands, you can replace my-new-server-key with a string of your choice.  If you
+  aren't planning to migrate existing users from an existing SFTP-enabled server to a new
+  server, don't update the host key. Accidentally changing a server's host key can be
+  disruptive.  For more information, see Update host keys for your SFTP-enabled server in the
+  Transfer Family User Guide.
 - `"IdentityProviderDetails"`: Required when IdentityProviderType is set to
   AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information
   required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied
@@ -415,7 +418,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   server.
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
-  execution role that's used for executing the workflow.
+  execution role that's used for executing the workflow. In addition to a workflow to execute
+  when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
+  execution role) for a workflow to execute on partial upload. A partial upload occurs when a
+  file is open when the session disconnects.
 """
 function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -490,7 +496,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in Amazon EFS determine the level of access your users get when transferring files into and
   out of your Amazon EFS file systems.
 - `"SshPublicKeyBody"`: The public portion of the Secure Shell (SSH) key used to
-  authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+  authenticate the user to the server. The three standard SSH public key format elements are
+  &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between
+  each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.   For RSA keys, the key
+  type is ssh-rsa.   For ED25519 keys, the key type is ssh-ed25519.   For ECDSA keys, the key
+  type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending
+  on the size of the key you generated.
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
@@ -631,7 +642,7 @@ Delete the agreement that's specified in the provided AgreementId.
 # Arguments
 - `agreement_id`: A unique identifier for the agreement. This identifier is returned when
   you create an agreement.
-- `server_id`: The server ID associated with the agreement that you are deleting.
+- `server_id`: The server identifier associated with the agreement that you are deleting.
 
 """
 function delete_agreement(
@@ -671,7 +682,7 @@ end
 Deletes the certificate that's specified in the CertificateId parameter.
 
 # Arguments
-- `certificate_id`: The ID of the certificate object that you are deleting.
+- `certificate_id`: The identifier of the certificate object that you are deleting.
 
 """
 function delete_certificate(
@@ -739,8 +750,8 @@ end
 Deletes the host key that's specified in the HoskKeyId parameter.
 
 # Arguments
-- `host_key_id`: The ID of the host key that you are deleting.
-- `server_id`: Provide the ID of the server that contains the host key that you are
+- `host_key_id`: The identifier of the host key that you are deleting.
+- `server_id`: The identifier of the server that contains the host key that you are
   deleting.
 
 """
@@ -781,7 +792,7 @@ end
 Deletes the profile that's specified in the ProfileId parameter.
 
 # Arguments
-- `profile_id`: The ID of the profile that you are deleting.
+- `profile_id`: The identifier of the profile that you are deleting.
 
 """
 function delete_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1030,7 +1041,7 @@ Describes the agreement that's identified by the AgreementId.
 # Arguments
 - `agreement_id`: A unique identifier for the agreement. This identifier is returned when
   you create an agreement.
-- `server_id`: The server ID that's associated with the agreement.
+- `server_id`: The server identifier that's associated with the agreement.
 
 """
 function describe_agreement(
@@ -1181,8 +1192,8 @@ end
 Returns the details of the host key that's specified by the HostKeyId and ServerId.
 
 # Arguments
-- `host_key_id`: Provide the ID of the host key that you want described.
-- `server_id`: Provide the ID of the server that contains the host key that you want
+- `host_key_id`: The identifier of the host key that you want described.
+- `server_id`: The identifier of the server that contains the host key that you want
   described.
 
 """
@@ -1457,17 +1468,17 @@ end
     import_host_key(host_key_body, server_id)
     import_host_key(host_key_body, server_id, params::Dict{String,<:Any})
 
-Adds a host key to the server specified by the ServerId parameter.
+Adds a host key to the server that's specified by the ServerId parameter.
 
 # Arguments
 - `host_key_body`: The public key portion of an SSH key pair. Transfer Family accepts RSA,
   ECDSA, and ED25519 keys.
-- `server_id`: Provide the ID of the server that contains the host key that you are
+- `server_id`: The identifier of the server that contains the host key that you are
   importing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Enter a text description to identify this host key.
+- `"Description"`: The text description that identifies this host key.
 - `"Tags"`: Key-value pairs that can be used to group and search for host keys.
 """
 function import_host_key(
@@ -1742,10 +1753,10 @@ end
     list_host_keys(server_id)
     list_host_keys(server_id, params::Dict{String,<:Any})
 
-Returns a list of host keys for the server specified by the ServerId paramter.
+Returns a list of host keys for the server that's specified by the ServerId parameter.
 
 # Arguments
-- `server_id`: Provide the ID of the server that contains the host keys that you want to
+- `server_id`: The identifier of the server that contains the host keys that you want to
   view.
 
 # Optional Parameters
@@ -2035,8 +2046,8 @@ end
     start_file_transfer(connector_id, send_file_paths)
     start_file_transfer(connector_id, send_file_paths, params::Dict{String,<:Any})
 
-Begins an outbound file transfer. You specify the ConnectorId and the file paths for where
-to send the files.
+Begins an outbound file transfer to a remote AS2 server. You specify the ConnectorId and
+the file paths for where to send the files.
 
 # Arguments
 - `connector_id`: The unique identifier for the connector.
@@ -2545,13 +2556,13 @@ end
     update_host_key(description, host_key_id, server_id)
     update_host_key(description, host_key_id, server_id, params::Dict{String,<:Any})
 
-Updates the description for the host key specified by the specified by the ServerId and
-HostKeyId parameters.
+Updates the description for the host key that's specified by the ServerId and HostKeyId
+parameters.
 
 # Arguments
-- `description`: Provide an updated description for the host key.
-- `host_key_id`: Provide the ID of the host key that you are updating.
-- `server_id`: Provide the ID of the server that contains the host key that you are
+- `description`: An updated description for the host key.
+- `host_key_id`: The identifier of the host key that you are updating.
+- `server_id`: The identifier of the server that contains the host key that you are
   updating.
 
 """
@@ -2674,18 +2685,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
   included) with your server's endpoint and use VPC security groups to restrict traffic by
   the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
-- `"HostKey"`: The RSA, ECDSA, or ED25519 private key to use for your server. Use the
-  following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b
-  2048 -N \"\" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option.
-  You can create a stronger key by using 3072 or 4096. Use the following command to generate
-  an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N \"\" -m PEM -f
-  my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the
-  following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N
-  \"\" -f my-new-server-key. For all of these commands, you can replace my-new-server-key
-  with a string of your choice.  If you aren't planning to migrate existing users from an
-  existing SFTP-enabled server to a new server, don't update the host key. Accidentally
-  changing a server's host key can be disruptive.  For more information, see Change the host
-  key for your SFTP-enabled server in the Transfer Family User Guide.
+- `"HostKey"`: The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server.
+  You can add multiple host keys, in case you want to rotate keys, or have a set of active
+  keys that use different algorithms. Use the following command to generate an RSA 2048 bit
+  key with no passphrase:  ssh-keygen -t rsa -b 2048 -N \"\" -m PEM -f my-new-server-key. Use
+  a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or
+  4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:
+  ssh-keygen -t ecdsa -b 256 -N \"\" -m PEM -f my-new-server-key. Valid values for the -b
+  option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519
+  key with no passphrase:  ssh-keygen -t ed25519 -N \"\" -f my-new-server-key. For all of
+  these commands, you can replace my-new-server-key with a string of your choice.  If you
+  aren't planning to migrate existing users from an existing SFTP-enabled server to a new
+  server, don't update the host key. Accidentally changing a server's host key can be
+  disruptive.  For more information, see Update host keys for your SFTP-enabled server in the
+  Transfer Family User Guide.
 - `"IdentityProviderDetails"`: An array containing all of the information required to call
   a customer's authentication API method.
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
@@ -2729,10 +2742,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
-  execution role that's used for executing the workflow. To remove an associated workflow
-  from a server, you can provide an empty OnUpload object, as in the following example.  aws
-  transfer update-server --server-id s-01234567890abcdef --workflow-details
-  '{\"OnUpload\":[]}'
+  execution role that's used for executing the workflow. In addition to a workflow to execute
+  when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
+  execution role) for a workflow to execute on partial upload. A partial upload occurs when a
+  file is open when the session disconnects. To remove an associated workflow from a server,
+  you can provide an empty OnUpload object, as in the following example.  aws transfer
+  update-server --server-id s-01234567890abcdef --workflow-details '{\"OnUpload\":[]}'
 """
 function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer(

@@ -43,6 +43,66 @@ function cancel_job_run(
 end
 
 """
+    create_job_template(client_token, job_template_data, name)
+    create_job_template(client_token, job_template_data, name, params::Dict{String,<:Any})
+
+Creates a job template. Job template stores values of StartJobRun API request in a template
+and can be used to start a job run. Job template allows two use cases: avoid repeating
+recurring StartJobRun API request values, enforcing certain values in StartJobRun API
+request.
+
+# Arguments
+- `client_token`: The client token of the job template.
+- `job_template_data`: The job template data which holds values of StartJobRun API request.
+- `name`: The specified name of the job template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"kmsKeyArn"`: The KMS key ARN used to encrypt the job template.
+- `"tags"`: The tags that are associated with the job template.
+"""
+function create_job_template(
+    clientToken, jobTemplateData, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_containers(
+        "POST",
+        "/jobtemplates",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "jobTemplateData" => jobTemplateData,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_job_template(
+    clientToken,
+    jobTemplateData,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "POST",
+        "/jobtemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "jobTemplateData" => jobTemplateData,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id)
     create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id, params::Dict{String,<:Any})
 
@@ -181,6 +241,41 @@ function create_virtual_cluster(
 end
 
 """
+    delete_job_template(template_id)
+    delete_job_template(template_id, params::Dict{String,<:Any})
+
+Deletes a job template. Job template stores values of StartJobRun API request in a template
+and can be used to start a job run. Job template allows two use cases: avoid repeating
+recurring StartJobRun API request values, enforcing certain values in StartJobRun API
+request.
+
+# Arguments
+- `template_id`: The ID of the job template that will be deleted.
+
+"""
+function delete_job_template(templateId; aws_config::AbstractAWSConfig=global_aws_config())
+    return emr_containers(
+        "DELETE",
+        "/jobtemplates/$(templateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_job_template(
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "DELETE",
+        "/jobtemplates/$(templateId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_managed_endpoint(endpoint_id, virtual_cluster_id)
     delete_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
 
@@ -286,6 +381,43 @@ function describe_job_run(
     return emr_containers(
         "GET",
         "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_job_template(template_id)
+    describe_job_template(template_id, params::Dict{String,<:Any})
+
+Displays detailed information about a specified job template. Job template stores values of
+StartJobRun API request in a template and can be used to start a job run. Job template
+allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing
+certain values in StartJobRun API request.
+
+# Arguments
+- `template_id`: The ID of the job template that will be described.
+
+"""
+function describe_job_template(
+    templateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_containers(
+        "GET",
+        "/jobtemplates/$(templateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_job_template(
+    templateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "GET",
+        "/jobtemplates/$(templateId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -410,6 +542,39 @@ function list_job_runs(
 end
 
 """
+    list_job_templates()
+    list_job_templates(params::Dict{String,<:Any})
+
+Lists job templates based on a set of parameters. Job template stores values of StartJobRun
+API request in a template and can be used to start a job run. Job template allows two use
+cases: avoid repeating recurring StartJobRun API request values, enforcing certain values
+in StartJobRun API request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"createdAfter"`: The date and time after which the job templates were created.
+- `"createdBefore"`:  The date and time before which the job templates were created.
+- `"maxResults"`:  The maximum number of job templates that can be listed.
+- `"nextToken"`:  The token for the next set of job templates to return.
+"""
+function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return emr_containers(
+        "GET", "/jobtemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_job_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_containers(
+        "GET",
+        "/jobtemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_managed_endpoints(virtual_cluster_id)
     list_managed_endpoints(virtual_cluster_id, params::Dict{String,<:Any})
 
@@ -526,51 +691,40 @@ function list_virtual_clusters(
 end
 
 """
-    start_job_run(client_token, execution_role_arn, job_driver, release_label, virtual_cluster_id)
-    start_job_run(client_token, execution_role_arn, job_driver, release_label, virtual_cluster_id, params::Dict{String,<:Any})
+    start_job_run(client_token, virtual_cluster_id)
+    start_job_run(client_token, virtual_cluster_id, params::Dict{String,<:Any})
 
 Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
 SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
 - `client_token`: The client idempotency token of the job run request.
-- `execution_role_arn`: The execution role ARN for the job run.
-- `job_driver`: The job driver for the job run.
-- `release_label`: The Amazon EMR release version to use for the job run.
 - `virtual_cluster_id`: The virtual cluster ID for which the job run request is submitted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"configurationOverrides"`: The configuration overrides for the job run.
+- `"executionRoleArn"`: The execution role ARN for the job run.
+- `"jobDriver"`: The job driver for the job run.
+- `"jobTemplateId"`: The job template ID to be used to start the job run.
+- `"jobTemplateParameters"`: The values of job template parameters to start a job run.
 - `"name"`: The name of the job run.
+- `"releaseLabel"`: The Amazon EMR release version to use for the job run.
 - `"tags"`: The tags assigned to job runs.
 """
 function start_job_run(
-    clientToken,
-    executionRoleArn,
-    jobDriver,
-    releaseLabel,
-    virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    clientToken, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr_containers(
         "POST",
         "/virtualclusters/$(virtualClusterId)/jobruns",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "executionRoleArn" => executionRoleArn,
-            "jobDriver" => jobDriver,
-            "releaseLabel" => releaseLabel,
-        );
+        Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_job_run(
     clientToken,
-    executionRoleArn,
-    jobDriver,
-    releaseLabel,
     virtualClusterId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -579,16 +733,7 @@ function start_job_run(
         "POST",
         "/virtualclusters/$(virtualClusterId)/jobruns",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "executionRoleArn" => executionRoleArn,
-                    "jobDriver" => jobDriver,
-                    "releaseLabel" => releaseLabel,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

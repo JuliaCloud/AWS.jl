@@ -18,15 +18,22 @@ Temporary credentials - when connecting to a cluster, specify the cluster identi
 database name, and the database user name. Also, permission to call the
 redshift:GetClusterCredentials operation is required. When connecting to a serverless
 workgroup, specify the workgroup name and database name. Also, permission to call the
-redshift-serverless:GetCredentials operation is required.
+redshift-serverless:GetCredentials operation is required.    For more information about the
+Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in
+the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
   using either Secrets Manager or temporary credentials.
-- `sqls`: One or more SQL statements to run.
+- `sqls`: One or more SQL statements to run.  The SQL statements are run as a single
+  transaction. They run serially in the order of the array. Subsequent SQL statements don't
+  start until the previous statement in the array completes. If any SQL statement fails, then
+  because they are run as one transaction, all work is rolled back.&lt;/p&gt;
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
@@ -46,7 +53,9 @@ function batch_execute_statement(
 )
     return redshift_data(
         "BatchExecuteStatement",
-        Dict{String,Any}("Database" => Database, "Sqls" => Sqls);
+        Dict{String,Any}(
+            "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -61,7 +70,11 @@ function batch_execute_statement(
         "BatchExecuteStatement",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("Database" => Database, "Sqls" => Sqls), params
+                _merge,
+                Dict{String,Any}(
+                    "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -73,7 +86,9 @@ end
     cancel_statement(id)
     cancel_statement(id, params::Dict{String,<:Any})
 
-Cancels a running query. To be canceled, a query must be running.
+Cancels a running query. To be canceled, a query must be running.  For more information
+about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift
+Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `id`: The identifier of the SQL statement to cancel. This value is a universally unique
@@ -106,7 +121,9 @@ end
 
 Describes the details about a specific instance when a query was run by the Amazon Redshift
 Data API. The information includes when the query started, when it finished, the query
-status, the number of rows returned, and the SQL statement.
+status, the number of rows returned, and the SQL statement.  For more information about the
+Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in
+the Amazon Redshift Management Guide.
 
 # Arguments
 - `id`: The identifier of the SQL statement to describe. This value is a universally unique
@@ -150,7 +167,8 @@ connecting to a cluster, specify the cluster identifier, the database name, and 
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
 is required. When connecting to a serverless workgroup, specify the workgroup name and
 database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.
+required.    For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database that contains the tables to be described. If
@@ -220,7 +238,9 @@ of the secret and the database name.    Temporary credentials - when connecting 
 cluster, specify the cluster identifier, the database name, and the database user name.
 Also, permission to call the redshift:GetClusterCredentials operation is required. When
 connecting to a serverless workgroup, specify the workgroup name and database name. Also,
-permission to call the redshift-serverless:GetCredentials operation is required.
+permission to call the redshift-serverless:GetCredentials operation is required.    For
+more information about the Amazon Redshift Data API and CLI usage examples, see Using the
+Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -229,6 +249,8 @@ permission to call the redshift-serverless:GetCredentials operation is required.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
@@ -247,7 +269,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
         "ExecuteStatement",
-        Dict{String,Any}("Database" => Database, "Sql" => Sql);
+        Dict{String,Any}(
+            "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -262,7 +286,11 @@ function execute_statement(
         "ExecuteStatement",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("Database" => Database, "Sql" => Sql), params
+                _merge,
+                Dict{String,Any}(
+                    "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -275,7 +303,9 @@ end
     get_statement_result(id, params::Dict{String,<:Any})
 
 Fetches the temporarily cached result of an SQL statement. A token is returned to page
-through the statement results.
+through the statement results.  For more information about the Amazon Redshift Data API and
+CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift
+Management Guide.
 
 # Arguments
 - `id`: The identifier of the SQL statement whose results are to be fetched. This value is
@@ -326,7 +356,8 @@ connecting to a cluster, specify the cluster identifier, the database name, and 
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
 is required. When connecting to a serverless workgroup, specify the workgroup name and
 database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.
+required.    For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -389,7 +420,8 @@ connecting to a cluster, specify the cluster identifier, the database name, and 
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
 is required. When connecting to a serverless workgroup, specify the workgroup name and
 database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.
+required.    For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database that contains the schemas to list. If
@@ -448,7 +480,9 @@ end
     list_statements(params::Dict{String,<:Any})
 
 List of SQL statements. By default, only finished statements are shown. A token is returned
-to page through the statement list.
+to page through the statement list.  For more information about the Amazon Redshift Data
+API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift
+Management Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -504,7 +538,8 @@ when connecting to a cluster, specify the cluster identifier, the database name,
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
 is required. When connecting to a serverless workgroup, specify the workgroup name and
 database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.
+required.    For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database that contains the tables to list. If

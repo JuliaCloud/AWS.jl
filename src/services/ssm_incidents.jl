@@ -17,8 +17,9 @@ provided KMS key.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+- `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
+- `"tags"`: A list of tags to add to the replication set.
 """
 function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_incidents(
@@ -66,8 +67,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"displayName"`: The long format of the response plan name. This field can contain spaces.
-- `"engagements"`: The contacts and escalation plans that the response plan engages during
-  an incident.
+- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans
+  that the response plan engages during an incident.
+- `"integrations"`: Information about third-party services integrated into the response
+  plan.
 - `"tags"`: A list of tags that you are adding to the response plan.
 """
 function create_response_plan(
@@ -130,6 +133,12 @@ automatically detected by Incident Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
+- `"eventReferences"`: Adds one or more references to the TimelineEvent. A reference can be
+  an Amazon Web Services resource involved in the incident or in some way associated with it.
+  When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You
+  can also specify a related item. As an example, you could specify the ARN of an Amazon
+  DynamoDB (DynamoDB) table. The table for this example is the resource. You could also
+  specify a Amazon CloudWatch metric for that table. The metric is the related item.
 """
 function create_timeline_event(
     eventData,
@@ -442,7 +451,8 @@ Retrieves the resource policies attached to the specified response plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of resource policies to display per page of results.
+- `"maxResults"`: The maximum number of resource policies to display for each page of
+  results.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
 function get_resource_policies(
@@ -786,12 +796,12 @@ end
 
 Adds a resource policy to the specified response plan. The resource policy is used to share
 the response plan using Resource Access Manager (RAM). For more information about
-cross-account sharing, see Setting up cross-account functionality.
+cross-account sharing, see Cross-Region and cross-account incident management.
 
 # Arguments
 - `policy`: Details of the resource policy.
-- `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're adding the
-  resource policy to.
+- `resource_arn`: The Amazon Resource Name (ARN) of the response plan to add the resource
+  policy to.
 
 """
 function put_resource_policy(
@@ -895,7 +905,7 @@ Adds a tag to a response plan.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're adding the
   tags to.
-- `tags`: A list of tags that you are adding to the response plan.
+- `tags`: A list of tags to add to the response plan.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -931,7 +941,7 @@ Removes a tag from a resource.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're removing a tag
   from.
-- `tag_keys`: The name of the tag you're removing from the response plan.
+- `tag_keys`: The name of the tag to remove from the response plan.
 
 """
 function untag_resource(
@@ -968,13 +978,13 @@ Update deletion protection to either allow or deny deletion of the final Region 
 replication set.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the replication set you're updating.
-- `deletion_protected`: Details if deletion protection is enabled or disabled in your
+- `arn`: The Amazon Resource Name (ARN) of the replication set to update.
+- `deletion_protected`: Specifies if deletion protection is turned on or off in your
   account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+- `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
 """
 function update_deletion_protection(
@@ -1142,7 +1152,7 @@ Add or delete Regions from your replication set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+- `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
 """
 function update_replication_set(
@@ -1199,8 +1209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified details.
 - `"displayName"`: The long format name of the response plan. The display name can't
   contain spaces.
-- `"engagements"`: The contacts and escalation plans that Incident Manager engages at the
-  start of the incident.
+- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans
+  that the response plan engages during an incident.
 - `"incidentTemplateDedupeString"`: The string Incident Manager uses to prevent duplicate
   incidents from being created by the same incident in the same account.
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
@@ -1210,11 +1220,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   updates are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
   what has happened, what's currently happening, and next steps.
-- `"incidentTemplateTags"`: Tags to apply to an incident when calling the StartIncident API
-  action. To call this action, you must also have permission to call the TagResource API
+- `"incidentTemplateTags"`: Tags to assign to the template. When the StartIncident API
+  action is called, Incident Manager assigns the tags specified in the template to the
+  incident. To call this action, you must also have permission to call the TagResource API
   action for the incident record resource.
 - `"incidentTemplateTitle"`: The short format name of the incident. The title can't contain
   spaces.
+- `"integrations"`: Information about third-party services integrated into the response
+  plan.
 """
 function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_incidents(
@@ -1260,6 +1273,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"eventData"`: A short description of the event.
+- `"eventReferences"`: Updates all existing references in a TimelineEvent. A reference can
+  be an Amazon Web Services resource involved in the incident or in some way associated with
+  it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource.
+  You can also specify a related item. As an example, you could specify the ARN of an Amazon
+  DynamoDB (DynamoDB) table. The table for this example is the resource. You could also
+  specify a Amazon CloudWatch metric for that table. The metric is the related item.  This
+  update action overrides all existing references. If you want to keep existing references,
+  you must specify them in the call. If you don't, this action removes them and enters only
+  new references.
 - `"eventTime"`: The time that the event occurred.
 - `"eventType"`: The type of the event. You can update events of type Custom Event.
 """

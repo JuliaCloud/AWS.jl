@@ -173,9 +173,9 @@ the database only when you specify the schema in the table-mapping rules of the 
 - `endpoint_type`: The type of endpoint. Valid values are source and target.
 - `engine_name`: The type of engine for the endpoint. Valid values, depending on the
   EndpointType value, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
-  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
-  \"docdb\", \"sqlserver\", and \"neptune\".
+  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"db2-zos\",
+  \"azuredb\", \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\",
+  \"elasticsearch\", \"docdb\", \"sqlserver\", \"neptune\", and \"babelfish\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -492,6 +492,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Region.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
+- `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A
   30-minute window selected at random from an 8-hour block of time per Amazon Web Services
@@ -2307,11 +2310,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen or contain two consecutive hyphens.
 - `"EndpointType"`: The type of endpoint. Valid values are source and target.
-- `"EngineName"`: The type of engine for the endpoint. Valid values, depending on the
-  EndpointType, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
-  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
-  \"documentdb\", \"sqlserver\", and \"neptune\".
+- `"EngineName"`: The database engine name. Valid values, depending on the EndpointType,
+  include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
+  \"aurora-postgresql\", \"redshift\", \"s3\", \"db2\", \"db2-zos\", \"azuredb\", \"sybase\",
+  \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\", \"documentdb\",
+  \"sqlserver\", \"neptune\", and \"babelfish\".
 - `"ExactSettings"`: If this attribute is Y, the current call to ModifyEndpoint replaces
   all existing endpoint settings with the exact settings that you specify in this call. If
   this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any
@@ -2482,6 +2485,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
+- `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter does not
   result in an outage, except in the following situation, and the change is asynchronously

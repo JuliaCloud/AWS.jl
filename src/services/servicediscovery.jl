@@ -10,8 +10,8 @@ using AWS.UUIDs
 
 Creates an HTTP namespace. Service instances registered using an HTTP namespace can be
 discovered using a DiscoverInstances request but can't be discovered using DNS. For the
-current quota on the number of namespaces that you can create using the same account, see
-Cloud Map quotas in the Cloud Map Developer Guide.
+current quota on the number of namespaces that you can create using the same Amazon Web
+Services account, see Cloud Map quotas in the Cloud Map Developer Guide.
 
 # Arguments
 - `name`: The name that you want to assign to this namespace.
@@ -60,12 +60,12 @@ VPC. The namespace defines your service naming scheme. For example, if you name 
 namespace example.com and name your service backend, the resulting DNS name for the service
 is backend.example.com. Service instances that are registered using a private DNS namespace
 can be discovered using either a DiscoverInstances request or using DNS. For the current
-quota on the number of namespaces that you can create using the same account, see Cloud Map
-quotas in the Cloud Map Developer Guide.
+quota on the number of namespaces that you can create using the same Amazon Web Services
+account, see Cloud Map quotas in the Cloud Map Developer Guide.
 
 # Arguments
 - `name`: The name that you want to assign to this namespace. When you create a private DNS
-  namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has
+  namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has
   the same name as the namespace.
 - `vpc`: The ID of the Amazon VPC that you want to associate the namespace with.
 
@@ -123,11 +123,13 @@ defines your service naming scheme. For example, if you name your namespace exam
 name your service backend, the resulting DNS name for the service is backend.example.com.
 You can discover instances that were registered with a public DNS namespace by using either
 a DiscoverInstances request or using DNS. For the current quota on the number of namespaces
-that you can create using the same account, see Cloud Map quotas in the Cloud Map Developer
-Guide.
+that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
+Cloud Map Developer Guide.  The CreatePublicDnsNamespace API operation is not supported in
+the Amazon Web Services GovCloud (US) Regions.
 
 # Arguments
-- `name`: The name that you want to assign to this namespace.
+- `name`: The name that you want to assign to this namespace.  Do not include sensitive
+  information in the name. The name is publicly available using DNS queries.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -173,24 +175,25 @@ end
 
 Creates a service. This action defines the configuration for the following entities:   For
 public and private DNS namespaces, one of the following combinations of DNS records in
-Amazon Route 53:    A     AAAA     A and AAAA     SRV     CNAME      Optionally, a health
+Amazon Route 53:    A     AAAA     A and AAAA     SRV     CNAME      Optionally, a health
 check   After you create the service, you can submit a RegisterInstance request, and Cloud
 Map uses the values in the configuration to create the specified entities. For the current
 quota on the number of instances that you can register using the same namespace and using
 the same service, see Cloud Map quotas in the Cloud Map Developer Guide.
 
 # Arguments
-- `name`: The name that you want to assign to the service. If you want Cloud Map to create
-  an SRV record when you register an instance and you're using a system that requires a
-  specific SRV format, such as HAProxy, specify the following for Name:   Start the name with
-  an underscore (_), such as _exampleservice.   End the name with ._protocol, such as ._tcp.
-   When you register an instance, Cloud Map creates an SRV record and assigns a name to the
-  record by concatenating the service name and the namespace name (for example,
-  _exampleservice._tcp.example.com).  For services that are accessible by DNS queries, you
-  can't create multiple services with names that differ only by case (such as EXAMPLE and
-  example). Otherwise, these services have the same DNS name and can't be distinguished.
-  However, if you use a namespace that's only accessible by API calls, then you can create
-  services that with names that differ only by case.
+- `name`: The name that you want to assign to the service.  Do not include sensitive
+  information in the name if the namespace is discoverable by public DNS queries.  If you
+  want Cloud Map to create an SRV record when you register an instance and you're using a
+  system that requires a specific SRV format, such as HAProxy, specify the following for
+  Name:   Start the name with an underscore (_), such as _exampleservice.   End the name with
+  ._protocol, such as ._tcp.   When you register an instance, Cloud Map creates an SRV record
+  and assigns a name to the record by concatenating the service name and the namespace name
+  (for example,  _exampleservice._tcp.example.com).  For services that are accessible by DNS
+  queries, you can't create multiple services with names that differ only by case (such as
+  EXAMPLE and example). Otherwise, these services have the same DNS name and can't be
+  distinguished. However, if you use a namespace that's only accessible by API calls, then
+  you can create services that with names that differ only by case.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -198,12 +201,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateService requests to be retried without the risk of running the operation twice.
   CreatorRequestId can be any unique string (for example, a date/timestamp).
 - `"Description"`: A description for the service.
-- `"DnsConfig"`: A complex type that contains information about the Amazon Route 53 records
-  that you want Cloud Map to create when you register an instance.
+- `"DnsConfig"`: A complex type that contains information about the Amazon Route 53
+  records that you want Cloud Map to create when you register an instance.
 - `"HealthCheckConfig"`:  Public DNS and HTTP namespaces only. A complex type that contains
-  settings for an optional Route 53 health check. If you specify settings for a health check,
-  Cloud Map associates the health check with all the Route 53 DNS records that you specify in
-  DnsConfig.  If you specify a health check configuration, you can specify either
+  settings for an optional Route 53 health check. If you specify settings for a health
+  check, Cloud Map associates the health check with all the Route 53 DNS records that you
+  specify in DnsConfig.  If you specify a health check configuration, you can specify either
   HealthCheckCustomConfig or HealthCheckConfig but not both.  For information about the
   charges for health checks, see Cloud Map Pricing.
 - `"HealthCheckCustomConfig"`: A complex type that contains information about an optional
@@ -309,7 +312,7 @@ end
     deregister_instance(instance_id, service_id)
     deregister_instance(instance_id, service_id, params::Dict{String,<:Any})
 
-Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created
+Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created
 for the specified instance.
 
 # Arguments
@@ -645,7 +648,8 @@ end
     list_namespaces()
     list_namespaces(params::Dict{String,<:Any})
 
-Lists summary information about the namespaces that were created by the current account.
+Lists summary information about the namespaces that were created by the current Amazon Web
+Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -807,48 +811,49 @@ Guide.
 # Arguments
 - `attributes`: A string map that contains the following information for the service that
   you specify in ServiceId:   The attributes that apply to the records that are defined in
-  the service.    For each attribute, the applicable value.   Supported attribute keys
-  include the following:  AWS_ALIAS_DNS_NAME  If you want Cloud Map to create an Amazon Route
-  53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the
-  DNS name that's associated with the load balancer. For information about how to get the DNS
-  name, see \"DNSName\" in the topic AliasTarget in the Route 53 API Reference. Note the
-  following:   The configuration for the service that's specified by ServiceId must include
-  settings for an A record, an AAAA record, or both.   In the service that's specified by
-  ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that's specified
-  by ServiceId includes HealthCheckConfig settings, Cloud Map will create the Route 53 health
-  check, but it doesn't associate the health check with the alias record.   Auto naming
-  currently doesn't support creating alias records that route traffic to Amazon Web Services
-  resources other than Elastic Load Balancing load balancers.   If you specify a value for
-  AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.
-  AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2 instance ID for the instance. If
-  the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute that can be
-  specified is AWS_INIT_HEALTH_STATUS. When the AWS_EC2_INSTANCE_ID attribute is specified,
-  then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private IPv4
-  address.  AWS_INIT_HEALTH_STATUS  If the service configuration includes
-  HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the
-  initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a
-  value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If
-  the service configuration includes a CNAME record, the domain name that you want Route 53
-  to return in response to DNS queries (for example, example.com). This value is required if
-  the service specified by ServiceId includes settings for an CNAME record.
-  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that
-  you want Route 53 to return in response to DNS queries (for example, 192.0.2.44). This
-  value is required if the service specified by ServiceId includes settings for an A record.
-  If the service includes settings for an SRV record, you must specify a value for
-  AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service
-  configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in
-  response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345). This value
-  is required if the service specified by ServiceId includes settings for an AAAA record. If
-  the service includes settings for an SRV record, you must specify a value for
-  AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes
-  an SRV record, the value that you want Route 53 to return for the port. If the service
-  includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send
-  requests to.  This value is required if you specified settings for an SRV record or a Route
-  53 health check when you created the service.  Custom attributes  You can add up to 30
-  custom attributes. For each key-value pair, the maximum length of the attribute name is 255
-  characters, and the maximum length of the attribute value is 1,024 characters. The total
-  size of all provided attributes (sum of all keys and values) must not exceed 5,000
-  characters.
+  the service.    For each attribute, the applicable value.    Do not include sensitive
+  information in the attributes if the namespace is discoverable by public DNS queries.
+  Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME  If you want Cloud Map
+  to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing
+  load balancer, specify the DNS name that's associated with the load balancer. For
+  information about how to get the DNS name, see \"DNSName\" in the topic AliasTarget in the
+  Route 53 API Reference. Note the following:   The configuration for the service that's
+  specified by ServiceId must include settings for an A record, an AAAA record, or both.   In
+  the service that's specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.
+  If the service that's specified by ServiceId includes HealthCheckConfig settings, Cloud Map
+  will create the Route 53 health check, but it doesn't associate the health check with the
+  alias record.   Auto naming currently doesn't support creating alias records that route
+  traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers.
+   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the
+  AWS_INSTANCE attributes.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2
+  instance ID for the instance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the
+  only other attribute that can be specified is AWS_INIT_HEALTH_STATUS. When the
+  AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be
+  filled out with the primary private IPv4 address.  AWS_INIT_HEALTH_STATUS  If the service
+  configuration includes HealthCheckCustomConfig, you can optionally use
+  AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or
+  UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is
+  HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the
+  domain name that you want Route 53 to return in response to DNS queries (for example,
+  example.com). This value is required if the service specified by ServiceId includes
+  settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an
+  A record, the IPv4 address that you want Route 53 to return in response to DNS queries
+  (for example, 192.0.2.44). This value is required if the service specified by ServiceId
+  includes settings for an A record. If the service includes settings for an SRV record, you
+  must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6
+  If the service configuration includes an AAAA record, the IPv6 address that you want
+  Route 53 to return in response to DNS queries (for example,
+  2001:0db8:85a3:0000:0000:abcd:0001:2345). This value is required if the service specified
+  by ServiceId includes settings for an AAAA record. If the service includes settings for an
+  SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.
+  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53
+  to return for the port. If the service includes HealthCheckConfig, the port on the endpoint
+  that you want Route 53 to send requests to.  This value is required if you specified
+  settings for an SRV record or a Route 53 health check when you created the service.
+  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the
+  maximum length of the attribute name is 255 characters, and the maximum length of the
+  attribute value is 1,024 characters. The total size of all provided attributes (sum of all
+  keys and values) must not exceed 5,000 characters.
 - `instance_id`: An identifier that you want to associate with the instance. Note the
   following:   If the service that's specified by ServiceId includes settings for an SRV
   record, the value of InstanceId is automatically included as part of the value for the SRV
@@ -858,7 +863,10 @@ Guide.
   InstanceId and ServiceId, Cloud Map updates the existing DNS records, if any. If there's
   also an existing health check, Cloud Map deletes the old health check and creates a new
   one.   The health check isn't deleted immediately, so it will still appear for a while if
-  you submit a ListHealthChecks request, for example.
+  you submit a ListHealthChecks request, for example.     Do not include sensitive
+  information in InstanceId if the namespace is discoverable by public DNS queries and any
+  Type member of DnsRecord for the service contains SRV because the InstanceId is
+  discoverable by public DNS queries.
 - `service_id`: The ID of the service that you want to use for settings for the instance.
 
 # Optional Parameters
@@ -1053,8 +1061,8 @@ end
 Submits a request to change the health status of a custom health check to healthy or
 unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for
 custom health checks, which you define using HealthCheckCustomConfig when you create a
-service. You can't use it to change the status for Route 53 health checks, which you define
-using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
+service. You can't use it to change the status for Route 53 health checks, which you
+define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
 
 # Arguments
 - `instance_id`: The ID of the instance that you want to change the health status for.

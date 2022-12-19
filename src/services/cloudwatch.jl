@@ -18,7 +18,7 @@ scenario, you can't delete any composite alarm that is part of the cycle because
 always still a composite alarm that depends on that alarm that you want to delete. To get
 out of such a situation, you must break the cycle by changing the rule of one of the
 composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
-change to make to break a cycle is to change the AlarmRule of one of the alarms to False.
+change to make to break a cycle is to change the AlarmRule of one of the alarms to false.
 Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the
 evaluation path.
 
@@ -1154,23 +1154,32 @@ end
     list_metrics(params::Dict{String,<:Any})
 
 List the specified metrics. You can use the returned metrics with GetMetricData or
-GetMetricStatistics to obtain statistical data. Up to 500 results are returned for any one
+GetMetricStatistics to get statistical data. Up to 500 results are returned for any one
 call. To retrieve additional results, use the returned token with subsequent calls. After
-you create a metric, allow up to 15 minutes before the metric appears. You can see
-statistics about the metric sooner by using GetMetricData or GetMetricStatistics.
-ListMetrics doesn't return information about metrics if those metrics haven't reported data
-in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
+you create a metric, allow up to 15 minutes for the metric to appear. To see metric
+statistics sooner, use GetMetricData or GetMetricStatistics. If you are using CloudWatch
+cross-account observability, you can use this operation in a monitoring account and view
+metrics from the linked source accounts. For more information, see CloudWatch cross-account
+observability.  ListMetrics doesn't return information about metrics if those metrics
+haven't reported data in the past two weeks. To retrieve those metrics, use GetMetricData
+or GetMetricStatistics.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Dimensions"`: The dimensions to filter against. Only the dimensions that match exactly
   will be returned.
+- `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
+  specify true to include metrics from source accounts in the returned data. The default is
+  false.
 - `"MetricName"`: The name of the metric to filter against. Only the metrics with names
   that match exactly will be returned.
 - `"Namespace"`: The metric namespace to filter against. Only the namespace that matches
   exactly will be returned.
 - `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
+- `"OwningAccount"`: When you use this operation in a monitoring account, use this field to
+  return metrics only from one source account. To do so, specify that source account ID in
+  this field, and also specify true for IncludeLinkedAccounts.
 - `"RecentlyActive"`: To filter the results to show only metrics that have had data points
   published in the past three hours, specify this parameter with a value of PT3H. This is the
   only valid value for this parameter. The results that are returned are an approximation of
@@ -1293,7 +1302,7 @@ A. In this scenario, you can't delete any composite alarm that is part of the cy
 there is always still a composite alarm that depends on that alarm that you want to delete.
 To get out of such a situation, you must break the cycle by changing the rule of one of the
 composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
-change to make to break a cycle is to change the AlarmRule of one of the alarms to False.
+change to make to break a cycle is to change the AlarmRule of one of the alarms to false.
 Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the
 evaluation path.   When this operation creates an alarm, the alarm state is immediately set
 to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any
@@ -1563,31 +1572,32 @@ end
     put_metric_alarm(alarm_name, comparison_operator, evaluation_periods, params::Dict{String,<:Any})
 
 Creates or updates an alarm and associates it with the specified metric, metric math
-expression, or anomaly detection model. Alarms based on anomaly detection models cannot
-have Auto Scaling actions. When this operation creates an alarm, the alarm state is
-immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set
-appropriately. Any actions associated with the new state are then executed. When you update
-an existing alarm, its state is left unchanged, but the update completely overwrites the
-previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2
-permissions for some alarm operations:   The iam:CreateServiceLinkedRole for all alarms
-with EC2 actions   The iam:CreateServiceLinkedRole to create an alarm with Systems Manager
-OpsItem actions.   The first time you create an alarm in the Amazon Web Services Management
-Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary
-service-linked role for you. The service-linked roles are called
-AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more
-information, see Amazon Web Services service-linked role.  Cross-account alarms  You can
-set an alarm on metrics in the current account, or in another account. To create a
-cross-account alarm that watches a metric in a different account, you must have completed
-the following pre-requisites:   The account where the metrics are located (the sharing
-account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it
-does not already have this role, you must create it using the instructions in Set up a
-sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role
-must grant access to the ID of the account where you are creating the alarm.    The account
-where you are creating the alarm (the monitoring account) must already have a
-service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to
-assume the sharing role in the sharing account. If it does not, you must create it
-following the directions in Set up a monitoring account in  Cross-account cross-Region
-CloudWatch console.
+expression, anomaly detection model, or Metrics Insights query. For more information about
+using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries.
+Alarms based on anomaly detection models cannot have Auto Scaling actions. When this
+operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The
+alarm is then evaluated and its state is set appropriately. Any actions associated with the
+new state are then executed. When you update an existing alarm, its state is left
+unchanged, but the update completely overwrites the previous configuration of the alarm. If
+you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The
+iam:CreateServiceLinkedRole for all alarms with EC2 actions   The
+iam:CreateServiceLinkedRole to create an alarm with Systems Manager OpsItem actions.   The
+first time you create an alarm in the Amazon Web Services Management Console, the CLI, or
+by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for
+you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
+AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services
+service-linked role.  Cross-account alarms  You can set an alarm on metrics in the current
+account, or in another account. To create a cross-account alarm that watches a metric in a
+different account, you must have completed the following pre-requisites:   The account
+where the metrics are located (the sharing account) must already have a sharing role named
+CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create
+it using the instructions in Set up a sharing account in  Cross-account cross-Region
+CloudWatch console. The policy for that role must grant access to the ID of the account
+where you are creating the alarm.    The account where you are creating the alarm (the
+monitoring account) must already have a service-linked role named
+AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in
+the sharing account. If it does not, you must create it following the directions in Set up
+a monitoring account in  Cross-account cross-Region CloudWatch console.
 
 # Arguments
 - `alarm_name`: The name for the alarm. This name must be unique within the Region.
@@ -1837,25 +1847,25 @@ end
     put_metric_stream(firehose_arn, name, output_format, role_arn, params::Dict{String,<:Any})
 
 Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
-metrics to Amazon Web Services destinations including Amazon S3 and to many third-party
+metrics to Amazon Web Services destinations, including Amazon S3, and to many third-party
 solutions. For more information, see  Using Metric Streams. To create a metric stream, you
-must be logged on to an account that has the iam:PassRole permission and either the
+must be signed in to an account that has the iam:PassRole permission and either the
 CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create
 or update a metric stream, you choose one of the following:   Stream metrics from all
 metric namespaces in the account.   Stream metrics from all metric namespaces in the
 account, except for the namespaces that you list in ExcludeFilters.   Stream metrics from
 only the metric namespaces that you list in IncludeFilters.   By default, a metric stream
 always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is
-streamed. You can use the StatisticsConfigurations parameter to have the metric stream also
-send additional statistics in the stream. Streaming additional statistics incurs additional
+streamed. You can use the StatisticsConfigurations parameter to have the metric stream send
+additional statistics in the stream. Streaming additional statistics incurs additional
 costs. For more information, see Amazon CloudWatch Pricing.  When you use PutMetricStream
 to create a new metric stream, the stream is created in the running state. If you use it to
 update an existing stream, the state of the stream is not changed.
 
 # Arguments
-- `firehose_arn`: The ARN of the Amazon Kinesis Firehose delivery stream to use for this
-  metric stream. This Amazon Kinesis Firehose delivery stream must already exist and must be
-  in the same account as the metric stream.
+- `firehose_arn`: The ARN of the Amazon Kinesis Data Firehose delivery stream to use for
+  this metric stream. This Amazon Kinesis Data Firehose delivery stream must already exist
+  and must be in the same account as the metric stream.
 - `name`: If you are creating a new metric stream, this is the name for the new stream. The
   name must be different than the names of other metric streams in this account and Region.
   If you are updating a metric stream, specify the name of that stream here. Valid characters
@@ -1864,7 +1874,7 @@ update an existing stream, the state of the stream is not changed.
   opentelemetry0.7. For more information about metric stream output formats, see  Metric
   streams output formats.
 - `role_arn`: The ARN of an IAM role that this metric stream will use to access Amazon
-  Kinesis Firehose resources. This IAM role must already exist and must be in the same
+  Kinesis Data Firehose resources. This IAM role must already exist and must be in the same
   account as the metric stream. This IAM role must include the following permissions:
   firehose:PutRecord   firehose:PutRecordBatch
 
@@ -1884,7 +1894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can
   stream any additional statistic that is supported by CloudWatch, listed in  CloudWatch
   statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile
-  statistics such as p95, p99.9 and so on.
+  statistics such as p95, p99.9, and so on.
 - `"Tags"`: A list of key-value pairs to associate with the metric stream. You can
   associate as many as 50 tags with a metric stream. Tags can help you organize and
   categorize your resources. You can also use them to scope user permissions by granting a

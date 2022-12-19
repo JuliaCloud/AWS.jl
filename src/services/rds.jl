@@ -743,8 +743,12 @@ Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CopyOptionGroup"`: A value that indicates whether to copy the DB option group
+  associated with the source DB snapshot to the target Amazon Web Services account and
+  associate with the target DB snapshot. The associated option group can be copied only with
+  cross-account snapshot copy calls.
 - `"CopyTags"`: A value that indicates whether to copy all tags from the source DB snapshot
-  to the target DB snapshot. By default, tags are not copied.
+  to the target DB snapshot. By default, tags aren't copied.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB snapshot.
   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   for the KMS key. If you copy an encrypted DB snapshot from your Amazon Web Services
@@ -904,6 +908,79 @@ function copy_option_group(
 end
 
 """
+    create_blue_green_deployment(blue_green_deployment_name, source)
+    create_blue_green_deployment(blue_green_deployment_name, source, params::Dict{String,<:Any})
+
+Creates a blue/green deployment. A blue/green deployment creates a staging environment that
+copies the production environment. In a blue/green deployment, the blue environment is the
+current production environment. The green environment is the staging environment. The
+staging environment stays in sync with the current production environment using logical
+replication. You can make changes to the databases in the green environment without
+affecting production workloads. For example, you can upgrade the major or minor DB engine
+version, change database parameters, or make schema changes in the staging environment. You
+can thoroughly test changes in the green environment. When ready, you can switch over the
+environments to promote the green environment to be the new production environment. The
+switchover typically takes under a minute. For more information, see Using Amazon RDS
+Blue/Green Deployments for database updates in the Amazon RDS User Guide and  Using Amazon
+RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
+
+# Arguments
+- `blue_green_deployment_name`: The name of the blue/green deployment. Constraints:   Can't
+  be the same as an existing blue/green deployment name in the same account and Amazon Web
+  Services Region.
+- `source`: The Amazon Resource Name (ARN) of the source production database. Specify the
+  database that you want to clone. The blue/green deployment creates this database in the
+  green environment. You can make updates to the database in the green environment, such as
+  an engine version upgrade. When you are ready, you can switch the database in the green
+  environment to be the production database.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Tags to assign to the blue/green deployment.
+- `"TargetDBClusterParameterGroupName"`: The DB cluster parameter group associated with the
+  Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster
+  parameter group that is different from the one associated with the source DB cluster.
+- `"TargetDBParameterGroupName"`: The DB parameter group associated with the DB instance in
+  the green environment. To test parameter changes, specify a DB parameter group that is
+  different from the one associated with the source DB instance.
+- `"TargetEngineVersion"`: The engine version of the database in the green environment.
+  Specify the engine version to upgrade to in the green environment.
+"""
+function create_blue_green_deployment(
+    BlueGreenDeploymentName, Source; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "CreateBlueGreenDeployment",
+        Dict{String,Any}(
+            "BlueGreenDeploymentName" => BlueGreenDeploymentName, "Source" => Source
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_blue_green_deployment(
+    BlueGreenDeploymentName,
+    Source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rds(
+        "CreateBlueGreenDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlueGreenDeploymentName" => BlueGreenDeploymentName, "Source" => Source
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest)
     create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest, params::Dict{String,<:Any})
 
@@ -936,10 +1013,10 @@ CEV in the Amazon RDS User Guide.
   my-custom-installation-files.
 - `engine`: The database engine to use for your custom engine version (CEV). The only
   supported value is custom-oracle-ee.
-- `engine_version`: The name of your CEV. The name format is 19.customized_string . For
-  example, a valid name is 19.my_cev1. This setting is required for RDS Custom for Oracle,
-  but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per
-  customer per Region.
+- `engine_version`: The name of your CEV. The name format is 19.customized_string. For
+  example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for
+  Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique
+  per customer per Region.
 - `kmskey_id`: The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric
   encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an
   existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No
@@ -1077,6 +1154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is required to create a Multi-AZ DB cluster. Constraints: Must match the name of an
   existing DBSubnetGroup. Must not be default. Example: mydbsubnetgroup  Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
+- `"DBSystemId"`: Reserved for future use.
 - `"DatabaseName"`: The name for your database of up to 64 alphanumeric characters. If you
   do not provide a name, Amazon RDS doesn't create a database in the DB cluster you are
   creating. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -1158,10 +1236,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   primary cluster in the new global database cluster. Valid for: Aurora DB clusters only
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
-  valid Iops values, see Amazon RDS Provisioned IOPS storage to improve performance in the
-  Amazon RDS User Guide. This setting is required to create a Multi-AZ DB cluster.
-  Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
-  Valid for: Multi-AZ DB clusters only
+  valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide.
+  This setting is required to create a Multi-AZ DB cluster. Constraints: Must be a multiple
+  between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters
+  only
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB cluster. The
   Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
   the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key
@@ -1583,30 +1661,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically grow as the amount of data in your database increases, though you are only
   charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom
   Constraints to the amount of storage for each storage type are the following:   General
-  Purpose (SSD) storage (gp2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,
-  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an integer
-  from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.    MySQL
-  Constraints to the amount of storage for each storage type are the following:   General
-  Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS
-  storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be
-  an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each
-  storage type are the following:   General Purpose (SSD) storage (gp2): Must be an integer
-  from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
-  Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints
-  to the amount of storage for each storage type are the following:   General Purpose (SSD)
-  storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must
-  be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5
-  to 3072.    Oracle  Constraints to the amount of storage for each storage type are the
-  following:   General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.
+  Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for
+  Oracle, 16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1): Must be an
+  integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
+  MySQL  Constraints to the amount of storage for each storage type are the following:
+  General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage
-  (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of
-  storage for each storage type are the following:   General Purpose (SSD) storage (gp2):
-  Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express
-  editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):
-  Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express
-  editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):
-  Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express
-  editions: Must be an integer from 20 to 1024.
+  (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of
+  storage for each storage type are the following:   General Purpose (SSD) storage (gp2,
+  gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an
+  integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to
+  3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the
+  following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
+    Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage
+  (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of
+  storage for each storage type are the following:   General Purpose (SSD) storage (gp2,
+  gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an
+  integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to
+  3072.    SQL Server  Constraints to the amount of storage for each storage type are the
+  following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions:
+  Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20
+  to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be
+  an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to
+  16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an
+  integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the DB instance during the maintenance window. By default, minor
   engine upgrades are applied automatically. If you create an RDS Custom DB instance, you
@@ -1737,9 +1815,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Aurora  Not applicable. The version number of the database engine to be used by the
   DB instance is managed by the DB cluster.  Amazon RDS Custom for Oracle  A custom engine
   version (CEV) that you have previously created. This setting is required for RDS Custom for
-  Oracle. The CEV name has the following format: 19.customized_string . An example identifier
-  is 19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in
-  the Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server
+  Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is
+  19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in the
+  Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server
   general requirements in the Amazon RDS User Guide.  MariaDB  For information, see MariaDB
   on Amazon RDS Versions in the Amazon RDS User Guide.  Microsoft SQL Server  For
   information, see Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide.
@@ -1748,12 +1826,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.  PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions
   in the Amazon RDS User Guide.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
-  initially allocated for the DB instance. For information about valid Iops values, see
-  Amazon RDS Provisioned IOPS storage to improve performance in the Amazon RDS User Guide.
-  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple
-  between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances,
-  must be a multiple between 1 and 50 of the storage amount for the DB instance.  Amazon
-  Aurora  Not applicable. Storage is managed by the DB cluster.
+  initially allocated for the DB instance. For information about valid IOPS values, see
+  Amazon RDS DB instance storage in the Amazon RDS User Guide. Constraints: For MariaDB,
+  MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the
+  storage amount for the DB instance. For SQL Server DB instances, must be a multiple between
+  1 and 50 of the storage amount for the DB instance.  Amazon Aurora  Not applicable. Storage
+  is managed by the DB cluster.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB instance.
   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the
@@ -1872,10 +1950,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, it isn't encrypted. For RDS Custom instances, either set this parameter to true or
   leave it unset. If you set this parameter to false, RDS reports an error.  Amazon Aurora
   Not applicable. The encryption for DB instances is managed by the DB cluster.
+- `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
+  setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or
+  Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
-  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2   Amazon
-  Aurora  Not applicable. Storage is managed by the DB cluster.
+  values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a
+  value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise
+  gp2   Amazon Aurora  Not applicable. Storage is managed by the DB cluster.
 - `"Tags"`: Tags to assign to the DB instance.
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable.
@@ -2146,9 +2227,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify this parameter and set it to mounted. The value won't be set by default. After
   replica creation, you can manage the open mode manually.
 - `"SourceRegion"`: The ID of the region that contains the source for the read replica.
+- `"StorageThroughput"`: Specifies the storage throughput value for the read replica. This
+  setting doesn't apply to RDS Custom or Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the read replica. Valid
-  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+  values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a
+  value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise
+  gp2
 - `"Tags"`:
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
   the DB instance uses its default processor features. This setting doesn't apply to RDS
@@ -2813,6 +2897,55 @@ function create_option_group(
                     "MajorEngineVersion" => MajorEngineVersion,
                     "OptionGroupDescription" => OptionGroupDescription,
                     "OptionGroupName" => OptionGroupName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_blue_green_deployment(blue_green_deployment_identifier)
+    delete_blue_green_deployment(blue_green_deployment_identifier, params::Dict{String,<:Any})
+
+Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green
+Deployments for database updates in the Amazon RDS User Guide and  Using Amazon RDS
+Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
+
+# Arguments
+- `blue_green_deployment_identifier`: The blue/green deployment identifier of the
+  deployment to be deleted. This parameter isn't case-sensitive. Constraints:    Must match
+  an existing blue/green deployment identifier.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteTarget"`: A value that indicates whether to delete the resources in the green
+  environment.
+"""
+function delete_blue_green_deployment(
+    BlueGreenDeploymentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "DeleteBlueGreenDeployment",
+        Dict{String,Any}("BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_blue_green_deployment(
+    BlueGreenDeploymentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rds(
+        "DeleteBlueGreenDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier
                 ),
                 params,
             ),
@@ -3611,6 +3744,58 @@ function describe_account_attributes(
 end
 
 """
+    describe_blue_green_deployments()
+    describe_blue_green_deployments(params::Dict{String,<:Any})
+
+Returns information about blue/green deployments. For more information, see Using Amazon
+RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and  Using
+Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BlueGreenDeploymentIdentifier"`: The blue/green deployment identifier. If this
+  parameter is specified, information from only the specific blue/green deployment is
+  returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an
+  existing blue/green deployment identifier.
+- `"Filters"`: A filter that specifies one or more blue/green deployments to describe.
+  Supported filters:    blue-green-deployment-identifier - Accepts system-generated
+  identifiers for blue/green deployments. The results list only includes information about
+  the blue/green deployments with the specified identifiers.    blue-green-deployment-name -
+  Accepts user-supplied names for blue/green deployments. The results list only includes
+  information about the blue/green deployments with the specified names.    source - Accepts
+  source databases for a blue/green deployment. The results list only includes information
+  about the blue/green deployments with the specified source databases.    target - Accepts
+  target databases for a blue/green deployment. The results list only includes information
+  about the blue/green deployments with the specified target databases.
+- `"Marker"`: An optional pagination token provided by a previous
+  DescribeBlueGreenDeployments request. If this parameter is specified, the response includes
+  only records beyond the marker, up to the value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+"""
+function describe_blue_green_deployments(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "DescribeBlueGreenDeployments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_blue_green_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "DescribeBlueGreenDeployments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_certificates()
     describe_certificates(params::Dict{String,<:Any})
 
@@ -3991,9 +4176,10 @@ DocumentDB instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DBClusterIdentifier"`: The user-supplied DB cluster identifier. If this parameter is
-  specified, information from only the specific DB cluster is returned. This parameter isn't
-  case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
+- `"DBClusterIdentifier"`: The user-supplied DB cluster identifier or the Amazon Resource
+  Name (ARN) of the DB cluster. If this parameter is specified, information from only the
+  specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If
+  supplied, must match an existing DBClusterIdentifier.
 - `"Filters"`: A filter that specifies one or more DB clusters to describe. Supported
   filters:    clone-group-id - Accepts clone group identifiers. The results list only
   includes information about the DB clusters associated with these clone groups.
@@ -4159,10 +4345,10 @@ instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DBInstanceIdentifier"`: The user-supplied instance identifier. If this parameter is
-  specified, information from only the specific DB instance is returned. This parameter isn't
-  case-sensitive. Constraints:   If supplied, must match the identifier of an existing
-  DBInstance.
+- `"DBInstanceIdentifier"`: The user-supplied instance identifier or the Amazon Resource
+  Name (ARN) of the DB instance. If this parameter is specified, information from only the
+  specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If
+  supplied, must match the identifier of an existing DBInstance.
 - `"Filters"`: A filter that specifies one or more DB instances to describe. Supported
   filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource
   Names (ARNs). The results list only includes information about the DB instances associated
@@ -4760,8 +4946,10 @@ engine.
 # Arguments
 - `dbparameter_group_family`: The name of the DB parameter group family. Valid Values:
   aurora5.6     aurora-mysql5.7     aurora-mysql8.0     aurora-postgresql10
-  aurora-postgresql11     aurora-postgresql12     aurora-postgresql13     mariadb10.2
-  mariadb10.3     mariadb10.4     mariadb10.5     mariadb10.6     mysql5.7     mysql8.0
+  aurora-postgresql11     aurora-postgresql12     aurora-postgresql13     aurora-postgresql14
+      custom-oracle-ee-19     mariadb10.2     mariadb10.3     mariadb10.4     mariadb10.5
+  mariadb10.6     mysql5.7     mysql8.0     oracle-ee-19     oracle-ee-cdb-19
+  oracle-ee-cdb-21     oracle-se2-19     oracle-se2-cdb-19     oracle-se2-cdb-21
   postgres10     postgres11     postgres12     postgres13     postgres14
   sqlserver-ee-11.0     sqlserver-ee-12.0     sqlserver-ee-13.0     sqlserver-ee-14.0
   sqlserver-ee-15.0     sqlserver-ex-11.0     sqlserver-ex-12.0     sqlserver-ex-13.0
@@ -4960,6 +5148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. You can use the marker in a later DescribeExportTasks request to retrieve the
   remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
 - `"SourceArn"`: The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+- `"SourceType"`: The type of source for the export.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -5959,9 +6148,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clusters and Multi-AZ DB clusters
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
-  valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the
-  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
-  amount for the DB cluster. Valid for: Multi-AZ DB clusters only
+  valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide.
+  Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
+  Valid for: Multi-AZ DB clusters only
 - `"MasterUserPassword"`: The new password for the master database user. This password can
   contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
   contain from 8 to 41 characters. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -6573,6 +6762,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResumeFullAutomationModeMinutes"`: The number of minutes to pause the automation. When
   the time period ends, RDS Custom resumes full automation. The minimum value is 60
   (default). The maximum value is 1,440.
+- `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
+  setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or
+  Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance. If you
   specify Provisioned IOPS (io1), you must also include a value for the Iops parameter. If
   you choose to migrate your DB instance from using standard storage to using Provisioned
@@ -6585,8 +6777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   migration takes place, nightly backups for the instance are suspended. No other Amazon RDS
   operations can take place for the instance, including modifying the instance, rebooting the
   instance, deleting the instance, creating a read replica for the instance, and creating a
-  DB snapshot of the instance. Valid values: standard | gp2 | io1  Default: io1 if the Iops
-  parameter is specified, otherwise gp2
+  DB snapshot of the instance. Valid values: gp2 | gp3 | io1 | standard  Default: io1 if the
+  Iops parameter is specified, otherwise gp2
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
 - `"TdeCredentialPassword"`: The password for the given ARN from the key store in order to
@@ -8143,9 +8335,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clusters
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
-  valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the
-  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
-  amount for the DB instance. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide.
+  Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB
+  instance. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier to use when restoring an
   encrypted DB cluster from a DB snapshot or DB cluster snapshot. The Amazon Web Services KMS
   key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a
@@ -8316,9 +8508,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Aurora DB clusters only
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for each DB instance in the Multi-AZ DB cluster. For information about
-  valid Iops values, see Amazon RDS Provisioned IOPS storage to improve performance in the
-  Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage
-  amount for the DB instance. Valid for: Multi-AZ DB clusters only
+  valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide.
+  Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB
+  instance. Valid for: Multi-AZ DB clusters only
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier to use when restoring an
   encrypted DB cluster from an encrypted DB cluster. The Amazon Web Services KMS key
   identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS
@@ -8424,8 +8616,8 @@ function restore_dbcluster_to_point_in_time(
 end
 
 """
-    restore_dbinstance_from_dbsnapshot(dbinstance_identifier, dbsnapshot_identifier)
-    restore_dbinstance_from_dbsnapshot(dbinstance_identifier, dbsnapshot_identifier, params::Dict{String,<:Any})
+    restore_dbinstance_from_dbsnapshot(dbinstance_identifier)
+    restore_dbinstance_from_dbsnapshot(dbinstance_identifier, params::Dict{String,<:Any})
 
 Creates a new DB instance from a DB snapshot. The target database is created from the
 source database restore point with most of the source's original configuration, including
@@ -8448,9 +8640,6 @@ Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
   parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 numbers, letters,
   or hyphens   First character must be a letter   Can't end with a hyphen or contain two
   consecutive hyphens   Example: my-snapshot-id
-- `dbsnapshot_identifier`: The identifier for the DB snapshot to restore from. Constraints:
-    Must match the identifier of an existing DBSnapshot.   If you are restoring from a shared
-  manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8478,6 +8667,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions
   required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
   This setting is required for RDS Custom.
+- `"DBClusterSnapshotIdentifier"`: The identifier for the RDS for MySQL Multi-AZ DB cluster
+  snapshot to restore from. For more information on Multi-AZ DB clusters, see  Multi-AZ
+  deployments with two readable standby DB instances in the Amazon RDS User Guide.
+  Constraints:   Must match the identifier of an existing Multi-AZ DB cluster snapshot.
+  Can't be specified when DBSnapshotIdentifier is specified.   Must be specified when
+  DBSnapshotIdentifier isn't specified.   If you are restoring from a shared manual Multi-AZ
+  DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared
+  snapshot.   Can't be the identifier of an Aurora DB cluster snapshot.   Can't be the
+  identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.
 - `"DBInstanceClass"`: The compute and memory capacity of the Amazon RDS DB instance, for
   example db.m4.large. Not all DB instance classes are available in all Amazon Web Services
   Regions, or for all database engines. For the full list of DB instance classes, and
@@ -8492,6 +8690,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be
   1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with
   a hyphen or contain two consecutive hyphens.
+- `"DBSnapshotIdentifier"`: The identifier for the DB snapshot to restore from.
+  Constraints:   Must match the identifier of an existing DBSnapshot.   Can't be specified
+  when DBClusterSnapshotIdentifier is specified.   Must be specified when
+  DBClusterSnapshotIdentifier isn't specified.   If you are restoring from a shared manual DB
+  snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
 - `"DBSubnetGroupName"`: The DB subnet group name to use for the new instance. Constraints:
   If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
 - `"DeletionProtection"`: A value that indicates whether the DB instance has deletion
@@ -8534,8 +8737,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. The conversion takes additional time, though your DB instance is available for
   connections before the conversion starts. The provisioned IOPS value must follow the
   requirements for your database engine. For more information, see Amazon RDS Provisioned
-  IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be an
-  integer greater than 1000.
+  IOPS storage in the Amazon RDS User Guide.  Constraints: Must be an integer greater than
+  1000.
 - `"LicenseModel"`: License model information for the restored DB instance. This setting
   doesn't apply to RDS Custom. Default: Same as source. Valid values: license-included |
   bring-your-own-license | general-public-license
@@ -8564,9 +8767,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permit it. When the DB instance isn't publicly accessible, it is an internal DB instance
   with a DNS name that resolves to a private IP address. For more information, see
   CreateDBInstance.
+- `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
+  setting doesn't apply to RDS Custom or Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
-  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+  values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a
+  value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise
+  gp2
 - `"Tags"`:
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
@@ -8579,23 +8785,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 function restore_dbinstance_from_dbsnapshot(
-    DBInstanceIdentifier,
-    DBSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return rds(
         "RestoreDBInstanceFromDBSnapshot",
-        Dict{String,Any}(
-            "DBInstanceIdentifier" => DBInstanceIdentifier,
-            "DBSnapshotIdentifier" => DBSnapshotIdentifier,
-        );
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function restore_dbinstance_from_dbsnapshot(
     DBInstanceIdentifier,
-    DBSnapshotIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -8604,10 +8804,7 @@ function restore_dbinstance_from_dbsnapshot(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DBInstanceIdentifier" => DBInstanceIdentifier,
-                    "DBSnapshotIdentifier" => DBSnapshotIdentifier,
-                ),
+                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
                 params,
             ),
         );
@@ -8695,8 +8892,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minor version of your database engine. For information about engine versions, see
   CreateDBInstance, or call DescribeDBEngineVersions.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to allocate
-  initially for the DB instance. For information about valid Iops values, see Amazon RDS
-  Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.
+  initially for the DB instance. For information about valid IOPS values, see Amazon RDS
+  Provisioned IOPS storage in the Amazon RDS User Guide.
 - `"KmsKeyId"`: The Amazon Web Services KMS key identifier for an encrypted DB instance.
   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the
@@ -8773,9 +8970,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Prefix"`: The prefix of your Amazon S3 bucket.
 - `"StorageEncrypted"`: A value that indicates whether the new DB instance is encrypted or
   not.
+- `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
+  setting doesn't apply to RDS Custom or Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
-  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
+  values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a
+  value for the Iops parameter. Default: io1 if the Iops parameter is specified; otherwise
+  gp2
 - `"Tags"`: A list of tags to associate with this DB instance. For more information, see
   Tagging Amazon RDS Resources in the Amazon RDS User Guide.
 - `"UseDefaultProcessorFeatures"`: A value that indicates whether the DB instance class of
@@ -8976,9 +9176,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceDBInstanceIdentifier"`: The identifier of the source DB instance from which to
   restore. Constraints:   Must match the identifier of an existing DB instance.
 - `"SourceDbiResourceId"`: The resource ID of the source DB instance from which to restore.
+- `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
+  setting doesn't apply to RDS Custom or Amazon Aurora.
 - `"StorageType"`: Specifies the storage type to be associated with the DB instance. Valid
-  values: standard | gp2 | io1  If you specify io1, you must also include a value for the
-  Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+  values: gp2 | gp3 | io1 | standard  If you specify io1 or gp3, you must also include a
+  value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise
+  gp2
 - `"Tags"`:
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption. This setting doesn't apply to RDS Custom.
@@ -9550,6 +9753,57 @@ function stop_dbinstance_automated_backups_replication(
             mergewith(
                 _merge,
                 Dict{String,Any}("SourceDBInstanceArn" => SourceDBInstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    switchover_blue_green_deployment(blue_green_deployment_identifier)
+    switchover_blue_green_deployment(blue_green_deployment_identifier, params::Dict{String,<:Any})
+
+Switches over a blue/green deployment. Before you switch over, production traffic is routed
+to the databases in the blue environment. After you switch over, production traffic is
+routed to the databases in the green environment. For more information, see Using Amazon
+RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and  Using
+Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
+
+# Arguments
+- `blue_green_deployment_identifier`: The blue/green deployment identifier. Constraints:
+  Must match an existing blue/green deployment identifier.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SwitchoverTimeout"`: The amount of time, in seconds, for the switchover to complete.
+  The default is 300. If the switchover takes longer than the specified duration, then any
+  changes are rolled back, and no changes are made to the environments.
+"""
+function switchover_blue_green_deployment(
+    BlueGreenDeploymentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rds(
+        "SwitchoverBlueGreenDeployment",
+        Dict{String,Any}("BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function switchover_blue_green_deployment(
+    BlueGreenDeploymentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rds(
+        "SwitchoverBlueGreenDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier
+                ),
                 params,
             ),
         );

@@ -689,9 +689,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultIamRoleArn"`: The Amazon Resource Name (ARN) for the IAM role that was set as
   default for the cluster when the cluster was created.
 - `"ElasticIp"`: The Elastic IP (EIP) address for the cluster. Constraints: The cluster
-  must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For
-  more information about provisioning clusters in EC2-VPC, go to Supported Platforms to
-  Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
+  must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't
+  specify the Elastic IP address for a publicly accessible cluster with availability zone
+  relocation turned on. For more information about provisioning clusters in EC2-VPC, go to
+  Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
 - `"Encrypted"`: If true, the data in the cluster is encrypted at rest.  Default: false
 - `"EnhancedVpcRouting"`: An option that specifies whether to create the cluster with
   enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -5781,7 +5782,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultIamRoleArn"`: The Amazon Resource Name (ARN) for the IAM role that was set as
   default for the cluster when the cluster was last modified while it was restored from a
   snapshot.
-- `"ElasticIp"`: The elastic IP (EIP) address for the cluster.
+- `"ElasticIp"`: The Elastic IP (EIP) address for the cluster. Don't specify the Elastic IP
+  address for a publicly accessible cluster with availability zone relocation turned on.
 - `"Encrypted"`: Enables support for restoring an unencrypted snapshot to a cluster
   encrypted with Key Management Service (KMS) and a customer managed key.
 - `"EnhancedVpcRouting"`: An option that specifies whether to create the cluster with

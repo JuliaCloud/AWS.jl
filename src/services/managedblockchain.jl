@@ -5,6 +5,63 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_accessor(accessor_type, client_request_token)
+    create_accessor(accessor_type, client_request_token, params::Dict{String,<:Any})
+
+ The token based access feature is in preview release for Ethereum on Amazon Managed
+Blockchain and is subject to change. We recommend that you use this feature only with test
+scenarios, and not in production environments.  Creates a new accessor for use with Managed
+Blockchain Ethereum nodes. An accessor object is a container that has the information
+required for token based access to your Ethereum nodes.
+
+# Arguments
+- `accessor_type`: The type of accessor.  Currently accessor type is restricted to
+  BILLING_TOKEN.
+- `client_request_token`: This is a unique, case-sensitive identifier that you provide to
+  ensure the idempotency of the operation. An idempotent operation completes no more than
+  once. This identifier is required only if you make a service request directly using an HTTP
+  client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon
+  Web Services CLI.
+
+"""
+function create_accessor(
+    AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return managedblockchain(
+        "POST",
+        "/accessors",
+        Dict{String,Any}(
+            "AccessorType" => AccessorType, "ClientRequestToken" => ClientRequestToken
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_accessor(
+    AccessorType,
+    ClientRequestToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return managedblockchain(
+        "POST",
+        "/accessors",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccessorType" => AccessorType,
+                    "ClientRequestToken" => ClientRequestToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_member(client_request_token, invitation_id, member_configuration, network_id)
     create_member(client_request_token, invitation_id, member_configuration, network_id, params::Dict{String,<:Any})
 
@@ -14,7 +71,7 @@ Creates a member within a Managed Blockchain network. Applies only to Hyperledge
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than one time.
   This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `invitation_id`: The unique identifier of the invitation that is sent to the member to
   join the network.
 - `member_configuration`: Member configuration parameters.
@@ -75,10 +132,11 @@ Creates a new blockchain network using Amazon Managed Blockchain. Applies only t
 Hyperledger Fabric.
 
 # Arguments
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
-  This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+- `client_request_token`: This is a unique, case-sensitive identifier that you provide to
+  ensure the idempotency of the operation. An idempotent operation completes no more than
+  once. This identifier is required only if you make a service request directly using an HTTP
+  client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon
+  Web Services CLI.
 - `framework`: The blockchain framework that the network uses.
 - `framework_version`: The version of the blockchain framework that the network uses.
 - `member_configuration`: Configuration properties for the first member within the network.
@@ -165,11 +223,11 @@ Ethereum.
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than one time.
   This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `node_configuration`: The properties of a node configuration.
 - `network_id`: The unique identifier of the network for the node. Ethereum public networks
-  have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby
-  n-ethereum-ropsten
+  have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
+  n-ethereum-rinkeby     n-ethereum-ropsten
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -239,10 +297,10 @@ proposal. Applies only to Hyperledger Fabric.
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than one time.
   This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `member_id`: The unique identifier of the member that is creating the proposal. This
   identifier is especially useful for identifying the member making the proposal when
-  multiple members exist in a single AWS account.
+  multiple members exist in a single Amazon Web Services account.
 - `network_id`:  The unique identifier of the network for which the proposal is made.
 
 # Optional Parameters
@@ -304,15 +362,56 @@ function create_proposal(
 end
 
 """
+    delete_accessor(accessor_id)
+    delete_accessor(accessor_id, params::Dict{String,<:Any})
+
+ The token based access feature is in preview release for Ethereum on Amazon Managed
+Blockchain and is subject to change. We recommend that you use this feature only with test
+scenarios, and not in production environments.  Deletes an accessor that your Amazon Web
+Services account owns. An accessor object is a container that has the information required
+for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an
+accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION.
+An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or
+HTTP requests. However, WebSocket connections that were initiated while the accessor was in
+the AVAILABLE state remain open until they expire (up to 2 hours).
+
+# Arguments
+- `accessor_id`: The unique identifier of the accessor.
+
+"""
+function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=global_aws_config())
+    return managedblockchain(
+        "DELETE",
+        "/accessors/$(AccessorId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_accessor(
+    AccessorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return managedblockchain(
+        "DELETE",
+        "/accessors/$(AccessorId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_member(member_id, network_id)
     delete_member(member_id, network_id, params::Dict{String,<:Any})
 
 Deletes a member. Deleting a member removes the member and all associated resources from
 the network. DeleteMember can only be called for a specified MemberId if the principal
-performing the action is associated with the AWS account that owns the member. In all other
-cases, the DeleteMember action is carried out as the result of an approved proposal to
-remove a member. If MemberId is the last member in a network specified by the last AWS
-account, the network is deleted also. Applies only to Hyperledger Fabric.
+performing the action is associated with the Amazon Web Services account that owns the
+member. In all other cases, the DeleteMember action is carried out as the result of an
+approved proposal to remove a member. If MemberId is the last member in a network specified
+by the last Amazon Web Services account, the network is deleted also. Applies only to
+Hyperledger Fabric.
 
 # Arguments
 - `member_id`: The unique identifier of the member to remove.
@@ -348,13 +447,13 @@ end
     delete_node(network_id, node_id)
     delete_node(network_id, node_id, params::Dict{String,<:Any})
 
-Deletes a node that your AWS account owns. All data on the node is lost and cannot be
-recovered. Applies to Hyperledger Fabric and Ethereum.
+Deletes a node that your Amazon Web Services account owns. All data on the node is lost and
+cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
 - `network_id`: The unique identifier of the network that the node is on. Ethereum public
-  networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby
-  n-ethereum-ropsten
+  networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
+  n-ethereum-rinkeby     n-ethereum-ropsten
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
@@ -379,6 +478,42 @@ function delete_node(
     return managedblockchain(
         "DELETE",
         "/networks/$(networkId)/nodes/$(nodeId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_accessor(accessor_id)
+    get_accessor(accessor_id, params::Dict{String,<:Any})
+
+ The token based access feature is in preview release for Ethereum on Amazon Managed
+Blockchain and is subject to change. We recommend that you use this feature only with test
+scenarios, and not in production environments.  Returns detailed information about an
+accessor. An accessor object is a container that has the information required for token
+based access to your Ethereum nodes.
+
+# Arguments
+- `accessor_id`: The unique identifier of the accessor.
+
+"""
+function get_accessor(AccessorId; aws_config::AbstractAWSConfig=global_aws_config())
+    return managedblockchain(
+        "GET",
+        "/accessors/$(AccessorId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_accessor(
+    AccessorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return managedblockchain(
+        "GET",
+        "/accessors/$(AccessorId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -526,11 +661,39 @@ function get_proposal(
 end
 
 """
+    list_accessors()
+    list_accessors(params::Dict{String,<:Any})
+
+ The token based access feature is in preview release for Ethereum on Amazon Managed
+Blockchain and is subject to change. We recommend that you use this feature only with test
+scenarios, and not in production environments.  Returns a list of the accessors and their
+properties. Accessor objects are containers that have the information required for token
+based access to your Ethereum nodes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  The maximum number of accessors to list.
+- `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
+"""
+function list_accessors(; aws_config::AbstractAWSConfig=global_aws_config())
+    return managedblockchain(
+        "GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_accessors(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return managedblockchain(
+        "GET", "/accessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Returns a list of all invitations for the current AWS account. Applies only to Hyperledger
-Fabric.
+Returns a list of all invitations for the current Amazon Web Services account. Applies only
+to Hyperledger Fabric.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -567,8 +730,8 @@ only to Hyperledger Fabric.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"isOwned"`: An optional Boolean value. If provided, the request is limited either to
-  members that the current AWS account owns (true) or that other AWS accounts own (false). If
-  omitted, all members are listed.
+  members that the current Amazon Web Services account owns (true) or that other Amazon Web
+  Services accountsn own (false). If omitted, all members are listed.
 - `"maxResults"`: The maximum number of members to return in the request.
 - `"name"`: The optional name of the member to list.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
@@ -601,8 +764,8 @@ end
     list_networks()
     list_networks(params::Dict{String,<:Any})
 
-Returns information about the networks in which the current AWS account participates.
-Applies to Hyperledger Fabric and Ethereum.
+Returns information about the networks in which the current Amazon Web Services account
+participates. Applies to Hyperledger Fabric and Ethereum.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -756,7 +919,8 @@ Hyperledger Fabric Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
+  General Reference.
 
 """
 function list_tags_for_resource(
@@ -787,9 +951,9 @@ end
     reject_invitation(invitation_id)
     reject_invitation(invitation_id, params::Dict{String,<:Any})
 
-Rejects an invitation to join a network. This action can be called by a principal in an AWS
-account that has received an invitation to create a member and join a network. Applies only
-to Hyperledger Fabric.
+Rejects an invitation to join a network. This action can be called by a principal in an
+Amazon Web Services account that has received an invitation to create a member and join a
+network. Applies only to Hyperledger Fabric.
 
 # Arguments
 - `invitation_id`: The unique identifier of the invitation to reject.
@@ -834,7 +998,8 @@ Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
   example, \"MyTagKey\" : \"\". You can specify multiple key-value pairs in a single request,
   with an overall maximum of 50 tags added to each resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
+  General Reference.
 
 """
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -872,7 +1037,8 @@ Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
+  General Reference.
 - `tag_keys`: The tag keys.
 
 """
@@ -988,8 +1154,8 @@ end
     vote_on_proposal(vote, voter_member_id, network_id, proposal_id, params::Dict{String,<:Any})
 
 Casts a vote for a specified ProposalId on behalf of a member. The member to vote as,
-specified by VoterMemberId, must be in the same AWS account as the principal that calls the
-action. Applies only to Hyperledger Fabric.
+specified by VoterMemberId, must be in the same Amazon Web Services account as the
+principal that calls the action. Applies only to Hyperledger Fabric.
 
 # Arguments
 - `vote`:  The value of the vote.

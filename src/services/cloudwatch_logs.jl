@@ -8,22 +8,21 @@ using AWS.UUIDs
     associate_kms_key(kms_key_id, log_group_name)
     associate_kms_key(kms_key_id, log_group_name, params::Dict{String,<:Any})
 
-Associates the specified Key Management Service customer master key (CMK) with the
-specified log group. Associating an KMS CMK with a log group overrides any existing
-associations between the log group and a CMK. After a CMK is associated with a log group,
-all newly ingested data for the log group is encrypted using the CMK. This association is
-stored as long as the data encrypted with the CMK is still within CloudWatch Logs. This
-enables CloudWatch Logs to decrypt this data whenever it is requested.  CloudWatch Logs
-supports only symmetric CMKs. Do not use an associate an asymmetric CMK with your log
-group. For more information, see Using Symmetric and Asymmetric Keys.  It can take up to 5
-minutes for this operation to take effect. If you attempt to associate a CMK with a log
-group but the CMK does not exist or the CMK is disabled, you receive an
-InvalidParameterException error.
+Associates the specified KMS key with the specified log group. Associating a KMS key with a
+log group overrides any existing associations between the log group and a KMS key. After a
+KMS key is associated with a log group, all newly ingested data for the log group is
+encrypted using the KMS key. This association is stored as long as the data encrypted with
+the KMS keyis still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this
+data whenever it is requested.  CloudWatch Logs supports only symmetric KMS keys. Do not
+use an associate an asymmetric KMS key with your log group. For more information, see Using
+Symmetric and Asymmetric Keys.  It can take up to 5 minutes for this operation to take
+effect. If you attempt to associate a KMS key with a log group but the KMS key does not
+exist or the KMS key is disabled, you receive an InvalidParameterException error.
 
 # Arguments
-- `kms_key_id`: The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
-  This must be a symmetric CMK. For more information, see Amazon Resource Names - Key
-  Management Service and Using Symmetric and Asymmetric Keys.
+- `kms_key_id`: The Amazon Resource Name (ARN) of the KMS key to use when encrypting log
+  data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and
+  Using Symmetric and Asymmetric Keys.
 - `log_group_name`: The name of the log group.
 
 """
@@ -90,32 +89,32 @@ end
     create_export_task(destination, from, log_group_name, to)
     create_export_task(destination, from, log_group_name, to, params::Dict{String,<:Any})
 
-Creates an export task, which allows you to efficiently export data from a log group to an
+Creates an export task so that you can efficiently export data from a log group to an
 Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials
 that have permission to write to the S3 bucket that you specify as the destination.
-Exporting log data to Amazon S3 buckets that are encrypted by KMS is not supported.
-Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention
-period is not supported. Exporting to S3 buckets that are encrypted with AES-256 is
-supported.   This is an asynchronous call. If all the required information is provided,
-this operation initiates an export task and responds with the ID of the task. After the
-task has started, you can use DescribeExportTasks to get the status of the export task.
-Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel
-an export task, use CancelExportTask. You can export logs from multiple log groups or
-multiple time ranges to the same S3 bucket. To separate out log data for each export task,
-you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects.
-Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can
-sort the exported log fild data by using Linux utilities.
+Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data
+to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also
+supported. Exporting to S3 buckets that are encrypted with AES-256 is supported.  This is
+an asynchronous call. If all the required information is provided, this operation initiates
+an export task and responds with the ID of the task. After the task has started, you can
+use DescribeExportTasks to get the status of the export task. Each account can only have
+one active (RUNNING or PENDING) export task at a time. To cancel an export task, use
+CancelExportTask. You can export logs from multiple log groups or multiple time ranges to
+the same S3 bucket. To separate log data for each export task, specify a prefix to be used
+as the Amazon S3 key prefix for all exported objects.  Time-based sorting on chunks of log
+data inside an exported file is not guaranteed. You can sort the exported log field data by
+using Linux utilities.
 
 # Arguments
 - `destination`: The name of S3 bucket for the exported log data. The bucket must be in the
-  same Amazon Web Services region.
+  same Amazon Web Services Region.
 - `from`: The start time of the range for the request, expressed as the number of
   milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time
   are not exported.
 - `log_group_name`: The name of the log group.
 - `to`: The end time of the range for the request, expressed as the number of milliseconds
   after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not
-  exported.
+  exported. You must specify a time that is not earlier than when this log group was created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -173,31 +172,34 @@ end
 
 Creates a log group with the specified name. You can create up to 20,000 log groups per
 account. You must use the following guidelines when naming a log group:   Log group names
-must be unique within a region for an Amazon Web Services account.   Log group names can be
+must be unique within a Region for an Amazon Web Services account.   Log group names can be
 between 1 and 512 characters long.   Log group names consist of the following characters:
 a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#'
-(number sign)   When you create a log group, by default the log events in the log group
-never expire. To set a retention policy so that events expire and are deleted after a
-specified time, use PutRetentionPolicy. If you associate a Key Management Service customer
-master key (CMK) with the log group, ingested data is encrypted using the CMK. This
-association is stored as long as the data encrypted with the CMK is still within CloudWatch
-Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you
-attempt to associate a CMK with the log group but the CMK does not exist or the CMK is
-disabled, you receive an InvalidParameterException error.   CloudWatch Logs supports only
-symmetric CMKs. Do not associate an asymmetric CMK with your log group. For more
-information, see Using Symmetric and Asymmetric Keys.
+(number sign)   When you create a log group, by default the log events in the log group do
+not expire. To set a retention policy so that events expire and are deleted after a
+specified time, use PutRetentionPolicy. If you associate an KMS key with the log group,
+ingested data is encrypted using the KMS key. This association is stored as long as the
+data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch
+Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key
+with the log group but the KMS keydoes not exist or the KMS key is disabled, you receive an
+InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do not
+associate an asymmetric KMS key with your log group. For more information, see Using
+Symmetric and Asymmetric Keys.
 
 # Arguments
 - `log_group_name`: The name of the log group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"kmsKeyId"`: The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
-  For more information, see Amazon Resource Names - Key Management Service.
-- `"tags"`: The key-value pairs to use for the tags. CloudWatch Logs doesn’t support IAM
-  policies that prevent users from assigning specified tags to log groups using the
-  aws:Resource/key-name  or aws:TagKeys condition keys. For more information about using tags
-  to control access, see Controlling access to Amazon Web Services resources using tags.
+- `"kmsKeyId"`: The Amazon Resource Name (ARN) of the KMS key to use when encrypting log
+  data. For more information, see Amazon Resource Names.
+- `"tags"`: The key-value pairs to use for the tags. You can grant users access to certain
+  log groups while preventing them from accessing other log groups. To do so, tag your groups
+  and use IAM policies that refer to those tags. To assign tags when you create a log group,
+  you must have either the logs:TagResource or logs:TagLogGroup permission. For more
+  information about tagging, see Tagging Amazon Web Services resources. For more information
+  about using tags to control access, see Controlling access to Amazon Web Services resources
+  using tags.
 """
 function create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
@@ -232,7 +234,7 @@ being monitored. There is no limit on the number of log streams that you can cre
 log group. There is a limit of 50 TPS on CreateLogStream operations, after which
 transactions are throttled. You must use the following guidelines when naming a log stream:
   Log stream names must be unique within the log group.   Log stream names can be between 1
-and 512 characters long.   The ':' (colon) and '*' (asterisk) characters are not allowed.
+and 512 characters long.   Don't use ':' (colon) or '*' (asterisk) characters.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -264,6 +266,45 @@ function create_log_stream(
                     "logGroupName" => logGroupName, "logStreamName" => logStreamName
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_protection_policy(log_group_identifier)
+    delete_data_protection_policy(log_group_identifier, params::Dict{String,<:Any})
+
+Deletes the data protection policy from the specified log group.  For more information
+about data protection policies, see PutDataProtectionPolicy.
+
+# Arguments
+- `log_group_identifier`: The name or ARN of the log group that you want to delete the data
+  protection policy for.
+
+"""
+function delete_data_protection_policy(
+    logGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteDataProtectionPolicy",
+        Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_protection_policy(
+    logGroupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteDataProtectionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier), params
             ),
         );
         aws_config=aws_config,
@@ -589,7 +630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationNamePrefix"`: The prefix to match. If you don't specify a value, no prefix
   filter is applied.
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
+  default maximum value of 50 items is used.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -624,8 +665,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 - `"statusCode"`: The status code of the export task. Specifying a status code filters the
   results to zero or more export tasks.
-- `"taskId"`: The ID of the export task. Specifying a task ID filters the results to zero
-  or one export tasks.
+- `"taskId"`: The ID of the export task. Specifying a task ID filters the results to one or
+  zero export tasks.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
@@ -653,13 +694,31 @@ IAM policies that control access to the DescribeLogGroups action by using the
 aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use
 of the aws:ResourceTag/key-name  condition key to control access. For more information
 about using tags to control access, see Controlling access to Amazon Web Services resources
-using tags.
+using tags. If you are using CloudWatch cross-account observability, you can use this
+operation in a monitoring account and view data from the linked source accounts. For more
+information, see CloudWatch cross-account observability.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIdentifiers"`: When includeLinkedAccounts is set to True, use this parameter to
+  specify the list of accounts to search. You can specify as many as 20 account IDs in the
+  array.
+- `"includeLinkedAccounts"`: If you are using a monitoring account, set this to True to
+  have the operation return log groups in the accounts listed in accountIdentifiers. If this
+  parameter is set to true and accountIdentifiers contains a null value, the operation
+  returns all log groups in the monitoring account and all log groups in all source accounts
+  that are linked to the monitoring account.    If you specify includeLinkedAccounts in your
+  request, then metricFilterCount, retentionInDays, and storedBytes are not included in the
+  response.
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
-- `"logGroupNamePrefix"`: The prefix to match.
+- `"logGroupNamePattern"`: If you specify a string for this parameter, the operation
+  returns only log groups that have names that match the string based on a case-sensitive
+  substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and
+  GroupFoo would match, but foo, F/o/o and Froo would not match.   logGroupNamePattern and
+  logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
+- `"logGroupNamePrefix"`: The prefix to match.   logGroupNamePrefix and logGroupNamePattern
+  are mutually exclusive. Only one of these parameters can be passed.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -683,10 +742,14 @@ end
 Lists the log streams for the specified log group. You can list all the log streams or
 filter the results by prefix. You can also control how the results are ordered. This
 operation has a limit of five transactions per second, after which transactions are
-throttled.
+throttled. If you are using CloudWatch cross-account observability, you can use this
+operation in a monitoring account and view data from the linked source accounts. For more
+information, see CloudWatch cross-account observability.
 
 # Arguments
-- `log_group_name`: The name of the log group.
+- `log_group_name`: The name of the log group.   If you specify values for both
+  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+  
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -694,6 +757,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is to false, results are returned in ascending order. The default value is false.
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
+- `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
+  log group is in a source account and you are using a monitoring account, you must use the
+  log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the
+  action returns an InvalidParameterException error.
 - `"logStreamNamePrefix"`: The prefix to match. If orderBy is LastEventTime, you cannot
   specify this parameter.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
@@ -742,8 +809,8 @@ by filter name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filterNamePrefix"`: The prefix to match. CloudWatch Logs uses the value you set here
-  only if you also include the logGroupName parameter in your request.
+- `"filterNamePrefix"`: The prefix to match. CloudWatch Logs uses the value that you set
+  here only if you also include the logGroupName parameter in your request.
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
 - `"logGroupName"`: The name of the log group.
@@ -775,9 +842,9 @@ end
     describe_queries()
     describe_queries(params::Dict{String,<:Any})
 
-Returns a list of CloudWatch Logs Insights queries that are scheduled, executing, or have
-been executed recently in this account. You can request all queries or limit it to queries
-of a specific log group or queries with a certain status.
+Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have
+been run recently in this account. You can request all queries or limit it to queries of a
+specific log group or queries with a certain status.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -908,12 +975,11 @@ end
     disassociate_kms_key(log_group_name)
     disassociate_kms_key(log_group_name, params::Dict{String,<:Any})
 
-Disassociates the associated Key Management Service customer master key (CMK) from the
-specified log group. After the KMS CMK is disassociated from the log group, CloudWatch Logs
-stops encrypting newly ingested data for the log group. All previously ingested data
-remains encrypted, and CloudWatch Logs requires permissions for the CMK whenever the
-encrypted data is requested. Note that it can take up to 5 minutes for this operation to
-take effect.
+Disassociates the associated KMS key from the specified log group. After the KMS key is
+disassociated from the log group, CloudWatch Logs stops encrypting newly ingested data for
+the log group. All previously ingested data remains encrypted, and CloudWatch Logs requires
+permissions for the KMS key whenever the encrypted data is requested. Note that it can take
+up to 5 minutes for this operation to take effect.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -949,17 +1015,22 @@ end
     filter_log_events(log_group_name, params::Dict{String,<:Any})
 
 Lists log events from the specified log group. You can list all the log events or filter
-the results using a filter pattern, a time range, and the name of the log stream. By
-default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log
-events) or all the events found within the time range that you specify. If the results
-include a token, then there are more log events available, and you can get additional
-results by specifying the token in a subsequent call. This operation can return empty
-results while there are more log events available through the token. The returned log
-events are sorted by event timestamp, the timestamp when the event was ingested by
-CloudWatch Logs, and the ID of the PutLogEvents request.
+the results using a filter pattern, a time range, and the name of the log stream. You must
+have the logs;FilterLogEvents permission to perform this operation. By default, this
+operation returns as many log events as can fit in 1 MB (up to 10,000 log events) or all
+the events found within the specified time range. If the results include a token, that
+means there are more log events available. You can get additional results by specifying the
+token in a subsequent call. This operation can return empty results while there are more
+log events available through the token. The returned log events are sorted by event
+timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the
+PutLogEvents request. If you are using CloudWatch cross-account observability, you can use
+this operation in a monitoring account and view data from the linked source accounts. For
+more information, see CloudWatch cross-account observability.
 
 # Arguments
-- `log_group_name`: The name of the log group to search.
+- `log_group_name`: The name of the log group to search.   If you specify values for both
+  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+  
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -967,14 +1038,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
 - `"filterPattern"`: The filter pattern to use. For more information, see Filter and
   Pattern Syntax. If not provided, all the events are matched.
-- `"interleaved"`: If the value is true, the operation makes a best effort to provide
-  responses that contain events from multiple log streams within the log group, interleaved
-  in a single response. If the value is false, all the matched log events in the first log
-  stream are searched first, then those in the next log stream, and so on. The default is
-  false.  Important: Starting on June 17, 2019, this parameter is ignored and the value is
-  assumed to be true. The response from this operation always interleaves events from
-  multiple log streams within a log group.
+- `"interleaved"`: If the value is true, the operation attempts to provide responses that
+  contain events from multiple log streams within the log group, interleaved in a single
+  response. If the value is false, all the matched log events in the first log stream are
+  searched first, then those in the next log stream, and so on.  Important As of June 17,
+  2019, this parameter is ignored and the value is assumed to be true. The response from this
+  operation always interleaves events from multiple log streams within a log group.
 - `"limit"`: The maximum number of events to return. The default is 10,000 events.
+- `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view log
+  events from. If the log group is in a source account and you are using a monitoring
+  account, you must use the log group ARN. If you specify values for both logGroupName and
+  logGroupIdentifier, the action returns an InvalidParameterException error.
 - `"logStreamNamePrefix"`: Filters the results to include only events from log streams that
   have names starting with this prefix. If you specify a value for both logStreamNamePrefix
   and logStreamNames, but the value for logStreamNamePrefix does not match any log stream
@@ -986,6 +1060,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 - `"startTime"`: The start of the time range, expressed as the number of milliseconds after
   Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+- `"unmask"`: Specify true to display the log event fields with all sensitive data unmasked
+  and visible. The default is false. To use this operation with this parameter, you must be
+  signed into an account with the logs:Unmask permission.
 """
 function filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
@@ -1011,6 +1088,44 @@ function filter_log_events(
 end
 
 """
+    get_data_protection_policy(log_group_identifier)
+    get_data_protection_policy(log_group_identifier, params::Dict{String,<:Any})
+
+Returns information about a log group data protection policy.
+
+# Arguments
+- `log_group_identifier`: The name or ARN of the log group that contains the data
+  protection policy that you want to see.
+
+"""
+function get_data_protection_policy(
+    logGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "GetDataProtectionPolicy",
+        Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_protection_policy(
+    logGroupIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "GetDataProtectionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_log_events(log_group_name, log_stream_name)
     get_log_events(log_group_name, log_stream_name, params::Dict{String,<:Any})
 
@@ -1018,10 +1133,15 @@ Lists log events from the specified log stream. You can list all of the log even
 filter using a time range. By default, this operation returns as many log events as can fit
 in a response size of 1MB (up to 10,000 log events). You can get additional log events by
 specifying one of the tokens in a subsequent call. This operation can return empty results
-while there are more log events available through the token.
+while there are more log events available through the token. If you are using CloudWatch
+cross-account observability, you can use this operation in a monitoring account and view
+data from the linked source accounts. For more information, see CloudWatch cross-account
+observability.
 
 # Arguments
-- `log_group_name`: The name of the log group.
+- `log_group_name`: The name of the log group.   If you specify values for both
+  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+  
 - `log_stream_name`: The name of the log stream.
 
 # Optional Parameters
@@ -1029,9 +1149,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"endTime"`: The end of the time range, expressed as the number of milliseconds after Jan
   1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not
   included.
-- `"limit"`: The maximum number of log events returned. If you don't specify a value, the
-  maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log
-  events.
+- `"limit"`: The maximum number of log events returned. If you don't specify a limit, the
+  default is as many log events as can fit in a response size of 1 MB (up to 10,000 log
+  events).
+- `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view events
+  from. If the log group is in a source account and you are using a monitoring account, you
+  must use the log group ARN.  If you specify values for both logGroupName and
+  logGroupIdentifier, the action returns an InvalidParameterException error.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"startFromHead"`: If the value is true, the earliest log events are returned first. If
@@ -1041,6 +1165,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The start of the time range, expressed as the number of milliseconds after
   Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this
   time are included. Events with a timestamp earlier than this time are not included.
+- `"unmask"`: Specify true to display the log event fields with all sensitive data unmasked
+  and visible. The default is false. To use this operation with this parameter, you must be
+  signed into an account with the logs:Unmask permission.
 """
 function get_log_events(
     logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1078,23 +1205,30 @@ end
     get_log_group_fields(log_group_name)
     get_log_group_fields(log_group_name, params::Dict{String,<:Any})
 
-Returns a list of the fields that are included in log events in the specified log group,
-along with the percentage of log events that contain each field. The search is limited to a
+Returns a list of the fields that are included in log events in the specified log group.
+Includes the percentage of log events that contain each field. The search is limited to a
 time period that you specify. In the results, fields that start with @ are fields generated
 by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more
 information about the fields that are generated by CloudWatch logs, see Supported Logs and
 Discovered Fields. The response results are sorted by the frequency percentage, starting
-with the highest percentage.
+with the highest percentage. If you are using CloudWatch cross-account observability, you
+can use this operation in a monitoring account and view data from the linked source
+accounts. For more information, see CloudWatch cross-account observability.
 
 # Arguments
-- `log_group_name`: The name of the log group to search.
+- `log_group_name`: The name of the log group to search. If you specify values for both
+  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
+  log group is in a source account and you are using a monitoring account, you must specify
+  the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action
+  returns an InvalidParameterException error.
 - `"time"`: The time to set as the center of the query. If you specify time, the 15 minutes
-  before this time are queries. If you omit time the 8 minutes before and 8 minutes after
-  this time are searched. The time value is specified as epoch time, the number of seconds
-  since January 1, 1970, 00:00:00 UTC.
+  before this time are queries. If you omit time, the 8 minutes before and 8 minutes after
+  this time are searched. The time value is specified as epoch time, which is the number of
+  seconds since January 1, 1970, 00:00:00 UTC.
 """
 function get_log_group_fields(
     logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1136,6 +1270,11 @@ returned within @message.
   the value of the @ptr field for a log event is the value to use as logRecordPointer to
   retrieve that complete log event record.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"unmask"`: Specify true to display the log event fields with all sensitive data unmasked
+  and visible. The default is false. To use this operation with this parameter, you must be
+  signed into an account with the logs:Unmask permission.
 """
 function get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
@@ -1169,10 +1308,12 @@ end
 Returns the results from the specified query. Only the fields requested in the query are
 returned, along with a @ptr field, which is the identifier for the log record. You can use
 the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults
-does not start a query execution. To run a query, use StartQuery. If the value of the
-Status field in the output is Running, this operation returns only partial results. If you
-see a value of Scheduled or Running for the status, you can retry the operation later to
-see the final results.
+does not start running a query. To run a query, use StartQuery. If the value of the Status
+field in the output is Running, this operation returns only partial results. If you see a
+value of Scheduled or Running for the status, you can retry the operation later to see the
+final results.  If you are using CloudWatch cross-account observability, you can use this
+operation in a monitoring account to start queries in linked source accounts. For more
+information, see CloudWatch cross-account observability.
 
 # Arguments
 - `query_id`: The ID number of the query.
@@ -1198,10 +1339,50 @@ function get_query_results(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and
+destinations support tagging.
+
+# Arguments
+- `resource_arn`: The ARN of the resource that you want to view tags for. The ARN format of
+  a log group is arn:aws:logs:Region:account-id:log-group:log-group-name   The ARN format of
+  a destination is arn:aws:logs:Region:account-id:destination:destination-name   For more
+  information about ARN format, see CloudWatch Logs resources and operations.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_log_group(log_group_name)
     list_tags_log_group(log_group_name, params::Dict{String,<:Any})
 
-Lists the tags for the specified log group.
+ The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use
+ListTagsForResource instead.  Lists the tags for the specified log group.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -1233,18 +1414,88 @@ function list_tags_log_group(
 end
 
 """
+    put_data_protection_policy(log_group_identifier, policy_document)
+    put_data_protection_policy(log_group_identifier, policy_document, params::Dict{String,<:Any})
+
+Creates a data protection policy for the specified log group. A data protection policy can
+help safeguard sensitive data that's ingested by the log group by auditing and masking the
+sensitive log data.  Sensitive data is detected and masked when it is ingested into the log
+group. When you set a data protection policy, log events ingested into the log group before
+that time are not masked.  By default, when a user views a log event that includes masked
+data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask
+permission can use a GetLogEvents or FilterLogEvents operation with the unmask parameter
+set to true to view the unmasked log events. Users with the logs:Unmask can also view
+unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query
+with the unmask query command. For more information, including a list of types of data that
+can be audited and masked, see Protect sensitive log data with masking.
+
+# Arguments
+- `log_group_identifier`: Specify either the log group name or log group ARN.
+- `policy_document`: Specify the data protection policy, in JSON. This policy must include
+  two JSON blocks:   The first block must include both a DataIdentifer array and an Operation
+  property with an Audit action. The DataIdentifer array lists the types of sensitive data
+  that you want to mask. For more information about the available options, see Types of data
+  that you can mask. The Operation property with an Audit action is required to find the
+  sensitive data terms. This Audit action must contain a FindingsDestination object. You can
+  optionally use that FindingsDestination object to list one or more destinations to send
+  audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose
+  streams, and S3 buckets, they must already exist.   The second block must include both a
+  DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer
+  array must exactly match the DataIdentifer array in the first block of the policy. The
+  Operation property with the Deidentify action is what actually masks the data, and it must
+  contain the  \"MaskConfig\": {} object. The  \"MaskConfig\": {} object must be empty.   For
+  an example data protection policy, see the Examples section on this page.  The contents of
+  two DataIdentifer arrays must match exactly.
+
+"""
+function put_data_protection_policy(
+    logGroupIdentifier, policyDocument; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "PutDataProtectionPolicy",
+        Dict{String,Any}(
+            "logGroupIdentifier" => logGroupIdentifier, "policyDocument" => policyDocument
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_data_protection_policy(
+    logGroupIdentifier,
+    policyDocument,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutDataProtectionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupIdentifier" => logGroupIdentifier,
+                    "policyDocument" => policyDocument,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_destination(destination_name, role_arn, target_arn)
     put_destination(destination_name, role_arn, target_arn, params::Dict{String,<:Any})
 
 Creates or updates a destination. This operation is used only to create destinations for
 cross-account subscriptions. A destination encapsulates a physical resource (such as an
-Amazon Kinesis stream) and enables you to subscribe to a real-time stream of log events for
-a different account, ingested using PutLogEvents. Through an access policy, a destination
-controls what is written to it. By default, PutDestination does not set any access policy
-with the destination, which means a cross-account user cannot call PutSubscriptionFilter
-against this destination. To enable this, the destination owner must call
-PutDestinationPolicy after PutDestination. To perform a PutDestination operation, you must
-also have the iam:PassRole permission.
+Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log
+events for a different account, ingested using PutLogEvents. Through an access policy, a
+destination controls what is written to it. By default, PutDestination does not set any
+access policy with the destination, which means a cross-account user cannot call
+PutSubscriptionFilter against this destination. To enable this, the destination owner must
+call PutDestinationPolicy after PutDestination. To perform a PutDestination operation, you
+must also have the iam:PassRole permission.
 
 # Arguments
 - `destination_name`: A name for the destination.
@@ -1252,6 +1503,10 @@ also have the iam:PassRole permission.
   Amazon Kinesis PutRecord operation on the destination stream.
 - `target_arn`: The ARN of an Amazon Kinesis stream to which to deliver matching log events.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: An optional list of key-value pairs to associate with the resource. For more
+  information about tagging, see Tagging Amazon Web Services resources
 """
 function put_destination(
     destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1366,16 +1621,17 @@ be successful or one might be rejected. The batch of events must satisfy the fol
 constraints:   The maximum batch size is 1,048,576 bytes. This size is calculated as the
 sum of all event messages in UTF-8, plus 26 bytes for each log event.   None of the log
 events in the batch can be more than 2 hours in the future.   None of the log events in the
-batch can be older than 14 days or older than the retention period of the log group.   The
-log events in the batch must be in chronological order by their timestamp. The timestamp is
-the time the event occurred, expressed as the number of milliseconds after Jan 1, 1970
-00:00:00 UTC. (In Amazon Web Services Tools for PowerShell and the Amazon Web Services SDK
-for .NET, the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example,
+batch can be more than 14 days in the past. Also, none of the log events can be from
+earlier than the retention period of the log group.   The log events in the batch must be
+in chronological order by their timestamp. The timestamp is the time that the event
+occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. (In
+Amazon Web Services Tools for PowerShell and the Amazon Web Services SDK for .NET, the
+timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example,
 2017-09-15T13:45:30.)    A batch of log events in a single request cannot span more than 24
 hours. Otherwise, the operation fails.   The maximum number of log events in a batch is
-10,000.   There is a quota of 5 requests per second per log stream. Additional requests are
-throttled. This quota can't be changed.   If a call to PutLogEvents returns
-\"UnrecognizedClientException\" the most likely cause is an invalid Amazon Web Services
+10,000.   There is a quota of five requests per second per log stream. Additional requests
+are throttled. This quota can't be changed.   If a call to PutLogEvents returns
+\"UnrecognizedClientException\" the most likely cause is a non-valid Amazon Web Services
 access key ID or secret key.
 
 # Arguments
@@ -1437,19 +1693,19 @@ end
     put_metric_filter(filter_name, filter_pattern, log_group_name, metric_transformations)
     put_metric_filter(filter_name, filter_pattern, log_group_name, metric_transformations, params::Dict{String,<:Any})
 
-Creates or updates a metric filter and associates it with the specified log group. Metric
-filters allow you to configure rules to extract metric data from log events ingested
+Creates or updates a metric filter and associates it with the specified log group. With
+metric filters, you can configure rules to extract metric data from log events ingested
 through PutLogEvents. The maximum number of metric filters that can be associated with a
 log group is 100. When you create a metric filter, you can also optionally assign a unit
 and dimensions to the metric that is created.  Metrics extracted from log events are
 charged as custom metrics. To prevent unexpected high charges, do not specify
 high-cardinality fields such as IPAddress or requestID as dimensions. Each different value
 found for a dimension is treated as a separate metric and accrues charges as a separate
-custom metric.  To help prevent accidental high charges, Amazon disables a metric filter if
-it generates 1000 different name/value pairs for the dimensions that you have specified
-within a certain amount of time. You can also set up a billing alarm to alert you if your
-charges are higher than expected. For more information, see  Creating a Billing Alarm to
-Monitor Your Estimated Amazon Web Services Charges.
+custom metric.  CloudWatch Logs disables a metric filter if it generates 1,000 different
+name/value pairs for your specified dimensions within a certain amount of time. This helps
+to prevent accidental high charges. You can also set up a billing alarm to alert you if
+your charges are higher than expected. For more information, see  Creating a Billing Alarm
+to Monitor Your Estimated Amazon Web Services Charges.
 
 # Arguments
 - `filter_name`: A name for the metric filter.
@@ -1513,15 +1769,15 @@ Creates or updates a query definition for CloudWatch Logs Insights. For more inf
 see Analyzing Log Data with CloudWatch Logs Insights. To update a query definition, specify
 its queryDefinitionId in your request. The values of name, queryString, and logGroupNames
 are changed to the values that you specify in your update operation. No current values are
-retained from the current query definition. For example, if you update a current query
-definition that includes log groups, and you don't specify the logGroupNames parameter in
+retained from the current query definition. For example, imagine updating a current query
+definition that includes log groups. If you don't specify the logGroupNames parameter in
 your update operation, the query definition changes to contain no log groups. You must have
 the logs:PutQueryDefinition permission to be able to perform this operation.
 
 # Arguments
-- `name`: A name for the query definition. If you are saving a lot of query definitions, we
-  recommend that you name them so that you can easily find the ones you want by using the
-  first part of the name as a filter in the queryDefinitionNamePrefix parameter of
+- `name`: A name for the query definition. If you are saving numerous query definitions, we
+  recommend that you name them. This way, you can find the ones you want by using the first
+  part of the name as a filter in the queryDefinitionNamePrefix parameter of
   DescribeQueryDefinitions.
 - `query_string`: The query string to use for this definition. For more information, see
   CloudWatch Logs Insights Query Syntax.
@@ -1584,13 +1840,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs
   also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example
   resource policy, you would replace the value of SourceArn with the resource making the call
-  from Route 53 to CloudWatch Logs and replace the value of SourceAccount with the Amazon
-  Web Services account ID making that call.   { \"Version\": \"2012-10-17\", \"Statement\": [
-  { \"Sid\": \"Route53LogsToCloudWatchLogs\", \"Effect\": \"Allow\", \"Principal\": {
-  \"Service\": [ \"route53.amazonaws.com\" ] }, \"Action\": \"logs:PutLogEvents\",
-  \"Resource\": \"logArn\", \"Condition\": { \"ArnLike\": { \"aws:SourceArn\":
-  \"myRoute53ResourceArn\" }, \"StringEquals\": { \"aws:SourceAccount\": \"myAwsAccountId\" }
-  } } ] }
+  from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with
+  the Amazon Web Services account ID making that call.   { \"Version\": \"2012-10-17\",
+  \"Statement\": [ { \"Sid\": \"Route53LogsToCloudWatchLogs\", \"Effect\": \"Allow\",
+  \"Principal\": { \"Service\": [ \"route53.amazonaws.com\" ] }, \"Action\":
+  \"logs:PutLogEvents\", \"Resource\": \"logArn\", \"Condition\": { \"ArnLike\": {
+  \"aws:SourceArn\": \"myRoute53ResourceArn\" }, \"StringEquals\": { \"aws:SourceAccount\":
+  \"myAwsAccountId\" } } } ] }
 - `"policyName"`: Name of the new policy. This parameter is required.
 """
 function put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1610,8 +1866,17 @@ end
     put_retention_policy(log_group_name, retention_in_days)
     put_retention_policy(log_group_name, retention_in_days, params::Dict{String,<:Any})
 
-Sets the retention of the specified log group. A retention policy allows you to configure
-the number of days for which to retain log events in the specified log group.
+Sets the retention of the specified log group. With a retention policy, you can configure
+the number of days for which to retain log events in the specified log group.  CloudWatch
+Logs doesn’t immediately delete log events when they reach their retention setting. It
+typically takes up to 72 hours after that before log events are deleted, but in rare
+situations might take longer. To illustrate, imagine that you change a log group to have a
+longer retention setting when it contains log events that are past the expiration date, but
+haven’t been deleted. Those log events will take up to 72 hours to be deleted after the
+new retention date is reached. To make sure that log data is deleted permanently, keep a
+log group at its lower retention setting until 72 hours after the previous retention period
+ends. Alternatively, wait to change the retention setting until you confirm that the
+earlier log events are deleted.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -1657,13 +1922,13 @@ end
     put_subscription_filter(destination_arn, filter_name, filter_pattern, log_group_name, params::Dict{String,<:Any})
 
 Creates or updates a subscription filter and associates it with the specified log group.
-Subscription filters allow you to subscribe to a real-time stream of log events ingested
+With subscription filters, you can subscribe to a real-time stream of log events ingested
 through PutLogEvents and have them delivered to a specific destination. When log events are
-sent to the receiving service, they are Base64 encoded and compressed with the gzip format.
-The following destinations are supported for subscription filters:   An Amazon Kinesis
+sent to the receiving service, they are Base64 encoded and compressed with the GZIP format.
+The following destinations are supported for subscription filters:   An Amazon Kinesis data
 stream belonging to the same account as the subscription filter, for same-account delivery.
   A logical destination that belongs to a different account, for cross-account delivery.
-An Amazon Kinesis Firehose delivery stream that belongs to the same account as the
+An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the
 subscription filter, for same-account delivery.   An Lambda function that belongs to the
 same account as the subscription filter, for same-account delivery.   Each log group can
 have up to two subscription filters associated with it. If you are updating an existing
@@ -1675,9 +1940,9 @@ PutSubscriptionFilter operation, you must also have the iam:PassRole permission.
   Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same
   account as the subscription filter, for same-account delivery.   A logical destination
   (specified using an ARN) belonging to a different account, for cross-account delivery. If
-  you are setting up a cross-account subscription, the destination must have an IAM policy
-  associated with it that allows the sender to send logs to the destination. For more
-  information, see PutDestinationPolicy.   An Amazon Kinesis Firehose delivery stream
+  you're setting up a cross-account subscription, the destination must have an IAM policy
+  associated with it. The IAM policy must allow the sender to send logs to the destination.
+  For more information, see PutDestinationPolicy.   A Kinesis Data Firehose delivery stream
   belonging to the same account as the subscription filter, for same-account delivery.   A
   Lambda function belonging to the same account as the subscription filter, for same-account
   delivery.
@@ -1692,7 +1957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"distribution"`: The method used to distribute log data to the destination. By default,
   log data is grouped by log stream, but the grouping can be set to random for a more even
   distribution. This property is only applicable when the destination is an Amazon Kinesis
-  stream.
+  data stream.
 - `"roleArn"`: The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
   ingested log events to the destination stream. You don't need to provide the ARN when you
   are working with a logical destination for cross-account delivery.
@@ -1749,9 +2014,14 @@ end
 
 Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group
 and time range to query and the query string to use. For more information, see CloudWatch
-Logs Insights Query Syntax. Queries time out after 15 minutes of execution. If your queries
+Logs Insights Query Syntax. Queries time out after 15 minutes of runtime. If your queries
 are timing out, reduce the time range being searched or partition your query into a number
-of queries.
+of queries. If you are using CloudWatch cross-account observability, you can use this
+operation in a monitoring account to start a query in a linked source account. For more
+information, see CloudWatch cross-account observability. For a cross-account StartQuery
+operation, the query definition must be defined in the monitoring account. You can have up
+to 20 concurrent CloudWatch Logs insights queries, including queries that have been added
+to dashboards.
 
 # Arguments
 - `end_time`: The end of the time range to query. The range is inclusive, so the specified
@@ -1768,11 +2038,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of log events to return in the query. If the query string
   uses the fields command, only the specified fields and their values are returned. The
   default is 1000.
-- `"logGroupName"`: The log group on which to perform the query. A StartQuery operation
-  must include a logGroupNames or a logGroupName parameter, but not both.
-- `"logGroupNames"`: The list of log groups to be queried. You can include up to 20 log
-  groups. A StartQuery operation must include a logGroupNames or a logGroupName parameter,
-  but not both.
+- `"logGroupIdentifiers"`: The list of log groups to query. You can include up to 50 log
+  groups. You can specify them by the log group name or ARN. If a log group that you're
+  querying is in a source account and you're using a monitoring account, you must specify the
+  ARN of the log group here. The query definition must also be defined in the monitoring
+  account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery
+  operation must include exactly one of the following parameters: logGroupName, logGroupNames
+  or logGroupIdentifiers.
+- `"logGroupName"`: The log group on which to perform the query.  A StartQuery operation
+  must include exactly one of the following parameters: logGroupName, logGroupNames or
+  logGroupIdentifiers.
+- `"logGroupNames"`: The list of log groups to be queried. You can include up to 50 log
+  groups.  A StartQuery operation must include exactly one of the following parameters:
+  logGroupName, logGroupNames or logGroupIdentifiers.
 """
 function start_query(
     endTime, queryString, startTime; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1846,13 +2124,14 @@ end
     tag_log_group(log_group_name, tags)
     tag_log_group(log_group_name, tags, params::Dict{String,<:Any})
 
-Adds or updates the specified tags for the specified log group. To list the tags for a log
-group, use ListTagsLogGroup. To remove tags, use UntagLogGroup. For more information about
-tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User
-Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning
-specified tags to log groups using the aws:Resource/key-name  or aws:TagKeys condition
-keys. For more information about using tags to control access, see Controlling access to
-Amazon Web Services resources using tags.
+ The TagLogGroup operation is on the path to deprecation. We recommend that you use
+TagResource instead.  Adds or updates the specified tags for the specified log group. To
+list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource.
+For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon
+CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent
+users from assigning specified tags to log groups using the aws:Resource/key-name  or
+aws:TagKeys condition keys. For more information about using tags to control access, see
+Controlling access to Amazon Web Services resources using tags.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -1881,6 +2160,58 @@ function tag_log_group(
             mergewith(
                 _merge,
                 Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource.
+Currently, the only CloudWatch Logs resources that can be tagged are log groups and
+destinations.  Tags can help you organize and categorize your resources. You can also use
+them to scope user permissions by granting a user permission to access or change only
+resources with certain tag values. Tags don't have any semantic meaning to Amazon Web
+Services and are interpreted strictly as strings of characters. You can use the TagResource
+action with a resource that already has tags. If you specify a new tag key for the alarm,
+this tag is appended to the list of tags associated with the alarm. If you specify a tag
+key that is already associated with the alarm, the new tag value that you specify replaces
+the previous value for that tag. You can associate as many as 50 tags with a CloudWatch
+Logs resource.
+
+# Arguments
+- `resource_arn`: The ARN of the resource that you're adding tags to. The ARN format of a
+  log group is arn:aws:logs:Region:account-id:log-group:log-group-name   The ARN format of a
+  destination is arn:aws:logs:Region:account-id:destination:destination-name   For more
+  information about ARN format, see CloudWatch Logs resources and operations.
+- `tags`: The list of key-value pairs to associate with the resource.
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
                 params,
             ),
         );
@@ -1939,10 +2270,11 @@ end
     untag_log_group(log_group_name, tags)
     untag_log_group(log_group_name, tags, params::Dict{String,<:Any})
 
-Removes the specified tags from the specified log group. To list the tags for a log group,
-use ListTagsLogGroup. To add tags, use TagLogGroup. CloudWatch Logs doesn’t support IAM
-policies that prevent users from assigning specified tags to log groups using the
-aws:Resource/key-name  or aws:TagKeys condition keys.
+ The UntagLogGroup operation is on the path to deprecation. We recommend that you use
+UntagResource instead.  Removes the specified tags from the specified log group. To list
+the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch
+Logs doesn’t support IAM policies that prevent users from assigning specified tags to log
+groups using the aws:Resource/key-name  or aws:TagKeys condition keys.
 
 # Arguments
 - `log_group_name`: The name of the log group.
@@ -1971,6 +2303,51 @@ function untag_log_group(
             mergewith(
                 _merge,
                 Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes one or more tags from the specified resource.
+
+# Arguments
+- `resource_arn`: The ARN of the CloudWatch Logs resource that you're removing tags from.
+  The ARN format of a log group is arn:aws:logs:Region:account-id:log-group:log-group-name
+  The ARN format of a destination is
+  arn:aws:logs:Region:account-id:destination:destination-name   For more information about
+  ARN format, see CloudWatch Logs resources and operations.
+- `tag_keys`: The list of tag keys to remove from the resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
                 params,
             ),
         );

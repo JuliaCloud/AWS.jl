@@ -342,7 +342,7 @@ end
 Creates and defines the criteria and other settings for a findings filter.
 
 # Arguments
-- `action`: The action to perform on findings that meet the filter criteria
+- `action`: The action to perform on findings that match the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
 - `finding_criteria`: The criteria to use to filter findings.
@@ -723,8 +723,8 @@ end
     describe_buckets()
     describe_buckets(params::Dict{String,<:Any})
 
- Retrieves (queries) statistical data and other information about one or more S3 buckets
-that Amazon Macie monitors and analyzes.
+Retrieves (queries) statistical data and other information about one or more S3 buckets
+that Amazon Macie monitors and analyzes for an account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1100,11 +1100,41 @@ function get_allow_list(
 end
 
 """
+    get_automated_discovery_configuration()
+    get_automated_discovery_configuration(params::Dict{String,<:Any})
+
+Retrieves the configuration settings and status of automated sensitive data discovery for
+an account.
+
+"""
+function get_automated_discovery_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/automated-discovery/configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_automated_discovery_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/automated-discovery/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_bucket_statistics()
     get_bucket_statistics(params::Dict{String,<:Any})
 
-Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors
-and analyzes.
+Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie
+monitors and analyzes for an account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1153,6 +1183,36 @@ function get_classification_export_configuration(
     return macie2(
         "GET",
         "/classification-export-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_classification_scope(id)
+    get_classification_scope(id, params::Dict{String,<:Any})
+
+Retrieves the classification scope settings for an account.
+
+# Arguments
+- `id`: The unique identifier for the Amazon Macie resource that the request applies to.
+
+"""
+function get_classification_scope(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie2(
+        "GET",
+        "/classification-scopes/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_classification_scope(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/classification-scopes/$(id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1356,7 +1416,7 @@ end
     get_macie_session()
     get_macie_session(params::Dict{String,<:Any})
 
-Retrieves the current status and configuration settings for an Amazon Macie account.
+Retrieves the status and configuration settings for an Amazon Macie account.
 
 """
 function get_macie_session(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1412,6 +1472,45 @@ function get_member(
         "GET",
         "/members/$(id)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_profile(resource_arn)
+    get_resource_profile(resource_arn, params::Dict{String,<:Any})
+
+Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3
+bucket.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
+  to.
+
+"""
+function get_resource_profile(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/resource-profiles",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_profile(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie2(
+        "GET",
+        "/resource-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1507,6 +1606,38 @@ function get_sensitive_data_occurrences_availability(
     return macie2(
         "GET",
         "/findings/$(findingId)/reveal/availability",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_sensitivity_inspection_template(id)
+    get_sensitivity_inspection_template(id, params::Dict{String,<:Any})
+
+ Retrieves the settings for the sensitivity inspection template for an account.
+
+# Arguments
+- `id`: The unique identifier for the Amazon Macie resource that the request applies to.
+
+"""
+function get_sensitivity_inspection_template(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_sensitivity_inspection_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections/$(id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1628,6 +1759,38 @@ function list_classification_jobs(
 )
     return macie2(
         "POST", "/jobs/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_classification_scopes()
+    list_classification_scopes(params::Dict{String,<:Any})
+
+Retrieves a subset of information about the classification scope for an account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the classification scope to retrieve the unique identifier for.
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function list_classification_scopes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie2(
+        "GET",
+        "/classification-scopes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_classification_scopes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/classification-scopes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1836,6 +1999,129 @@ function list_organization_admin_accounts(
 )
     return macie2(
         "GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_resource_profile_artifacts(resource_arn)
+    list_resource_profile_artifacts(resource_arn, params::Dict{String,<:Any})
+
+Retrieves information about objects that were selected from an S3 bucket for automated
+sensitive data discovery.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
+  to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function list_resource_profile_artifacts(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/resource-profiles/artifacts",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_resource_profile_artifacts(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie2(
+        "GET",
+        "/resource-profiles/artifacts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_profile_detections(resource_arn)
+    list_resource_profile_detections(resource_arn, params::Dict{String,<:Any})
+
+Retrieves information about the types and amount of sensitive data that Amazon Macie found
+in an S3 bucket.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
+  to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items to include in each page of a paginated
+  response.
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function list_resource_profile_detections(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/resource-profiles/detections",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_resource_profile_detections(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie2(
+        "GET",
+        "/resource-profiles/detections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_sensitivity_inspection_templates()
+    list_sensitivity_inspection_templates(params::Dict{String,<:Any})
+
+ Retrieves a subset of information about the sensitivity inspection template for an account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items to include in each page of a paginated
+  response.
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function list_sensitivity_inspection_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sensitivity_inspection_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2177,6 +2463,47 @@ function update_allow_list(
 end
 
 """
+    update_automated_discovery_configuration(status)
+    update_automated_discovery_configuration(status, params::Dict{String,<:Any})
+
+Enables or disables automated sensitive data discovery for an account.
+
+# Arguments
+- `status`: The new status of automated sensitive data discovery for the account. Valid
+  values are: ENABLED, start or resume automated sensitive data discovery activities for the
+  account; and, DISABLED, stop performing automated sensitive data discovery activities for
+  the account. When you enable automated sensitive data discovery for the first time, Amazon
+  Macie uses default configuration settings to determine which data sources to analyze and
+  which managed data identifiers to use. To change these settings, use the
+  UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively.
+  If you change the settings and subsequently disable the configuration, Amazon Macie retains
+  your changes.
+
+"""
+function update_automated_discovery_configuration(
+    status; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PUT",
+        "/automated-discovery/configuration",
+        Dict{String,Any}("status" => status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_automated_discovery_configuration(
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PUT",
+        "/automated-discovery/configuration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_classification_job(job_id, job_status)
     update_classification_job(job_id, job_status, params::Dict{String,<:Any})
 
@@ -2231,6 +2558,40 @@ function update_classification_job(
 end
 
 """
+    update_classification_scope(id)
+    update_classification_scope(id, params::Dict{String,<:Any})
+
+Updates the classification scope settings for an account.
+
+# Arguments
+- `id`: The unique identifier for the Amazon Macie resource that the request applies to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"s3"`: The S3 buckets to add or remove from the exclusion list defined by the
+  classification scope.
+"""
+function update_classification_scope(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie2(
+        "PATCH",
+        "/classification-scopes/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_classification_scope(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PATCH",
+        "/classification-scopes/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_findings_filter(id)
     update_findings_filter(id, params::Dict{String,<:Any})
 
@@ -2241,7 +2602,7 @@ Updates the criteria and other settings for a findings filter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"action"`: The action to perform on findings that meet the filter criteria
+- `"action"`: The action to perform on findings that match the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
 - `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
@@ -2387,6 +2748,94 @@ function update_organization_configuration(
 end
 
 """
+    update_resource_profile(resource_arn)
+    update_resource_profile(resource_arn, params::Dict{String,<:Any})
+
+Updates the sensitivity score for an S3 bucket.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
+  to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sensitivityScoreOverride"`: The new sensitivity score for the bucket. Valid values are:
+  100, assign the maximum score and apply the Sensitive label to the bucket; and, null
+  (empty), assign a score that Amazon Macie calculates automatically after you submit the
+  request.
+"""
+function update_resource_profile(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PATCH",
+        "/resource-profiles",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_resource_profile(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie2(
+        "PATCH",
+        "/resource-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_resource_profile_detections(resource_arn)
+    update_resource_profile_detections(resource_arn, params::Dict{String,<:Any})
+
+Updates the sensitivity scoring settings for an S3 bucket.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
+  to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"suppressDataIdentifiers"`: An array of objects, one for each custom data identifier or
+  managed data identifier that detected the type of sensitive data to start excluding or
+  including in the bucket's score. To start including all sensitive data types in the score,
+  don't specify any values for this array.
+"""
+function update_resource_profile_detections(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PATCH",
+        "/resource-profiles/detections",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_resource_profile_detections(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie2(
+        "PATCH",
+        "/resource-profiles/detections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_reveal_configuration(configuration)
     update_reveal_configuration(configuration, params::Dict{String,<:Any})
 
@@ -2420,6 +2869,48 @@ function update_reveal_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_sensitivity_inspection_template(id)
+    update_sensitivity_inspection_template(id, params::Dict{String,<:Any})
+
+ Updates the settings for the sensitivity inspection template for an account.
+
+# Arguments
+- `id`: The unique identifier for the Amazon Macie resource that the request applies to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A custom description of the template.
+- `"excludes"`:  The managed data identifiers to explicitly exclude (not use) when
+  analyzing data. To exclude an allow list or custom data identifier that's currently
+  included by the template, update the values for the
+  SensitivityInspectionTemplateIncludes.allowListIds and
+  SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
+- `"includes"`: The allow lists, custom data identifiers, and managed data identifiers to
+  include (use) when analyzing data.
+"""
+function update_sensitivity_inspection_template(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PUT",
+        "/templates/sensitivity-inspections/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_sensitivity_inspection_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2(
+        "PUT",
+        "/templates/sensitivity-inspections/$(id)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

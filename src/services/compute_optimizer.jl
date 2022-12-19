@@ -14,9 +14,6 @@ Guide.
 
 # Arguments
 - `recommendation_preference_names`: The name of the recommendation preference to delete.
-  Enhanced infrastructure metrics (EnhancedInfrastructureMetrics) is the only feature that
-  can be activated through preferences. Therefore, it is also the only recommendation
-  preference that can be deleted.
 - `resource_type`: The target resource type of the recommendation preference to delete. The
   Ec2Instance option encompasses standalone instances and instances that are part of Auto
   Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an
@@ -882,6 +879,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendation preference to create or update. Specify the Active status to activate the
   preference, or specify Inactive to deactivate the preference. For more information, see
   Enhanced infrastructure metrics in the Compute Optimizer User Guide.
+- `"externalMetricsPreference"`: The provider of the external metrics recommendation
+  preference to create or update. Specify a valid provider in the source field to activate
+  the preference. To delete this preference, see the DeleteRecommendationPreferences action.
+  This preference can only be set for the Ec2Instance resource type. For more information,
+  see External metrics ingestion in the Compute Optimizer User Guide.
 - `"inferredWorkloadTypes"`: The status of the inferred workload types recommendation
   preference to create or update.  The inferred workload type feature is active by default.
   To deactivate it, create a recommendation preference.  Specify the Inactive status to

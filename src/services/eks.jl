@@ -118,14 +118,12 @@ end
     create_addon(addon_name, name, params::Dict{String,<:Any})
 
 Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and
-lifecycle management of common operational software for Amazon EKS clusters. Amazon EKS
-add-ons require clusters running version 1.18 or later because Amazon EKS add-ons rely on
-the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and
-later. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide.
+lifecycle management of common operational software for Amazon EKS clusters. For more
+information, see Amazon EKS add-ons in the Amazon EKS User Guide.
 
 # Arguments
-- `addon_name`: The name of the add-on. The name must match one of the names returned by
-  DescribeAddonVersions .
+- `addon_name`: The name of the add-on. The name must match one of the names that
+  DescribeAddonVersions  returns.
 - `name`: The name of the cluster to create the add-on for.
 
 # Optional Parameters
@@ -134,6 +132,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned by  DescribeAddonVersions .
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
+- `"configurationValues"`: The set of configuration values for the add-on that's created.
+  The values that you provide are validated against the schema in  DescribeAddonConfiguration
+  .
 - `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on.
   Conflicts are handled based on the value you choose:    None – If the self-managed
   version of the add-on is installed on your cluster, Amazon EKS doesn't change the value.
@@ -232,8 +233,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"outpostConfig"`: An object representing the configuration of your local Amazon EKS
   cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost,
-  review Creating an Amazon EKS cluster on an Amazon Web Services Outpost in the Amazon EKS
-  User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web
+  review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User
+  Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web
   Services cloud.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
   organization. Each tag consists of a key and an optional value. You define both.
@@ -387,9 +388,9 @@ groups are created with the latest AMI release version for the respective minor 
 version of the cluster, unless you deploy a custom AMI using a launch template. For more
 information about using launch templates, see Launch template support. An Amazon EKS
 managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances
-that are managed by Amazon Web Services for an Amazon EKS cluster. Each node group uses a
-version of the Amazon EKS optimized Amazon Linux 2 AMI. For more information, see Managed
-Node Groups in the Amazon EKS User Guide.
+that are managed by Amazon Web Services for an Amazon EKS cluster. For more information,
+see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported
+for commercial Regions that support Windows Amazon EKS.
 
 # Arguments
 - `name`: The name of the cluster to create the node group in.
@@ -410,29 +411,30 @@ Node Groups in the Amazon EKS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"amiType"`: The AMI type for your node group. GPU instance types should use the
-  AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm
-  instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon
-  Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI,
-  then don't specify amiType, or the node group deployment will fail. For more information
-  about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS
-  User Guide.
+- `"amiType"`: The AMI type for your node group. If you specify launchTemplate, and your
+  launch template uses a custom AMI, then don't specify amiType, or the node group deployment
+  will fail. If your launch template uses a Windows custom AMI, then add
+  eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more
+  information about using launch templates with Amazon EKS, see Launch template support in
+  the Amazon EKS User Guide.
 - `"capacityType"`: The capacity type for your node group.
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"diskSize"`: The root device disk size (in GiB) for your node group instances. The
-  default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or
-  the node group deployment will fail. For more information about using launch templates with
-  Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+  default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB for
+  Windows. If you specify launchTemplate, then don't specify diskSize, or the node group
+  deployment will fail. For more information about using launch templates with Amazon EKS,
+  see Launch template support in the Amazon EKS User Guide.
 - `"instanceTypes"`: Specify the instance types for a node group. If you specify a GPU
-  instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify
-  launchTemplate, then you can specify zero or one instance type in your launch template or
-  you can specify 0-20 instance types for instanceTypes. If however, you specify an instance
-  type in your launch template and specify any instanceTypes, the node group deployment will
-  fail. If you don't specify an instance type in a launch template or for instanceTypes, then
-  t3.medium is used, by default. If you specify Spot for capacityType, then we recommend
-  specifying multiple values for instanceTypes. For more information, see Managed node group
-  capacity types and Launch template support in the Amazon EKS User Guide.
+  instance type, make sure to also specify an applicable GPU AMI type with the amiType
+  parameter. If you specify launchTemplate, then you can specify zero or one instance type in
+  your launch template or you can specify 0-20 instance types for instanceTypes. If however,
+  you specify an instance type in your launch template and specify any instanceTypes, the
+  node group deployment will fail. If you don't specify an instance type in a launch template
+  or for instanceTypes, then t3.medium is used, by default. If you specify Spot for
+  capacityType, then we recommend specifying multiple values for instanceTypes. For more
+  information, see Managed node group capacity types and Launch template support in the
+  Amazon EKS User Guide.
 - `"labels"`: The Kubernetes labels to be applied to the nodes in the node group when they
   are created.
 - `"launchTemplate"`: An object representing a node group's launch template specification.
@@ -440,15 +442,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the launch template meets the requirements in launchTemplateSpecification.
 - `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use with your node
   group. By default, the latest available AMI version for the node group's current Kubernetes
-  version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions
-  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses
-  a custom AMI, then don't specify releaseVersion, or the node group deployment will fail.
-  For more information about using launch templates with Amazon EKS, see Launch template
-  support in the Amazon EKS User Guide.
-- `"remoteAccess"`: The remote access (SSH) configuration to use with your node group. If
-  you specify launchTemplate, then don't specify remoteAccess, or the node group deployment
-  will fail. For more information about using launch templates with Amazon EKS, see Launch
-  template support in the Amazon EKS User Guide.
+  version is used. For information about Linux versions, see Amazon EKS optimized Amazon
+  Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the
+  November 2022 and later releases of the Windows AMIs. For information about Windows
+  versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If
+  you specify launchTemplate, and your launch template uses a custom AMI, then don't specify
+  releaseVersion, or the node group deployment will fail. For more information about using
+  launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `"remoteAccess"`: The remote access configuration to use with your node group. For Linux,
+  the protocol is SSH. For Windows, the protocol is RDP. If you specify launchTemplate, then
+  don't specify remoteAccess, or the node group deployment will fail. For more information
+  about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS
+  User Guide.
 - `"scalingConfig"`: The scaling configuration details for the Auto Scaling group that is
   created for your node group.
 - `"tags"`: The metadata to apply to the node group to assist with categorization and
@@ -528,7 +533,7 @@ cluster. You can always manually start an add-on on the cluster using the Kubern
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"preserve"`: Specifying this option preserves the add-on software on your cluster but
   Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with
-  the add-on, it is not removed.
+  the add-on, it isn't removed.
 """
 function delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
@@ -733,22 +738,74 @@ function describe_addon(
 end
 
 """
+    describe_addon_configuration(addon_name, addon_version)
+    describe_addon_configuration(addon_name, addon_version, params::Dict{String,<:Any})
+
+Returns configuration options.
+
+# Arguments
+- `addon_name`: The name of the add-on. The name must match one of the names that
+  DescribeAddonVersions  returns.
+- `addon_version`: The version of the add-on. The version must match one of the versions
+  returned by  DescribeAddonVersions .
+
+"""
+function describe_addon_configuration(
+    addonName, addonVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eks(
+        "GET",
+        "/addons/configuration-schemas",
+        Dict{String,Any}("addonName" => addonName, "addonVersion" => addonVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_addon_configuration(
+    addonName,
+    addonVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return eks(
+        "GET",
+        "/addons/configuration-schemas",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("addonName" => addonName, "addonVersion" => addonVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_addon_versions()
     describe_addon_versions(params::Dict{String,<:Any})
 
-Describes the Kubernetes versions that the add-on can be used with.
+Describes the versions for an add-on. Information such as the Kubernetes versions that you
+can use the add-on with, the owner, publisher, and the type of the add-on are returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"addonName"`: The name of the add-on. The name must match one of the names returned by
   ListAddons .
-- `"kubernetesVersion"`: The Kubernetes versions that the add-on can be used with.
+- `"kubernetesVersion"`: The Kubernetes versions that you can use the add-on with.
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The nextToken value returned from a previous paginated
   DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
   the nextToken value.  This token should be treated as an opaque identifier that is used
   only to retrieve the next items in a list and not for other programmatic purposes.
+- `"owners"`: The owner of the add-on. For valid owners, don't specify a value for this
+  property.
+- `"publishers"`: The publisher of the add-on. For valid publishers, don't specify a value
+  for this property.
+- `"types"`: The type of the add-on. For valid types, don't specify a value for this
+  property.
 """
 function describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
@@ -1466,6 +1523,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned by  DescribeAddonVersions .
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
+- `"configurationValues"`: The set of configuration values for the add-on that's created.
+  The values that you provide are validated against the schema in DescribeAddonConfiguration.
 - `"resolveConflicts"`: How to resolve field value conflicts for an Amazon EKS add-on if
   you've changed a value from the Amazon EKS default value. Conflicts are handled based on
   the option you choose:    None – Amazon EKS doesn't change the value. The update might
@@ -1694,12 +1753,14 @@ launch template. If you update without a launch template, then you can update to
 available AMI version of a node group's current Kubernetes version by not specifying a
 Kubernetes version in the request. You can update to the latest AMI version of your
 cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the
-request. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the
-Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version
-or AMI version. When a node in a managed node group is terminated due to a scaling action
-or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes
-gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS
-is unable to drain the nodes as a result of a pod disruption budget issue.
+request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI
+versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon
+EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a
+node group to an earlier Kubernetes version or AMI version. When a node in a managed node
+group is terminated due to a scaling action or update, the pods in that node are drained
+first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to
+do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a
+pod disruption budget issue.
 
 # Arguments
 - `name`: The name of the Amazon EKS cluster that is associated with the managed node group
@@ -1719,11 +1780,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployed with a launch template.
 - `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use for the
   update. By default, the latest available AMI version for the node group's Kubernetes
-  version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions
-   in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses
-  a custom AMI, then don't specify releaseVersion, or the node group update will fail. For
-  more information about using launch templates with Amazon EKS, see Launch template support
-  in the Amazon EKS User Guide.
+  version is used. For information about Linux versions, see Amazon EKS optimized Amazon
+  Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the
+  November 2022 and later releases of the Windows AMIs. For information about Windows
+  versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If
+  you specify launchTemplate, and your launch template uses a custom AMI, then don't specify
+  releaseVersion, or the node group update will fail. For more information about using launch
+  templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `"version"`: The Kubernetes version to update to. If no version is specified, then the
   Kubernetes version of the node group does not change. You can specify the Kubernetes
   version of the cluster to update the node group to the latest AMI version of the cluster's

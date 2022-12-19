@@ -201,7 +201,7 @@ Services charges, based off of the predefined pricing plan computation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The billing group description.
+- `"Description"`: The description of the billing group.
 - `"PrimaryAccountId"`:  The account ID that serves as the main account in a billing group.
 - `"Tags"`:  A map that contains tag keys and tag values that are attached to a billing
   group. This feature isn't available during the beta.
@@ -337,11 +337,11 @@ Creates a pricing plan that is used for computing Amazon Web Services charges fo
 groups.
 
 # Arguments
-- `name`: The pricing plan name. The names must be unique to each pricing plan.
+- `name`: The name of the pricing plan. The names must be unique to each pricing plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The pricing plan description.
+- `"Description"`: The description of the pricing plan.
 - `"PricingRuleArns"`:  A list of Amazon Resource Names (ARNs) that define the pricing plan
   parameters.
 - `"Tags"`:  A map that contains tag keys and tag values that are attached to a pricing
@@ -377,36 +377,39 @@ function create_pricing_plan(
 end
 
 """
-    create_pricing_rule(modifier_percentage, name, scope, type)
-    create_pricing_rule(modifier_percentage, name, scope, type, params::Dict{String,<:Any})
+    create_pricing_rule(name, scope, type)
+    create_pricing_rule(name, scope, type, params::Dict{String,<:Any})
 
  Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
 
 # Arguments
-- `modifier_percentage`:  A percentage modifier applied on the public pricing rates.
 - `name`:  The pricing rule name. The names must be unique to each pricing rule.
-- `scope`:  The scope of pricing rule that indicates if it is globally applicable, or is
+- `scope`:  The scope of pricing rule that indicates if it's globally applicable, or it's
   service-specific.
 - `type`:  The type of pricing rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BillingEntity"`:  The seller of services provided by Amazon Web Services, their
+  affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
 - `"Description"`:  The pricing rule description.
+- `"ModifierPercentage"`:  A percentage modifier that's applied on the public pricing
+  rates.
 - `"Service"`:  If the Scope attribute is set to SERVICE, the attribute indicates which
   service the PricingRule is applicable for.
 - `"Tags"`:  A map that contains tag keys and tag values that are attached to a pricing
   rule.
-- `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
+- `"Tiering"`:  The set of tiering configurations for the pricing rule.
+- `"X-Amzn-Client-Token"`:  The token that's needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
 function create_pricing_rule(
-    ModifierPercentage, Name, Scope, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Scope, Type; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return billingconductor(
         "POST",
         "/create-pricing-rule",
         Dict{String,Any}(
-            "ModifierPercentage" => ModifierPercentage,
             "Name" => Name,
             "Scope" => Scope,
             "Type" => Type,
@@ -417,7 +420,6 @@ function create_pricing_rule(
     )
 end
 function create_pricing_rule(
-    ModifierPercentage,
     Name,
     Scope,
     Type,
@@ -431,7 +433,6 @@ function create_pricing_rule(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ModifierPercentage" => ModifierPercentage,
                     "Name" => Name,
                     "Scope" => Scope,
                     "Type" => Type,
@@ -452,7 +453,7 @@ end
  Deletes a billing group.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the billing group you're deleting.
+- `arn`: The Amazon Resource Name (ARN) of the billing group that you're deleting.
 
 """
 function delete_billing_group(Arn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -519,7 +520,7 @@ Deletes a pricing plan. The pricing plan must not be associated with any billing
 delete successfully.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the pricing plan you're deleting.
+- `arn`: The Amazon Resource Name (ARN) of the pricing plan that you're deleting.
 
 """
 function delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -547,10 +548,10 @@ end
     delete_pricing_rule(arn)
     delete_pricing_rule(arn, params::Dict{String,<:Any})
 
- Deletes the pricing rule identified by the input Amazon Resource Name (ARN).
+ Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
 
 # Arguments
-- `arn`:  The Amazon Resource Name (ARN) of the pricing rule you are deleting.
+- `arn`:  The Amazon Resource Name (ARN) of the pricing rule that you are deleting.
 
 """
 function delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -664,21 +665,20 @@ end
     list_account_associations()
     list_account_associations(params::Dict{String,<:Any})
 
-  Amazon Web Services Billing Conductor is in beta release and is subject to change. Your
-use of Amazon Web Services Billing Conductor is subject to the Beta Service Participation
-terms of the Amazon Web Services Service Terms (Section 1.10).    This is a paginated call
-to list linked accounts that are linked to the payer account for the specified time period.
-If no information is provided, the current billing period is used. The response will
-optionally include the billing group associated with the linked account.
+ This is a paginated call to list linked accounts that are linked to the payer account for
+the specified time period. If no information is provided, the current billing period is
+used. The response will optionally include the billing group that's associated with the
+linked account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingPeriod"`:  The preferred billing period to get account associations.
 - `"Filters"`: The filter on the account ID of the linked account, or any of the following:
    MONITORED: linked accounts that are associated to billing groups.  UNMONITORED: linked
-  accounts that are not associated to billing groups.  Billing Group Arn: linked accounts
-  that are associated to the provided billing group Arn.
-- `"NextToken"`:  The pagination token used on subsequent calls to retrieve accounts.
+  accounts that aren't associated to billing groups.  Billing Group Arn: linked accounts that
+  are associated to the provided billing group Arn.
+- `"NextToken"`:  The pagination token that's used on subsequent calls to retrieve
+  accounts.
 """
 function list_account_associations(; aws_config::AbstractAWSConfig=global_aws_config())
     return billingconductor(
@@ -714,7 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: A ListBillingGroupCostReportsFilter to specify billing groups to retrieve
   reports from.
 - `"MaxResults"`: The maximum number of reports to retrieve.
-- `"NextToken"`: The pagination token used on subsequent calls to get reports.
+- `"NextToken"`: The pagination token that's used on subsequent calls to get reports.
 """
 function list_billing_group_cost_reports(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -751,7 +751,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: A ListBillingGroupsFilter that specifies the billing group and pricing plan
   to retrieve billing group information.
 - `"MaxResults"`: The maximum number of billing groups to retrieve.
-- `"NextToken"`: The pagination token used on subsequent calls to get billing groups.
+- `"NextToken"`: The pagination token that's used on subsequent calls to get billing
+  groups.
 """
 function list_billing_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return billingconductor(
@@ -774,6 +775,46 @@ function list_billing_groups(
 end
 
 """
+    list_custom_line_item_versions(arn)
+    list_custom_line_item_versions(arn, params::Dict{String,<:Any})
+
+A paginated call to get a list of all custom line item versions.
+
+# Arguments
+- `arn`: The Amazon Resource Name (ARN) for the custom line item.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A ListCustomLineItemVersionsFilter that specifies the billing period range
+  in which the custom line item versions are applied.
+- `"MaxResults"`: The maximum number of custom line item versions to retrieve.
+- `"NextToken"`: The pagination token that's used on subsequent calls to retrieve custom
+  line item versions.
+"""
+function list_custom_line_item_versions(
+    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-custom-line-item-versions",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_custom_line_item_versions(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/list-custom-line-item-versions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_custom_line_items()
     list_custom_line_items(params::Dict{String,<:Any})
 
@@ -786,8 +827,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: A ListCustomLineItemsFilter that specifies the custom line item names and/or
   billing group Amazon Resource Names (ARNs) to retrieve FFLI information.
 - `"MaxResults"`:  The maximum number of billing groups to retrieve.
-- `"NextToken"`:  The pagination token used on subsequent calls to get custom line items
-  (FFLIs).
+- `"NextToken"`:  The pagination token that's used on subsequent calls to get custom line
+  items (FFLIs).
 """
 function list_custom_line_items(; aws_config::AbstractAWSConfig=global_aws_config())
     return billingconductor(
@@ -822,7 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: A ListPricingPlansFilter that specifies the Amazon Resource Name (ARNs) of
   pricing plans to retrieve pricing plans information.
 - `"MaxResults"`: The maximum number of pricing plans to retrieve.
-- `"NextToken"`: The pagination token used on subsequent call to get pricing plans.
+- `"NextToken"`: The pagination token that's used on subsequent call to get pricing plans.
 """
 function list_pricing_plans(; aws_config::AbstractAWSConfig=global_aws_config())
     return billingconductor(
@@ -848,7 +889,7 @@ end
     list_pricing_plans_associated_with_pricing_rule(pricing_rule_arn)
     list_pricing_plans_associated_with_pricing_rule(pricing_rule_arn, params::Dict{String,<:Any})
 
- A list of the pricing plans associated with a pricing rule.
+ A list of the pricing plans that are associated with a pricing rule.
 
 # Arguments
 - `pricing_rule_arn`:  The pricing rule Amazon Resource Name (ARN) for which associations
@@ -901,7 +942,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`:  A DescribePricingRuleFilter that specifies the Amazon Resource Name (ARNs)
   of pricing rules to retrieve pricing rules information.
 - `"MaxResults"`:  The maximum number of pricing rules to retrieve.
-- `"NextToken"`:  The pagination token used on subsequent call to get pricing rules.
+- `"NextToken"`:  The pagination token that's used on subsequent call to get pricing rules.
 """
 function list_pricing_rules(; aws_config::AbstractAWSConfig=global_aws_config())
     return billingconductor(
@@ -927,7 +968,7 @@ end
     list_pricing_rules_associated_to_pricing_plan(pricing_plan_arn)
     list_pricing_rules_associated_to_pricing_plan(pricing_plan_arn, params::Dict{String,<:Any})
 
- Lists the pricing rules associated with a pricing plan.
+ Lists the pricing rules that are associated with a pricing plan.
 
 # Arguments
 - `pricing_plan_arn`:  The Amazon Resource Name (ARN) of the pricing plan for which
@@ -971,7 +1012,7 @@ end
     list_resources_associated_to_custom_line_item(arn)
     list_resources_associated_to_custom_line_item(arn, params::Dict{String,<:Any})
 
- List the resources associated to a custom line item.
+ List the resources that are associated to a custom line item.
 
 # Arguments
 - `arn`:  The ARN of the custom line item for which the resource associations will be
@@ -984,7 +1025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`:  (Optional) A ListResourcesAssociatedToCustomLineItemFilter that can specify
   the types of resources that should be retrieved.
 - `"MaxResults"`:  (Optional) The maximum number of resource associations to be retrieved.
-- `"NextToken"`:  (Optional) The pagination token returned by a previous request.
+- `"NextToken"`:  (Optional) The pagination token that's returned by a previous request.
 """
 function list_resources_associated_to_custom_line_item(
     Arn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1200,11 +1241,11 @@ end
 This updates an existing pricing plan.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the pricing plan you're updating.
+- `arn`: The Amazon Resource Name (ARN) of the pricing plan that you're updating.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The pricing plan description.
+- `"Description"`: The description of the pricing plan.
 - `"Name"`: The name of the pricing plan. The name must be unique to each pricing plan.
 """
 function update_pricing_plan(Arn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1243,6 +1284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModifierPercentage"`:  The new modifier to show pricing plan rates as a percentage.
 - `"Name"`:  The new name of the pricing rule. The name must be unique to each pricing
   rule.
+- `"Tiering"`:  The set of tiering configurations for the pricing rule.
 - `"Type"`:  The new pricing rule type.
 """
 function update_pricing_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())

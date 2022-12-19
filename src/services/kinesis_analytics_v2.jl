@@ -403,8 +403,7 @@ Analytics application, see Creating an Application.
 
 # Arguments
 - `application_name`: The name of your application (for example, sample-app).
-- `runtime_environment`: The runtime environment for the application (SQL-1_0, FLINK-1_6,
-  FLINK-1_8, or FLINK-1_11).
+- `runtime_environment`: The runtime environment for the application.
 - `service_execution_role`: The IAM role used by the application to access Kinesis data
   streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external
   resources.
@@ -413,8 +412,8 @@ Analytics application, see Creating an Application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ApplicationConfiguration"`: Use this parameter to configure the application.
 - `"ApplicationDescription"`: A summary description of the application.
-- `"ApplicationMode"`: Use the STREAMING mode to create a Kinesis Data Analytics Studio
-  notebook. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
+- `"ApplicationMode"`: Use the STREAMING mode to create a Kinesis Data Analytics For Flink
+  application. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
 - `"CloudWatchLoggingOptions"`: Use this parameter to configure an Amazon CloudWatch log
   stream to monitor application configuration errors.
 - `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
@@ -468,14 +467,13 @@ end
     create_application_presigned_url(application_name, url_type)
     create_application_presigned_url(application_name, url_type, params::Dict{String,<:Any})
 
-Creates and returns a URL that you can use to connect to an application's extension.
-Currently, the only available extension is the Apache Flink dashboard. The IAM role or user
-used to call this API defines the permissions to access the extension. After the presigned
-URL is created, no additional permission is required to access this URL. IAM authorization
-policies for this API are also enforced for every HTTP request that attempts to connect to
-the extension.  You control the amount of time that the URL will be valid using the
-SessionExpirationDurationInSeconds parameter. If you do not provide this parameter, the
-returned URL is valid for twelve hours.  The URL that you get from a call to
+Creates and returns a URL that you can use to connect to an application's extension. The
+IAM role or user used to call this API defines the permissions to access the extension.
+After the presigned URL is created, no additional permission is required to access this
+URL. IAM authorization policies for this API are also enforced for every HTTP request that
+attempts to connect to the extension.  You control the amount of time that the URL will be
+valid using the SessionExpirationDurationInSeconds parameter. If you do not provide this
+parameter, the returned URL is valid for twelve hours.  The URL that you get from a call to
 CreateApplicationPresignedUrl must be used within 3 minutes to be valid. If you first try
 to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden
 error.

@@ -209,6 +209,44 @@ function disassociate_gateway_from_server(
 end
 
 """
+    get_bandwidth_rate_limit_schedule(gateway_arn)
+    get_bandwidth_rate_limit_schedule(gateway_arn, params::Dict{String,<:Any})
+
+Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways
+do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
+effect. Use this to get a gateway's bandwidth rate limit schedule.
+
+# Arguments
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways
+  operation to return a list of gateways for your account and Amazon Web Services Region.
+
+"""
+function get_bandwidth_rate_limit_schedule(
+    GatewayArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup_gateway(
+        "GetBandwidthRateLimitSchedule",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_bandwidth_rate_limit_schedule(
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "GetBandwidthRateLimitSchedule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_gateway(gateway_arn)
     get_gateway(gateway_arn, params::Dict{String,<:Any})
 
@@ -235,6 +273,78 @@ function get_gateway(
         "GetGateway",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_hypervisor(hypervisor_arn)
+    get_hypervisor(hypervisor_arn, params::Dict{String,<:Any})
+
+This action requests information about the specified hypervisor to which the gateway will
+connect. A hypervisor is hardware, software, or firmware that creates and manages virtual
+machines, and allocates resources to them.
+
+# Arguments
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
+
+"""
+function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup_gateway(
+        "GetHypervisor",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_hypervisor(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "GetHypervisor",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_hypervisor_property_mappings(hypervisor_arn)
+    get_hypervisor_property_mappings(hypervisor_arn, params::Dict{String,<:Any})
+
+This action retrieves the property mappings for the specified hypervisor. A hypervisor
+property mapping displays the relationship of entity properties available from the
+on-premises hypervisor to the properties available in Amazon Web Services.
+
+# Arguments
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
+
+"""
+function get_hypervisor_property_mappings(
+    HypervisorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup_gateway(
+        "GetHypervisorPropertyMappings",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_hypervisor_property_mappings(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "GetHypervisorPropertyMappings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -438,6 +548,117 @@ function list_virtual_machines(
 end
 
 """
+    put_bandwidth_rate_limit_schedule(bandwidth_rate_limit_intervals, gateway_arn)
+    put_bandwidth_rate_limit_schedule(bandwidth_rate_limit_intervals, gateway_arn, params::Dict{String,<:Any})
+
+This action sets the bandwidth rate limit schedule for a specified gateway. By default,
+gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate
+limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
+
+# Arguments
+- `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
+  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
+  array is empty.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways
+  operation to return a list of gateways for your account and Amazon Web Services Region.
+
+"""
+function put_bandwidth_rate_limit_schedule(
+    BandwidthRateLimitIntervals,
+    GatewayArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "PutBandwidthRateLimitSchedule",
+        Dict{String,Any}(
+            "BandwidthRateLimitIntervals" => BandwidthRateLimitIntervals,
+            "GatewayArn" => GatewayArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_bandwidth_rate_limit_schedule(
+    BandwidthRateLimitIntervals,
+    GatewayArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "PutBandwidthRateLimitSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BandwidthRateLimitIntervals" => BandwidthRateLimitIntervals,
+                    "GatewayArn" => GatewayArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_hypervisor_property_mappings(hypervisor_arn, iam_role_arn, vmware_to_aws_tag_mappings)
+    put_hypervisor_property_mappings(hypervisor_arn, iam_role_arn, vmware_to_aws_tag_mappings, params::Dict{String,<:Any})
+
+This action sets the property mappings for the specified hypervisor. A hypervisor property
+mapping displays the relationship of entity properties available from the on-premises
+hypervisor to the properties available in Amazon Web Services.
+
+# Arguments
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
+- `iam_role_arn`: The Amazon Resource Name (ARN) of the IAM role.
+- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware
+  tags to the Amazon Web Services tags.
+
+"""
+function put_hypervisor_property_mappings(
+    HypervisorArn,
+    IamRoleArn,
+    VmwareToAwsTagMappings;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "PutHypervisorPropertyMappings",
+        Dict{String,Any}(
+            "HypervisorArn" => HypervisorArn,
+            "IamRoleArn" => IamRoleArn,
+            "VmwareToAwsTagMappings" => VmwareToAwsTagMappings,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_hypervisor_property_mappings(
+    HypervisorArn,
+    IamRoleArn,
+    VmwareToAwsTagMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "PutHypervisorPropertyMappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HypervisorArn" => HypervisorArn,
+                    "IamRoleArn" => IamRoleArn,
+                    "VmwareToAwsTagMappings" => VmwareToAwsTagMappings,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_maintenance_start_time(gateway_arn, hour_of_day, minute_of_hour)
     put_maintenance_start_time(gateway_arn, hour_of_day, minute_of_hour, params::Dict{String,<:Any})
 
@@ -488,6 +709,41 @@ function put_maintenance_start_time(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_virtual_machines_metadata_sync(hypervisor_arn)
+    start_virtual_machines_metadata_sync(hypervisor_arn, params::Dict{String,<:Any})
+
+This action sends a request to sync metadata across the specified virtual machines.
+
+# Arguments
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
+
+"""
+function start_virtual_machines_metadata_sync(
+    HypervisorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup_gateway(
+        "StartVirtualMachinesMetadataSync",
+        Dict{String,Any}("HypervisorArn" => HypervisorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_virtual_machines_metadata_sync(
+    HypervisorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup_gateway(
+        "StartVirtualMachinesMetadataSync",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -709,6 +965,8 @@ hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in y
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Host"`: The updated host of the hypervisor. This can be either an IP address or a
   fully-qualified domain name (FQDN).
+- `"LogGroupArn"`: The Amazon Resource Name (ARN) of the group of gateways within the
+  requested log.
 - `"Name"`: The updated name for the hypervisor
 - `"Password"`: The updated password for the hypervisor.
 - `"Username"`: The updated username for the hypervisor.

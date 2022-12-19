@@ -52,6 +52,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that will be attached to the new private CA. You can associate
   up to 50 tags with a private CA. For information using tags with IAM to manage permissions,
   see Controlling Access Using IAM Tags.
+- `"UsageMode"`: Specifies whether the CA issues general-purpose certificates that
+  typically require a revocation mechanism, or short-lived certificates that may optionally
+  omit revocation because they expire quickly. Short-lived certificate validity is limited to
+  seven days. The default value is GENERAL_PURPOSE.
 """
 function create_certificate_authority(
     CertificateAuthorityConfiguration,

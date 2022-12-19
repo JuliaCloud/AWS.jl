@@ -304,6 +304,11 @@ more information, see Environments and Provisioning methods in the Proton User G
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"codebuildRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that allows
+  Proton to provision infrastructure using CodeBuild-based provisioning on your behalf. To
+  use CodeBuild-based provisioning for the environment or for any service instance running in
+  the environment, specify either the environmentAccountConnectionId or codebuildRoleArn
+  parameter.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
   uses when provisioning directly defined components in this environment. It determines the
   scope of infrastructure that a component can provision. You must specify componentRoleArn
@@ -378,8 +383,8 @@ function create_environment(
 end
 
 """
-    create_environment_account_connection(environment_name, management_account_id, role_arn)
-    create_environment_account_connection(environment_name, management_account_id, role_arn, params::Dict{String,<:Any})
+    create_environment_account_connection(environment_name, management_account_id)
+    create_environment_account_connection(environment_name, management_account_id, params::Dict{String,<:Any})
 
 Create an environment account connection in an environment account so that environment
 infrastructure resources can be provisioned in the environment account from a management
@@ -395,36 +400,35 @@ For more information, see Environment account connections in the Proton User gui
   account. If the management account accepts the environment account connection, Proton can
   use the associated IAM role to provision environment infrastructure resources in the
   associated environment account.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM service role that's created in the
-  environment account. Proton uses this role to provision infrastructure resources in the
-  associated environment account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: When included, if two identical requests are made with the same client
   token, Proton returns the environment account connection that the first request created.
+- `"codebuildRoleArn"`: The Amazon Resource Name (ARN) of an IAM service role in the
+  environment account. Proton uses this role to provision infrastructure resources using
+  CodeBuild-based provisioning in the associated environment account.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
   uses when provisioning directly defined components in the associated environment account.
   It determines the scope of infrastructure that a component can provision in the account.
   You must specify componentRoleArn to allow directly defined components to be associated
   with any environments running in this account. For more information about components, see
   Proton components in the Proton User Guide.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's created in the
+  environment account. Proton uses this role to provision infrastructure resources in the
+  associated environment account.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment account connection. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
 function create_environment_account_connection(
-    environmentName,
-    managementAccountId,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    environmentName, managementAccountId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
         "CreateEnvironmentAccountConnection",
         Dict{String,Any}(
             "environmentName" => environmentName,
             "managementAccountId" => managementAccountId,
-            "roleArn" => roleArn,
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
@@ -434,7 +438,6 @@ end
 function create_environment_account_connection(
     environmentName,
     managementAccountId,
-    roleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -446,7 +449,6 @@ function create_environment_account_connection(
                 Dict{String,Any}(
                     "environmentName" => environmentName,
                     "managementAccountId" => managementAccountId,
-                    "roleArn" => roleArn,
                     "clientToken" => string(uuid4()),
                 ),
                 params,
@@ -2382,14 +2384,21 @@ end
     list_service_instances()
     list_service_instances(params::Dict{String,<:Any})
 
-List service instances with summary data.
+List service instances with summary data. This action lists service instances of all
+services in the Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: An array of filtering criteria that scope down the result list. By default,
+  all service instances in the Amazon Web Services account are returned.
 - `"maxResults"`: The maximum number of service instances to list.
 - `"nextToken"`: A token that indicates the location of the next service in the array of
   service instances, after the list of service instances that was previously requested.
 - `"serviceName"`: The name of the service that the service instance belongs to.
+- `"sortBy"`: The field that the result list is sorted by. When you choose to sort by
+  serviceName, service instances within each service are sorted by service instance name.
+  Default: serviceName
+- `"sortOrder"`: Result list sort order. Default: ASCENDING
 """
 function list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
@@ -2624,46 +2633,41 @@ function list_tags_for_resource(
 end
 
 """
-    notify_resource_deployment_status_change(resource_arn, status)
-    notify_resource_deployment_status_change(resource_arn, status, params::Dict{String,<:Any})
+    notify_resource_deployment_status_change(resource_arn)
+    notify_resource_deployment_status_change(resource_arn, params::Dict{String,<:Any})
 
 Notify Proton of status changes to a provisioned resource when you use self-managed
 provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
 
 # Arguments
 - `resource_arn`: The provisioned resource Amazon Resource Name (ARN).
-- `status`: The status of your provisioned resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"deploymentId"`: The deployment ID for your provisioned resource.
 - `"outputs"`: The provisioned resource state change detail data that's returned by Proton.
+- `"status"`: The status of your provisioned resource.
 - `"statusMessage"`: The deployment status message for your provisioned resource.
 """
 function notify_resource_deployment_status_change(
-    resourceArn, status; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
         "NotifyResourceDeploymentStatusChange",
-        Dict{String,Any}("resourceArn" => resourceArn, "status" => status);
+        Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function notify_resource_deployment_status_change(
     resourceArn,
-    status,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return proton(
         "NotifyResourceDeploymentStatusChange",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "status" => status),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2803,6 +2807,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deletePipelineProvisioningRepository"`: Set to true to remove a configured pipeline
   repository from the account settings. Don't set this field if you are updating the
   configured pipeline repository.
+- `"pipelineCodebuildRoleArn"`: The Amazon Resource Name (ARN) of the service role you want
+  to use for provisioning pipelines. Proton assumes this role for CodeBuild-based
+  provisioning.
 - `"pipelineProvisioningRepository"`: A linked repository for pipeline provisioning.
   Specify it if you have environments configured for self-managed provisioning with services
   that include pipelines. A linked repository is a repository that has been registered with
@@ -2944,6 +2951,8 @@ version that's higher than the major version in use and a minor version.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"codebuildRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that allows
+  Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
   uses when provisioning directly defined components in this environment. It determines the
   scope of infrastructure that a component can provision. The environment must have a
@@ -3006,6 +3015,9 @@ For more information, see Environment account connections in the Proton User gui
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"codebuildRoleArn"`: The Amazon Resource Name (ARN) of an IAM service role in the
+  environment account. Proton uses this role to provision infrastructure resources using
+  CodeBuild-based provisioning in the associated environment account.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
   uses when provisioning directly defined components in the associated environment account.
   It determines the scope of infrastructure that a component can provision in the account.

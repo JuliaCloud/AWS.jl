@@ -54,6 +54,7 @@ Creates an application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"architecture"`: The CPU architecture of an application.
 - `"autoStartConfiguration"`: The configuration for an application to automatically start
   on job submission.
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
@@ -571,6 +572,7 @@ order to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"architecture"`: The CPU architecture of an application.
 - `"autoStartConfiguration"`: The configuration for an application to automatically start
   on job submission.
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop

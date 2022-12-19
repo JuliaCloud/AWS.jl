@@ -310,8 +310,8 @@ end
     attach_thing_principal(thing_name, x-amzn-principal, params::Dict{String,<:Any})
 
 Attaches the specified principal to the specified thing. A principal can be X.509
-certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-identities. Requires permission to access the AttachThingPrincipal action.
+certificates, Amazon Cognito identities or federated identities. Requires permission to
+access the AttachThingPrincipal action.
 
 # Arguments
 - `thing_name`: The name of the thing.
@@ -1232,6 +1232,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
+- `"schedulingConfig"`: The configuration that allows you to schedule a job for a future
+  date and time in addition to specifying the end behavior for each job execution.
 - `"tags"`: Metadata which can be used to manage the job.
 - `"targetSelection"`: Specifies whether the job will continue to run (CONTINUOUS), or will
   be complete after all those things specified as targets have completed the job (SNAPSHOT).
@@ -1636,7 +1638,9 @@ CreateProvisioningTemplate action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the provisioning template.
 - `"enabled"`: True to enable the provisioning template, otherwise false.
-- `"preProvisioningHook"`: Creates a pre-provisioning hook template.
+- `"preProvisioningHook"`: Creates a pre-provisioning hook template. Only supports template
+  of type FLEET_PROVISIONING. For more information about provisioning template types, see
+  type.
 - `"tags"`: Metadata which can be used to manage the provisioning template.  For URI
   Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line
   parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the
@@ -4735,7 +4739,7 @@ permission to access the GetBehaviorModelTrainingSummaries action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The maximum number of results to return at one time. The default is 25.
+- `"maxResults"`:  The maximum number of results to return at one time. The default is 10.
 - `"nextToken"`:  The token for the next set of results.
 - `"securityProfileName"`:  The name of the security profile.
 """
@@ -6632,6 +6636,55 @@ function list_provisioning_templates(
 end
 
 """
+    list_related_resources_for_audit_finding(finding_id)
+    list_related_resources_for_audit_finding(finding_id, params::Dict{String,<:Any})
+
+The related resources of an Audit finding. The following resources can be returned from
+calling this API:   DEVICE_CERTIFICATE   CA_CERTIFICATE   IOT_POLICY
+COGNITO_IDENTITY_POOL   CLIENT_ID   ACCOUNT_SETTINGS   ROLE_ALIAS   IAM_ROLE
+ISSUER_CERTIFICATE    This API is similar to DescribeAuditFinding's RelatedResources but
+provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding
+for the intermediate CA revoked for active device certificates check, RelatedResources will
+not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the
+certificates.
+
+# Arguments
+- `finding_id`: The finding Id.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return at one time.
+- `"nextToken"`: A token that can be used to retrieve the next set of results, or null if
+  there are no additional results.
+"""
+function list_related_resources_for_audit_finding(
+    findingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/audit/relatedResources",
+        Dict{String,Any}("findingId" => findingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_related_resources_for_audit_finding(
+    findingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/audit/relatedResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("findingId" => findingId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_role_aliases()
     list_role_aliases(params::Dict{String,<:Any})
 
@@ -7148,8 +7201,9 @@ end
 Lists your things. Use the attributeName and attributeValue parameters to filter your
 things. For example, calling ListThings with attributeName=Color and attributeValue=Red
 retrieves all things in the registry that contain an attribute Color with the value Red.
-Requires permission to access the ListThings action.  You will not be charged for calling
-this API if an Access denied error is returned. You will also not be charged if no
+For more information, see List Things from the Amazon Web Services IoT Core Developer
+Guide. Requires permission to access the ListThings action.  You will not be charged for
+calling this API if an Access denied error is returned. You will also not be charged if no
 attributes or pagination token was provided in request and no pagination token and no
 results were returned.
 
@@ -9219,7 +9273,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"defaultVersionId"`: The ID of the default provisioning template version.
 - `"description"`: The description of the provisioning template.
 - `"enabled"`: True to enable the provisioning template, otherwise false.
-- `"preProvisioningHook"`: Updates the pre-provisioning hook template.
+- `"preProvisioningHook"`: Updates the pre-provisioning hook template. Only supports
+  template of type FLEET_PROVISIONING. For more information about provisioning template
+  types, see type.
 - `"provisioningRoleArn"`: The ARN of the role associated with the provisioning template.
   This IoT role grants permission to provision a device.
 - `"removePreProvisioningHook"`: Removes pre-provisioning hook template.

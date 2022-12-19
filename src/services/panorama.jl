@@ -65,35 +65,33 @@ function create_application_instance(
 end
 
 """
-    create_job_for_devices(device_ids, device_job_config, job_type)
-    create_job_for_devices(device_ids, device_job_config, job_type, params::Dict{String,<:Any})
+    create_job_for_devices(device_ids, job_type)
+    create_job_for_devices(device_ids, job_type, params::Dict{String,<:Any})
 
-Creates a job to run on one or more devices.
+Creates a job to run on one or more devices. A job can update a device's software or reboot
+it.
 
 # Arguments
 - `device_ids`: IDs of target devices.
-- `device_job_config`: Configuration settings for the job.
 - `job_type`: The type of job to run.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceJobConfig"`: Configuration settings for a software update job.
 """
 function create_job_for_devices(
-    DeviceIds, DeviceJobConfig, JobType; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceIds, JobType; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
         "POST",
         "/jobs",
-        Dict{String,Any}(
-            "DeviceIds" => DeviceIds,
-            "DeviceJobConfig" => DeviceJobConfig,
-            "JobType" => JobType,
-        );
+        Dict{String,Any}("DeviceIds" => DeviceIds, "JobType" => JobType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_job_for_devices(
     DeviceIds,
-    DeviceJobConfig,
     JobType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -104,11 +102,7 @@ function create_job_for_devices(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DeviceIds" => DeviceIds,
-                    "DeviceJobConfig" => DeviceJobConfig,
-                    "JobType" => JobType,
-                ),
+                Dict{String,Any}("DeviceIds" => DeviceIds, "JobType" => JobType),
                 params,
             ),
         );
@@ -1132,6 +1126,45 @@ function remove_application_instance(
         "DELETE",
         "/application-instances/$(ApplicationInstanceId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    signal_application_instance_node_instances(application_instance_id, node_signals)
+    signal_application_instance_node_instances(application_instance_id, node_signals, params::Dict{String,<:Any})
+
+Signal camera nodes to stop or resume.
+
+# Arguments
+- `application_instance_id`: An application instance ID.
+- `node_signals`: A list of signals.
+
+"""
+function signal_application_instance_node_instances(
+    ApplicationInstanceId, NodeSignals; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return panorama(
+        "PUT",
+        "/application-instances/$(ApplicationInstanceId)/node-signals",
+        Dict{String,Any}("NodeSignals" => NodeSignals);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function signal_application_instance_node_instances(
+    ApplicationInstanceId,
+    NodeSignals,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return panorama(
+        "PUT",
+        "/application-instances/$(ApplicationInstanceId)/node-signals",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NodeSignals" => NodeSignals), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

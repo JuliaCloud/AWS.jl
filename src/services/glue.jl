@@ -381,6 +381,41 @@ function batch_get_custom_entity_types(
 end
 
 """
+    batch_get_data_quality_result(result_ids)
+    batch_get_data_quality_result(result_ids, params::Dict{String,<:Any})
+
+Retrieves a list of data quality results for the specified result IDs.
+
+# Arguments
+- `result_ids`: A list of unique result IDs for the data quality results.
+
+"""
+function batch_get_data_quality_result(
+    ResultIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetDataQualityResult",
+        Dict{String,Any}("ResultIds" => ResultIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_data_quality_result(
+    ResultIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "BatchGetDataQualityResult",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResultIds" => ResultIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_dev_endpoints(dev_endpoint_names)
     batch_get_dev_endpoints(dev_endpoint_names, params::Dict{String,<:Any})
 
@@ -686,6 +721,68 @@ function batch_update_partition(
 end
 
 """
+    cancel_data_quality_rule_recommendation_run(run_id)
+    cancel_data_quality_rule_recommendation_run(run_id, params::Dict{String,<:Any})
+
+Cancels the specified recommendation run that was being used to generate rules.
+
+# Arguments
+- `run_id`: The unique run identifier associated with this run.
+
+"""
+function cancel_data_quality_rule_recommendation_run(
+    RunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CancelDataQualityRuleRecommendationRun",
+        Dict{String,Any}("RunId" => RunId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_data_quality_rule_recommendation_run(
+    RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CancelDataQualityRuleRecommendationRun",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RunId" => RunId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_data_quality_ruleset_evaluation_run(run_id)
+    cancel_data_quality_ruleset_evaluation_run(run_id, params::Dict{String,<:Any})
+
+Cancels a run where a ruleset is being evaluated against a data source.
+
+# Arguments
+- `run_id`: The unique run identifier associated with this run.
+
+"""
+function cancel_data_quality_ruleset_evaluation_run(
+    RunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CancelDataQualityRulesetEvaluationRun",
+        Dict{String,Any}("RunId" => RunId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_data_quality_ruleset_evaluation_run(
+    RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CancelDataQualityRulesetEvaluationRun",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RunId" => RunId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_mltask_run(task_run_id, transform_id)
     cancel_mltask_run(task_run_id, transform_id, params::Dict{String,<:Any})
 
@@ -949,8 +1046,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all built-in classifiers are included in a crawl, but these custom classifiers always
   override the default classifiers for a given classification.
 - `"Configuration"`: Crawler configuration information. This versioned JSON string allows
-  users to specify aspects of a crawler's behavior. For more information, see Configuring a
-  Crawler.
+  users to specify aspects of a crawler's behavior. For more information, see Setting crawler
+  configuration options.
 - `"CrawlerSecurityConfiguration"`: The name of the SecurityConfiguration structure to be
   used by this crawler.
 - `"DatabaseName"`: The Glue database where results are written, such as:
@@ -1045,6 +1142,55 @@ function create_custom_entity_type(
                 _merge,
                 Dict{String,Any}("Name" => Name, "RegexString" => RegexString),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_quality_ruleset(name, ruleset)
+    create_data_quality_ruleset(name, ruleset, params::Dict{String,<:Any})
+
+Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You
+create the ruleset using the Data Quality Definition Language (DQDL). For more information,
+see the Glue developer guide.
+
+# Arguments
+- `name`: A unique name for the data quality ruleset.
+- `ruleset`: A Data Quality Definition Language (DQDL) ruleset. For more information, see
+  the Glue developer guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
+  as a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"Description"`: A description of the data quality ruleset.
+- `"Tags"`: A list of tags applied to the data quality ruleset.
+- `"TargetTable"`: A target table associated with the data quality ruleset.
+"""
+function create_data_quality_ruleset(
+    Name, Ruleset; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CreateDataQualityRuleset",
+        Dict{String,Any}("Name" => Name, "Ruleset" => Ruleset);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_quality_ruleset(
+    Name,
+    Ruleset,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateDataQualityRuleset",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "Ruleset" => Ruleset), params
             ),
         );
         aws_config=aws_config,
@@ -2274,6 +2420,37 @@ function delete_custom_entity_type(
 end
 
 """
+    delete_data_quality_ruleset(name)
+    delete_data_quality_ruleset(name, params::Dict{String,<:Any})
+
+Deletes a data quality ruleset.
+
+# Arguments
+- `name`: A name for the data quality ruleset.
+
+"""
+function delete_data_quality_ruleset(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteDataQualityRuleset",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_quality_ruleset(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteDataQualityRuleset",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_database(name)
     delete_database(name, params::Dict{String,<:Any})
 
@@ -3477,6 +3654,132 @@ function get_data_catalog_encryption_settings(
 end
 
 """
+    get_data_quality_result(result_id)
+    get_data_quality_result(result_id, params::Dict{String,<:Any})
+
+Retrieves the result of a data quality rule evaluation.
+
+# Arguments
+- `result_id`: A unique result ID for the data quality result.
+
+"""
+function get_data_quality_result(
+    ResultId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityResult",
+        Dict{String,Any}("ResultId" => ResultId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_result(
+    ResultId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetDataQualityResult",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResultId" => ResultId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_rule_recommendation_run(run_id)
+    get_data_quality_rule_recommendation_run(run_id, params::Dict{String,<:Any})
+
+Gets the specified recommendation run that was used to generate rules.
+
+# Arguments
+- `run_id`: The unique run identifier associated with this run.
+
+"""
+function get_data_quality_rule_recommendation_run(
+    RunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityRuleRecommendationRun",
+        Dict{String,Any}("RunId" => RunId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_rule_recommendation_run(
+    RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityRuleRecommendationRun",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RunId" => RunId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_ruleset(name)
+    get_data_quality_ruleset(name, params::Dict{String,<:Any})
+
+Returns an existing ruleset by identifier or name.
+
+# Arguments
+- `name`: The name of the ruleset.
+
+"""
+function get_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "GetDataQualityRuleset",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_ruleset(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityRuleset",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_ruleset_evaluation_run(run_id)
+    get_data_quality_ruleset_evaluation_run(run_id, params::Dict{String,<:Any})
+
+Retrieves a specific run where a ruleset is evaluated against a data source.
+
+# Arguments
+- `run_id`: The unique run identifier associated with this run.
+
+"""
+function get_data_quality_ruleset_evaluation_run(
+    RunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityRulesetEvaluationRun",
+        Dict{String,Any}("RunId" => RunId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_ruleset_evaluation_run(
+    RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityRulesetEvaluationRun",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RunId" => RunId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_database(name)
     get_database(name, params::Dict{String,<:Any})
 
@@ -3599,10 +3902,10 @@ end
     get_dev_endpoints()
     get_dev_endpoints(params::Dict{String,<:Any})
 
-Retrieves all the development endpoints in this AWS account.  When you create a development
-endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the
-public IP address field is not populated. When you create a non-VPC development endpoint,
-Glue returns only a public IP address.
+Retrieves all the development endpoints in this Amazon Web Services account.  When you
+create a development endpoint in a virtual private cloud (VPC), Glue returns only a private
+IP address and the public IP address field is not populated. When you create a non-VPC
+development endpoint, Glue returns only a public IP address.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3653,7 +3956,9 @@ end
     get_job_bookmark(job_name)
     get_job_bookmark(job_name, params::Dict{String,<:Any})
 
-Returns information on a job bookmark entry.
+Returns information on a job bookmark entry. For more information about enabling and using
+job bookmarks, see:    Tracking processed data using job bookmarks     Job parameters used
+by Glue     Job structure
 
 # Arguments
 - `job_name`: The name of the job in question.
@@ -5438,6 +5743,128 @@ function list_custom_entity_types(
 end
 
 """
+    list_data_quality_results()
+    list_data_quality_results(params::Dict{String,<:Any})
+
+Returns all data quality execution results for your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: The filter criteria.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A paginated token to offset the results.
+"""
+function list_data_quality_results(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListDataQualityResults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_quality_results(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityResults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_rule_recommendation_runs()
+    list_data_quality_rule_recommendation_runs(params::Dict{String,<:Any})
+
+Lists the recommendation runs meeting the filter criteria.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: The filter criteria.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A paginated token to offset the results.
+"""
+function list_data_quality_rule_recommendation_runs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityRuleRecommendationRuns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_quality_rule_recommendation_runs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityRuleRecommendationRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_ruleset_evaluation_runs()
+    list_data_quality_ruleset_evaluation_runs(params::Dict{String,<:Any})
+
+Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data
+source.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: The filter criteria.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A paginated token to offset the results.
+"""
+function list_data_quality_ruleset_evaluation_runs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityRulesetEvaluationRuns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_quality_ruleset_evaluation_runs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityRulesetEvaluationRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_rulesets()
+    list_data_quality_rulesets(params::Dict{String,<:Any})
+
+Returns a paginated list of rulesets for the specified list of Glue tables.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: The filter criteria.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A paginated token to offset the results.
+- `"Tags"`: A list of key-value pair tags.
+"""
+function list_data_quality_rulesets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListDataQualityRulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_quality_rulesets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityRulesets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dev_endpoints()
     list_dev_endpoints(params::Dict{String,<:Any})
 
@@ -6051,7 +6478,9 @@ end
     reset_job_bookmark(job_name)
     reset_job_bookmark(job_name, params::Dict{String,<:Any})
 
-Resets a bookmark entry.
+Resets a bookmark entry. For more information about enabling and using job bookmarks, see:
+  Tracking processed data using job bookmarks     Job parameters used by Glue     Job
+structure
 
 # Arguments
 - `job_name`: The name of the job in question.
@@ -6316,6 +6745,117 @@ function start_crawler_schedule(
         "StartCrawlerSchedule",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CrawlerName" => CrawlerName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_data_quality_rule_recommendation_run(data_source, role)
+    start_data_quality_rule_recommendation_run(data_source, role, params::Dict{String,<:Any})
+
+Starts a recommendation run that is used to generate rules when you don't know what rules
+to write. Glue Data Quality analyzes the data and comes up with recommendations for a
+potential ruleset. You can then triage the ruleset and modify the generated ruleset to your
+liking.
+
+# Arguments
+- `data_source`: The data source (Glue table) associated with this run.
+- `role`: An IAM role supplied to encrypt the results of the run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
+  as a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"CreatedRulesetName"`: A name for the ruleset.
+- `"NumberOfWorkers"`: The number of G.1X workers to be used in the run. The default is 5.
+- `"Timeout"`: The timeout for a run in minutes. This is the maximum time that a run can
+  consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
+  minutes (48 hours).
+"""
+function start_data_quality_rule_recommendation_run(
+    DataSource, Role; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StartDataQualityRuleRecommendationRun",
+        Dict{String,Any}("DataSource" => DataSource, "Role" => Role);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_data_quality_rule_recommendation_run(
+    DataSource,
+    Role,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "StartDataQualityRuleRecommendationRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DataSource" => DataSource, "Role" => Role), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_data_quality_ruleset_evaluation_run(data_source, role, ruleset_names)
+    start_data_quality_ruleset_evaluation_run(data_source, role, ruleset_names, params::Dict{String,<:Any})
+
+Once you have a ruleset definition (either recommended or your own), you call this
+operation to evaluate the ruleset against a data source (Glue table). The evaluation
+computes results which you can retrieve with the GetDataQualityResult API.
+
+# Arguments
+- `data_source`: The data source (Glue table) associated with this run.
+- `role`: An IAM role supplied to encrypt the results of the run.
+- `ruleset_names`: A list of ruleset names.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdditionalRunOptions"`: Additional run options you can specify for an evaluation run.
+- `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
+  as a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"NumberOfWorkers"`: The number of G.1X workers to be used in the run. The default is 5.
+- `"Timeout"`: The timeout for a run in minutes. This is the maximum time that a run can
+  consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
+  minutes (48 hours).
+"""
+function start_data_quality_ruleset_evaluation_run(
+    DataSource, Role, RulesetNames; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StartDataQualityRulesetEvaluationRun",
+        Dict{String,Any}(
+            "DataSource" => DataSource, "Role" => Role, "RulesetNames" => RulesetNames
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_data_quality_ruleset_evaluation_run(
+    DataSource,
+    Role,
+    RulesetNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "StartDataQualityRulesetEvaluationRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSource" => DataSource,
+                    "Role" => Role,
+                    "RulesetNames" => RulesetNames,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7173,8 +7713,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all built-in classifiers are included in a crawl, but these custom classifiers always
   override the default classifiers for a given classification.
 - `"Configuration"`: Crawler configuration information. This versioned JSON string allows
-  users to specify aspects of a crawler's behavior. For more information, see Configuring a
-  Crawler.
+  users to specify aspects of a crawler's behavior. For more information, see Setting crawler
+  configuration options.
 - `"CrawlerSecurityConfiguration"`: The name of the SecurityConfiguration structure to be
   used by this crawler.
 - `"DatabaseName"`: The Glue database where results are stored, such as:
@@ -7248,6 +7788,43 @@ function update_crawler_schedule(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CrawlerName" => CrawlerName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_quality_ruleset(name)
+    update_data_quality_ruleset(name, params::Dict{String,<:Any})
+
+Updates the specified data quality ruleset.
+
+# Arguments
+- `name`: The name of the data quality ruleset.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the ruleset.
+- `"Ruleset"`: A Data Quality Definition Language (DQDL) ruleset. For more information, see
+  the Glue developer guide.
+- `"UpdatedName"`: The new name of the ruleset, if you are renaming it.
+"""
+function update_data_quality_ruleset(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateDataQualityRuleset",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_data_quality_ruleset(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateDataQualityRuleset",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

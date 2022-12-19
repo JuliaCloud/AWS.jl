@@ -454,6 +454,30 @@ function get_attribute_group(
 end
 
 """
+    get_configuration()
+    get_configuration(params::Dict{String,<:Any})
+
+ Retrieves a TagKey configuration from an account.
+
+"""
+function get_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return service_catalog_appregistry(
+        "GET", "/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return service_catalog_appregistry(
+        "GET",
+        "/configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
@@ -528,7 +552,10 @@ end
     list_associated_resources(application)
     list_associated_resources(application, params::Dict{String,<:Any})
 
-Lists all resources that are associated with specified application. Results are paginated.
+ Lists all of the resources that are associated with the specified application. Results are
+paginated.    If you share an application, and a consumer account associates a tag query to
+the application, all of the users who can access the application can also view the tag
+values in all accounts that are associated with it using this API.
 
 # Arguments
 - `application`: The name or ID of the application.
@@ -663,6 +690,41 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_configuration(configuration)
+    put_configuration(configuration, params::Dict{String,<:Any})
+
+ Associates a TagKey configuration to an account.
+
+# Arguments
+- `configuration`:  Associates a TagKey configuration to an account.
+
+"""
+function put_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config())
+    return service_catalog_appregistry(
+        "PUT",
+        "/configuration",
+        Dict{String,Any}("configuration" => configuration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_configuration(
+    configuration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog_appregistry(
+        "PUT",
+        "/configuration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

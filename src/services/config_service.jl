@@ -402,11 +402,11 @@ end
     delete_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
 
 Deletes the specified organization Config rule and all of its evaluation results from all
-member accounts in that organization.  Only a master account and a delegated administrator
-account can delete an organization Config rule. When calling this API with a delegated
-administrator, you must ensure Organizations ListDelegatedAdministrator permissions are
-added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is
-complete. You cannot update a rule while it is in this state.
+member accounts in that organization.  Only a management account and a delegated
+administrator account can delete an organization Config rule. When calling this API with a
+delegated administrator, you must ensure Organizations ListDelegatedAdministrator
+permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the
+deletion is complete. You cannot update a rule while it is in this state.
 
 # Arguments
 - `organization_config_rule_name`: The name of organization Config rule that you want to
@@ -449,9 +449,9 @@ end
     delete_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
 
 Deletes the specified organization conformance pack and all of the Config rules and
-remediation actions from all member accounts in that organization.   Only a master account
-or a delegated administrator account can delete an organization conformance pack. When
-calling this API with a delegated administrator, you must ensure Organizations
+remediation actions from all member accounts in that organization.   Only a management
+account or a delegated administrator account can delete an organization conformance pack.
+When calling this API with a delegated administrator, you must ensure Organizations
 ListDelegatedAdministrator permissions are added. Config sets the state of a conformance
 pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance
 pack while it is in this state.
@@ -1085,6 +1085,8 @@ Returns details about your Config rules.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigRuleNames"`: The names of the Config rules for which you want details. If you do
   not specify any names, Config returns details for all your rules.
+- `"Filters"`: Returns a list of Detecive or Proactive Config rules. By default, this API
+  returns an unfiltered list.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
@@ -2147,18 +2149,12 @@ function get_compliance_details_by_config_rule(
 end
 
 """
-    get_compliance_details_by_resource(resource_id, resource_type)
-    get_compliance_details_by_resource(resource_id, resource_type, params::Dict{String,<:Any})
+    get_compliance_details_by_resource()
+    get_compliance_details_by_resource(params::Dict{String,<:Any})
 
 Returns the evaluation results for the specified Amazon Web Services resource. The results
 indicate which Config rules were used to evaluate the resource, when each rule was last
-used, and whether the resource complies with each rule.
-
-# Arguments
-- `resource_id`: The ID of the Amazon Web Services resource for which you want compliance
-  information.
-- `resource_type`: The type of the Amazon Web Services resource for which you want
-  compliance information.
+invoked, and whether the resource complies with each rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2166,34 +2162,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NON_COMPLIANT, and NOT_APPLICABLE.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
+- `"ResourceEvaluationId"`: The unique ID of Amazon Web Services resource execution for
+  which you want to retrieve evaluation results.   You need to only provide either a
+  ResourceEvaluationID or a ResourceID and ResourceType.
+- `"ResourceId"`: The ID of the Amazon Web Services resource for which you want compliance
+  information.
+- `"ResourceType"`: The type of the Amazon Web Services resource for which you want
+  compliance information.
 """
-function get_compliance_details_by_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+function get_compliance_details_by_resource(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return config_service(
-        "GetComplianceDetailsByResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
+        "GetComplianceDetailsByResource";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_compliance_details_by_resource(
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return config_service(
         "GetComplianceDetailsByResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId, "ResourceType" => ResourceType
-                ),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2646,6 +2637,49 @@ function get_resource_config_history(
 end
 
 """
+    get_resource_evaluation_summary(resource_evaluation_id)
+    get_resource_evaluation_summary(resource_evaluation_id, params::Dict{String,<:Any})
+
+Returns a summary of resource evaluation for the specified resource evaluation ID from the
+proactive rules that were run. The results indicate which evaluation context was used to
+evaluate the rules, which resource details were evaluated, the evaluation mode that was
+run, and whether the resource details comply with the configuration of the proactive rules.
+
+# Arguments
+- `resource_evaluation_id`: The unique ResourceEvaluationId of Amazon Web Services resource
+  execution for which you want to retrieve the evaluation summary.
+
+"""
+function get_resource_evaluation_summary(
+    ResourceEvaluationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "GetResourceEvaluationSummary",
+        Dict{String,Any}("ResourceEvaluationId" => ResourceEvaluationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_evaluation_summary(
+    ResourceEvaluationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return config_service(
+        "GetResourceEvaluationSummary",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceEvaluationId" => ResourceEvaluationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_stored_query(query_name)
     get_stored_query(query_name, params::Dict{String,<:Any})
 
@@ -2748,8 +2782,8 @@ end
 Returns a list of conformance pack compliance scores. A compliance score is the percentage
 of the number of compliant rule-resource combinations in a conformance pack compared to the
 number of total possible rule-resource combinations in the conformance pack. This metric
-provides you with a high-level view of the compliance state of your conformance packs, and
-can be used to identify, investigate, and understand the level of compliance in your
+provides you with a high-level view of the compliance state of your conformance packs. You
+can use it to identify, investigate, and understand the level of compliance in your
 conformance packs.  Conformance packs with no evaluation results will have a compliance
 score of INSUFFICIENT_DATA.
 
@@ -2761,12 +2795,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response for next set of conformance pack compliance scores.
 - `"SortBy"`: Sorts your conformance pack compliance scores in either ascending or
   descending order, depending on SortOrder. By default, conformance pack compliance scores
-  are sorted in ascending order by compliance score and alphabetically by name of the
-  conformance pack if there is more than one conformance pack with the same compliance score.
+  are sorted in alphabetical order by name of the conformance pack. Enter SCORE, to sort
+  conformance pack compliance scores by the numerical value of the compliance score.
 - `"SortOrder"`: Determines the order in which conformance pack compliance scores are
-  sorted. Either in ascending or descending order. Conformance packs with a compliance score
-  of INSUFFICIENT_DATA will be first when sorting by ascending order and last when sorting by
-  descending order.
+  sorted. Either in ascending or descending order. By default, conformance pack compliance
+  scores are sorted in alphabetical order by name of the conformance pack. Conformance pack
+  compliance scores are sorted in reverse alphabetical order if you enter DESCENDING. You can
+  sort conformance pack compliance scores by the numerical value of the compliance score by
+  entering SCORE in the SortBy action. When compliance scores are sorted by SCORE,
+  conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by
+  ascending order and first when sorting by descending order.
 """
 function list_conformance_pack_compliance_scores(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -2842,6 +2880,36 @@ function list_discovered_resources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_evaluations()
+    list_resource_evaluations(params::Dict{String,<:Any})
+
+Returns a list of proactive resource evaluations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Returns a ResourceEvaluationFilters object.
+- `"Limit"`: The maximum number of evaluations returned on each page. The default is 10.
+  You cannot specify a number greater than 100. If you specify 0, Config uses the default.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+  next page of results in a paginated response.
+"""
+function list_resource_evaluations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return config_service(
+        "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_resource_evaluations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "ListResourceEvaluations",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3135,12 +3203,12 @@ end
     put_conformance_pack(conformance_pack_name, params::Dict{String,<:Any})
 
 Creates or updates a conformance pack. A conformance pack is a collection of Config rules
-that can be easily deployed in an account and a region and across Amazon Web Services
-Organization. For information on how many conformance packs you can have per account, see
-Service Limits  in the Config Developer Guide. This API creates a service-linked role
+that can be easily deployed in an account and a region and across an organization. For
+information on how many conformance packs you can have per account, see  Service Limits  in
+the Config Developer Guide. This API creates a service-linked role
 AWSServiceRoleForConfigConforms in your account. The service-linked role is created only
-when the role does not exist in your account.   You must specify one and only one of
-theTemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails parameters.
+when the role does not exist in your account.   You must specify only one of the follow
+parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
 
 # Arguments
 - `conformance_pack_name`: The unique name of the conformance pack you want to deploy.
@@ -3153,11 +3221,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.   This field is optional.
 - `"TemplateBody"`: A string containing the full conformance pack template body. The
   structure containing the template body has a minimum length of 1 byte and a maximum length
-  of 51,200 bytes.  You can only use a YAML template with two resource types: Config rule
+  of 51,200 bytes.  You can use a YAML template with two resource types: Config rule
   (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
 - `"TemplateS3Uri"`: The location of the file containing the template body
   (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300
-  KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
+  KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.
   You must have access to read Amazon S3 bucket.
 - `"TemplateSSMDocumentDetails"`: An object of type TemplateSSMDocumentDetails, which
   contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems
@@ -3338,32 +3406,32 @@ end
 Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web
 Services resources comply with your desired configurations. For information on how many
 organization Config rules you can have per account, see  Service Limits  in the Config
-Developer Guide.  Only a master account and a delegated administrator can create or update
-an organization Config rule. When calling this API with a delegated administrator, you must
-ensure Organizations ListDelegatedAdministrator permissions are added. An organization can
-have up to 3 delegated administrators. This API enables organization service access through
-the EnableAWSServiceAccess action and creates a service-linked role
-AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account
-of your organization. The service-linked role is created only when the role does not exist
-in the caller account. Config verifies the existence of role with GetRole action. To use
-this API with delegated administrator, register a delegated administrator by calling Amazon
-Web Services Organization register-delegated-administrator for
+Developer Guide.  Only a management account and a delegated administrator can create or
+update an organization Config rule. When calling this API with a delegated administrator,
+you must ensure Organizations ListDelegatedAdministrator permissions are added. An
+organization can have up to 3 delegated administrators. This API enables organization
+service access through the EnableAWSServiceAccess action and creates a service-linked role
+AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator
+account of your organization. The service-linked role is created only when the role does
+not exist in the caller account. Config verifies the existence of role with GetRole action.
+To use this API with delegated administrator, register a delegated administrator by calling
+Amazon Web Services Organization register-delegated-administrator for
 config-multiaccountsetup.amazonaws.com.  There are two types of rules: Config Custom Rules
 and Config Managed Rules. You can use PutOrganizationConfigRule to create both Config
 custom rules and Config managed rules. Custom rules are rules that you can create using
 either Guard or Lambda functions. Guard (Guard GitHub Repository) is a policy-as-code
 language that allows you to write policies that are enforced by Config Custom Policy rules.
 Lambda uses custom code that you upload to evaluate a custom rule. If you are adding a new
-Custom Lambda rule, you first need to create an Lambda function in the master account or a
-delegated administrator that the rule invokes to evaluate your resources. You also need to
-create an IAM role in the managed account that can be assumed by the Lambda function. When
-you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify
-the Amazon Resource Name (ARN) that Lambda assigns to the function. Managed rules are
-predefined, customizable rules created by Config. For a list of managed rules, see List of
-Config Managed Rules. If you are adding an Config managed rule, you must specify the rule's
-identifier for the RuleIdentifier key.  Prerequisite: Ensure you call EnableAllFeatures API
-to enable all features in an organization. Make sure to specify one of either
-OrganizationCustomPolicyRuleMetadata for Custom Policy rules,
+Custom Lambda rule, you first need to create an Lambda function in the management account
+or a delegated administrator that the rule invokes to evaluate your resources. You also
+need to create an IAM role in the managed account that can be assumed by the Lambda
+function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you
+must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Managed
+rules are predefined, customizable rules created by Config. For a list of managed rules,
+see List of Config Managed Rules. If you are adding an Config managed rule, you must
+specify the rule's identifier for the RuleIdentifier key.  Prerequisite: Ensure you call
+EnableAllFeatures API to enable all features in an organization. Make sure to specify one
+of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules,
 OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata
 for managed rules.
 
@@ -3428,22 +3496,23 @@ end
 
 Deploys conformance packs across member accounts in an Amazon Web Services Organization.
 For information on how many organization conformance packs and how many Config rules you
-can have per account, see  Service Limits  in the Config Developer Guide. Only a master
+can have per account, see  Service Limits  in the Config Developer Guide. Only a management
 account and a delegated administrator can call this API. When calling this API with a
 delegated administrator, you must ensure Organizations ListDelegatedAdministrator
 permissions are added. An organization can have up to 3 delegated administrators. This API
 enables organization service access for config-multiaccountsetup.amazonaws.com through the
 EnableAWSServiceAccess action and creates a service-linked role
-AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account
-of your organization. The service-linked role is created only when the role does not exist
-in the caller account. To use this API with delegated administrator, register a delegated
-administrator by calling Amazon Web Services Organization register-delegate-admin for
-config-multiaccountsetup.amazonaws.com.  Prerequisite: Ensure you call EnableAllFeatures
-API to enable all features in an organization. You must specify either the TemplateS3Uri or
-the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri
-parameter and ignores the TemplateBody parameter. Config sets the state of a conformance
-pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or
-updated. You cannot update a conformance pack while it is in this state.
+AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator
+account of your organization. The service-linked role is created only when the role does
+not exist in the caller account. To use this API with delegated administrator, register a
+delegated administrator by calling Amazon Web Services Organization register-delegate-admin
+for config-multiaccountsetup.amazonaws.com.  Prerequisite: Ensure you call
+EnableAllFeatures API to enable all features in an organization. You must specify either
+the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both Config
+uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the
+state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the
+conformance pack is created or updated. You cannot update a conformance pack while it is in
+this state.
 
 # Arguments
 - `organization_conformance_pack_name`: Name of the organization conformance pack you want
@@ -3557,7 +3626,8 @@ A remediation exception is when a specific resource is no longer considered for
 auto-remediation. This API adds a new exception or updates an existing exception for a
 specific resource with a specific Config rule.   Config generates a remediation exception
 when a problem occurs executing a remediation action to a specific resource. Remediation
-exceptions blocks auto-remediation until the exception is cleared.
+exceptions blocks auto-remediation until the exception is cleared.   To place an exception
+on an Amazon Web Services resource, ensure remediation is set as manual remediation.
 
 # Arguments
 - `config_rule_name`: The name of the Config rule for which you want to create remediation
@@ -4005,6 +4075,69 @@ function start_remediation_execution(
                 _merge,
                 Dict{String,Any}(
                     "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_resource_evaluation(evaluation_mode, resource_details)
+    start_resource_evaluation(evaluation_mode, resource_details, params::Dict{String,<:Any})
+
+Runs an on-demand evaluation for the specified resource to determine whether the resource
+details will comply with configured Config rules. You can also use it for evaluation
+purposes. Config recommends using an evaluation context. It runs an execution against the
+resource details with all of the Config rules in your account that match with the specified
+proactive mode and resource type.  Ensure you have the cloudformation:DescribeType role
+setup to validate the resource type schema.
+
+# Arguments
+- `evaluation_mode`: The mode of an evaluation. The valid value for this API is Proactive.
+- `resource_details`: Returns a ResourceDetails object.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A client token is a unique, case-sensitive string of up to 64 ASCII
+  characters. To make an idempotent API request using one of these actions, specify a client
+  token in the request.  Avoid reusing the same client token for other API requests. If you
+  retry a request that completed successfully using the same client token and the same
+  parameters, the retry succeeds without performing any further actions. If you retry a
+  successful request using the same client token, but one or more of the parameters are
+  different, other than the Region or Availability Zone, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"EvaluationContext"`: Returns an EvaluationContext object.
+- `"EvaluationTimeout"`: The timeout for an evaluation. The default is 900 seconds. You
+  cannot specify a number greater than 3600. If you specify 0, Config uses the default.
+"""
+function start_resource_evaluation(
+    EvaluationMode, ResourceDetails; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return config_service(
+        "StartResourceEvaluation",
+        Dict{String,Any}(
+            "EvaluationMode" => EvaluationMode, "ResourceDetails" => ResourceDetails
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_resource_evaluation(
+    EvaluationMode,
+    ResourceDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return config_service(
+        "StartResourceEvaluation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EvaluationMode" => EvaluationMode, "ResourceDetails" => ResourceDetails
                 ),
                 params,
             ),

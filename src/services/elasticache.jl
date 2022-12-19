@@ -422,7 +422,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster or replication group and
   create it anew with the earlier engine version.
+- `"IpDiscovery"`: The network type you choose when modifying a cluster, either ipv4 |
+  ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
+  engine version 1.6.6 on all instances built on the Nitro system.
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
+- `"NetworkType"`: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads
+  using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances
+  built on the Nitro system.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple
   Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic
   owner must be the same as the cluster owner.
@@ -483,8 +489,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
   You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
   enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
-  when you create a cluster.   Required: Only available when creating a cache cluster in an
-  Amazon VPC using Memcached version 1.6.12 or later.
+  when you create a cluster.  Only available when creating a cache cluster in an Amazon VPC
+  using Memcached version 1.6.12 or later.
 """
 function create_cache_cluster(
     CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -837,9 +843,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:
    Previous generation: (not recommended. Existing clusters are still supported but creation
   of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge
-  Memory optimized with data tiering:   Current generation:   R6gd node types (available only
-  for Redis engine version 6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge,
-  cache.r6gd.4xlarge, cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge
   Memory optimized:   Current generation:   R6g node types (available only for Redis engine
   version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
   cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge,
@@ -881,10 +884,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version, you must delete the existing cluster or replication group and create it anew with
   the earlier engine version.
 - `"GlobalReplicationGroupId"`: The name of the Global datastore
+- `"IpDiscovery"`: The network type you choose when creating a replication group, either
+  ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or
+  Memcached engine version 1.6.6 on all instances built on the Nitro system.
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the disk in the cluster.
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
   tolerance. For more information, see Minimizing Downtime: Multi-AZ.
+- `"NetworkType"`: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads
+  using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances
+  built on the Nitro system.
 - `"NodeGroupConfiguration"`: A list of node group (shard) configuration options. Each node
   group (shard) configuration has the following members: PrimaryAvailabilityZone,
   ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode
@@ -1060,6 +1069,7 @@ Role Based Access Control (RBAC).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthenticationMode"`: Specifies how to authenticate the user.
 - `"NoPasswordRequired"`: Indicates a password is not required for this user.
 - `"Passwords"`: Passwords used for this user. You can create up to two passwords for each
   user.
@@ -2105,15 +2115,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   those reservations matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types:
+  generation counterparts.   General purpose:   Current generation:   M6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
   1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
   cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
-  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
+  (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16
+  onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended. Existing clusters
   are still supported but creation of new clusters is not supported for these types.)  T1
@@ -2121,10 +2131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large,
   cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not
   recommended. Existing clusters are still supported but creation of new clusters is not
-  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized with data
-  tiering:   Current generation:   R6gd node types (available only for Redis engine version
-  6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge, cache.r6gd.4xlarge,
-  cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge      Memory optimized:
+  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:
   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward
   and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge,
   cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge,
@@ -2188,15 +2195,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available offerings matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
-  generation counterparts.   General purpose:   Current generation:   M6g node types:
+  generation counterparts.   General purpose:   Current generation:   M6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward) cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
+  1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge,
   cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   For region availability, see
   Supported Node Types    M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge,
   cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large,
   cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T4g node types
-  (available only for Redis engine version 5.0.6 onward and for Memcached engine version
-  1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
+  (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16
+  onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium   T3 node types:
   cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro,
   cache.t2.small, cache.t2.medium    Previous generation: (not recommended. Existing clusters
   are still supported but creation of new clusters is not supported for these types.)  T1
@@ -2204,10 +2211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large,
   cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not
   recommended. Existing clusters are still supported but creation of new clusters is not
-  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized with data
-  tiering:   Current generation:   R6gd node types (available only for Redis engine version
-  6.2 onward).  cache.r6gd.xlarge, cache.r6gd.2xlarge, cache.r6gd.4xlarge,
-  cache.r6gd.8xlarge, cache.r6gd.12xlarge, cache.r6gd.16xlarge      Memory optimized:
+  supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:
   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward
   and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge,
   cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge,
@@ -2495,8 +2499,8 @@ end
     failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id)
     failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id, params::Dict{String,<:Any})
 
-Used to failover the primary region to a selected secondary region. The selected secondary
-region will become primary, and all other clusters will become secondary.
+Used to failover the primary region to a secondary region. The secondary region will become
+primary, and all other clusters will become secondary.
 
 # Arguments
 - `global_replication_group_id`: The name of the Global datastore
@@ -2809,6 +2813,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster and create it anew with the
   earlier engine version.
+- `"IpDiscovery"`: The network type you choose when modifying a cluster, either ipv4 |
+  ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
+  engine version 1.6.6 on all instances built on the Nitro system.
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"NewAvailabilityZones"`:  This option is only supported on Memcached clusters.  The list
   of Availability Zones where the new Memcached cache nodes are created. This parameter is
@@ -3117,6 +3124,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you
   want to use an earlier engine version, you must delete the existing replication group and
   create it anew with the earlier engine version.
+- `"IpDiscovery"`: The network type you choose when modifying a cluster, either ipv4 |
+  ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
+  engine version 1.6.6 on all instances built on the Nitro system.
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"MultiAZEnabled"`: A flag to indicate MultiAZ is enabled.
 - `"NodeGroupId"`: Deprecated. This parameter is not used.
@@ -3273,6 +3283,7 @@ Changes user password(s) and/or access string.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccessString"`: Access permissions string used for this user.
 - `"AppendAccessString"`: Adds additional user permissions to the access string.
+- `"AuthenticationMode"`: Specifies how to authenticate the user.
 - `"NoPasswordRequired"`: Indicates no password is required for the user.
 - `"Passwords"`: The passwords belonging to the user. You are allowed up to two.
 """

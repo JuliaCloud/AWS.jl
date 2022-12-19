@@ -5,6 +5,164 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    archive_application(application_id)
+    archive_application(application_id, params::Dict{String,<:Any})
+
+Archive application.
+
+# Arguments
+- `application_id`: Application ID.
+
+"""
+function archive_application(
+    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ArchiveApplication",
+        Dict{String,Any}("applicationID" => applicationID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function archive_application(
+    applicationID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/ArchiveApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    archive_wave(wave_id)
+    archive_wave(wave_id, params::Dict{String,<:Any})
+
+Archive wave.
+
+# Arguments
+- `wave_id`: Wave ID.
+
+"""
+function archive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/ArchiveWave",
+        Dict{String,Any}("waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function archive_wave(
+    waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ArchiveWave",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_applications(application_ids, wave_id)
+    associate_applications(application_ids, wave_id, params::Dict{String,<:Any})
+
+Associate applications to wave.
+
+# Arguments
+- `application_ids`: Application IDs list.
+- `wave_id`: Wave ID.
+
+"""
+function associate_applications(
+    applicationIDs, waveID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/AssociateApplications",
+        Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_applications(
+    applicationIDs,
+    waveID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/AssociateApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_source_servers(application_id, source_server_ids)
+    associate_source_servers(application_id, source_server_ids, params::Dict{String,<:Any})
+
+Associate source servers to application.
+
+# Arguments
+- `application_id`: Application ID.
+- `source_server_ids`: Source server IDs list.
+
+"""
+function associate_source_servers(
+    applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/AssociateSourceServers",
+        Dict{String,Any}(
+            "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_source_servers(
+    applicationID,
+    sourceServerIDs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/AssociateSourceServers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     change_server_life_cycle_state(life_cycle, source_server_id)
     change_server_life_cycle_state(life_cycle, source_server_id, params::Dict{String,<:Any})
 
@@ -53,17 +211,62 @@ function change_server_life_cycle_state(
 end
 
 """
-    create_launch_configuration_template()
-    create_launch_configuration_template(params::Dict{String,<:Any})
+    create_application(name)
+    create_application(name, params::Dict{String,<:Any})
 
-Creates a new ReplicationConfigurationTemplate.
+Create application.
+
+# Arguments
+- `name`: Application name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"postLaunchActions"`: Request to associate the default Application Migration Service
-  Security group with the Replication Settings template.
-- `"tags"`: Request to associate the default Application Migration Service Security group
-  with the Replication Settings template.
+- `"description"`: Application description.
+- `"tags"`: Application tags.
+"""
+function create_application(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/CreateApplication",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_application(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/CreateApplication",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_launch_configuration_template()
+    create_launch_configuration_template(params::Dict{String,<:Any})
+
+Creates a new Launch Configuration Template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"associatePublicIpAddress"`: Associate public Ip address.
+- `"bootMode"`: Launch configuration template boot mode.
+- `"copyPrivateIp"`: Copy private Ip.
+- `"copyTags"`: Copy tags.
+- `"enableMapAutoTagging"`: Enable map auto tagging.
+- `"largeVolumeConf"`: Large volume config.
+- `"launchDisposition"`: Launch disposition.
+- `"licensing"`:
+- `"mapAutoTaggingMpeID"`: Launch configuration template map auto tagging MPE ID.
+- `"postLaunchActions"`: Launch configuration template post launch actions.
+- `"smallVolumeConf"`: Small volume config.
+- `"smallVolumeMaxSize"`: Small volume maximum size.
+- `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
+- `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function create_launch_configuration_template(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -201,6 +404,78 @@ function create_replication_configuration_template(
 end
 
 """
+    create_wave(name)
+    create_wave(name, params::Dict{String,<:Any})
+
+Create wave.
+
+# Arguments
+- `name`: Wave name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: Wave description.
+- `"tags"`: Wave tags.
+"""
+function create_wave(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/CreateWave",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_wave(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/CreateWave",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application(application_id)
+    delete_application(application_id, params::Dict{String,<:Any})
+
+Delete application.
+
+# Arguments
+- `application_id`: Application ID.
+
+"""
+function delete_application(
+    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/DeleteApplication",
+        Dict{String,Any}("applicationID" => applicationID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_application(
+    applicationID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/DeleteApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_job(job_id)
     delete_job(job_id, params::Dict{String,<:Any})
 
@@ -235,7 +510,7 @@ end
     delete_launch_configuration_template(launch_configuration_template_id)
     delete_launch_configuration_template(launch_configuration_template_id, params::Dict{String,<:Any})
 
-Creates a new ReplicationConfigurationTemplate.
+Deletes a single Launch Configuration Template by ID.
 
 # Arguments
 - `launch_configuration_template_id`: ID of resource to be deleted.
@@ -398,6 +673,37 @@ function delete_vcenter_client(
 end
 
 """
+    delete_wave(wave_id)
+    delete_wave(wave_id, params::Dict{String,<:Any})
+
+Delete wave.
+
+# Arguments
+- `wave_id`: Wave ID.
+
+"""
+function delete_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/DeleteWave",
+        Dict{String,Any}("waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_wave(
+    waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/DeleteWave",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_job_log_items(job_id)
     describe_job_log_items(job_id, params::Dict{String,<:Any})
 
@@ -469,14 +775,14 @@ end
     describe_launch_configuration_templates()
     describe_launch_configuration_templates(params::Dict{String,<:Any})
 
-Creates a new ReplicationConfigurationTemplate.
+Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"launchConfigurationTemplateIDs"`: Request to disconnect Source Server from service by
-  Server ID.
-- `"maxResults"`: Request to disconnect Source Server from service by Server ID.
-- `"nextToken"`: Request to disconnect Source Server from service by Server ID.
+- `"launchConfigurationTemplateIDs"`: Request to filter Launch Configuration Templates list
+  by Launch Configuration Template ID.
+- `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
+- `"nextToken"`: Next pagination token returned from DescribeLaunchConfigurationTemplates.
 """
 function describe_launch_configuration_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -593,6 +899,96 @@ function describe_vcenter_clients(
         "GET",
         "/DescribeVcenterClients",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_applications(application_ids, wave_id)
+    disassociate_applications(application_ids, wave_id, params::Dict{String,<:Any})
+
+Disassociate applications from wave.
+
+# Arguments
+- `application_ids`: Application IDs list.
+- `wave_id`: Wave ID.
+
+"""
+function disassociate_applications(
+    applicationIDs, waveID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/DisassociateApplications",
+        Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_applications(
+    applicationIDs,
+    waveID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/DisassociateApplications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_source_servers(application_id, source_server_ids)
+    disassociate_source_servers(application_id, source_server_ids, params::Dict{String,<:Any})
+
+Disassociate source servers from application.
+
+# Arguments
+- `application_id`: Application ID.
+- `source_server_ids`: Source server IDs list.
+
+"""
+function disassociate_source_servers(
+    applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/DisassociateSourceServers",
+        Dict{String,Any}(
+            "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_source_servers(
+    applicationID,
+    sourceServerIDs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/DisassociateSourceServers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -786,6 +1182,78 @@ function initialize_service(
 end
 
 """
+    list_applications()
+    list_applications(params::Dict{String,<:Any})
+
+Retrieves all applications or multiple applications by ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Applications list filters.
+- `"maxResults"`: Maximum results to return when listing applications.
+- `"nextToken"`: Request next token.
+"""
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ListApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_source_server_actions(source_server_id)
+    list_source_server_actions(source_server_id, params::Dict{String,<:Any})
+
+List source server post migration custom actions.
+
+# Arguments
+- `source_server_id`: Source server ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Filters to apply when listing source server post migration custom actions.
+- `"maxResults"`: Maximum amount of items to return when listing source server post
+  migration custom actions.
+- `"nextToken"`: Next token to use when listing source server post migration custom actions.
+"""
+function list_source_server_actions(
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ListSourceServerActions",
+        Dict{String,Any}("sourceServerID" => sourceServerID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_source_server_actions(
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/ListSourceServerActions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -820,6 +1288,78 @@ function list_tags_for_resource(
 end
 
 """
+    list_template_actions(launch_configuration_template_id)
+    list_template_actions(launch_configuration_template_id, params::Dict{String,<:Any})
+
+List template post migration custom actions.
+
+# Arguments
+- `launch_configuration_template_id`: Launch configuration template ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Filters to apply when listing template post migration custom actions.
+- `"maxResults"`: Maximum amount of items to return when listing template post migration
+  custom actions.
+- `"nextToken"`: Next token to use when listing template post migration custom actions.
+"""
+function list_template_actions(
+    launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ListTemplateActions",
+        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_template_actions(
+    launchConfigurationTemplateID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/ListTemplateActions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "launchConfigurationTemplateID" => launchConfigurationTemplateID
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_waves()
+    list_waves(params::Dict{String,<:Any})
+
+Retrieves all waves or multiple waves by ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Waves list filters.
+- `"maxResults"`: Maximum results to return when listing waves.
+- `"nextToken"`: Request next token.
+"""
+function list_waves(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_waves(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST", "/ListWaves", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     mark_as_archived(source_server_id)
     mark_as_archived(source_server_id, params::Dict{String,<:Any})
 
@@ -850,6 +1390,252 @@ function mark_as_archived(
         "/MarkAsArchived",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_source_server_action(action_id, action_name, document_identifier, order, source_server_id)
+    put_source_server_action(action_id, action_name, document_identifier, order, source_server_id, params::Dict{String,<:Any})
+
+Put source server post migration custom action.
+
+# Arguments
+- `action_id`: Source server post migration custom action ID.
+- `action_name`: Source server post migration custom action name.
+- `document_identifier`: Source server post migration custom action document identifier.
+- `order`: Source server post migration custom action order.
+- `source_server_id`: Source server ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"active"`: Source server post migration custom action active status.
+- `"documentVersion"`: Source server post migration custom action document version.
+- `"mustSucceedForCutover"`: Source server post migration custom action must succeed for
+  cutover.
+- `"parameters"`: Source server post migration custom action parameters.
+- `"timeoutSeconds"`: Source server post migration custom action timeout in seconds.
+"""
+function put_source_server_action(
+    actionID,
+    actionName,
+    documentIdentifier,
+    order,
+    sourceServerID;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/PutSourceServerAction",
+        Dict{String,Any}(
+            "actionID" => actionID,
+            "actionName" => actionName,
+            "documentIdentifier" => documentIdentifier,
+            "order" => order,
+            "sourceServerID" => sourceServerID,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_source_server_action(
+    actionID,
+    actionName,
+    documentIdentifier,
+    order,
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/PutSourceServerAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionID" => actionID,
+                    "actionName" => actionName,
+                    "documentIdentifier" => documentIdentifier,
+                    "order" => order,
+                    "sourceServerID" => sourceServerID,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_template_action(action_id, action_name, document_identifier, launch_configuration_template_id, order)
+    put_template_action(action_id, action_name, document_identifier, launch_configuration_template_id, order, params::Dict{String,<:Any})
+
+Put template post migration custom action.
+
+# Arguments
+- `action_id`: Template post migration custom action ID.
+- `action_name`: Template post migration custom action name.
+- `document_identifier`: Template post migration custom action document identifier.
+- `launch_configuration_template_id`: Launch configuration template ID.
+- `order`: Template post migration custom action order.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"active"`: Template post migration custom action active status.
+- `"documentVersion"`: Template post migration custom action document version.
+- `"mustSucceedForCutover"`: Template post migration custom action must succeed for cutover.
+- `"operatingSystem"`: Operating system eligible for this template post migration custom
+  action.
+- `"parameters"`: Template post migration custom action parameters.
+- `"timeoutSeconds"`: Template post migration custom action timeout in seconds.
+"""
+function put_template_action(
+    actionID,
+    actionName,
+    documentIdentifier,
+    launchConfigurationTemplateID,
+    order;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/PutTemplateAction",
+        Dict{String,Any}(
+            "actionID" => actionID,
+            "actionName" => actionName,
+            "documentIdentifier" => documentIdentifier,
+            "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+            "order" => order,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_template_action(
+    actionID,
+    actionName,
+    documentIdentifier,
+    launchConfigurationTemplateID,
+    order,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/PutTemplateAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionID" => actionID,
+                    "actionName" => actionName,
+                    "documentIdentifier" => documentIdentifier,
+                    "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+                    "order" => order,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_source_server_action(action_id, source_server_id)
+    remove_source_server_action(action_id, source_server_id, params::Dict{String,<:Any})
+
+Remove source server post migration custom action.
+
+# Arguments
+- `action_id`: Source server post migration custom action ID to remove.
+- `source_server_id`: Source server ID of the post migration custom action to remove.
+
+"""
+function remove_source_server_action(
+    actionID, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/RemoveSourceServerAction",
+        Dict{String,Any}("actionID" => actionID, "sourceServerID" => sourceServerID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function remove_source_server_action(
+    actionID,
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/RemoveSourceServerAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionID" => actionID, "sourceServerID" => sourceServerID
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_template_action(action_id, launch_configuration_template_id)
+    remove_template_action(action_id, launch_configuration_template_id, params::Dict{String,<:Any})
+
+Remove template post migration custom action.
+
+# Arguments
+- `action_id`: Template post migration custom action ID to remove.
+- `launch_configuration_template_id`: Launch configuration template ID of the post
+  migration custom action to remove.
+
+"""
+function remove_template_action(
+    actionID,
+    launchConfigurationTemplateID;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/RemoveTemplateAction",
+        Dict{String,Any}(
+            "actionID" => actionID,
+            "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function remove_template_action(
+    actionID,
+    launchConfigurationTemplateID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/RemoveTemplateAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionID" => actionID,
+                    "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1100,6 +1886,74 @@ function terminate_target_instances(
 end
 
 """
+    unarchive_application(application_id)
+    unarchive_application(application_id, params::Dict{String,<:Any})
+
+Unarchive application.
+
+# Arguments
+- `application_id`: Application ID.
+
+"""
+function unarchive_application(
+    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/UnarchiveApplication",
+        Dict{String,Any}("applicationID" => applicationID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function unarchive_application(
+    applicationID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/UnarchiveApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    unarchive_wave(wave_id)
+    unarchive_wave(wave_id, params::Dict{String,<:Any})
+
+Unarchive wave.
+
+# Arguments
+- `wave_id`: Wave ID.
+
+"""
+function unarchive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/UnarchiveWave",
+        Dict{String,Any}("waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function unarchive_wave(
+    waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/UnarchiveWave",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
@@ -1138,6 +1992,47 @@ function untag_resource(
 end
 
 """
+    update_application(application_id)
+    update_application(application_id, params::Dict{String,<:Any})
+
+Update application.
+
+# Arguments
+- `application_id`: Application ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: Application description.
+- `"name"`: Application name.
+"""
+function update_application(
+    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/UpdateApplication",
+        Dict{String,Any}("applicationID" => applicationID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_application(
+    applicationID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/UpdateApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_launch_configuration(source_server_id)
     update_launch_configuration(source_server_id, params::Dict{String,<:Any})
 
@@ -1151,8 +2046,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"bootMode"`: Update Launch configuration boot mode request.
 - `"copyPrivateIp"`: Update Launch configuration copy Private IP request.
 - `"copyTags"`: Update Launch configuration copy Tags request.
+- `"enableMapAutoTagging"`: Enable map auto tagging.
 - `"launchDisposition"`: Update Launch configuration launch disposition request.
 - `"licensing"`: Update Launch configuration licensing request.
+- `"mapAutoTaggingMpeID"`: Launch configuration map auto tagging MPE ID.
 - `"name"`: Update Launch configuration name request.
 - `"postLaunchActions"`:
 - `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance
@@ -1189,15 +2086,26 @@ end
     update_launch_configuration_template(launch_configuration_template_id)
     update_launch_configuration_template(launch_configuration_template_id, params::Dict{String,<:Any})
 
-Creates a new ReplicationConfigurationTemplate.
+Updates an existing Launch Configuration Template by ID.
 
 # Arguments
-- `launch_configuration_template_id`: Update Launch configuration Target instance right
-  sizing request.
+- `launch_configuration_template_id`: Launch Configuration Template ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"postLaunchActions"`: Update Launch configuration Target instance right sizing request.
+- `"associatePublicIpAddress"`: Associate public Ip address.
+- `"bootMode"`: Launch configuration template boot mode.
+- `"copyPrivateIp"`: Copy private Ip.
+- `"copyTags"`: Copy tags.
+- `"enableMapAutoTagging"`: Enable map auto tagging.
+- `"largeVolumeConf"`: Large volume config.
+- `"launchDisposition"`: Launch disposition.
+- `"licensing"`:
+- `"mapAutoTaggingMpeID"`: Launch configuration template map auto tagging MPE ID.
+- `"postLaunchActions"`: Post Launch Action to execute on the Test or Cutover instance.
+- `"smallVolumeConf"`: Small volume config.
+- `"smallVolumeMaxSize"`: Small volume maximum size.
+- `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function update_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1404,6 +2312,41 @@ function update_source_server_replication_type(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_wave(wave_id)
+    update_wave(wave_id, params::Dict{String,<:Any})
+
+Update wave.
+
+# Arguments
+- `wave_id`: Wave ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: Wave description.
+- `"name"`: Wave name.
+"""
+function update_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/UpdateWave",
+        Dict{String,Any}("waveID" => waveID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_wave(
+    waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/UpdateWave",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
