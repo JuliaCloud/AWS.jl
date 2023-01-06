@@ -2263,7 +2263,7 @@ end
 
 Removes your Amazon Web Services account from the launch permissions for the specified AMI.
 For more information, see Cancel having an AMI shared with your Amazon Web Services account
-in the Amazon Elastic Compute Cloud User Guide.
+in the Amazon EC2 User Guide.
 
 # Arguments
 - `image_id`: The ID of the AMI that was shared with your Amazon Web Services account.
@@ -2586,9 +2586,8 @@ specify the ARN of the destination Outpost using DestinationOutpostArn. Backing 
 copied to an Outpost are encrypted by default using the default encryption key for the
 Region, or a different key that you specify in the request using KmsKeyId. Outposts do not
 support unencrypted snapshots. For more information,  Amazon EBS local snapshots on
-Outposts in the Amazon Elastic Compute Cloud User Guide. For more information about the
-prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon Elastic Compute
-Cloud User Guide.
+Outposts in the Amazon EC2 User Guide. For more information about the prerequisites and
+limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
 
 # Arguments
 - `name`: The name of the new AMI in the destination Region.
@@ -2609,7 +2608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to an Outpost. The AMI must be in the Region of the destination Outpost. You cannot copy an
   AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost.
   For more information, see  Copy AMIs from an Amazon Web Services Region to an Outpost in
-  the Amazon Elastic Compute Cloud User Guide.
+  the Amazon EC2 User Guide.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2617,7 +2616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an
   unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used
   unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For
-  more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+  more information, see Amazon EBS encryption in the Amazon EC2 User Guide.
 - `"kmsKeyId"`: The identifier of the symmetric Key Management Service (KMS) KMS key to use
   when creating encrypted volumes. If this parameter is not specified, your Amazon Web
   Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also
@@ -5346,8 +5345,8 @@ end
 Starts a task that restores an AMI from an Amazon S3 object that was previously created by
 using CreateStoreImageTask. To use this API, you must have the required permissions. For
 more information, see Permissions for storing and restoring AMIs using Amazon S3 in the
-Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI
-using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+Amazon EC2 User Guide. For more information, see Store and restore an AMI using Amazon S3
+in the Amazon EC2 User Guide.
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket that contains the stored AMI object.
@@ -5756,8 +5755,8 @@ end
 
 Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the
 required permissions. For more information, see Permissions for storing and restoring AMIs
-using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see
-Store and restore an AMI using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore
+an AMI using Amazon S3 in the Amazon EC2 User Guide.
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket in which the AMI object will be stored. The
@@ -11043,13 +11042,12 @@ end
 Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new
 instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is
 retained in the Recycle Bin for the specified retention period. For more information, see
-Recycle Bin in the Amazon Elastic Compute Cloud User Guide. When you deregister an AMI, it
-doesn't affect any instances that you've already launched from the AMI. You'll continue to
-incur usage costs for those instances until you terminate them. When you deregister an
-Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume
-of the instance during the AMI creation process. When you deregister an instance
-store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you
-created the AMI.
+Recycle Bin in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any
+instances that you've already launched from the AMI. You'll continue to incur usage costs
+for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI,
+it doesn't affect the snapshot that was created for the root volume of the instance during
+the AMI creation process. When you deregister an instance store-backed AMI, it doesn't
+affect the files that you uploaded to Amazon S3 when you created the AMI.
 
 # Arguments
 - `image_id`: The ID of the AMI.
@@ -13009,6 +13007,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeDeprecated"`: Specifies whether to include deprecated AMIs. Default: No
   deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated
   AMIs appear in the response regardless of what you specify for this parameter.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
 - `"Owner"`: Scopes the results to images with the specified owners. You can specify a
   combination of Amazon Web Services account IDs, self, amazon, and aws-marketplace. If you
   omit this parameter, the results include all images for which you have launch permissions,
@@ -16054,8 +16055,8 @@ Completed, or Failed. For tasks InProgress, the response shows the estimated pro
 percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the
 past 31 days can be viewed. To use this API, you must have the required permissions. For
 more information, see Permissions for storing and restoring AMIs using Amazon S3 in the
-Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI
-using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+Amazon EC2 User Guide. For more information, see Store and restore an AMI using Amazon S3
+in the Amazon EC2 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -18338,7 +18339,7 @@ end
     disable_image_deprecation(image_id, params::Dict{String,<:Any})
 
 Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in
-the Amazon Elastic Compute Cloud User Guide.
+the Amazon EC2 User Guide.
 
 # Arguments
 - `image_id`: The ID of the AMI.
@@ -19394,7 +19395,7 @@ end
     enable_image_deprecation(deprecate_at, image_id, params::Dict{String,<:Any})
 
 Enables deprecation of the specified AMI at the specified date and time. For more
-information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+information, see Deprecate an AMI in the Amazon EC2 User Guide.
 
 # Arguments
 - `deprecate_at`: The date and time to deprecate the AMI, in UTC, in the following format:
@@ -22251,7 +22252,7 @@ end
     list_images_in_recycle_bin(params::Dict{String,<:Any})
 
 Lists one or more AMIs that are currently in the Recycle Bin. For more information, see
-Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+Recycle Bin in the Amazon EC2 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -26453,7 +26454,7 @@ AMI with a billing product code, make sure that the Reserved Instance has the ma
 billing product code. If you purchase a Reserved Instance without the matching billing
 product code, the Reserved Instance will not be applied to the On-Demand Instance. For
 information about how to obtain the platform details and billing information of an AMI, see
-Understand AMI billing information in the Amazon Elastic Compute Cloud User Guide.
+Understand AMI billing information in the Amazon EC2 User Guide.
 
 # Arguments
 - `name`: A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses
@@ -26463,16 +26464,19 @@ Understand AMI billing information in the Amazon Elastic Compute Cloud User Guid
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingProduct"`: The billing product codes. Your account must be authorized to specify
-  billing product codes. Otherwise, you can use the Amazon Web Services Marketplace to bill
-  for the use of an AMI.
+  billing product codes. If your account is not authorized to specify billing product codes,
+  you can publish AMIs that include billable software and list them on the Amazon Web
+  Services Marketplace. You must first register as a seller on the Amazon Web Services
+  Marketplace. For more information, see Getting started as a seller and AMI-based products
+  in the Amazon Web Services Marketplace Seller Guide.
 - `"BlockDeviceMapping"`: The block device mapping entries. If you specify an Amazon EBS
   volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of
   the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the
   same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local
   snapshots can be used to launch instances on the same Outpost only. For more information,
-  Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
+  Amazon EBS local snapshots on Outposts in the Amazon EC2 User Guide.
 - `"BootMode"`: The boot mode of the AMI. For more information, see Boot modes in the
-  Amazon Elastic Compute Cloud User Guide.
+  Amazon EC2 User Guide.
 - `"ImageLocation"`: The full path to your AMI manifest in Amazon S3 storage. The specified
   bucket must have the aws-exec-read canned access control list (ACL) to ensure that it can
   be accessed by Amazon EC2. For more information, see Canned ACLs in the Amazon S3 Service
@@ -26481,14 +26485,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launched from this AMI will have HttpTokens automatically set to required so that, by
   default, the instance requires that IMDSv2 is used when requesting instance metadata. In
   addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI
-  in the Amazon Elastic Compute Cloud User Guide.  If you set the value to v2.0, make sure
-  that your AMI software can support IMDSv2.
+  in the Amazon EC2 User Guide.  If you set the value to v2.0, make sure that your AMI
+  software can support IMDSv2.
 - `"TpmSupport"`: Set to v2.0 to enable Trusted Platform Module (TPM) support. For more
-  information, see NitroTPM in the Amazon Elastic Compute Cloud User Guide.
+  information, see NitroTPM in the Amazon EC2 User Guide.
 - `"UefiData"`: Base64 representation of the non-volatile UEFI variable store. To retrieve
   the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI
   data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure
-  Boot in the Amazon Elastic Compute Cloud User Guide.
+  Boot in the Amazon EC2 User Guide.
 - `"architecture"`: The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386.
   For instance store-backed AMIs, the architecture specified in the manifest file.
 - `"description"`: A description for your AMI.
@@ -27939,7 +27943,7 @@ end
     restore_image_from_recycle_bin(image_id, params::Dict{String,<:Any})
 
 Restores an AMI from the Recycle Bin. For more information, see Recycle Bin in the Amazon
-Elastic Compute Cloud User Guide.
+EC2 User Guide.
 
 # Arguments
 - `image_id`: The ID of the AMI to restore.

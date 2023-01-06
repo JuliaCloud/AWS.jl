@@ -5,30 +5,48 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_suite_definition()
-    create_suite_definition(params::Dict{String,<:Any})
+    create_suite_definition(suite_definition_configuration)
+    create_suite_definition(suite_definition_configuration, params::Dict{String,<:Any})
 
 Creates a Device Advisor test suite. Requires permission to access the
 CreateSuiteDefinition action.
 
+# Arguments
+- `suite_definition_configuration`: Creates a Device Advisor test suite with suite
+  definition configuration.
+
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionConfiguration"`: Creates a Device Advisor test suite with suite
-  definition configuration.
 - `"tags"`: The tags to be attached to the suite definition.
 """
-function create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "POST", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function create_suite_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions",
-        params;
+        Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_suite_definition(
+    suiteDefinitionConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotdeviceadvisor(
+        "POST",
+        "/suiteDefinitions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "suiteDefinitionConfiguration" => suiteDefinitionConfiguration
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -272,7 +290,8 @@ Lists the tags attached to an IoT Device Advisor resource. Requires permission t
 the ListTagsForResource action.
 
 # Arguments
-- `resource_arn`: The ARN of the IoT Device Advisor resource.
+- `resource_arn`: The resource ARN of the IoT Device Advisor resource. This can be
+  SuiteDefinition ARN or SuiteRun ARN.
 
 """
 function list_tags_for_resource(
@@ -300,40 +319,50 @@ function list_tags_for_resource(
 end
 
 """
-    start_suite_run(suite_definition_id)
-    start_suite_run(suite_definition_id, params::Dict{String,<:Any})
+    start_suite_run(suite_definition_id, suite_run_configuration)
+    start_suite_run(suite_definition_id, suite_run_configuration, params::Dict{String,<:Any})
 
 Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun
 action.
 
 # Arguments
 - `suite_definition_id`: Suite definition ID of the test suite.
+- `suite_run_configuration`: Suite run configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite.
-- `"suiteRunConfiguration"`: Suite run configuration.
 - `"tags"`: The tags to be attached to the suite run.
 """
 function start_suite_run(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId,
+    suiteRunConfiguration;
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns";
+        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
+        Dict{String,Any}("suiteRunConfiguration" => suiteRunConfiguration);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_suite_run(
     suiteDefinitionId,
+    suiteRunConfiguration,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("suiteRunConfiguration" => suiteRunConfiguration),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -384,7 +413,8 @@ Adds to and modifies existing tags of an IoT Device Advisor resource. Requires p
 to access the TagResource action.
 
 # Arguments
-- `resource_arn`: The resource ARN of an IoT Device Advisor resource.
+- `resource_arn`: The resource ARN of an IoT Device Advisor resource. This can be
+  SuiteDefinition ARN or SuiteRun ARN.
 - `tags`: The tags to be attached to the IoT Device Advisor resource.
 
 """
@@ -420,7 +450,8 @@ Removes tags from an IoT Device Advisor resource. Requires permission to access 
 UntagResource action.
 
 # Arguments
-- `resource_arn`: The resource ARN of an IoT Device Advisor resource.
+- `resource_arn`: The resource ARN of an IoT Device Advisor resource. This can be
+  SuiteDefinition ARN or SuiteRun ARN.
 - `tag_keys`: List of tag keys to remove from the IoT Device Advisor resource.
 
 """
@@ -451,31 +482,33 @@ function untag_resource(
 end
 
 """
-    update_suite_definition(suite_definition_id)
-    update_suite_definition(suite_definition_id, params::Dict{String,<:Any})
+    update_suite_definition(suite_definition_configuration, suite_definition_id)
+    update_suite_definition(suite_definition_configuration, suite_definition_id, params::Dict{String,<:Any})
 
 Updates a Device Advisor test suite. Requires permission to access the
 UpdateSuiteDefinition action.
 
 # Arguments
+- `suite_definition_configuration`: Updates a Device Advisor test suite with suite
+  definition configuration.
 - `suite_definition_id`: Suite definition ID of the test suite to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionConfiguration"`: Updates a Device Advisor test suite with suite
-  definition configuration.
 """
 function update_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionConfiguration,
+    suiteDefinitionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotdeviceadvisor(
         "PATCH",
-        "/suiteDefinitions/$(suiteDefinitionId)";
+        "/suiteDefinitions/$(suiteDefinitionId)",
+        Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_suite_definition(
+    suiteDefinitionConfiguration,
     suiteDefinitionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -483,7 +516,15 @@ function update_suite_definition(
     return iotdeviceadvisor(
         "PATCH",
         "/suiteDefinitions/$(suiteDefinitionId)",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "suiteDefinitionConfiguration" => suiteDefinitionConfiguration
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

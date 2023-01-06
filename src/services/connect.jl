@@ -3329,10 +3329,13 @@ Administrator Guide.
   \"Value\": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics
   report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active
   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
-- `filters`: The queues, up to 100, or channels, to use to filter the metrics returned.
-  Metric data is retrieved only for the resources associated with the queues or channels
-  included in the filter. You can include both queue IDs and queue ARNs in the same request.
-  VOICE, CHAT, and TASK channels are supported.
+- `filters`: The filters to apply to returned metrics. You can filter up to the following
+  limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels
+  are supported.)   Metric data is retrieved only for the resources associated with the
+  queues or routing profiles, and by any channels included in the filter. (You cannot filter
+  by both queue AND routing profile.) You can include both resource IDs and resource ARNs in
+  the same request.  Currently tagging is only supported on the resources that are passed in
+  the filter.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 
@@ -3342,13 +3345,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK
   channels are supported.   If you group by ROUTING_PROFILE, you must include either a queue
-  or routing profile filter.   If no Grouping is included in the request, a summary of
-  metrics is returned.
+  or routing profile filter. In addition, a routing profile filter is required for metrics
+  CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   If no Grouping is
+  included in the request, a summary of metrics is returned.
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results. The token
   expires after 5 minutes from the time it is created. Subsequent requests that use the token
   must use the same request parameters as the request that generated the token.
+- `"SortCriteria"`: The way to sort the resulting response based on metrics. You can enter
+  one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The
+  metric collection is sorted based on the input metrics. Note the following:   Sorting on
+  SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
 """
 function get_current_metric_data(
     CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3390,9 +3398,12 @@ end
 Gets the real-time active user data from the specified Amazon Connect instance.
 
 # Arguments
-- `filters`: Filters up to 100 Queues, or up to 9 ContactStates. The user data is retrieved
-  only for those users who are associated with the queues and have contacts that are in the
-  specified ContactState.
+- `filters`: The filters to apply to returned user data. You can filter up to the following
+  limits:   Queues: 100   Routing profiles: 100   Agents: 100   Contact states: 9   User
+  hierarchy groups: 1    The user data is retrieved for only the specified values/resources
+  in the filter. A maximum of one filter can be passed from queues, routing profiles, agents,
+  and user hierarchy groups.  Currently tagging is only supported on the resources that are
+  passed in the filter.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 
@@ -5587,7 +5598,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"InitialMessage"`: The initial message to be sent to the newly created chat.
 - `"SupportedMessagingContentTypes"`: The supported chat message content types. Content
-  types can be text/plain or both text/plain and text/markdown.
+  types must always contain text/plain. You can then put any other supported type in the
+  list. For example, all the following lists are valid because they contain text/plain:
+  [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain,
+  application/json].
 """
 function start_chat_contact(
     ContactFlowId,
@@ -6885,6 +6899,59 @@ function update_instance_storage_config(
                 Dict{String,Any}(
                     "StorageConfig" => StorageConfig, "resourceType" => resourceType
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_participant_role_config(channel_configuration, contact_id, instance_id)
+    update_participant_role_config(channel_configuration, contact_id, instance_id, params::Dict{String,<:Any})
+
+Updates timeouts for when human chat participants are to be considered idle, and when
+agents are automatically disconnected from a chat due to idleness. You can set four timers:
+  Customer idle timeout   Customer auto-disconnect timeout   Agent idle timeout   Agent
+auto-disconnect timeout   For more information about how chat timeouts work, see Set up
+chat timeouts for human participants.
+
+# Arguments
+- `channel_configuration`: The Amazon Connect channel you want to configure.
+- `contact_id`: The identifier of the contact in this instance of Amazon Connect.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function update_participant_role_config(
+    ChannelConfiguration,
+    ContactId,
+    InstanceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/contact/participant-role-config/$(InstanceId)/$(ContactId)",
+        Dict{String,Any}("ChannelConfiguration" => ChannelConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_participant_role_config(
+    ChannelConfiguration,
+    ContactId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/contact/participant-role-config/$(InstanceId)/$(ContactId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChannelConfiguration" => ChannelConfiguration),
                 params,
             ),
         );

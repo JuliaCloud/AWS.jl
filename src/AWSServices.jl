@@ -388,6 +388,9 @@ const kinesis_video_media = AWS.RestJSONService(
 const kinesis_video_signaling = AWS.RestJSONService(
     "kinesisvideo", "kinesisvideo", "2019-12-04"
 )
+const kinesis_video_webrtc_storage = AWS.RestJSONService(
+    "kinesisvideo", "kinesisvideo", "2018-05-10"
+)
 const kms = AWS.JSONService("kms", "kms", "2014-11-01", "1.1", "TrentService")
 const lakeformation = AWS.RestJSONService("lakeformation", "lakeformation", "2017-03-31")
 const lambda = AWS.RestJSONService("lambda", "lambda", "2015-03-31")
@@ -397,6 +400,11 @@ const lex_runtime_service = AWS.RestJSONService("lex", "runtime.lex", "2016-11-2
 const lex_runtime_v2 = AWS.RestJSONService("lex", "runtime-v2-lex", "2020-08-07")
 const license_manager = AWS.JSONService(
     "license-manager", "license-manager", "2018-08-01", "1.1", "AWSLicenseManager"
+)
+const license_manager_linux_subscriptions = AWS.RestJSONService(
+    "license-manager-linux-subscriptions",
+    "license-manager-linux-subscriptions",
+    "2018-05-10",
 )
 const license_manager_user_subscriptions = AWS.RestJSONService(
     "license-manager-user-subscriptions", "license-manager-user-subscriptions", "2018-05-10"

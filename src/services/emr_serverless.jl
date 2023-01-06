@@ -49,7 +49,7 @@ Creates an application.
 # Arguments
 - `client_token`: The client idempotency token of the application to create. Its value must
   be unique for each request.
-- `release_label`: The EMR release version associated with the application.
+- `release_label`: The EMR release associated with the application.
 - `type`: The type of application you want to start, such as Spark or Hive.
 
 # Optional Parameters
@@ -59,6 +59,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on job submission.
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
+- `"imageConfiguration"`: The image configuration for all worker types. You can either set
+  this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
 - `"initialCapacity"`: The capacity to initialize when the application is created.
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is created.
   This is cumulative across all workers at any given point in time, not just when an
@@ -67,6 +69,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the application.
 - `"networkConfiguration"`: The network configuration for customer VPC connectivity.
 - `"tags"`: The tags assigned to the application.
+- `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
+  WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
+  Spark or Hive application. Valid worker types include Driver and Executor for Spark
+  applications and HiveDriver and TezTask for Hive applications. You can either set image
+  details in this parameter for each worker type, or in imageConfiguration for all worker
+  types.
 """
 function create_application(
     clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -577,11 +585,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on job submission.
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
+- `"imageConfiguration"`: The image configuration to be used for all worker types. You can
+  either set this parameter or imageConfiguration for each worker type in
+  WorkerTypeSpecificationInput.
 - `"initialCapacity"`: The capacity to initialize when the application is updated.
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is updated.
   This is cumulative across all workers at any given point in time during the lifespan of the
   application. No new resources will be created once any one of the defined limits is hit.
 - `"networkConfiguration"`:
+- `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
+  WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
+  Spark or Hive application. Valid worker types include Driver and Executor for Spark
+  applications and HiveDriver and TezTask for Hive applications. You can either set image
+  details in this parameter for each worker type, or in imageConfiguration for all worker
+  types.
 """
 function update_application(
     applicationId, clientToken; aws_config::AbstractAWSConfig=global_aws_config()

@@ -1055,8 +1055,10 @@ end
     get_query_runtime_statistics(query_execution_id, params::Dict{String,<:Any})
 
 Returns query execution runtime statistics related to a single execution of a query if you
-have access to the workgroup in which the query ran. The query execution runtime statistics
-is returned only when QueryExecutionStatusState is in a SUCCEEDED or FAILED state.
+have access to the workgroup in which the query ran. Query execution runtime statistics are
+returned only when QueryExecutionStatusState is in a SUCCEEDED or FAILED state. Stage-level
+input and output row count and data size statistics are not shown when a query has
+row-level filters defined in Lake Formation.
 
 # Arguments
 - `query_execution_id`: The unique ID of the query execution.
@@ -2368,13 +2370,15 @@ function update_named_query(
 end
 
 """
-    update_notebook(notebook_id)
-    update_notebook(notebook_id, params::Dict{String,<:Any})
+    update_notebook(notebook_id, payload, type)
+    update_notebook(notebook_id, payload, type, params::Dict{String,<:Any})
 
 Updates the contents of a Spark notebook.
 
 # Arguments
 - `notebook_id`: The ID of the notebook to update.
+- `payload`: The updated content for the notebook.
+- `type`: The notebook content type. Currently, the only valid type is IPYNB.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2383,27 +2387,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
   the Amazon Web Services CLI, you must provide this token or the action will fail.
-- `"Payload"`: The updated content for the notebook.
 - `"SessionId"`: The ID of the session in which the notebook will be updated.
-- `"Type"`: The notebook content type. Currently, the only valid type is IPYNB.
 """
-function update_notebook(NotebookId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_notebook(
+    NotebookId, Payload, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
     return athena(
         "UpdateNotebook",
-        Dict{String,Any}("NotebookId" => NotebookId);
+        Dict{String,Any}("NotebookId" => NotebookId, "Payload" => Payload, "Type" => Type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_notebook(
     NotebookId,
+    Payload,
+    Type,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return athena(
         "UpdateNotebook",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NotebookId" => NotebookId, "Payload" => Payload, "Type" => Type
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
