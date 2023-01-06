@@ -4904,13 +4904,14 @@ accounts to view and interact with OpsCenter operational work items (OpsItems).
 
 # Arguments
 - `policy`: A policy you want to associate with a resource.
-- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
-  attached.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which you want to attach a
+  policy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PolicyHash"`: ID of the current policy version. The hash helps to prevent a situation
-  where multiple users attempt to overwrite a policy.
+  where multiple users attempt to overwrite a policy. You must provide this hash when
+  updating or deleting a policy.
 - `"PolicyId"`: The policy ID.
 """
 function put_resource_policy(

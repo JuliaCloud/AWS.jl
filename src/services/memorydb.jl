@@ -873,6 +873,94 @@ function describe_parameters(
 end
 
 """
+    describe_reserved_nodes()
+    describe_reserved_nodes(params::Dict{String,<:Any})
+
+Returns information about reserved nodes for this account, or about a specified reserved
+node.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Duration"`: The duration filter value, specified in years or seconds. Use this
+  parameter to show only reservations for this duration.
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a marker is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional marker returned from a prior request. Use this marker for
+  pagination of results from this operation. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by MaxRecords.
+- `"NodeType"`: The node type filter value. Use this parameter to show only those
+  reservations matching the specified node type. For more information, see Supported node
+  types.
+- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+  available offerings matching the specified offering type. Valid values: \"All
+  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+- `"ReservationId"`: The reserved node identifier filter value. Use this parameter to show
+  only the reservation that matches the specified reservation ID.
+- `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
+  show only purchased reservations matching the specified offering identifier.
+"""
+function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return memorydb(
+        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_reserved_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_reserved_nodes_offerings()
+    describe_reserved_nodes_offerings(params::Dict{String,<:Any})
+
+Lists available reserved node offerings.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Duration"`: Duration filter value, specified in years or seconds. Use this parameter to
+  show only reservations for a given duration.
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a marker is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional marker returned from a prior request. Use this marker for
+  pagination of results from this operation. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by MaxRecords.
+- `"NodeType"`: The node type for the reserved nodes. For more information, see Supported
+  node types.
+- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+  available offerings matching the specified offering type. Valid values: \"All
+  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+- `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
+  show only the available offering that matches the specified reservation identifier.
+"""
+function describe_reserved_nodes_offerings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodesOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_reserved_nodes_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodesOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_service_updates()
     describe_service_updates(params::Dict{String,<:Any})
 
@@ -1123,6 +1211,52 @@ function list_tags(
         "ListTags",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    purchase_reserved_nodes_offering(reserved_nodes_offering_id)
+    purchase_reserved_nodes_offering(reserved_nodes_offering_id, params::Dict{String,<:Any})
+
+Allows you to purchase a reserved node offering. Reserved nodes are not eligible for
+cancellation and are non-refundable.
+
+# Arguments
+- `reserved_nodes_offering_id`: The ID of the reserved node offering to purchase.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NodeCount"`: The number of node instances to reserve.
+- `"ReservationId"`: A customer-specified identifier to track this reservation.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
+"""
+function purchase_reserved_nodes_offering(
+    ReservedNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "PurchaseReservedNodesOffering",
+        Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function purchase_reserved_nodes_offering(
+    ReservedNodesOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return memorydb(
+        "PurchaseReservedNodesOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

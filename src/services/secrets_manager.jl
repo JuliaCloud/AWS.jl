@@ -555,6 +555,7 @@ Manager and Authentication and access control in Secrets Manager.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: The filters to apply to the list of secrets.
+- `"IncludePlannedDeletion"`:
 - `"MaxResults"`: The number of results to include in the response. If there are more
   results available, in the response, Secrets Manager includes NextToken. To get the next
   results, call ListSecrets again with the value from NextToken.

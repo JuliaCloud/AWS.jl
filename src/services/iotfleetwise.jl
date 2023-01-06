@@ -152,7 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
 - `"expiryTime"`:  (Optional) The time the campaign expires, in seconds since epoch
   (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign
-  expires.  Default: 253402243200 (December 31, 9999, 00:00:00 UTC)
+  expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
 - `"postTriggerCollectionDuration"`:  (Optional) How long (in milliseconds) to collect raw
   data after a triggering event initiates the collection. If it's not specified, 0 is used.
   Default: 0

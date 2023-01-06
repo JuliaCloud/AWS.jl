@@ -13,9 +13,9 @@ container for attachments that you add to a case or case communication. The set 
 available for 1 hour after it's created. The expiryTime returned in the response is when
 the set expires.     You must have a Business, Enterprise On-Ramp, or Enterprise Support
 plan to use the Amazon Web Services Support API.    If you call the Amazon Web Services
-Support API from an account that does not have a Business, Enterprise On-Ramp, or
-Enterprise Support plan, the SubscriptionRequiredException error message appears. For
-information about changing your support plan, see Amazon Web Services Support.
+Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise
+Support plan, the SubscriptionRequiredException error message appears. For information
+about changing your support plan, see Amazon Web Services Support.
 
 # Arguments
 - `attachments`: One or more attachments to add to the set. You can add up to three
@@ -65,8 +65,8 @@ caseId parameter to identify the case to which to add communication. You can lis
 email addresses to copy on the communication by using the ccEmailAddresses parameter. The
 communicationBody value contains the text of the communication.    You must have a
 Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services
-Support API.    If you call the Amazon Web Services Support API from an account that does
-not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
+Support API.    If you call the Amazon Web Services Support API from an account that
+doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
 SubscriptionRequiredException error message appears. For information about changing your
 support plan, see Amazon Web Services Support.
 
@@ -127,7 +127,7 @@ existing case. The caseId is separate from the displayId that appears in the Ama
 Services Support Center. Use the DescribeCases operation to get the displayId.    You must
 have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web
 Services Support API.    If you call the Amazon Web Services Support API from an account
-that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
+that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
 SubscriptionRequiredException error message appears. For information about changing your
 support plan, see Amazon Web Services Support.
 
@@ -150,9 +150,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services SDKs.
 - `"issueType"`: The type of issue for the case. You can specify customer-service or
   technical. If you don't specify a value, the default is technical.
-- `"language"`: The language in which Amazon Web Services Support handles the case. You
-  must specify the ISO 639-1 code for the language parameter if you want support in that
-  language. Currently, English (\"en\") and Japanese (\"ja\") are supported.
+- `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
+  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
+  specify the ISO 639-1 code for the language parameter if you want support in that language.
 - `"serviceCode"`: The code for the Amazon Web Services service. You can use the
   DescribeServices operation to get the possible serviceCode values.
 - `"severityCode"`: A value that indicates the urgency of the case. This value determines
@@ -204,7 +204,7 @@ case management system when you add an attachment to a case or case communicatio
 Attachment IDs are returned in the AttachmentDetails objects that are returned by the
 DescribeCommunications operation.    You must have a Business, Enterprise On-Ramp, or
 Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
-Amazon Web Services Support API from an account that does not have a Business, Enterprise
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
 On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
 appears. For information about changing your support plan, see Amazon Web Services Support.
 
@@ -252,7 +252,7 @@ records represented by the CaseDetails objects.   Case data is available for 12 
 after creation. If a case was created more than 12 months ago, a request might return an
 error.    You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use
 the Amazon Web Services Support API.    If you call the Amazon Web Services Support API
-from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support
+from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support
 plan, the SubscriptionRequiredException error message appears. For information about
 changing your support plan, see Amazon Web Services Support.
 
@@ -270,9 +270,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeCases response. By default, communications are included.
 - `"includeResolvedCases"`: Specifies whether to include resolved support cases in the
   DescribeCases response. By default, resolved cases aren't included.
-- `"language"`: The ISO 639-1 code for the language in which Amazon Web Services provides
-  support. Amazon Web Services Support currently supports English (\"en\") and Japanese
-  (\"ja\"). Language parameters must be passed explicitly for operations that take them.
+- `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
+  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
+  specify the ISO 639-1 code for the language parameter if you want support in that language.
 - `"maxResults"`: The maximum number of results to return before paginating.
 - `"nextToken"`: A resumption point for pagination.
 """
@@ -299,7 +299,7 @@ the maxResults and nextToken parameters to control the pagination of the results
 maxResults to the number of cases that you want to display on each page, and use nextToken
 to specify the resumption of pagination.    You must have a Business, Enterprise On-Ramp,
 or Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
-Amazon Web Services Support API from an account that does not have a Business, Enterprise
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
 On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
 appears. For information about changing your support plan, see Amazon Web Services Support.
 
@@ -351,15 +351,15 @@ operation. Always use the service codes and categories that the DescribeServices
 returns, so that you have the most recent set of service and category codes.    You must
 have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web
 Services Support API.    If you call the Amazon Web Services Support API from an account
-that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
+that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
 SubscriptionRequiredException error message appears. For information about changing your
 support plan, see Amazon Web Services Support.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"language"`: The ISO 639-1 code for the language in which Amazon Web Services provides
-  support. Amazon Web Services Support currently supports English (\"en\") and Japanese
-  (\"ja\"). Language parameters must be passed explicitly for operations that take them.
+- `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
+  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
+  specify the ISO 639-1 code for the language parameter if you want support in that language.
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for Amazon Web
   Services services.
 """
@@ -384,15 +384,15 @@ Returns the list of severity levels that you can assign to a support case. The s
 level for a case is also a field in the CaseDetails data type that you include for a
 CreateCase request.    You must have a Business, Enterprise On-Ramp, or Enterprise Support
 plan to use the Amazon Web Services Support API.    If you call the Amazon Web Services
-Support API from an account that does not have a Business, Enterprise On-Ramp, or
-Enterprise Support plan, the SubscriptionRequiredException error message appears. For
-information about changing your support plan, see Amazon Web Services Support.
+Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise
+Support plan, the SubscriptionRequiredException error message appears. For information
+about changing your support plan, see Amazon Web Services Support.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"language"`: The ISO 639-1 code for the language in which Amazon Web Services provides
-  support. Amazon Web Services Support currently supports English (\"en\") and Japanese
-  (\"ja\"). Language parameters must be passed explicitly for operations that take them.
+- `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
+  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
+  specify the ISO 639-1 code for the language parameter if you want support in that language.
 """
 function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config())
     return support(
@@ -420,10 +420,14 @@ checks are refreshed automatically, and you can't return their refresh statuses 
 the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for
 these checks, you might see an InvalidParameterValue error.    You must have a Business,
 Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
-  If you call the Amazon Web Services Support API from an account that does not have a
+  If you call the Amazon Web Services Support API from an account that doesn't have a
 Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException
 error message appears. For information about changing your support plan, see Amazon Web
-Services Support.
+Services Support.    To call the Trusted Advisor operations in the Amazon Web Services
+Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West
+(Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For
+more information, see About the Amazon Web Services Support API in the Amazon Web Services
+Support User Guide.
 
 # Arguments
 - `check_ids`: The IDs of the Trusted Advisor checks to get the status.  If you specify the
@@ -469,19 +473,24 @@ status - The alert status of the check can be ok (green), warning (yellow), erro
 not_available.    timestamp - The time of the last refresh of the check.    checkId - The
 unique identifier for the check.      You must have a Business, Enterprise On-Ramp, or
 Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
-Amazon Web Services Support API from an account that does not have a Business, Enterprise
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
 On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
 appears. For information about changing your support plan, see Amazon Web Services Support.
-
+   To call the Trusted Advisor operations in the Amazon Web Services Support API, you must
+use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe
+(Ireland) endpoints don't support the Trusted Advisor operations. For more information, see
+About the Amazon Web Services Support API in the Amazon Web Services Support User Guide.
 
 # Arguments
 - `check_id`: The unique identifier for the Trusted Advisor check.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"language"`: The ISO 639-1 code for the language in which Amazon Web Services provides
-  support. Amazon Web Services Support currently supports English (\"en\") and Japanese
-  (\"ja\"). Language parameters must be passed explicitly for operations that take them.
+- `"language"`: The ISO 639-1 code for the language that you want your check results to
+  appear in. The Amazon Web Services Support API currently supports the following languages
+  for Trusted Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English
+  - en    French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja
+  Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
 """
 function describe_trusted_advisor_check_result(
     checkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -512,10 +521,14 @@ Returns the results for the Trusted Advisor check summaries for the check IDs th
 specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
 The response contains an array of TrustedAdvisorCheckSummary objects.    You must have a
 Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services
-Support API.    If you call the Amazon Web Services Support API from an account that does
-not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
+Support API.    If you call the Amazon Web Services Support API from an account that
+doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
 SubscriptionRequiredException error message appears. For information about changing your
-support plan, see Amazon Web Services Support.
+support plan, see Amazon Web Services Support.    To call the Trusted Advisor operations in
+the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint.
+Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted
+Advisor operations. For more information, see About the Amazon Web Services Support API in
+the Amazon Web Services Support User Guide.
 
 # Arguments
 - `check_ids`: The IDs of the Trusted Advisor checks.
@@ -551,21 +564,26 @@ end
     describe_trusted_advisor_checks(language, params::Dict{String,<:Any})
 
 Returns information about all available Trusted Advisor checks, including the name, ID,
-category, description, and metadata. You must specify a language code. The Amazon Web
-Services Support API currently supports English (\"en\") and Japanese (\"ja\"). The
-response contains a TrustedAdvisorCheckDescription object for each check. You must set the
-Amazon Web Services Region to us-east-1.    You must have a Business, Enterprise On-Ramp,
-or Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
-Amazon Web Services Support API from an account that does not have a Business, Enterprise
+category, description, and metadata. You must specify a language code. The response
+contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon
+Web Services Region to us-east-1.    You must have a Business, Enterprise On-Ramp, or
+Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
 On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
 appears. For information about changing your support plan, see Amazon Web Services Support.
   The names and descriptions for Trusted Advisor checks are subject to change. We recommend
-that you specify the check ID in your code to uniquely identify a check.
+that you specify the check ID in your code to uniquely identify a check.    To call the
+Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East
+(N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints
+don't support the Trusted Advisor operations. For more information, see About the Amazon
+Web Services Support API in the Amazon Web Services Support User Guide.
 
 # Arguments
-- `language`: The ISO 639-1 code for the language in which Amazon Web Services provides
-  support. Amazon Web Services Support currently supports English (\"en\") and Japanese
-  (\"ja\"). Language parameters must be passed explicitly for operations that take them.
+- `language`: The ISO 639-1 code for the language that you want your checks to appear in.
+  The Amazon Web Services Support API currently supports the following languages for Trusted
+  Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English - en
+  French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja    Korean -
+  ko    Portuguese, Brazilian - pt_BR    Spanish - es
 
 """
 function describe_trusted_advisor_checks(
@@ -598,15 +616,18 @@ end
     refresh_trusted_advisor_check(check_id, params::Dict{String,<:Any})
 
 Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
-check IDs by calling the DescribeTrustedAdvisorChecks operation.  Some checks are refreshed
+check IDs by calling the DescribeTrustedAdvisorChecks operation. Some checks are refreshed
 automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you
-might see the InvalidParameterValue error.  The response contains a
+might see the InvalidParameterValue error. The response contains a
 TrustedAdvisorCheckRefreshStatus object.    You must have a Business, Enterprise On-Ramp,
 or Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
-Amazon Web Services Support API from an account that does not have a Business, Enterprise
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
 On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
 appears. For information about changing your support plan, see Amazon Web Services Support.
-
+   To call the Trusted Advisor operations in the Amazon Web Services Support API, you must
+use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe
+(Ireland) endpoints don't support the Trusted Advisor operations. For more information, see
+About the Amazon Web Services Support API in the Amazon Web Services Support User Guide.
 
 # Arguments
 - `check_id`: The unique identifier for the Trusted Advisor check to refresh.  Specifying
@@ -642,9 +663,9 @@ end
 Resolves a support case. This operation takes a caseId and returns the initial and final
 state of the case.    You must have a Business, Enterprise On-Ramp, or Enterprise Support
 plan to use the Amazon Web Services Support API.    If you call the Amazon Web Services
-Support API from an account that does not have a Business, Enterprise On-Ramp, or
-Enterprise Support plan, the SubscriptionRequiredException error message appears. For
-information about changing your support plan, see Amazon Web Services Support.
+Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise
+Support plan, the SubscriptionRequiredException error message appears. For information
+about changing your support plan, see Amazon Web Services Support.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

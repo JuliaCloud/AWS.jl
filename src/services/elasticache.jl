@@ -487,10 +487,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is only valid if the Engine parameter is redis.
 - `"Tags"`: A list of tags to be added to this resource.
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
-  You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
-  enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
-  when you create a cluster.  Only available when creating a cache cluster in an Amazon VPC
-  using Memcached version 1.6.12 or later.
+   Only available when creating a cache cluster in an Amazon VPC using Memcached version
+  1.6.12 or later.
 """
 function create_cache_cluster(
     CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -875,7 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication groups using the r6gd node type. This parameter must be set to true when using
   r6gd nodes. For more information, see Data tiering.
 - `"Engine"`: The name of the cache engine to be used for the clusters in this replication
-  group. Must be Redis.
+  group. The value must be set to Redis.
 - `"EngineVersion"`: The version number of the cache engine to be used for the clusters in
   this replication group. To view the supported cache engine versions, use the
   DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine
@@ -963,14 +961,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication
   groups will be replicated to all nodes.
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
-  You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
-  enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
-  when you create a cluster. This parameter is valid only if the Engine parameter is redis,
-  the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an
-  Amazon VPC. If you enable in-transit encryption, you must also specify a value for
-  CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon
-  VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you
-  must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
+  This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter
+  is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable
+  in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only
+  available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x
+  or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled
+  as true, an AuthToken, and a CacheSubnetGroup.
+- `"TransitEncryptionMode"`: A setting that allows you to migrate your clients to use
+  in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you
+  can set your TransitEncryptionMode to preferred in the same request, to allow both
+  encrypted and unencrypted connections at the same time. Once you migrate all your Redis
+  clients to use encrypted connections you can modify the value to required to allow
+  encrypted connections only. Setting TransitEncryptionMode to required is a two-step process
+  that requires you to first set the TransitEncryptionMode to preferred first, after that you
+  can set TransitEncryptionMode to required.
 - `"UserGroupIds"`: The user group to associate with the replication group.
 """
 function create_replication_group(
@@ -1749,9 +1753,9 @@ Returns a list of the available cache engines and their versions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CacheParameterGroupFamily"`: The name of a specific cache parameter group family to
   return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6
-  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2  Constraints:   Must be 1
-  to 255 alphanumeric characters   First character must be a letter   Cannot end with a
-  hyphen or contain two consecutive hyphens
+  | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7  Constraints:
+  Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end
+  with a hyphen or contain two consecutive hyphens
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
 - `"Engine"`: The cache engine to return. Valid values: memcached | redis
@@ -1947,7 +1951,7 @@ Returns the default engine and system parameter information for the specified ca
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family. Valid
   values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 |
-  redis4.0 | redis5.0 | redis6.x | redis6.2
+  redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3163,6 +3167,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshottingClusterId"`: The cluster ID that is used as the daily snapshot source for
   the replication group. This parameter cannot be set for Redis (cluster mode enabled)
   replication groups.
+- `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
+  If you are enabling in-transit encryption for an existing cluster, you must also set
+  TransitEncryptionMode to preferred.
+- `"TransitEncryptionMode"`: A setting that allows you to migrate your clients to use
+  in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for
+  your existing cluster, and set TransitEncryptionMode to preferred in the same request to
+  allow both encrypted and unencrypted connections at the same time. Once you migrate all
+  your Redis clients to use encrypted connections you can set the value to required to allow
+  encrypted connections only. Setting TransitEncryptionMode to required is a two-step process
+  that requires you to first set the TransitEncryptionMode to preferred first, after that you
+  can set TransitEncryptionMode to required.
 - `"UserGroupIdsToAdd"`: The ID of the user group you are associating with the replication
   group.
 - `"UserGroupIdsToRemove"`: The ID of the user group to disassociate from the replication
