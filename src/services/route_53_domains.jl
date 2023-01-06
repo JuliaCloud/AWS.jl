@@ -55,6 +55,56 @@ function accept_domain_transfer_from_another_aws_account(
 end
 
 """
+    associate_delegation_signer_to_domain(domain_name, signing_attributes)
+    associate_delegation_signer_to_domain(domain_name, signing_attributes, params::Dict{String,<:Any})
+
+ Creates a delegation signer (DS) record in the registry zone for this domain name. Note
+that creating DS record at the registry impacts DNSSEC validation of your DNS records. This
+action may render your domain name unavailable on the internet if the steps are completed
+in the wrong order, or with incorrect timing. For more information about DNSSEC signing,
+see Configuring DNSSEC signing in the Route 53 developer guide.
+
+# Arguments
+- `domain_name`: The name of the domain.
+- `signing_attributes`: The information about a key, including the algorithm, public
+  key-value, and flags.
+
+"""
+function associate_delegation_signer_to_domain(
+    DomainName, SigningAttributes; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53_domains(
+        "AssociateDelegationSignerToDomain",
+        Dict{String,Any}(
+            "DomainName" => DomainName, "SigningAttributes" => SigningAttributes
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_delegation_signer_to_domain(
+    DomainName,
+    SigningAttributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53_domains(
+        "AssociateDelegationSignerToDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "SigningAttributes" => SigningAttributes
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_domain_transfer_to_another_aws_account(domain_name)
     cancel_domain_transfer_to_another_aws_account(domain_name, params::Dict{String,<:Any})
 
@@ -345,6 +395,46 @@ function disable_domain_transfer_lock(
         "DisableDomainTransferLock",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_delegation_signer_from_domain(domain_name, id)
+    disassociate_delegation_signer_from_domain(domain_name, id, params::Dict{String,<:Any})
+
+Deletes a delegation signer (DS) record in the registry zone for this domain name.
+
+# Arguments
+- `domain_name`: Name of the domain.
+- `id`: An internal identification number assigned to each DS record after it’s created.
+  You can retrieve it as part of DNSSEC information returned by GetDomainDetail.
+
+"""
+function disassociate_delegation_signer_from_domain(
+    DomainName, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53_domains(
+        "DisassociateDelegationSignerFromDomain",
+        Dict{String,Any}("DomainName" => DomainName, "Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_delegation_signer_from_domain(
+    DomainName,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53_domains(
+        "DisassociateDelegationSignerFromDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DomainName" => DomainName, "Id" => Id), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -653,9 +743,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextPageMarker from the previous response, and submit another request that includes the
   value of NextPageMarker in the Marker element.
 - `"MaxItems"`: Number of domains to be returned. Default: 20
+- `"SortBy"`:  The sort type for returned values.
+- `"SortOrder"`:  The sort order ofr returned values, either ascending or descending.
+- `"Status"`:  The status of the operations.
 - `"SubmittedSince"`: An optional parameter that lets you get information about all the
   operations that you submitted after a specified date and time. Specify the date and time in
   Unix time format and Coordinated Universal time (UTC).
+- `"Type"`:  An arrays of the domains operation types.
 """
 function list_operations(; aws_config::AbstractAWSConfig=global_aws_config())
     return route_53_domains(
@@ -740,6 +834,47 @@ function list_tags_for_domain(
 end
 
 """
+    push_domain(domain_name, target)
+    push_domain(domain_name, target, params::Dict{String,<:Any})
+
+ Moves a domain from Amazon Web Services to another registrar.  Supported actions:
+Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the
+domain is ready to be transferred to another registrar.
+
+# Arguments
+- `domain_name`:  Name of the domain.
+- `target`:  New IPS tag for the domain.
+
+"""
+function push_domain(DomainName, Target; aws_config::AbstractAWSConfig=global_aws_config())
+    return route_53_domains(
+        "PushDomain",
+        Dict{String,Any}("DomainName" => DomainName, "Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function push_domain(
+    DomainName,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53_domains(
+        "PushDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "Target" => Target),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact, params::Dict{String,<:Any})
 
@@ -749,7 +884,7 @@ For some top-level domains (TLDs), this operation requires extra parameters. Whe
 register a domain, Amazon Route 53 does the following:   Creates a Route 53 hosted zone
 that has the same name as the domain. Route 53 assigns four name servers to your hosted
 zone and automatically updates your domain registration with the names of these name
-servers.   Enables autorenew, so your domain registration will renew automatically each
+servers.   Enables auto renew, so your domain registration will renew automatically each
 year. We'll notify you in advance of the renewal date so you can choose whether to renew
 the registration.   Optionally enables privacy protection, so WHOIS queries return contact
 information either for Amazon Registrar (for .com, .net, and .org domains) or for our
@@ -787,7 +922,7 @@ see Amazon Route 53 Pricing.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
-  (false). Autorenewal only takes effect after the account is charged. Default: true
+  (false). Auto renewal only takes effect after the account is charged. Default: true
 - `"IdnLangCode"`: Reserved for future use.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
@@ -990,11 +1125,46 @@ function resend_contact_reachability_email(
 end
 
 """
+    resend_operation_authorization(operation_id)
+    resend_operation_authorization(operation_id, params::Dict{String,<:Any})
+
+ Resend the form of authorization email for this operation.
+
+# Arguments
+- `operation_id`:  Operation ID.
+
+"""
+function resend_operation_authorization(
+    OperationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route_53_domains(
+        "ResendOperationAuthorization",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function resend_operation_authorization(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route_53_domains(
+        "ResendOperationAuthorization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     retrieve_domain_auth_code(domain_name)
     retrieve_domain_auth_code(domain_name, params::Dict{String,<:Any})
 
-This operation returns the AuthCode for the domain. To transfer a domain to another
-registrar, you provide this value to the new registrar.
+This operation returns the authorization code for the domain. To transfer a domain to
+another registrar, you provide this value to the new registrar.
 
 # Arguments
 - `domain_name`: The name of the domain that you want to get an authorization code for.
@@ -1071,7 +1241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthCode"`: The authorization code for the domain. You get this value from the current
   registrar.
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
-  (false). Autorenewal only takes effect after the account is charged. Default: true
+  (false). Auto renewal only takes effect after the account is charged. Default: true
 - `"IdnLangCode"`: Reserved for future use.
 - `"Nameservers"`: Contains details for the host and glue IP addresses.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
@@ -1208,7 +1378,7 @@ end
 This operation updates the contact information for a particular domain. You must specify
 information for at least one contact: registrant, administrator, or technical. If the
 update is successful, this method returns an operation ID that you can use to track the
-progress and completion of the action. If the request is not completed successfully, the
+progress and completion of the operation. If the request is not completed successfully, the
 domain registrant will be notified by email.
 
 # Arguments
@@ -1217,6 +1387,7 @@ domain registrant will be notified by email.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdminContact"`: Provides detailed contact information.
+- `"Consent"`:  Customer's consent for the owner change request.
 - `"RegistrantContact"`: Provides detailed contact information.
 - `"TechContact"`: Provides detailed contact information.
 """

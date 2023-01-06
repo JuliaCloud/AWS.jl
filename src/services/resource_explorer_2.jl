@@ -206,7 +206,10 @@ specified Amazon Web Services Region. When you delete an index, Resource Explore
 discovering and indexing resources in that Region. Resource Explorer also deletes all views
 in that Region. These actions occur as asynchronous background tasks. You can check to see
 when the actions are complete by using the GetIndex operation and checking the Status
-response value.
+response value.  If the index you delete is the aggregator index for the Amazon Web
+Services account, you must wait 24 hours before you can promote another local index to be
+the aggregator index for the account. Users can't perform account-wide searches using
+Resource Explorer until another aggregator index is configured.
 
 # Arguments
 - `arn`: The Amazon resource name (ARN) of the index that you want to delete.

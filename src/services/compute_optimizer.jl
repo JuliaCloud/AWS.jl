@@ -337,6 +337,74 @@ function export_ec2_instance_recommendations(
 end
 
 """
+    export_ecsservice_recommendations(s3_destination_config)
+    export_ecsservice_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+ Exports optimization recommendations for Amazon ECS services on Fargate.  Recommendations
+are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple
+Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting
+Recommendations in the Compute Optimizer User Guide. You can only have one Amazon ECS
+service export job in progress per Amazon Web Services Region.
+
+# Arguments
+- `s3_destination_config`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`:  The Amazon Web Services account IDs for the export ECS service
+  recommendations.  If your account is the management account or the delegated administrator
+  of an organization, use this parameter to specify the member account you want to export
+  recommendations to. This parameter can't be specified together with the include member
+  accounts parameter. The parameters are mutually exclusive. If this parameter or the include
+  member accounts parameter is omitted, the recommendations for member accounts aren't
+  included in the export. You can specify multiple account IDs per request.
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see Exported files in the Compute
+  Optimizer User Guide.
+- `"fileFormat"`:  The format of the export file.  The CSV file is the only export file
+  format currently supported.
+- `"filters"`:  An array of objects to specify a filter that exports a more specific set of
+  ECS service recommendations.
+- `"includeMemberAccounts"`: If your account is the management account or the delegated
+  administrator of an organization, this parameter indicates whether to include
+  recommendations for resources in all member accounts of the organization. The member
+  accounts must also be opted in to Compute Optimizer, and trusted access for Compute
+  Optimizer must be enabled in the organization account. For more information, see Compute
+  Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer
+  User Guide. If this parameter is omitted, recommendations for member accounts of the
+  organization aren't included in the export file. If this parameter or the account ID
+  parameter is omitted, recommendations for member accounts aren't included in the export.
+"""
+function export_ecsservice_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "ExportECSServiceRecommendations",
+        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function export_ecsservice_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "ExportECSServiceRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     export_lambda_function_recommendations(s3_destination_config)
     export_lambda_function_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
@@ -615,6 +683,114 @@ function get_ec2_recommendation_projected_metrics(
 end
 
 """
+    get_ecsservice_recommendation_projected_metrics(end_time, period, service_arn, start_time, stat)
+    get_ecsservice_recommendation_projected_metrics(end_time, period, service_arn, start_time, stat, params::Dict{String,<:Any})
+
+ Returns the projected metrics of Amazon ECS service recommendations.
+
+# Arguments
+- `end_time`:  The timestamp of the last projected metrics data point to return.
+- `period`:  The granularity, in seconds, of the projected metrics data points.
+- `service_arn`:  The ARN that identifies the ECS service.   The following is the format of
+  the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+- `start_time`:  The timestamp of the first projected metrics data point to return.
+- `stat`:  The statistic of the projected metrics.
+
+"""
+function get_ecsservice_recommendation_projected_metrics(
+    endTime,
+    period,
+    serviceArn,
+    startTime,
+    stat;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "GetECSServiceRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "period" => period,
+            "serviceArn" => serviceArn,
+            "startTime" => startTime,
+            "stat" => stat,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ecsservice_recommendation_projected_metrics(
+    endTime,
+    period,
+    serviceArn,
+    startTime,
+    stat,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "GetECSServiceRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "period" => period,
+                    "serviceArn" => serviceArn,
+                    "startTime" => startTime,
+                    "stat" => stat,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_ecsservice_recommendations()
+    get_ecsservice_recommendations(params::Dict{String,<:Any})
+
+ Returns Amazon ECS service recommendations.   Compute Optimizer generates recommendations
+for Amazon ECS services on Fargate that meet a specific set of requirements. For more
+information, see the Supported resources and requirements in the Compute Optimizer User
+Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`:  Return the ECS service recommendations to the specified Amazon Web
+  Services account IDs.  If your account is the management account or the delegated
+  administrator of an organization, use this parameter to return the ECS service
+  recommendations to specific member accounts. You can only specify one account ID per
+  request.
+- `"filters"`:  An array of objects to specify a filter that returns a more specific list
+  of ECS service recommendations.
+- `"maxResults"`:  The maximum number of ECS service recommendations to return with a
+  single request.  To retrieve the remaining results, make another request with the returned
+  nextToken value.
+- `"nextToken"`:  The token to advance to the next page of ECS service recommendations.
+- `"serviceArns"`:  The ARN that identifies the ECS service.   The following is the format
+  of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+"""
+function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return compute_optimizer(
+        "GetECSServiceRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ecsservice_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "GetECSServiceRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_effective_recommendation_preferences(resource_arn)
     get_effective_recommendation_preferences(resource_arn, params::Dict{String,<:Any})
 
@@ -829,7 +1005,8 @@ Returns the optimization findings for an account. It returns the number of:   Am
 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   Auto
 Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in
 an account that are NotOptimized, or Optimized.   Lambda functions in an account that are
-NotOptimized, or Optimized.
+NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,
+Overprovisioned, or Optimized.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

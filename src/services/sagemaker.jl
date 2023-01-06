@@ -1416,21 +1416,22 @@ end
     create_experiment(experiment_name)
     create_experiment(experiment_name, params::Dict{String,<:Any})
 
-Creates an SageMaker experiment. An experiment is a collection of trials that are observed,
+Creates a SageMaker experiment. An experiment is a collection of trials that are observed,
 compared and evaluated as a group. A trial is a set of steps, called trial components, that
-produce a machine learning model. The goal of an experiment is to determine the components
-that produce the best model. Multiple trials are performed, each one isolating and
-measuring the impact of a change to one or more inputs, while keeping the remaining inputs
-constant. When you use SageMaker Studio or the SageMaker Python SDK, all experiments,
-trials, and trial components are automatically tracked, logged, and indexed. When you use
-the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by
-the SDK. You can add tags to experiments, trials, trial components and then use the Search
-API to search for the tags. To add a description to an experiment, specify the optional
-Description parameter. To add a description later, or to change the description, call the
-UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API.
-To view an experiment's properties, call the DescribeExperiment API. To get a list of all
-the trials associated with an experiment, call the ListTrials API. To create a trial call
-the CreateTrial API.
+produce a machine learning model.  In the Studio UI, trials are referred to as run groups
+and trial components are referred to as runs.  The goal of an experiment is to determine
+the components that produce the best model. Multiple trials are performed, each one
+isolating and measuring the impact of a change to one or more inputs, while keeping the
+remaining inputs constant. When you use SageMaker Studio or the SageMaker Python SDK, all
+experiments, trials, and trial components are automatically tracked, logged, and indexed.
+When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs
+provided by the SDK. You can add tags to experiments, trials, trial components and then use
+the Search API to search for the tags. To add a description to an experiment, specify the
+optional Description parameter. To add a description later, or to change the description,
+call the UpdateExperiment API. To get a list of all your experiments, call the
+ListExperiments API. To view an experiment's properties, call the DescribeExperiment API.
+To get a list of all the trials associated with an experiment, call the ListTrials API. To
+create a trial call the CreateTrial API.
 
 # Arguments
 - `experiment_name`: The name of the experiment. The name must be unique in your Amazon Web
@@ -1840,8 +1841,8 @@ more information, see Bring your own SageMaker image.
 
 # Arguments
 - `image_name`: The name of the image. Must be unique to your account.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
-  to perform tasks on your behalf.
+- `role_arn`: The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your
+  behalf.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1893,6 +1894,25 @@ Amazon Elastic Container Registry (ECR) container image specified by BaseImage.
   Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
 - `image_name`: The ImageName of the Image to create a version of.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Aliases"`: A list of aliases created with the image version.
+- `"Horovod"`: Indicates Horovod compatibility.
+- `"JobType"`: Indicates SageMaker job type compatibility.    TRAINING: The image version
+  is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible
+  with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with
+  SageMaker notebook kernels.
+- `"MLFramework"`: The machine learning framework vended in the image version.
+- `"Processor"`: Indicates CPU or GPU compatibility.    CPU: The image version is
+  compatible with CPU.    GPU: The image version is compatible with GPU.
+- `"ProgrammingLang"`: The supported programming language and its version.
+- `"ReleaseNotes"`: The maintainer description of the image version.
+- `"VendorGuidance"`: The stability of the image version, specified by the maintainer.
+  NOT_PROVIDED: The maintainers did not provide a status for image version stability.
+  STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be
+  archived. Custom image versions that are set to be archived are automatically archived
+  after three months.    ARCHIVED: The image version is archived. Archived image versions are
+  not searchable and are no longer actively supported.
 """
 function create_image_version(
     BaseImage, ClientToken, ImageName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4993,41 +5013,37 @@ function delete_image(
 end
 
 """
-    delete_image_version(image_name, version)
-    delete_image_version(image_name, version, params::Dict{String,<:Any})
+    delete_image_version(image_name)
+    delete_image_version(image_name, params::Dict{String,<:Any})
 
 Deletes a version of a SageMaker image. The container image the version represents isn't
 deleted.
 
 # Arguments
-- `image_name`: The name of the image.
-- `version`: The version to delete.
+- `image_name`: The name of the image to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Alias"`: The alias of the image to delete.
+- `"Version"`: The version to delete.
 """
-function delete_image_version(
-    ImageName, Version; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
         "DeleteImageVersion",
-        Dict{String,Any}("ImageName" => ImageName, "Version" => Version);
+        Dict{String,Any}("ImageName" => ImageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_image_version(
     ImageName,
-    Version,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return sagemaker(
         "DeleteImageVersion",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ImageName" => ImageName, "Version" => Version),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6946,6 +6962,7 @@ Describes a version of a SageMaker image.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Alias"`: The alias of the image version.
 - `"Version"`: The version of the image. If not specified, the latest version is described.
 """
 function describe_image_version(
@@ -8534,6 +8551,47 @@ function list_algorithms(
 )
     return sagemaker(
         "ListAlgorithms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_aliases(image_name)
+    list_aliases(image_name, params::Dict{String,<:Any})
+
+Lists the aliases of a specified image or image version.
+
+# Arguments
+- `image_name`: The name of the image.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Alias"`: The alias of the image version.
+- `"MaxResults"`: The maximum number of aliases to return.
+- `"NextToken"`: If the previous call to ListAliases didn't return the full set of aliases,
+  the call returns a token for retrieving the next set of aliases.
+- `"Version"`: The version of the image. If image version is not specified, the aliases of
+  all versions of the image are listed.
+"""
+function list_aliases(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "ListAliases",
+        Dict{String,Any}("ImageName" => ImageName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_aliases(
+    ImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "ListAliases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -12758,6 +12816,10 @@ Updates the default settings for new user profiles in the domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
+  groups for inter-app communication in VPCOnly mode. Required when
+  CreateDomain.AppNetworkAccessType is VPCOnly and
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
 - `"DefaultSpaceSettings"`: The default settings used to create a space within the Domain.
 - `"DefaultUserSettings"`: A collection of settings.
 - `"DomainSettingsForUpdate"`: A collection of DomainSettings configuration values to
@@ -13098,8 +13160,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DisplayName properties can be deleted.
 - `"Description"`: The new description for the image.
 - `"DisplayName"`: The new display name for the image.
-- `"RoleArn"`: The new Amazon Resource Name (ARN) for the IAM role that enables Amazon
-  SageMaker to perform tasks on your behalf.
+- `"RoleArn"`: The new ARN for the IAM role that enables Amazon SageMaker to perform tasks
+  on your behalf.
 """
 function update_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
@@ -13116,6 +13178,61 @@ function update_image(
 )
     return sagemaker(
         "UpdateImage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_image_version(image_name)
+    update_image_version(image_name, params::Dict{String,<:Any})
+
+Updates the properties of a SageMaker image version.
+
+# Arguments
+- `image_name`: The name of the image.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Alias"`: The alias of the image version.
+- `"AliasesToAdd"`: A list of aliases to add.
+- `"AliasesToDelete"`: A list of aliases to delete.
+- `"Horovod"`: Indicates Horovod compatibility.
+- `"JobType"`: Indicates SageMaker job type compatibility.    TRAINING: The image version
+  is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible
+  with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with
+  SageMaker notebook kernels.
+- `"MLFramework"`: The machine learning framework vended in the image version.
+- `"Processor"`: Indicates CPU or GPU compatibility.    CPU: The image version is
+  compatible with CPU.    GPU: The image version is compatible with GPU.
+- `"ProgrammingLang"`: The supported programming language and its version.
+- `"ReleaseNotes"`: The maintainer description of the image version.
+- `"VendorGuidance"`: The availability of the image version specified by the maintainer.
+  NOT_PROVIDED: The maintainers did not provide a status for image version stability.
+  STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be
+  archived. Custom image versions that are set to be archived are automatically archived
+  after three months.    ARCHIVED: The image version is archived. Archived image versions are
+  not searchable and are no longer actively supported.
+- `"Version"`: The version of the image.
+"""
+function update_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "UpdateImageVersion",
+        Dict{String,Any}("ImageName" => ImageName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_image_version(
+    ImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateImageVersion",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );

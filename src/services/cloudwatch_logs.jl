@@ -1553,10 +1553,7 @@ end
 
 Creates or updates an access policy associated with an existing destination. An access
 policy is an IAM policy document that is used to authorize claims to register a
-subscription filter against a given destination. If multiple Amazon Web Services accounts
-are sending logs to this destination, each sender account must be listed separately in the
-policy. The policy does not support specifying * as the Principal or the use of the
-aws:PrincipalOrgId global key.
+subscription filter against a given destination.
 
 # Arguments
 - `access_policy`: An IAM policy document that authorizes cross-account users to deliver
@@ -1612,27 +1609,26 @@ end
     put_log_events(log_events, log_group_name, log_stream_name)
     put_log_events(log_events, log_group_name, log_stream_name, params::Dict{String,<:Any})
 
-Uploads a batch of log events to the specified log stream. You must include the sequence
-token obtained from the response of the previous call. An upload in a newly created log
-stream does not require a sequence token. You can also get the sequence token in the
-expectedSequenceToken field from InvalidSequenceTokenException. If you call PutLogEvents
-twice within a narrow time period using the same value for sequenceToken, both calls might
-be successful or one might be rejected. The batch of events must satisfy the following
-constraints:   The maximum batch size is 1,048,576 bytes. This size is calculated as the
-sum of all event messages in UTF-8, plus 26 bytes for each log event.   None of the log
-events in the batch can be more than 2 hours in the future.   None of the log events in the
-batch can be more than 14 days in the past. Also, none of the log events can be from
-earlier than the retention period of the log group.   The log events in the batch must be
-in chronological order by their timestamp. The timestamp is the time that the event
-occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. (In
-Amazon Web Services Tools for PowerShell and the Amazon Web Services SDK for .NET, the
-timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example,
+Uploads a batch of log events to the specified log stream.  The sequence token is now
+ignored in PutLogEvents actions. PutLogEvents actions are always accepted and never return
+InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is
+not valid. You can use parallel PutLogEvents actions on the same log stream.   The batch of
+events must satisfy the following constraints:   The maximum batch size is 1,048,576 bytes.
+This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each
+log event.   None of the log events in the batch can be more than 2 hours in the future.
+None of the log events in the batch can be more than 14 days in the past. Also, none of the
+log events can be from earlier than the retention period of the log group.   The log events
+in the batch must be in chronological order by their timestamp. The timestamp is the time
+that the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00
+UTC. (In Amazon Web Services Tools for PowerShell and the Amazon Web Services SDK for .NET,
+the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example,
 2017-09-15T13:45:30.)    A batch of log events in a single request cannot span more than 24
 hours. Otherwise, the operation fails.   The maximum number of log events in a batch is
-10,000.   There is a quota of five requests per second per log stream. Additional requests
-are throttled. This quota can't be changed.   If a call to PutLogEvents returns
-\"UnrecognizedClientException\" the most likely cause is a non-valid Amazon Web Services
-access key ID or secret key.
+10,000.    The quota of five requests per second per log stream has been removed. Instead,
+PutLogEvents actions are throttled based on a per-second per-account quota. You can request
+an increase to the per-second throttling quota by using the Service Quotas service.    If a
+call to PutLogEvents returns \"UnrecognizedClientException\" the most likely cause is a
+non-valid Amazon Web Services access key ID or secret key.
 
 # Arguments
 - `log_events`: The log events.
@@ -1642,10 +1638,9 @@ access key ID or secret key.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"sequenceToken"`: The sequence token obtained from the response of the previous
-  PutLogEvents call. An upload in a newly created log stream does not require a sequence
-  token. You can also get the sequence token using DescribeLogStreams. If you call
-  PutLogEvents twice within a narrow time period using the same value for sequenceToken, both
-  calls might be successful or one might be rejected.
+  PutLogEvents call.  The sequenceToken parameter is now ignored in PutLogEvents actions.
+  PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or
+  DataAlreadyAcceptedException even if the sequence token is not valid.
 """
 function put_log_events(
     logEvents,

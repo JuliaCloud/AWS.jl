@@ -697,7 +697,7 @@ end
     get_backend_apimodels(app_id, backend_environment_name, resource_name)
     get_backend_apimodels(app_id, backend_environment_name, resource_name, params::Dict{String,<:Any})
 
-Generates a model schema for existing backend API resource.
+Gets a model introspection schema for an existing backend API resource.
 
 # Arguments
 - `app_id`: The app ID.

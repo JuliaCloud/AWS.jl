@@ -981,50 +981,39 @@ function create_blue_green_deployment(
 end
 
 """
-    create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest)
-    create_custom_dbengine_version(database_installation_files_s3_bucket_name, engine, engine_version, kmskey_id, manifest, params::Dict{String,<:Any})
+    create_custom_dbengine_version(engine, engine_version)
+    create_custom_dbengine_version(engine, engine_version, params::Dict{String,<:Any})
 
-Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a database
-engine and specific AMI. The supported engines are the following:   Oracle Database 12.1
-Enterprise Edition with the January 2021 or later RU/RUR   Oracle Database 19c Enterprise
-Edition with the January 2021 or later RU/RUR   Amazon RDS, which is a fully managed
-service, supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS
-database software is preinstalled, so you need only select a DB engine and version, and
-create your database. With Amazon RDS Custom for Oracle, you upload your database
-installation files in Amazon S3. When you create a custom engine version, you specify the
-files in a JSON document called a CEV manifest. This document describes installation .zip
-files stored in Amazon S3. RDS Custom creates your CEV from the installation files that you
-provided. This service model is called Bring Your Own Media (BYOM). Creation takes
-approximately two hours. If creation fails, RDS Custom issues RDS-EVENT-0196 with the
-message Creation failed for custom engine version, and includes details about the failure.
-For example, the event prints missing files. After you create the CEV, it is available for
-use. You can create multiple CEVs, and create multiple RDS Custom instances from any CEV.
-You can also change the status of a CEV to make it available or inactive.  The MediaImport
-service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web
-Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the
-CreateCustomDbEngineVersion event aren't logged. However, you might see calls from the API
-gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport
-service for the CreateCustomDbEngineVersion event.  For more information, see  Creating a
-CEV in the Amazon RDS User Guide.
+Creates a custom DB engine version (CEV).
 
 # Arguments
-- `database_installation_files_s3_bucket_name`: The name of an Amazon S3 bucket that
-  contains database installation files for your CEV. For example, a valid bucket name is
-  my-custom-installation-files.
 - `engine`: The database engine to use for your custom engine version (CEV). The only
   supported value is custom-oracle-ee.
 - `engine_version`: The name of your CEV. The name format is 19.customized_string. For
   example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for
   Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique
   per customer per Region.
-- `kmskey_id`: The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric
-  encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an
-  existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No
-  further action is necessary. If you don't already have a symmetric encryption KMS key in
-  your account, follow the instructions in  Creating a symmetric encryption KMS key in the
-  Amazon Web Services Key Management Service Developer Guide. You can choose the same
-  symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
-- `manifest`: The CEV manifest, which is a JSON document that describes the installation
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatabaseInstallationFilesS3BucketName"`: The name of an Amazon S3 bucket that contains
+  database installation files for your CEV. For example, a valid bucket name is
+  my-custom-installation-files.
+- `"DatabaseInstallationFilesS3Prefix"`: The Amazon S3 directory that contains the database
+  installation files for your CEV. For example, a valid bucket name is 123456789012/cev1. If
+  this setting isn't specified, no prefix is assumed.
+- `"Description"`: An optional description of your CEV.
+- `"ImageId"`: The ID of the AMI. An AMI ID is required to create a CEV for RDS Custom for
+  SQL Server.
+- `"KMSKeyId"`: The Amazon Web Services KMS key identifier for an encrypted CEV. A
+  symmetric encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If
+  you have an existing symmetric encryption KMS key in your account, you can use it with RDS
+  Custom. No further action is necessary. If you don't already have a symmetric encryption
+  KMS key in your account, follow the instructions in  Creating a symmetric encryption KMS
+  key in the Amazon Web Services Key Management Service Developer Guide. You can choose the
+  same symmetric encryption key when you create a CEV and a DB instance, or choose different
+  keys.
+- `"Manifest"`: The CEV manifest, which is a JSON document that describes the installation
   .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string.
   RDS Custom applies the patches in the order in which they are listed. The following JSON
   fields are valid:  MediaImportTemplateVersion  Version of the CEV manifest. The date is in
@@ -1034,43 +1023,21 @@ CEV in the Amazon RDS User Guide.
   The patches that are not in the list of PSU and RU patches. Amazon RDS applies these
   patches after applying the PSU and RU patches.   For more information, see  Creating the
   CEV manifest in the Amazon RDS User Guide.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatabaseInstallationFilesS3Prefix"`: The Amazon S3 directory that contains the database
-  installation files for your CEV. For example, a valid bucket name is 123456789012/cev1. If
-  this setting isn't specified, no prefix is assumed.
-- `"Description"`: An optional description of your CEV.
 - `"Tags"`:
 """
 function create_custom_dbengine_version(
-    DatabaseInstallationFilesS3BucketName,
-    Engine,
-    EngineVersion,
-    KMSKeyId,
-    Manifest;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Engine, EngineVersion; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return rds(
         "CreateCustomDBEngineVersion",
-        Dict{String,Any}(
-            "DatabaseInstallationFilesS3BucketName" =>
-                DatabaseInstallationFilesS3BucketName,
-            "Engine" => Engine,
-            "EngineVersion" => EngineVersion,
-            "KMSKeyId" => KMSKeyId,
-            "Manifest" => Manifest,
-        );
+        Dict{String,Any}("Engine" => Engine, "EngineVersion" => EngineVersion);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_custom_dbengine_version(
-    DatabaseInstallationFilesS3BucketName,
     Engine,
     EngineVersion,
-    KMSKeyId,
-    Manifest,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1079,14 +1046,7 @@ function create_custom_dbengine_version(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DatabaseInstallationFilesS3BucketName" =>
-                        DatabaseInstallationFilesS3BucketName,
-                    "Engine" => Engine,
-                    "EngineVersion" => EngineVersion,
-                    "KMSKeyId" => KMSKeyId,
-                    "Manifest" => Manifest,
-                ),
+                Dict{String,Any}("Engine" => Engine, "EngineVersion" => EngineVersion),
                 params,
             ),
         );
@@ -1254,9 +1214,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier that is valid in the destination Amazon Web Services Region. This KMS key is
   used to encrypt the read replica in that Amazon Web Services Region. Valid for: Aurora DB
   clusters and Multi-AZ DB clusters
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. For more information, see Password
+  management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide and
+  Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User
+  Guide.  Constraints:   Can't manage the master user password with Amazon Web Services
+  Secrets Manager if MasterUserPassword is specified.   Valid for: Aurora DB clusters and
+  Multi-AZ DB clusters
 - `"MasterUserPassword"`: The password for the master database user. This password can
-  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
-  contain from 8 to 41 characters. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints:   Must
+  contain from 8 to 41 characters.   Can't be specified if ManageMasterUserPassword is turned
+  on.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if the master user password is managed by RDS in Amazon Web
+  Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is
+  the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a
+  different Amazon Web Services account, specify the key ARN or alias ARN. If you don't
+  specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt
+  the secret. If the secret is in a different Amazon Web Services account, then you can't use
+  the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed
+  KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web
+  Services account has a different default KMS key for each Amazon Web Services Region. Valid
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"MasterUsername"`: The name of the master user for the DB cluster. Constraints:   Must
   be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved
   word for the chosen database engine.   Valid for: Aurora DB clusters and Multi-AZ DB
@@ -1708,6 +1688,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services
   Region). The default is region. For more information, see Working with Amazon RDS on Amazon
   Web Services Outposts in the Amazon RDS User Guide.
+- `"CACertificateIdentifier"`: Specifies the CA certificate identifier to use for the DB
+  instance’s server certificate. This setting doesn't apply to RDS Custom. For more
+  information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS
+  User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora
+  User Guide.
 - `"CharacterSetName"`: For supported engines, this value indicates that the DB instance
   should be associated with the specified CharacterSet. This setting doesn't apply to RDS
   Custom. However, if you need to change the character set, you can change it on the database
@@ -1847,13 +1832,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseModel"`: License model information for this DB instance. Valid values:
   license-included | bring-your-own-license | general-public-license  This setting doesn't
   apply to RDS Custom.  Amazon Aurora  Not applicable.
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. For more information, see Password
+  management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide.
+  Constraints:   Can't manage the master user password with Amazon Web Services Secrets
+  Manager if MasterUserPassword is specified.
 - `"MasterUserPassword"`: The password for the master user. The password can include any
   printable ASCII character except \"/\", \"\"\", or \"@\".  Amazon Aurora  Not applicable.
-  The password for the master user is managed by the DB cluster.  MariaDB  Constraints: Must
-  contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to
-  128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle
+  The password for the master user is managed by the DB cluster. Constraints: Can't be
+  specified if ManageMasterUserPassword is turned on.  MariaDB  Constraints: Must contain
+  from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128
+  characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle
   Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain
   from 8 to 128 characters.
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if the master user password is managed by RDS in Amazon Web
+  Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is
+  the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a
+  different Amazon Web Services account, specify the key ARN or alias ARN. If you don't
+  specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt
+  the secret. If the secret is in a different Amazon Web Services account, then you can't use
+  the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed
+  KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web
+  Services account has a different default KMS key for each Amazon Web Services Region.
 - `"MasterUsername"`: The name for the master user.  Amazon Aurora  Not applicable. The
   name for the master user is managed by the DB cluster.  Amazon RDS  Constraints:
   Required.   Must be 1 to 16 letters, numbers, or underscores.   First character must be a
@@ -2100,6 +2102,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to CloudWatch Logs. The values in the list depend on the DB engine being used. For more
   information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User
   Guide. This setting doesn't apply to RDS Custom.
+- `"EnableCustomerOwnedIp"`: A value that indicates whether to enable a customer-owned IP
+  address (CoIP) for an RDS on Outposts read replica. A CoIP provides local or external
+  connectivity to resources in your Outpost subnets through your on-premises network. For
+  some use cases, a CoIP can provide lower latency for connections to the read replica from
+  outside of its virtual private cloud (VPC) on your local network. For more information
+  about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the
+  Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in
+  the Amazon Web Services Outposts User Guide.
 - `"EnableIAMDatabaseAuthentication"`: A value that indicates whether to enable mapping of
   Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By
   default, mapping isn't enabled. For more information about IAM database authentication, see
@@ -3800,7 +3810,9 @@ end
     describe_certificates(params::Dict{String,<:Any})
 
 Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services
-account.
+account. For more information, see Using SSL/TLS to encrypt a connection to a DB instance
+in the Amazon RDS User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in
+the Amazon Aurora User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6151,9 +6163,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide.
   Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
   Valid for: Multi-AZ DB clusters only
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the
+  master user password with Amazon Web Services Secrets Manager, you can turn on this
+  management. In this case, you can't specify MasterUserPassword. If the DB cluster already
+  manages the master user password with Amazon Web Services Secrets Manager, and you specify
+  that the master user password is not managed with Amazon Web Services Secrets Manager, then
+  you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new
+  password for the master user specified by MasterUserPassword. For more information, see
+  Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide
+  and Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User
+  Guide.  Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"MasterUserPassword"`: The new password for the master database user. This password can
-  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
-  contain from 8 to 41 characters. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints:   Must
+  contain from 8 to 41 characters.   Can't be specified if ManageMasterUserPassword is turned
+  on.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if both of the following conditions are met:   The DB cluster
+  doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB
+  cluster already manages the master user password in Amazon Web Services Secrets Manager,
+  you can't change the KMS key that is used to encrypt the secret.   You are turning on
+  ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets
+  Manager. If you are turning on ManageMasterUserPassword and don't specify
+  MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the
+  secret. If the secret is in a different Amazon Web Services account, then you can't use the
+  aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS
+  key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or
+  alias name for the KMS key. To use a KMS key in a different Amazon Web Services account,
+  specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services
+  account. Your Amazon Web Services account has a different default KMS key for each Amazon
+  Web Services Region. Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, also set
@@ -6174,7 +6214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must
   contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter
   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2  Valid
-  for: Aurora DB clusters only
+  for: Aurora DB clusters and Multi-AZ DB clusters
 - `"OptionGroupName"`: A value that indicates that the DB cluster should be associated with
   the specified option group. DB clusters are associated with a default option group that
   can't be modified.
@@ -6209,6 +6249,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.
   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window. Valid
   for: Aurora DB clusters and Multi-AZ DB clusters
+- `"RotateMasterUserPassword"`: A value that indicates whether to rotate the secret managed
+  by Amazon Web Services Secrets Manager for the master user password. This setting is valid
+  only if the master user password is managed by RDS in Amazon Web Services Secrets Manager
+  for the DB cluster. The secret value contains the updated password. For more information,
+  see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User
+  Guide and Password management with Amazon Web Services Secrets Manager in the Amazon Aurora
+  User Guide.  Constraints:   You must apply the change immediately when rotating the master
+  user password.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
 - `"ScalingConfiguration"`: The scaling properties of the DB cluster. You can only modify
   scaling properties for DB clusters in serverless DB engine mode. Valid for: Aurora DB
   clusters only
@@ -6525,8 +6573,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Oracle DB instance.   It can be specified for a MySQL read replica only if the source is
   running MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if the
   source is running PostgreSQL 9.3.5.
-- `"CACertificateIdentifier"`: Specifies the certificate to associate with the DB instance.
-  This setting doesn't apply to RDS Custom.
+- `"CACertificateIdentifier"`: Specifies the CA certificate identifier to use for the DB
+  instance’s server certificate. This setting doesn't apply to RDS Custom. For more
+  information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS
+  User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora
+  User Guide.
 - `"CertificateRotationRestart"`: A value that indicates whether the DB instance is
   restarted when you rotate your SSL/TLS certificate. By default, the DB instance is
   restarted when you rotate your SSL/TLS certificate. The certificate is not updated until
@@ -6550,11 +6601,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBInstanceClass"`: The new compute and memory capacity of the DB instance, for example
   db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,
   or for all database engines. For the full list of DB instance classes, and availability for
-  your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB instance
-  classes in the Amazon Aurora User Guide. If you modify the DB instance class, an outage
-  occurs during the change. The change is applied during the next maintenance window, unless
-  ApplyImmediately is enabled for this request. This setting doesn't apply to RDS Custom for
-  Oracle. Default: Uses existing setting
+  your engine, see DB Instance Class in the Amazon RDS User Guide or Aurora DB instance
+  classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for
+  RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you
+  modify the DB instance class, an outage occurs during the change. The change is applied
+  during the next maintenance window, unless you specify ApplyImmediately in your request.
+  Default: Uses existing setting
 - `"DBParameterGroupName"`: The name of the DB parameter group to apply to the DB instance.
   Changing this setting doesn't result in an outage. The parameter group name itself is
   changed immediately, but the actual parameter changes are not applied until you reboot the
@@ -6645,6 +6697,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseModel"`: The license model for the DB instance. This setting doesn't apply to
   RDS Custom. Valid values: license-included | bring-your-own-license |
   general-public-license
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the
+  master user password with Amazon Web Services Secrets Manager, you can turn on this
+  management. In this case, you can't specify MasterUserPassword. If the DB cluster already
+  manages the master user password with Amazon Web Services Secrets Manager, and you specify
+  that the master user password is not managed with Amazon Web Services Secrets Manager, then
+  you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new
+  password for the master user specified by MasterUserPassword. For more information, see
+  Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide.
+  Constraints:   Can't manage the master user password with Amazon Web Services Secrets
+  Manager if MasterUserPassword is specified.
 - `"MasterUserPassword"`: The new password for the master user. The password can include
   any printable ASCII character except \"/\", \"\"\", or \"@\". Changing this parameter
   doesn't result in an outage and the change is asynchronously applied as soon as possible.
@@ -6652,13 +6715,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element exists in the PendingModifiedValues element of the operation response. This setting
   doesn't apply to RDS Custom.  Amazon Aurora  Not applicable. The password for the master
   user is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
-  existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft
-  SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must
-  contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30
-  characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS
-  API operations never return the password, so this action provides a way to regain access to
-  a primary instance user if the password is lost. This includes restoring privileges that
-  might have been accidentally revoked.
+  existing setting Constraints: Can't be specified if ManageMasterUserPassword is turned on.
+  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server
+  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from
+  8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL
+   Constraints: Must contain from 8 to 128 characters.  Amazon RDS API operations never
+  return the password, so this action provides a way to regain access to a primary instance
+  user if the password is lost. This includes restoring privileges that might have been
+  accidentally revoked.
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if both of the following conditions are met:   The DB instance
+  doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB
+  instance already manages the master user password in Amazon Web Services Secrets Manager,
+  you can't change the KMS key used to encrypt the secret.   You are turning on
+  ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets
+  Manager. If you are turning on ManageMasterUserPassword and don't specify
+  MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the
+  secret. If the secret is in a different Amazon Web Services account, then you can't use the
+  aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS
+  key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or
+  alias name for the KMS key. To use a KMS key in a different Amazon Web Services account,
+  specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services
+  account. Your Amazon Web Services account has a different default KMS key for each Amazon
+  Web Services Region.
 - `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
   automatically scale the storage of the DB instance. For more information about this
   setting, including limitations that apply to it, see  Managing capacity automatically with
@@ -6762,6 +6842,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResumeFullAutomationModeMinutes"`: The number of minutes to pause the automation. When
   the time period ends, RDS Custom resumes full automation. The minimum value is 60
   (default). The maximum value is 1,440.
+- `"RotateMasterUserPassword"`: A value that indicates whether to rotate the secret managed
+  by Amazon Web Services Secrets Manager for the master user password. This setting is valid
+  only if the master user password is managed by RDS in Amazon Web Services Secrets Manager
+  for the DB cluster. The secret value contains the updated password. For more information,
+  see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User
+  Guide.  Constraints:   You must apply the change immediately when rotating the master user
+  password.
 - `"StorageThroughput"`: Specifies the storage throughput value for the DB instance. This
   setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or
   Amazon Aurora.
@@ -8039,8 +8126,8 @@ function reset_dbparameter_group(
 end
 
 """
-    restore_dbcluster_from_s3(dbcluster_identifier, engine, master_user_password, master_username, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version)
-    restore_dbcluster_from_s3(dbcluster_identifier, engine, master_user_password, master_username, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version, params::Dict{String,<:Any})
+    restore_dbcluster_from_s3(dbcluster_identifier, engine, master_username, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version)
+    restore_dbcluster_from_s3(dbcluster_identifier, engine, master_username, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version, params::Dict{String,<:Any})
 
 Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon
 RDS must be authorized to access the Amazon S3 bucket and the data must be created using
@@ -8061,9 +8148,6 @@ This action only applies to Aurora DB clusters. The source DB engine must be MyS
 - `engine`: The name of the database engine to be used for this DB cluster. Valid Values:
   aurora (for MySQL 5.6-compatible Aurora) and aurora-mysql (for MySQL 5.7-compatible and
   MySQL 8.0-compatible Aurora)
-- `master_user_password`: The password for the master database user. This password can
-  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
-  contain from 8 to 41 characters.
 - `master_username`: The name of the master user for the restored DB cluster. Constraints:
    Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a
   reserved word for the chosen database engine.
@@ -8133,6 +8217,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a
   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has
   a different default KMS key for each Amazon Web Services Region.
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. For more information, see Password
+  management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide and
+  Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User
+  Guide.  Constraints:   Can't manage the master user password with Amazon Web Services
+  Secrets Manager if MasterUserPassword is specified.
+- `"MasterUserPassword"`: The password for the master database user. This password can
+  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints:   Must
+  contain from 8 to 41 characters.   Can't be specified if ManageMasterUserPassword is turned
+  on.
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if the master user password is managed by RDS in Amazon Web
+  Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is
+  the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a
+  different Amazon Web Services account, specify the key ARN or alias ARN. If you don't
+  specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt
+  the secret. If the secret is in a different Amazon Web Services account, then you can't use
+  the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed
+  KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web
+  Services account has a different default KMS key for each Amazon Web Services Region.
 - `"NetworkType"`: The network type of the DB cluster. Valid values:    IPV4     DUAL
   The network type is determined by the DBSubnetGroup specified for the DB cluster. A
   DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
@@ -8169,7 +8274,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function restore_dbcluster_from_s3(
     DBClusterIdentifier,
     Engine,
-    MasterUserPassword,
     MasterUsername,
     S3BucketName,
     S3IngestionRoleArn,
@@ -8182,7 +8286,6 @@ function restore_dbcluster_from_s3(
         Dict{String,Any}(
             "DBClusterIdentifier" => DBClusterIdentifier,
             "Engine" => Engine,
-            "MasterUserPassword" => MasterUserPassword,
             "MasterUsername" => MasterUsername,
             "S3BucketName" => S3BucketName,
             "S3IngestionRoleArn" => S3IngestionRoleArn,
@@ -8196,7 +8299,6 @@ end
 function restore_dbcluster_from_s3(
     DBClusterIdentifier,
     Engine,
-    MasterUserPassword,
     MasterUsername,
     S3BucketName,
     S3IngestionRoleArn,
@@ -8213,7 +8315,6 @@ function restore_dbcluster_from_s3(
                 Dict{String,Any}(
                     "DBClusterIdentifier" => DBClusterIdentifier,
                     "Engine" => Engine,
-                    "MasterUserPassword" => MasterUserPassword,
                     "MasterUsername" => MasterUsername,
                     "S3BucketName" => S3BucketName,
                     "S3IngestionRoleArn" => S3IngestionRoleArn,
@@ -8902,9 +9003,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a default KMS key for your Amazon Web Services account. Your Amazon Web Services account
   has a different default KMS key for each Amazon Web Services Region.
 - `"LicenseModel"`: The license model for this DB instance. Use general-public-license.
+- `"ManageMasterUserPassword"`: A value that indicates whether to manage the master user
+  password with Amazon Web Services Secrets Manager. For more information, see Password
+  management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide.
+  Constraints:   Can't manage the master user password with Amazon Web Services Secrets
+  Manager if MasterUserPassword is specified.
 - `"MasterUserPassword"`: The password for the master user. The password can include any
-  printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must contain from 8
-  to 41 characters.
+  printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Can't be specified
+  if ManageMasterUserPassword is turned on.  MariaDB  Constraints: Must contain from 8 to 41
+  characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.
+  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must
+  contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128
+  characters.
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if the master user password is managed by RDS in Amazon Web
+  Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is
+  the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a
+  different Amazon Web Services account, specify the key ARN or alias ARN. If you don't
+  specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt
+  the secret. If the secret is in a different Amazon Web Services account, then you can't use
+  the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed
+  KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web
+  Services account has a different default KMS key for each Amazon Web Services Region.
 - `"MasterUsername"`: The name for the master user. Constraints:   Must be 1 to 16 letters
   or numbers.   First character must be a letter.   Can't be a reserved word for the chosen
   database engine.
@@ -9513,11 +9634,10 @@ S3 bucket. This command doesn't apply to RDS Custom.
 - `kms_key_id`: The ID of the Amazon Web Services KMS key to use to encrypt the snapshot
   exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID,
   alias ARN, or alias name for the KMS key. The caller of this operation must be authorized
-  to execute the following operations. These can be set in the Amazon Web Services KMS key
-  policy:   GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey
-   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom
-  GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey
-  GrantOperation.RetireGrant
+  to run the following operations. These can be set in the Amazon Web Services KMS key
+  policy:   kms:Encrypt   kms:Decrypt   kms:GenerateDataKey
+  kms:GenerateDataKeyWithoutPlaintext   kms:ReEncryptFrom   kms:ReEncryptTo   kms:CreateGrant
+    kms:DescribeKey   kms:RetireGrant
 - `s3_bucket_name`: The name of the Amazon S3 bucket to export the snapshot to.
 - `source_arn`: The Amazon Resource Name (ARN) of the snapshot to export to Amazon S3.
 

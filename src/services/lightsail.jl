@@ -1163,10 +1163,7 @@ operation supports tag-based access control via request tags. For more informati
 Amazon Lightsail Developer Guide.
 
 # Arguments
-- `domain_name`: The domain name to manage (e.g., example.com).  You cannot register a new
-  domain name using Lightsail. You must register a domain name using Amazon Route 53 or
-  another domain name registrar. If you have already registered your domain, you can enter
-  its name in this parameter to manage the DNS records for that domain using Lightsail.
+- `domain_name`: The domain name to manage (e.g., example.com).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2268,8 +2265,8 @@ Lightsail Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
-  for the disk.
+- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
+  disk.
 """
 function delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail(
@@ -2455,8 +2452,8 @@ more information, see the Amazon Lightsail Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
-  for the disk.
+- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
+  instance.
 """
 function delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail(
