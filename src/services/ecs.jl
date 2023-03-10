@@ -80,7 +80,7 @@ you launch your first container instance. However, you can create your own clust
 unique name with the CreateCluster action.  When you call the CreateCluster API operation,
 Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is
 so that it can manage required resources in other Amazon Web Services services on your
-behalf. However, if the IAM user that makes the call doesn't have permissions to create the
+behalf. However, if the user that makes the call doesn't have permissions to create the
 service-linked role, it isn't created. For more information, see Using service-linked roles
 for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
 
@@ -95,7 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created with the CreateCapacityProvider API operation. To use a Fargate capacity provider,
   specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity
   providers are available to all accounts and only need to be associated with a cluster to be
-  used. The PutClusterCapacityProviders API operation is used to update the list of available
+  used. The PutCapacityProvider API operation is used to update the list of available
   capacity providers for a cluster after the cluster is created.
 - `"clusterName"`: The name of your cluster. If you don't specify a name for your cluster,
   you create a cluster that's named default. Up to 255 letters (uppercase and lowercase),
@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: The execute command configuration for the cluster.
 - `"defaultCapacityProviderStrategy"`: The capacity provider strategy to set as the default
   for the cluster. After a default capacity provider strategy is set for a cluster, when you
-  call the RunTask or CreateService APIs with no capacity provider strategy or launch type
+  call the CreateService or RunTask APIs with no capacity provider strategy or launch type
   specified, the default capacity provider strategy for the cluster is used. If a default
   capacity provider strategy isn't defined for a cluster when it was created, it can be
   defined later with the PutClusterCapacityProviders API operation.
@@ -501,8 +501,7 @@ end
     delete_account_setting(name)
     delete_account_setting(name, params::Dict{String,<:Any})
 
-Disables an account setting for a specified IAM user, IAM role, or the root user for an
-account.
+Disables an account setting for a specified user, role, or the root user for an account.
 
 # Arguments
 - `name`: The resource name to disable the account setting for. If serviceLongArnFormat is
@@ -514,11 +513,11 @@ account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"principalArn"`: The Amazon Resource Name (ARN) of the principal. It can be an IAM user,
-  IAM role, or the root user. If you specify the root user, it disables the account setting
-  for all IAM users, IAM roles, and the root user of the account unless an IAM user or role
-  explicitly overrides these settings. If this field is omitted, the setting is changed only
-  for the authenticated user.
+- `"principalArn"`: The Amazon Resource Name (ARN) of the principal. It can be an user,
+  role, or the root user. If you specify the root user, it disables the account setting for
+  all users, roles, and the root user of the account unless a user or role explicitly
+  overrides these settings. If this field is omitted, the setting is changed only for the
+  authenticated user.
 """
 function delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
@@ -710,6 +709,54 @@ function delete_service(
 end
 
 """
+    delete_task_definitions(task_definitions)
+    delete_task_definitions(task_definitions, params::Dict{String,<:Any})
+
+Deletes one or more task definitions. You must deregister a task definition revision before
+you delete it. For more information, see DeregisterTaskDefinition. When you delete a task
+definition revision, it is immediately transitions from the INACTIVE to DELETE_IN_PROGRESS.
+Existing tasks and services that reference a DELETE_IN_PROGRESS task definition revision
+continue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS
+task definition revision can still scale up or down by modifying the service's desired
+count. You can't use a DELETE_IN_PROGRESS task definition revision to run new tasks or
+create new services. You also can't update an existing service to reference a
+DELETE_IN_PROGRESS task definition revision.  A task definition revision will stay in
+DELETE_IN_PROGRESS status until all the associated tasks and services have been terminated.
+
+# Arguments
+- `task_definitions`: The family and revision (family:revision) or full Amazon Resource
+  Name (ARN) of the task definition to delete. You must specify a revision. You can specify
+  up to 10 task definitions as a comma separated list.
+
+"""
+function delete_task_definitions(
+    taskDefinitions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteTaskDefinitions",
+        Dict{String,Any}("taskDefinitions" => taskDefinitions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_task_definitions(
+    taskDefinitions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeleteTaskDefinitions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("taskDefinitions" => taskDefinitions), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_task_set(cluster, service, task_set)
     delete_task_set(cluster, service, task_set, params::Dict{String,<:Any})
 
@@ -831,13 +878,16 @@ Deregisters the specified task definition by family and revision. Upon deregistr
 task definition is marked as INACTIVE. Existing tasks and services that reference an
 INACTIVE task definition continue to run without disruption. Existing services that
 reference an INACTIVE task definition can still scale up or down by modifying the service's
-desired count. You can't use an INACTIVE task definition to run new tasks or create new
-services, and you can't update an existing service to reference an INACTIVE task
+desired count. If you want to delete a task definition revision, you must first deregister
+the task definition revision. You can't use an INACTIVE task definition to run new tasks or
+create new services, and you can't update an existing service to reference an INACTIVE task
 definition. However, there may be up to a 10-minute window following deregistration where
 these restrictions have not yet taken effect.  At this time, INACTIVE task definitions
 remain discoverable in your account indefinitely. However, this behavior is subject to
 change in the future. We don't recommend that you rely on INACTIVE task definitions
-persisting beyond the lifecycle of any associated tasks and services.
+persisting beyond the lifecycle of any associated tasks and services.  You must deregister
+a task definition revision before you delete it. For more information, see
+DeleteTaskDefinitions.
 
 # Arguments
 - `task_definition`: The family and revision (family:revision) or full Amazon Resource Name
@@ -1314,10 +1364,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maxResults was provided, it's possible the number of results to be fewer than maxResults.
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
-- `"principalArn"`: The ARN of the principal, which can be an IAM user, IAM role, or the
-  root user. If this field is omitted, the account settings are listed only for the
-  authenticated user.  Federated users assume the account setting of the root user and can't
-  have explicit account settings set for them.
+- `"principalArn"`: The ARN of the principal, which can be a user, role, or the root user.
+  If this field is omitted, the account settings are listed only for the authenticated user.
+  Federated users assume the account setting of the root user and can't have explicit account
+  settings set for them.
 - `"value"`: The value of the account settings to filter results with. You must also
   specify an account setting name to use this parameter.
 """
@@ -1769,25 +1819,25 @@ end
     put_account_setting(name, value, params::Dict{String,<:Any})
 
 Modifies an account setting. Account settings are set on a per-Region basis. If you change
-the account setting for the root user, the default settings for all of the IAM users and
-roles that no individual account setting was specified are reset for. For more information,
-see Account Settings in the Amazon Elastic Container Service Developer Guide. When
+the account setting for the root user, the default settings for all of the users and roles
+that no individual account setting was specified are reset for. For more information, see
+Account Settings in the Amazon Elastic Container Service Developer Guide. When
 serviceLongArnFormat, taskLongArnFormat, or containerInstanceLongArnFormat are specified,
 the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified
-IAM user, IAM role, or the root user for an account is affected. The opt-in and opt-out
-account setting must be set for each Amazon ECS resource separately. The ARN and resource
-ID format of a resource is defined by the opt-in status of the IAM user or role that
-created the resource. You must turn on this setting to use Amazon ECS features such as
-resource tagging. When awsvpcTrunking is specified, the elastic network interface (ENI)
-limit for any new container instances that support the feature is changed. If
-awsvpcTrunking is enabled, any new container instances that support the feature are
-launched have the increased ENI limits available to them. For more information, see Elastic
-Network Interface Trunking in the Amazon Elastic Container Service Developer Guide. When
-containerInsights is specified, the default setting indicating whether CloudWatch Container
-Insights is enabled for your clusters is changed. If containerInsights is enabled, any new
-clusters that are created will have Container Insights enabled unless you disable it during
-cluster creation. For more information, see CloudWatch Container Insights in the Amazon
-Elastic Container Service Developer Guide.
+user, role, or the root user for an account is affected. The opt-in and opt-out account
+setting must be set for each Amazon ECS resource separately. The ARN and resource ID format
+of a resource is defined by the opt-in status of the user or role that created the
+resource. You must turn on this setting to use Amazon ECS features such as resource
+tagging. When awsvpcTrunking is specified, the elastic network interface (ENI) limit for
+any new container instances that support the feature is changed. If awsvpcTrunking is
+enabled, any new container instances that support the feature are launched have the
+increased ENI limits available to them. For more information, see Elastic Network Interface
+Trunking in the Amazon Elastic Container Service Developer Guide. When containerInsights is
+specified, the default setting indicating whether CloudWatch Container Insights is enabled
+for your clusters is changed. If containerInsights is enabled, any new clusters that are
+created will have Container Insights enabled unless you disable it during cluster creation.
+For more information, see CloudWatch Container Insights in the Amazon Elastic Container
+Service Developer Guide.
 
 # Arguments
 - `name`: The Amazon ECS resource name for which to modify the account setting. If
@@ -1803,12 +1853,12 @@ Elastic Container Service Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"principalArn"`: The ARN of the principal, which can be an IAM user, IAM role, or the
-  root user. If you specify the root user, it modifies the account setting for all IAM users,
-  IAM roles, and the root user of the account unless an IAM user or role explicitly overrides
-  these settings. If this field is omitted, the setting is changed only for the authenticated
-  user.  Federated users assume the account setting of the root user and can't have explicit
-  account settings set for them.
+- `"principalArn"`: The ARN of the principal, which can be a user, role, or the root user.
+  If you specify the root user, it modifies the account setting for all users, roles, and the
+  root user of the account unless a user or role explicitly overrides these settings. If this
+  field is omitted, the setting is changed only for the authenticated user.  Federated users
+  assume the account setting of the root user and can't have explicit account settings set
+  for them.
 """
 function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
@@ -1838,7 +1888,7 @@ end
     put_account_setting_default(name, value)
     put_account_setting_default(name, value, params::Dict{String,<:Any})
 
-Modifies an account setting for all IAM users on an account for whom no individual account
+Modifies an account setting for all users on an account for whom no individual account
 setting has been specified. Account settings are set on a per-Region basis.
 
 # Arguments
@@ -2072,18 +2122,18 @@ end
 Registers a new task definition from the supplied family and containerDefinitions.
 Optionally, you can add data volumes to your containers with the volumes parameter. For
 more information about task definition parameters and defaults, see Amazon ECS Task
-Definitions in the Amazon Elastic Container Service Developer Guide. You can specify an IAM
-role for your task with the taskRoleArn parameter. When you specify an IAM role for a task,
-its containers can then use the latest versions of the CLI or SDKs to make API requests to
-the Amazon Web Services services that are specified in the IAM policy that's associated
-with the role. For more information, see IAM Roles for Tasks in the Amazon Elastic
-Container Service Developer Guide. You can specify a Docker networking mode for the
-containers in your task definition with the networkMode parameter. The available network
-modes correspond to those described in Network settings in the Docker run reference. If you
-specify the awsvpc network mode, the task is allocated an elastic network interface, and
-you must specify a NetworkConfiguration when you create a service or run a task with the
-task definition. For more information, see Task Networking in the Amazon Elastic Container
-Service Developer Guide.
+Definitions in the Amazon Elastic Container Service Developer Guide. You can specify a role
+for your task with the taskRoleArn parameter. When you specify a role for a task, its
+containers can then use the latest versions of the CLI or SDKs to make API requests to the
+Amazon Web Services services that are specified in the policy that's associated with the
+role. For more information, see IAM Roles for Tasks in the Amazon Elastic Container Service
+Developer Guide. You can specify a Docker networking mode for the containers in your task
+definition with the networkMode parameter. The available network modes correspond to those
+described in Network settings in the Docker run reference. If you specify the awsvpc
+network mode, the task is allocated an elastic network interface, and you must specify a
+NetworkConfiguration when you create a service or run a task with the task definition. For
+more information, see Task Networking in the Amazon Elastic Container Service Developer
+Guide.
 
 # Arguments
 - `container_definitions`: A list of container definitions in JSON format that describe the
@@ -2289,10 +2339,10 @@ gradually up to about five minutes of wait time.
 # Arguments
 - `task_definition`: The family and revision (family:revision) or full ARN of the task
   definition to run. If a revision isn't specified, the latest ACTIVE revision is used. When
-  you create an IAM policy for run-task, you can set the resource to be the latest task
-  definition revision, or a specific revision. The full ARN value must match the value that
-  you specified as the Resource of the IAM principal's permissions policy. When you specify
-  the policy resource as the latest task definition version (by setting the Resource in the
+  you create a policy for run-task, you can set the resource to be the latest task definition
+  revision, or a specific revision. The full ARN value must match the value that you
+  specified as the Resource of the principal's permissions policy. When you specify the
+  policy resource as the latest task definition version (by setting the Resource in the
   policy to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName), then set this
   value to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName. When you
   specify the policy resource as a specific task definition version (by setting the Resource
@@ -2514,7 +2564,7 @@ with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see Amazon E
 Container Agent Configuration in the Amazon Elastic Container Service Developer Guide.
 
 # Arguments
-- `task`: The task ID or full Amazon Resource Name (ARN) of the task to stop.
+- `task`: The task ID of the task to stop.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3095,11 +3145,10 @@ each have two, container instances in either zone B or C are considered optimal 
 termination.   Stop the task on a container instance in an optimal Availability Zone (based
 on the previous steps), favoring container instances with the largest number of running
 tasks for this service.    You must have a service-linked role when you update any of the
-following service properties. If you specified a custom IAM role when you created the
-service, Amazon ECS automatically replaces the roleARN associated with the service with the
-ARN of your service-linked role. For more information, see Service-linked roles in the
-Amazon Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
-
+following service properties. If you specified a custom role when you created the service,
+Amazon ECS automatically replaces the roleARN associated with the service with the ARN of
+your service-linked role. For more information, see Service-linked roles in the Amazon
+Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
 
 # Arguments
 - `service`: The name of the service to update.

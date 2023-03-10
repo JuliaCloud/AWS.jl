@@ -101,10 +101,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
   don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with an
-  experiment.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with an experiment. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_experiment(
     metricGoals,
@@ -175,7 +173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"entityOverrides"`: Specify users that should always be served a specific variation of a
   feature. Each user is specified by a key-value pair . For each key, specify a user by
   entering their user ID, account ID, or some other identifier. For the value, specify the
-  name of the variation that they are to be served.
+  name of the variation that they are to be served. This parameter is limited to 2500
+  overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
 - `"evaluationStrategy"`: Specify ALL_RULES to activate the traffic allocation specified by
   any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default
   variation to all users instead.
@@ -183,10 +182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
   don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with a
-  feature.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with a feature. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_feature(
     name, project, variations; aws_config::AbstractAWSConfig=global_aws_config()
@@ -252,10 +249,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
   don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with a
-  launch.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with a launch. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_launch(
     groups, name, project; aws_config::AbstractAWSConfig=global_aws_config()
@@ -316,10 +311,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
   don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with a
-  project.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with a project. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_project(name; aws_config::AbstractAWSConfig=global_aws_config())
     return evidently(
@@ -352,15 +345,10 @@ users in Europe, or Firefox browser users in Europe who also fit other criteria 
 application collects, such as age. Using a segment in an experiment limits that experiment
 to evaluate only the users who match the segment criteria. Using one or more segments in a
 launch allows you to define different traffic splits for the different audience segments.
-&lt;p&gt;For more information about segment pattern syntax, see &lt;a
-href=&quot;https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evident
-ly-segments.html#CloudWatch-Evidently-segments-syntax.html&quot;&gt; Segment rule pattern
-syntax&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;The pattern that you define for a segment is matched
-against the value of &lt;code&gt;evaluationContext&lt;/code&gt;, which is passed into
-Evidently in the &lt;a
-href=&quot;https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateF
-eature.html&quot;&gt;EvaluateFeature&lt;/a&gt; operation, when Evidently assigns a feature
-variation to a user.&lt;/p&gt;
+For more information about segment pattern syntax, see  Segment rule pattern syntax. The
+pattern that you define for a segment is matched against the value of evaluationContext,
+which is passed into Evidently in the EvaluateFeature operation, when Evidently assigns a
+feature variation to a user.
 
 # Arguments
 - `name`: A name for the segment.
@@ -374,10 +362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. Tags
   don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with a
-  segment.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with a segment. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_segment(name, pattern; aws_config::AbstractAWSConfig=global_aws_config())
     return evidently(
@@ -583,27 +569,21 @@ This operation assigns a feature variation to one given user session. You pass i
 entityID that represents the user. Evidently then checks the evaluation rules and assigns
 the variation. The first rules that are evaluated are the override rules. If the user's
 entityID matches an override rule, the user is served the variation specified by that rule.
- &lt;p&gt;If there is a current launch with this feature that uses segment overrides, and
-if the user session's &lt;code&gt;evaluationContext&lt;/code&gt; matches a segment rule
-defined in a segment override, the configuration in the segment overrides is used. For more
-information about segments, see &lt;a
-href=&quot;https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSeg
-ment.html&quot;&gt;CreateSegment&lt;/a&gt; and &lt;a
-href=&quot;https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evident
-ly-segments.html&quot;&gt;Use segments to focus your audience&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If there is a launch with no segment overrides, the user might be assigned to a
-variation in the launch. The chance of this depends on the percentage of users that are
-allocated to that launch. If the user is enrolled in the launch, the variation they are
-served depends on the allocation of the various feature variations used for the
-launch.&lt;/p&gt; &lt;p&gt;If the user is not assigned to a launch, and there is an ongoing
-experiment for this feature, the user might be assigned to a variation in the experiment.
-The chance of this depends on the percentage of users that are allocated to that
-experiment.&lt;/p&gt; &lt;p&gt;If the experiment uses a segment, then only user sessions
-with &lt;code&gt;evaluationContext&lt;/code&gt; values that match the segment rule are used
-in the experiment.&lt;/p&gt; &lt;p&gt;If the user is enrolled in the experiment, the
-variation they are served depends on the allocation of the various feature variations used
-for the experiment. &lt;/p&gt; &lt;p&gt;If the user is not assigned to a launch or
-experiment, they are served the default variation.&lt;/p&gt;
+If there is a current launch with this feature that uses segment overrides, and if the user
+session's evaluationContext matches a segment rule defined in a segment override, the
+configuration in the segment overrides is used. For more information about segments, see
+CreateSegment and Use segments to focus your audience. If there is a launch with no segment
+overrides, the user might be assigned to a variation in the launch. The chance of this
+depends on the percentage of users that are allocated to that launch. If the user is
+enrolled in the launch, the variation they are served depends on the allocation of the
+various feature variations used for the launch. If the user is not assigned to a launch,
+and there is an ongoing experiment for this feature, the user might be assigned to a
+variation in the experiment. The chance of this depends on the percentage of users that are
+allocated to that experiment. If the experiment uses a segment, then only user sessions
+with evaluationContext values that match the segment rule are used in the experiment. If
+the user is enrolled in the experiment, the variation they are served depends on the
+allocation of the various feature variations used for the experiment.  If the user is not
+assigned to a launch or experiment, they are served the default variation.
 
 # Arguments
 - `entity_id`: An internal ID that represents a unique user of the application. This
@@ -616,8 +596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"evaluationContext"`: A JSON object of attributes that you can optionally pass in as
   part of the evaluation event sent to Evidently from the user session. Evidently can use
   this value to match user sessions with defined audience segments. For more information, see
-  Use segments to focus your audience.  &lt;p&gt;If you include this parameter, the value
-  must be a JSON object. A JSON array is not supported.&lt;/p&gt;
+  Use segments to focus your audience. If you include this parameter, the value must be a
+  JSON object. A JSON array is not supported.
 """
 function evaluate_feature(
     entityId, feature, project; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1559,7 +1539,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"entityOverrides"`: Specified users that should always be served a specific variation of
   a feature. Each user is specified by a key-value pair . For each key, specify a user by
   entering their user ID, account ID, or some other identifier. For the value, specify the
-  name of the variation that they are to be served.
+  name of the variation that they are to be served. This parameter is limited to 2500
+  overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
 - `"evaluationStrategy"`: Specify ALL_RULES to activate the traffic allocation specified by
   any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default
   variation to all users instead.

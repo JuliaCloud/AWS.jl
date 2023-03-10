@@ -340,9 +340,8 @@ Amazon Web Services-service specific fields in the SourceParameters, EnrichmentP
 or TargetParameters objects. The fields in these objects are updated atomically as one and
 override existing values. This is by design and means that if you don't specify an optional
 field in one of these Parameters objects, that field will be set to its system-default
-value after the update.  &lt;p&gt;For more information about pipes, see &lt;a
-href=&quot;https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html&quot;&gt;
-Amazon EventBridge Pipes&lt;/a&gt; in the Amazon EventBridge User Guide.&lt;/p&gt;
+value after the update. For more information about pipes, see  Amazon EventBridge Pipes in
+the Amazon EventBridge User Guide.
 
 # Arguments
 - `name`: The name of the pipe.

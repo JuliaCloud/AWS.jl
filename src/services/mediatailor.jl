@@ -5,6 +5,49 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    configure_logs_for_channel(channel_name, log_types)
+    configure_logs_for_channel(channel_name, log_types, params::Dict{String,<:Any})
+
+Configures Amazon CloudWatch log settings for a channel.
+
+# Arguments
+- `channel_name`: The name of the channel.
+- `log_types`: The types of logs to collect.
+
+"""
+function configure_logs_for_channel(
+    ChannelName, LogTypes; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "PUT",
+        "/configureLogs/channel",
+        Dict{String,Any}("ChannelName" => ChannelName, "LogTypes" => LogTypes);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function configure_logs_for_channel(
+    ChannelName,
+    LogTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/configureLogs/channel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChannelName" => ChannelName, "LogTypes" => LogTypes),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name)
     configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name, params::Dict{String,<:Any})
 
@@ -1667,6 +1710,57 @@ function update_live_source(
             mergewith(
                 _merge,
                 Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_program(channel_name, program_name, schedule_configuration)
+    update_program(channel_name, program_name, schedule_configuration, params::Dict{String,<:Any})
+
+Updates a program within a channel.
+
+# Arguments
+- `channel_name`: The name of the channel for this Program.
+- `program_name`: The name of the Program.
+- `schedule_configuration`: The schedule configuration settings.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdBreaks"`: The ad break configuration settings.
+"""
+function update_program(
+    ChannelName,
+    ProgramName,
+    ScheduleConfiguration;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/channel/$(ChannelName)/program/$(ProgramName)",
+        Dict{String,Any}("ScheduleConfiguration" => ScheduleConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_program(
+    ChannelName,
+    ProgramName,
+    ScheduleConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/channel/$(ChannelName)/program/$(ProgramName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ScheduleConfiguration" => ScheduleConfiguration),
                 params,
             ),
         );

@@ -506,7 +506,7 @@ Amazon SageMaker Autopilot.
 
 # Arguments
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
-  and is case-insensitive.
+  and is case insensitive.
 - `input_data_config`: An array of channel objects that describes the input data and its
   location. Each channel is a named input source. Similar to InputDataConfig supported by .
   Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training
@@ -928,19 +928,18 @@ end
 
 Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon
 Elastic File System (EFS) volume, a list of authorized users, and a variety of security,
-application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An Amazon Web
-Services account is limited to one domain per region. Users within a domain can share
-notebook files and other artifacts with each other.  EFS storage  When a domain is created,
-an EFS volume is created for use by all of the users within the domain. Each user receives
-a private home directory within the EFS volume for notebooks, Git repositories, and data
-files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services
-KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed
-key by default. For more control, you can specify a customer managed key. For more
-information, see Protect Data at Rest Using Encryption.  VPC configuration  All SageMaker
-Studio traffic between the domain and the EFS volume is through the specified VPC and
-subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter.
-AppNetworkAccessType corresponds to the network access type that you choose when you
-onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
+application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a
+domain can share notebook files and other artifacts with each other.  EFS storage  When a
+domain is created, an EFS volume is created for use by all of the users within the domain.
+Each user receives a private home directory within the EFS volume for notebooks, Git
+repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service
+(Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon
+Web Services managed key by default. For more control, you can specify a customer managed
+key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration
+All SageMaker Studio traffic between the domain and the EFS volume is through the specified
+VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType
+parameter. AppNetworkAccessType corresponds to the network access type that you choose when
+you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
 traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This
 is the default value.    VpcOnly - All Studio traffic is through the specified VPC and
 subnets. Internet access is disabled by default. To allow internet access, you must specify
@@ -1244,17 +1243,17 @@ the status to InService. SageMaker can then process incoming requests for infere
 check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted
 at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web
 Services Security Token Service to download model artifacts from the S3 path you provided.
-Amazon Web Services STS is activated in your IAM user account by default. If you previously
-deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web
-Services STS for that region. For more information, see Activating and Deactivating Amazon
-Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and
-Access Management User Guide.   To add the IAM role policies for using this API operation,
-go to the IAM console, and choose Roles in the left navigation pane. Search the IAM role
-that you want to grant access to use the CreateEndpoint and CreateEndpointConfig API
-operations, add the following policies to the role.    Option 1: For a full SageMaker
-access, search and attach the AmazonSageMakerFullAccess policy.   Option 2: For granting a
-limited access to an IAM role, paste the following Action elements manually into the JSON
-file of the IAM role:   \"Action\": [\"sagemaker:CreateEndpoint\",
+Amazon Web Services STS is activated in your Amazon Web Services account by default. If you
+previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon
+Web Services STS for that region. For more information, see Activating and Deactivating
+Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services
+Identity and Access Management User Guide.   To add the IAM role policies for using this
+API operation, go to the IAM console, and choose Roles in the left navigation pane. Search
+the IAM role that you want to grant access to use the CreateEndpoint and
+CreateEndpointConfig API operations, add the following policies to the role.    Option 1:
+For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.
+Option 2: For granting a limited access to an IAM role, paste the following Action elements
+manually into the JSON file of the IAM role:   \"Action\": [\"sagemaker:CreateEndpoint\",
 \"sagemaker:CreateEndpointConfig\"]   \"Resource\": [
 \"arn:aws:sagemaker:region:account-id:endpoint/endpointName\"
 \"arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName\"   ]  For more
@@ -1649,7 +1648,7 @@ end
     create_hub(hub_description, hub_name)
     create_hub(hub_description, hub_name, params::Dict{String,<:Any})
 
-Create a hub.
+Create a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_description`: A description of the hub.
@@ -2719,8 +2718,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required
   for unversioned models. It is not applicable to versioned models.
 - `"SamplePayloadUrl"`: The Amazon Simple Storage Service (Amazon S3) path where the sample
-  payload are stored. This path must point to a single gzip compressed tar archive (.tar.gz
-  suffix).
+  payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz
+  suffix). This archive can hold multiple files that are all equally used in the load test.
+  Each file in the archive must satisfy the size constraints of the InvokeEndpoint call.
 - `"SourceAlgorithmSpecification"`: Details about the algorithm that was used to create the
   model package.
 - `"Tags"`: A list of key value pairs associated with the model. For more information, see
@@ -2884,7 +2884,7 @@ end
     create_monitoring_schedule(monitoring_schedule_config, monitoring_schedule_name, params::Dict{String,<:Any})
 
 Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the
-data captured for an Amazon SageMaker Endoint.
+data captured for an Amazon SageMaker Endpoint.
 
 # Arguments
 - `monitoring_schedule_config`: The configuration object that specifies the monitoring
@@ -4854,7 +4854,7 @@ end
     delete_hub(hub_name)
     delete_hub(hub_name, params::Dict{String,<:Any})
 
-Delete a hub.
+Delete a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_name`: The name of the hub to delete.
@@ -4883,7 +4883,7 @@ end
     delete_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name)
     delete_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name, params::Dict{String,<:Any})
 
-Delete the contents of a hub.
+Delete the contents of a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_content_name`: The name of the content that you want to delete from a hub.
@@ -6757,7 +6757,7 @@ end
     describe_hub(hub_name)
     describe_hub(hub_name, params::Dict{String,<:Any})
 
-Describe a hub.
+Describe a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_name`: The name of the hub to describe.
@@ -6786,7 +6786,7 @@ end
     describe_hub_content(hub_content_name, hub_content_type, hub_name)
     describe_hub_content(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
-Describe the content of a hub.
+Describe the content of a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_content_name`: The name of the content to describe.
@@ -8381,12 +8381,12 @@ end
     get_search_suggestions(resource)
     get_search_suggestions(resource, params::Dict{String,<:Any})
 
-An auto-complete API for the search functionality in the Amazon SageMaker console. It
-returns suggestions of possible matches for the property name to use in Search queries.
-Provides suggestions for HyperParameters, Tags, and Metrics.
+An auto-complete API for the search functionality in the SageMaker console. It returns
+suggestions of possible matches for the property name to use in Search queries. Provides
+suggestions for HyperParameters, Tags, and Metrics.
 
 # Arguments
-- `resource`: The name of the Amazon SageMaker resource to search for.
+- `resource`: The name of the SageMaker resource to search for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8419,7 +8419,7 @@ end
     import_hub_content(document_schema_version, hub_content_document, hub_content_name, hub_content_type, hub_name)
     import_hub_content(document_schema_version, hub_content_document, hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
-Import hub content.
+Import hub content.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `document_schema_version`: The version of the hub content schema to import.
@@ -8433,7 +8433,8 @@ Import hub content.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HubContentDescription"`: A description of the hub content to import.
 - `"HubContentDisplayName"`: The display name of the hub content to import.
-- `"HubContentMarkdown"`: Markdown files associated with the hub content to import.
+- `"HubContentMarkdown"`: A string that provides a description of the hub content. This
+  string can include links, tables, and standard markdown formating.
 - `"HubContentSearchKeywords"`: The searchable keywords of the hub content.
 - `"HubContentVersion"`: The version of the hub content to import.
 - `"Tags"`: Any tags associated with the hub content.
@@ -9324,7 +9325,7 @@ end
     list_hub_content_versions(hub_content_name, hub_content_type, hub_name)
     list_hub_content_versions(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
-List hub content versions.
+List hub content versions.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_content_name`: The name of the hub content.
@@ -9392,7 +9393,7 @@ end
     list_hub_contents(hub_content_type, hub_name)
     list_hub_contents(hub_content_type, hub_name, params::Dict{String,<:Any})
 
-List the contents of a hub.
+List the contents of a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_content_type`: The type of hub content to list.
@@ -9445,7 +9446,7 @@ end
     list_hubs()
     list_hubs(params::Dict{String,<:Any})
 
-List all existing hubs.
+List all existing hubs.  Hub APIs are only callable through SageMaker Studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11557,13 +11558,15 @@ end
     search(resource)
     search(resource, params::Dict{String,<:Any})
 
-Finds Amazon SageMaker resources that match a search query. Matching resources are returned
-as a list of SearchRecord objects in the response. You can sort the search results by any
+Finds SageMaker resources that match a search query. Matching resources are returned as a
+list of SearchRecord objects in the response. You can sort the search results by any
 resource property in a ascending or descending order. You can query against the following
-value types: numeric, text, Boolean, and timestamp.
+value types: numeric, text, Boolean, and timestamp.  The Search API may provide access to
+otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and
+Resources Reference for more information.
 
 # Arguments
-- `resource`: The name of the Amazon SageMaker resource to search for.
+- `resource`: The name of the SageMaker resource to search for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11921,7 +11924,7 @@ end
     stop_auto_mljob(auto_mljob_name)
     stop_auto_mljob(auto_mljob_name, params::Dict{String,<:Any})
 
-A method for forcing the termination of a running job.
+A method for forcing a running job to shut down.
 
 # Arguments
 - `auto_mljob_name`: The name of the object you are requesting.
@@ -12875,7 +12878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdateEndpointInputRetainAllVariantProperties, whose value is set to true,
   ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override
   with the values provided by EndpointConfig. If you don't specify a value for
-  ExcludeAllVariantProperties, no variant properties are overridden.
+  ExcludeRetainedVariantProperties, no variant properties are overridden.
 - `"RetainAllVariantProperties"`: When updating endpoint resources, enables or disables the
   retention of variant properties, such as the instance count or the variant weight. To
   retain the variant properties of an endpoint when updating it, set
@@ -13114,7 +13117,7 @@ end
     update_hub(hub_name)
     update_hub(hub_name, params::Dict{String,<:Any})
 
-Update a hub.
+Update a hub.  Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 - `hub_name`: The name of the hub to update.
@@ -13918,13 +13921,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique. If DisplayName isn't specified, TrialComponentName is displayed.
 - `"EndTime"`: When the component ended.
 - `"InputArtifacts"`: Replaces all of the component's input artifacts with the specified
-  artifacts.
+  artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial
+  component is updated with an identical input artifact key.
 - `"InputArtifactsToRemove"`: The input artifacts to remove from the component.
 - `"OutputArtifacts"`: Replaces all of the component's output artifacts with the specified
-  artifacts.
+  artifacts or adds new output artifacts. Existing output artifacts are replaced if the trial
+  component is updated with an identical output artifact key.
 - `"OutputArtifactsToRemove"`: The output artifacts to remove from the component.
 - `"Parameters"`: Replaces all of the component's hyperparameters with the specified
-  hyperparameters.
+  hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if the
+  trial component is updated with an identical hyperparameter key.
 - `"ParametersToRemove"`: The hyperparameters to remove from the component.
 - `"StartTime"`: When the component started.
 - `"Status"`: The new status of the component.
@@ -14015,10 +14021,10 @@ CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you
 range of IP addresses, workers who attempt to access tasks using any IP address outside the
 specified range are denied and get a Not Found error message on the worker portal. To
 restrict access to all the workers in public internet, add the SourceIpConfig CIDR value as
-\"0.0.0.0/0\".  Amazon SageMaker does not support Source Ip restriction for worker portals
-in VPC.  Use OidcConfig to update the configuration of a workforce created using your own
-OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams
-associated with your workforce. You can delete work teams using the operation.  After
+\"10.0.0.0/16\".  Amazon SageMaker does not support Source Ip restriction for worker
+portals in VPC.  Use OidcConfig to update the configuration of a workforce created using
+your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work
+teams associated with your workforce. You can delete work teams using the operation.  After
 restricting access to a range of IP addresses or updating your OIDC IdP configuration with
 this operation, you can view details about your update workforce using the operation.  This
 operation only applies to private workforces.

@@ -147,6 +147,41 @@ function list_endpoints(
 end
 
 """
+    list_outposts_with_s3()
+    list_outposts_with_s3(params::Dict{String,<:Any})
+
+Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
+Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
+from Resource Access Manager (RAM).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of Outposts to return. The limit is 100.
+- `"nextToken"`: When you can get additional results from the ListOutpostsWithS3 call, a
+  NextToken parameter is returned in the output. You can then pass in a subsequent command to
+  the NextToken parameter to continue listing additional Outposts.
+"""
+function list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config())
+    return s3outposts(
+        "GET",
+        "/S3Outposts/ListOutpostsWithS3";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_outposts_with_s3(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3outposts(
+        "GET",
+        "/S3Outposts/ListOutpostsWithS3",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_shared_endpoints(outpost_id)
     list_shared_endpoints(outpost_id, params::Dict{String,<:Any})
 

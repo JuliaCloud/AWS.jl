@@ -249,15 +249,17 @@ for a transfer. For more information, see Creating a location for FSx for ONTAP.
   following ports (depending on the protocol you use):    Network File System (NFS): TCP
   ports 111, 635, and 2049    Server Message Block (SMB): TCP port 445   Your file system's
   security groups must also allow inbound traffic on the same ports.
-- `storage_virtual_machine_arn`: Specifies the ARN of the storage virtual machine (SVM) on
-  your file system where you're copying data to or from.
+- `storage_virtual_machine_arn`: Specifies the ARN of the storage virtual machine (SVM) in
+  your file system where you want to copy data to or from.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Subdirectory"`: Specifies the junction path (also known as a mount point) in the SVM
-  volume where you're copying data to or from (for example, /vol1).  Don't specify a junction
-  path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage
-  virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+- `"Subdirectory"`: Specifies a path to the file share in the SVM where you'll copy your
+  data. You can specify a junction path (also known as a mount point), qtree path (for NFS
+  file shares), or share name (for SMB file shares). For example, your mount path might be
+  /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume.
+  For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx
+  for NetApp ONTAP User Guide.
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
@@ -695,7 +697,7 @@ end
     create_location_s3(s3_bucket_arn, s3_config, params::Dict{String,<:Any})
 
 Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For
-more information, see Create an Amazon S3 location in the DataSync User Guide.
+more information, see Create an Amazon S3 location.
 
 # Arguments
 - `s3_bucket_arn`: The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
@@ -754,40 +756,37 @@ end
     create_location_smb(agent_arns, password, server_hostname, subdirectory, user)
     create_location_smb(agent_arns, password, server_hostname, subdirectory, user, params::Dict{String,<:Any})
 
-Defines a file system on a Server Message Block (SMB) server that can be read from or
-written to.
+Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access
+for a transfer. For more information, see Creating an SMB location.
 
 # Arguments
-- `agent_arns`: The Amazon Resource Names (ARNs) of agents to use for a Simple Message
-  Block (SMB) location.
-- `password`: The password of the user who can mount the share, has the permissions to
-  access files and folders in the SMB share.
-- `server_hostname`: The name of the SMB server. This value is the IP address or Domain
-  Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this
-  hostname to mount the SMB server in a network.  This name must either be DNS-compliant or
-  must be an IP version 4 (IPv4) address.
-- `subdirectory`: The subdirectory in the SMB file system that is used to read data from
-  the SMB source location or write data to the SMB destination. The SMB path should be a path
-  that's exported by the SMB server, or a subdirectory of that path. The path should be such
-  that it can be mounted by other SMB clients in your network.   Subdirectory must be
-  specified with forward slashes. For example, /path/to/folder.  To transfer all the data in
-  the folder you specified, DataSync needs to have permissions to mount the SMB share, as
-  well as to access all the data in that share. To ensure this, either ensure that the
-  user/password specified belongs to the user who can mount the share, and who has the
-  appropriate permissions for all of the files and directories that you want DataSync to
-  access, or use credentials of a member of the Backup Operators group to mount the share.
-  Doing either enables the agent to access the data. For the agent to access directories, you
-  must additionally enable all execute access.
-- `user`: The user who can mount the share, has the permissions to access files and folders
-  in the SMB share. For information about choosing a user name that ensures sufficient
-  permissions to files, folders, and metadata, see the User setting for SMB locations.
+- `agent_arns`: Specifies the DataSync agent (or agents) which you want to connect to your
+  SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+- `password`: Specifies the password of the user who can mount your SMB file server and has
+  permission to access the files and folders involved in your transfer. For more information,
+  see required permissions for SMB locations.
+- `server_hostname`: Specifies the Domain Name Service (DNS) name or IP address of the SMB
+  file server that your DataSync agent will mount.  You can't specify an IP version 6 (IPv6)
+  address.
+- `subdirectory`: Specifies the name of the share exported by your SMB file server where
+  DataSync will read or write data. You can include a subdirectory in the share path (for
+  example, /path/to/subdirectory). Make sure that other SMB clients in your network can also
+  mount this path. To copy all data in the specified subdirectory, DataSync must be able to
+  mount the SMB share and access all of its data. For more information, see required
+  permissions for SMB locations.
+- `user`: Specifies the user name that can mount your SMB file server and has permission to
+  access the files and folders involved in your transfer. For information about choosing a
+  user with the right level of access for your transfer, see required permissions for SMB
+  locations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Domain"`: The name of the Windows domain that the SMB server belongs to.
-- `"MountOptions"`: The mount options used by DataSync to access the SMB server.
-- `"Tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+- `"Domain"`: Specifies the Windows domain name that your SMB file server belongs to.  For
+  more information, see required permissions for SMB locations.
+- `"MountOptions"`: Specifies the version of the SMB protocol that DataSync uses to access
+  your SMB file server.
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources. We recommend creating at least a name tag for your location.
 """
 function create_location_smb(
     AgentArns,
@@ -1014,12 +1013,10 @@ end
     describe_agent(agent_arn)
     describe_agent(agent_arn, params::Dict{String,<:Any})
 
-Returns metadata such as the name, the network interfaces, and the status (that is, whether
-the agent is running or not) for an agent. To specify which agent to describe, use the
-Amazon Resource Name (ARN) of the agent in your request.
+Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
 
 # Arguments
-- `agent_arn`: The Amazon Resource Name (ARN) of the agent to describe.
+- `agent_arn`: Specifies the Amazon Resource Name (ARN) of the DataSync agent to describe.
 
 """
 function describe_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1479,19 +1476,22 @@ end
     list_agents()
     list_agents(params::Dict{String,<:Any})
 
-Returns a list of agents owned by an Amazon Web Services account in the Amazon Web Services
-Region specified in the request. The returned list is ordered by agent Amazon Resource Name
-(ARN). By default, this operation returns a maximum of 100 agents. This operation supports
-pagination that enables you to optionally reduce the number of agents returned in a
-response. If you have more agents than are returned in a response (that is, the response
-returns only a truncated list of your agents), the response contains a marker that you can
-specify in your next request to fetch the next page of agents.
+Returns a list of DataSync agents that belong to an Amazon Web Services account in the
+Amazon Web Services Region specified in the request. With pagination, you can reduce the
+number of agents returned in a response. If you get a truncated list of agents in a
+response, the response contains a marker that you can specify in your next request to fetch
+the next page of agents.  ListAgents is eventually consistent. This means the result of
+running the operation might not reflect that you just created or deleted an agent. For
+example, if you create an agent with CreateAgent and then immediately run ListAgents, that
+agent might not show up in the list right away. In situations like this, you can always
+confirm whether an agent has been created (or deleted) by using DescribeAgent.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of agents to list.
-- `"NextToken"`: An opaque string that indicates the position at which to begin the next
-  list of agents.
+- `"MaxResults"`: Specifies the maximum number of DataSync agents to list in a response. By
+  default, a response shows a maximum of 100 agents.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
 """
 function list_agents(; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

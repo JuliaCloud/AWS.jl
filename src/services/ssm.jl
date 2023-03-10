@@ -314,10 +314,11 @@ association might instruct State Manager to start the service.
 - `name`: The name of the SSM Command document or Automation runbook that contains the
   configuration information for the managed node. You can specify Amazon Web
   Services-predefined documents, documents you created, or a document that is shared with you
-  from another account. For Systems Manager documents (SSM documents) that are shared with
-  you from other Amazon Web Services accounts, you must specify the complete SSM document
-  ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name
-  For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
+  from another Amazon Web Services account. For Systems Manager documents (SSM documents)
+  that are shared with you from other Amazon Web Services accounts, you must specify the
+  complete SSM document ARN, in the following format:
+  arn:partition:ssm:region:account-id:document/document-name   For example:
+  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
@@ -471,11 +472,13 @@ Web Services Systems Manager Documents in the Amazon Web Services Systems Manage
 Guide.
 
 # Arguments
-- `content`: The content for the new SSM document in JSON or YAML format. We recommend
-  storing the contents for your new document in an external JSON or YAML file and referencing
-  the file in a command. For examples, see the following topics in the Amazon Web Services
-  Systems Manager User Guide.    Create an SSM document (Amazon Web Services API)     Create
-  an SSM document (Amazon Web Services CLI)     Create an SSM document (API)
+- `content`: The content for the new SSM document in JSON or YAML format. The content of
+  the document must not exceed 64KB. This quota also includes the content specified for input
+  parameters at runtime. We recommend storing the contents for your new document in an
+  external JSON or YAML file and referencing the file in a command. For examples, see the
+  following topics in the Amazon Web Services Systems Manager User Guide.    Create an SSM
+  document (Amazon Web Services API)     Create an SSM document (Amazon Web Services CLI)
+  Create an SSM document (API)
 - `name`: A name for the SSM document.  You can't use the following strings as document
   name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:
      aws     amazon     amzn
@@ -3895,7 +3898,8 @@ current service setting for the Amazon Web Services account.
 
 # Arguments
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
-  following.    /ssm/automation/customer-script-log-destination
+  following.    /ssm/managed-instance/default-ec2-instance-management-role
+  /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
      /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
@@ -4566,9 +4570,9 @@ end
     modify_document_permission(name, permission_type, params::Dict{String,<:Any})
 
 Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately.
-If you share a document privately, you must specify the Amazon Web Services user account
-IDs for those people who can use the document. If you share a document publicly, you must
-specify All as the account ID.
+If you share a document privately, you must specify the Amazon Web Services user IDs for
+those people who can use the document. If you share a document publicly, you must specify
+All as the account ID.
 
 # Arguments
 - `name`: The name of the document that you want to share.
@@ -4576,12 +4580,12 @@ specify All as the account ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountIdsToAdd"`: The Amazon Web Services user accounts that should have access to the
+- `"AccountIdsToAdd"`: The Amazon Web Services users that should have access to the
   document. The account IDs can either be a group of account IDs or All.
-- `"AccountIdsToRemove"`: The Amazon Web Services user accounts that should no longer have
-  access to the document. The Amazon Web Services user account can either be a group of
-  account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify
-  an account ID to add and the same ID to remove, the system removes access to the document.
+- `"AccountIdsToRemove"`: The Amazon Web Services users that should no longer have access
+  to the document. The Amazon Web Services user can either be a group of account IDs or All.
+  This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the
+  same ID to remove, the system removes access to the document.
 - `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the Default version to share.
 """
@@ -4791,19 +4795,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and
   specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is
   in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is
-  available in your Amazon Web Services account. For more information, see Native parameter
-  support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User
-  Guide.
+  available in your Amazon Web Services account.  If the action is successful, the service
+  sends back an HTTP 200 response which indicates a successful PutParameter call for all
+  cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data
+  type, a successful HTTP 200 response does not guarantee that your parameter was
+  successfully created or updated. The aws:ec2:image value is validated asynchronously, and
+  the PutParameter call returns before the validation is complete. If you submit an invalid
+  AMI value, the PutParameter operation will return success, but the asynchronous validation
+  will fail and the parameter will not be created or updated. To monitor whether your
+  aws:ec2:image parameters are created successfully, see Setting up notifications or trigger
+  actions based on Parameter Store events. For more information about AMI format validation ,
+  see Native parameter support for Amazon Machine Image (AMI) IDs.
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
-  parameter. Either the default KMS key automatically assigned to your Amazon Web Services
-  account or a custom key. Required for parameters that use the SecureString data type. If
-  you don't specify a key ID, the system uses the default key associated with your Amazon Web
-  Services account.   To use your default KMS key, choose the SecureString data type, and do
-  not specify the Key ID when you create the parameter. The system automatically populates
-  Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data
-  type with the Key ID parameter.
+  parameter. Use a custom key for better security. Required for parameters that use the
+  SecureString data type. If you don't specify a key ID, the system uses the default key
+  associated with your Amazon Web Services account which is not as secure as using a custom
+  key.   To use a custom KMS key, choose the SecureString data type with the Key ID
+  parameter.
 - `"Overwrite"`: Overwrite an existing parameter. The default value is false.
 - `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
   array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
@@ -5897,15 +5907,14 @@ overwrites the association with null values for those parameters. This is by des
 must specify all optional parameters in the call, even if you are not changing the
 parameters. This includes the Name parameter. Before calling this API action, we recommend
 that you call the DescribeAssociation API operation and make a note of all optional
-parameters required for your UpdateAssociation call. In order to call this API operation,
-your Identity and Access Management (IAM) user account, group, or role must be configured
-with permission to call the DescribeAssociation API operation. If you don't have permission
-to call DescribeAssociation, then you receive the following error: An error occurred
-(AccessDeniedException) when calling the UpdateAssociation operation: User:
-&lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource:
-&lt;resource_arn&gt;   When you update an association, the association immediately runs
-against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the
-association during the next schedule run.
+parameters required for your UpdateAssociation call. In order to call this API operation, a
+user, group, or role must be granted permission to call the DescribeAssociation API
+operation. If you don't have permission to call DescribeAssociation, then you receive the
+following error: An error occurred (AccessDeniedException) when calling the
+UpdateAssociation operation: User: &lt;user_arn&gt; isn't authorized to perform:
+ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association,
+the association immediately runs against the specified targets. You can add the
+ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
 
 # Arguments
 - `association_id`: The ID of the association you want to update.
@@ -6801,6 +6810,7 @@ service setting for the account.
   example,
   arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enable
   d. The setting ID can be one of the following.
+  /ssm/managed-instance/default-ec2-instance-management-role
   /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier

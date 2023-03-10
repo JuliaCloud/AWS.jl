@@ -331,11 +331,11 @@ end
     create_standby_workspaces(primary_region, standby_workspaces)
     create_standby_workspaces(primary_region, standby_workspaces, params::Dict{String,<:Any})
 
-Creates a Standby WorkSpace in a secondary region.
+Creates a standby WorkSpace in a secondary Region.
 
 # Arguments
 - `primary_region`: The Region of the primary WorkSpace.
-- `standby_workspaces`: Information about the Standby WorkSpace to be created.
+- `standby_workspaces`: Information about the standby WorkSpace to be created.
 
 """
 function create_standby_workspaces(
@@ -419,7 +419,7 @@ end
 Creates a new updated WorkSpace image based on the specified source image. The new updated
 WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces
 components. To determine which WorkSpace images need to be updated with the latest Amazon
-WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Sever
+WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Server
 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this
 time.   Microsoft Windows updates and other application updates are not included in the
 update process.   The source WorkSpace image is not deleted. You can delete the source
@@ -1600,10 +1600,10 @@ end
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process)
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process, params::Dict{String,<:Any})
 
-Imports the specified Windows 10 Bring Your Own License (BYOL) or Windows Server 2016 BYOL
-image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that
-is in your Amazon Web Services account, and you must own the image. For more information
-about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon
+WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon
+Web Services account, and you must own the image. For more information about creating BYOL
+images, see  Bring Your Own Windows Desktop Licenses.
 
 # Arguments
 - `ec2_image_id`: The identifier of the EC2 image.

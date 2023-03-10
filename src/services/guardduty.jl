@@ -155,7 +155,9 @@ end
 Creates a single Amazon GuardDuty detector. A detector is a resource that represents the
 GuardDuty service. To start using GuardDuty, you must create a detector in each Region
 where you enable the service. You can have only one detector per account per Region. All
-data sources are enabled in a new detector by default.
+data sources are enabled in a new detector by default. There might be regional differences
+because some data sources might not be available in all the Amazon Web Services Regions
+where GuardDuty is presently supported. For more information, see Regions and endpoints.
 
 # Arguments
 - `enable`: A Boolean value that specifies whether the detector is to be enabled.
@@ -163,7 +165,10 @@ data sources are enabled in a new detector by default.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The idempotency token for the create request.
-- `"dataSources"`: Describes which data sources will be enabled for the detector.
+- `"dataSources"`: Describes which data sources will be enabled for the detector. There
+  might be regional differences because some data sources might not be available in all the
+  Amazon Web Services Regions where GuardDuty is presently supported. For more information,
+  see Regions and endpoints.
 - `"findingPublishingFrequency"`: A value that specifies how frequently updated findings
   are exported.
 - `"tags"`: The tags to be added to a new detector resource.
@@ -206,11 +211,10 @@ Creates a filter using the specified finding criteria.
   create a filter for.
 - `finding_criteria`: Represents the criteria to be used in the filter for querying
   findings. You can only use the following attributes to query findings:   accountId   region
-    confidence   id   resource.accessKeyDetails.accessKeyId
-  resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName
-  resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id
-  resource.instanceDetails.imageId   resource.instanceDetails.instanceId
-  resource.instanceDetails.outpostArn
+    id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId
+  resource.accessKeyDetails.userName   resource.accessKeyDetails.userType
+  resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId
+  resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn
   resource.instanceDetails.networkInterfaces.ipv6Addresses
   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
   resource.instanceDetails.networkInterfaces.publicDnsName
@@ -242,11 +246,9 @@ Creates a filter using the specified finding criteria.
   service.additionalInfo.threatListName
   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name
    resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value
-  resource.s3BucketDetails.type   service.archived When this attribute is set to TRUE, only
-  archived findings are listed. When it's set to FALSE, only unarchived findings are listed.
-  When this attribute is not set, all existing findings are listed.   service.resourceRole
-  severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
-  YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+  resource.s3BucketDetails.type   service.resourceRole   severity   type   updatedAt Type:
+  ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on
+  whether the value contains milliseconds.
 - `name`: The name of the filter. Valid characters include period (.), underscore (_), dash
   (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
 
@@ -255,9 +257,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
 - `"clientToken"`: The idempotency token for the create request.
-- `"description"`: The description of the filter. Valid special characters include period
-  (.), underscore (_), dash (-), and whitespace. The new line character is considered to be
-  an invalid input for description.
+- `"description"`: The description of the filter. Valid characters include alphanumeric
+  characters, and special characters such as -, ., :, { }, [ ], ( ), /, t, n, x0B, f, r, _,
+  and whitespace.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
@@ -321,7 +323,7 @@ this operation.
 - `format`: The format of the file that contains the IPSet.
 - `location`: The URI of the file that contains the IPSet.
 - `name`: The user-friendly name to identify the IPSet.  Allowed characters are
-  alphanumerics, spaces, hyphens (-), and underscores (_).
+  alphanumeric, whitespace, dash (-), and underscores (_).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -390,8 +392,8 @@ member accounts either by invitation or through an organization. When using Crea
 as an organizations delegated administrator this action will enable GuardDuty in the added
 member accounts, with the exception of the organization delegated administrator account,
 which must enable GuardDuty prior to being added as a member. If you are adding accounts by
-invitation use this action after GuardDuty has been enabled in potential member accounts
-and before using  Invite Members .
+invitation, use this action after GuardDuty has bee enabled in potential member accounts
+and before using InviteMembers.
 
 # Arguments
 - `account_details`: A list of account ID and email address pairs of the accounts that you
@@ -495,8 +497,8 @@ end
     create_sample_findings(detector_id)
     create_sample_findings(detector_id, params::Dict{String,<:Any})
 
-Generates example findings of types specified by the list of finding types. If 'NULL' is
-specified for findingTypes, the API generates example findings of all supported finding
+Generates sample findings of types specified by the list of finding types. If 'NULL' is
+specified for findingTypes, the API generates sample findings of all supported finding
 types.
 
 # Arguments
@@ -905,6 +907,9 @@ end
 
 Returns a list of malware scans. Each member account can view the malware scans for their
 own accounts. An administrator can view the malware scans for all the member accounts.
+There might be regional differences because some data sources might not be available in all
+the Amazon Web Services Regions where GuardDuty is presently supported. For more
+information, see Regions and endpoints.
 
 # Arguments
 - `detector_id`: The unique ID of the detector that the request is associated with.
@@ -919,7 +924,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to null on your first call to the list action. For subsequent calls to the
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
-- `"sortCriteria"`: Represents the criteria used for sorting scan entries.
+- `"sortCriteria"`: Represents the criteria used for sorting scan entries. The
+  attributeName  is required and it must be scanStartTime.
 """
 function describe_malware_scans(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -949,7 +955,10 @@ end
     describe_organization_configuration(detector_id)
     describe_organization_configuration(detector_id, params::Dict{String,<:Any})
 
-Returns information about the account selected as the delegated administrator for GuardDuty.
+Returns information about the account selected as the delegated administrator for
+GuardDuty. There might be regional differences because some data sources might not be
+available in all the Amazon Web Services Regions where GuardDuty is presently supported.
+For more information, see Regions and endpoints.
 
 # Arguments
 - `detector_id`: The ID of the detector to retrieve information about the delegated
@@ -1245,7 +1254,10 @@ end
     get_detector(detector_id)
     get_detector(detector_id, params::Dict{String,<:Any})
 
-Retrieves an Amazon GuardDuty detector specified by the detectorId.
+Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional
+differences because some data sources might not be available in all the Amazon Web Services
+Regions where GuardDuty is presently supported. For more information, see Regions and
+endpoints.
 
 # Arguments
 - `detector_id`: The unique ID of the detector that you want to get.
@@ -1462,7 +1474,9 @@ end
     get_malware_scan_settings(detector_id)
     get_malware_scan_settings(detector_id, params::Dict{String,<:Any})
 
-Returns the details of the malware scan settings.
+Returns the details of the malware scan settings. There might be regional differences
+because some data sources might not be available in all the Amazon Web Services Regions
+where GuardDuty is presently supported. For more information, see Regions and endpoints.
 
 # Arguments
 - `detector_id`: The unique ID of the detector that the scan setting is associated with.
@@ -1529,7 +1543,10 @@ end
     get_member_detectors(account_ids, detector_id)
     get_member_detectors(account_ids, detector_id, params::Dict{String,<:Any})
 
-Describes which data sources are enabled for the member account's detector.
+Describes which data sources are enabled for the member account's detector. There might be
+regional differences because some data sources might not be available in all the Amazon Web
+Services Regions where GuardDuty is presently supported. For more information, see Regions
+and endpoints.
 
 # Arguments
 - `account_ids`: The account ID of the member account.
@@ -2406,14 +2423,20 @@ end
     update_detector(detector_id)
     update_detector(detector_id, params::Dict{String,<:Any})
 
-Updates the Amazon GuardDuty detector specified by the detectorId.
+Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional
+differences because some data sources might not be available in all the Amazon Web Services
+Regions where GuardDuty is presently supported. For more information, see Regions and
+endpoints.
 
 # Arguments
 - `detector_id`: The unique ID of the detector to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"dataSources"`: Describes which data sources will be updated.
+- `"dataSources"`: Describes which data sources will be updated. There might be regional
+  differences because some data sources might not be available in all the Amazon Web Services
+  Regions where GuardDuty is presently supported. For more information, see Regions and
+  endpoints.
 - `"enable"`: Specifies whether the detector is enabled or not enabled.
 - `"findingPublishingFrequency"`: An enum value that specifies how frequently findings are
   exported, such as to CloudWatch Events.
@@ -2455,9 +2478,10 @@ Updates the filter specified by the filter name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
-- `"description"`: The description of the filter. Valid special characters include period
-  (.), underscore (_), dash (-), and whitespace. The new line character is considered to be
-  an invalid input for description.
+- `"description"`: The description of the filter. Valid characters include alphanumeric
+  characters, and special characters such as hyphen, period, colon, underscore, parentheses
+  ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed,
+  return, and whitespace.
 - `"findingCriteria"`: Represents the criteria to be used in the filter for querying
   findings.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
@@ -2582,7 +2606,9 @@ end
     update_malware_scan_settings(detector_id)
     update_malware_scan_settings(detector_id, params::Dict{String,<:Any})
 
-Updates the malware scan settings.
+Updates the malware scan settings. There might be regional differences because some data
+sources might not be available in all the Amazon Web Services Regions where GuardDuty is
+presently supported. For more information, see Regions and endpoints.
 
 # Arguments
 - `detector_id`: The unique ID of the detector that specifies the GuardDuty service where
@@ -2623,7 +2649,9 @@ end
     update_member_detectors(account_ids, detector_id)
     update_member_detectors(account_ids, detector_id, params::Dict{String,<:Any})
 
-Contains information on member accounts to be updated.
+Contains information on member accounts to be updated. There might be regional differences
+because some data sources might not be available in all the Amazon Web Services Regions
+where GuardDuty is presently supported. For more information, see Regions and endpoints.
 
 # Arguments
 - `account_ids`: A list of member account IDs to be updated.
@@ -2665,7 +2693,10 @@ end
     update_organization_configuration(auto_enable, detector_id)
     update_organization_configuration(auto_enable, detector_id, params::Dict{String,<:Any})
 
-Updates the delegated administrator account with the values provided.
+Updates the delegated administrator account with the values provided. There might be
+regional differences because some data sources might not be available in all the Amazon Web
+Services Regions where GuardDuty is presently supported. For more information, see Regions
+and endpoints.
 
 # Arguments
 - `auto_enable`: Indicates whether to automatically enable member accounts in the

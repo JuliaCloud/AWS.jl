@@ -1387,7 +1387,9 @@ end
     list_data_catalogs()
     list_data_catalogs(params::Dict{String,<:Any})
 
-Lists the data catalogs in the current Amazon Web Services account.
+Lists the data catalogs in the current Amazon Web Services account.  In the Athena console,
+data catalogs are listed as \"data sources\" on the Data sources page under the Data source
+name column.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
