@@ -16,8 +16,8 @@ resource in one account and a geofence collection in another account.
 
 # Arguments
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
-  associated to tracker resource. Used when you need to specify a resource across all AWS.
-  Format example:
+  associated to tracker resource. Used when you need to specify a resource across all Amazon
+  Web Services.   Format example:
   arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
 - `tracker_name`: The name of the tracker resource to be associated with a geofence
   collection.
@@ -364,10 +364,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeLegGeometry"`: Set to include the geometry details in the result for each path
   between a pair of positions. Default Value: false  Valid Values: false | true
 - `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
-  estimating the speed of travel and road compatibility. You can choose Car, Truck, or
-  Walking as options for the TravelMode. The TravelMode you specify also determines how you
-  specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If
-  traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+  estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking,
+  Bicycle or Motorcycle as options for the TravelMode.   Bicycle and Motorcycle are only
+  valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not
+  available for Grab. For more details on the using Grab for routing, including areas of
+  coverage, see GrabMaps in the Amazon Location Service Developer Guide.  The TravelMode you
+  specify also determines how you specify route preferences:    If traveling by Car use the
+  CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.
+  Default Value: Car
 - `"TruckModeOptions"`: Specifies route preferences when traveling by Truck, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road. Requirements: TravelMode must be specified as Truck.
@@ -485,7 +489,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
   estimating the speed of travel and road compatibility. The TravelMode you specify also
   determines how you specify route preferences:    If traveling by Car use the CarModeOptions
-  parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+  parameter.   If traveling by Truck use the TruckModeOptions parameter.     Bicycle or
+  Motorcycle are only valid when using Grab as a data provider, and only within Southeast
+  Asia.  Truck is not available for Grab. For more information about using Grab as a data
+  provider, see GrabMaps in the Amazon Location Service Developer Guide.  Default Value: Car
 - `"TruckModeOptions"`: Specifies route preferences when traveling by Truck, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road. Requirements: TravelMode must be specified as Truck.
@@ -547,8 +554,8 @@ Creates a geofence collection, which manages and stores geofences.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the geofence collection.
-- `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
-  ARN, alias name, or alias ARN.
+- `"KmsKeyId"`: A key identifier for an Amazon Web Services KMS customer managed key. Enter
+  a key ID, key ARN, alias name, or alias ARN.
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 - `"Tags"`: Applies one or more tags to the geofence collection. A tag is a key-value pair
@@ -587,14 +594,76 @@ function create_geofence_collection(
 end
 
 """
+    create_key(key_name, restrictions)
+    create_key(key_name, restrictions, params::Dict{String,<:Any})
+
+Creates an API key resource in your Amazon Web Services account, which lets you grant
+geo:GetMap* actions for Amazon Location Map resources to the API key bearer.  The API keys
+feature is in preview. We may add, change, or remove features before announcing general
+availability. For more information, see Using API keys.
+
+# Arguments
+- `key_name`: A custom name for the API key resource. Requirements:   Contain only
+  alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores
+  (_).    Must be a unique API key name.   No spaces allowed. For example, ExampleAPIKey.
+- `restrictions`: The API key restrictions for the API key resource.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: An optional description for the API key resource.
+- `"ExpireTime"`: The optional timestamp for when the API key resource will expire in  ISO
+  8601 format: YYYY-MM-DDThh:mm:ss.sssZ. One of NoExpiry or ExpireTime must be set.
+- `"NoExpiry"`: Optionally set to true to set no expiration time for the API key. One of
+  NoExpiry or ExpireTime must be set.
+- `"Tags"`: Applies one or more tags to the map resource. A tag is a key-value pair that
+  helps manage, identify, search, and filter your resources by labelling them. Format:
+  \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
+  be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
+  UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
+  use \"aws:\" as a prefix for a key.
+"""
+function create_key(
+    KeyName, Restrictions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/metadata/v0/keys",
+        Dict{String,Any}("KeyName" => KeyName, "Restrictions" => Restrictions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_key(
+    KeyName,
+    Restrictions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/metadata/v0/keys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("KeyName" => KeyName, "Restrictions" => Restrictions),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_map(configuration, map_name)
     create_map(configuration, map_name, params::Dict{String,<:Any})
 
-Creates a map resource in your AWS account, which provides map tiles of different styles
-sourced from global location data providers.  If your application is tracking or routing
-assets you use in your business, such as delivery vehicles or employees, you may only use
-HERE as your geolocation provider. See section 82 of the AWS service terms for more
-details.
+Creates a map resource in your Amazon Web Services account, which provides map tiles of
+different styles sourced from global location data providers.  If your application is
+tracking or routing assets you use in your business, such as delivery vehicles or
+employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon
+Web Services service terms for more details.
 
 # Arguments
 - `configuration`: Specifies the MapConfiguration, including the map style, for the map
@@ -652,23 +721,25 @@ end
     create_place_index(data_source, index_name)
     create_place_index(data_source, index_name, params::Dict{String,<:Any})
 
-Creates a place index resource in your AWS account. Use a place index resource to geocode
-addresses and other text queries by using the SearchPlaceIndexForText operation, and
-reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable
-autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application
-is tracking or routing assets you use in your business, such as delivery vehicles or
-employees, you may only use HERE as your geolocation provider. See section 82 of the AWS
-service terms for more details.
+Creates a place index resource in your Amazon Web Services account. Use a place index
+resource to geocode addresses and other text queries by using the SearchPlaceIndexForText
+operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition
+operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions
+operation.  If your application is tracking or routing assets you use in your business,
+such as delivery vehicles or employees, you must not use Esri as your geolocation provider.
+See section 82 of the Amazon Web Services service terms for more details.
 
 # Arguments
 - `data_source`: Specifies the geospatial data provider for the new place index.  This
   field is case-sensitive. Enter the valid values as shown. For example, entering HERE
   returns an error.  Valid values include:    Esri – For additional information about
-  Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here
-  – For additional information about HERE Technologies' coverage in your region of
-  interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here)
-  as the data provider, you may not store results for locations in Japan. For more
-  information, see the AWS Service Terms for Amazon Location Service.    For additional
+  Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab
+  – Grab provides place index functionality for Southeast Asia. For additional information
+  about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For
+  additional information about HERE Technologies' coverage in your region of interest, see
+  HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data
+  provider, you may not store results for locations in Japan. For more information, see the
+  Amazon Web Services Service Terms for Amazon Location Service.    For additional
   information , see Data providers on the Amazon Location Service Developer Guide.
 - `index_name`: The name of the place index resource.  Requirements:   Contain only
   alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores
@@ -724,12 +795,12 @@ end
     create_route_calculator(calculator_name, data_source)
     create_route_calculator(calculator_name, data_source, params::Dict{String,<:Any})
 
-Creates a route calculator resource in your AWS account. You can send requests to a route
-calculator resource to estimate travel time, distance, and get directions. A route
-calculator sources traffic and road network data from your chosen data provider.  If your
-application is tracking or routing assets you use in your business, such as delivery
-vehicles or employees, you may only use HERE as your geolocation provider. See section 82
-of the AWS service terms for more details.
+Creates a route calculator resource in your Amazon Web Services account. You can send
+requests to a route calculator resource to estimate travel time, distance, and get
+directions. A route calculator sources traffic and road network data from your chosen data
+provider.  If your application is tracking or routing assets you use in your business, such
+as delivery vehicles or employees, you must not use Esri as your geolocation provider. See
+section 82 of the Amazon Web Services service terms for more details.
 
 # Arguments
 - `calculator_name`: The name of the route calculator resource.  Requirements:   Can use
@@ -738,12 +809,14 @@ of the AWS service terms for more details.
   ExampleRouteCalculator.
 - `data_source`: Specifies the data provider of traffic and road network data.  This field
   is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
-  error. Route calculators that use Esri as a data source only calculate routes that are
-  shorter than 400 km.  Valid values include:    Esri – For additional information about
-  Esri's coverage in your region of interest, see Esri details on street networks and traffic
-  coverage.    Here – For additional information about HERE Technologies' coverage in your
-  region of interest, see HERE car routing coverage and HERE truck routing coverage.   For
-  additional information , see Data providers on the Amazon Location Service Developer Guide.
+  error.  Valid values include:    Esri – For additional information about Esri's coverage
+  in your region of interest, see Esri details on street networks and traffic coverage. Route
+  calculators that use Esri as a data source only calculate routes that are shorter than 400
+  km.    Grab – Grab provides routing functionality for Southeast Asia. For additional
+  information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here –
+  For additional information about HERE Technologies' coverage in your region of interest,
+  see HERE car routing coverage and HERE truck routing coverage.   For additional information
+  , see Data providers on the Amazon Location Service Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -796,8 +869,8 @@ end
     create_tracker(tracker_name)
     create_tracker(tracker_name, params::Dict{String,<:Any})
 
-Creates a tracker resource in your AWS account, which lets you retrieve current and
-historical location of devices.
+Creates a tracker resource in your Amazon Web Services account, which lets you retrieve
+current and historical location of devices.
 
 # Arguments
 - `tracker_name`: The name for the tracker resource. Requirements:   Contain only
@@ -807,8 +880,8 @@ historical location of devices.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the tracker resource.
-- `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
-  ARN, alias name, or alias ARN.
+- `"KmsKeyId"`: A key identifier for an Amazon Web Services KMS customer managed key. Enter
+  a key ID, key ARN, alias name, or alias ARN.
 - `"PositionFiltering"`: Specifies the position filtering for the tracker resource. Valid
   values:    TimeBased - Location updates are evaluated against linked geofence collections,
   but not every location update is stored. If your update frequency is more often than 30
@@ -864,9 +937,9 @@ end
     delete_geofence_collection(collection_name)
     delete_geofence_collection(collection_name, params::Dict{String,<:Any})
 
-Deletes a geofence collection from your AWS account.  This operation deletes the resource
-permanently. If the geofence collection is the target of a tracker resource, the devices
-will no longer be monitored.
+Deletes a geofence collection from your Amazon Web Services account.  This operation
+deletes the resource permanently. If the geofence collection is the target of a tracker
+resource, the devices will no longer be monitored.
 
 # Arguments
 - `collection_name`: The name of the geofence collection to be deleted.
@@ -897,11 +970,42 @@ function delete_geofence_collection(
 end
 
 """
+    delete_key(key_name)
+    delete_key(key_name, params::Dict{String,<:Any})
+
+Deletes the specified API key. The API key must have been deactivated more than 90 days
+previously.
+
+# Arguments
+- `key_name`: The name of the API key to delete.
+
+"""
+function delete_key(KeyName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "DELETE",
+        "/metadata/v0/keys/$(KeyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_key(
+    KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "DELETE",
+        "/metadata/v0/keys/$(KeyName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_map(map_name)
     delete_map(map_name, params::Dict{String,<:Any})
 
-Deletes a map resource from your AWS account.  This operation deletes the resource
-permanently. If the map is being used in an application, the map may not render.
+Deletes a map resource from your Amazon Web Services account.  This operation deletes the
+resource permanently. If the map is being used in an application, the map may not render.
 
 # Arguments
 - `map_name`: The name of the map resource to be deleted.
@@ -931,8 +1035,8 @@ end
     delete_place_index(index_name)
     delete_place_index(index_name, params::Dict{String,<:Any})
 
-Deletes a place index resource from your AWS account.  This operation deletes the resource
-permanently.
+Deletes a place index resource from your Amazon Web Services account.  This operation
+deletes the resource permanently.
 
 # Arguments
 - `index_name`: The name of the place index resource to be deleted.
@@ -964,8 +1068,8 @@ end
     delete_route_calculator(calculator_name)
     delete_route_calculator(calculator_name, params::Dict{String,<:Any})
 
-Deletes a route calculator resource from your AWS account.  This operation deletes the
-resource permanently.
+Deletes a route calculator resource from your Amazon Web Services account.  This operation
+deletes the resource permanently.
 
 # Arguments
 - `calculator_name`: The name of the route calculator resource to be deleted.
@@ -999,9 +1103,9 @@ end
     delete_tracker(tracker_name)
     delete_tracker(tracker_name, params::Dict{String,<:Any})
 
-Deletes a tracker resource from your AWS account.  This operation deletes the resource
-permanently. If the tracker resource is in use, you may encounter an error. Make sure that
-the target resource isn't a dependency for your applications.
+Deletes a tracker resource from your Amazon Web Services account.  This operation deletes
+the resource permanently. If the tracker resource is in use, you may encounter an error.
+Make sure that the target resource isn't a dependency for your applications.
 
 # Arguments
 - `tracker_name`: The name of the tracker resource to be deleted.
@@ -1057,6 +1161,38 @@ function describe_geofence_collection(
     return location(
         "GET",
         "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_key(key_name)
+    describe_key(key_name, params::Dict{String,<:Any})
+
+Retrieves the API key resource details.  The API keys feature is in preview. We may add,
+change, or remove features before announcing general availability. For more information,
+see Using API keys.
+
+# Arguments
+- `key_name`: The name of the API key resource.
+
+"""
+function describe_key(KeyName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "GET",
+        "/metadata/v0/keys/$(KeyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_key(
+    KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET",
+        "/metadata/v0/keys/$(KeyName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1202,7 +1338,7 @@ be automatically evaluated against geofences.
 # Arguments
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
   disassociated from the tracker resource. Used when you need to specify a resource across
-  all AWS.    Format example:
+  all Amazon Web Services.    Format example:
   arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
 - `tracker_name`: The name of the tracker resource to be dissociated from the consumer.
 
@@ -1375,17 +1511,23 @@ Retrieves glyphs used to display labels on a map.
   styles:   VectorHereContrast – Fira GO Regular | Fira GO Bold    VectorHereExplore,
   VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira
   GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular
-  Valid font stacks for Open Data (Preview) styles:   VectorOpenDataStandardLight – Amazon
-  Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember
-  Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember
-  Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold
-  The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for
-  most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
+  Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark
+  – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open
+  Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark,
+  VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember
+  Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto
+  Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC
+  Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts
+  used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs
+  but Noto Sans for glyphs unsupported by Amazon Ember.
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range U+0000
   to 00FF. Must be aligned to multiples of 256.
 - `map_name`: The map resource associated with the glyph ﬁle.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"key"`: The optional API key to authorize the request.
 """
 function get_map_glyphs(
     FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1428,6 +1570,9 @@ displayed on a rendered map.
   sprites@2x.json for high pixel density displays
 - `map_name`: The map resource associated with the sprite ﬁle.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"key"`: The optional API key to authorize the request.
 """
 function get_map_sprites(
     FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1466,6 +1611,9 @@ Mapbox Style Specification.
 # Arguments
 - `map_name`: The map resource to retrieve the style descriptor from.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"key"`: The optional API key to authorize the request.
 """
 function get_map_style_descriptor(
     MapName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1505,6 +1653,9 @@ doubles both the X and Y dimensions, so a tile containing data for the entire wo
 - `y`: The Y axis value for the map tile.
 - `z`: The zoom value for the map tile.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"key"`: The optional API key to authorize the request.
 """
 function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config())
     return location(
@@ -1537,8 +1688,8 @@ end
 
 Finds a place by its unique ID. A PlaceId is returned by other search operations.  A
 PlaceId is valid only if all of the following are the same in the original search request
-and the call to GetPlace.   Customer AWS account   AWS Region   Data provider specified in
-the place index resource
+and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services
+Region   Data provider specified in the place index resource
 
 # Arguments
 - `index_name`: The name of the place index resource that you want to use for the search.
@@ -1623,7 +1774,7 @@ end
     list_geofence_collections()
     list_geofence_collections(params::Dict{String,<:Any})
 
-Lists geofence collections in your AWS account.
+Lists geofence collections in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1691,10 +1842,46 @@ function list_geofences(
 end
 
 """
+    list_keys()
+    list_keys(params::Dict{String,<:Any})
+
+Lists API key resources in your Amazon Web Services account.  The API keys feature is in
+preview. We may add, change, or remove features before announcing general availability. For
+more information, see Using API keys.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Optionally filter the list to only Active or Expired API keys.
+- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
+  Default value: 100
+- `"NextToken"`: The pagination token specifying which page of results to return in the
+  response. If no token is provided, the default page is the first page.  Default value: null
+"""
+function list_keys(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "POST",
+        "/metadata/v0/list-keys";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_keys(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/metadata/v0/list-keys",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_maps()
     list_maps(params::Dict{String,<:Any})
 
-Lists map resources in your AWS account.
+Lists map resources in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1724,7 +1911,7 @@ end
     list_place_indexes()
     list_place_indexes(params::Dict{String,<:Any})
 
-Lists place index resources in your AWS account.
+Lists place index resources in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1757,7 +1944,7 @@ end
     list_route_calculators()
     list_route_calculators(params::Dict{String,<:Any})
 
-Lists route calculator resources in your AWS account.
+Lists route calculator resources in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1866,7 +2053,7 @@ end
     list_trackers()
     list_trackers(params::Dict{String,<:Any})
 
-Lists tracker resources in your AWS account.
+Lists tracker resources in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2151,15 +2338,13 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns one or more tags (key-value pairs) to the specified Amazon Location Service
-resource.  &lt;p&gt;Tags can help you organize and categorize your resources. You can also
-use them to scope user permissions, by granting a user permission to access or change only
-resources with certain tag values.&lt;/p&gt; &lt;p&gt;You can use the
-&lt;code&gt;TagResource&lt;/code&gt; operation with an Amazon Location Service resource
-that already has tags. If you specify a new tag key for the resource, this tag is appended
-to the tags already associated with the resource. If you specify a tag key that's already
-associated with the resource, the new tag value that you specify replaces the previous
-value for that tag. &lt;/p&gt; &lt;p&gt;You can associate up to 50 tags with a
-resource.&lt;/p&gt;
+resource. Tags can help you organize and categorize your resources. You can also use them
+to scope user permissions, by granting a user permission to access or change only resources
+with certain tag values. You can use the TagResource operation with an Amazon Location
+Service resource that already has tags. If you specify a new tag key for the resource, this
+tag is appended to the tags already associated with the resource. If you specify a tag key
+that's already associated with the resource, the new tag value that you specify replaces
+the previous value for that tag.  You can associate up to 50 tags with a resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
@@ -2268,6 +2453,49 @@ function update_geofence_collection(
     return location(
         "PATCH",
         "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_key(key_name)
+    update_key(key_name, params::Dict{String,<:Any})
+
+Updates the specified properties of a given API key resource.  The API keys feature is in
+preview. We may add, change, or remove features before announcing general availability. For
+more information, see Using API keys.
+
+# Arguments
+- `key_name`: The name of the API key resource to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Updates the description for the API key resource.
+- `"ExpireTime"`: Updates the timestamp for when the API key resource will expire in  ISO
+  8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+- `"ForceUpdate"`: The boolean flag to be included for updating ExpireTime or Restrictions
+  details. Must be set to true to update an API key resource that has been used in the past 7
+  days.  False if force update is not preferred Default value: False
+- `"NoExpiry"`: Whether the API key should expire. Set to true to set the API key to have
+  no expiration time.
+- `"Restrictions"`: Updates the API key restrictions for the API key resource.
+"""
+function update_key(KeyName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "PATCH",
+        "/metadata/v0/keys/$(KeyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_key(
+    KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "PATCH",
+        "/metadata/v0/keys/$(KeyName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

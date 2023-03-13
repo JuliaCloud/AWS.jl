@@ -2263,7 +2263,7 @@ enables you to provide user context that Amazon Kendra uses to enforce document 
 control in the search results. Amazon Kendra searches your index for text content and
 question and answer (FAQ) content. By default the response contains three types of results.
   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query
-return only one type of result using the QueryResultTypeConfig parameter. Each query
+return only one type of result using the QueryResultTypeFilter parameter. Each query
 returns the 100 most relevant results.
 
 # Arguments

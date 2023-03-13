@@ -18,8 +18,8 @@ intends to upload the document version, or fails to do so.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function abort_document_version_upload(
     DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -57,8 +57,8 @@ Activates the specified user. Only active users can access Amazon WorkDocs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -93,8 +93,8 @@ are overwritten if the principals already have different permissions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"NotificationOptions"`: The notification options.
 """
 function add_resource_permissions(
@@ -138,8 +138,8 @@ Adds a new comment to the specified document version.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"NotifyCollaborators"`: Set this parameter to TRUE to send an email out to the document
   collaborators after the comment is created.
 - `"ParentId"`: The ID of the parent comment.
@@ -188,8 +188,8 @@ version).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"versionid"`: The ID of the version, if the custom metadata is being added to a document
   version.
 """
@@ -232,8 +232,8 @@ Creates a folder with the specified name and parent folder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"Name"`: The name of the new folder.
 """
 function create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -273,8 +273,8 @@ Adds the specified list of labels to the given resource (a document or folder)
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function create_labels(
     Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -380,8 +380,8 @@ is \"ACTIVE\". New users can access Amazon WorkDocs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"EmailAddress"`: The email address of the user.
 - `"OrganizationId"`: The ID of the organization.
 - `"StorageRule"`: The amount of storage for the user.
@@ -446,8 +446,8 @@ Deactivates the specified user, which revokes the user's access to Amazon WorkDo
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -482,8 +482,8 @@ Deletes the specified comment from the document version.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function delete_comment(
     CommentId, DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -522,8 +522,8 @@ Deletes custom metadata from the specified resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"deleteAll"`: Flag to indicate removal of all custom metadata properties from the
   specified resource.
 - `"keys"`: List of properties to remove.
@@ -565,8 +565,8 @@ Permanently deletes the specified document and its associated metadata.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -594,19 +594,17 @@ end
     delete_document_version(document_id, version_id, delete_prior_versions)
     delete_document_version(document_id, version_id, delete_prior_versions, params::Dict{String,<:Any})
 
-Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to
-delete prior versions.
+Deletes a specific version of a document.
 
 # Arguments
-- `document_id`: The ID of a document.
-- `version_id`: The version ID of a document.
-- `delete_prior_versions`: When set to TRUE, deletes the specified version and all prior
-  versions of a document.
+- `document_id`: The ID of the document associated with the version being deleted.
+- `version_id`: The ID of the version being deleted.
+- `delete_prior_versions`: Deletes all versions of a document prior to the current version.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function delete_document_version(
     DocumentId,
@@ -655,8 +653,8 @@ Permanently deletes the specified folder and its contents.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -691,8 +689,8 @@ Deletes the contents of the specified folder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -727,8 +725,8 @@ Deletes the specified list of labels from a resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"deleteAll"`: Flag to request removal of all labels from the specified resource.
 - `"labels"`: List of labels to delete from the resource.
 """
@@ -794,7 +792,9 @@ end
     delete_user(user_id)
     delete_user(user_id, params::Dict{String,<:Any})
 
-Deletes the specified user from a Simple AD or Microsoft AD directory.
+Deletes the specified user from a Simple AD or Microsoft AD directory.  Deleting a user
+immediately and permanently deletes all content in that user's folder structure. Site
+retention policies do NOT apply to this type of deletion.
 
 # Arguments
 - `user_id`: The ID of the user.
@@ -802,7 +802,8 @@ Deletes the specified user from a Simple AD or Microsoft AD directory.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Authentication"`: Amazon WorkDocs authentication token. Do not set this field when
-  using administrative API actions, as in accessing the API using AWS credentials.
+  using administrative API actions, as in accessing the API using Amazon Web Services
+  credentials.
 """
 function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
     return workdocs(
@@ -832,8 +833,8 @@ Describes the user activities in a specified time period.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"activityTypes"`: Specifies which activity types to include in the response. If this
   field is left empty, all activity types are returned.
 - `"endTime"`: The timestamp that determines the end time of the activities. The response
@@ -882,8 +883,8 @@ List all the comments for the specified document version.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"limit"`: The maximum number of items to return.
 - `"marker"`: The marker for the next set of results. This marker was received from a
   previous call.
@@ -925,8 +926,8 @@ versions are returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"fields"`: Specify \"SOURCE\" to include initialized versions and a URL for the source
   document.
 - `"include"`: A comma-separated list of values. Specify \"INITIALIZED\" to include
@@ -973,8 +974,8 @@ next set of results. You can also request initialized documents.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"include"`: The contents to include. Specify \"INITIALIZED\" to include initialized
   documents.
 - `"limit"`: The maximum number of items to return with this call.
@@ -1020,8 +1021,8 @@ Directory.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"limit"`: The maximum number of items to return with this call.
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
@@ -1102,8 +1103,8 @@ Describes the permissions of a specified resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"limit"`: The maximum number of items to return with this call.
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call)
@@ -1197,8 +1198,8 @@ can use to request the next set of results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"fields"`: A comma-separated list of values. Specify \"STORAGE_METADATA\" to include the
   user storage quota and utilization information.
 - `"include"`: The state of the users. Specify \"ALL\" to include inactive users.
@@ -1292,8 +1293,8 @@ Retrieves details of a document.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
 function get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1332,8 +1333,8 @@ limit the maximum number of levels. You can also request the names of the parent
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"fields"`: A comma-separated list of values. Specify NAME to include the names of the
   parent folders.
 - `"limit"`: The maximum number of levels in the hierarchy to return.
@@ -1373,8 +1374,8 @@ Retrieves version metadata for the specified document.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"fields"`: A comma-separated list of values. Specify \"SOURCE\" to include a URL for the
   source document.
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
@@ -1415,8 +1416,8 @@ Retrieves the metadata of the specified folder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"includeCustomMetadata"`: Set to TRUE to include custom metadata in the response.
 """
 function get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1455,8 +1456,8 @@ the maximum number of levels. You can also request the parent folder names.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"fields"`: A comma-separated list of values. Specify \"NAME\" to include the names of
   the parent folders.
 - `"limit"`: The maximum number of levels in the hierarchy to return.
@@ -1493,8 +1494,8 @@ CollectionType supported is SHARED_WITH_ME.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: The Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: The Amazon WorkDocs authentication token. Not required when using
+  Amazon Web Services administrator credentials to access the API.
 - `"collectionType"`: The collection type.
 - `"limit"`: The maximum number of resources to return.
 - `"marker"`: The marker for the next set of results. This marker was received from a
@@ -1531,8 +1532,8 @@ cancel the document upload, call AbortDocumentVersionUpload.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"ContentCreatedTimestamp"`: The timestamp when the content of the document was
   originally created.
 - `"ContentModifiedTimestamp"`: The timestamp when the content of the document was modified.
@@ -1572,8 +1573,8 @@ Removes all the permissions from the specified resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function remove_all_resource_permissions(
     ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1611,8 +1612,8 @@ Removes the permission for the specified principal from the specified resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"type"`: The principal type of the resource.
 """
 function remove_resource_permission(
@@ -1651,8 +1652,8 @@ Recovers a deleted version of an Amazon WorkDocs document.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 """
 function restore_document_versions(
     DocumentId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1690,8 +1691,8 @@ document and its parent folder, if applicable.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"Name"`: The name of the document.
 - `"ParentFolderId"`: The ID of the parent folder.
 - `"ResourceState"`: The resource state of the document. Only ACTIVE and RECYCLED are
@@ -1733,8 +1734,8 @@ uploads the document to an S3-presigned URL returned by InitiateDocumentVersionU
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"VersionStatus"`: The status of the version.
 """
 function update_document_version(
@@ -1774,8 +1775,8 @@ the folder and its parent folder, if applicable.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"Name"`: The name of the folder.
 - `"ParentFolderId"`: The ID of the parent folder.
 - `"ResourceState"`: The resource state of the folder. Only ACTIVE and RECYCLED are
@@ -1815,11 +1816,11 @@ administrative privileges to the Amazon WorkDocs site.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
-  administrator credentials to access the API.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
 - `"GivenName"`: The given name of the user.
 - `"GrantPoweruserPrivileges"`: Boolean value to determine whether the user is granted
-  Poweruser privileges.
+  Power user privileges.
 - `"Locale"`: The locale of the user.
 - `"StorageRule"`: The amount of storage for the user.
 - `"Surname"`: The surname of the user.

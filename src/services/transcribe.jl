@@ -12,14 +12,14 @@ Creates a new Call Analytics category. All categories are automatically applied 
 Call Analytics transcriptions. Note that in order to apply categories to your
 transcriptions, you must create them before submitting your transcription request, as
 categories cannot be applied retroactively. When creating a new category, you can use the
-InputType parameter to label the category as a batch category (POST_CALL) or a streaming
-category (REAL_TIME). Batch categories can only be applied to batch transcriptions and
-streaming categories can only be applied to streaming transcriptions. If you do not include
-InputType, your category is created as a batch category by default. Call Analytics
-categories are composed of rules. For each category, you must create between 1 and 20
-rules. Rules can include these parameters: , , , and . To update an existing category, see
-. To learn more about Call Analytics categories, see Creating categories for batch
-transcriptions and Creating categories for streaming transcriptions.
+InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL
+categories can only be applied to post-call transcriptions and REAL_TIME categories can
+only be applied to real-time transcriptions. If you do not include InputType, your category
+is created as a POST_CALL category by default. Call Analytics categories are composed of
+rules. For each category, you must create between 1 and 20 rules. Rules can include these
+parameters: , , , and . To update an existing category, see . To learn more about Call
+Analytics categories, see Creating categories for post-call transcriptions and Creating
+categories for real-time transcriptions.
 
 # Arguments
 - `category_name`: A unique name, chosen by you, for your Call Analytics category. It's
@@ -33,12 +33,12 @@ transcriptions and Creating categories for streaming transcriptions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InputType"`: Choose whether you want to create a streaming or a batch category for your
-  Call Analytics transcription. Specifying POST_CALL assigns your category to batch
+- `"InputType"`: Choose whether you want to create a real-time or a post-call category for
+  your Call Analytics transcription. Specifying POST_CALL assigns your category to post-call
   transcriptions; categories with this input type cannot be applied to streaming (real-time)
   transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions;
-  categories with this input type cannot be applied to batch (post-call) transcriptions. If
-  you do not include InputType, your category is created as a batch category by default.
+  categories with this input type cannot be applied to post-call transcriptions. If you do
+  not include InputType, your category is created as a post-call category by default.
 """
 function create_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
@@ -164,13 +164,14 @@ end
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name, params::Dict{String,<:Any})
 
 Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary,
-you must first upload a text file that contains your new entries, phrases, and terms into
-an Amazon S3 bucket. Note that this differs from , where you can include a list of terms
-within your request using the Phrases flag; CreateMedicalVocabulary does not support the
-Phrases flag. Each language has a character set that contains all allowed characters for
-that specific language. If you use unsupported characters, your custom vocabulary request
-fails. Refer to Character Sets for Custom Vocabularies to get the character set for your
-language. For more information, see Custom vocabularies.
+you must first upload a text file that contains your vocabulary table into an Amazon S3
+bucket. Note that this differs from , where you can include a list of terms within your
+request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag
+and only accepts vocabularies in table format. Each language has a character set that
+contains all allowed characters for that specific language. If you use unsupported
+characters, your custom vocabulary request fails. Refer to Character Sets for Custom
+Vocabularies to get the character set for your language. For more information, see Custom
+vocabularies.
 
 # Arguments
 - `language_code`: The language code that represents the language of the entries in your
@@ -260,6 +261,12 @@ character set for your language. For more information, see Custom vocabularies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
+  to access the Amazon S3 bucket that contains your input files (in this case, your custom
+  vocabulary). If the role that you specify doesn’t have the appropriate permissions to
+  access the specified Amazon S3 location, your request fails. IAM role ARNs have the format
+  arn:partition:iam::account:role/role-name-with-path. For example:
+  arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
 - `"Phrases"`: Use this parameter if you want to create your custom vocabulary by including
   all desired terms, as comma-separated values, within your request. The other option for
   creating your custom vocabulary is to save your entries in a text file and upload them to
@@ -337,6 +344,12 @@ get the character set for your language. For more information, see Vocabulary fi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
+  to access the Amazon S3 bucket that contains your input files (in this case, your custom
+  vocabulary filter). If the role that you specify doesn’t have the appropriate permissions
+  to access the specified Amazon S3 location, your request fails. IAM role ARNs have the
+  format arn:partition:iam::account:role/role-name-with-path. For example:
+  arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
   custom vocabulary filter at the time you create this new vocabulary filter. To learn more
   about using tags with Amazon Transcribe, refer to Tagging resources.
@@ -1401,21 +1414,22 @@ more about these features and insights, refer to Analyzing call center audio wit
 Analytics. If you want to apply categories to your Call Analytics job, you must create them
 before submitting your job request. Categories cannot be retroactively applied to a job. To
 create a new category, use the operation. To learn more about Call Analytics categories,
-see Creating categories for batch transcriptions and Creating categories for streaming
+see Creating categories for post-call transcriptions and Creating categories for real-time
 transcriptions. To make a StartCallAnalyticsJob request, you must first upload your media
 file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file
-using the Media parameter. You must include the following parameters in your
-StartCallAnalyticsJob request:    region: The Amazon Web Services Region where you are
-making your request. For a list of Amazon Web Services Regions supported with Amazon
-Transcribe, refer to Amazon Transcribe endpoints and quotas.    CallAnalyticsJobName: A
-custom name that you create for your transcription job that's unique within your Amazon Web
-Services account.    DataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that
-has permissions to access the Amazon S3 bucket that contains your input files.    Media
-(MediaFileUri or RedactedMediaFileUri): The Amazon S3 location of your media file.    With
-Call Analytics, you can redact the audio contained in your media file by including
-RedactedMediaFileUri, instead of MediaFileUri, to specify the location of your input audio.
-If you choose to redact your audio, you can find your redacted media at the location
-specified in the RedactedMediaFileUri field of your response.
+using the Media parameter. Note that job queuing is enabled by default for Call Analytics
+jobs. You must include the following parameters in your StartCallAnalyticsJob request:
+region: The Amazon Web Services Region where you are making your request. For a list of
+Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe
+endpoints and quotas.    CallAnalyticsJobName: A custom name that you create for your
+transcription job that's unique within your Amazon Web Services account.
+DataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to
+access the Amazon S3 bucket that contains your input files.    Media (MediaFileUri or
+RedactedMediaFileUri): The Amazon S3 location of your media file.    With Call Analytics,
+you can redact the audio contained in your media file by including RedactedMediaFileUri,
+instead of MediaFileUri, to specify the location of your input audio. If you choose to
+redact your audio, you can find your redacted media at the location specified in the
+RedactedMediaFileUri field of your response.
 
 # Arguments
 - `call_analytics_job_name`: A unique name, chosen by you, for your Call Analytics job.
@@ -1451,7 +1465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you
   don't specify an encryption key, your output is encrypted with the default Amazon S3 key
   (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output
-  location using the OutputLocation parameter. Note that the user making the request must
+  location using the OutputLocation parameter. Note that the role making the request must
   have permission to use the specified KMS key.
 - `"OutputLocation"`: The Amazon S3 location where you want your Call Analytics
   transcription output stored. You can use any of the following formats to specify the output
@@ -1579,7 +1593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you
   don't specify an encryption key, your output is encrypted with the default Amazon S3 key
   (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output
-  location using the OutputLocation parameter. Note that the user making the request must
+  location using the OutputLocation parameter. Note that the role making the request must
   have permission to use the specified KMS key.
 - `"OutputKey"`: Use in combination with OutputBucketName to specify the output location of
   your transcript and, optionally, a unique name for your output file. The default name for
@@ -1799,7 +1813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you
   don't specify an encryption key, your output is encrypted with the default Amazon S3 key
   (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output
-  location using the OutputLocation parameter. Note that the user making the request must
+  location using the OutputLocation parameter. Note that the role making the request must
   have permission to use the specified KMS key.
 - `"OutputKey"`: Use in combination with OutputBucketName to specify the output location of
   your transcript and, optionally, a unique name for your output file. The default name for
@@ -1976,10 +1990,10 @@ a new category, see .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InputType"`: Choose whether you want to update a streaming or a batch Call Analytics
-  category. The input type you specify must match the input type specified when the category
-  was created. For example, if you created a category with the POST_CALL input type, you must
-  use POST_CALL as the input type when updating this category.
+- `"InputType"`: Choose whether you want to update a real-time or a post-call category. The
+  input type you specify must match the input type specified when the category was created.
+  For example, if you created a category with the POST_CALL input type, you must use
+  POST_CALL as the input type when updating this category.
 """
 function update_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2094,6 +2108,12 @@ custom vocabulary.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
+  to access the Amazon S3 bucket that contains your input files (in this case, your custom
+  vocabulary). If the role that you specify doesn’t have the appropriate permissions to
+  access the specified Amazon S3 location, your request fails. IAM role ARNs have the format
+  arn:partition:iam::account:role/role-name-with-path. For example:
+  arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
 - `"Phrases"`: Use this parameter if you want to update your custom vocabulary by including
   all desired terms, as comma-separated values, within your request. The other option for
   updating your custom vocabulary is to save your entries in a text file and upload them to
@@ -2157,6 +2177,12 @@ custom vocabulary filter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
+  to access the Amazon S3 bucket that contains your input files (in this case, your custom
+  vocabulary filter). If the role that you specify doesn’t have the appropriate permissions
+  to access the specified Amazon S3 location, your request fails. IAM role ARNs have the
+  format arn:partition:iam::account:role/role-name-with-path. For example:
+  arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
 - `"VocabularyFilterFileUri"`: The Amazon S3 location of the text file that contains your
   custom vocabulary filter terms. The URI must be located in the same Amazon Web Services
   Region as the resource you're calling. Here's an example URI path:

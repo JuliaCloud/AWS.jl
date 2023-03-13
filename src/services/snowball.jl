@@ -238,12 +238,11 @@ Description: Snowball Edge Storage Optimized for data transfer only       Device
 EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU
 Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without
 GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized
-with EC2 Compute      Device type: V3_5C    Capacity: T32   Description: Snowball Edge
-Compute Optimized without GPU      Device type: STANDARD    Capacity: T50   Description:
+with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original
+Snowball device  This device is only available in the Ningxia, Beijing, and Singapore
+Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description:
 Original Snowball device  This device is only available in the Ningxia, Beijing, and
-Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80
-Description: Original Snowball device  This device is only available in the Ningxia,
-Beijing, and Singapore Amazon Web Services Region.
+Singapore Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -335,8 +334,8 @@ Services provides discounts for long-term pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IsLongTermPricingAutoRenew"`: snowballty Specifies whether the current long-term
-  pricing type for the device should be renewed.
+- `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
+  the device should be renewed.
 - `"SnowballType"`: The type of Snow Family devices to use for the long-term pricing job.
 """
 function create_long_term_pricing(
@@ -850,6 +849,49 @@ function list_long_term_pricing(
     return snowball(
         "ListLongTermPricing",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_service_versions(service_name)
+    list_service_versions(service_name, params::Dict{String,<:Any})
+
+Lists all supported versions for Snow on-device services. Returns an array of
+ServiceVersion object containing the supported versions for a particular service.
+
+# Arguments
+- `service_name`: The name of the service for which you're requesting supported versions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DependentServices"`: A list of names and versions of dependant services of the
+  requested service.
+- `"MaxResults"`: The maximum number of ListServiceVersions objects to return.
+- `"NextToken"`: Because HTTP requests are stateless, this is the starting point for the
+  next list of returned ListServiceVersionsRequest versions.
+"""
+function list_service_versions(
+    ServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "ListServiceVersions",
+        Dict{String,Any}("ServiceName" => ServiceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_service_versions(
+    ServiceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "ListServiceVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceName" => ServiceName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

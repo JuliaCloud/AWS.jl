@@ -306,23 +306,28 @@ end
 
 Creates a global table from an existing table. A global table creates a replication
 relationship between two or more DynamoDB tables with the same table name in the provided
-Regions.   This operation only applies to Version 2017.11.29 of global tables.  If you want
-to add a new replica table to a global table, each of the following conditions must be
-true:   The table must have the same primary key as all of the other replicas.   The table
-must have the same name as all of the other replicas.   The table must have DynamoDB
-Streams enabled, with the stream containing both the new and the old images of the item.
-None of the replica tables in the global table can contain any data.    If global secondary
-indexes are specified, then the following conditions must also be met:     The global
-secondary indexes must have the same name.     The global secondary indexes must have the
-same hash key and sort key (if present).     If local secondary indexes are specified, then
-the following conditions must also be met:     The local secondary indexes must have the
-same name.     The local secondary indexes must have the same hash key and sort key (if
-present).      Write capacity settings should be set consistently across your replica
-tables and secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage
-the write capacity settings for all of your global tables replicas and indexes.   If you
-prefer to manage write capacity settings manually, you should provision equal replicated
-write capacity units to your replica tables. You should also provision equal replicated
-write capacity units to matching secondary indexes across your global table.
+Regions.   This operation only applies to Version 2017.11.29 (Legacy) of global tables. We
+recommend using Version 2019.11.21 (Current) when creating new global tables, as it
+provides greater flexibility, higher efficiency and consumes less write capacity than
+2017.11.29 (Legacy). To determine which version you are using, see Determining the version.
+To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
+(Current), see  Updating global tables.   If you want to add a new replica table to a
+global table, each of the following conditions must be true:   The table must have the same
+primary key as all of the other replicas.   The table must have the same name as all of the
+other replicas.   The table must have DynamoDB Streams enabled, with the stream containing
+both the new and the old images of the item.   None of the replica tables in the global
+table can contain any data.    If global secondary indexes are specified, then the
+following conditions must also be met:     The global secondary indexes must have the same
+name.     The global secondary indexes must have the same hash key and sort key (if
+present).     If local secondary indexes are specified, then the following conditions must
+also be met:     The local secondary indexes must have the same name.     The local
+secondary indexes must have the same hash key and sort key (if present).      Write
+capacity settings should be set consistently across your replica tables and secondary
+indexes. DynamoDB strongly recommends enabling auto scaling to manage the write capacity
+settings for all of your global tables replicas and indexes.   If you prefer to manage
+write capacity settings manually, you should provision equal replicated write capacity
+units to your replica tables. You should also provision equal replicated write capacity
+units to matching secondary indexes across your global table.
 
 # Arguments
 - `global_table_name`: The global table name.
@@ -408,6 +413,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned
   Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
   PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
+- `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
+  (true) or disabled (false) on the table.
 - `"GlobalSecondaryIndexes"`: One or more global secondary indexes (the maximum is 20) to
   be created on the table. Each global secondary index in the array includes the following:
    IndexName - The name of the global secondary index. Must be unique only for this table.
@@ -555,7 +562,7 @@ Otherwise, the item is not deleted.
 
 # Arguments
 - `key`: A map of attribute names to AttributeValue objects, representing the primary key
-  of the item to delete. For the primary key, you must provide all of the attributes. For
+  of the item to delete. For the primary key, you must provide all of the key attributes. For
   example, with a simple primary key, you only need to provide a value for the partition key.
   For a composite primary key, you must provide values for both the partition key and the
   sort key.
@@ -647,12 +654,13 @@ request, the specified table is in the DELETING state until DynamoDB completes t
 deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING
 or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table
 does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the
-DELETING state, no error is returned.   DynamoDB might continue to accept data read and
-write operations, such as GetItem and PutItem, on a table in the DELETING state until the
-table deletion is complete.  When you delete a table, any indexes on that table are also
-deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream
-on that table goes into the DISABLED state, and the stream is automatically deleted after
-24 hours. Use the DescribeTable action to check the status of the table.
+DELETING state, no error is returned.   This operation only applies to Version 2019.11.21
+(Current) of global tables.    DynamoDB might continue to accept data read and write
+operations, such as GetItem and PutItem, on a table in the DELETING state until the table
+deletion is complete.  When you delete a table, any indexes on that table are also deleted.
+If you have DynamoDB Streams enabled on the table, then the corresponding stream on that
+table goes into the DISABLED state, and the stream is automatically deleted after 24 hours.
+Use the DescribeTable action to check the status of the table.
 
 # Arguments
 - `table_name`: The name of the table to delete.
@@ -762,7 +770,7 @@ end
     describe_contributor_insights(table_name)
     describe_contributor_insights(table_name, params::Dict{String,<:Any})
 
-Returns information about contributor insights, for a given table or global secondary index.
+Returns information about contributor insights for a given table or global secondary index.
 
 # Arguments
 - `table_name`: The name of the table to describe.
@@ -800,7 +808,9 @@ end
     describe_endpoints()
     describe_endpoints(params::Dict{String,<:Any})
 
-Returns the regional endpoint information.
+Returns the regional endpoint information. This action must be included in your VPC
+endpoint policies, or access to the DescribeEndpoints API will be denied. For more
+information on policy permissions, please see Internetwork traffic privacy.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -854,8 +864,11 @@ end
     describe_global_table(global_table_name, params::Dict{String,<:Any})
 
 Returns information about the specified global table.  This operation only applies to
-Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you
-can use DescribeTable instead.
+Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21
+(Current) when creating new global tables, as it provides greater flexibility, higher
+efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which
+version you are using, see Determining the version. To update existing global tables from
+version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table.
@@ -893,7 +906,11 @@ end
     describe_global_table_settings(global_table_name, params::Dict{String,<:Any})
 
 Describes Region-specific settings for a global table.  This operation only applies to
-Version 2017.11.29 of global tables.
+Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21
+(Current) when creating new global tables, as it provides greater flexibility, higher
+efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which
+version you are using, see Determining the version. To update existing global tables from
+version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table to describe.
@@ -1049,11 +1066,12 @@ end
     describe_table(table_name, params::Dict{String,<:Any})
 
 Returns information about the table, including the current status of the table, when it was
-created, the primary key schema, and any indexes on the table.  If you issue a
-DescribeTable request immediately after a CreateTable request, DynamoDB might return a
-ResourceNotFoundException. This is because DescribeTable uses an eventually consistent
-query, and the metadata for your table might not be available at that moment. Wait for a
-few seconds, and then try the DescribeTable request again.
+created, the primary key schema, and any indexes on the table.  This operation only applies
+to Version 2019.11.21 (Current) of global tables.    If you issue a DescribeTable request
+immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException.
+This is because DescribeTable uses an eventually consistent query, and the metadata for
+your table might not be available at that moment. Wait for a few seconds, and then try the
+DescribeTable request again.
 
 # Arguments
 - `table_name`: The name of the table to describe.
@@ -1087,7 +1105,7 @@ end
     describe_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
 Describes auto scaling settings across replicas of the global table at once.  This
-operation only applies to Version 2019.11.21 of global tables.
+operation only applies to Version 2019.11.21 (Current) of global tables.
 
 # Arguments
 - `table_name`: The name of the table.
@@ -1249,7 +1267,8 @@ filter criteria in WHERE clause does not match any data, the read will return an
 result set. A single SELECT statement response can return up to the maximum number of items
 (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering
 to the results using WHERE clause). If LastEvaluatedKey is present in the response, you
-need to paginate the result set.
+need to paginate the result set. If NextToken is present, you need to paginate the result
+set and include NextToken.
 
 # Arguments
 - `statement`: The PartiQL statement representing the operation to run.
@@ -1664,7 +1683,12 @@ end
     list_global_tables(params::Dict{String,<:Any})
 
 Lists all global tables that have a replica in the specified Region.  This operation only
-applies to Version 2017.11.29 of global tables.
+applies to Version 2017.11.29 (Legacy) of global tables. We recommend using Version
+2019.11.21 (Current) when creating new global tables, as it provides greater flexibility,
+higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine
+which version you are using, see Determining the version. To update existing global tables
+from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global
+tables.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2057,22 +2081,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes
   that have been projected into the index. If the index is configured to project all
   attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT -
-  Returns the number of matching items, rather than the matching items themselves.
-  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in ProjectionExpression. This
-  return value is equivalent to specifying ProjectionExpression without specifying any value
-  for Select. If you query or scan a local secondary index and request only attributes that
-  are projected into that index, the operation will read only the index and not the table. If
-  any of the requested attributes are not projected into the local secondary index, DynamoDB
-  fetches each of these attributes from the parent table. This extra fetching incurs
-  additional throughput cost and latency. If you query or scan a global secondary index, you
-  can only request attributes that are projected into the index. Global secondary index
-  queries cannot fetch attributes from the parent table.   If neither Select nor
-  ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a
-  table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
-  ProjectionExpression together in a single request, unless the value for Select is
-  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without
-  any value for Select.)  If you use the ProjectionExpression parameter, then the value for
-  Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
+  Returns the number of matching items, rather than the matching items themselves. Note that
+  this uses the same quantity of read capacity units as getting the items, and is subject to
+  the same item size calculations.    SPECIFIC_ATTRIBUTES - Returns only the attributes
+  listed in ProjectionExpression. This return value is equivalent to specifying
+  ProjectionExpression without specifying any value for Select. If you query or scan a local
+  secondary index and request only attributes that are projected into that index, the
+  operation will read only the index and not the table. If any of the requested attributes
+  are not projected into the local secondary index, DynamoDB fetches each of these attributes
+  from the parent table. This extra fetching incurs additional throughput cost and latency.
+  If you query or scan a global secondary index, you can only request attributes that are
+  projected into the index. Global secondary index queries cannot fetch attributes from the
+  parent table.   If neither Select nor ProjectionExpression are specified, DynamoDB defaults
+  to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an
+  index. You cannot use both Select and ProjectionExpression together in a single request,
+  unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying
+  ProjectionExpression without any value for Select.)  If you use the ProjectionExpression
+  parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for
+  Select will return an error.
 """
 function query(TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -2336,22 +2362,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes
   that have been projected into the index. If the index is configured to project all
   attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT -
-  Returns the number of matching items, rather than the matching items themselves.
-  SPECIFIC_ATTRIBUTES - Returns only the attributes listed in ProjectionExpression. This
-  return value is equivalent to specifying ProjectionExpression without specifying any value
-  for Select. If you query or scan a local secondary index and request only attributes that
-  are projected into that index, the operation reads only the index and not the table. If any
-  of the requested attributes are not projected into the local secondary index, DynamoDB
-  fetches each of these attributes from the parent table. This extra fetching incurs
-  additional throughput cost and latency. If you query or scan a global secondary index, you
-  can only request attributes that are projected into the index. Global secondary index
-  queries cannot fetch attributes from the parent table.   If neither Select nor
-  ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a
-  table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and
-  ProjectionExpression together in a single request, unless the value for Select is
-  SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without
-  any value for Select.)  If you use the ProjectionExpression parameter, then the value for
-  Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
+  Returns the number of matching items, rather than the matching items themselves. Note that
+  this uses the same quantity of read capacity units as getting the items, and is subject to
+  the same item size calculations.    SPECIFIC_ATTRIBUTES - Returns only the attributes
+  listed in ProjectionExpression. This return value is equivalent to specifying
+  ProjectionExpression without specifying any value for Select. If you query or scan a local
+  secondary index and request only attributes that are projected into that index, the
+  operation reads only the index and not the table. If any of the requested attributes are
+  not projected into the local secondary index, DynamoDB fetches each of these attributes
+  from the parent table. This extra fetching incurs additional throughput cost and latency.
+  If you query or scan a global secondary index, you can only request attributes that are
+  projected into the index. Global secondary index queries cannot fetch attributes from the
+  parent table.   If neither Select nor ProjectionExpression are specified, DynamoDB defaults
+  to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an
+  index. You cannot use both Select and ProjectionExpression together in a single request,
+  unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying
+  ProjectionExpression without any value for Select.)  If you use the ProjectionExpression
+  parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for
+  Select will return an error.
 - `"TotalSegments"`: For a parallel Scan request, TotalSegments represents the total number
   of segments into which the Scan operation will be divided. The value of TotalSegments
   corresponds to the number of application workers that will perform the parallel scan. For
@@ -2442,7 +2470,7 @@ exceed 4 MB. DynamoDB rejects the entire TransactGetItems request if any of the 
 is true:   A conflicting operation is in the process of updating an item to be read.
 There is insufficient provisioned capacity for the transaction to be completed.   There is
 a user error, such as an invalid data format.   The aggregate size of the items in the
-transaction cannot exceed 4 MB.
+transaction exceeded 4 MB.
 
 # Arguments
 - `transact_items`: An ordered array of up to 100 TransactGetItem objects, each of which
@@ -2527,7 +2555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TransactWriteItems idempotent, meaning that multiple identical calls have the same effect
   as one single call. Although multiple identical calls using the same client request token
   produce the same result on the server (no side effects), the responses to the calls might
-  not be the same. If the ReturnConsumedCapacity&gt; parameter is set, then the initial
+  not be the same. If the ReturnConsumedCapacity parameter is set, then the initial
   TransactWriteItems call returns the amount of write capacity units consumed in making the
   changes. Subsequent TransactWriteItems calls with the same client token return the number
   of read capacity units consumed in reading the item. A client request token is valid for 10
@@ -2741,13 +2769,20 @@ end
 Adds or removes replicas in the specified global table. The global table must already exist
 to be able to use this operation. Any replica to be added must be empty, have the same name
 as the global table, have the same key schema, have DynamoDB Streams enabled, and have the
-same provisioned and maximum write capacity units.  Although you can use UpdateGlobalTable
-to add replicas and remove replicas in a single request, for simplicity we recommend that
-you issue separate requests for adding or removing replicas.   If global secondary indexes
-are specified, then the following conditions must also be met:     The global secondary
-indexes must have the same name.     The global secondary indexes must have the same hash
-key and sort key (if present).     The global secondary indexes must have the same
-provisioned and maximum write capacity units.
+same provisioned and maximum write capacity units.  This operation only applies to Version
+2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when
+creating new global tables, as it provides greater flexibility, higher efficiency and
+consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are
+using, see Determining the version. To update existing global tables from version
+2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.     This
+operation only applies to Version 2017.11.29 of global tables. If you are using global
+tables Version 2019.11.21 you can use DescribeTable instead.   Although you can use
+UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity
+we recommend that you issue separate requests for adding or removing replicas.    If global
+secondary indexes are specified, then the following conditions must also be met:     The
+global secondary indexes must have the same name.     The global secondary indexes must
+have the same hash key and sort key (if present).     The global secondary indexes must
+have the same provisioned and maximum write capacity units.
 
 # Arguments
 - `global_table_name`: The global table name.
@@ -2793,7 +2828,12 @@ end
     update_global_table_settings(global_table_name)
     update_global_table_settings(global_table_name, params::Dict{String,<:Any})
 
-Updates settings for a global table.
+Updates settings for a global table.  This operation only applies to Version 2017.11.29
+(Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when creating
+new global tables, as it provides greater flexibility, higher efficiency and consumes less
+write capacity than 2017.11.29 (Legacy). To determine which version you are using, see
+Determining the version. To update existing global tables from version 2017.11.29 (Legacy)
+to version 2019.11.21 (Current), see  Updating global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table
@@ -2906,13 +2946,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modified during the operation are returned in the response. If set to NONE (the default),
   no statistics are returned.
 - `"ReturnValues"`: Use ReturnValues if you want to get the item attributes as they appear
-  before or after they are updated. For UpdateItem, the valid values are:    NONE - If
-  ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This
-  setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the
-  item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns only the
-  updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW - Returns
-  all of the attributes of the item, as they appear after the UpdateItem operation.
-  UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem
+  before or after they are successfully updated. For UpdateItem, the valid values are:
+  NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned.
+  (This setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes
+  of the item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns
+  only the updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW -
+  Returns all of the attributes of the item, as they appear after the UpdateItem operation.
+   UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem
   operation.   There is no additional cost associated with requesting a return value aside
   from the small network and processing overhead of receiving a larger response. No read
   capacity units are consumed. The values returned are strongly consistent.
@@ -2988,9 +3028,10 @@ end
     update_table(table_name, params::Dict{String,<:Any})
 
 Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams
-settings for a given table. You can only perform one of the following operations at once:
-Modify the provisioned throughput settings of the table.   Remove a global secondary index
-from the table.   Create a new global secondary index on the table. After the index begins
+settings for a given table.  This operation only applies to Version 2019.11.21 (Current) of
+global tables.   You can only perform one of the following operations at once:   Modify the
+provisioned throughput settings of the table.   Remove a global secondary index from the
+table.   Create a new global secondary index on the table. After the index begins
 backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an
 asynchronous operation; while it is executing, the table status changes from ACTIVE to
 UPDATING. While it is UPDATING, you cannot issue another UpdateTable request. When the
@@ -3012,6 +3053,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.
   PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
   PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
+- `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
+  (true) or disabled (false) on the table.
 - `"GlobalSecondaryIndexUpdates"`: An array of one or more global secondary indexes for the
   table. For each index in the array, you can request one action:    Create - add a new
   global secondary index to the table.    Update - modify the provisioned throughput settings
@@ -3022,7 +3065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisionedThroughput"`: The new provisioned throughput settings for the specified
   table or index.
 - `"ReplicaUpdates"`: A list of replica update actions (create, delete, or update) for the
-  table.  This property only applies to Version 2019.11.21 of global tables.
+  table.  This property only applies to Version 2019.11.21 (Current) of global tables.
 - `"SSESpecification"`: The new server-side encryption settings for the specified table.
 - `"StreamSpecification"`: Represents the DynamoDB Streams configuration for the table.
   You receive a ResourceInUseException if you try to enable a stream on a table that already
@@ -3058,7 +3101,7 @@ end
     update_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
 Updates auto scaling settings on your global tables at once.  This operation only applies
-to Version 2019.11.21 of global tables.
+to Version 2019.11.21 (Current) of global tables.
 
 # Arguments
 - `table_name`: The name of the global table to be updated.

@@ -220,12 +220,13 @@ end
 Creates a run group.
 
 # Arguments
-- `request_id`: A request ID for the group.
+- `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
+  each request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use in the group.
-- `"maxDuration"`: A max duration for the group.
+- `"maxDuration"`: A maximum run time for the group in minutes.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
@@ -341,7 +342,8 @@ end
 Creates a workflow.
 
 # Arguments
-- `request_id`: A request ID for the workflow.
+- `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
+  each request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -352,7 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: A storage capacity for the workflow.
+- `"storageCapacity"`: A storage capacity for the workflow in gigabytes.
 - `"tags"`: Tags for the workflow.
 """
 function create_workflow(requestId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1852,11 +1854,12 @@ end
     start_read_set_activation_job(sequence_store_id, sources)
     start_read_set_activation_job(sequence_store_id, sources, params::Dict{String,<:Any})
 
-Starts a read set activation job.
+Activates an archived read set. To reduce storage charges, Amazon Omics archives unused
+read sets after 30 days.
 
 # Arguments
 - `sequence_store_id`: The read set's sequence store ID.
-- `sources`: The job's sources.
+- `sources`: The job's source files.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1893,13 +1896,13 @@ end
     start_read_set_export_job(destination, role_arn, sequence_store_id, sources)
     start_read_set_export_job(destination, role_arn, sequence_store_id, sources, params::Dict{String,<:Any})
 
-Starts a read set export job.
+Exports a read set to Amazon S3.
 
 # Arguments
 - `destination`: A location for exported files in Amazon S3.
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
-- `sources`: Sources for the job.
+- `sources`: The job's source files.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1957,7 +1960,7 @@ Starts a read set import job.
 # Arguments
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
-- `sources`: Source files to import.
+- `sources`: The job's source files.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2004,7 +2007,7 @@ Starts a reference import job.
 # Arguments
 - `reference_store_id`: The job's reference store ID.
 - `role_arn`: A service role for the job.
-- `sources`: Sources for the job.
+- `sources`: The job's source files.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2049,7 +2052,8 @@ end
 Starts a run.
 
 # Arguments
-- `request_id`: A request ID for the run.
+- `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
+  each request.
 - `role_arn`: A service role for the run.
 
 # Optional Parameters
@@ -2061,7 +2065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"priority"`: A priority for the run.
 - `"runGroupId"`: The run's group ID.
 - `"runId"`: The run's ID.
-- `"storageCapacity"`: A storage capacity for the run.
+- `"storageCapacity"`: A storage capacity for the run in gigabytes.
 - `"tags"`: Tags for the run.
 - `"workflowId"`: The run's workflow ID.
 - `"workflowType"`: The run's workflows type.
@@ -2267,7 +2271,7 @@ Updates a run group.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use.
-- `"maxDuration"`: The maximum amount of time to run.
+- `"maxDuration"`: A maximum run time for the group in minutes.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 """

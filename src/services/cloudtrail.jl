@@ -8,18 +8,22 @@ using AWS.UUIDs
     add_tags(resource_id, tags_list)
     add_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Adds one or more tags to a trail or event data store, up to a limit of 50. Overwrites an
-existing tag's value when a new value is specified for an existing tag key. Tag key names
-must be unique for a trail; you cannot have two keys with the same name but different
+Adds one or more tags to a trail, event data store, or channel, up to a limit of 50.
+Overwrites an existing tag's value when a new value is specified for an existing tag key.
+Tag key names must be unique; you cannot have two keys with the same name but different
 values. If you specify a key without a value, the tag will be created with the specified
 key and a value of null. You can tag a trail or event data store that applies to all Amazon
 Web Services Regions only from the Region in which the trail or event data store was
 created (also known as its home region).
 
 # Arguments
-- `resource_id`: Specifies the ARN of the trail or event data store to which one or more
-  tags will be added. The format of a trail ARN is:
-  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `resource_id`: Specifies the ARN of the trail, event data store, or channel to which one
+  or more tags will be added. The format of a trail ARN is:
+  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store
+  ARN is:
+  arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+   The format of a channel ARN is:
+  arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 - `tags_list`: Contains a list of tags, up to a limit of 50
 
 """
@@ -89,6 +93,63 @@ function cancel_query(
 end
 
 """
+    create_channel(destinations, name, source)
+    create_channel(destinations, name, source, params::Dict{String,<:Any})
+
+Creates a channel for CloudTrail to ingest events from a partner or external source. After
+you create a channel, a CloudTrail Lake event data store can log events from the partner or
+source that you specify.
+
+# Arguments
+- `destinations`: One or more event data stores to which events arriving through a channel
+  will be logged.
+- `name`: The name of the channel.
+- `source`: The name of the partner or external event source. You cannot change this name
+  after you create the channel. A maximum of one channel is allowed per source.  A source can
+  be either Custom for all valid non-Amazon Web Services events, or the name of a partner
+  event source. For information about the source names for available partners, see Additional
+  information about integration partners in the CloudTrail User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
+"""
+function create_channel(
+    Destinations, Name, Source; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "CreateChannel",
+        Dict{String,Any}(
+            "Destinations" => Destinations, "Name" => Name, "Source" => Source
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_channel(
+    Destinations,
+    Name,
+    Source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "CreateChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destinations" => Destinations, "Name" => Name, "Source" => Source
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_event_data_store(name)
     create_event_data_store(name, params::Dict{String,<:Any})
 
@@ -100,8 +161,14 @@ Creates a new event data store.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdvancedEventSelectors"`: The advanced event selectors to use to select the events for
-  the data store. For more information about how to use advanced event selectors, see Log
-  events by using advanced event selectors in the CloudTrail User Guide.
+  the data store. You can configure up to five advanced event selectors for each event data
+  store.  For more information about how to use advanced event selectors to log CloudTrail
+  events, see Log events by using advanced event selectors in the CloudTrail User Guide. For
+  more information about how to use advanced event selectors to include Config configuration
+  items in your event data store, see Create an event data store for Config configuration
+  items in the CloudTrail User Guide. For more information about how to use advanced event
+  selectors to include non-Amazon Web Services events in your event data store, see Create an
+  integration to log events from outside Amazon Web Services in the CloudTrail User Guide.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the events delivered by
   CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
   alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or
@@ -167,9 +234,10 @@ bucket.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogsLogGroupArn"`: Specifies a log group name using an Amazon Resource Name
   (ARN), a unique identifier that represents the log group to which CloudTrail logs will be
-  delivered. Not required unless you specify CloudWatchLogsRoleArn.
+  delivered. You must use a log group that exists in your account. Not required unless you
+  specify CloudWatchLogsRoleArn.
 - `"CloudWatchLogsRoleArn"`: Specifies the role for the CloudWatch Logs endpoint to assume
-  to write to a user's log group.
+  to write to a user's log group. You must use a role that exists in your account.
 - `"EnableLogFileValidation"`: Specifies whether log file integrity validation is enabled.
   The default is false.  When you disable log file integrity validation, the chain of digest
   files is broken after one hour. CloudTrail does not create digest files for log files that
@@ -186,7 +254,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsOrganizationTrail"`: Specifies whether the trail is created for all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
-  Services account that is the management account for an organization in Organizations.
+  Services account that is the management account or delegated administrator account for an
+  organization in Organizations.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
   alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
@@ -231,6 +300,35 @@ function create_trail(
 end
 
 """
+    delete_channel(channel)
+    delete_channel(channel, params::Dict{String,<:Any})
+
+Deletes a channel.
+
+# Arguments
+- `channel`: The ARN or the UUID value of the channel that you want to delete.
+
+"""
+function delete_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "DeleteChannel",
+        Dict{String,Any}("Channel" => Channel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_channel(
+    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DeleteChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_event_data_store(event_data_store)
     delete_event_data_store(event_data_store, params::Dict{String,<:Any})
 
@@ -267,6 +365,43 @@ function delete_event_data_store(
         "DeleteEventDataStore",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+ Deletes the resource-based policy attached to the CloudTrail channel.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting
+  the resource-based policy from. The following is the format of a resource ARN:
+  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+
+"""
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -405,8 +540,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true, then information for all trails in the current region and any associated shadow
   trails in other regions is returned.    If one or more trail names are specified,
   information is returned only if the names match the names of trails belonging only to the
-  current region. To return information about a trail in another region, you must specify its
-  trail ARN.
+  current region and current account. To return information about a trail in another region,
+  you must specify its trail ARN.
 """
 function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
@@ -425,10 +560,7 @@ end
     get_channel(channel)
     get_channel(channel, params::Dict{String,<:Any})
 
- Returns information about a specific channel. Amazon Web Services services create
-service-linked channels to get information about CloudTrail events on your behalf. For more
-information about service-linked channels, see Viewing service-linked channels for
-CloudTrail by using the CLI.
+ Returns information about a specific channel.
 
 # Arguments
 - `channel`: The ARN or UUID of a channel.
@@ -650,6 +782,42 @@ function get_query_results(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+ Retrieves the JSON text of the resource-based policy document attached to the CloudTrail
+channel.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the
+  resource-based policy. The following is the format of a resource ARN:
+  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+
+"""
+function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_trail(name)
     get_trail(name, params::Dict{String,<:Any})
 
@@ -718,10 +886,7 @@ end
     list_channels()
     list_channels(params::Dict{String,<:Any})
 
- Lists the channels in the current account, and their source names. Amazon Web Services
-services create service-linked channels get information about CloudTrail events on your
-behalf. For more information about service-linked channels, see Viewing service-linked
-channels for CloudTrail by using the CLI.
+ Lists the channels in the current account, and their source names.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -918,11 +1083,11 @@ end
     list_tags(resource_id_list)
     list_tags(resource_id_list, params::Dict{String,<:Any})
 
-Lists the tags for the trail or event data store in the current region.
+Lists the tags for the trail, event data store, or channel in the current region.
 
 # Arguments
-- `resource_id_list`: Specifies a list of trail and event data store ARNs whose tags will
-  be listed. The list has a limit of 20 ARNs.
+- `resource_id_list`: Specifies a list of trail, event data store, or channel ARNs whose
+  tags will be listed. The list has a limit of 20 ARNs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1142,6 +1307,58 @@ function put_insight_selectors(
 end
 
 """
+    put_resource_policy(resource_arn, resource_policy)
+    put_resource_policy(resource_arn, resource_policy, params::Dict{String,<:Any})
+
+ Attaches a resource-based permission policy to a CloudTrail channel that is used for an
+integration with an event source outside of Amazon Web Services. For more information about
+resource-based policies, see CloudTrail resource-based policy examples in the CloudTrail
+User Guide.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the
+  resource-based policy. The following is the format of a resource ARN:
+  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+- `resource_policy`:  A JSON-formatted string for an Amazon Web Services resource-based
+  policy.  The following are requirements for the resource policy:    Contains only one
+  action: cloudtrail-data:PutAuditEvents     Contains at least one statement. The policy can
+  have a maximum of 20 statements.     Each statement contains at least one principal. A
+  statement can have a maximum of 50 principals.
+
+"""
+function put_resource_policy(
+    ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "PutResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    ResourceArn,
+    ResourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_organization_delegated_admin(member_account_id)
     register_organization_delegated_admin(member_account_id, params::Dict{String,<:Any})
 
@@ -1183,14 +1400,15 @@ end
     remove_tags(resource_id, tags_list)
     remove_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Removes the specified tags from a trail or event data store.
+Removes the specified tags from a trail, event data store, or channel.
 
 # Arguments
-- `resource_id`: Specifies the ARN of the trail or event data store from which tags should
-  be removed.  Example trail ARN format:
+- `resource_id`: Specifies the ARN of the trail, event data store, or channel from which
+  tags should be removed.  Example trail ARN format:
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN
   format:
   arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+   Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 - `tags_list`: Specifies a list of tags to be removed.
 
 """
@@ -1276,7 +1494,10 @@ considerations about importing trail events, see Considerations.   When you star
 import, the Destinations and ImportSource parameters are required. Before starting a new
 import, disable any access control lists (ACLs) attached to the source S3 bucket. For more
 information about disabling ACLs, see Controlling ownership of objects and disabling ACLs
-for your bucket.   When you retry an import, the ImportID parameter is required.
+for your bucket.   When you retry an import, the ImportID parameter is required.    If the
+destination event data store is for an organization, you must use the management account to
+import trail events. You cannot use the delegated administrator account for the
+organization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1451,16 +1672,52 @@ function stop_logging(
 end
 
 """
+    update_channel(channel)
+    update_channel(channel, params::Dict{String,<:Any})
+
+Updates a channel specified by a required channel ARN or UUID.
+
+# Arguments
+- `channel`: The ARN or ID (the ARN suffix) of the channel that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Destinations"`: The ARNs of event data stores that you want to log events arriving
+  through the channel.
+- `"Name"`:  Changes the name of the channel.
+"""
+function update_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail(
+        "UpdateChannel",
+        Dict{String,Any}("Channel" => Channel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_channel(
+    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "UpdateChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_event_data_store(event_data_store)
     update_event_data_store(event_data_store, params::Dict{String,<:Any})
 
 Updates an event data store. The required EventDataStore value is an ARN or the ID portion
 of the ARN. Other parameters are optional, but at least one optional parameter must be
 specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are
-integers between 90 and 2557. By default, TerminationProtection is enabled.
-AdvancedEventSelectors includes or excludes management and data events in your event data
-store; for more information about AdvancedEventSelectors, see
-PutEventSelectorsRequestAdvancedEventSelectors.
+integers between 90 and 2557. By default, TerminationProtection is enabled. For event data
+stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and
+data events in your event data store. For more information about AdvancedEventSelectors,
+see PutEventSelectorsRequestAdvancedEventSelectors.   For event data stores for Config
+configuration items, Audit Manager evidence, or non-Amazon Web Services events,
+AdvancedEventSelectors includes events of that type in your event data store.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that
@@ -1543,9 +1800,10 @@ InvalidHomeRegionException is thrown.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogsLogGroupArn"`: Specifies a log group name using an Amazon Resource Name
   (ARN), a unique identifier that represents the log group to which CloudTrail logs are
-  delivered. Not required unless you specify CloudWatchLogsRoleArn.
+  delivered. You must use a log group that exists in your account. Not required unless you
+  specify CloudWatchLogsRoleArn.
 - `"CloudWatchLogsRoleArn"`: Specifies the role for the CloudWatch Logs endpoint to assume
-  to write to a user's log group.
+  to write to a user's log group. You must use a role that exists in your account.
 - `"EnableLogFileValidation"`: Specifies whether log file validation is enabled. The
   default is false.  When you disable log file integrity validation, the chain of digest
   files is broken after one hour. CloudTrail does not create digest files for log files that
@@ -1565,11 +1823,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsOrganizationTrail"`: Specifies whether the trail is applied to all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
-  Services account that is the management account for an organization in Organizations. If
-  the trail is not an organization trail and this is set to true, the trail will be created
-  in all Amazon Web Services accounts that belong to the organization. If the trail is an
-  organization trail and this is set to false, the trail will remain in the current Amazon
-  Web Services account but be deleted from all member accounts in the organization.
+  Services account that is the management account or delegated administrator account for an
+  organization in Organizations. If the trail is not an organization trail and this is set to
+  true, the trail will be created in all Amazon Web Services accounts that belong to the
+  organization. If the trail is an organization trail and this is set to false, the trail
+  will remain in the current Amazon Web Services account but be deleted from all member
+  accounts in the organization.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
   an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also

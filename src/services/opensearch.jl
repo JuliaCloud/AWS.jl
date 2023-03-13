@@ -45,8 +45,8 @@ end
     add_tags(arn, tag_list, params::Dict{String,<:Any})
 
 Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of
-case-sensitive key-value pairs. An domain can have up to 10 tags. For more information, see
- Tagging Amazon OpenSearch Service domains.
+case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see
+Tagging Amazon OpenSearch Service domains.
 
 # Arguments
 - `arn`: Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to
@@ -244,8 +244,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service domains.
 - `"LogPublishingOptions"`: Key-value pairs to configure slow log publishing.
 - `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
+- `"OffPeakWindowOptions"`: Specifies a daily 10-hour time block during which OpenSearch
+  Service can perform configuration changes on the domain, including service software updates
+  and Auto-Tune enhancements that require a blue/green deployment. If no options are
+  specified, the default start time of 10:00 P.M. local time (for the Region that the domain
+  is created in) is used.
 - `"SnapshotOptions"`: DEPRECATED. Container for the parameters required to configure
   automated snapshots of domain indexes.
+- `"SoftwareUpdateOptions"`: Software update options for the domain.
 - `"TagList"`: List of tags to add to the domain upon creation.
 - `"VPCOptions"`: Container for the values required to configure VPC access domains. If you
   don't specify these values, OpenSearch Service creates the domain with a public endpoint.
@@ -289,6 +295,9 @@ OpenSearch Service.
 - `local_domain_info`: Name and Region of the source (local) domain.
 - `remote_domain_info`: Name and Region of the destination (remote) domain.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConnectionMode"`: The connection mode.
 """
 function create_outbound_connection(
     ConnectionAlias,
@@ -401,7 +410,7 @@ end
 Creates an Amazon OpenSearch Service-managed VPC endpoint.
 
 # Arguments
-- `domain_arn`: The Amazon Resource Name (ARN) of the domain to grant access to.
+- `domain_arn`: The Amazon Resource Name (ARN) of the domain to create the endpoint for.
 - `vpc_options`: Options to specify the subnets and security groups for the endpoint.
 
 # Optional Parameters
@@ -796,6 +805,48 @@ function describe_domains(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainNames" => DomainNames), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_dry_run_progress(domain_name)
+    describe_dry_run_progress(domain_name, params::Dict{String,<:Any})
+
+Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service
+domain. For more information, see Determining whether a change will cause a blue/green
+deployment.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dryRunId"`: The unique identifier of the dry run.
+- `"loadDryRunConfig"`: Whether to include the configuration of the dry run in the
+  response. The configuration specifies the updates that you're planning to make on the
+  domain.
+"""
+function describe_dry_run_progress(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dryRun";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_dry_run_progress(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dryRun",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1413,6 +1464,48 @@ function list_packages_for_domain(
 end
 
 """
+    list_scheduled_actions(domain_name)
+    list_scheduled_actions(domain_name, params::Dict{String,<:Any})
+
+Retrieves a list of configuration changes that are scheduled for a domain. These changes
+can be service software updates or blue/green Auto-Tune enhancements.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListScheduledActions operation returns a nextToken, you
+  can include the returned nextToken in subsequent ListScheduledActions operations, which
+  returns results in the next page.
+"""
+function list_scheduled_actions(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_scheduled_actions(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags(arn)
     list_tags(arn, params::Dict{String,<:Any})
 
@@ -1769,6 +1862,18 @@ information, see Service software updates in Amazon OpenSearch Service.
 - `domain_name`: The name of the domain that you want to update to the latest service
   software.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DesiredStartTime"`: The Epoch timestamp when you want the service software update to
+  start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP.
+- `"ScheduleAt"`: When to start the service software update.    NOW - Immediately schedules
+  the update to happen in the current hour if there's capacity available.    TIMESTAMP - Lets
+  you specify a custom date and time to apply the update. If you specify this value, you must
+  also provide a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the update to be
+  picked up during an upcoming off-peak window. There's no guarantee that the update will
+  happen during the next immediate window. Depending on capacity, it might happen in
+  subsequent days.   Default: NOW if you don't specify a value for DesiredStartTime, and
+  TIMESTAMP if you do.
 """
 function start_service_software_update(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1835,13 +1940,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
   require HTTPS for all traffic.
 - `"DryRun"`: This flag, when set to True, specifies whether the UpdateDomain request
-  should return the results of validation check without actually applying the change.
+  should return the results of a dry run analysis without actually applying the change. A dry
+  run determines what type of deployment the update will cause.
+- `"DryRunMode"`: The type of dry run to perform.    Basic only returns the type of
+  deployment (blue/green or dynamic) that the update will cause.    Verbose runs an
+  additional check to validate the changes you're making. For more information, see
+  Validating a domain update.
 - `"EBSOptions"`: The type and size of the EBS volume to attach to instances in the domain.
 - `"EncryptionAtRestOptions"`: Encryption at rest options for the domain.
-- `"LogPublishingOptions"`: Options to publish OpenSearch lots to Amazon CloudWatch Logs.
-- `"NodeToNodeEncryptionOptions"`: Node-To-Node Encryption options for the domain.
+- `"LogPublishingOptions"`: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
+- `"NodeToNodeEncryptionOptions"`: Node-to-node encryption options for the domain.
+- `"OffPeakWindowOptions"`: Off-peak window options for the domain.
 - `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is 0 hours.
+- `"SoftwareUpdateOptions"`: Service software update options for the domain.
 - `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
   For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
 """
@@ -1909,6 +2021,77 @@ function update_package(
                 _merge,
                 Dict{String,Any}(
                     "PackageID" => PackageID, "PackageSource" => PackageSource
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_scheduled_action(action_id, action_type, domain_name, schedule_at)
+    update_scheduled_action(action_id, action_type, domain_name, schedule_at, params::Dict{String,<:Any})
+
+Reschedules a planned domain configuration change for a later time. This change can be a
+scheduled service software update or a blue/green Auto-Tune enhancement.
+
+# Arguments
+- `action_id`: The unique identifier of the action to reschedule. To retrieve this ID, send
+  a ListScheduledActions request.
+- `action_type`: The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE,
+  JVM_HEAP_SIZE_TUNING, or JVM_YOUNG_GEN_TUNING. To retrieve this value, send a
+  ListScheduledActions request.
+- `domain_name`: The name of the domain to reschedule an action for.
+- `schedule_at`: When to schedule the action.    NOW - Immediately schedules the update to
+  happen in the current hour if there's capacity available.    TIMESTAMP - Lets you specify a
+  custom date and time to apply the update. If you specify this value, you must also provide
+  a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the action to be picked up during
+  an upcoming off-peak window. There's no guarantee that the change will be implemented
+  during the next immediate window. Depending on capacity, it might happen in subsequent
+  days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DesiredStartTime"`: The time to implement the change, in Coordinated Universal Time
+  (UTC). Only specify this parameter if you set ScheduleAt to TIMESTAMP.
+"""
+function update_scheduled_action(
+    ActionID,
+    ActionType,
+    DomainName,
+    ScheduleAt;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update",
+        Dict{String,Any}(
+            "ActionID" => ActionID, "ActionType" => ActionType, "ScheduleAt" => ScheduleAt
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_scheduled_action(
+    ActionID,
+    ActionType,
+    DomainName,
+    ScheduleAt,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/scheduledAction/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActionID" => ActionID,
+                    "ActionType" => ActionType,
+                    "ScheduleAt" => ScheduleAt,
                 ),
                 params,
             ),

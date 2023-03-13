@@ -118,8 +118,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventSourceToken"`: For Alexa Smart Home functions, a token that the invoker must
   supply.
 - `"FunctionUrlAuthType"`: The type of authentication that your function URL uses. Set to
-  AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you
-  want to bypass IAM authentication to create a public endpoint. For more information, see
+  AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want
+  to bypass IAM authentication to create a public endpoint. For more information, see
   Security and auth model for Lambda function URLs.
 - `"PrincipalOrgID"`: The identifier for your organization in Organizations. Use this to
   grant permissions to all the Amazon Web Services accounts under this organization.
@@ -290,24 +290,25 @@ the event source and invokes the function. For details about how to configure di
 event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis
    Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka    The
 following error handling options are available only for stream sources (DynamoDB and
-Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
-in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
-Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
-age. The default value is infinite (-1). When set to infinite (-1), failed records are
-retried until the record expires    MaximumRetryAttempts - Discard records after the
-specified number of retries. The default value is infinite (-1). When set to infinite (-1),
-failed records are retried until the record expires.    ParallelizationFactor - Process
-multiple batches from each shard concurrently.   For information about which configuration
-parameters apply to each event source, see the following topics.     Amazon DynamoDB
-Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK
- Apache Kafka
+Kinesis):    BisectBatchOnFunctionError – If the function returns an error, split the
+batch in two and retry.    DestinationConfig – Send discarded records to an Amazon SQS
+queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard records older than the
+specified age. The default value is infinite (-1). When set to infinite (-1), failed
+records are retried until the record expires    MaximumRetryAttempts – Discard records
+after the specified number of retries. The default value is infinite (-1). When set to
+infinite (-1), failed records are retried until the record expires.
+ParallelizationFactor – Process multiple batches from each shard concurrently.   For
+information about which configuration parameters apply to each event source, see the
+following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS
+Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
 
 # Arguments
-- `function_name`: The name of the Lambda function.  Name formats     Function name -
-  MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-  Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
-  Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
-  full ARN. If you specify only the function name, it's limited to 64 characters in length.
+- `function_name`: The name of the Lambda function.  Name formats     Function name –
+  MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it's limited to 64 characters in
+  length.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -316,21 +317,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
   stream or queue and sends to your function. Lambda passes all of the records in the batch
   to the function in a single call, up to the payload limit for synchronous invocation (6
-  MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
-  Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
-  10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon
-  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+  MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default
+  100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max
+  is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka –
+  Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.
+  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
+- `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
+  source.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
   polling and invocation. Default: True
 - `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
-  - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
-  the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
-  Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
+  – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN
+  of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed
+  Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the
+  broker.
 - `"FilterCriteria"`: An object that defines the filter criteria that determine whether
   Lambda should process an event. For more information, see Lambda event filtering.
 - `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
@@ -354,6 +358,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
   shard concurrently.
 - `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
+- `"ScalingConfig"`: (Amazon SQS only) The scaling configuration for the event source. For
+  more information, see Configuring maximum concurrency for Amazon SQS event sources.
 - `"SelfManagedEventSource"`: The self-managed Apache Kafka cluster to receive records from.
 - `"SelfManagedKafkaEventSourceConfig"`: Specific configuration settings for a self-managed
   Apache Kafka event source.
@@ -469,9 +475,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the runtime. For more information, see Lambda programming model.
 - `"ImageConfig"`: Container image configuration values that override the values in the
   container image Dockerfile.
-- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) key that's used to encrypt
-  your function's environment variables. If it's not provided, Lambda uses a default service
-  key.
+- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
+  used to encrypt your function's environment variables. When Lambda SnapStart is activated,
+  this key is also used to encrypt your function's snapshot. If you don't provide a customer
+  managed key, Lambda uses a default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
@@ -481,7 +488,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to Zip for .zip file archive.
 - `"Publish"`: Set to true to publish the first version of the function during creation.
 - `"Runtime"`: The identifier of the function's runtime. Runtime is required if the
-  deployment package is a .zip file archive.
+  deployment package is a .zip file archive. The following list includes deprecated runtimes.
+  For more information, see Runtime deprecation policy.
 - `"SnapStart"`: The function's SnapStart setting.
 - `"Tags"`: A list of tags to apply to the function.
 - `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
@@ -538,9 +546,9 @@ is a dedicated HTTP(S) endpoint that you can use to invoke your function.
 
 # Arguments
 - `auth_type`: The type of authentication that your function URL uses. Set to AWS_IAM if
-  you want to restrict access to authenticated IAM users only. Set to NONE if you want to
-  bypass IAM authentication to create a public endpoint. For more information, see Security
-  and auth model for Lambda function URLs.
+  you want to restrict access to authenticated users only. Set to NONE if you want to bypass
+  IAM authentication to create a public endpoint. For more information, see Security and auth
+  model for Lambda function URLs.
 - `function_name`: The name of the Lambda function.  Name formats     Function name –
   my-function.    Function ARN –
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN –
@@ -1542,6 +1550,52 @@ function get_provisioned_concurrency_config(
 end
 
 """
+    get_runtime_management_config(function_name)
+    get_runtime_management_config(function_name, params::Dict{String,<:Any})
+
+Retrieves the runtime management configuration for a function's version. If the runtime
+update mode is Manual, this includes the ARN of the runtime version and the runtime update
+mode. If the runtime update mode is Auto or Function update, this includes the runtime
+update mode and null is returned for the ARN. For more information, see Runtime updates.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name –
+  my-function.    Function ARN –
+  arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN –
+  123456789012:function:my-function.   The length constraint applies only to the full ARN. If
+  you specify only the function name, it is limited to 64 characters in length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version of the function. This can be LATEST or a published
+  version number. If no value is specified, the configuration for the LATEST version is
+  returned.
+"""
+function get_runtime_management_config(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_runtime_management_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     invoke(function_name)
     invoke(function_name, params::Dict{String,<:Any})
 
@@ -1747,14 +1801,16 @@ for a single event source.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
-  - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
-  the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
-  Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
-- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
-  MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-  Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
-  Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
-  full ARN. If you specify only the function name, it's limited to 64 characters in length.
+  – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN
+  of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed
+  Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the
+  broker.
+- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name –
+  MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it's limited to 64 characters in
+  length.
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of event source mappings to return. Note that
   ListEventSourceMappings returns a maximum of 100 items in each response, even if you set
@@ -1878,7 +1934,8 @@ returns up to 50 functions per call. Set FunctionVersion to ALL to include all p
 versions of each function in addition to the unpublished version.  The ListFunctions
 operation returns a subset of the FunctionConfiguration fields. To get the additional
 fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason,
-LastUpdateStatusReasonCode) for a function or version, use GetFunction.
+LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use
+GetFunction.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2477,6 +2534,71 @@ function put_provisioned_concurrency_config(
 end
 
 """
+    put_runtime_management_config(function_name, update_runtime_on)
+    put_runtime_management_config(function_name, update_runtime_on, params::Dict{String,<:Any})
+
+Sets the runtime management configuration for a function's version. For more information,
+see Runtime updates.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name –
+  my-function.    Function ARN –
+  arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN –
+  123456789012:function:my-function.   The length constraint applies only to the full ARN. If
+  you specify only the function name, it is limited to 64 characters in length.
+- `update_runtime_on`: Specify the runtime update mode.    Auto (default) - Automatically
+  update to the most recent and secure runtime version using a Two-phase runtime version
+  rollout. This is the best choice for most customers to ensure they always benefit from
+  runtime updates.    Function update - Lambda updates the runtime of your function to the
+  most recent and secure runtime version when you update your function. This approach
+  synchronizes runtime updates with function deployments, giving you control over when
+  runtime updates are applied and allowing you to detect and mitigate rare runtime update
+  incompatibilities early. When using this setting, you need to regularly update your
+  functions to keep their runtime up-to-date.    Manual - You specify a runtime version in
+  your function configuration. The function will use this runtime version indefinitely. In
+  the rare case where a new runtime version is incompatible with an existing function, this
+  allows you to roll back your function to an earlier runtime version. For more information,
+  see Roll back a runtime version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version of the function. This can be LATEST or a published
+  version number. If no value is specified, the configuration for the LATEST version is
+  returned.
+- `"RuntimeVersionArn"`: The ARN of the runtime version you want the function to use.  This
+  is only required if you're using the Manual runtime update mode.
+"""
+function put_runtime_management_config(
+    FunctionName, UpdateRuntimeOn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+        Dict{String,Any}("UpdateRuntimeOn" => UpdateRuntimeOn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_runtime_management_config(
+    FunctionName,
+    UpdateRuntimeOn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("UpdateRuntimeOn" => UpdateRuntimeOn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_layer_version_permission(layer_name, statement_id, version_number)
     remove_layer_version_permission(layer_name, statement_id, version_number, params::Dict{String,<:Any})
 
@@ -2732,17 +2854,17 @@ invocation and resume later from the same location. For details about how to con
 different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon
 Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
 The following error handling options are available only for stream sources (DynamoDB and
-Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
-in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
-Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
-age. The default value is infinite (-1). When set to infinite (-1), failed records are
-retried until the record expires    MaximumRetryAttempts - Discard records after the
-specified number of retries. The default value is infinite (-1). When set to infinite (-1),
-failed records are retried until the record expires.    ParallelizationFactor - Process
-multiple batches from each shard concurrently.   For information about which configuration
-parameters apply to each event source, see the following topics.     Amazon DynamoDB
-Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK
- Apache Kafka
+Kinesis):    BisectBatchOnFunctionError – If the function returns an error, split the
+batch in two and retry.    DestinationConfig – Send discarded records to an Amazon SQS
+queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard records older than the
+specified age. The default value is infinite (-1). When set to infinite (-1), failed
+records are retried until the record expires    MaximumRetryAttempts – Discard records
+after the specified number of retries. The default value is infinite (-1). When set to
+infinite (-1), failed records are retried until the record expires.
+ParallelizationFactor – Process multiple batches from each shard concurrently.   For
+information about which configuration parameters apply to each event source, see the
+following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS
+Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
 
 # Arguments
 - `uuid`: The identifier of the event source mapping.
@@ -2752,24 +2874,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
   stream or queue and sends to your function. Lambda passes all of the records in the batch
   to the function in a single call, up to the payload limit for synchronous invocation (6
-  MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
-  Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
-  10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
-  Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon
-  MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+  MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default
+  100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max
+  is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka –
+  Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.
+  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
+- `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
+  source.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
   polling and invocation. Default: True
 - `"FilterCriteria"`: An object that defines the filter criteria that determine whether
   Lambda should process an event. For more information, see Lambda event filtering.
-- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
-  MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-  Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
-  Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
-  full ARN. If you specify only the function name, it's limited to 64 characters in length.
+- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name –
+  MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to
+  the full ARN. If you specify only the function name, it's limited to 64 characters in
+  length.
 - `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
   applied to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
@@ -2790,6 +2915,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retried until the record expires.
 - `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
   shard concurrently.
+- `"ScalingConfig"`: (Amazon SQS only) The scaling configuration for the event source. For
+  more information, see Configuring maximum concurrency for Amazon SQS event sources.
 - `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
   required to secure your event source.
 - `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
@@ -2931,9 +3058,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the runtime. For more information, see Lambda programming model.
 - `"ImageConfig"`:  Container image configuration values that override the values in the
   container image Docker file.
-- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) key that's used to encrypt
-  your function's environment variables. If it's not provided, Lambda uses a default service
-  key.
+- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
+  used to encrypt your function's environment variables. When Lambda SnapStart is activated,
+  this key is also used to encrypt your function's snapshot. If you don't provide a customer
+  managed key, Lambda uses a default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
@@ -2944,7 +3072,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   read it.
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
 - `"Runtime"`: The identifier of the function's runtime. Runtime is required if the
-  deployment package is a .zip file archive.
+  deployment package is a .zip file archive. The following list includes deprecated runtimes.
+  For more information, see Runtime deprecation policy.
 - `"SnapStart"`: The function's SnapStart setting.
 - `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more
@@ -3047,9 +3176,9 @@ Updates the configuration for a Lambda function URL.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AuthType"`: The type of authentication that your function URL uses. Set to AWS_IAM if
-  you want to restrict access to authenticated IAM users only. Set to NONE if you want to
-  bypass IAM authentication to create a public endpoint. For more information, see Security
-  and auth model for Lambda function URLs.
+  you want to restrict access to authenticated users only. Set to NONE if you want to bypass
+  IAM authentication to create a public endpoint. For more information, see Security and auth
+  model for Lambda function URLs.
 - `"Cors"`: The cross-origin resource sharing (CORS) settings for your function URL.
 - `"Qualifier"`: The alias name.
 """

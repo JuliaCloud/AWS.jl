@@ -11,12 +11,12 @@ using AWS.UUIDs
 Removes permissions associated with the target database.
 
 # Arguments
-- `resource_arn`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ActionType"`:
-- `"SourceResourceArn"`:
+- `"ActionType"`: Delete or restore the permissions on the target database.
+- `"SourceResourceArn"`: The Amazon Resource Name (ARN) of the source resource.
 """
 function delete_resource_permission(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -53,7 +53,7 @@ Deregister an SAP application with AWS Systems Manager for SAP. This action does
 aﬀect the existing setup of your SAP workloads on Amazon EC2.
 
 # Arguments
-- `application_id`:
+- `application_id`: The ID of the application.
 
 """
 function deregister_application(
@@ -92,8 +92,9 @@ components of the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationArn"`:
-- `"ApplicationId"`:
+- `"AppRegistryArn"`: The Amazon Resource Name (ARN) of the application registry.
+- `"ApplicationArn"`: The Amazon Resource Name (ARN) of the application.
+- `"ApplicationId"`: The ID of the application.
 """
 function get_application(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
@@ -119,8 +120,8 @@ end
 Gets the component of an application registered with AWS Systems Manager for SAP.
 
 # Arguments
-- `application_id`:
-- `component_id`:
+- `application_id`: The ID of the application.
+- `component_id`: The ID of the component.
 
 """
 function get_component(
@@ -165,10 +166,10 @@ Gets the SAP HANA database of an application registered with AWS Systems Manager
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationId"`:
-- `"ComponentId"`:
-- `"DatabaseArn"`:
-- `"DatabaseId"`:
+- `"ApplicationId"`: The ID of the application.
+- `"ComponentId"`: The ID of the component.
+- `"DatabaseArn"`: The Amazon Resource Name (ARN) of the database.
+- `"DatabaseId"`: The ID of the database.
 """
 function get_database(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
@@ -194,7 +195,7 @@ end
 Gets the details of an operation by specifying the operation ID.
 
 # Arguments
-- `operation_id`:
+- `operation_id`: The ID of the operation.
 
 """
 function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -229,7 +230,7 @@ end
 Gets permissions associated with the target database.
 
 # Arguments
-- `resource_arn`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -270,8 +271,9 @@ Lists all the applications registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"NextToken"`:
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
@@ -298,9 +300,11 @@ Lists all the components registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationId"`:
-- `"MaxResults"`:
-- `"NextToken"`:
+- `"ApplicationId"`: The ID of the application.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
+- `"NextToken"`: The token for the next page of results.
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
@@ -327,10 +331,12 @@ Lists the SAP HANA databases of an application registered with AWS Systems Manag
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationId"`:
-- `"ComponentId"`:
-- `"MaxResults"`:
-- `"NextToken"`:
+- `"ApplicationId"`: The ID of the application.
+- `"ComponentId"`: The ID of the component.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
+- `"NextToken"`: The token for the next page of results.
 """
 function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
@@ -350,6 +356,48 @@ function list_databases(
 end
 
 """
+    list_operations(application_id)
+    list_operations(application_id, params::Dict{String,<:Any})
+
+Lists the operations performed by AWS Systems Manager for SAP.
+
+# Arguments
+- `application_id`: The ID of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: The filters of an operation.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
+- `"NextToken"`: The token for the next page of results.
+"""
+function list_operations(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_sap(
+        "POST",
+        "/list-operations",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_operations(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-operations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -357,7 +405,7 @@ Lists all tags on an SAP HANA application and/or database registered with AWS Sy
 Manager for SAP.
 
 # Arguments
-- `resource_arn`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
 function list_tags_for_resource(
@@ -452,16 +500,16 @@ have access to the secrets created in AWS Secrets Manager to manage SAP applicat
 components.
 
 # Arguments
-- `application_id`:
-- `application_type`:
-- `credentials`:
-- `instances`:
+- `application_id`: The ID of the application.
+- `application_type`: The type of the application.
+- `credentials`: The credentials of the SAP application.
+- `instances`: The Amazon EC2 instances on which your SAP application is running.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SapInstanceNumber"`:
-- `"Sid"`:
-- `"Tags"`:
+- `"SapInstanceNumber"`: The SAP instance number of the application.
+- `"Sid"`: The System ID of the application.
+- `"Tags"`: The tags to be attached to the SAP application.
 """
 function register_application(
     ApplicationId,
@@ -518,8 +566,8 @@ end
 Creates tag for a resource by specifying the ARN.
 
 # Arguments
-- `resource_arn`:
-- `tags`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tags`: The tags on a resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -553,7 +601,7 @@ end
 Delete the tags for a resource.
 
 # Arguments
-- `resource_arn`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Adds/updates or removes credentials for applications registered with AWS
   Systems Manager for SAP.
 
@@ -588,15 +636,15 @@ end
     update_application_settings(application_id)
     update_application_settings(application_id, params::Dict{String,<:Any})
 
-
+Updates the settings of an application registered with AWS Systems Manager for SAP.
 
 # Arguments
-- `application_id`:
+- `application_id`: The ID of the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CredentialsToAddOrUpdate"`:
-- `"CredentialsToRemove"`:
+- `"CredentialsToAddOrUpdate"`: The credentials to be added or updated.
+- `"CredentialsToRemove"`: The credentials to be removed.
 """
 function update_application_settings(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()

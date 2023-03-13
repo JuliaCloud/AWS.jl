@@ -395,11 +395,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`:  The pricing rule description.
 - `"ModifierPercentage"`:  A percentage modifier that's applied on the public pricing
   rates.
-- `"Service"`:  If the Scope attribute is set to SERVICE, the attribute indicates which
-  service the PricingRule is applicable for.
+- `"Operation"`:  Operation is the specific Amazon Web Services action covered by this line
+  item. This describes the specific usage of the line item.  If the Scope attribute is set to
+  SKU, this attribute indicates which operation the PricingRule is modifying. For example, a
+  value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+- `"Service"`:  If the Scope attribute is set to SERVICE or SKU, the attribute indicates
+  which service the PricingRule is applicable for.
 - `"Tags"`:  A map that contains tag keys and tag values that are attached to a pricing
   rule.
 - `"Tiering"`:  The set of tiering configurations for the pricing rule.
+- `"UsageType"`:  Usage type is the unit that each service uses to measure the usage of a
+  specific type of resource. If the Scope attribute is set to SKU, this attribute indicates
+  which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge
+  describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+  &lt;/p&gt;
 - `"X-Amzn-Client-Token"`:  The token that's needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """

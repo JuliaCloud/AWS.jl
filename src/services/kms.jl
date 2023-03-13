@@ -386,11 +386,10 @@ operations:     ListGrants     ListRetirableGrants     RetireGrant     RevokeGra
 
 # Arguments
 - `grantee_principal`: The identity that gets the permissions specified in the grant. To
-  specify the principal, use the Amazon Resource Name (ARN) of an Amazon Web Services
-  principal. Valid Amazon Web Services principals include Amazon Web Services accounts
-  (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the
-  ARN syntax to use for specifying a principal, see Amazon Web Services Identity and Access
-  Management (IAM) in the Example ARNs section of the Amazon Web Services General Reference.
+  specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services
+  principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles,
+  federated users, and assumed role users. For help with the ARN syntax for a principal, see
+  IAM ARNs in the  Identity and Access Management User Guide .
 - `key_id`: Identifies the KMS key for the grant. The grant gives principals permission to
   use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
   different Amazon Web Services account, you must use the key ARN. For example:   Key ID:
@@ -438,13 +437,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can be used interchangeably.
 - `"RetiringPrincipal"`: The principal that has permission to use the RetireGrant operation
   to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an
-  Amazon Web Services principal. Valid Amazon Web Services principals include Amazon Web
-  Services accounts (root), IAM users, federated users, and assumed role users. For examples
-  of the ARN syntax to use for specifying a principal, see Amazon Web Services Identity and
-  Access Management (IAM) in the Example ARNs section of the Amazon Web Services General
-  Reference. The grant determines the retiring principal. Other principals might have
-  permission to retire the grant or revoke the grant. For details, see RevokeGrant and
-  Retiring and revoking grants in the Key Management Service Developer Guide.
+  Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM
+  users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for
+  a principal, see IAM ARNs in the  Identity and Access Management User Guide . The grant
+  determines the retiring principal. Other principals might have permission to retire the
+  grant or revoke the grant. For details, see RevokeGrant and Retiring and revoking grants in
+  the Key Management Service Developer Guide.
 """
 function create_grant(
     GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=global_aws_config()
@@ -591,13 +589,12 @@ DescribeKey     ListKeys     ScheduleKeyDeletion
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
-  lockout safety check.  Setting this value to true increases the risk that the KMS key
-  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
-  refer to the scenario in the Default Key Policy section in the  Key Management Service
-  Developer Guide .  Use this parameter only when you include a policy in the request and you
-  intend to prevent the principal that is making the request from making a subsequent
-  PutKeyPolicy request on the KMS key. The default value is false.
+- `"BypassPolicyLockoutSafetyCheck"`: Skips (\"bypasses\") the key policy lockout safety
+  check. The default value is false.  Setting this value to true increases the risk that the
+  KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more
+  information, see Default key policy in the Key Management Service Developer Guide.  Use
+  this parameter only when you intend to prevent the principal that is making the request
+  from making a subsequent PutKeyPolicy request on the KMS key.
 - `"CustomKeyStoreId"`: Creates the KMS key in the specified custom key store. The
   ConnectionState of the custom key store must be CONNECTED. To find the CustomKeyStoreID and
   ConnectionState use the DescribeCustomKeyStores operation. This parameter is valid only for
@@ -670,21 +667,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to identify the external key store and the XksKeyId parameter to identify the
   associated external key. The KeySpec value must be SYMMETRIC_DEFAULT.
 - `"Policy"`: The key policy to attach to the KMS key. If you provide a key policy, it must
-  meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the
-  key policy must allow the principal that is making the CreateKey request to make a
+  meet the following criteria:   The key policy must allow the calling principal to make a
   subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key
-  becomes unmanageable. For more information, refer to the scenario in the Default Key Policy
-  section of the  Key Management Service Developer Guide .   Each statement in the key policy
-  must contain one or more principals. The principals in the key policy must exist and be
-  visible to KMS. When you create a new Amazon Web Services principal (for example, an IAM
-  user or role), you might need to enforce a delay before including the new principal in a
-  key policy because the new principal might not be immediately visible to KMS. For more
-  information, see Changes that I make are not always immediately visible in the Amazon Web
-  Services Identity and Access Management User Guide.   If you do not provide a key policy,
-  KMS attaches a default key policy to the KMS key. For more information, see Default Key
-  Policy in the Key Management Service Developer Guide.  The key policy size quota is 32
-  kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the
-  IAM JSON Policy Reference in the  Identity and Access Management User Guide .
+  becomes unmanageable. For more information, see Default key policy in the Key Management
+  Service Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to
+  true.)   Each statement in the key policy must contain one or more principals. The
+  principals in the key policy must exist and be visible to KMS. When you create a new Amazon
+  Web Services principal, you might need to enforce a delay before including the new
+  principal in a key policy because the new principal might not be immediately visible to
+  KMS. For more information, see Changes that I make are not always immediately visible in
+  the Amazon Web Services Identity and Access Management User Guide.   If you do not provide
+  a key policy, KMS attaches a default key policy to the KMS key. For more information, see
+  Default key policy in the Key Management Service Developer Guide.  The key policy size
+  quota is 32 kilobytes (32768 bytes). For help writing and formatting a JSON policy
+  document, see the IAM JSON Policy Reference in the  Identity and Access Management User
+  Guide .
 - `"Tags"`: Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key
   when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging or
   untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for
@@ -746,21 +743,21 @@ practice. When you use the KeyId parameter to specify a KMS key, KMS only uses t
 you specify. If the ciphertext was encrypted under a different KMS key, the Decrypt
 operation fails. This practice ensures that you use the KMS key that you intend. Whenever
 possible, use key policies to give users permission to call the Decrypt operation on a
-particular KMS key, instead of using IAM policies. Otherwise, you might create an IAM user
-policy that gives the user Decrypt permission on all KMS keys. This user could decrypt
-ciphertext that was encrypted by KMS keys in other accounts if the key policy for the
-cross-account KMS key permits it. If you must use an IAM policy for Decrypt permissions,
-limit the user to particular KMS keys or particular trusted accounts. For details, see Best
-practices for IAM policies in the Key Management Service Developer Guide. Applications in
-Amazon Web Services Nitro Enclaves can call this operation by using the Amazon Web Services
-Nitro Enclaves Development Kit. For information about the supporting parameters, see How
-Amazon Web Services Nitro Enclaves use KMS in the Key Management Service Developer Guide.
-The KMS key that you use for this operation must be in a compatible key state. For details,
-see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account
-use: Yes. To perform this operation with a KMS key in a different Amazon Web Services
-account, specify the key ARN or alias ARN in the value of the KeyId parameter.   Required
-permissions: kms:Decrypt (key policy)  Related operations:     Encrypt     GenerateDataKey
-   GenerateDataKeyPair     ReEncrypt
+particular KMS key, instead of using &amp;IAM; policies. Otherwise, you might create an
+&amp;IAM; policy that gives the user Decrypt permission on all KMS keys. This user could
+decrypt ciphertext that was encrypted by KMS keys in other accounts if the key policy for
+the cross-account KMS key permits it. If you must use an IAM policy for Decrypt
+permissions, limit the user to particular KMS keys or particular trusted accounts. For
+details, see Best practices for IAM policies in the Key Management Service Developer Guide.
+Applications in Amazon Web Services Nitro Enclaves can call this operation by using the
+Amazon Web Services Nitro Enclaves Development Kit. For information about the supporting
+parameters, see How Amazon Web Services Nitro Enclaves use KMS in the Key Management
+Service Developer Guide. The KMS key that you use for this operation must be in a
+compatible key state. For details, see Key states of KMS keys in the Key Management Service
+Developer Guide.  Cross-account use: Yes. If you use the KeyId parameter to identify a KMS
+key in a different Amazon Web Services account, specify the key ARN or the alias ARN of the
+KMS key.  Required permissions: kms:Decrypt (key policy)  Related operations:     Encrypt
+  GenerateDataKey     GenerateDataKeyPair     ReEncrypt
 
 # Arguments
 - `ciphertext_blob`: Ciphertext to be decrypted. The blob includes metadata.
@@ -1458,16 +1455,17 @@ specify the symmetric encryption KMS key that will be used to encrypt the data k
 cannot use an asymmetric KMS key to encrypt data keys. To get the type of your KMS key, use
 the DescribeKey operation. You must also specify the length of the data key. Use either the
 KeySpec or NumberOfBytes parameters (but not both). For 128-bit and 256-bit data keys, use
-the KeySpec parameter. To generate an SM4 data key (China Regions only), specify a KeySpec
-value of AES_128 or NumberOfBytes value of 128. The symmetric encryption key used in China
-Regions to encrypt your data key is an SM4 encryption key. To get only an encrypted copy of
-the data key, use GenerateDataKeyWithoutPlaintext. To generate an asymmetric data key pair,
-use the GenerateDataKeyPair or GenerateDataKeyPairWithoutPlaintext operation. To get a
-cryptographically secure random byte string, use GenerateRandom. You can use an optional
-encryption context to add additional security to the encryption operation. If you specify
-an EncryptionContext, you must specify the same encryption context (a case-sensitive exact
-match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with
-an InvalidCiphertextException. For more information, see Encryption Context in the Key
+the KeySpec parameter. To generate a 128-bit SM4 data key (China Regions only), specify a
+KeySpec value of AES_128 or a NumberOfBytes value of 16. The symmetric encryption key used
+in China Regions to encrypt your data key is an SM4 encryption key. To get only an
+encrypted copy of the data key, use GenerateDataKeyWithoutPlaintext. To generate an
+asymmetric data key pair, use the GenerateDataKeyPair or
+GenerateDataKeyPairWithoutPlaintext operation. To get a cryptographically secure random
+byte string, use GenerateRandom. You can use an optional encryption context to add
+additional security to the encryption operation. If you specify an EncryptionContext, you
+must specify the same encryption context (a case-sensitive exact match) when decrypting the
+encrypted data key. Otherwise, the request to decrypt fails with an
+InvalidCiphertextException. For more information, see Encryption Context in the Key
 Management Service Developer Guide. Applications in Amazon Web Services Nitro Enclaves can
 call this operation by using the Amazon Web Services Nitro Enclaves Development Kit. For
 information about the supporting parameters, see How Amazon Web Services Nitro Enclaves use
@@ -2091,9 +2089,13 @@ a different Amazon Web Services account.  Required permissions: kms:GetParameter
   the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
-- `wrapping_algorithm`: The algorithm you will use to encrypt the key material before
-  importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in
-  the Key Management Service Developer Guide.
+- `wrapping_algorithm`: The algorithm you will use to encrypt the key material before using
+  the ImportKeyMaterial operation to import it. For more information, see Encrypt the key
+  material in the Key Management Service Developer Guide.  The RSAES_PKCS1_V1_5 wrapping
+  algorithm is deprecated. We recommend that you begin using a different wrapping algorithm
+  immediately. KMS will end support for RSAES_PKCS1_V1_5 by October 1, 2023 pursuant to
+  cryptographic key management guidance from the National Institute of Standards and
+  Technology (NIST).
 - `wrapping_key_spec`: The type of wrapping key (public key) to return in the response.
   Only 2048-bit RSA public keys are supported.
 
@@ -2572,11 +2574,10 @@ Web Services account.  Related operations:     CreateGrant     ListGrants     Re
 # Arguments
 - `retiring_principal`: The retiring principal for which to list grants. Enter a principal
   in your Amazon Web Services account. To specify the retiring principal, use the Amazon
-  Resource Name (ARN) of an Amazon Web Services principal. Valid Amazon Web Services
-  principals include Amazon Web Services accounts (root), IAM users, federated users, and
-  assumed role users. For examples of the ARN syntax for specifying a principal, see Amazon
-  Web Services Identity and Access Management (IAM) in the Example ARNs section of the Amazon
-  Web Services General Reference.
+  Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon
+  Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For
+  help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access
+  Management User Guide .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2634,35 +2635,33 @@ operations: GetKeyPolicy
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 - `policy`: The key policy to attach to the KMS key. The key policy must meet the following
-  criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must
-  allow the principal that is making the PutKeyPolicy request to make a subsequent
+  criteria:   The key policy must allow the calling principal to make a subsequent
   PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes
-  unmanageable. For more information, refer to the scenario in the Default Key Policy section
-  of the Key Management Service Developer Guide.   Each statement in the key policy must
-  contain one or more principals. The principals in the key policy must exist and be visible
-  to KMS. When you create a new Amazon Web Services principal (for example, an IAM user or
-  role), you might need to enforce a delay before including the new principal in a key policy
-  because the new principal might not be immediately visible to KMS. For more information,
-  see Changes that I make are not always immediately visible in the Amazon Web Services
-  Identity and Access Management User Guide.   A key policy document can include only the
-  following characters:   Printable ASCII characters from the space character (u0020) through
-  the end of the ASCII character range.   Printable characters in the Basic Latin and Latin-1
-  Supplement character set (through u00FF).   The tab (u0009), line feed (u000A), and
-  carriage return (u000D) special characters   For information about key policies, see Key
-  policies in KMS in the Key Management Service Developer Guide.For help writing and
-  formatting a JSON policy document, see the IAM JSON Policy Reference in the  Identity and
-  Access Management User Guide .
+  unmanageable. For more information, see Default key policy in the Key Management Service
+  Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.)
+  Each statement in the key policy must contain one or more principals. The principals in the
+  key policy must exist and be visible to KMS. When you create a new Amazon Web Services
+  principal, you might need to enforce a delay before including the new principal in a key
+  policy because the new principal might not be immediately visible to KMS. For more
+  information, see Changes that I make are not always immediately visible in the Amazon Web
+  Services Identity and Access Management User Guide.   A key policy document can include
+  only the following characters:   Printable ASCII characters from the space character
+  (u0020) through the end of the ASCII character range.   Printable characters in the Basic
+  Latin and Latin-1 Supplement character set (through u00FF).   The tab (u0009), line feed
+  (u000A), and carriage return (u000D) special characters   For information about key
+  policies, see Key policies in KMS in the Key Management Service Developer Guide.For help
+  writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
+  Identity and Access Management User Guide .
 - `policy_name`: The name of the key policy. The only valid value is default.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
-  lockout safety check.  Setting this value to true increases the risk that the KMS key
-  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
-  refer to the scenario in the Default Key Policy section in the Key Management Service
-  Developer Guide.  Use this parameter only when you intend to prevent the principal that is
-  making the request from making a subsequent PutKeyPolicy request on the KMS key. The
-  default value is false.
+- `"BypassPolicyLockoutSafetyCheck"`: Skips (\"bypasses\") the key policy lockout safety
+  check. The default value is false.  Setting this value to true increases the risk that the
+  KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more
+  information, see Default key policy in the Key Management Service Developer Guide.  Use
+  this parameter only when you intend to prevent the principal that is making the request
+  from making a subsequent PutKeyPolicy request on the KMS key.
 """
 function put_key_policy(
     KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2922,13 +2921,12 @@ kms:TagResource in an IAM policy in the replica Region.    Related operations   
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
-  lockout safety check.  Setting this value to true increases the risk that the KMS key
-  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
-  refer to the scenario in the Default Key Policy section in the Key Management Service
-  Developer Guide.  Use this parameter only when you intend to prevent the principal that is
-  making the request from making a subsequent PutKeyPolicy request on the KMS key. The
-  default value is false.
+- `"BypassPolicyLockoutSafetyCheck"`: Skips (\"bypasses\") the key policy lockout safety
+  check. The default value is false.  Setting this value to true increases the risk that the
+  KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more
+  information, see Default key policy in the Key Management Service Developer Guide.  Use
+  this parameter only when you intend to prevent the principal that is making the request
+  from making a subsequent PutKeyPolicy request on the KMS key.
 - `"Description"`: A description of the KMS key. The default value is an empty string (no
   description). The description is not a shared property of multi-Region keys. You can
   specify the same description or a different description for each key in a set of related
@@ -2938,23 +2936,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy is not a shared property of multi-Region keys. You can specify the same key policy
   or a different key policy for each key in a set of related multi-Region keys. KMS does not
   synchronize this property. If you provide a key policy, it must meet the following
-  criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must
-  give the caller kms:PutKeyPolicy permission on the replica key. This reduces the risk that
-  the KMS key becomes unmanageable. For more information, refer to the scenario in the
-  Default Key Policy section of the  Key Management Service Developer Guide .   Each
-  statement in the key policy must contain one or more principals. The principals in the key
-  policy must exist and be visible to KMS. When you create a new Amazon Web Services
-  principal (for example, an IAM user or role), you might need to enforce a delay before
-  including the new principal in a key policy because the new principal might not be
-  immediately visible to KMS. For more information, see Changes that I make are not always
-  immediately visible in the  Identity and Access Management User Guide .   A key policy
-  document can include only the following characters:   Printable ASCII characters from the
-  space character (u0020) through the end of the ASCII character range.   Printable
-  characters in the Basic Latin and Latin-1 Supplement character set (through u00FF).   The
-  tab (u0009), line feed (u000A), and carriage return (u000D) special characters   For
-  information about key policies, see Key policies in KMS in the Key Management Service
-  Developer Guide. For help writing and formatting a JSON policy document, see the IAM JSON
-  Policy Reference in the  Identity and Access Management User Guide .
+  criteria:   The key policy must allow the calling principal to make a subsequent
+  PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes
+  unmanageable. For more information, see Default key policy in the Key Management Service
+  Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.)
+  Each statement in the key policy must contain one or more principals. The principals in the
+  key policy must exist and be visible to KMS. When you create a new Amazon Web Services
+  principal, you might need to enforce a delay before including the new principal in a key
+  policy because the new principal might not be immediately visible to KMS. For more
+  information, see Changes that I make are not always immediately visible in the Amazon Web
+  Services Identity and Access Management User Guide.   A key policy document can include
+  only the following characters:   Printable ASCII characters from the space character
+  (u0020) through the end of the ASCII character range.   Printable characters in the Basic
+  Latin and Latin-1 Supplement character set (through u00FF).   The tab (u0009), line feed
+  (u000A), and carriage return (u000D) special characters   For information about key
+  policies, see Key policies in KMS in the Key Management Service Developer Guide. For help
+  writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
+  Identity and Access Management User Guide .
 - `"Tags"`: Assigns one or more tags to the replica key. Use this parameter to tag the KMS
   key when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging
   or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC
@@ -3215,11 +3213,12 @@ parameter.  Required permissions: kms:Sign (key policy)  Related operations: Ver
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
 - `message`: Specifies the message or message digest to sign. Messages can be 0-4096 bytes.
-  To sign a larger message, provide the message digest. If you provide a message, KMS
-  generates a hash digest of the message and then signs it.
+  To sign a larger message, provide a message digest. If you provide a message digest, use
+  the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
 - `signing_algorithm`: Specifies the signing algorithm to use when signing the message.
   Choose an algorithm that is compatible with the type and size of the specified asymmetric
-  KMS key.
+  KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include
+  RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3227,9 +3226,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"MessageType"`: Tells KMS whether the value of the Message parameter is a message or
-  message digest. The default value, RAW, indicates a message. To indicate a message digest,
-  enter DIGEST.
+- `"MessageType"`: Tells KMS whether the value of the Message parameter should be hashed as
+  part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message
+  digests, which are already hashed. When the value of MessageType is RAW, KMS uses the
+  standard signing algorithm, which begins with a hash function. When the value is DIGEST,
+  KMS skips the hashing step in the signing algorithm.  Use the DIGEST value only when the
+  value of the Message parameter is a message digest. If you use the DIGEST value with an
+  unhashed message, the security of the signing operation can be compromised.  When the value
+  of MessageTypeis DIGEST, the length of the Message value must match the length of hashed
+  messages for the specified signing algorithm. You can submit a message digest and omit the
+  MessageType or specify RAW so the digest is hashed again while signing. However, this can
+  cause verification failures when verifying with a system that assumes a single hash. The
+  hashing algorithm in that Sign uses is based on the SigningAlgorithm value.   Signing
+  algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that
+  end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512
+  use the SHA_512 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details,
+  see Offline verification with SM2 key pairs.
 """
 function sign(
     KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3736,23 +3748,24 @@ verification fails, the Verify operation fails with an KMSInvalidSignatureExcept
 exception. A digital signature is generated by using the private key in an asymmetric KMS
 key. The signature is verified by using the public key in the same asymmetric KMS key. For
 information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management
-Service Developer Guide. To verify a digital signature, you can use the Verify operation.
-Specify the same asymmetric KMS key, message, and signing algorithm that were used to
-produce the signature. You can also verify the digital signature by using the public key of
-the KMS key outside of KMS. Use the GetPublicKey operation to download the public key in
-the asymmetric KMS key and then use the public key to verify the signature outside of KMS.
-The advantage of using the Verify operation is that it is performed within KMS. As a
-result, it's easy to call, the operation is performed within the FIPS boundary, it is
-logged in CloudTrail, and you can use key policy and IAM policy to determine who is
-authorized to use the KMS key to verify signatures. To verify a signature outside of KMS
-with an SM2 public key (China Regions only), you must specify the distinguishing ID. By
-default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see
-Offline verification with SM2 key pairs. The KMS key that you use for this operation must
-be in a compatible key state. For details, see Key states of KMS keys in the Key Management
-Service Developer Guide.  Cross-account use: Yes. To perform this operation with a KMS key
-in a different Amazon Web Services account, specify the key ARN or alias ARN in the value
-of the KeyId parameter.   Required permissions: kms:Verify (key policy)  Related
-operations: Sign
+Service Developer Guide. To use the Verify operation, specify the same asymmetric KMS key,
+message, and signing algorithm that were used to produce the signature. The message type
+does not need to be the same as the one used for signing, but it must indicate whether the
+value of the Message parameter should be hashed as part of the verification process. You
+can also verify the digital signature by using the public key of the KMS key outside of
+KMS. Use the GetPublicKey operation to download the public key in the asymmetric KMS key
+and then use the public key to verify the signature outside of KMS. The advantage of using
+the Verify operation is that it is performed within KMS. As a result, it's easy to call,
+the operation is performed within the FIPS boundary, it is logged in CloudTrail, and you
+can use key policy and IAM policy to determine who is authorized to use the KMS key to
+verify signatures. To verify a signature outside of KMS with an SM2 public key (China
+Regions only), you must specify the distinguishing ID. By default, KMS uses
+1234567812345678 as the distinguishing ID. For more information, see Offline verification
+with SM2 key pairs. The KMS key that you use for this operation must be in a compatible key
+state. For details, see Key states of KMS keys in the Key Management Service Developer
+Guide.  Cross-account use: Yes. To perform this operation with a KMS key in a different
+Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId
+parameter.   Required permissions: kms:Verify (key policy)  Related operations: Sign
 
 # Arguments
 - `key_id`: Identifies the asymmetric KMS key that will be used to verify the signature.
@@ -3780,11 +3793,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"MessageType"`: Tells KMS whether the value of the Message parameter is a message or
-  message digest. The default value, RAW, indicates a message. To indicate a message digest,
-  enter DIGEST.  Use the DIGEST value only when the value of the Message parameter is a
-  message digest. If you use the DIGEST value with a raw message, the security of the
-  verification operation can be compromised.
+- `"MessageType"`: Tells KMS whether the value of the Message parameter should be hashed as
+  part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message
+  digests, which are already hashed. When the value of MessageType is RAW, KMS uses the
+  standard signing algorithm, which begins with a hash function. When the value is DIGEST,
+  KMS skips the hashing step in the signing algorithm.  Use the DIGEST value only when the
+  value of the Message parameter is a message digest. If you use the DIGEST value with an
+  unhashed message, the security of the verification operation can be compromised.  When the
+  value of MessageTypeis DIGEST, the length of the Message value must match the length of
+  hashed messages for the specified signing algorithm. You can submit a message digest and
+  omit the MessageType or specify RAW so the digest is hashed again while signing. However,
+  if the signed message is hashed once while signing, but twice while verifying, verification
+  fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is
+  based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the
+  SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing
+  algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.
+  SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key
+  pairs.
 """
 function verify(
     KeyId,

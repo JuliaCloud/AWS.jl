@@ -68,7 +68,7 @@ body.
 # Arguments
 - `client_token`: The idempotency token of the component.
 - `name`: The name of the component.
-- `platform`: The platform of the component.
+- `platform`: The operating system platform of the component.
 - `semantic_version`: The semantic version of the component. This version follows the
   semantic version syntax.  The semantic version has four nodes:
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
@@ -87,13 +87,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"data"`: Component data contains inline YAML document content for the component.
   Alternatively, you can specify the uri of a YAML document file stored in Amazon S3.
   However, you cannot specify both properties.
-- `"description"`: The description of the component. Describes the contents of the
-  component.
-- `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
+- `"description"`: Describes the contents of the component.
+- `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this component.
 - `"supportedOsVersions"`:  The operating system (OS) version supported by the component.
   If the OS information is available, a prefix match is performed against the base image OS
   version during image recipe creation.
-- `"tags"`: The tags of the component.
+- `"tags"`: The tags that apply to the component.
 - `"uri"`: The uri of a YAML component document file. This must be an S3 URL
   (s3://bucket/key), and the requester must have permission to access the S3 bucket it points
   to. If you use Amazon S3, you can specify component content up to your service quota.
@@ -158,6 +157,8 @@ and assessed.
 # Arguments
 - `client_token`: The client token used to make this request idempotent.
 - `components`: Components for build and test that are included in the container recipe.
+  Recipes require a minimum of one build component, and can have a maximum of 20 build and
+  test components in any combination.
 - `container_type`: The type of container to create.
 - `name`: The name of the container recipe.
 - `parent_image`: The base image for the container recipe.
@@ -455,7 +456,7 @@ assessed.
 
 # Arguments
 - `client_token`: The idempotency token used to make this request idempotent.
-- `components`: The components of the image recipe.
+- `components`: The components included in the image recipe.
 - `name`:  The name of the image recipe.
 - `parent_image`: The base image of the image recipe. The value of the string can be the
   ARN of the base image or an AMI ID. The format for the ARN follows this example:
@@ -1588,26 +1589,27 @@ end
     list_components()
     list_components(params::Dict{String,<:Any})
 
-Returns the list of component build versions for the specified semantic version.  The
-semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
-You can assign values for the first three, and can filter on all of them.  Filtering: With
-semantic versioning, you have the flexibility to use wildcards (x) to specify the most
-recent versions or nodes when selecting the base image or components for your recipe. When
-you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-wildcards.
+Returns the list of components that can be filtered by name, or by using the listed filters
+to streamline results. Newly created components can take up to two minutes to appear in the
+ListComponents API Results.  The semantic version has four nodes:
+&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+first three, and can filter on all of them.  Filtering: With semantic versioning, you have
+the flexibility to use wildcards (x) to specify the most recent versions or nodes when
+selecting the base image or components for your recipe. When you use a wildcard in any
+node, all nodes to the right of the first wildcard must also be wildcards.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"byName"`: Returns the list of component build versions for the specified name.
+- `"byName"`: Returns the list of components for the specified name.
 - `"filters"`: Use the following filters to streamline results:    description     name
   platform     supportedOsVersion     type     version
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
-- `"owner"`: The owner defines which components you want to list. By default, this request
-  will only show components owned by your account. You can use this field to specify if you
-  want to view components owned by yourself, by Amazon, or those components that have been
-  shared with you by other customers.
+- `"owner"`: Filters results based on the type of owner for the component. By default, this
+  request returns a list of components that your account owns. To see results for other types
+  of owners, you can specify components that Amazon manages, third party components, or
+  components that other accounts have shared with you.
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
     return imagebuilder(
@@ -1798,7 +1800,7 @@ end
     list_image_pipeline_images(image_pipeline_arn)
     list_image_pipeline_images(image_pipeline_arn, params::Dict{String,<:Any})
 
- Returns a list of images created by the specified pipeline.
+Returns a list of images created by the specified pipeline.
 
 # Arguments
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline whose images
@@ -1914,7 +1916,8 @@ end
     list_images()
     list_images(params::Dict{String,<:Any})
 
- Returns the list of images that you have access to.
+Returns the list of images that you have access to. Newly created images can take up to two
+minutes to appear in the ListImages API Results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

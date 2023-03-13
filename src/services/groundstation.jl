@@ -93,6 +93,12 @@ DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends for
+  the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact
+  enters and exits the POSTPASS state.
+- `"contactPrePassDurationSeconds"`: Amount of time, in seconds, prior to contact start for
+  the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact
+  enters and exits the PREPASS state.
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group(
@@ -202,6 +208,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to receive a CloudWatch event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time prior to contact start you’d like to
   receive a CloudWatch event indicating an upcoming pass.
+- `"streamsKmsKey"`: KMS key to use for encrypting streams.
+- `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"tags"`: Tags assigned to a mission profile.
 """
 function create_mission_profile(
@@ -447,6 +455,36 @@ function describe_ephemeris(
     return groundstation(
         "GET",
         "/ephemeris/$(ephemerisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agent_configuration(agent_id)
+    get_agent_configuration(agent_id, params::Dict{String,<:Any})
+
+Gets the latest configuration information for a registered agent.
+
+# Arguments
+- `agent_id`: UUID of agent to get configuration information for.
+
+"""
+function get_agent_configuration(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return groundstation(
+        "GET",
+        "/agent/$(agentId)/configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_agent_configuration(
+    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return groundstation(
+        "GET",
+        "/agent/$(agentId)/configuration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -918,6 +956,51 @@ function list_tags_for_resource(
 end
 
 """
+    register_agent(agent_details, discovery_data)
+    register_agent(agent_details, discovery_data, params::Dict{String,<:Any})
+
+Registers a new agent with AWS Groundstation.
+
+# Arguments
+- `agent_details`: Detailed information about the agent being registered.
+- `discovery_data`: Data for associating and agent with the capabilities it is managing.
+
+"""
+function register_agent(
+    agentDetails, discoveryData; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return groundstation(
+        "POST",
+        "/agent",
+        Dict{String,Any}("agentDetails" => agentDetails, "discoveryData" => discoveryData);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_agent(
+    agentDetails,
+    discoveryData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/agent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agentDetails" => agentDetails, "discoveryData" => discoveryData
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time)
     reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time, params::Dict{String,<:Any})
 
@@ -1059,6 +1142,65 @@ function untag_resource(
 end
 
 """
+    update_agent_status(agent_id, aggregate_status, component_statuses, task_id)
+    update_agent_status(agent_id, aggregate_status, component_statuses, task_id, params::Dict{String,<:Any})
+
+Update the status of the agent.
+
+# Arguments
+- `agent_id`: UUID of agent to update.
+- `aggregate_status`: Aggregate status for agent.
+- `component_statuses`: List of component statuses for agent.
+- `task_id`: GUID of agent task.
+
+"""
+function update_agent_status(
+    agentId,
+    aggregateStatus,
+    componentStatuses,
+    taskId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/agent/$(agentId)",
+        Dict{String,Any}(
+            "aggregateStatus" => aggregateStatus,
+            "componentStatuses" => componentStatuses,
+            "taskId" => taskId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_agent_status(
+    agentId,
+    aggregateStatus,
+    componentStatuses,
+    taskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/agent/$(agentId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aggregateStatus" => aggregateStatus,
+                    "componentStatuses" => componentStatuses,
+                    "taskId" => taskId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_config(config_data, config_id, config_type, name)
     update_config(config_data, config_id, config_type, name, params::Dict{String,<:Any})
 
@@ -1175,6 +1317,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   like to see for an available contact. AWS Ground Station will not present you with contacts
   shorter than this duration.
 - `"name"`: Name of a mission profile.
+- `"streamsKmsKey"`: KMS key to use for encrypting streams.
+- `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"trackingConfigArn"`: ARN of a tracking Config.
 """
 function update_mission_profile(

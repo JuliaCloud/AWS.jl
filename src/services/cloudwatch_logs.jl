@@ -736,20 +736,17 @@ function describe_log_groups(
 end
 
 """
-    describe_log_streams(log_group_name)
-    describe_log_streams(log_group_name, params::Dict{String,<:Any})
+    describe_log_streams()
+    describe_log_streams(params::Dict{String,<:Any})
 
 Lists the log streams for the specified log group. You can list all the log streams or
-filter the results by prefix. You can also control how the results are ordered. This
-operation has a limit of five transactions per second, after which transactions are
-throttled. If you are using CloudWatch cross-account observability, you can use this
-operation in a monitoring account and view data from the linked source accounts. For more
-information, see CloudWatch cross-account observability.
-
-# Arguments
-- `log_group_name`: The name of the log group.   If you specify values for both
-  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-  
+filter the results by prefix. You can also control how the results are ordered. You can
+specify the log group to search by using either logGroupIdentifier or logGroupName. You
+must include one of these two parameters, but you can't include both.  This operation has a
+limit of five transactions per second, after which transactions are throttled. If you are
+using CloudWatch cross-account observability, you can use this operation in a monitoring
+account and view data from the linked source accounts. For more information, see CloudWatch
+cross-account observability.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -759,8 +756,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is up to 50 items.
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
   log group is in a source account and you are using a monitoring account, you must use the
-  log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the
-  action returns an InvalidParameterException error.
+  log group ARN.   You must include either logGroupIdentifier or logGroupName, but not both.
+- `"logGroupName"`: The name of the log group.   You must include either logGroupIdentifier
+  or logGroupName, but not both.
 - `"logStreamNamePrefix"`: The prefix to match. If orderBy is LastEventTime, you cannot
   specify this parameter.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
@@ -774,28 +772,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consistency basis. It typically updates in less than an hour from ingestion, but in rare
   situations might take longer.
 """
-function describe_log_streams(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_log_streams(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeLogStreams",
-        Dict{String,Any}("logGroupName" => logGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeLogStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_log_streams(
-    logGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DescribeLogStreams",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeLogStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1011,26 +997,23 @@ function disassociate_kms_key(
 end
 
 """
-    filter_log_events(log_group_name)
-    filter_log_events(log_group_name, params::Dict{String,<:Any})
+    filter_log_events()
+    filter_log_events(params::Dict{String,<:Any})
 
 Lists log events from the specified log group. You can list all the log events or filter
 the results using a filter pattern, a time range, and the name of the log stream. You must
-have the logs;FilterLogEvents permission to perform this operation. By default, this
-operation returns as many log events as can fit in 1 MB (up to 10,000 log events) or all
-the events found within the specified time range. If the results include a token, that
-means there are more log events available. You can get additional results by specifying the
-token in a subsequent call. This operation can return empty results while there are more
-log events available through the token. The returned log events are sorted by event
-timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the
-PutLogEvents request. If you are using CloudWatch cross-account observability, you can use
-this operation in a monitoring account and view data from the linked source accounts. For
-more information, see CloudWatch cross-account observability.
-
-# Arguments
-- `log_group_name`: The name of the log group to search.   If you specify values for both
-  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-  
+have the logs;FilterLogEvents permission to perform this operation. You can specify the log
+group to search by using either logGroupIdentifier or logGroupName. You must include one of
+these two parameters, but you can't include both.  By default, this operation returns as
+many log events as can fit in 1 MB (up to 10,000 log events) or all the events found within
+the specified time range. If the results include a token, that means there are more log
+events available. You can get additional results by specifying the token in a subsequent
+call. This operation can return empty results while there are more log events available
+through the token. The returned log events are sorted by event timestamp, the timestamp
+when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. If
+you are using CloudWatch cross-account observability, you can use this operation in a
+monitoring account and view data from the linked source accounts. For more information, see
+CloudWatch cross-account observability.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1047,8 +1030,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of events to return. The default is 10,000 events.
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view log
   events from. If the log group is in a source account and you are using a monitoring
-  account, you must use the log group ARN. If you specify values for both logGroupName and
-  logGroupIdentifier, the action returns an InvalidParameterException error.
+  account, you must use the log group ARN.   You must include either logGroupIdentifier or
+  logGroupName, but not both.
+- `"logGroupName"`: The name of the log group to search.   You must include either
+  logGroupIdentifier or logGroupName, but not both.
 - `"logStreamNamePrefix"`: Filters the results to include only events from log streams that
   have names starting with this prefix. If you specify a value for both logStreamNamePrefix
   and logStreamNames, but the value for logStreamNamePrefix does not match any log stream
@@ -1064,26 +1049,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and visible. The default is false. To use this operation with this parameter, you must be
   signed into an account with the logs:Unmask permission.
 """
-function filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function filter_log_events(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "FilterLogEvents",
-        Dict{String,Any}("logGroupName" => logGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "FilterLogEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function filter_log_events(
-    logGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "FilterLogEvents",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "FilterLogEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1126,8 +1101,8 @@ function get_data_protection_policy(
 end
 
 """
-    get_log_events(log_group_name, log_stream_name)
-    get_log_events(log_group_name, log_stream_name, params::Dict{String,<:Any})
+    get_log_events(log_stream_name)
+    get_log_events(log_stream_name, params::Dict{String,<:Any})
 
 Lists log events from the specified log stream. You can list all of the log events or
 filter using a time range. By default, this operation returns as many log events as can fit
@@ -1136,12 +1111,10 @@ specifying one of the tokens in a subsequent call. This operation can return emp
 while there are more log events available through the token. If you are using CloudWatch
 cross-account observability, you can use this operation in a monitoring account and view
 data from the linked source accounts. For more information, see CloudWatch cross-account
-observability.
+observability. You can specify the log group to search by using either logGroupIdentifier
+or logGroupName. You must include one of these two parameters, but you can't include both.
 
 # Arguments
-- `log_group_name`: The name of the log group.   If you specify values for both
-  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-  
 - `log_stream_name`: The name of the log stream.
 
 # Optional Parameters
@@ -1154,8 +1127,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events).
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view events
   from. If the log group is in a source account and you are using a monitoring account, you
-  must use the log group ARN.  If you specify values for both logGroupName and
-  logGroupIdentifier, the action returns an InvalidParameterException error.
+  must use the log group ARN.   You must include either logGroupIdentifier or logGroupName,
+  but not both.
+- `"logGroupName"`: The name of the log group.   You must include either logGroupIdentifier
+  or logGroupName, but not both.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"startFromHead"`: If the value is true, the earliest log events are returned first. If
@@ -1169,18 +1144,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and visible. The default is false. To use this operation with this parameter, you must be
   signed into an account with the logs:Unmask permission.
 """
-function get_log_events(
-    logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_log_events(logStreamName; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
         "GetLogEvents",
-        Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
+        Dict{String,Any}("logStreamName" => logStreamName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_log_events(
-    logGroupName,
     logStreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1188,13 +1160,7 @@ function get_log_events(
     return cloudwatch_logs(
         "GetLogEvents",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("logStreamName" => logStreamName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1202,56 +1168,43 @@ function get_log_events(
 end
 
 """
-    get_log_group_fields(log_group_name)
-    get_log_group_fields(log_group_name, params::Dict{String,<:Any})
+    get_log_group_fields()
+    get_log_group_fields(params::Dict{String,<:Any})
 
 Returns a list of the fields that are included in log events in the specified log group.
 Includes the percentage of log events that contain each field. The search is limited to a
-time period that you specify. In the results, fields that start with @ are fields generated
-by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more
-information about the fields that are generated by CloudWatch logs, see Supported Logs and
-Discovered Fields. The response results are sorted by the frequency percentage, starting
-with the highest percentage. If you are using CloudWatch cross-account observability, you
-can use this operation in a monitoring account and view data from the linked source
-accounts. For more information, see CloudWatch cross-account observability.
-
-# Arguments
-- `log_group_name`: The name of the log group to search. If you specify values for both
-  logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+time period that you specify. You can specify the log group to search by using either
+logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't
+specify both.  In the results, fields that start with @ are fields generated by CloudWatch
+Logs. For example, @timestamp is the timestamp of each log event. For more information
+about the fields that are generated by CloudWatch logs, see Supported Logs and Discovered
+Fields. The response results are sorted by the frequency percentage, starting with the
+highest percentage. If you are using CloudWatch cross-account observability, you can use
+this operation in a monitoring account and view data from the linked source accounts. For
+more information, see CloudWatch cross-account observability.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
   log group is in a source account and you are using a monitoring account, you must specify
-  the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action
-  returns an InvalidParameterException error.
+  the ARN.   You must include either logGroupIdentifier or logGroupName, but not both.
+- `"logGroupName"`: The name of the log group to search.   You must include either
+  logGroupIdentifier or logGroupName, but not both.
 - `"time"`: The time to set as the center of the query. If you specify time, the 15 minutes
   before this time are queries. If you omit time, the 8 minutes before and 8 minutes after
   this time are searched. The time value is specified as epoch time, which is the number of
   seconds since January 1, 1970, 00:00:00 UTC.
 """
-function get_log_group_fields(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_log_group_fields(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "GetLogGroupFields",
-        Dict{String,Any}("logGroupName" => logGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetLogGroupFields"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_log_group_fields(
-    logGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "GetLogGroupFields",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetLogGroupFields", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

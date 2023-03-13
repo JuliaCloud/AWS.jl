@@ -153,27 +153,29 @@ end
     close_account(account_id)
     close_account(account_id, params::Dict{String,<:Any})
 
-Closes an Amazon Web Services member account within an organization. You can't close the
-management account with this API. This is an asynchronous request that Amazon Web Services
-performs in the background. Because CloseAccount operates asynchronously, it can return a
-successful completion message even though account closure might still be in progress. You
-need to wait a few minutes before the account is fully closed. To check the status of the
-request, do one of the following:   Use the AccountId that you sent in the CloseAccount
-request to provide as a parameter to the DescribeAccount operation.  While the close
-account request is in progress, Account status will indicate PENDING_CLOSURE. When the
-close account request completes, the status will change to SUSPENDED.    Check the
-CloudTrail log for the CloseAccountResult event that gets published after the account
-closes successfully. For information on using CloudTrail with Organizations, see Logging
-and monitoring in Organizations in the Organizations User Guide.       You can only close
-10% of active member accounts within a rolling 30 day period. This quota is not bound by a
-calendar month, but starts when you close an account. Within 30 days of that initial
-account closure, you can't exceed the 10% account closure limit.   To reinstate a closed
-account, contact Amazon Web Services Support within the 90-day grace period while the
-account is in SUSPENDED status.    If the Amazon Web Services account you attempt to close
-is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request will
-close both accounts. To learn important pre-closure details, see  Closing an Amazon Web
-Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.    For more
-information about closing accounts, see Closing an Amazon Web Services account in the
+Closes an Amazon Web Services member account within an organization. You can close an
+account when all features are enabled . You can't close the management account with this
+API. This is an asynchronous request that Amazon Web Services performs in the background.
+Because CloseAccount operates asynchronously, it can return a successful completion message
+even though account closure might still be in progress. You need to wait a few minutes
+before the account is fully closed. To check the status of the request, do one of the
+following:   Use the AccountId that you sent in the CloseAccount request to provide as a
+parameter to the DescribeAccount operation.  While the close account request is in
+progress, Account status will indicate PENDING_CLOSURE. When the close account request
+completes, the status will change to SUSPENDED.    Check the CloudTrail log for the
+CloseAccountResult event that gets published after the account closes successfully. For
+information on using CloudTrail with Organizations, see Logging and monitoring in
+Organizations in the Organizations User Guide.       You can close only 10% of member
+accounts, between 10 and 200, within a rolling 30 day period. This quota is not bound by a
+calendar month, but starts when you close an account. After you reach this limit, you can
+close additional accounts in the Billing console. For more information, see Closing an
+account in the Amazon Web Services Billing and Cost Management User Guide.   To reinstate a
+closed account, contact Amazon Web Services Support within the 90-day grace period while
+the account is in SUSPENDED status.    If the Amazon Web Services account you attempt to
+close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request
+will close both accounts. To learn important pre-closure details, see  Closing an Amazon
+Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.    For
+more information about closing accounts, see Closing an Amazon Web Services account in the
 Organizations User Guide.
 
 # Arguments
@@ -289,9 +291,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags that you want to attach to the newly created account. For each
   tag in the list, you must specify both a tag key and a value. You can set the value to an
   empty string, but you can't set it to null. For more information about tagging, see Tagging
-  Organizations resources in the Organizations User Guide.  If any one of the tags is invalid
-  or if you exceed the maximum allowed number of tags for an account, then the entire request
-  fails and the account is not created.
+  Organizations resources in the Organizations User Guide.  If any one of the tags is not
+  valid or if you exceed the maximum allowed number of tags for an account, then the entire
+  request fails and the account is not created.
 """
 function create_account(
     AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
@@ -439,9 +441,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation in the GovCloud region after the new GovCloud account exists. For each tag in the
   list, you must specify both a tag key and a value. You can set the value to an empty
   string, but you can't set it to null. For more information about tagging, see Tagging
-  Organizations resources in the Organizations User Guide.  If any one of the tags is invalid
-  or if you exceed the maximum allowed number of tags for an account, then the entire request
-  fails and the account is not created.
+  Organizations resources in the Organizations User Guide.  If any one of the tags is not
+  valid or if you exceed the maximum allowed number of tags for an account, then the entire
+  request fails and the account is not created.
 """
 function create_gov_cloud_account(
     AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
@@ -540,9 +542,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags that you want to attach to the newly created OU. For each tag in
   the list, you must specify both a tag key and a value. You can set the value to an empty
   string, but you can't set it to null. For more information about tagging, see Tagging
-  Organizations resources in the Organizations User Guide.  If any one of the tags is invalid
-  or if you exceed the allowed number of tags for an OU, then the entire request fails and
-  the OU is not created.
+  Organizations resources in the Organizations User Guide.  If any one of the tags is not
+  valid or if you exceed the allowed number of tags for an OU, then the entire request fails
+  and the OU is not created.
 """
 function create_organizational_unit(
     Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -596,9 +598,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags that you want to attach to the newly created policy. For each
   tag in the list, you must specify both a tag key and a value. You can set the value to an
   empty string, but you can't set it to null. For more information about tagging, see Tagging
-  Organizations resources in the Organizations User Guide.  If any one of the tags is invalid
-  or if you exceed the allowed number of tags for a policy, then the entire request fails and
-  the policy is not created.
+  Organizations resources in the Organizations User Guide.  If any one of the tags is not
+  valid or if you exceed the allowed number of tags for a policy, then the entire request
+  fails and the policy is not created.
 """
 function create_policy(
     Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1151,7 +1153,7 @@ end
 
 Retrieves information about a resource policy. You can only call this operation from the
 organization's management account or by a member account that is a delegated administrator
-for an AWS service.
+for an Amazon Web Services service.
 
 """
 function describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1545,7 +1547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the requirements of the policy at that time. Tag policy compliance is  not  checked again
   when the invitation is accepted and the tags are actually attached to the account. That
   means that if the tag policy changes between the invitation and the acceptance, then that
-  tags could potentially be non-compliant.   If any one of the tags is invalid or if you
+  tags could potentially be non-compliant.   If any one of the tags is not valid or if you
   exceed the allowed number of tags for an account, then the entire request fails and
   invitations are not sent.
 """
@@ -2551,13 +2553,13 @@ organization's management account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Updates the list of tags that you want to attach to the newly-created resource
-  policy. For each tag in the list, you must specify both a tag key and a value. You can set
-  the value to an empty string, but you can't set it to null. For more information about
-  tagging, see Tagging Organizations resources in the Organizations User Guide.  Calls with
-  tags apply to the initial creation of the resource policy, otherwise an exception is
-  thrown. If any one of the tags is invalid or if you exceed the allowed number of tags for
-  the resource policy, then the entire request fails and the resource policy is not created.
+- `"Tags"`: A list of tags that you want to attach to the newly created resource policy.
+  For each tag in the list, you must specify both a tag key and a value. You can set the
+  value to an empty string, but you can't set it to null. For more information about tagging,
+  see Tagging Organizations resources in the Organizations User Guide.  Calls with tags apply
+  to the initial creation of the resource policy, otherwise an exception is thrown. If any
+  one of the tags is not valid or if you exceed the allowed number of tags for the resource
+  policy, then the entire request fails and the resource policy is not created.
 """
 function put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config())
     return organizations(
@@ -2707,7 +2709,7 @@ organization's management account.
   p-12abcdefg3
 - `tags`: A list of tags to add to the specified resource. For each tag in the list, you
   must specify both a tag key and a value. The value can be an empty string, but you can't
-  set it to null.  If any one of the tags is invalid or if you exceed the maximum allowed
+  set it to null.  If any one of the tags is not valid or if you exceed the maximum allowed
   number of tags for a resource, then the entire request fails.
 
 """

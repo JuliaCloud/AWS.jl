@@ -457,8 +457,11 @@ Creates a FUOTA task.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 - `"Description"`:
+- `"FragmentIntervalMS"`:
+- `"FragmentSizeBytes"`:
 - `"LoRaWAN"`:
 - `"Name"`:
+- `"RedundancyPercent"`:
 - `"Tags"`:
 """
 function create_fuota_task(
@@ -1829,7 +1832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ip"`: Retrieves an estimated device position by resolving the IP address information
   from the device. The position is resolved using MaxMind's IP-based solver.
 - `"Timestamp"`: Optional information that specifies the time when the position information
-  will be resolved. It uses the UNIX timestamp format. If not specified, the time at which
+  will be resolved. It uses the Unix timestamp format. If not specified, the time at which
   the request was received will be used.
 - `"WiFiAccessPoints"`: Retrieves an estimated device position by resolving WLAN
   measurement data. The position is resolved using HERE's Wi-Fi based solver.
@@ -1939,11 +1942,11 @@ end
     get_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Get the position information for a given wireless device or a wireless gateway resource.
-The postion information uses the  World Geodetic System (WGS84).
+The position information uses the  World Geodetic System (WGS84).
 
 # Arguments
 - `resource_identifier`: The identifier of the resource for which position information is
-  retrieved. It can be the wireless device ID or the wireless gateway ID depending on the
+  retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the
   resource type.
 - `resource_type`: The type of resource for which position information is retrieved, which
   can be a wireless device or a wireless gateway.
@@ -3411,8 +3414,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`:
 - `"FirmwareUpdateImage"`:
 - `"FirmwareUpdateRole"`:
+- `"FragmentIntervalMS"`:
+- `"FragmentSizeBytes"`:
 - `"LoRaWAN"`:
 - `"Name"`:
+- `"RedundancyPercent"`:
 """
 function update_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return iot_wireless(
@@ -3701,11 +3707,11 @@ end
     update_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Update the position information of a given wireless device or a wireless gateway resource.
-The postion coordinates are based on the  World Geodetic System (WGS84).
+The position coordinates are based on the  World Geodetic System (WGS84).
 
 # Arguments
 - `resource_identifier`: The identifier of the resource for which position information is
-  updated. It can be the wireless device ID or the wireless gateway ID depending on the
+  updated. It can be the wireless device ID or the wireless gateway ID, depending on the
   resource type.
 - `resource_type`: The type of resource for which position information is updated, which
   can be a wireless device or a wireless gateway.
