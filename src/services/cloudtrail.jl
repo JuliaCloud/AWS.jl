@@ -52,8 +52,8 @@ function add_tags(
 end
 
 """
-    cancel_query(event_data_store, query_id)
-    cancel_query(event_data_store, query_id, params::Dict{String,<:Any})
+    cancel_query(query_id)
+    cancel_query(query_id, params::Dict{String,<:Any})
 
 Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED,
 TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the
@@ -61,37 +61,28 @@ query that you want to cancel is also required. When you run CancelQuery, the qu
 might show as CANCELLED even if the operation is not yet finished.
 
 # Arguments
-- `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
-  the specified query is running.
 - `query_id`: The ID of the query that you want to cancel. The QueryId comes from the
   response of a StartQuery operation.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
+  the specified query is running.
 """
-function cancel_query(
-    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
         "CancelQuery",
-        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_query(
-    EventDataStore,
-    QueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
         "CancelQuery",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -111,6 +102,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdvancedEventSelectors"`: The advanced event selectors to use to select the events for
   the data store. For more information about how to use advanced event selectors, see Log
   events by using advanced event selectors in the CloudTrail User Guide.
+- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the events delivered by
+  CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
+  alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or
+  deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail
+  from logging events to the event data store, and prevents users from querying the data in
+  the event data store that was encrypted with the key. After you associate an event data
+  store with a KMS key, the KMS key cannot be removed or changed. Before you disable or
+  delete a KMS key that you are using with an event data store, delete or back up your event
+  data store.  CloudTrail also supports KMS multi-Region keys. For more information about
+  multi-Region keys, see Using multi-Region keys in the Key Management Service Developer
+  Guide. Examples:    alias/MyAliasName
+  arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+  12345678-1234-1234-1234-123456789012
 - `"MultiRegionEnabled"`: Specifies whether the event data store includes events from all
   regions, or only from the region in which the event data store is created.
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
@@ -183,11 +188,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
   Services account that is the management account for an organization in Organizations.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
-  CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
-  an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
+  CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
+  alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
   supports KMS multi-Region keys. For more information about multi-Region keys, see Using
   multi-Region keys in the Key Management Service Developer Guide. Examples:
-  alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+  alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
 - `"S3KeyPrefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
@@ -302,44 +307,76 @@ function delete_trail(
 end
 
 """
-    describe_query(event_data_store, query_id)
-    describe_query(event_data_store, query_id, params::Dict{String,<:Any})
+    deregister_organization_delegated_admin(delegated_admin_account_id)
+    deregister_organization_delegated_admin(delegated_admin_account_id, params::Dict{String,<:Any})
+
+Removes CloudTrail delegated administrator permissions from a member account in an
+organization.
+
+# Arguments
+- `delegated_admin_account_id`: A delegated administrator account ID. This is a member
+  account in an organization that is currently designated as a delegated administrator.
+
+"""
+function deregister_organization_delegated_admin(
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DeregisterOrganizationDelegatedAdmin",
+        Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_organization_delegated_admin(
+    DelegatedAdminAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "DeregisterOrganizationDelegatedAdmin",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_query(query_id)
+    describe_query(query_id, params::Dict{String,<:Any})
 
 Returns metadata about a query, including query run time in milliseconds, number of events
 scanned and matched, and query status. You must specify an ARN for EventDataStore, and a
 value for QueryID.
 
 # Arguments
-- `event_data_store`: The ARN (or the ID suffix of the ARN) of an event data store on which
-  the specified query was run.
 - `query_id`: The query ID.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
+  the specified query was run.
 """
-function describe_query(
-    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
         "DescribeQuery",
-        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_query(
-    EventDataStore,
-    QueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
         "DescribeQuery",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -388,11 +425,13 @@ end
     get_channel(channel)
     get_channel(channel, params::Dict{String,<:Any})
 
- Returns the specified CloudTrail service-linked channel. Amazon Web Services services
-create service-linked channels to view CloudTrail events.
+ Returns information about a specific channel. Amazon Web Services services create
+service-linked channels to get information about CloudTrail events on your behalf. For more
+information about service-linked channels, see Viewing service-linked channels for
+CloudTrail by using the CLI.
 
 # Arguments
-- `channel`:  The Amazon Resource Name (ARN) of the CloudTrail service-linked channel.
+- `channel`: The ARN or UUID of a channel.
 
 """
 function get_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
@@ -501,7 +540,7 @@ end
     get_import(import_id)
     get_import(import_id, params::Dict{String,<:Any})
 
- Returns information for the specified import.
+ Returns information about a specific import.
 
 # Arguments
 - `import_id`:  The ID for the import.
@@ -575,47 +614,36 @@ function get_insight_selectors(
 end
 
 """
-    get_query_results(event_data_store, query_id)
-    get_query_results(event_data_store, query_id, params::Dict{String,<:Any})
+    get_query_results(query_id)
+    get_query_results(query_id, params::Dict{String,<:Any})
 
 Gets event data results of a query. You must specify the QueryID value returned by the
 StartQuery operation, and an ARN for EventDataStore.
 
 # Arguments
-- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store against
-  which the query was run.
 - `query_id`: The ID of the query for which you want to get results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventDataStore"`: The ARN (or ID suffix of the ARN) of the event data store against
+  which the query was run.
 - `"MaxQueryResults"`: The maximum number of query results to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of query results.
 """
-function get_query_results(
-    EventDataStore, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_query_results(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
         "GetQueryResults",
-        Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId);
+        Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_query_results(
-    EventDataStore,
-    QueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
         "GetQueryResults",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EventDataStore" => EventDataStore, "QueryId" => QueryId),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -690,12 +718,18 @@ end
     list_channels()
     list_channels(params::Dict{String,<:Any})
 
- Returns all CloudTrail channels.
+ Lists the channels in the current account, and their source names. Amazon Web Services
+services create service-linked channels get information about CloudTrail events on your
+behalf. For more information about service-linked channels, see Viewing service-linked
+channels for CloudTrail by using the CLI.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`:  The maximum number of CloudTrail channels to display on a single page.
-- `"NextToken"`:  A token you can use to get the next page of results.
+- `"NextToken"`: The token to use to get the next page of results after a previous API
+  call. This token must be passed in with the same parameters that were specified in the
+  original call. For example, if the original call specified an AttributeKey of 'Username'
+  with a value of 'root', the call with NextToken should include those same parameters.
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
@@ -783,7 +817,7 @@ Destination.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Destination"`:  The destination event data store.
+- `"Destination"`:  The ARN of the destination event data store.
 - `"ImportStatus"`:  The status of the import.
 - `"MaxResults"`:  The maximum number of imports to display on a single page.
 - `"NextToken"`:  A token you can use to get the next page of import results.
@@ -1108,6 +1142,44 @@ function put_insight_selectors(
 end
 
 """
+    register_organization_delegated_admin(member_account_id)
+    register_organization_delegated_admin(member_account_id, params::Dict{String,<:Any})
+
+Registers an organization’s member account as the CloudTrail delegated administrator.
+
+# Arguments
+- `member_account_id`: An organization member account ID that you want to designate as a
+  delegated administrator.
+
+"""
+function register_organization_delegated_admin(
+    MemberAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "RegisterOrganizationDelegatedAdmin",
+        Dict{String,Any}("MemberAccountId" => MemberAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_organization_delegated_admin(
+    MemberAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "RegisterOrganizationDelegatedAdmin",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("MemberAccountId" => MemberAccountId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_tags(resource_id, tags_list)
     remove_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
@@ -1196,22 +1268,33 @@ end
     start_import(params::Dict{String,<:Any})
 
  Starts an import of logged trail events from a source S3 bucket to a destination event
-data store.   When you start a new import, the Destinations and ImportSource parameters are
-required. Before starting a new import, disable any access control lists (ACLs) attached to
-the source S3 bucket. For more information about disabling ACLs, see Controlling ownership
-of objects and disabling ACLs for your bucket.   When you retry an import, the ImportID
-parameter is required.
+data store. By default, CloudTrail only imports events contained in the S3 bucket's
+CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check
+prefixes for other Amazon Web Services services. If you want to import CloudTrail events
+contained in another prefix, you must include the prefix in the S3LocationUri. For more
+considerations about importing trail events, see Considerations.   When you start a new
+import, the Destinations and ImportSource parameters are required. Before starting a new
+import, disable any access control lists (ACLs) attached to the source S3 bucket. For more
+information about disabling ACLs, see Controlling ownership of objects and disabling ACLs
+for your bucket.   When you retry an import, the ImportID parameter is required.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Destinations"`:  The destination event data store. Use this parameter for a new import.
+- `"Destinations"`:  The ARN of the destination event data store. Use this parameter for a
+  new import.
 - `"EndEventTime"`:  Use with StartEventTime to bound a StartImport request, and limit
-  imported trail events to only those events logged within a specified time period.
+  imported trail events to only those events logged within a specified time period. When you
+  specify a time range, CloudTrail checks the prefix and log file names to verify the names
+  contain a date between the specified StartEventTime and EndEventTime before attempting to
+  import events.
 - `"ImportId"`:  The ID of the import. Use this parameter when you are retrying an import.
 - `"ImportSource"`:  The source S3 bucket for the import. Use this parameter for a new
   import.
 - `"StartEventTime"`:  Use with EndEventTime to bound a StartImport request, and limit
-  imported trail events to only those events logged within a specified time period.
+  imported trail events to only those events logged within a specified time period. When you
+  specify a time range, CloudTrail checks the prefix and log file names to verify the names
+  contain a date between the specified StartEventTime and EndEventTime before attempting to
+  import events.
 """
 function start_import(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -1263,11 +1346,16 @@ end
     start_query(query_statement, params::Dict{String,<:Any})
 
 Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL
-query, enclosed in single quotation marks.
+query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to
+deliver the query results to an S3 bucket.
 
 # Arguments
 - `query_statement`: The SQL code of your query.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeliveryS3Uri"`:  The URI for the S3 bucket where CloudTrail delivers the query
+  results.
 """
 function start_query(QueryStatement; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
@@ -1383,6 +1471,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdvancedEventSelectors"`: The advanced event selectors used to select events for the
   event data store. You can configure up to five advanced event selectors for each event data
   store.
+- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the events delivered by
+  CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
+  alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or
+  deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail
+  from logging events to the event data store, and prevents users from querying the data in
+  the event data store that was encrypted with the key. After you associate an event data
+  store with a KMS key, the KMS key cannot be removed or changed. Before you disable or
+  delete a KMS key that you are using with an event data store, delete or back up your event
+  data store.  CloudTrail also supports KMS multi-Region keys. For more information about
+  multi-Region keys, see Using multi-Region keys in the Key Management Service Developer
+  Guide. Examples:    alias/MyAliasName
+  arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+  12345678-1234-1234-1234-123456789012
 - `"MultiRegionEnabled"`: Specifies whether an event data store collects events from all
   regions, or only from the region in which it was created.
 - `"Name"`: The event data store name.

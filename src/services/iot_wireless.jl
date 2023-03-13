@@ -661,6 +661,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
+- `"Positioning"`: FPort values for the GNSS, stream, and ClockSync functions of the
+  positioning information.
 - `"Tags"`: The tags to attach to the new wireless device. Tags are metadata that you can
   use to manage a resource.
 """
@@ -1730,7 +1732,9 @@ end
     get_position(resource_identifier, resource_type)
     get_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Get the position information for a given resource.
+Get the position information for a given resource.  This action is no longer supported.
+Calls to retrieve the position information should use the GetResourcePosition API operation
+instead.
 
 # Arguments
 - `resource_identifier`: Resource identifier used to retrieve the position information.
@@ -1770,7 +1774,9 @@ end
     get_position_configuration(resource_identifier, resource_type)
     get_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Get position configuration for a given resource.
+Get position configuration for a given resource.  This action is no longer supported. Calls
+to retrieve the position configuration should use the GetResourcePosition API operation
+instead.
 
 # Arguments
 - `resource_identifier`: Resource identifier used in a position configuration.
@@ -1801,6 +1807,45 @@ function get_position_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_position_estimate()
+    get_position_estimate(params::Dict{String,<:Any})
+
+Get estimated position information as a payload in GeoJSON format. The payload measurement
+data is resolved using solvers that are provided by third-party vendors.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CellTowers"`: Retrieves an estimated device position by resolving measurement data from
+  cellular radio towers. The position is resolved using HERE's cellular-based solver.
+- `"Gnss"`: Retrieves an estimated device position by resolving the global navigation
+  satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered
+  by LoRa Cloud.
+- `"Ip"`: Retrieves an estimated device position by resolving the IP address information
+  from the device. The position is resolved using MaxMind's IP-based solver.
+- `"Timestamp"`: Optional information that specifies the time when the position information
+  will be resolved. It uses the UNIX timestamp format. If not specified, the time at which
+  the request was received will be used.
+- `"WiFiAccessPoints"`: Retrieves an estimated device position by resolving WLAN
+  measurement data. The position is resolved using HERE's Wi-Fi based solver.
+"""
+function get_position_estimate(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "POST", "/position-estimate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_position_estimate(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/position-estimate",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1881,6 +1926,49 @@ function get_resource_log_level(
     return iot_wireless(
         "GET",
         "/log-levels/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_position(resource_identifier, resource_type)
+    get_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Get the position information for a given wireless device or a wireless gateway resource.
+The postion information uses the  World Geodetic System (WGS84).
+
+# Arguments
+- `resource_identifier`: The identifier of the resource for which position information is
+  retrieved. It can be the wireless device ID or the wireless gateway ID depending on the
+  resource type.
+- `resource_type`: The type of resource for which position information is retrieved, which
+  can be a wireless device or a wireless gateway.
+
+"""
+function get_resource_position(
+    ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/resource-positions/$(ResourceIdentifier)",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_position(
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/resource-positions/$(ResourceIdentifier)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
@@ -2479,7 +2567,9 @@ end
     list_position_configurations()
     list_position_configurations(params::Dict{String,<:Any})
 
-List position configurations for a given resource, such as positioning solvers.
+List position configurations for a given resource, such as positioning solvers.  This
+action is no longer supported. Calls to retrieve position information should use the
+GetResourcePosition API operation instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2717,7 +2807,9 @@ end
     put_position_configuration(resource_identifier, resource_type)
     put_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Put position configuration for a given resource.
+Put position configuration for a given resource.  This action is no longer supported. Calls
+to update the position configuration should use the UpdateResourcePosition API operation
+instead.
 
 # Arguments
 - `resource_identifier`: Resource identifier used to update the position configuration.
@@ -3510,7 +3602,9 @@ end
     update_position(position, resource_identifier, resource_type)
     update_position(position, resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Update the position information of a resource.
+Update the position information of a resource.  This action is no longer supported. Calls
+to update the position information should use the UpdateResourcePosition API operation
+instead.
 
 # Arguments
 - `position`: The position information of the resource.
@@ -3603,6 +3697,54 @@ function update_resource_event_configuration(
 end
 
 """
+    update_resource_position(resource_identifier, resource_type)
+    update_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Update the position information of a given wireless device or a wireless gateway resource.
+The postion coordinates are based on the  World Geodetic System (WGS84).
+
+# Arguments
+- `resource_identifier`: The identifier of the resource for which position information is
+  updated. It can be the wireless device ID or the wireless gateway ID depending on the
+  resource type.
+- `resource_type`: The type of resource for which position information is updated, which
+  can be a wireless device or a wireless gateway.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GeoJsonPayload"`: The position information of the resource, displayed as a JSON
+  payload. The payload uses the GeoJSON format, which a format that's used to encode
+  geographic data structures. For more information, see GeoJSON.
+"""
+function update_resource_position(
+    ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/resource-positions/$(ResourceIdentifier)",
+        Dict{String,Any}("resourceType" => resourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_resource_position(
+    ResourceIdentifier,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/resource-positions/$(ResourceIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_wireless_device(id)
     update_wireless_device(id, params::Dict{String,<:Any})
 
@@ -3617,6 +3759,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationName"`: The name of the new destination for the device.
 - `"LoRaWAN"`: The updated wireless device's configuration.
 - `"Name"`: The new name of the resource.
+- `"Positioning"`: FPort values for the GNSS, stream, and ClockSync functions of the
+  positioning information.
 """
 function update_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return iot_wireless(

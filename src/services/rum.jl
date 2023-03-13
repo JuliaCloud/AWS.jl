@@ -5,6 +5,204 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_create_rum_metric_definitions(app_monitor_name, destination, metric_definitions)
+    batch_create_rum_metric_definitions(app_monitor_name, destination, metric_definitions, params::Dict{String,<:Any})
+
+Specifies the extended metrics that you want a CloudWatch RUM app monitor to send to a
+destination. Valid destinations include CloudWatch and Evidently. By default, RUM app
+monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch
+metrics that you can collect with CloudWatch RUM. If you also send extended metrics, you
+can send metrics to Evidently as well as CloudWatch, and you can also optionally send the
+metrics with additional dimensions. The valid dimension names for the additional dimensions
+are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more
+information, see  Extended metrics that you can send to CloudWatch and CloudWatch
+Evidently. The maximum number of metric definitions that you can specify in one
+BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions
+that one destination can contain is 2000. Extended metrics sent are charged as CloudWatch
+custom metrics. Each combination of additional dimension name and dimension value counts as
+a custom metric. For more information, see Amazon CloudWatch Pricing. You must have already
+created a destination for the metrics before you send them. For more information, see
+PutRumMetricsDestination. If some metric definitions specified in a
+BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and
+return errors, but all valid metric definitions in the same operation still succeed.
+
+# Arguments
+- `app_monitor_name`: The name of the CloudWatch RUM app monitor that is to send the
+  metrics.
+- `destination`: The destination to send the metrics to. Valid values are CloudWatch and
+  Evidently. If you specify Evidently, you must also specify the ARN of the
+  CloudWatchEvidently experiment that will receive the metrics and an IAM role that has
+  permission to write to the experiment.
+- `metric_definitions`: An array of structures which define the metrics that you want to
+  send.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationArn"`: This parameter is required if Destination is Evidently. If
+  Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of
+  the Evidently experiment that is to receive the metrics. You must have already defined this
+  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+"""
+function batch_create_rum_metric_definitions(
+    AppMonitorName,
+    Destination,
+    MetricDefinitions;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "Destination" => Destination, "MetricDefinitions" => MetricDefinitions
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_create_rum_metric_definitions(
+    AppMonitorName,
+    Destination,
+    MetricDefinitions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destination" => Destination, "MetricDefinitions" => MetricDefinitions
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_delete_rum_metric_definitions(app_monitor_name, destination, metric_definition_ids)
+    batch_delete_rum_metric_definitions(app_monitor_name, destination, metric_definition_ids, params::Dict{String,<:Any})
+
+Removes the specified metrics from being sent to an extended metrics destination. If some
+metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not
+valid, those metric definitions fail and return errors, but all valid metric definition IDs
+in the same operation are still deleted. The maximum number of metric definitions that you
+can specify in one BatchDeleteRumMetricDefinitions operation is 200.
+
+# Arguments
+- `app_monitor_name`: The name of the CloudWatch RUM app monitor that is sending these
+  metrics.
+- `destination`: Defines the destination where you want to stop sending the specified
+  metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also
+  specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an
+  IAM role that has permission to write to the experiment.
+- `metric_definition_ids`: An array of structures which define the metrics that you want to
+  stop sending.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationArn"`: This parameter is required if Destination is Evidently. If
+  Destination is CloudWatch, do not use this parameter.  This parameter specifies the ARN of
+  the Evidently experiment that was receiving the metrics that are being deleted.
+"""
+function batch_delete_rum_metric_definitions(
+    AppMonitorName,
+    destination,
+    metricDefinitionIds;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "destination" => destination, "metricDefinitionIds" => metricDefinitionIds
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_rum_metric_definitions(
+    AppMonitorName,
+    destination,
+    metricDefinitionIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destination" => destination,
+                    "metricDefinitionIds" => metricDefinitionIds,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_rum_metric_definitions(app_monitor_name, destination)
+    batch_get_rum_metric_definitions(app_monitor_name, destination, params::Dict{String,<:Any})
+
+Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single
+destination.
+
+# Arguments
+- `app_monitor_name`: The name of the CloudWatch RUM app monitor that is sending the
+  metrics.
+- `destination`: The type of destination that you want to view metrics for. Valid values
+  are CloudWatch and Evidently.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationArn"`: This parameter is required if Destination is Evidently. If
+  Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of
+  the Evidently experiment that corresponds to the destination.
+- `"maxResults"`: The maximum number of results to return in one operation. The default is
+  50. The maximum that you can specify is 100. To retrieve the remaining results, make
+  another call with the returned NextToken value.
+- `"nextToken"`: Use the token returned by the previous operation to request the next page
+  of results.
+"""
+function batch_get_rum_metric_definitions(
+    AppMonitorName, destination; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}("destination" => destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_rum_metric_definitions(
+    AppMonitorName,
+    destination,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("destination" => destination), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_app_monitor(domain, name)
     create_app_monitor(domain, name, params::Dict{String,<:Any})
 
@@ -30,6 +228,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your own authorization method. For more information, see Authorize your application to send
   data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set
   to 10% of the user sessions.
+- `"CustomEvents"`: Specifies whether this app monitor allows the web client to define and
+  send custom events. If you omit this parameter, custom events are DISABLED. For more
+  information about custom events, see Send custom events.
 - `"CwLogEnabled"`: Data collected by RUM is kept by RUM for 30 days and then deleted. This
   parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch
   Logs in your account. This enables you to keep the telemetry data for more than 30 days,
@@ -39,10 +240,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you organize and categorize your resources. You can also use them to scope user permissions
   by granting a user permission to access or change only resources with certain tag values.
   Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters.  &lt;p&gt;You can associate as many as 50 tags with an app
-  monitor.&lt;/p&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html&quot;&gt;Tagging
-  Amazon Web Services resources&lt;/a&gt;.&lt;/p&gt;
+  strings of characters. You can associate as many as 50 tags with an app monitor. For more
+  information, see Tagging Amazon Web Services resources.
 """
 function create_app_monitor(Domain, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return rum(
@@ -95,6 +294,53 @@ function delete_app_monitor(
         "DELETE",
         "/appmonitor/$(Name)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_rum_metrics_destination(app_monitor_name, destination)
+    delete_rum_metrics_destination(app_monitor_name, destination, params::Dict{String,<:Any})
+
+Deletes a destination for CloudWatch RUM extended metrics, so that the specified app
+monitor stops sending extended metrics to that destination.
+
+# Arguments
+- `app_monitor_name`: The name of the app monitor that is sending metrics to the
+  destination that you want to delete.
+- `destination`: The type of destination to delete. Valid values are CloudWatch and
+  Evidently.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationArn"`: This parameter is required if Destination is Evidently. If
+  Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of
+  the Evidently experiment that corresponds to the destination to delete.
+"""
+function delete_rum_metrics_destination(
+    AppMonitorName, destination; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}("destination" => destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_rum_metrics_destination(
+    AppMonitorName,
+    destination,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("destination" => destination), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -183,7 +429,8 @@ Returns a list of the Amazon CloudWatch RUM app monitors in the account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in one operation.
+- `"maxResults"`: The maximum number of results to return in one operation. The default is
+  50. The maximum that you can specify is 100.
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
@@ -198,6 +445,49 @@ function list_app_monitors(
     return rum(
         "POST",
         "/appmonitors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rum_metrics_destinations(app_monitor_name)
+    list_rum_metrics_destinations(app_monitor_name, params::Dict{String,<:Any})
+
+Returns a list of destinations that you have created to receive RUM extended metrics, for
+the specified app monitor. For more information about extended metrics, see AddRumMetrics.
+
+# Arguments
+- `app_monitor_name`: The name of the app monitor associated with the destinations that you
+  want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in one operation. The default is
+  50. The maximum that you can specify is 100. To retrieve the remaining results, make
+  another call with the returned NextToken value.
+- `"nextToken"`: Use the token returned by the previous operation to request the next page
+  of results.
+"""
+function list_rum_metrics_destinations(
+    AppMonitorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metricsdestination";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rum_metrics_destinations(
+    AppMonitorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -301,6 +591,58 @@ function put_rum_events(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_rum_metrics_destination(app_monitor_name, destination)
+    put_rum_metrics_destination(app_monitor_name, destination, params::Dict{String,<:Any})
+
+Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can
+send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more
+information about extended metrics, see AddRumMetrics.
+
+# Arguments
+- `app_monitor_name`: The name of the CloudWatch RUM app monitor that will send the metrics.
+- `destination`: Defines the destination to send the metrics to. Valid values are
+  CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the
+  CloudWatchEvidently experiment that is to be the destination and an IAM role that has
+  permission to write to the experiment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationArn"`: Use this parameter only if Destination is Evidently. This parameter
+  specifies the ARN of the Evidently experiment that will receive the extended metrics.
+- `"IamRoleArn"`: This parameter is required if Destination is Evidently. If Destination is
+  CloudWatch, do not use this parameter. This parameter specifies the ARN of an IAM role that
+  RUM will assume to write to the Evidently experiment that you are sending metrics to. This
+  role must have permission to write to that experiment.
+"""
+function put_rum_metrics_destination(
+    AppMonitorName, Destination; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}("Destination" => Destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_rum_metrics_destination(
+    AppMonitorName,
+    Destination,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Destination" => Destination), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -413,6 +755,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to use for authorization. If you don't include AppMonitorConfiguration, you must set up
   your own authorization method. For more information, see Authorize your application to send
   data to Amazon Web Services.
+- `"CustomEvents"`: Specifies whether this app monitor allows the web client to define and
+  send custom events. The default is for custom events to be DISABLED. For more information
+  about custom events, see Send custom events.
 - `"CwLogEnabled"`: Data collected by RUM is kept by RUM for 30 days and then deleted. This
   parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch
   Logs in your account. This enables you to keep the telemetry data for more than 30 days,
@@ -435,6 +780,76 @@ function update_app_monitor(
         "PATCH",
         "/appmonitor/$(Name)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_rum_metric_definition(app_monitor_name, destination, metric_definition, metric_definition_id)
+    update_rum_metric_definition(app_monitor_name, destination, metric_definition, metric_definition_id, params::Dict{String,<:Any})
+
+Modifies one existing metric definition for CloudWatch RUM extended metrics. For more
+information about extended metrics, see BatchCreateRumMetricsDefinitions.
+
+# Arguments
+- `app_monitor_name`: The name of the CloudWatch RUM app monitor that sends these metrics.
+- `destination`: The destination to send the metrics to. Valid values are CloudWatch and
+  Evidently. If you specify Evidently, you must also specify the ARN of the
+  CloudWatchEvidently experiment that will receive the metrics and an IAM role that has
+  permission to write to the experiment.
+- `metric_definition`: A structure that contains the new definition that you want to use
+  for this metric.
+- `metric_definition_id`: The ID of the metric definition to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationArn"`: This parameter is required if Destination is Evidently. If
+  Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of
+  the Evidently experiment that is to receive the metrics. You must have already defined this
+  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+"""
+function update_rum_metric_definition(
+    AppMonitorName,
+    Destination,
+    MetricDefinition,
+    MetricDefinitionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "PATCH",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "Destination" => Destination,
+            "MetricDefinition" => MetricDefinition,
+            "MetricDefinitionId" => MetricDefinitionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_rum_metric_definition(
+    AppMonitorName,
+    Destination,
+    MetricDefinition,
+    MetricDefinitionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rum(
+        "PATCH",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destination" => Destination,
+                    "MetricDefinition" => MetricDefinition,
+                    "MetricDefinitionId" => MetricDefinitionId,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

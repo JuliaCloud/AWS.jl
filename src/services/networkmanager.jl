@@ -3018,8 +3018,8 @@ end
     start_organization_service_access_update(action)
     start_organization_service_access_update(action, params::Dict{String,<:Any})
 
-Enables for the Network Manager service for an Amazon Web Services Organization. This can
-only be called by a management account within the organization.
+Enables the Network Manager service for an Amazon Web Services Organization. This can only
+be called by a management account within the organization.
 
 # Arguments
 - `action`: The action to take for the update request. This can be either ENABLE or DISABLE.

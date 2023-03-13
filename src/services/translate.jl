@@ -25,7 +25,9 @@ your translation output.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A custom description for the parallel data resource in Amazon Translate.
 - `"EncryptionKey"`:
-- `"Tags"`:
+- `"Tags"`: Tags to be associated with this resource. A tag is a key-value pair that adds
+  metadata to a resource. Each tag key for the resource must be unique. For more information,
+  see  Tagging your resources.
 """
 function create_parallel_data(
     ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config()
@@ -245,7 +247,9 @@ to the new terminology.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the custom terminology being imported.
 - `"EncryptionKey"`: The encryption key for the custom terminology being imported.
-- `"Tags"`:
+- `"Tags"`: Tags to be associated with this resource. A tag is a key-value pair that adds
+  metadata to a resource. Each tag key for the resource must be unique. For more information,
+  see  Tagging your resources.
 """
 function import_terminology(
     MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=global_aws_config()
@@ -342,10 +346,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-
+Lists all tags associated with a given Amazon Translate resource. For more information, see
+ Tagging your resources.
 
 # Arguments
-- `resource_arn`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Translate resource you
+  are querying.
 
 """
 function list_tags_for_resource(
@@ -432,45 +438,54 @@ end
     start_text_translation_job(client_token, data_access_role_arn, input_data_config, output_data_config, source_language_code, target_language_codes)
     start_text_translation_job(client_token, data_access_role_arn, input_data_config, output_data_config, source_language_code, target_language_codes, params::Dict{String,<:Any})
 
-Starts an asynchronous batch translation job. Batch translation jobs can be used to
-translate large volumes of text across multiple documents at once. For more information,
-see async. Batch translation jobs can be described with the DescribeTextTranslationJob
-operation, listed with the ListTextTranslationJobs operation, and stopped with the
-StopTextTranslationJob operation.  Amazon Translate does not support batch translation of
-multiple source languages at once.
+Starts an asynchronous batch translation job. Use batch translation jobs to translate large
+volumes of text across multiple documents at once. For batch translation, you can input
+documents with different source languages (specify auto as the source language). You can
+specify one or more target languages. Batch translation translates each input document into
+each of the target languages. For more information, see Asynchronous batch processing.
+Batch translation jobs can be described with the DescribeTextTranslationJob operation,
+listed with the ListTextTranslationJobs operation, and stopped with the
+StopTextTranslationJob operation.
 
 # Arguments
 - `client_token`: A unique identifier for the request. This token is generated for you when
   using the Amazon Translate SDK.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of an AWS Identity Access and
   Management (IAM) role that grants Amazon Translate read access to your input data. For more
-  information, see identity-and-access-management.
+  information, see Identity and access management .
 - `input_data_config`: Specifies the format and location of the input documents for the
   translation job.
 - `output_data_config`: Specifies the S3 folder to which your job output will be saved.
-- `source_language_code`: The language code of the input language. For a list of language
-  codes, see what-is-languages. Amazon Translate does not automatically detect a source
-  language during batch translation jobs.
-- `target_language_codes`: The language code of the output language.
+- `source_language_code`: The language code of the input language. Specify the language if
+  all input documents share the same language. If you don't know the language of the source
+  files, or your input documents contains different source languages, select auto. Amazon
+  Translate auto detects the source language for each input document. For a list of supported
+  language codes, see Supported languages.
+- `target_language_codes`: The target languages of the translation job. Enter up to 10
+  language codes. Each input file is translated into each target language. Each language code
+  is 2 or 5 characters long. For a list of language codes, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobName"`: The name of the batch translation job to be performed.
 - `"ParallelDataNames"`: The name of a parallel data resource to add to the translation
   job. This resource consists of examples that show how you want segments of text to be
-  translated. When you add parallel data to a translation job, you create an Active Custom
-  Translation job.  This parameter accepts only one parallel data resource.  Active Custom
-  Translation jobs are priced at a higher rate than other jobs that don't use parallel data.
-  For more information, see Amazon Translate pricing.  For a list of available parallel data
-  resources, use the ListParallelData operation. For more information, see
-  customizing-translations-parallel-data.
-- `"Settings"`: Settings to configure your translation output, including the option to mask
-  profane words and phrases. StartTextTranslationJob does not support the formality setting.
+  translated. If you specify multiple target languages for the job, the parallel data file
+  must include translations for all the target languages. When you add parallel data to a
+  translation job, you create an Active Custom Translation job.  This parameter accepts only
+  one parallel data resource.  Active Custom Translation jobs are priced at a higher rate
+  than other jobs that don't use parallel data. For more information, see Amazon Translate
+  pricing.  For a list of available parallel data resources, use the ListParallelData
+  operation. For more information, see  Customizing your translations with parallel data.
+- `"Settings"`: Settings to configure your translation output, including the option to set
+  the formality level of the output text and the option to mask profane words and phrases.
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
   job. This resource lists examples source terms and the desired translation for each term.
-  This parameter accepts only one custom terminology resource. For a list of available custom
-  terminology resources, use the ListTerminologies operation. For more information, see
-  how-custom-terminology.
+  This parameter accepts only one custom terminology resource. If you specify multiple target
+  languages for the job, translate uses the designated terminology for each requested target
+  language that has an entry for the source term in the terminology file. For a list of
+  available custom terminology resources, use the ListTerminologies operation. For more
+  information, see Custom terminology.
 """
 function start_text_translation_job(
     ClientToken,
@@ -565,11 +580,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-
+Associates a specific tag with a resource. A tag is a key-value pair that adds as a
+metadata to a resource. For more information, see  Tagging your resources.
 
 # Arguments
-- `resource_arn`:
-- `tags`:
+- `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Translate resource to
+  which you want to associate the tags.
+- `tags`: Tags being associated with a specific Amazon Translate resource. There can be a
+  maximum of 50 tags (both existing and pending) associated with a specific resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -605,20 +623,20 @@ end
     translate_text(source_language_code, target_language_code, text, params::Dict{String,<:Any})
 
 Translates input text from the source language to the target language. For a list of
-available languages and language codes, see what-is-languages.
+available languages and language codes, see Supported languages.
 
 # Arguments
 - `source_language_code`: The language code for the language of the source text. The
   language must be a language supported by Amazon Translate. For a list of language codes,
-  see what-is-languages. To have Amazon Translate determine the source language of your text,
-  you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate
-  will call Amazon Comprehend to determine the source language.  If you specify auto, you
-  must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise,
-  the request returns an error indicating that autodetect is not supported.
+  see Supported languages. To have Amazon Translate determine the source language of your
+  text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon
+  Translate will call Amazon Comprehend to determine the source language.  If you specify
+  auto, you must send the TranslateText request in a region that supports Amazon Comprehend.
+  Otherwise, the request returns an error indicating that autodetect is not supported.
 - `target_language_code`: The language code requested for the language of the target text.
   The language must be a language supported by Amazon Translate.
-- `text`: The text to translate. The text string can be a maximum of 5,000 bytes long.
-  Depending on your character set, this may be fewer than 5,000 characters.
+- `text`: The text to translate. The text string can be a maximum of 10,000 bytes long.
+  Depending on your character set, this may be fewer than 10,000 characters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -674,11 +692,14 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-
+Removes a specific tag associated with an Amazon Translate resource. For more information,
+see  Tagging your resources.
 
 # Arguments
-- `resource_arn`:
-- `tag_keys`:
+- `resource_arn`:  The Amazon Resource Name (ARN) of the given Amazon Translate resource
+  from which you want to remove the tags.
+- `tag_keys`: The initial part of a key-value pair that forms a tag being removed from a
+  given resource. Keys must be unique and cannot be duplicated for a particular resource.
 
 """
 function untag_resource(

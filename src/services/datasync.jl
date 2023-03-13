@@ -8,16 +8,16 @@ using AWS.UUIDs
     cancel_task_execution(task_execution_arn)
     cancel_task_execution(task_execution_arn, params::Dict{String,<:Any})
 
-Cancels execution of a task.  When you cancel a task execution, the transfer of some files
-is abruptly interrupted. The contents of files that are transferred to the destination
-might be incomplete or inconsistent with the source files. However, if you start a new task
-execution on the same task and you allow the task execution to complete, file content on
-the destination is complete and consistent. This applies to other unexpected failures that
-interrupt a task execution. In all of these cases, DataSync successfully complete the
-transfer when you start the next task execution.
+Stops an DataSync task execution that's in progress. The transfer of some files are
+abruptly interrupted. File contents that're transferred to the destination might be
+incomplete or inconsistent with the source files. However, if you start a new task
+execution using the same task and allow it to finish, file content on the destination will
+be complete and consistent. This applies to other unexpected failures that interrupt a task
+execution. In all of these cases, DataSync successfully completes the transfer when you
+start the next task execution.
 
 # Arguments
-- `task_execution_arn`: The Amazon Resource Name (ARN) of the task execution to cancel.
+- `task_execution_arn`: The Amazon Resource Name (ARN) of the task execution to stop.
 
 """
 function cancel_task_execution(
@@ -51,18 +51,18 @@ end
     create_agent(activation_key)
     create_agent(activation_key, params::Dict{String,<:Any})
 
-Activates an DataSync agent that you have deployed on your host. The activation process
-associates your agent with your account. In the activation process, you specify information
-such as the Amazon Web Services Region that you want to activate the agent in. You activate
-the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or
-Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can
-activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC
-endpoint so you can run tasks without going over the public internet. You can use an agent
-for more than one location. If a task uses multiple agents, all of them need to have status
-AVAILABLE for the task to run. If you use multiple agents for a source location, the status
-of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated
-by Amazon Web Services on a regular basis, using a mechanism that ensures minimal
-interruption to your tasks.
+Activates an DataSync agent that you have deployed in your storage environment. The
+activation process associates your agent with your account. In the activation process, you
+specify information such as the Amazon Web Services Region that you want to activate the
+agent in. You activate the agent in the Amazon Web Services Region where your target
+locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web
+Services Region. You can activate the agent in a VPC (virtual private cloud) or provide the
+agent access to a VPC endpoint so you can run tasks without going over the public internet.
+You can use an agent for more than one location. If a task uses multiple agents, all of
+them need to have status AVAILABLE for the task to run. If you use multiple agents for a
+source location, the status of all the agents must be AVAILABLE for the task to run.
+Agents are automatically updated by Amazon Web Services on a regular basis, using a
+mechanism that ensures minimal interruption to your tasks.
 
 # Arguments
 - `activation_key`: Your agent activation key. You can get the activation key either by
@@ -307,7 +307,9 @@ end
     create_location_fsx_open_zfs(fsx_filesystem_arn, protocol, security_group_arns)
     create_location_fsx_open_zfs(fsx_filesystem_arn, protocol, security_group_arns, params::Dict{String,<:Any})
 
-Creates an endpoint for an Amazon FSx for OpenZFS file system.
+Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for
+a transfer. For more information, see Creating a location for FSx for OpenZFS.  Request
+parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
 
 # Arguments
 - `fsx_filesystem_arn`: The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
@@ -633,6 +635,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to authenticate with the object storage server.
 - `"SecretKey"`: Specifies the secret key (for example, a password) if credentials are
   required to authenticate with the object storage server.
+- `"ServerCertificate"`: Specifies a certificate to authenticate with an object storage
+  system that uses a private or self-signed certificate authority (CA). You must specify a
+  Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem).
+  The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter,
+  configure ServerProtocol to HTTPS.
 - `"ServerPort"`: Specifies the port that your object storage server accepts inbound
   network traffic on (for example, port 443).
 - `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
@@ -687,8 +694,8 @@ end
     create_location_s3(s3_bucket_arn, s3_config)
     create_location_s3(s3_bucket_arn, s3_config, params::Dict{String,<:Any})
 
-Creates an endpoint for an Amazon S3 bucket. For more information, see Create an Amazon S3
-location in the DataSync User Guide.
+Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For
+more information, see Create an Amazon S3 location in the DataSync User Guide.
 
 # Arguments
 - `s3_bucket_arn`: The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
@@ -839,10 +846,6 @@ end
 Configures a task, which defines where and how DataSync transfers your data. A task
 includes a source location, a destination location, and the preferences for how and when
 you want to transfer your data (such as bandwidth limits, scheduling, among other options).
-When you create a task that transfers data between Amazon Web Services services in
-different Amazon Web Services Regions, one of your locations must reside in the Region
-where you're using DataSync. For more information, see the following topics:    Working
-with DataSync locations     Configure DataSync task settings
 
 # Arguments
 - `destination_location_arn`: The Amazon Resource Name (ARN) of an Amazon Web Services
@@ -853,27 +856,22 @@ with DataSync locations     Configure DataSync task settings
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogGroupArn"`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log
   group that is used to monitor and log events in the task.
-- `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
-  The list should contain a single filter string that consists of the patterns to exclude.
-  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
-  
-- `"Includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern contains a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
-  \"/folder1|/folder2\".
+- `"Excludes"`: Specifies a list of filter rules that exclude specific data during your
+  transfer. For more information and examples, see Filtering data transferred by DataSync.
+- `"Includes"`: Specifies a list of filter rules that include specific data during your
+  transfer. For more information and examples, see Filtering data transferred by DataSync.
 - `"Name"`: The name of a task. This value is a text reference that is used to identify the
   task in the console.
-- `"Options"`: The set of configuration options that control the behavior of a single
-  execution of the task that occurs when you call StartTaskExecution. You can configure these
-  options to preserve metadata such as user ID (UID) and group ID (GID), file permissions,
-  data integrity verification, and so on. For each individual task execution, you can
-  override these options by specifying the OverrideOptions before starting the task
-  execution. For more information, see the StartTaskExecution operation.
+- `"Options"`: Specifies the configuration options for a task. Some options include
+  preserving file or object metadata and verifying data integrity. You can also override
+  these options before starting an individual run of a task (also known as a task execution).
+  For more information, see StartTaskExecution.
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a
   destination location. The schedule should be specified in UTC time. For more information,
   see Scheduling your task.
-- `"Tags"`: The key-value pair that represents the tag that you want to add to the
-  resource. The value can be an empty string.
+- `"Tags"`: Specifies the tags that you want to apply to the Amazon Resource Name (ARN)
+  representing the task.  Tags are key-value pairs that help you manage, filter, and search
+  for your DataSync resources.
 """
 function create_task(
     DestinationLocationArn,
@@ -987,10 +985,10 @@ end
     delete_task(task_arn)
     delete_task(task_arn, params::Dict{String,<:Any})
 
-Deletes a task.
+Deletes an DataSync task.
 
 # Arguments
-- `task_arn`: The Amazon Resource Name (ARN) of the task to delete.
+- `task_arn`: Specifies the Amazon Resource Name (ARN) of the task that you want to delete.
 
 """
 function delete_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1087,8 +1085,8 @@ end
     describe_location_fsx_lustre(location_arn)
     describe_location_fsx_lustre(location_arn, params::Dict{String,<:Any})
 
-Returns metadata about an Amazon FSx for Lustre location, such as information about its
-path.
+Provides details about how an DataSync location for an Amazon FSx for Lustre file system is
+configured.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the FSx for Lustre location to
@@ -1125,7 +1123,8 @@ end
     describe_location_fsx_ontap(location_arn, params::Dict{String,<:Any})
 
 Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file
-system is configured.
+system is configured.  If your location uses SMB, the DescribeLocationFsxOntap operation
+doesn't actually return a Password.
 
 # Arguments
 - `location_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system
@@ -1161,8 +1160,9 @@ end
     describe_location_fsx_open_zfs(location_arn)
     describe_location_fsx_open_zfs(location_arn, params::Dict{String,<:Any})
 
-Returns metadata about an Amazon FSx for OpenZFS location, such as information about its
-path.
+Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system
+is configured.  Response elements related to SMB aren't supported with the
+DescribeLocationFsxOpenZfs operation.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the FSx for OpenZFS location to
@@ -1537,16 +1537,17 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns all the tags associated with a specified resource.
+Returns all the tags associated with an Amazon Web Services resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags to list.
+- `resource_arn`: Specifies the Amazon Resource Name (ARN) of the resource that you want
+  tag information on.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of locations to return.
-- `"NextToken"`: An opaque string that indicates the position at which to begin the next
-  list of locations.
+- `"MaxResults"`: Specifies how many results that you want in the response.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1629,25 +1630,27 @@ end
     start_task_execution(task_arn)
     start_task_execution(task_arn, params::Dict{String,<:Any})
 
-Starts a specific invocation of a task. A TaskExecution value represents an individual run
-of a task. Each task can have at most one TaskExecution at a time.  TaskExecution has the
-following transition phases: INITIALIZING | PREPARING | TRANSFERRING | VERIFYING |
-SUCCESS/FAILURE.  For detailed information, see the Task Execution section in the
-Components and Terminology topic in the DataSync User Guide.
+Starts an DataSync task. For each task, you can only run one task execution at a time.
+There are several phases to a task execution. For more information, see Task execution
+statuses.
 
 # Arguments
-- `task_arn`: The Amazon Resource Name (ARN) of the task to start.
+- `task_arn`: Specifies the Amazon Resource Name (ARN) of the task that you want to start.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
-  The list contains a single filter string that consists of the patterns to exclude. The
-  patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
-- `"Includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern should contain a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
+- `"Excludes"`: Specifies a list of filter rules that determines which files to exclude
+  from a task. The list contains a single filter string that consists of the patterns to
+  exclude. The patterns are delimited by \"|\" (that is, a pipe), for example,
+  \"/folder1|/folder2\".
+- `"Includes"`: Specifies a list of filter rules that determines which files to include
+  when running a task. The pattern should contain a single filter string that consists of the
+  patterns to include. The patterns are delimited by \"|\" (that is, a pipe), for example,
   \"/folder1|/folder2\".
 - `"OverrideOptions"`:
+- `"Tags"`: Specifies the tags that you want to apply to the Amazon Resource Name (ARN)
+  representing the task execution.  Tags are key-value pairs that help you manage, filter,
+  and search for your DataSync resources.
 """
 function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync(
@@ -1672,11 +1675,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies a key-value pair to an Amazon Web Services resource.
+Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help
+you manage, filter, and search for your resources. These include DataSync resources, such
+as locations, tasks, and task executions.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to apply the tag to.
-- `tags`: The tags to apply.
+- `resource_arn`: Specifies the Amazon Resource Name (ARN) of the resource to apply the tag
+  to.
+- `tags`: Specifies the tags that you want to apply to the resource.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1711,11 +1717,12 @@ end
     untag_resource(keys, resource_arn)
     untag_resource(keys, resource_arn, params::Dict{String,<:Any})
 
-Removes a tag from an Amazon Web Services resource.
+Removes tags from an Amazon Web Services resource.
 
 # Arguments
-- `keys`: The keys in the key-value pair in the tag to remove.
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove the tag from.
+- `keys`: Specifies the keys in the tags that you want to remove.
+- `resource_arn`: Specifies the Amazon Resource Name (ARN) of the resource to remove the
+  tags from.
 
 """
 function untag_resource(
@@ -1907,33 +1914,35 @@ end
     update_location_object_storage(location_arn)
     update_location_object_storage(location_arn, params::Dict{String,<:Any})
 
-Updates some of the parameters of a previously created location for self-managed object
-storage server access. For information about creating a self-managed object storage
-location, see Creating a location for object storage.
+Updates some parameters of an existing object storage location that DataSync accesses for a
+transfer. For information about creating a self-managed object storage location, see
+Creating a location for object storage.
 
 # Arguments
-- `location_arn`: The Amazon Resource Name (ARN) of the self-managed object storage server
-  location to be updated.
+- `location_arn`: Specifies the ARN of the object storage system location that you're
+  updating.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessKey"`: Optional. The access key is used if credentials are required to access the
-  self-managed object storage server. If your object storage requires a user name and
-  password to authenticate, use AccessKey and SecretKey to provide the user name and
-  password, respectively.
-- `"AgentArns"`: The Amazon Resource Name (ARN) of the agents associated with the
-  self-managed object storage server location.
-- `"SecretKey"`: Optional. The secret key is used if credentials are required to access the
-  self-managed object storage server. If your object storage requires a user name and
-  password to authenticate, use AccessKey and SecretKey to provide the user name and
-  password, respectively.
-- `"ServerPort"`: The port that your self-managed object storage server accepts inbound
-  network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
-  You can specify a custom port if your self-managed object storage server requires one.
-- `"ServerProtocol"`: The protocol that the object storage server uses to communicate.
-  Valid values are HTTP or HTTPS.
-- `"Subdirectory"`: The subdirectory in the self-managed object storage server that is used
-  to read data from.
+- `"AccessKey"`: Specifies the access key (for example, a user name) if credentials are
+  required to authenticate with the object storage server.
+- `"AgentArns"`: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
+  securely connect with your location.
+- `"SecretKey"`: Specifies the secret key (for example, a password) if credentials are
+  required to authenticate with the object storage server.
+- `"ServerCertificate"`: Specifies a certificate to authenticate with an object storage
+  system that uses a private or self-signed certificate authority (CA). You must specify a
+  Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem).
+  The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter,
+  configure ServerProtocol to HTTPS. Updating the certificate doesn't interfere with tasks
+  that you have in progress.
+- `"ServerPort"`: Specifies the port that your object storage server accepts inbound
+  network traffic on (for example, port 443).
+- `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
+  communicate.
+- `"Subdirectory"`: Specifies the object prefix for your object storage server. If this is
+  a source location, DataSync only copies objects with this prefix. If this is a destination
+  location, DataSync writes all objects with this prefix.
 """
 function update_location_object_storage(
     LocationArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2030,13 +2039,10 @@ Updates the metadata associated with a task.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogGroupArn"`: The Amazon Resource Name (ARN) of the resource name of the
   Amazon CloudWatch log group.
-- `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
-  The list should contain a single filter string that consists of the patterns to exclude.
-  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
-- `"Includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern contains a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
-  \"/folder1|/folder2\".
+- `"Excludes"`: Specifies a list of filter rules that exclude specific data during your
+  transfer. For more information and examples, see Filtering data transferred by DataSync.
+- `"Includes"`: Specifies a list of filter rules that include specific data during your
+  transfer. For more information and examples, see Filtering data transferred by DataSync.
 - `"Name"`: The name of the task to update.
 - `"Options"`:
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a

@@ -64,7 +64,7 @@ scaling policy in the Application Auto Scaling User Guide.
   provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model
   endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
   custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -187,7 +187,7 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model
   endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
   custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -314,7 +314,7 @@ with it.
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -447,7 +447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -497,7 +497,8 @@ end
 
 Provides descriptive information about the scaling activities in the specified namespace
 from the previous six weeks. You can filter the results using ResourceId and
-ScalableDimension.
+ScalableDimension. For information about viewing scaling activities using the Amazon Web
+Services CLI, see Scaling activities for Application Auto Scaling.
 
 # Arguments
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
@@ -506,6 +507,11 @@ ScalableDimension.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeNotScaledActivities"`: Specifies whether to include activities that aren't
+  scaled (not scaled activities) in the response. Not scaled activities are activities that
+  aren't completed or started for various reasons, such as preventing infinite scaling loops.
+  For help interpreting the not scaled reason details in the response, see Scaling activities
+  for Application Auto Scaling.
 - `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
   50. The default value is 50. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
@@ -561,7 +567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -677,7 +683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -792,7 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -864,7 +870,9 @@ deregistered, the scalable target is no longer available to execute scaling poli
 scaling policies that were specified for the scalable target are deleted.
 
 # Arguments
-- `policy_name`: The name of the scaling policy.
+- `policy_name`: The name of the scaling policy. You cannot change the name of a scaling
+  policy, but you can delete the original scaling policy and create a new scaling policy with
+  the same settings and a different name.
 - `resource_id`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
@@ -913,7 +921,7 @@ scaling policies that were specified for the scalable target are deleted.
   provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model
   endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
   custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -935,12 +943,12 @@ scaling policies that were specified for the scalable target are deleted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PolicyType"`: The policy type. This parameter is required if you are creating a scaling
-  policy. The following policy types are supported:   TargetTrackingScaling—Not supported
-  for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon
-  Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see Target
-  tracking scaling policies and Step scaling policies in the Application Auto Scaling User
-  Guide.
+- `"PolicyType"`: The scaling policy type. This parameter is required if you are creating a
+  scaling policy. The following policy types are supported:   TargetTrackingScaling—Not
+  supported for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend,
+  Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information,
+  see Target tracking scaling policies and Step scaling policies in the Application Auto
+  Scaling User Guide.
 - `"StepScalingPolicyConfiguration"`: A step scaling policy. This parameter is required if
   you are creating a policy and the policy type is StepScaling.
 - `"TargetTrackingScalingPolicyConfiguration"`: A target tracking scaling policy. Includes
@@ -1058,7 +1066,7 @@ scheduled actions that were specified for the scalable target are deleted.
   provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model
   endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
   custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -1153,24 +1161,28 @@ end
     register_scalable_target(resource_id, scalable_dimension, service_namespace)
     register_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
-Registers or updates a scalable target.  A scalable target is a resource that Application
-Auto Scaling can scale out and scale in. Scalable targets are uniquely identified by the
-combination of resource ID, scalable dimension, and namespace.  When you register a new
-scalable target, you must specify values for minimum and maximum capacity. Current capacity
-will be adjusted within the specified range when scaling starts. Application Auto Scaling
-scaling policies will not scale capacity to values that are outside of this range. After
-you register a scalable target, you do not need to register it again to use other
-Application Auto Scaling operations. To see which resources have been registered, use
-DescribeScalableTargets. You can also view the scaling policies for a service namespace by
-using DescribeScalableTargets. If you no longer need a scalable target, you can deregister
-it by using DeregisterScalableTarget. To update a scalable target, specify the parameters
-that you want to change. Include the parameters that identify the scalable target: resource
-ID, scalable dimension, and namespace. Any parameters that you don't specify are not
-changed by this update request.   If you call the RegisterScalableTarget API to update an
-existing scalable target, Application Auto Scaling retrieves the current capacity of the
-resource. If it is below the minimum capacity or above the maximum capacity, Application
-Auto Scaling adjusts the capacity of the scalable target to place it within these bounds,
-even if you don't include the MinCapacity or MaxCapacity request parameters.
+Registers or updates a scalable target, the resource that you want to scale. Scalable
+targets are uniquely identified by the combination of resource ID, scalable dimension, and
+namespace, which represents some capacity dimension of the underlying service. When you
+register a new scalable target, you must specify values for the minimum and maximum
+capacity. If the specified resource is not active in the target service, this operation
+does not change the resource's current capacity. Otherwise, it changes the resource's
+current capacity to a value that is inside of this range. If you choose to add a scaling
+policy, current capacity is adjustable within the specified range when scaling starts.
+Application Auto Scaling scaling policies will not scale capacity to values that are
+outside of the minimum and maximum range. After you register a scalable target, you do not
+need to register it again to use other Application Auto Scaling operations. To see which
+resources have been registered, use DescribeScalableTargets. You can also view the scaling
+policies for a service namespace by using DescribeScalableTargets. If you no longer need a
+scalable target, you can deregister it by using DeregisterScalableTarget. To update a
+scalable target, specify the parameters that you want to change. Include the parameters
+that identify the scalable target: resource ID, scalable dimension, and namespace. Any
+parameters that you don't specify are not changed by this update request.   If you call the
+RegisterScalableTarget API to update an existing scalable target, Application Auto Scaling
+retrieves the current capacity of the resource. If it is below the minimum capacity or
+above the maximum capacity, Application Auto Scaling adjusts the capacity of the scalable
+target to place it within these bounds, even if you don't include the MinCapacity or
+MaxCapacity request parameters.
 
 # Arguments
 - `resource_id`: The identifier of the resource that is associated with the scalable
@@ -1222,7 +1234,7 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an SageMaker model endpoint variant.
+  EC2 instances for a SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -1251,14 +1263,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   quotas may impose lower limits. Each service has its own default quotas for the maximum
   capacity of the resource. If you want to specify a higher limit, you can request an
   increase. For more information, consult the documentation for that service. For information
-  about the default quotas for each service, see Service Endpoints and Quotas in the Amazon
+  about the default quotas for each service, see Service endpoints and quotas in the Amazon
   Web Services General Reference.
 - `"MinCapacity"`: The minimum value that you plan to scale in to. When a scaling policy is
   in effect, Application Auto Scaling can scale in (contract) as needed to the minimum
   capacity limit in response to changing demand. This property is required when registering a
-  new scalable target. For certain resources, the minimum value allowed is 0. This includes
-  Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR clusters,
-  and custom resources. For all other resources, the minimum value allowed is 1.
+  new scalable target. For the following resources, the minimum value allowed is 0.
+  AppStream 2.0 fleets    Aurora DB clusters   ECS services   EMR clusters   Lambda
+  provisioned concurrency   SageMaker endpoint variants   Spot Fleets   custom resources
+  It's strongly recommended that you specify a value greater than 0. A value greater than 0
+  means that data points are continuously reported to CloudWatch that scaling policies can
+  use to scale on a metric like average CPU utilization. For all other resources, the minimum
+  allowed value depends on the type of resource that you are using. If you provide a value
+  that is lower than what a resource can accept, an error occurs. In which case, the error
+  message will provide the minimum value that the resource can accept.
 - `"RoleARN"`: This parameter is required for services that do not support service-linked
   roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows
   Application Auto Scaling to modify the scalable target on your behalf.  If the service

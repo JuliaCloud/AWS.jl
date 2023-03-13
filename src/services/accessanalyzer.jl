@@ -945,6 +945,11 @@ Immediately starts a scan of the policies applied to the specified resource.
   specified resource.
 - `resource_arn`: The ARN of the resource to scan.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resourceOwnerAccount"`: The Amazon Web Services account ID that owns the resource. For
+  most Amazon Web Services resources, the owning account is the account in which the resource
+  was created.
 """
 function start_resource_scan(
     analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()

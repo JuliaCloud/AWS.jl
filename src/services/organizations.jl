@@ -9,7 +9,7 @@ using AWS.UUIDs
     accept_handshake(handshake_id, params::Dict{String,<:Any})
 
 Sends a response to the originator of a handshake agreeing to the action proposed by the
-handshake request. This operation can be called only by the following principals when they
+handshake request. You can only call this operation by the following principals when they
 also have the relevant IAM permissions:    Invitation to join or Approve all features
 request handshakes: only a principal from the member account. The user who calls the API
 for an invitation to join must have the organizations:AcceptHandshake permission. If you
@@ -213,9 +213,9 @@ whose credentials made the request. This is an asynchronous request that Amazon 
 Services performs in the background. Because CreateAccount operates asynchronously, it can
 return a successful completion message even though account initialization might still be in
 progress. You might need to wait a few minutes before you can successfully access the
-account. To check the status of the request, do one of the following:   Use the Id member
-of the CreateAccountStatus response element from this operation to provide as a parameter
-to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the
+account. To check the status of the request, do one of the following:   Use the Id value of
+the CreateAccountStatus response element from this operation to provide as a parameter to
+the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the
 CreateAccountResult event. For information on using CloudTrail with Organizations, see
 Logging and monitoring in Organizations in the Organizations User Guide.    The user who
 calls the API to create an account must have the organizations:CreateAccount permission. If
@@ -275,9 +275,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Billing and Cost Management User Guide. If you don't specify this parameter, the value
   defaults to ALLOW, and IAM users and roles with the required permissions can access billing
   information for the new account.
-- `"RoleName"`: (Optional) The name of an IAM role that Organizations automatically
-  preconfigures in the new member account. This role trusts the management account, allowing
-  users in the management account to assume the role, as permitted by the management account
+- `"RoleName"`: The name of an IAM role that Organizations automatically preconfigures in
+  the new member account. This role trusts the management account, allowing users in the
+  management account to assume the role, as permitted by the management account
   administrator. The role has administrator permissions in the new member account. If you
   don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For
   more information about how to use this role to access the member account, see the following
@@ -787,6 +787,30 @@ function delete_policy(
 end
 
 """
+    delete_resource_policy()
+    delete_resource_policy(params::Dict{String,<:Any})
+
+Deletes the resource policy from your organization. You can only call this operation from
+the organization's management account.
+
+"""
+function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function delete_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DeleteResourcePolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     deregister_delegated_administrator(account_id, service_principal)
     deregister_delegated_administrator(account_id, service_principal, params::Dict{String,<:Any})
 
@@ -1122,6 +1146,31 @@ function describe_policy(
 end
 
 """
+    describe_resource_policy()
+    describe_resource_policy(params::Dict{String,<:Any})
+
+Retrieves information about a resource policy. You can only call this operation from the
+organization's management account or by a member account that is a delegated administrator
+for an AWS service.
+
+"""
+function describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DescribeResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DescribeResourcePolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     detach_policy(policy_id, target_id)
     detach_policy(policy_id, target_id, params::Dict{String,<:Any})
 
@@ -1364,9 +1413,9 @@ resources that are required for the integration. How the service creates those r
 the organization's accounts depends on that service. For more information, see the
 documentation for the other Amazon Web Services service.  For more information about
 enabling services to integrate with Organizations, see Integrating Organizations with Other
-Amazon Web Services Services in the Organizations User Guide.  This operation can be called
-only from the organization's management account and only if the organization has enabled
-all features.
+Amazon Web Services Services in the Organizations User Guide.  You can only call this
+operation from the organization's management account and only if the organization has
+enabled all features.
 
 # Arguments
 - `service_principal`: The service principal name of the Amazon Web Services service for
@@ -2483,6 +2532,47 @@ function move_account(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(content)
+    put_resource_policy(content, params::Dict{String,<:Any})
+
+Creates or updates a resource policy. You can only call this operation from the
+organization's management account.
+
+# Arguments
+- `content`: If provided, the new content for the resource policy. The text must be
+  correctly formatted JSON that complies with the syntax for the resource policy's type. For
+  more information, see Service Control Policy Syntax in the Organizations User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Updates the list of tags that you want to attach to the newly-created resource
+  policy. For each tag in the list, you must specify both a tag key and a value. You can set
+  the value to an empty string, but you can't set it to null. For more information about
+  tagging, see Tagging Organizations resources in the Organizations User Guide.  Calls with
+  tags apply to the initial creation of the resource policy, otherwise an exception is
+  thrown. If any one of the tags is invalid or if you exceed the allowed number of tags for
+  the resource policy, then the entire request fails and the resource policy is not created.
+"""
+function put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "PutResourcePolicy",
+        Dict{String,Any}("Content" => Content);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Content, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "PutResourcePolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

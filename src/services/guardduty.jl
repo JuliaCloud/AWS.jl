@@ -247,16 +247,17 @@ Creates a filter using the specified finding criteria.
   When this attribute is not set, all existing findings are listed.   service.resourceRole
   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
   YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
-- `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid
-  characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces
-  are not allowed.
+- `name`: The name of the filter. Valid characters include period (.), underscore (_), dash
+  (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
 - `"clientToken"`: The idempotency token for the create request.
-- `"description"`: The description of the filter.
+- `"description"`: The description of the filter. Valid special characters include period
+  (.), underscore (_), dash (-), and whitespace. The new line character is considered to be
+  an invalid input for description.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
@@ -902,7 +903,8 @@ end
     describe_malware_scans(detector_id)
     describe_malware_scans(detector_id, params::Dict{String,<:Any})
 
-Returns a list of malware scans.
+Returns a list of malware scans. Each member account can view the malware scans for their
+own accounts. An administrator can view the malware scans for all the member accounts.
 
 # Arguments
 - `detector_id`: The unique ID of the detector that the request is associated with.
@@ -1127,8 +1129,8 @@ end
     disassociate_members(account_ids, detector_id)
     disassociate_members(account_ids, detector_id, params::Dict{String,<:Any})
 
-Disassociates GuardDuty member accounts (to the current GuardDuty administrator account)
-specified by the account IDs.
+Disassociates GuardDuty member accounts (to the current administrator account) specified by
+the account IDs.
 
 # Arguments
 - `account_ids`: A list of account IDs of the GuardDuty member accounts that you want to
@@ -2029,7 +2031,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 - `"onlyAssociated"`: Specifies whether to only return associated members or to return all
-  members (including members who haven't been invited yet or have been disassociated).
+  members (including members who haven't been invited yet or have been disassociated). Member
+  accounts must have been previously associated with the GuardDuty administrator account
+  using  Create Members .
 """
 function list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
     return guardduty(
@@ -2451,7 +2455,9 @@ Updates the filter specified by the filter name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
-- `"description"`: The description of the filter.
+- `"description"`: The description of the filter. Valid special characters include period
+  (.), underscore (_), dash (-), and whitespace. The new line character is considered to be
+  an invalid input for description.
 - `"findingCriteria"`: Represents the criteria to be used in the filter for querying
   findings.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
@@ -2584,7 +2590,8 @@ Updates the malware scan settings.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ebsSnapshotPreservation"`: An enum value representing possible snapshot preservations.
+- `"ebsSnapshotPreservation"`: An enum value representing possible snapshot preservation
+  settings.
 - `"scanResourceCriteria"`: Represents the criteria to be used in the filter for selecting
   resources to scan.
 """

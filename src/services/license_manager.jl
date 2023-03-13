@@ -150,7 +150,8 @@ end
     checkout_license(checkout_type, client_token, entitlements, key_fingerprint, product_sku)
     checkout_license(checkout_type, client_token, entitlements, key_fingerprint, product_sku, params::Dict{String,<:Any})
 
-Checks out the specified license.
+Checks out the specified license.  If the account that created the license is the same that
+is performing the check out, you must specify the account as the beneficiary.
 
 # Arguments
 - `checkout_type`: Checkout type.
@@ -229,7 +230,8 @@ with specific Amazon Web Services accounts.
 - `grant_name`: Grant name.
 - `home_region`: Home Region of the grant.
 - `license_arn`: Amazon Resource Name (ARN) of the license.
-- `principals`: The grant principals.
+- `principals`: The grant principals. This value should be specified as an Amazon Resource
+  Name (ARN).
 
 """
 function create_grant(
@@ -507,12 +509,12 @@ Creates a new license conversion task.
 # Arguments
 - `destination_license_context`: Information that identifies the license type you are
   converting to. For the structure of the destination license, see Convert a license type
-  using the AWS CLI in the License Manager User Guide.
+  using the Amazon Web Services CLI in the License Manager User Guide.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource you are converting the license
   type for.
 - `source_license_context`: Information that identifies the license type you are converting
-  from. For the structure of the source license, see Convert a license type using the AWS CLI
-  in the License Manager User Guide.
+  from. For the structure of the source license, see Convert a license type using the Amazon
+  Web Services CLI in the License Manager User Guide.
 
 """
 function create_license_conversion_task_for_resource(
@@ -1651,6 +1653,47 @@ function list_received_grants(
 end
 
 """
+    list_received_grants_for_organization(license_arn)
+    list_received_grants_for_organization(license_arn, params::Dict{String,<:Any})
+
+Lists the grants received for all accounts in the organization.
+
+# Arguments
+- `license_arn`: The Amazon Resource Name (ARN) of the received license.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+  ParentArn     GranteePrincipalArn
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_received_grants_for_organization(
+    LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return license_manager(
+        "ListReceivedGrantsForOrganization",
+        Dict{String,Any}("LicenseArn" => LicenseArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_received_grants_for_organization(
+    LicenseArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager(
+        "ListReceivedGrantsForOrganization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LicenseArn" => LicenseArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_received_licenses()
     list_received_licenses(params::Dict{String,<:Any})
 
@@ -1674,6 +1717,39 @@ function list_received_licenses(
 )
     return license_manager(
         "ListReceivedLicenses",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_received_licenses_for_organization()
+    list_received_licenses_for_organization(params::Dict{String,<:Any})
+
+Lists the licenses received for all accounts in the organization.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+  Beneficiary     ProductSKU
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_received_licenses_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return license_manager(
+        "ListReceivedLicensesForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_received_licenses_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return license_manager(
+        "ListReceivedLicensesForOrganization",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

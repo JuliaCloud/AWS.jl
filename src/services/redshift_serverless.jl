@@ -18,6 +18,7 @@ snapshots, see Working with snapshots and recovery points.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"retentionPeriod"`: How long to retain the snapshot.
+- `"tags"`: An array of Tag objects to associate with the created snapshot.
 """
 function convert_recovery_point_to_snapshot(
     recoveryPointId, snapshotName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -177,6 +178,7 @@ see  Working with snapshots and recovery points.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"retentionPeriod"`: How long to retain the created snapshot.
+- `"tags"`: An array of Tag objects to associate with the snapshot.
 """
 function create_snapshot(
     namespaceName, snapshotName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -289,6 +291,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
+- `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
+  5431-5455 and 8191-8215. The default is 5439.
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessed from
   a public network.
 - `"securityGroupIds"`: An array of security group IDs to associate with the workgroup.
@@ -544,9 +548,9 @@ end
 Returns a database user name and temporary password with temporary authorization to log in
 to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.
 You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60
-minutes).  &lt;p&gt; The Identity and Access Management (IAM) user or role that runs
+minutes).  &lt;p&gt;The Identity and Access Management (IAM) user or role that runs
 GetCredentials must have an IAM policy attached that allows access to all necessary actions
-and resources. &lt;/p&gt; &lt;p&gt; If the &lt;code&gt;DbName&lt;/code&gt; parameter is
+and resources.&lt;/p&gt; &lt;p&gt;If the &lt;code&gt;DbName&lt;/code&gt; parameter is
 specified, the IAM policy must allow access to the resource dbname for the specified
 database name.&lt;/p&gt;
 
@@ -557,10 +561,10 @@ database name.&lt;/p&gt;
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"dbName"`: The name of the database to get temporary authorization to log on to.
   Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only
-  lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
-   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).
-  Cannot be a reserved word. A list of reserved words can be found in Reserved Words  in the
-  Amazon Redshift Database Developer Guide
+  uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol
+  (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or
+  slash ( / ).   Cannot be a reserved word. A list of reserved words can be found in Reserved
+  Words  in the Amazon Redshift Database Developer Guide
 - `"durationSeconds"`: The number of seconds until the returned temporary password expires.
   The minimum is 900 seconds, and the maximum is 3600 seconds.
 """
@@ -753,6 +757,46 @@ function get_snapshot(
 end
 
 """
+    get_table_restore_status(table_restore_request_id)
+    get_table_restore_status(table_restore_request_id, params::Dict{String,<:Any})
+
+Returns information about a TableRestoreStatus object.
+
+# Arguments
+- `table_restore_request_id`: The ID of the RestoreTableFromSnapshot request to return
+  status for.
+
+"""
+function get_table_restore_status(
+    tableRestoreRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "GetTableRestoreStatus",
+        Dict{String,Any}("tableRestoreRequestId" => tableRestoreRequestId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_table_restore_status(
+    tableRestoreRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "GetTableRestoreStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("tableRestoreRequestId" => tableRestoreRequestId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_usage_limit(usage_limit_id)
     get_usage_limit(usage_limit_id, params::Dict{String,<:Any})
 
@@ -827,9 +871,9 @@ Returns an array of EndpointAccess objects and relevant information.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
+  return. You can use nextToken to display the next page of results.
 - `"nextToken"`: If your initial ListEndpointAccess operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListEndpointAccess operations, which returns
+  include the returned nextToken in following ListEndpointAccess operations, which returns
   results in the next page.
 - `"vpcId"`: The unique identifier of the virtual private cloud with access to Amazon
   Redshift Serverless.
@@ -857,9 +901,9 @@ Returns information about a list of specified namespaces.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
+  return. You can use nextToken to display the next page of results.
 - `"nextToken"`: If your initial ListNamespaces operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListNamespaces operations, which returns
+  include the returned nextToken in following ListNamespaces operations, which returns
   results in the next page.
 """
 function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -885,10 +929,12 @@ Returns an array of recovery points.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"endTime"`: The time when creation of the recovery point finished.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
+  return. You can use nextToken to display the next page of results.
+- `"namespaceArn"`: The Amazon Resource Name (ARN) of the namespace from which to list
+  recovery points.
 - `"namespaceName"`: The name of the namespace to list recovery points for.
 - `"nextToken"`: If your initial ListRecoveryPoints operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListRecoveryPoints operations, which returns
+  include the returned nextToken in following ListRecoveryPoints operations, which returns
   results in the next page.
 - `"startTime"`: The time when the recovery point's creation was initiated.
 """
@@ -915,7 +961,7 @@ Returns a list of snapshots.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"endTime"`: The timestamp showing when the snapshot creation finished.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
+  return. You can use nextToken to display the next page of results.
 - `"namespaceArn"`: The Amazon Resource Name (ARN) of the namespace from which to list all
   snapshots.
 - `"namespaceName"`: The namespace from which to list all snapshots.
@@ -935,6 +981,40 @@ function list_snapshots(
 )
     return redshift_serverless(
         "ListSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_table_restore_status()
+    list_table_restore_status(params::Dict{String,<:Any})
+
+Returns information about an array of TableRestoreStatus objects.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to display the next page of results.
+- `"namespaceName"`: The namespace from which to list all of the statuses of
+  RestoreTableFromSnapshot operations .
+- `"nextToken"`: If your initial ListTableRestoreStatus operation returns a nextToken, you
+  can include the returned nextToken in following ListTableRestoreStatus operations. This
+  will return results on the next page.
+- `"workgroupName"`: The workgroup from which to list all of the statuses of
+  RestoreTableFromSnapshot operations.
+"""
+function list_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift_serverless(
+        "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_table_restore_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListTableRestoreStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -984,7 +1064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use nextToken to get the next page of results. The default is 100.
 - `"nextToken"`: If your initial ListUsageLimits operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListUsageLimits operations, which returns
+  include the returned nextToken in following ListUsageLimits operations, which returns
   results in the next page.
 - `"resourceArn"`: The Amazon Resource Name (ARN) associated with the resource whose usage
   limits you want to list.
@@ -1012,9 +1092,9 @@ Returns information about a list of specified workgroups.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
+  return. You can use nextToken to display the next page of results.
 - `"nextToken"`: If your initial ListWorkgroups operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListNamespaces operations, which returns
+  include the returned nextToken in following ListNamespaces operations, which returns
   results in the next page.
 """
 function list_workgroups(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1143,8 +1223,13 @@ Restores a namespace from a snapshot.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ownerAccount"`: The Amazon Web Services account that owns the snapshot.
-- `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to restore from.
-- `"snapshotName"`: The name of the snapshot to restore from.
+- `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to restore from. Required
+  if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be
+  specified at the same time as snapshotName. The format of the ARN is
+  arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;s
+  napshot_identifier&gt;.
+- `"snapshotName"`: The name of the snapshot to restore from. Must not be specified at the
+  same time as snapshotArn.
 """
 function restore_from_snapshot(
     namespaceName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1171,6 +1256,85 @@ function restore_from_snapshot(
                 _merge,
                 Dict{String,Any}(
                     "namespaceName" => namespaceName, "workgroupName" => workgroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_table_from_snapshot(namespace_name, new_table_name, snapshot_name, source_database_name, source_table_name, workgroup_name)
+    restore_table_from_snapshot(namespace_name, new_table_name, snapshot_name, source_database_name, source_table_name, workgroup_name, params::Dict{String,<:Any})
+
+Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+
+# Arguments
+- `namespace_name`: The namespace of the snapshot to restore from.
+- `new_table_name`: The name of the table to create from the restore operation.
+- `snapshot_name`: The name of the snapshot to restore the table from.
+- `source_database_name`: The name of the source database that contains the table being
+  restored.
+- `source_table_name`: The name of the source table being restored.
+- `workgroup_name`: The workgroup to restore the table to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"activateCaseSensitiveIdentifier"`: Indicates whether name identifiers for database,
+  schema, and table are case sensitive. If true, the names are case sensitive. If false, the
+  names are not case sensitive. The default is false.
+- `"sourceSchemaName"`: The name of the source schema that contains the table being
+  restored.
+- `"targetDatabaseName"`: The name of the database to restore the table to.
+- `"targetSchemaName"`: The name of the schema to restore the table to.
+"""
+function restore_table_from_snapshot(
+    namespaceName,
+    newTableName,
+    snapshotName,
+    sourceDatabaseName,
+    sourceTableName,
+    workgroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "RestoreTableFromSnapshot",
+        Dict{String,Any}(
+            "namespaceName" => namespaceName,
+            "newTableName" => newTableName,
+            "snapshotName" => snapshotName,
+            "sourceDatabaseName" => sourceDatabaseName,
+            "sourceTableName" => sourceTableName,
+            "workgroupName" => workgroupName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_table_from_snapshot(
+    namespaceName,
+    newTableName,
+    snapshotName,
+    sourceDatabaseName,
+    sourceTableName,
+    workgroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "RestoreTableFromSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "namespaceName" => namespaceName,
+                    "newTableName" => newTableName,
+                    "snapshotName" => snapshotName,
+                    "sourceDatabaseName" => sourceDatabaseName,
+                    "sourceTableName" => sourceTableName,
+                    "workgroupName" => workgroupName,
                 ),
                 params,
             ),
@@ -1393,7 +1557,9 @@ period of a usage limit.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"amount"`: The new limit amount. For more information about this parameter.
+- `"amount"`: The new limit amount. If time-based, this amount is in Redshift Processing
+  Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data
+  transferred between Regions in cross-account sharing. The value must be a positive number.
 - `"breachAction"`: The new action that Amazon Redshift Serverless takes when the limit is
   reached.
 """
@@ -1439,6 +1605,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.
+- `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
+  5431-5455 and 8191-8215. The default is 5439.
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessible
   from a public network.
 - `"securityGroupIds"`: An array of security group IDs to associate with the workgroup.

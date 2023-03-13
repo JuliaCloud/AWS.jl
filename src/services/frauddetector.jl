@@ -143,7 +143,9 @@ Creates a batch import job.
 # Arguments
 - `event_type_name`: The name of the event type.
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
-  file. The IAM role must have read and write permissions to both input and output S3 buckets.
+  file. The IAM role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see User policy
+  examples in the Amazon S3 User Guide.
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
   exists in CREATE_FAILED state.
@@ -212,7 +214,10 @@ Creates a batch prediction job.
 # Arguments
 - `detector_name`: The name of the detector.
 - `event_type_name`: The name of the event type.
-- `iam_role_arn`: The ARN of the IAM role to use for this job request.
+- `iam_role_arn`: The ARN of the IAM role to use for this job request. The IAM Role must
+  have read permissions to your input S3 bucket and write permissions to your output S3
+  bucket. For more information about bucket permissions, see User policy examples in the
+  Amazon S3 User Guide.
 - `input_path`: The Amazon S3 location of your training file.
 - `job_id`: The ID of the batch prediction job.
 - `output_path`: The Amazon S3 location of your output file.
@@ -2214,7 +2219,8 @@ end
 Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 # Arguments
-- `kms_encryption_key_arn`: The KMS encryption key ARN.
+- `kms_encryption_key_arn`: The KMS encryption key ARN. The KMS key must be single-Region
+  key. Amazon Fraud Detector does not support multi-Region KMS key.
 
 """
 function put_kmsencryption_key(
@@ -2607,7 +2613,7 @@ INACTIVE to ACTIVE.
 # Arguments
 - `detector_id`: The detector ID.
 - `detector_version_id`: The detector version ID.
-- `status`: The new status.
+- `status`: The new status. The only supported values are ACTIVE and INACTIVE
 
 """
 function update_detector_version_status(

@@ -9,20 +9,20 @@ using AWS.UUIDs
     create_delivery_stream(delivery_stream_name, params::Dict{String,<:Any})
 
 Creates a Kinesis Data Firehose delivery stream. By default, you can create up to 50
-delivery streams per AWS Region. This is an asynchronous operation that immediately
-returns. The initial status of the delivery stream is CREATING. After the delivery stream
-is created, its status is ACTIVE and it now accepts data. If the delivery stream creation
-fails, the status transitions to CREATING_FAILED. Attempts to send data to a delivery
-stream that is not in the ACTIVE state cause an exception. To check the state of a delivery
-stream, use DescribeDeliveryStream. If the status of a delivery stream is CREATING_FAILED,
-this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However,
-you can invoke the DeleteDeliveryStream operation to delete it. A Kinesis Data Firehose
-delivery stream can be configured to receive records directly from providers using
-PutRecord or PutRecordBatch, or it can be configured to use an existing Kinesis stream as
-its source. To specify a Kinesis data stream as input, set the DeliveryStreamType parameter
-to KinesisStreamAsSource, and provide the Kinesis stream Amazon Resource Name (ARN) and
-role ARN in the KinesisStreamSourceConfiguration parameter. To create a delivery stream
-with server-side encryption (SSE) enabled, include
+delivery streams per Amazon Web Services Region. This is an asynchronous operation that
+immediately returns. The initial status of the delivery stream is CREATING. After the
+delivery stream is created, its status is ACTIVE and it now accepts data. If the delivery
+stream creation fails, the status transitions to CREATING_FAILED. Attempts to send data to
+a delivery stream that is not in the ACTIVE state cause an exception. To check the state of
+a delivery stream, use DescribeDeliveryStream. If the status of a delivery stream is
+CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream
+again on it. However, you can invoke the DeleteDeliveryStream operation to delete it. A
+Kinesis Data Firehose delivery stream can be configured to receive records directly from
+providers using PutRecord or PutRecordBatch, or it can be configured to use an existing
+Kinesis stream as its source. To specify a Kinesis data stream as input, set the
+DeliveryStreamType parameter to KinesisStreamAsSource, and provide the Kinesis stream
+Amazon Resource Name (ARN) and role ARN in the KinesisStreamSourceConfiguration parameter.
+To create a delivery stream with server-side encryption (SSE) enabled, include
 DeliveryStreamEncryptionConfigurationInput in your request. This is optional. You can also
 invoke StartDeliveryStreamEncryption to turn on SSE for an existing delivery stream that
 doesn't have SSE enabled. A delivery stream is configured with a single destination: Amazon
@@ -54,13 +54,17 @@ Kinesis Data Firehose Access to an Amazon S3 Destination in the Amazon Kinesis D
 Firehose Developer Guide.
 
 # Arguments
-- `delivery_stream_name`: The name of the delivery stream. This name must be unique per AWS
-  account in the same AWS Region. If the delivery streams are in different accounts or
-  different Regions, you can have multiple delivery streams with the same name.
+- `delivery_stream_name`: The name of the delivery stream. This name must be unique per
+  Amazon Web Services account in the same Amazon Web Services Region. If the delivery streams
+  are in different accounts or different Regions, you can have multiple delivery streams with
+  the same name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AmazonopensearchserviceDestinationConfiguration"`:
+- `"AmazonOpenSearchServerlessDestinationConfiguration"`: The destination in the Serverless
+  offering for Amazon OpenSearch Service. You can specify only one destination.
+- `"AmazonopensearchserviceDestinationConfiguration"`: The destination in Amazon OpenSearch
+  Service. You can specify only one destination.
 - `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 - `"DeliveryStreamType"`: The delivery stream type. This parameter can be one of the
@@ -82,11 +86,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SplunkDestinationConfiguration"`: The destination in Splunk. You can specify only one
   destination.
 - `"Tags"`: A set of tags to assign to the delivery stream. A tag is a key-value pair that
-  you can define and assign to AWS resources. Tags are metadata. For example, you can add
-  friendly names and descriptions or other types of information that can help you distinguish
-  the delivery stream. For more information about tags, see Using Cost Allocation Tags in the
-  AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a
-  delivery stream.
+  you can define and assign to Amazon Web Services resources. Tags are metadata. For example,
+  you can add friendly names and descriptions or other types of information that can help you
+  distinguish the delivery stream. For more information about tags, see Using Cost Allocation
+  Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up
+  to 50 tags when creating a delivery stream.
 """
 function create_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -138,8 +142,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might be unable to retire the grant due to a customer error, such as when the CMK or the
   grant are in an invalid state. If you force deletion, you can then use the RevokeGrant
   operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the
-  grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete
-  operation. The default value is false.
+  grant happens due to an Amazon Web Services KMS issue, Kinesis Data Firehose keeps retrying
+  the delete operation. The default value is false.
 """
 function delete_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -577,13 +581,13 @@ end
     tag_delivery_stream(delivery_stream_name, tags, params::Dict{String,<:Any})
 
 Adds or updates tags for the specified delivery stream. A tag is a key-value pair that you
-can define and assign to AWS resources. If you specify a tag that already exists, the tag
-value is replaced with the value that you specify in the request. Tags are metadata. For
-example, you can add friendly names and descriptions or other types of information that can
-help you distinguish the delivery stream. For more information about tags, see Using Cost
-Allocation Tags in the AWS Billing and Cost Management User Guide.  Each delivery stream
-can have up to 50 tags.  This operation has a limit of five transactions per second per
-account.
+can define and assign to Amazon Web Services resources. If you specify a tag that already
+exists, the tag value is replaced with the value that you specify in the request. Tags are
+metadata. For example, you can add friendly names and descriptions or other types of
+information that can help you distinguish the delivery stream. For more information about
+tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management
+User Guide.  Each delivery stream can have up to 50 tags.  This operation has a limit of
+five transactions per second per account.
 
 # Arguments
 - `delivery_stream_name`: The name of the delivery stream to which you want to add the tags.
@@ -707,7 +711,10 @@ version ID to set CurrentDeliveryStreamVersionId in the next call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AmazonopensearchserviceDestinationUpdate"`:
+- `"AmazonOpenSearchServerlessDestinationUpdate"`: Describes an update for a destination in
+  the Serverless offering for Amazon OpenSearch Service.
+- `"AmazonopensearchserviceDestinationUpdate"`: Describes an update for a destination in
+  Amazon OpenSearch Service.
 - `"ElasticsearchDestinationUpdate"`: Describes an update for a destination in Amazon ES.
 - `"ExtendedS3DestinationUpdate"`: Describes an update for a destination in Amazon S3.
 - `"HttpEndpointDestinationUpdate"`: Describes an update to the specified HTTP endpoint

@@ -94,12 +94,29 @@ end
     associate_principal_with_portfolio(portfolio_id, principal_arn, principal_type)
     associate_principal_with_portfolio(portfolio_id, principal_arn, principal_type, params::Dict{String,<:Any})
 
-Associates the specified principal ARN with the specified portfolio.
+Associates the specified principal ARN with the specified portfolio. If you share the
+portfolio with principal name sharing enabled, the PrincipalARN association is included in
+the share.  The PortfolioID, PrincipalARN, and PrincipalType parameters are required.  You
+can associate a maximum of 10 Principals with a portfolio using PrincipalType as
+IAM_PATTERN   When you associate a principal with portfolio, a potential privilege
+escalation path may occur when that portfolio is then shared with other accounts. For a
+user in a recipient account who is not an Service Catalog Admin, but still has the ability
+to create Principals (Users/Groups/Roles), that user could create a role that matches a
+principal name association for the portfolio. Although this user may not know which
+principal names are associated through Service Catalog, they may be able to guess the user.
+If this potential escalation path is a concern, then Service Catalog recommends using
+PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the
+recipient account before it can be associated.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (IAM user, role, or group).
-- `principal_type`: The principal type. The supported value is IAM.
+- `principal_arn`: The ARN of the principal (IAM user, role, or group). This field allows
+  an ARN with no accountID if PrincipalType is IAM_PATTERN.  You can associate multiple IAM
+  patterns even if the account has no principal with that name. This is useful in Principal
+  Name Sharing if you want to share a principal without creating it in the account that owns
+  the portfolio.
+- `principal_type`: The principal type. The supported value is IAM if you use a fully
+  defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -617,6 +634,15 @@ a portfolio share to an organization node. You can't share a shared resource, in
 portfolios that contain a shared product. If the portfolio share with the specified account
 or organization node already exists, this action will have no effect and will not return an
 error. To update an existing share, you must use the  UpdatePortfolioShare API instead.
+When you associate a principal with portfolio, a potential privilege escalation path may
+occur when that portfolio is then shared with other accounts. For a user in a recipient
+account who is not an Service Catalog Admin, but still has the ability to create Principals
+(Users/Groups/Roles), that user could create a role that matches a principal name
+association for the portfolio. Although this user may not know which principal names are
+associated through Service Catalog, they may be able to guess the user. If this potential
+escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM.
+With this configuration, the PrincipalARN must already exist in the recipient account
+before it can be associated.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
@@ -631,6 +657,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are associated to the OrganizationNode. The output returns a PortfolioShareToken,
   which enables the administrator to monitor the status of the PortfolioShare creation
   process.
+- `"SharePrincipals"`: Enables or disables Principal sharing when creating the portfolio
+  share. If this flag is not provided, principal sharing is disabled.  When you enable
+  Principal Name Sharing for a portfolio share, the share recipient account end users with a
+  principal that matches any of the associated IAM patterns can provision products from the
+  portfolio. Once shared, the share recipient can view associations of PrincipalType:
+  IAM_PATTERN on their portfolio. You can create the principals in the recipient account
+  before or after creating the share.
 - `"ShareTagOptions"`: Enables or disables TagOptions  sharing when creating the portfolio
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
@@ -660,8 +693,8 @@ function create_portfolio_share(
 end
 
 """
-    create_product(idempotency_token, name, owner, product_type, provisioning_artifact_parameters)
-    create_product(idempotency_token, name, owner, product_type, provisioning_artifact_parameters, params::Dict{String,<:Any})
+    create_product(idempotency_token, name, owner, product_type)
+    create_product(idempotency_token, name, owner, product_type, params::Dict{String,<:Any})
 
 Creates a product. A delegated admin is authorized to invoke this command. The user or role
 that performs this operation must have the cloudformation:GetTemplate IAM policy
@@ -675,7 +708,6 @@ source in the information data section.
 - `name`: The name of the product.
 - `owner`: The owner of the product.
 - `product_type`: The type of product.
-- `provisioning_artifact_parameters`: The configuration of the provisioning artifact.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -683,6 +715,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chinese
 - `"Description"`: The description of the product.
 - `"Distributor"`: The distributor of the product.
+- `"ProvisioningArtifactParameters"`: The configuration of the provisioning artifact.
+- `"SourceConnection"`: Specifies connection details for the created product and syncs the
+  product to the connection source artifact. This automatically manages the product's
+  artifacts based on changes to the source. The SourceConnection parameter consists of the
+  following sub-fields.    Type     ConnectionParamters
 - `"SupportDescription"`: The support information about the product.
 - `"SupportEmail"`: The contact email for product support.
 - `"SupportUrl"`: The contact URL for product support.  ^https?:/// / is the pattern used
@@ -693,8 +730,7 @@ function create_product(
     IdempotencyToken,
     Name,
     Owner,
-    ProductType,
-    ProvisioningArtifactParameters;
+    ProductType;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return service_catalog(
@@ -704,7 +740,6 @@ function create_product(
             "Name" => Name,
             "Owner" => Owner,
             "ProductType" => ProductType,
-            "ProvisioningArtifactParameters" => ProvisioningArtifactParameters,
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -715,7 +750,6 @@ function create_product(
     Name,
     Owner,
     ProductType,
-    ProvisioningArtifactParameters,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -729,7 +763,6 @@ function create_product(
                     "Name" => Name,
                     "Owner" => Owner,
                     "ProductType" => ProductType,
-                    "ProvisioningArtifactParameters" => ProvisioningArtifactParameters,
                 ),
                 params,
             ),
@@ -1997,16 +2030,26 @@ end
     disassociate_principal_from_portfolio(portfolio_id, principal_arn)
     disassociate_principal_from_portfolio(portfolio_id, principal_arn, params::Dict{String,<:Any})
 
-Disassociates a previously associated principal ARN from a specified portfolio.
+Disassociates a previously associated principal ARN from a specified portfolio. The
+PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request
+details. For example, to disassociate an association created with a PrincipalARN of
+PrincipalType IAM you must use the PrincipalType IAM when calling
+DisassociatePrincipalFromPortfolio.  For portfolios that have been shared with principal
+name sharing enabled: after disassociating a principal, share recipient accounts will no
+longer be able to provision products in this portfolio using a role matching the name of
+the associated principal.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (IAM user, role, or group).
+- `principal_arn`: The ARN of the principal (IAM user, role, or group). This field allows
+  an ARN with no accountID if PrincipalType is IAM_PATTERN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
   Chinese
+- `"PrincipalType"`: The supported value is IAM if you use a fully defined ARN, or
+  IAM_PATTERN if you use no accountID.
 """
 function disassociate_principal_from_portfolio(
     PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2410,16 +2453,15 @@ end
     import_as_provisioned_product(idempotency_token, physical_id, product_id, provisioned_product_name, provisioning_artifact_id)
     import_as_provisioned_product(idempotency_token, physical_id, product_id, provisioned_product_name, provisioning_artifact_id, params::Dict{String,<:Any})
 
-Requests the import of a resource as a Amazon Web Services Service Catalog provisioned
-product that is associated to a Amazon Web Services Service Catalog product and
-provisioning artifact. Once imported, all supported Amazon Web Services Service Catalog
-governance actions are supported on the provisioned product. Resource import only supports
-CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not
-supported. The CloudFormation stack must have one of the following statuses to be imported:
-CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE,
-IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack
-template matches the associated Amazon Web Services Service Catalog product provisioning
-artifact.  The user or role that performs this operation must have the
+Requests the import of a resource as an Service Catalog provisioned product that is
+associated to an Service Catalog product and provisioning artifact. Once imported, all
+supported Service Catalog governance actions are supported on the provisioned product.
+Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and
+non-root nested stacks are not supported. The CloudFormation stack must have one of the
+following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE,
+UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource
+requires that the CloudFormation stack template matches the associated Service Catalog
+product provisioning artifact.  The user or role that performs this operation must have the
 cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
 
 # Arguments
@@ -2832,7 +2874,8 @@ end
     list_principals_for_portfolio(portfolio_id)
     list_principals_for_portfolio(portfolio_id, params::Dict{String,<:Any})
 
-Lists all principal ARNs associated with the specified portfolio.
+Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified
+portfolio.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
@@ -3633,14 +3676,22 @@ end
     update_portfolio_share(portfolio_id, params::Dict{String,<:Any})
 
 Updates the specified portfolio share. You can use this API to enable or disable TagOptions
-sharing for an existing portfolio share.  The portfolio share cannot be updated if the
-CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient
-entities. In this case, you must wait for the portfolio share to be COMPLETED. You must
-provide the accountId or organization node in the input, but not both. If the portfolio is
-shared to both an external account and an organization node, and both shares need to be
-updated, you must invoke UpdatePortfolioShare separately for each share type.  This API
-cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for
-that action.
+sharing or Principal sharing for an existing portfolio share.  The portfolio share cannot
+be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not
+available to recipient entities. In this case, you must wait for the portfolio share to be
+COMPLETED. You must provide the accountId or organization node in the input, but not both.
+If the portfolio is shared to both an external account and an organization node, and both
+shares need to be updated, you must invoke UpdatePortfolioShare separately for each share
+type.  This API cannot be used for removing the portfolio share. You must use
+DeletePortfolioShare API for that action.   When you associate a principal with portfolio,
+a potential privilege escalation path may occur when that portfolio is then shared with
+other accounts. For a user in a recipient account who is not an Service Catalog Admin, but
+still has the ability to create Principals (Users/Groups/Roles), that user could create a
+role that matches a principal name association for the portfolio. Although this user may
+not know which principal names are associated through Service Catalog, they may be able to
+guess the user. If this potential escalation path is a concern, then Service Catalog
+recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must
+already exist in the recipient account before it can be associated.
 
 # Arguments
 - `portfolio_id`: The unique identifier of the portfolio for which the share will be
@@ -3653,9 +3704,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountId"`: The Amazon Web Services account Id of the recipient account. This field is
   required when updating an external account to account type share.
 - `"OrganizationNode"`:
-- `"ShareTagOptions"`: A flag to enable or disable TagOptions sharing for the portfolio
-  share. If this field is not provided, the current state of TagOptions sharing on the
-  portfolio share will not be modified.
+- `"SharePrincipals"`: A flag to enables or disables Principals sharing in the portfolio.
+  If this field is not provided, the current state of the Principals sharing on the portfolio
+  share will not be modified.
+- `"ShareTagOptions"`: Enables or disables TagOptions sharing for the portfolio share. If
+  this field is not provided, the current state of TagOptions sharing on the portfolio share
+  will not be modified.
 """
 function update_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3701,6 +3755,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The updated product name.
 - `"Owner"`: The updated owner of the product.
 - `"RemoveTags"`: The tags to remove from the product.
+- `"SourceConnection"`: Specifies connection details for the updated product and syncs the
+  product to the connection source artifact. This automatically manages the product's
+  artifacts based on changes to the source. The SourceConnection parameter consists of the
+  following sub-fields.    Type     ConnectionParamters
 - `"SupportDescription"`: The updated support description for the product.
 - `"SupportEmail"`: The updated support email for the product.
 - `"SupportUrl"`: The updated support URL for the product.

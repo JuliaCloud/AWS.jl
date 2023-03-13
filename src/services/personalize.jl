@@ -464,6 +464,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data you imported individually is not replaced.   Specify INCREMENTAL to append the new
   records to the existing data in your dataset. Amazon Personalize replaces any record with
   the same ID with the new one.
+- `"publishAttributionMetricsToS3"`: If you created a metric attribution, specify whether
+  to publish metrics for this import job to Amazon S3
 - `"tags"`: A list of tags to apply to the dataset import job.
 """
 function create_dataset_import_job(
@@ -617,6 +619,72 @@ function create_filter(
                 Dict{String,Any}(
                     "datasetGroupArn" => datasetGroupArn,
                     "filterExpression" => filterExpression,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_metric_attribution(dataset_group_arn, metrics, metrics_output_config, name)
+    create_metric_attribution(dataset_group_arn, metrics, metrics_output_config, name, params::Dict{String,<:Any})
+
+Creates a metric attribution. A metric attribution creates reports on the data that you
+import into Amazon Personalize. Depending on how you imported the data, you can view
+reports in Amazon CloudWatch or Amazon S3. For more information, see Measuring impact of
+recommendations.
+
+# Arguments
+- `dataset_group_arn`: The Amazon Resource Name (ARN) of the destination dataset group for
+  the metric attribution.
+- `metrics`: A list of metric attributes for the metric attribution. Each metric attribute
+  specifies an event type to track and a function. Available functions are SUM() or
+  SAMPLECOUNT(). For SUM() functions, provide the dataset type (either Interactions or Items)
+  and column to sum as a parameter. For example SUM(Items.PRICE).
+- `metrics_output_config`: The output configuration details for the metric attribution.
+- `name`: A name for the metric attribution.
+
+"""
+function create_metric_attribution(
+    datasetGroupArn,
+    metrics,
+    metricsOutputConfig,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "CreateMetricAttribution",
+        Dict{String,Any}(
+            "datasetGroupArn" => datasetGroupArn,
+            "metrics" => metrics,
+            "metricsOutputConfig" => metricsOutputConfig,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_metric_attribution(
+    datasetGroupArn,
+    metrics,
+    metricsOutputConfig,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "CreateMetricAttribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "datasetGroupArn" => datasetGroupArn,
+                    "metrics" => metrics,
+                    "metricsOutputConfig" => metricsOutputConfig,
                     "name" => name,
                 ),
                 params,
@@ -857,6 +925,7 @@ DescribeSolution     DeleteSolution
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the solution version.
 - `"tags"`: A list of tags to apply to the solution version.
 - `"trainingMode"`: The scope of training to be performed when creating the solution
   version. The FULL option trains the solution version based on the entirety of the input
@@ -1067,6 +1136,45 @@ function delete_filter(
         "DeleteFilter",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_metric_attribution(metric_attribution_arn)
+    delete_metric_attribution(metric_attribution_arn, params::Dict{String,<:Any})
+
+Deletes a metric attribution.
+
+# Arguments
+- `metric_attribution_arn`: The metric attribution's Amazon Resource Name (ARN).
+
+"""
+function delete_metric_attribution(
+    metricAttributionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "DeleteMetricAttribution",
+        Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_metric_attribution(
+    metricAttributionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "DeleteMetricAttribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("metricAttributionArn" => metricAttributionArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1595,6 +1703,45 @@ function describe_filter(
 end
 
 """
+    describe_metric_attribution(metric_attribution_arn)
+    describe_metric_attribution(metric_attribution_arn, params::Dict{String,<:Any})
+
+Describes a metric attribution.
+
+# Arguments
+- `metric_attribution_arn`: The metric attribution's Amazon Resource Name (ARN).
+
+"""
+function describe_metric_attribution(
+    metricAttributionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "DescribeMetricAttribution",
+        Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metric_attribution(
+    metricAttributionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "DescribeMetricAttribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("metricAttributionArn" => metricAttributionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_recipe(recipe_arn)
     describe_recipe(recipe_arn, params::Dict{String,<:Any})
 
@@ -2087,6 +2234,70 @@ function list_filters(
 end
 
 """
+    list_metric_attribution_metrics()
+    list_metric_attribution_metrics(params::Dict{String,<:Any})
+
+Lists the metrics for the metric attribution.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of metrics to return in one page of results.
+- `"metricAttributionArn"`: The Amazon Resource Name (ARN) of the metric attribution to
+  retrieve attributes for.
+- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+  page of results.
+"""
+function list_metric_attribution_metrics(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "ListMetricAttributionMetrics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_metric_attribution_metrics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "ListMetricAttributionMetrics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_metric_attributions()
+    list_metric_attributions(params::Dict{String,<:Any})
+
+Lists metric attributions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"datasetGroupArn"`: The metric attributions' dataset group Amazon Resource Name (ARN).
+- `"maxResults"`: The maximum number of metric attributions to return in one page of
+  results.
+- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+  page of results.
+"""
+function list_metric_attributions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return personalize(
+        "ListMetricAttributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_metric_attributions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "ListMetricAttributions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_recipes()
     list_recipes(params::Dict{String,<:Any})
 
@@ -2503,6 +2714,36 @@ function update_campaign(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_metric_attribution()
+    update_metric_attribution(params::Dict{String,<:Any})
+
+Updates a metric attribution.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"addMetrics"`: Add new metric attributes to the metric attribution.
+- `"metricAttributionArn"`: The Amazon Resource Name (ARN) for the metric attribution to
+  update.
+- `"metricsOutputConfig"`: An output config for the metric attribution.
+- `"removeMetrics"`: Remove metric attributes from the metric attribution.
+"""
+function update_metric_attribution(; aws_config::AbstractAWSConfig=global_aws_config())
+    return personalize(
+        "UpdateMetricAttribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_metric_attribution(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "UpdateMetricAttribution",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

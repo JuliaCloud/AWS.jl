@@ -189,8 +189,8 @@ Creates a Deployment resource, which makes a specified RestApi callable over the
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"cacheClusterEnabled"`: Enables a cache cluster for the Stage resource specified in the
   input.
-- `"cacheClusterSize"`: Specifies the cache cluster size for the Stage resource specified
-  in the input, if a cache cluster is enabled.
+- `"cacheClusterSize"`: The stage's cache capacity in GB. For more information about
+  choosing a cache size, see Enabling API caching to enhance responsiveness.
 - `"canarySettings"`: The input configuration for the canary deployment when the deployment
   is a canary release deployment.
 - `"description"`: The description for the Deployment resource to create.
@@ -592,7 +592,8 @@ Creates a new Stage resource that references a pre-existing Deployment for the A
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"cacheClusterEnabled"`: Whether cache clustering is enabled for the stage.
-- `"cacheClusterSize"`: The stage's cache cluster size.
+- `"cacheClusterSize"`: The stage's cache capacity in GB. For more information about
+  choosing a cache size, see Enabling API caching to enhance responsiveness.
 - `"canarySettings"`: The canary deployment settings of this stage.
 - `"description"`: The description of the Stage resource.
 - `"documentationVersion"`: The version of the associated API documentation.

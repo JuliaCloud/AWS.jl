@@ -9,7 +9,7 @@ using AWS.UUIDs
     associate_alias2020_05_31(alias, target_distribution_id, params::Dict{String,<:Any})
 
 Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
-distribution. With this operation you can move an alias that’s already in use on a
+distribution. With this operation you can move an alias that's already in use on a
 CloudFront distribution to a different distribution in one step. This prevents the downtime
 that could occur if you first remove the alias from one distribution and then separately
 add the alias to another distribution. To use this operation to associate an alias with a
@@ -20,7 +20,7 @@ different distribution in the Amazon CloudFront Developer Guide.
 
 # Arguments
 - `alias`: The alias (also known as a CNAME) to add to the target distribution.
-- `target_distribution_id`: The ID of the distribution that you’re associating the alias
+- `target_distribution_id`: The ID of the distribution that you're associating the alias
   with.
 
 """
@@ -51,21 +51,79 @@ function associate_alias2020_05_31(
 end
 
 """
+    copy_distribution2020_05_31(caller_reference, primary_distribution_id)
+    copy_distribution2020_05_31(caller_reference, primary_distribution_id, params::Dict{String,<:Any})
+
+Creates a staging distribution using the configuration of the provided primary
+distribution. A staging distribution is a copy of an existing distribution (called the
+primary distribution) that you can use in a continuous deployment workflow. After you
+create a staging distribution, you can use UpdateDistribution to modify the staging
+distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to
+incrementally move traffic to the staging distribution.
+
+# Arguments
+- `caller_reference`: A value that uniquely identifies a request to create a resource. This
+  helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit
+  an identical request.
+- `primary_distribution_id`: The identifier of the primary distribution whose configuration
+  you are copying. To get a distribution ID, use ListDistributions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The version identifier of the primary distribution whose configuration you
+  are copying. This is the ETag value returned in the response to GetDistribution and
+  GetDistributionConfig.
+- `"Staging"`: The type of distribution that your primary distribution will be copied to.
+  The only valid value is True, indicating that you are copying to a staging distribution.
+"""
+function copy_distribution2020_05_31(
+    CallerReference,
+    PrimaryDistributionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution/$(PrimaryDistributionId)/copy",
+        Dict{String,Any}("CallerReference" => CallerReference);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function copy_distribution2020_05_31(
+    CallerReference,
+    PrimaryDistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution/$(PrimaryDistributionId)/copy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CallerReference" => CallerReference), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_cache_policy2020_05_31(cache_policy_config)
     create_cache_policy2020_05_31(cache_policy_config, params::Dict{String,<:Any})
 
 Creates a cache policy. After you create a cache policy, you can attach it to one or more
-cache behaviors. When it’s attached to a cache behavior, the cache policy determines the
+cache behaviors. When it's attached to a cache behavior, the cache policy determines the
 following:   The values that CloudFront includes in the cache key. These values can include
 HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an
 object in its cache that it can return to the viewer.   The default, minimum, and maximum
 time to live (TTL) values that you want objects to stay in the CloudFront cache.   The
 headers, cookies, and query strings that are included in the cache key are automatically
 included in requests that CloudFront sends to the origin. CloudFront sends a request when
-it can’t find an object in its cache that matches the request’s cache key. If you want
-to send values to the origin but not include them in the cache key, use
-OriginRequestPolicy. For more information about cache policies, see Controlling the cache
-key in the Amazon CloudFront Developer Guide.
+it can't find an object in its cache that matches the request's cache key. If you want to
+send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+For more information about cache policies, see Controlling the cache key in the Amazon
+CloudFront Developer Guide.
 
 # Arguments
 - `cache_policy_config`: A cache policy configuration.
@@ -152,18 +210,63 @@ function create_cloud_front_origin_access_identity2020_05_31(
 end
 
 """
+    create_continuous_deployment_policy2020_05_31(continuous_deployment_policy_config)
+    create_continuous_deployment_policy2020_05_31(continuous_deployment_policy_config, params::Dict{String,<:Any})
+
+Creates a continuous deployment policy that distributes traffic for a custom domain name to
+two different CloudFront distributions. To use a continuous deployment policy, first use
+CopyDistribution to create a staging distribution, then use UpdateDistribution to modify
+the staging distribution's configuration. After you create and update a staging
+distribution, you can use a continuous deployment policy to incrementally move traffic to
+the staging distribution. This workflow enables you to test changes to a distribution's
+configuration before moving all of your domain's production traffic to the new
+configuration.
+
+# Arguments
+- `continuous_deployment_policy_config`: Contains the configuration for a continuous
+  deployment policy.
+
+"""
+function create_continuous_deployment_policy2020_05_31(
+    ContinuousDeploymentPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/continuous-deployment-policy",
+        Dict{String,Any}(
+            "ContinuousDeploymentPolicyConfig" => ContinuousDeploymentPolicyConfig
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_continuous_deployment_policy2020_05_31(
+    ContinuousDeploymentPolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/continuous-deployment-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContinuousDeploymentPolicyConfig" => ContinuousDeploymentPolicyConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_distribution2020_05_31(distribution_config)
     create_distribution2020_05_31(distribution_config, params::Dict{String,<:Any})
 
-Creates a new web distribution. You create a CloudFront distribution to tell CloudFront
-where you want content to be delivered from, and the details about how to track and manage
-content delivery. Send a POST request to the /CloudFront API
-version/distribution/distribution ID resource.  When you update a distribution, there are
-more required fields than when you create a distribution. When you update your distribution
-by using UpdateDistribution, follow the steps included in the documentation to get the
-current configuration and then make your updates. This helps to make sure that you include
-all of the required fields. To view a summary, see Required Fields for Create Distribution
-and Update Distribution in the Amazon CloudFront Developer Guide.
+Creates a CloudFront distribution.
 
 # Arguments
 - `distribution_config`: The distribution's configuration information.
@@ -337,19 +440,19 @@ end
 
 Creates a CloudFront function. To create a function, you provide the function code and some
 configuration information about the function. The response contains an Amazon Resource Name
-(ARN) that uniquely identifies the function. When you create a function, it’s in the
+(ARN) that uniquely identifies the function. When you create a function, it's in the
 DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update
-it with UpdateFunction. When you’re ready to use your function with a CloudFront
+it with UpdateFunction. When you're ready to use your function with a CloudFront
 distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE.
-When it’s live, you can attach the function to a distribution’s cache behavior, using
-the function’s ARN.
+When it's live, you can attach the function to a distribution's cache behavior, using the
+function's ARN.
 
 # Arguments
 - `function_code`: The function code. For more information about writing a CloudFront
   function, see Writing function code for CloudFront Functions in the Amazon CloudFront
   Developer Guide.
 - `function_config`: Configuration information about the function, including an optional
-  comment and the function’s runtime.
+  comment and the function's runtime.
 - `name`: A name to identify the function.
 
 """
@@ -580,7 +683,7 @@ end
     create_origin_request_policy2020_05_31(origin_request_policy_config, params::Dict{String,<:Any})
 
 Creates an origin request policy. After you create an origin request policy, you can attach
-it to one or more cache behaviors. When it’s attached to a cache behavior, the origin
+it to one or more cache behaviors. When it's attached to a cache behavior, the origin
 request policy determines the values that CloudFront includes in requests that it sends to
 the origin. Each request that CloudFront sends to the origin includes the following:   The
 request body and the URL path (without the domain name) from the viewer request.   The
@@ -588,7 +691,7 @@ headers that CloudFront automatically includes in every origin request, includin
 User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are
 specified in the cache policy or the origin request policy. These can include items from
 the viewer request and, in the case of headers, additional ones that are added by
-CloudFront.   CloudFront sends a request when it can’t find a valid object in its cache
+CloudFront.   CloudFront sends a request when it can't find a valid object in its cache
 that matches the request. If you want to send values to the origin and also include them in
 the cache key, use CachePolicy. For more information about origin request policies, see
 Controlling origin requests in the Amazon CloudFront Developer Guide.
@@ -743,16 +846,18 @@ end
     create_response_headers_policy2020_05_31(response_headers_policy_config, params::Dict{String,<:Any})
 
 Creates a response headers policy. A response headers policy contains information about a
-set of HTTP response headers and their values. To create a response headers policy, you
-provide some metadata about the policy, and a set of configurations that specify the
-response headers. After you create a response headers policy, you can use its ID to attach
-it to one or more cache behaviors in a CloudFront distribution. When it’s attached to a
-cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends
-for requests that match the cache behavior.
+set of HTTP headers. To create a response headers policy, you provide some metadata about
+the policy and a set of configurations that specify the headers. After you create a
+response headers policy, you can use its ID to attach it to one or more cache behaviors in
+a CloudFront distribution. When it's attached to a cache behavior, the response headers
+policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that
+match the cache behavior. CloudFront adds or removes response headers according to the
+configuration of the response headers policy. For more information, see Adding or removing
+HTTP headers in CloudFront responses in the Amazon CloudFront Developer Guide.
 
 # Arguments
 - `response_headers_policy_config`: Contains metadata about the response headers policy,
-  and a set of configurations that specify the response headers.
+  and a set of configurations that specify the HTTP headers.
 
 """
 function create_response_headers_policy2020_05_31(
@@ -842,7 +947,7 @@ This API is deprecated. Amazon CloudFront is deprecating real-time messaging pro
 the Amazon CloudFront discussion forum.
 
 # Arguments
-- `streaming_distribution_config_with_tags`:  The streaming distribution's configuration
+- `streaming_distribution_config_with_tags`: The streaming distribution's configuration
   information.
 
 """
@@ -886,10 +991,10 @@ end
     delete_cache_policy2020_05_31(id)
     delete_cache_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Deletes a cache policy. You cannot delete a cache policy if it’s attached to a cache
+Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache
 behavior. First update your distributions to remove the cache policy from all cache
 behaviors, then delete the cache policy. To delete a cache policy, you must provide the
-policy’s identifier and version. To get these values, you can use ListCachePolicies or
+policy's identifier and version. To get these values, you can use ListCachePolicies or
 GetCachePolicy.
 
 # Arguments
@@ -899,7 +1004,7 @@ GetCachePolicy.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the cache policy that you are deleting. The version is the
-  cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or
+  cache policy's ETag value, which you can get using ListCachePolicies, GetCachePolicy, or
   GetCachePolicyConfig.
 """
 function delete_cache_policy2020_05_31(
@@ -954,6 +1059,44 @@ function delete_cloud_front_origin_access_identity2020_05_31(
     return cloudfront(
         "DELETE",
         "/2020-05-31/origin-access-identity/cloudfront/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_continuous_deployment_policy2020_05_31(id)
+    delete_continuous_deployment_policy2020_05_31(id, params::Dict{String,<:Any})
+
+Deletes a continuous deployment policy. You cannot delete a continuous deployment policy
+that's attached to a primary distribution. First update your distribution to remove the
+continuous deployment policy, then you can delete the policy.
+
+# Arguments
+- `id`: The identifier of the continuous deployment policy that you are deleting.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The current version (ETag value) of the continuous deployment policy that
+  you are deleting.
+"""
+function delete_continuous_deployment_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/continuous-deployment-policy/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_continuous_deployment_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/continuous-deployment-policy/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1072,10 +1215,10 @@ end
     delete_function2020_05_31(if-_match, name)
     delete_function2020_05_31(if-_match, name, params::Dict{String,<:Any})
 
-Deletes a CloudFront function. You cannot delete a function if it’s associated with a
-cache behavior. First, update your distributions to remove the function association from
-all cache behaviors, then delete the function. To delete a function, you must provide the
-function’s name and version (ETag value). To get these values, you can use ListFunctions
+Deletes a CloudFront function. You cannot delete a function if it's associated with a cache
+behavior. First, update your distributions to remove the function association from all
+cache behaviors, then delete the function. To delete a function, you must provide the
+function's name and version (ETag value). To get these values, you can use ListFunctions
 and DescribeFunction.
 
 # Arguments
@@ -1122,7 +1265,7 @@ end
 
 Deletes a key group. You cannot delete a key group that is referenced in a cache behavior.
 First update your distributions to remove the key group from all cache behaviors, then
-delete the key group. To delete a key group, you must provide the key group’s identifier
+delete the key group. To delete a key group, you must provide the key group's identifier
 and version. To get these values, use ListKeyGroups followed by GetKeyGroup or
 GetKeyGroupConfig.
 
@@ -1133,7 +1276,7 @@ GetKeyGroupConfig.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the key group that you are deleting. The version is the key
-  group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
+  group's ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
 """
 function delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudfront(
@@ -1231,11 +1374,11 @@ end
     delete_origin_request_policy2020_05_31(id)
     delete_origin_request_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Deletes an origin request policy. You cannot delete an origin request policy if it’s
+Deletes an origin request policy. You cannot delete an origin request policy if it's
 attached to any cache behaviors. First update your distributions to remove the origin
 request policy from all cache behaviors, then delete the origin request policy. To delete
-an origin request policy, you must provide the policy’s identifier and version. To get
-the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
+an origin request policy, you must provide the policy's identifier and version. To get the
+identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
 
 # Arguments
 - `id`: The unique identifier for the origin request policy that you are deleting. To get
@@ -1244,7 +1387,7 @@ the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the origin request policy that you are deleting. The version
-  is the origin request policy’s ETag value, which you can get using
+  is the origin request policy's ETag value, which you can get using
   ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
 """
 function delete_origin_request_policy2020_05_31(
@@ -1308,12 +1451,11 @@ end
     delete_realtime_log_config2020_05_31(params::Dict{String,<:Any})
 
 Deletes a real-time log configuration. You cannot delete a real-time log configuration if
-it’s attached to a cache behavior. First update your distributions to remove the
-real-time log configuration from all cache behaviors, then delete the real-time log
-configuration. To delete a real-time log configuration, you can provide the
-configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If
-you provide both, CloudFront uses the name to identify the real-time log configuration to
-delete.
+it's attached to a cache behavior. First update your distributions to remove the real-time
+log configuration from all cache behaviors, then delete the real-time log configuration. To
+delete a real-time log configuration, you can provide the configuration's name or its
+Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
+uses the name to identify the real-time log configuration to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1346,10 +1488,10 @@ end
     delete_response_headers_policy2020_05_31(id)
     delete_response_headers_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Deletes a response headers policy. You cannot delete a response headers policy if it’s
+Deletes a response headers policy. You cannot delete a response headers policy if it's
 attached to a cache behavior. First update your distributions to remove the response
 headers policy from all cache behaviors, then delete the response headers policy. To delete
-a response headers policy, you must provide the policy’s identifier and version. To get
+a response headers policy, you must provide the policy's identifier and version. To get
 these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
 
 # Arguments
@@ -1359,7 +1501,7 @@ these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolic
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the response headers policy that you are deleting. The
-  version is the response headers policy’s ETag value, which you can get using
+  version is the response headers policy's ETag value, which you can get using
   ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
 """
 function delete_response_headers_policy2020_05_31(
@@ -1443,16 +1585,16 @@ end
     describe_function2020_05_31(name, params::Dict{String,<:Any})
 
 Gets configuration information and metadata about a CloudFront function, but not the
-function’s code. To get a function’s code, use GetFunction. To get configuration
-information and metadata about a function, you must provide the function’s name and
-stage. To get these values, you can use ListFunctions.
+function's code. To get a function's code, use GetFunction. To get configuration
+information and metadata about a function, you must provide the function's name and stage.
+To get these values, you can use ListFunctions.
 
 # Arguments
 - `name`: The name of the function that you are getting information about.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+- `"Stage"`: The function's stage, either DEVELOPMENT or LIVE.
 """
 function describe_function2020_05_31(
     Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1480,18 +1622,18 @@ end
     get_cache_policy2020_05_31(id)
     get_cache_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Gets a cache policy, including the following metadata:   The policy’s identifier.   The
+Gets a cache policy, including the following metadata:   The policy's identifier.   The
 date and time when the policy was last modified.   To get a cache policy, you must provide
-the policy’s identifier. If the cache policy is attached to a distribution’s cache
-behavior, you can get the policy’s identifier using ListDistributions or GetDistribution.
+the policy's identifier. If the cache policy is attached to a distribution's cache
+behavior, you can get the policy's identifier using ListDistributions or GetDistribution.
 If the cache policy is not attached to a cache behavior, you can get the identifier using
 ListCachePolicies.
 
 # Arguments
 - `id`: The unique identifier for the cache policy. If the cache policy is attached to a
-  distribution’s cache behavior, you can get the policy’s identifier using
-  ListDistributions or GetDistribution. If the cache policy is not attached to a cache
-  behavior, you can get the identifier using ListCachePolicies.
+  distribution's cache behavior, you can get the policy's identifier using ListDistributions
+  or GetDistribution. If the cache policy is not attached to a cache behavior, you can get
+  the identifier using ListCachePolicies.
 
 """
 function get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1519,16 +1661,16 @@ end
     get_cache_policy_config2020_05_31(id, params::Dict{String,<:Any})
 
 Gets a cache policy configuration. To get a cache policy configuration, you must provide
-the policy’s identifier. If the cache policy is attached to a distribution’s cache
-behavior, you can get the policy’s identifier using ListDistributions or GetDistribution.
+the policy's identifier. If the cache policy is attached to a distribution's cache
+behavior, you can get the policy's identifier using ListDistributions or GetDistribution.
 If the cache policy is not attached to a cache behavior, you can get the identifier using
 ListCachePolicies.
 
 # Arguments
 - `id`: The unique identifier for the cache policy. If the cache policy is attached to a
-  distribution’s cache behavior, you can get the policy’s identifier using
-  ListDistributions or GetDistribution. If the cache policy is not attached to a cache
-  behavior, you can get the identifier using ListCachePolicies.
+  distribution's cache behavior, you can get the policy's identifier using ListDistributions
+  or GetDistribution. If the cache policy is not attached to a cache behavior, you can get
+  the identifier using ListCachePolicies.
 
 """
 function get_cache_policy_config2020_05_31(
@@ -1611,6 +1753,72 @@ function get_cloud_front_origin_access_identity_config2020_05_31(
     return cloudfront(
         "GET",
         "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_continuous_deployment_policy2020_05_31(id)
+    get_continuous_deployment_policy2020_05_31(id, params::Dict{String,<:Any})
+
+Gets a continuous deployment policy, including metadata (the policy's identifier and the
+date and time when the policy was last modified).
+
+# Arguments
+- `id`: The identifier of the continuous deployment policy that you are getting.
+
+"""
+function get_continuous_deployment_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_continuous_deployment_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_continuous_deployment_policy_config2020_05_31(id)
+    get_continuous_deployment_policy_config2020_05_31(id, params::Dict{String,<:Any})
+
+Gets configuration information about a continuous deployment policy.
+
+# Arguments
+- `id`: The identifier of the continuous deployment policy whose configuration you are
+  getting.
+
+"""
+function get_continuous_deployment_policy_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy/$(Id)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_continuous_deployment_policy_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy/$(Id)/config",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1814,15 +2022,15 @@ end
     get_function2020_05_31(name, params::Dict{String,<:Any})
 
 Gets the code of a CloudFront function. To get configuration information and metadata about
-a function, use DescribeFunction. To get a function’s code, you must provide the
-function’s name and stage. To get these values, you can use ListFunctions.
+a function, use DescribeFunction. To get a function's code, you must provide the function's
+name and stage. To get these values, you can use ListFunctions.
 
 # Arguments
 - `name`: The name of the function whose code you are getting.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+- `"Stage"`: The function's stage, either DEVELOPMENT or LIVE.
 """
 function get_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudfront(
@@ -1885,8 +2093,8 @@ end
     get_key_group2020_05_31(id, params::Dict{String,<:Any})
 
 Gets a key group, including the date and time when the key group was last modified. To get
-a key group, you must provide the key group’s identifier. If the key group is referenced
-in a distribution’s cache behavior, you can get the key group’s identifier using
+a key group, you must provide the key group's identifier. If the key group is referenced in
+a distribution's cache behavior, you can get the key group's identifier using
 ListDistributions or GetDistribution. If the key group is not referenced in a cache
 behavior, you can get the identifier using ListKeyGroups.
 
@@ -1920,10 +2128,9 @@ end
     get_key_group_config2020_05_31(id, params::Dict{String,<:Any})
 
 Gets a key group configuration. To get a key group configuration, you must provide the key
-group’s identifier. If the key group is referenced in a distribution’s cache behavior,
-you can get the key group’s identifier using ListDistributions or GetDistribution. If the
-key group is not referenced in a cache behavior, you can get the identifier using
-ListKeyGroups.
+group's identifier. If the key group is referenced in a distribution's cache behavior, you
+can get the key group's identifier using ListDistributions or GetDistribution. If the key
+group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
 
 # Arguments
 - `id`: The identifier of the key group whose configuration you are getting. To get the
@@ -2056,18 +2263,18 @@ end
     get_origin_request_policy2020_05_31(id)
     get_origin_request_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Gets an origin request policy, including the following metadata:   The policy’s
-identifier.   The date and time when the policy was last modified.   To get an origin
-request policy, you must provide the policy’s identifier. If the origin request policy is
-attached to a distribution’s cache behavior, you can get the policy’s identifier using
-ListDistributions or GetDistribution. If the origin request policy is not attached to a
-cache behavior, you can get the identifier using ListOriginRequestPolicies.
+Gets an origin request policy, including the following metadata:   The policy's identifier.
+  The date and time when the policy was last modified.   To get an origin request policy,
+you must provide the policy's identifier. If the origin request policy is attached to a
+distribution's cache behavior, you can get the policy's identifier using ListDistributions
+or GetDistribution. If the origin request policy is not attached to a cache behavior, you
+can get the identifier using ListOriginRequestPolicies.
 
 # Arguments
 - `id`: The unique identifier for the origin request policy. If the origin request policy
-  is attached to a distribution’s cache behavior, you can get the policy’s identifier
-  using ListDistributions or GetDistribution. If the origin request policy is not attached to
-  a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+  is attached to a distribution's cache behavior, you can get the policy's identifier using
+  ListDistributions or GetDistribution. If the origin request policy is not attached to a
+  cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
 function get_origin_request_policy2020_05_31(
@@ -2097,16 +2304,16 @@ end
     get_origin_request_policy_config2020_05_31(id, params::Dict{String,<:Any})
 
 Gets an origin request policy configuration. To get an origin request policy configuration,
-you must provide the policy’s identifier. If the origin request policy is attached to a
-distribution’s cache behavior, you can get the policy’s identifier using
-ListDistributions or GetDistribution. If the origin request policy is not attached to a
-cache behavior, you can get the identifier using ListOriginRequestPolicies.
+you must provide the policy's identifier. If the origin request policy is attached to a
+distribution's cache behavior, you can get the policy's identifier using ListDistributions
+or GetDistribution. If the origin request policy is not attached to a cache behavior, you
+can get the identifier using ListOriginRequestPolicies.
 
 # Arguments
 - `id`: The unique identifier for the origin request policy. If the origin request policy
-  is attached to a distribution’s cache behavior, you can get the policy’s identifier
-  using ListDistributions or GetDistribution. If the origin request policy is not attached to
-  a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+  is attached to a distribution's cache behavior, you can get the policy's identifier using
+  ListDistributions or GetDistribution. If the origin request policy is not attached to a
+  cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
 function get_origin_request_policy_config2020_05_31(
@@ -2198,9 +2405,9 @@ end
     get_realtime_log_config2020_05_31(params::Dict{String,<:Any})
 
 Gets a real-time log configuration. To get a real-time log configuration, you can provide
-the configuration’s name or its Amazon Resource Name (ARN). You must provide at least
-one. If you provide both, CloudFront uses the name to identify the real-time log
-configuration to get.
+the configuration's name or its Amazon Resource Name (ARN). You must provide at least one.
+If you provide both, CloudFront uses the name to identify the real-time log configuration
+to get.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2233,16 +2440,16 @@ end
     get_response_headers_policy2020_05_31(id)
     get_response_headers_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Gets a response headers policy, including metadata (the policy’s identifier and the date
+Gets a response headers policy, including metadata (the policy's identifier and the date
 and time when the policy was last modified). To get a response headers policy, you must
-provide the policy’s identifier. If the response headers policy is attached to a
-distribution’s cache behavior, you can get the policy’s identifier using
-ListDistributions or GetDistribution. If the response headers policy is not attached to a
-cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+provide the policy's identifier. If the response headers policy is attached to a
+distribution's cache behavior, you can get the policy's identifier using ListDistributions
+or GetDistribution. If the response headers policy is not attached to a cache behavior, you
+can get the identifier using ListResponseHeadersPolicies.
 
 # Arguments
 - `id`: The identifier for the response headers policy. If the response headers policy is
-  attached to a distribution’s cache behavior, you can get the policy’s identifier using
+  attached to a distribution's cache behavior, you can get the policy's identifier using
   ListDistributions or GetDistribution. If the response headers policy is not attached to a
   cache behavior, you can get the identifier using ListResponseHeadersPolicies.
 
@@ -2274,14 +2481,14 @@ end
     get_response_headers_policy_config2020_05_31(id, params::Dict{String,<:Any})
 
 Gets a response headers policy configuration. To get a response headers policy
-configuration, you must provide the policy’s identifier. If the response headers policy
-is attached to a distribution’s cache behavior, you can get the policy’s identifier
-using ListDistributions or GetDistribution. If the response headers policy is not attached
-to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+configuration, you must provide the policy's identifier. If the response headers policy is
+attached to a distribution's cache behavior, you can get the policy's identifier using
+ListDistributions or GetDistribution. If the response headers policy is not attached to a
+cache behavior, you can get the identifier using ListResponseHeadersPolicies.
 
 # Arguments
 - `id`: The identifier for the response headers policy. If the response headers policy is
-  attached to a distribution’s cache behavior, you can get the policy’s identifier using
+  attached to a distribution's cache behavior, you can get the policy's identifier using
   ListDistributions or GetDistribution. If the response headers policy is not attached to a
   cache behavior, you can get the identifier using ListResponseHeadersPolicies.
 
@@ -2389,8 +2596,8 @@ the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of cache policies. The response includes cache policies in the list that occur after
-  the marker. To get the next page of the list, set this field’s value to the value of
-  NextMarker from the current page’s response.
+  the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of cache policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of cache policies. Valid values
   are:    managed – Returns only the managed policies created by Amazon Web Services.
@@ -2461,10 +2668,10 @@ Gets a list of aliases (also called CNAMEs or alternate domain names) that confl
 overlap with the provided alias, and the associated CloudFront distributions and Amazon Web
 Services accounts for each conflicting alias. In the returned list, the distribution and
 account IDs are partially hidden, which allows you to identify the distributions and
-accounts that you own, but helps to protect the information of ones that you don’t own.
-Use this operation to find aliases that are in use in CloudFront that conflict or overlap
-with the provided alias. For example, if you provide www.example.com as input, the returned
-list can include www.example.com and the overlapping wildcard alternate domain name
+accounts that you own, but helps to protect the information of ones that you don't own. Use
+this operation to find aliases that are in use in CloudFront that conflict or overlap with
+the provided alias. For example, if you provide www.example.com as input, the returned list
+can include www.example.com and the overlapping wildcard alternate domain name
 (*.example.com), if they exist. If you provide *.example.com as input, the returned list
 can include *.example.com and any alternate domain names covered by that wildcard (for
 example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To
@@ -2487,8 +2694,8 @@ in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in the list
   of conflicting aliases. The response includes conflicting aliases in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of conflicting aliases that you want in the response.
 """
 function list_conflicting_aliases2020_05_31(
@@ -2518,6 +2725,48 @@ function list_conflicting_aliases2020_05_31(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_continuous_deployment_policies2020_05_31()
+    list_continuous_deployment_policies2020_05_31(params::Dict{String,<:Any})
+
+Gets a list of the continuous deployment policies in your Amazon Web Services account. You
+can optionally specify the maximum number of items to receive in the response. If the total
+number of items in the list exceeds the maximum that you specify, or the default maximum,
+the response is paginated. To get the next page of items, send a subsequent request that
+specifies the NextMarker value from the current response as the Marker value in the
+subsequent request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list of continuous deployment policies. The response includes policies in the list that
+  occur after the marker. To get the next page of the list, set this field's value to the
+  value of NextMarker from the current page's response.
+- `"MaxItems"`: The maximum number of continuous deployment policies that you want returned
+  in the response.
+"""
+function list_continuous_deployment_policies2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_continuous_deployment_policies2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/continuous-deployment-policy",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2561,7 +2810,7 @@ end
     list_distributions_by_cache_policy_id2020_05_31(cache_policy_id)
     list_distributions_by_cache_policy_id2020_05_31(cache_policy_id, params::Dict{String,<:Any})
 
-Gets a list of distribution IDs for distributions that have a cache behavior that’s
+Gets a list of distribution IDs for distributions that have a cache behavior that's
 associated with the specified cache policy. You can optionally specify the maximum number
 of items to receive in the response. If the total number of items in the list exceeds the
 maximum that you specify, or the default maximum, the response is paginated. To get the
@@ -2576,8 +2825,8 @@ current response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_cache_policy_id2020_05_31(
@@ -2622,8 +2871,8 @@ response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_key_group2020_05_31(
@@ -2654,7 +2903,7 @@ end
     list_distributions_by_origin_request_policy_id2020_05_31(origin_request_policy_id)
     list_distributions_by_origin_request_policy_id2020_05_31(origin_request_policy_id, params::Dict{String,<:Any})
 
-Gets a list of distribution IDs for distributions that have a cache behavior that’s
+Gets a list of distribution IDs for distributions that have a cache behavior that's
 associated with the specified origin request policy. You can optionally specify the maximum
 number of items to receive in the response. If the total number of items in the list
 exceeds the maximum that you specify, or the default maximum, the response is paginated. To
@@ -2669,8 +2918,8 @@ from the current response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_origin_request_policy_id2020_05_31(
@@ -2701,7 +2950,7 @@ end
     list_distributions_by_realtime_log_config2020_05_31()
     list_distributions_by_realtime_log_config2020_05_31(params::Dict{String,<:Any})
 
-Gets a list of distributions that have a cache behavior that’s associated with the
+Gets a list of distributions that have a cache behavior that's associated with the
 specified real-time log configuration. You can specify the real-time log configuration by
 its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide
 both, CloudFront uses the name to identify the real-time log configuration to list
@@ -2715,8 +2964,8 @@ Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of distributions. The response includes distributions in the list that occur after the
-  marker. To get the next page of the list, set this field’s value to the value of
-  NextMarker from the current page’s response.
+  marker. To get the next page of the list, set this field's value to the value of NextMarker
+  from the current page's response.
 - `"MaxItems"`: The maximum number of distributions that you want in the response.
 - `"RealtimeLogConfigArn"`: The Amazon Resource Name (ARN) of the real-time log
   configuration whose associated distributions you want to list.
@@ -2749,7 +2998,7 @@ end
     list_distributions_by_response_headers_policy_id2020_05_31(response_headers_policy_id)
     list_distributions_by_response_headers_policy_id2020_05_31(response_headers_policy_id, params::Dict{String,<:Any})
 
-Gets a list of distribution IDs for distributions that have a cache behavior that’s
+Gets a list of distribution IDs for distributions that have a cache behavior that's
 associated with the specified response headers policy. You can optionally specify the
 maximum number of items to receive in the response. If the total number of items in the
 list exceeds the maximum that you specify, or the default maximum, the response is
@@ -2764,8 +3013,8 @@ NextMarker value from the current response as the Marker value in the subsequent
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
+  after the marker. To get the next page of the list, set this field's value to the value of
+  NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want to get in the response.
 """
 function list_distributions_by_response_headers_policy_id2020_05_31(
@@ -2929,8 +3178,8 @@ response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of functions. The response includes functions in the list that occur after the marker.
-  To get the next page of the list, set this field’s value to the value of NextMarker from
-  the current page’s response.
+  To get the next page of the list, set this field's value to the value of NextMarker from
+  the current page's response.
 - `"MaxItems"`: The maximum number of functions that you want in the response.
 - `"Stage"`: An optional filter to return only the functions that are in the specified
   stage, either DEVELOPMENT or LIVE.
@@ -3013,8 +3262,8 @@ response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of key groups. The response includes key groups in the list that occur after the
-  marker. To get the next page of the list, set this field’s value to the value of
-  NextMarker from the current page’s response.
+  marker. To get the next page of the list, set this field's value to the value of NextMarker
+  from the current page's response.
 - `"MaxItems"`: The maximum number of key groups that you want in the response.
 """
 function list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3094,8 +3343,8 @@ response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of origin request policies. The response includes origin request policies in the list
-  that occur after the marker. To get the next page of the list, set this field’s value to
-  the value of NextMarker from the current page’s response.
+  that occur after the marker. To get the next page of the list, set this field's value to
+  the value of NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of origin request policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of origin request policies. Valid
   values are:    managed – Returns only the managed policies created by Amazon Web
@@ -3172,8 +3421,8 @@ current response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of real-time log configurations. The response includes real-time log configurations in
-  the list that occur after the marker. To get the next page of the list, set this field’s
-  value to the value of NextMarker from the current page’s response.
+  the list that occur after the marker. To get the next page of the list, set this field's
+  value to the value of NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of real-time log configurations that you want in the
   response.
 """
@@ -3215,8 +3464,8 @@ response as the Marker value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Use this field when paginating results to indicate where to begin in your
   list of response headers policies. The response includes response headers policies in the
-  list that occur after the marker. To get the next page of the list, set this field’s
-  value to the value of NextMarker from the current page’s response.
+  list that occur after the marker. To get the next page of the list, set this field's value
+  to the value of NextMarker from the current page's response.
 - `"MaxItems"`: The maximum number of response headers policies that you want to get in the
   response.
 - `"Type"`: A filter to get only the specified kind of response headers policies. Valid
@@ -3285,7 +3534,7 @@ end
 List tags for a CloudFront resource.
 
 # Arguments
-- `resource`:  An ARN of a CloudFront resource.
+- `resource`: An ARN of a CloudFront resource.
 
 """
 function list_tags_for_resource2020_05_31(
@@ -3322,10 +3571,9 @@ end
 Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to
 LIVE. This automatically updates all cache behaviors that are using this function to use
 the newly published copy in the LIVE stage. When a function is published to the LIVE stage,
-you can attach the function to a distribution’s cache behavior, using the function’s
-Amazon Resource Name (ARN). To publish a function, you must provide the function’s name
-and version (ETag value). To get these values, you can use ListFunctions and
-DescribeFunction.
+you can attach the function to a distribution's cache behavior, using the function's Amazon
+Resource Name (ARN). To publish a function, you must provide the function's name and
+version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
 
 # Arguments
 - `if-_match`: The current version (ETag value) of the function that you are publishing,
@@ -3372,8 +3620,8 @@ end
 Add tags to a CloudFront resource.
 
 # Arguments
-- `resource`:  An ARN of a CloudFront resource.
-- `tags`:  A complex type that contains zero or more Tag elements.
+- `resource`: An ARN of a CloudFront resource.
+- `tags`: A complex type that contains zero or more Tag elements.
 
 """
 function tag_resource2020_05_31(
@@ -3413,11 +3661,11 @@ end
 Tests a CloudFront function. To test a function, you provide an event object that
 represents an HTTP request or response that your CloudFront distribution could receive in
 production. CloudFront runs the function, passing it the event object that you provided,
-and returns the function’s result (the modified event object) in the response. The
-response also contains function logs and error messages, if any exist. For more information
-about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To
-test a function, you provide the function’s name and version (ETag value) along with the
-event object. To get the function’s name and version, you can use ListFunctions and
+and returns the function's result (the modified event object) in the response. The response
+also contains function logs and error messages, if any exist. For more information about
+testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test
+a function, you provide the function's name and version (ETag value) along with the event
+object. To get the function's name and version, you can use ListFunctions and
 DescribeFunction.
 
 # Arguments
@@ -3478,8 +3726,8 @@ end
 Remove tags from a CloudFront resource.
 
 # Arguments
-- `resource`:  An ARN of a CloudFront resource.
-- `tag_keys`:  A complex type that contains zero or more Tag key elements.
+- `resource`: An ARN of a CloudFront resource.
+- `tag_keys`: A complex type that contains zero or more Tag key elements.
 
 """
 function untag_resource2020_05_31(
@@ -3524,18 +3772,17 @@ independent of others. To update a cache policy configuration:   Use GetCachePol
 to get the current configuration.   Locally modify the fields in the cache policy
 configuration that you want to update.   Call UpdateCachePolicy by providing the entire
 cache policy configuration, including the fields that you modified and those that you
-didn’t.
+didn't.
 
 # Arguments
 - `cache_policy_config`: A cache policy configuration.
 - `id`: The unique identifier for the cache policy that you are updating. The identifier is
-  returned in a cache behavior’s CachePolicyId field in the response to
-  GetDistributionConfig.
+  returned in a cache behavior's CachePolicyId field in the response to GetDistributionConfig.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the cache policy that you are updating. The version is
-  returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
+  returned in the cache policy's ETag field in the response to GetCachePolicyConfig.
 """
 function update_cache_policy2020_05_31(
     CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3622,42 +3869,82 @@ function update_cloud_front_origin_access_identity2020_05_31(
 end
 
 """
+    update_continuous_deployment_policy2020_05_31(continuous_deployment_policy_config, id)
+    update_continuous_deployment_policy2020_05_31(continuous_deployment_policy_config, id, params::Dict{String,<:Any})
+
+Updates a continuous deployment policy. You can update a continuous deployment policy to
+enable or disable it, to change the percentage of traffic that it sends to the staging
+distribution, or to change the staging distribution that it sends traffic to. When you
+update a continuous deployment policy configuration, all the fields are updated with the
+values that are provided in the request. You cannot update some fields independent of
+others. To update a continuous deployment policy configuration:   Use
+GetContinuousDeploymentPolicyConfig to get the current configuration.   Locally modify the
+fields in the continuous deployment policy configuration that you want to update.   Use
+UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy
+configuration, including the fields that you modified and those that you didn't.
+
+# Arguments
+- `continuous_deployment_policy_config`: The continuous deployment policy configuration.
+- `id`: The identifier of the continuous deployment policy that you are updating.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The current version (ETag value) of the continuous deployment policy that
+  you are updating.
+"""
+function update_continuous_deployment_policy2020_05_31(
+    ContinuousDeploymentPolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/continuous-deployment-policy/$(Id)",
+        Dict{String,Any}(
+            "ContinuousDeploymentPolicyConfig" => ContinuousDeploymentPolicyConfig
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_continuous_deployment_policy2020_05_31(
+    ContinuousDeploymentPolicyConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/continuous-deployment-policy/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContinuousDeploymentPolicyConfig" => ContinuousDeploymentPolicyConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_distribution2020_05_31(distribution_config, id)
     update_distribution2020_05_31(distribution_config, id, params::Dict{String,<:Any})
 
-Updates the configuration for a web distribution.   When you update a distribution, there
-are more required fields than when you create a distribution. When you update your
-distribution by using this API action, follow the steps here to get the current
-configuration and then make your updates, to make sure that you include all of the required
-fields. To view a summary, see Required Fields for Create Distribution and Update
-Distribution in the Amazon CloudFront Developer Guide.  The update process includes getting
-the current distribution configuration, updating the XML document that is returned to make
-your changes, and then submitting an UpdateDistribution request to make the updates. For
-information about updating a distribution using the CloudFront console instead, see
-Creating a Distribution in the Amazon CloudFront Developer Guide.  To update a web
-distribution using the CloudFront API    Submit a GetDistributionConfig request to get the
-current configuration and an Etag header for the distribution.  If you update the
-distribution again, you must get a new Etag header.    Update the XML document that was
-returned in the response to your GetDistributionConfig request to include your changes.
-When you edit the XML file, be aware of the following:   You must strip out the ETag
-parameter that is returned.   Additional fields are required when you update a
-distribution. There may be fields included in the XML file for features that you haven't
-configured for your distribution. This is expected and required to successfully update the
-distribution.   You can't change the value of CallerReference. If you try to change this
-value, CloudFront returns an IllegalUpdate error.    The new configuration replaces the
-existing configuration; the values that you specify in an UpdateDistribution request are
-not merged into your existing configuration. When you add, delete, or replace values in an
-element that allows multiple values (for example, CNAME), you must specify all of the
-values that you want to appear in the updated distribution. In addition, you must update
-the corresponding Quantity element.      Submit an UpdateDistribution request to update the
-configuration for your distribution:   In the request body, include the XML document that
-you updated in Step 2. The request body must include an XML document with a
-DistributionConfig element.   Set the value of the HTTP If-Match header to the value of the
-ETag header that CloudFront returned when you submitted the GetDistributionConfig request
-in Step 1.     Review the response to the UpdateDistribution request to confirm that the
-configuration was successfully updated.   Optional: Submit a GetDistribution request to
-confirm that your changes have propagated. When propagation is complete, the value of
-Status is Deployed.
+Updates the configuration for a CloudFront distribution. The update process includes
+getting the current distribution configuration, updating it to make your changes, and then
+submitting an UpdateDistribution request to make the updates.  To update a web distribution
+using the CloudFront API    Use GetDistributionConfig to get the current configuration,
+including the version identifier (ETag).   Update the distribution configuration that was
+returned in the response. Note the following important requirements and restrictions:   You
+must rename the ETag field to IfMatch, leaving the value unchanged. (Set the value of
+IfMatch to the value of ETag, then remove the ETag field.)   You can't change the value of
+CallerReference.     Submit an UpdateDistribution request, providing the distribution
+configuration. The new configuration replaces the existing configuration. The values that
+you specify in an UpdateDistribution request are not merged into your existing
+configuration. Make sure to include all fields: the ones that you modified and also the
+ones that you didn't.
 
 # Arguments
 - `distribution_config`: The distribution's configuration information.
@@ -3699,14 +3986,62 @@ function update_distribution2020_05_31(
 end
 
 """
+    update_distribution_with_staging_config2020_05_31(id)
+    update_distribution_with_staging_config2020_05_31(id, params::Dict{String,<:Any})
+
+Copies the staging distribution's configuration to its corresponding primary distribution.
+The primary distribution retains its Aliases (also known as alternate domain names or
+CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is
+overwritten to match the staging distribution. You can use this operation in a continuous
+deployment workflow after you have tested configuration changes on the staging
+distribution. After using a continuous deployment policy to move a portion of your domain
+name's traffic to the staging distribution and verifying that it works as intended, you can
+use this operation to copy the staging distribution's configuration to the primary
+distribution. This action will disable the continuous deployment policy and move your
+domain's traffic back to the primary distribution.
+
+# Arguments
+- `id`: The identifier of the primary distribution to which you are copying a staging
+  distribution's configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The current versions (ETag values) of both primary and staging
+  distributions. Provide these in the following format:  &lt;primary ETag&gt;, &lt;staging
+  ETag&gt;
+- `"StagingDistributionId"`: The identifier of the staging distribution whose configuration
+  you are copying to the primary distribution.
+"""
+function update_distribution_with_staging_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/promote-staging-config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_distribution_with_staging_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/promote-staging-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_field_level_encryption_config2020_05_31(field_level_encryption_config, id)
     update_field_level_encryption_config2020_05_31(field_level_encryption_config, id, params::Dict{String,<:Any})
 
 Update a field-level encryption configuration.
 
 # Arguments
-- `field_level_encryption_config`: Request to update a field-level encryption
-  configuration.
+- `field_level_encryption_config`: Request to update a field-level encryption configuration.
 - `id`: The ID of the configuration you want to update.
 
 # Optional Parameters
@@ -3804,10 +4139,10 @@ end
     update_function2020_05_31(function_code, function_config, if-_match, name)
     update_function2020_05_31(function_code, function_config, if-_match, name, params::Dict{String,<:Any})
 
-Updates a CloudFront function. You can update a function’s code or the comment that
-describes the function. You cannot update a function’s name. To update a function, you
-provide the function’s name and version (ETag value) along with the updated function
-code. To get the name and version, you can use ListFunctions and DescribeFunction.
+Updates a CloudFront function. You can update a function's code or the comment that
+describes the function. You cannot update a function's name. To update a function, you
+provide the function's name and version (ETag value) along with the updated function code.
+To get the name and version, you can use ListFunctions and DescribeFunction.
 
 # Arguments
 - `function_code`: The function code. For more information about writing a CloudFront
@@ -3874,7 +4209,7 @@ values provided in the request. You cannot update some fields independent of oth
 update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.
 Locally modify the fields in the key group that you want to update. For example, add or
 remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including
-the fields that you modified and those that you didn’t.
+the fields that you modified and those that you didn't.
 
 # Arguments
 - `id`: The identifier of the key group that you are updating.
@@ -3883,7 +4218,7 @@ the fields that you modified and those that you didn’t.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the key group that you are updating. The version is the key
-  group’s ETag value.
+  group's ETag value.
 """
 function update_key_group2020_05_31(
     Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3970,18 +4305,18 @@ cannot update some fields independent of others. To update an origin request pol
 configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.
 Locally modify the fields in the origin request policy configuration that you want to
 update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy
-configuration, including the fields that you modified and those that you didn’t.
+configuration, including the fields that you modified and those that you didn't.
 
 # Arguments
 - `id`: The unique identifier for the origin request policy that you are updating. The
-  identifier is returned in a cache behavior’s OriginRequestPolicyId field in the response
-  to GetDistributionConfig.
+  identifier is returned in a cache behavior's OriginRequestPolicyId field in the response to
+  GetDistributionConfig.
 - `origin_request_policy_config`: An origin request policy configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the origin request policy that you are updating. The version
-  is returned in the origin request policy’s ETag field in the response to
+  is returned in the origin request policy's ETag field in the response to
   GetOriginRequestPolicyConfig.
 """
 function update_origin_request_policy2020_05_31(
@@ -4071,8 +4406,8 @@ parameters independent of others. To update a real-time log configuration:   Cal
 GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the
 parameters in the real-time log configuration that you want to update.   Call this API
 (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including
-the parameters that you modified and those that you didn’t.   You cannot update a
-real-time log configuration’s Name or ARN.
+the parameters that you modified and those that you didn't.   You cannot update a real-time
+log configuration's Name or ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4116,10 +4451,10 @@ end
 Updates a response headers policy. When you update a response headers policy, the entire
 policy is replaced. You cannot update some policy fields independent of others. To update a
 response headers policy configuration:   Use GetResponseHeadersPolicyConfig to get the
-current policy’s configuration.   Modify the fields in the response headers policy
+current policy's configuration.   Modify the fields in the response headers policy
 configuration that you want to update.   Call UpdateResponseHeadersPolicy, providing the
 entire response headers policy configuration, including the fields that you modified and
-those that you didn’t.
+those that you didn't.
 
 # Arguments
 - `id`: The identifier for the response headers policy that you are updating.
@@ -4128,7 +4463,7 @@ those that you didn’t.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: The version of the response headers policy that you are updating. The
-  version is returned in the cache policy’s ETag field in the response to
+  version is returned in the cache policy's ETag field in the response to
   GetResponseHeadersPolicyConfig.
 """
 function update_response_headers_policy2020_05_31(

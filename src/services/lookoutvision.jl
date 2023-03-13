@@ -909,10 +909,10 @@ packaging job is complete if the value of Status is SUCCEEDED. To deploy the com
 the target device, use the component name and component version with the AWS IoT Greengrass
 CreateDeployment API. This operation requires the following permissions:
 lookoutvision:StartModelPackagingJob     s3:PutObject     s3:GetBucketLocation
-greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional)
-greengrass:TagResource. Only required if you want to tag the component.   For more
-information, see Using your Amazon Lookout for Vision model on an edge device in the Amazon
-Lookout for Vision Developer Guide.
+kms:GenerateDataKey     greengrass:CreateComponentVersion     greengrass:DescribeComponent
+  (Optional) greengrass:TagResource. Only required if you want to tag the component.   For
+more information, see Using your Amazon Lookout for Vision model on an edge device in the
+Amazon Lookout for Vision Developer Guide.
 
 # Arguments
 - `configuration`: The configuration for the model packaging job.

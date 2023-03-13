@@ -201,6 +201,41 @@ function delete_stream(
 end
 
 """
+    describe_edge_configuration()
+    describe_edge_configuration(params::Dict{String,<:Any})
+
+Describes a stream’s edge configuration that was set using the
+StartEdgeConfigurationUpdate API. Use this API to get the status of the configuration if
+the configuration is in sync with the Edge Agent.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream. Specify either the
+  StreamNameor the StreamARN.
+- `"StreamName"`: The name of the stream whose edge configuration you want to update.
+  Specify either the StreamName or the StreamARN.
+"""
+function describe_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video(
+        "POST",
+        "/describeEdgeConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_edge_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeEdgeConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_image_generation_configuration()
     describe_image_generation_configuration(params::Dict{String,<:Any})
 
@@ -230,6 +265,77 @@ function describe_image_generation_configuration(
     return kinesis_video(
         "POST",
         "/describeImageGenerationConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_mapped_resource_configuration()
+    describe_mapped_resource_configuration(params::Dict{String,<:Any})
+
+Returns the most current information about the stream. Either streamName or streamARN
+should be provided in the input. Returns the most current information about the stream. The
+streamName or streamARN should be provided in the input.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in the response.
+- `"NextToken"`: The token to provide in your next request, to get another batch of results.
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
+- `"StreamName"`: The name of the stream.
+"""
+function describe_mapped_resource_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeMappedResourceConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_mapped_resource_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeMappedResourceConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_media_storage_configuration()
+    describe_media_storage_configuration(params::Dict{String,<:Any})
+
+Returns the most current information about the channel. Specify the ChannelName or
+ChannelARN in the input.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChannelARN"`: The Amazon Resource Name (ARN) of the channel.
+- `"ChannelName"`: The name of the channel.
+"""
+function describe_media_storage_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeMediaStorageConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_media_storage_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeMediaStorageConfiguration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -574,6 +680,59 @@ function list_tags_for_stream(
 end
 
 """
+    start_edge_configuration_update(edge_config)
+    start_edge_configuration_update(edge_config, params::Dict{String,<:Any})
+
+An asynchronous API that updates a stream’s existing edge configuration. The Kinesis
+Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
+component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
+and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the
+edge configuration is acknowledged, and synced with the Edge Agent.  If this API is invoked
+for the first time, a new edge configuration will be created for the stream, and the sync
+status will be set to SYNCING. You will have to wait for the sync status to reach a
+terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke
+this API during the syncing process, a ResourceInUseException will be thrown. The
+connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15
+minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+
+# Arguments
+- `edge_config`: The edge configuration details required to invoke the update process.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`:  The Amazon Resource Name (ARN) of the stream. Specify either the
+  StreamName or the StreamARN.
+- `"StreamName"`: The name of the stream whose edge configuration you want to update.
+  Specify either the StreamName or the StreamARN.
+"""
+function start_edge_configuration_update(
+    EdgeConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/startEdgeConfigurationUpdate",
+        Dict{String,Any}("EdgeConfig" => EdgeConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_edge_configuration_update(
+    EdgeConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video(
+        "POST",
+        "/startEdgeConfigurationUpdate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EdgeConfig" => EdgeConfig), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -859,6 +1018,59 @@ function update_image_generation_configuration(
         "POST",
         "/updateImageGenerationConfiguration",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_media_storage_configuration(channel_arn, media_storage_configuration)
+    update_media_storage_configuration(channel_arn, media_storage_configuration, params::Dict{String,<:Any})
+
+Associates a SignalingChannel to a stream to store the media. There are two signaling modes
+that can specified :   If the StorageStatus is disabled, no data will be stored, and the
+StreamARN parameter will not be needed.    If the StorageStatus is enabled, the data will
+be stored in the StreamARN provided.
+
+# Arguments
+- `channel_arn`: The Amazon Resource Name (ARN) of the channel.
+- `media_storage_configuration`: A structure that encapsulates, or contains, the media
+  storage configuration properties.
+
+"""
+function update_media_storage_configuration(
+    ChannelARN, MediaStorageConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/updateMediaStorageConfiguration",
+        Dict{String,Any}(
+            "ChannelARN" => ChannelARN,
+            "MediaStorageConfiguration" => MediaStorageConfiguration,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_media_storage_configuration(
+    ChannelARN,
+    MediaStorageConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video(
+        "POST",
+        "/updateMediaStorageConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChannelARN" => ChannelARN,
+                    "MediaStorageConfiguration" => MediaStorageConfiguration,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -5,6 +5,169 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_create_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_create_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Batch create custom vocabulary item for the specified locale in the specified bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot to batch create the custom vocabulary item for.
+- `bot_version`: The bot version of the bot to batch create the custom vocabulary item for.
+- `custom_vocabulary_item_list`: The custom vocabulary item list of the bot to batch create
+  the custom vocabulary item for.
+- `locale_id`: The unique locale identifier of the bot to batch create the custom
+  vocabulary item for.
+
+"""
+function batch_create_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_create_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_delete_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_delete_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Batch delete custom vocabulary item for the specified locale in the specified bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot to batch delete request for the custom
+  vocabulary item.
+- `bot_version`: The version of the bot to batch delete request for the custom vocabulary
+  item.
+- `custom_vocabulary_item_list`: The custom vocabulary list to batch delete request for the
+  custom vocabulary item.
+- `locale_id`: The locale identifier of the bot to batch delete request for the custom
+  vocabulary item.
+
+"""
+function batch_delete_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_update_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Batch update custom vocabulary item for the specified locale in the specified bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot to the batch update request for the custom
+  vocabulary item.
+- `bot_version`: The bot version of the bot to the batch update request for the custom
+  vocabulary item.
+- `custom_vocabulary_item_list`: The custom vocabulary item list of the bot to the batch
+  update request for the custom vocabulary item.
+- `locale_id`: The locale identifier of the bot to the batch update request for the custom
+  vocabulary item.
+
+"""
+function batch_update_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     build_bot_locale(bot_id, bot_version, locale_id)
     build_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -2170,6 +2333,48 @@ function list_built_in_slot_types(
 end
 
 """
+    list_custom_vocabulary_items(bot_id, bot_version, locale_id)
+    list_custom_vocabulary_items(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+List custom vocabulary items for the specified locale in the specified bot.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot to the list custom vocabulary request.
+- `bot_version`: The bot version of the bot to the list custom vocabulary request.
+- `locale_id`: The locale identifier of the bot to the list custom vocabulary request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum results to the list custom vocabulary request.
+- `"nextToken"`: The nextToken identifier to the list custom vocabulary request.
+"""
+function list_custom_vocabulary_items(
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_custom_vocabulary_items(
+    botId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_exports()
     list_exports(params::Dict{String,<:Any})
 
@@ -2308,7 +2513,7 @@ end
     list_recommended_intents(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
 
 Gets a list of recommended intents provided by the bot recommendation that you can use in
-your bot.
+your bot. Intents in the response are ordered by relevance.
 
 # Arguments
 - `bot_id`: The unique identifier of the bot associated with the recommended intents.

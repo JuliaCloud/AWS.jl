@@ -5,42 +5,38 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    add_tags_to_stream(stream_name, tags)
-    add_tags_to_stream(stream_name, tags, params::Dict{String,<:Any})
+    add_tags_to_stream(tags)
+    add_tags_to_stream(tags, params::Dict{String,<:Any})
 
 Adds or updates tags for the specified Kinesis data stream. You can assign up to 50 tags to
-a data stream. If tags have already been assigned to the stream, AddTagsToStream overwrites
-any existing tags that correspond to the specified tag keys.  AddTagsToStream has a limit
-of five transactions per second per account.
+a data stream.  When invoking this API, it is recommended you use the StreamARN input
+parameter rather than the StreamName input parameter.  If tags have already been assigned
+to the stream, AddTagsToStream overwrites any existing tags that correspond to the
+specified tag keys.  AddTagsToStream has a limit of five transactions per second per
+account.
 
 # Arguments
-- `stream_name`: The name of the stream.
 - `tags`: A set of up to 10 key-value pairs to use to create the tags.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream.
 """
-function add_tags_to_stream(
-    StreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function add_tags_to_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
         "AddTagsToStream",
-        Dict{String,Any}("StreamName" => StreamName, "Tags" => Tags);
+        Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags_to_stream(
-    StreamName,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "AddTagsToStream",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("StreamName" => StreamName, "Tags" => Tags), params
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -53,25 +49,30 @@ end
 Creates a Kinesis data stream. A stream captures and transports data records that are
 continuously emitted from different data sources or producers. Scale-out within a stream is
 explicitly supported by means of shards, which are uniquely identified groups of data
-records in a stream. You specify and control the number of shards that a stream is composed
-of. Each shard can support reads up to five transactions per second, up to a maximum data
-read total of 2 MiB per second. Each shard can support writes up to 1,000 records per
-second, up to a maximum data write total of 1 MiB per second. If the amount of data input
-increases or decreases, you can add or remove shards. The stream name identifies the
-stream. The name is scoped to the Amazon Web Services account used by the application. It
-is also scoped by Amazon Web Services Region. That is, two streams in two different
-accounts can have the same name, and two streams in the same account, but in two different
-Regions, can have the same name.  CreateStream is an asynchronous operation. Upon receiving
-a CreateStream request, Kinesis Data Streams immediately returns and sets the stream status
-to CREATING. After the stream is created, Kinesis Data Streams sets the stream status to
-ACTIVE. You should perform read and write operations only on an ACTIVE stream.  You receive
-a LimitExceededException when making a CreateStream request when you try to do one of the
-following:   Have more than five streams in the CREATING state at any point in time.
-Create more shards than are authorized for your account.   For the default shard limit for
-an Amazon Web Services account, see Amazon Kinesis Data Streams Limits in the Amazon
-Kinesis Data Streams Developer Guide. To increase this limit, contact Amazon Web Services
-Support. You can use DescribeStreamSummary to check the stream status, which is returned in
-StreamStatus.  CreateStream has a limit of five transactions per second per account.
+records in a stream. You can create your data stream using either on-demand or provisioned
+capacity mode. Data streams with an on-demand mode require no capacity planning and
+automatically scale to handle gigabytes of write and read throughput per minute. With the
+on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide
+the necessary throughput. For the data streams with a provisioned mode, you must specify
+the number of shards for the data stream. Each shard can support reads up to five
+transactions per second, up to a maximum data read total of 2 MiB per second. Each shard
+can support writes up to 1,000 records per second, up to a maximum data write total of 1
+MiB per second. If the amount of data input increases or decreases, you can add or remove
+shards. The stream name identifies the stream. The name is scoped to the Amazon Web
+Services account used by the application. It is also scoped by Amazon Web Services Region.
+That is, two streams in two different accounts can have the same name, and two streams in
+the same account, but in two different Regions, can have the same name.  CreateStream is an
+asynchronous operation. Upon receiving a CreateStream request, Kinesis Data Streams
+immediately returns and sets the stream status to CREATING. After the stream is created,
+Kinesis Data Streams sets the stream status to ACTIVE. You should perform read and write
+operations only on an ACTIVE stream.  You receive a LimitExceededException when making a
+CreateStream request when you try to do one of the following:   Have more than five streams
+in the CREATING state at any point in time.   Create more shards than are authorized for
+your account.   For the default shard limit for an Amazon Web Services account, see Amazon
+Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To increase
+this limit, contact Amazon Web Services Support. You can use DescribeStreamSummary to check
+the stream status, which is returned in StreamStatus.  CreateStream has a limit of five
+transactions per second per account.
 
 # Arguments
 - `stream_name`: A name to identify the stream. The stream name is scoped to the Amazon Web
@@ -113,36 +114,38 @@ function create_stream(
 end
 
 """
-    decrease_stream_retention_period(retention_period_hours, stream_name)
-    decrease_stream_retention_period(retention_period_hours, stream_name, params::Dict{String,<:Any})
+    decrease_stream_retention_period(retention_period_hours)
+    decrease_stream_retention_period(retention_period_hours, params::Dict{String,<:Any})
 
 Decreases the Kinesis data stream's retention period, which is the length of time data
 records are accessible after they are added to the stream. The minimum value of a stream's
-retention period is 24 hours. This operation may result in lost data. For example, if the
-stream's retention period is 48 hours and is decreased to 24 hours, any data already in the
-stream that is older than 24 hours is inaccessible.
+retention period is 24 hours.  When invoking this API, it is recommended you use the
+StreamARN input parameter rather than the StreamName input parameter.  This operation may
+result in lost data. For example, if the stream's retention period is 48 hours and is
+decreased to 24 hours, any data already in the stream that is older than 24 hours is
+inaccessible.
 
 # Arguments
 - `retention_period_hours`: The new retention period of the stream, in hours. Must be less
   than the current retention period.
-- `stream_name`: The name of the stream to modify.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to modify.
 """
 function decrease_stream_retention_period(
-    RetentionPeriodHours, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionPeriodHours; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "DecreaseStreamRetentionPeriod",
-        Dict{String,Any}(
-            "RetentionPeriodHours" => RetentionPeriodHours, "StreamName" => StreamName
-        );
+        Dict{String,Any}("RetentionPeriodHours" => RetentionPeriodHours);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function decrease_stream_retention_period(
     RetentionPeriodHours,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -151,10 +154,7 @@ function decrease_stream_retention_period(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "RetentionPeriodHours" => RetentionPeriodHours,
-                    "StreamName" => StreamName,
-                ),
+                Dict{String,Any}("RetentionPeriodHours" => RetentionPeriodHours),
                 params,
             ),
         );
@@ -164,51 +164,39 @@ function decrease_stream_retention_period(
 end
 
 """
-    delete_stream(stream_name)
-    delete_stream(stream_name, params::Dict{String,<:Any})
+    delete_stream()
+    delete_stream(params::Dict{String,<:Any})
 
 Deletes a Kinesis data stream and all its shards and data. You must shut down any
 applications that are operating on the stream before you delete the stream. If an
 application attempts to operate on a deleted stream, it receives the exception
-ResourceNotFoundException. If the stream is in the ACTIVE state, you can delete it. After a
-DeleteStream request, the specified stream is in the DELETING state until Kinesis Data
-Streams completes the deletion.  Note: Kinesis Data Streams might continue to accept data
-read and write operations, such as PutRecord, PutRecords, and GetRecords, on a stream in
-the DELETING state until the stream deletion is complete. When you delete a stream, any
-shards in that stream are also deleted, and any tags are dissociated from the stream. You
-can use the DescribeStreamSummary operation to check the state of the stream, which is
-returned in StreamStatus.  DeleteStream has a limit of five transactions per second per
-account.
-
-# Arguments
-- `stream_name`: The name of the stream to delete.
+ResourceNotFoundException.  When invoking this API, it is recommended you use the StreamARN
+input parameter rather than the StreamName input parameter.  If the stream is in the ACTIVE
+state, you can delete it. After a DeleteStream request, the specified stream is in the
+DELETING state until Kinesis Data Streams completes the deletion.  Note: Kinesis Data
+Streams might continue to accept data read and write operations, such as PutRecord,
+PutRecords, and GetRecords, on a stream in the DELETING state until the stream deletion is
+complete. When you delete a stream, any shards in that stream are also deleted, and any
+tags are dissociated from the stream. You can use the DescribeStreamSummary operation to
+check the state of the stream, which is returned in StreamStatus.  DeleteStream has a limit
+of five transactions per second per account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EnforceConsumerDeletion"`: If this parameter is unset (null) or if you set it to false,
   and the stream has registered consumers, the call to DeleteStream fails with a
   ResourceInUseException.
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to delete.
 """
-function delete_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis(
-        "DeleteStream",
-        Dict{String,Any}("StreamName" => StreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function delete_stream(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis("DeleteStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function delete_stream(
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
-        "DeleteStream",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteStream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -273,26 +261,25 @@ function describe_limits(
 end
 
 """
-    describe_stream(stream_name)
-    describe_stream(stream_name, params::Dict{String,<:Any})
+    describe_stream()
+    describe_stream(params::Dict{String,<:Any})
 
 Describes the specified Kinesis data stream.  This API has been revised. It's highly
 recommended that you use the DescribeStreamSummary API to get a summarized description of
 the specified Kinesis data stream and the ListShards API to list the shards in a specified
-data stream and obtain information about each shard.   The information returned includes
-the stream name, Amazon Resource Name (ARN), creation time, enhanced metric configuration,
-and shard map. The shard map is an array of shard objects. For each shard object, there is
-the hash key and sequence number ranges that the shard spans, and the IDs of any earlier
-shards that played in a role in creating the shard. Every record ingested in the stream is
-identified by a sequence number, which is assigned when the record is put into the stream.
-You can limit the number of shards returned by each call. For more information, see
-Retrieving Shards from a Stream in the Amazon Kinesis Data Streams Developer Guide. There
-are no guarantees about the chronological order shards returned. To process shards in
-chronological order, use the ID of the parent shard to track the lineage to the oldest
-shard. This operation has a limit of 10 transactions per second per account.
-
-# Arguments
-- `stream_name`: The name of the stream to describe.
+data stream and obtain information about each shard.    When invoking this API, it is
+recommended you use the StreamARN input parameter rather than the StreamName input
+parameter.  The information returned includes the stream name, Amazon Resource Name (ARN),
+creation time, enhanced metric configuration, and shard map. The shard map is an array of
+shard objects. For each shard object, there is the hash key and sequence number ranges that
+the shard spans, and the IDs of any earlier shards that played in a role in creating the
+shard. Every record ingested in the stream is identified by a sequence number, which is
+assigned when the record is put into the stream. You can limit the number of shards
+returned by each call. For more information, see Retrieving Shards from a Stream in the
+Amazon Kinesis Data Streams Developer Guide. There are no guarantees about the
+chronological order shards returned. To process shards in chronological order, use the ID
+of the parent shard to track the lineage to the oldest shard. This operation has a limit of
+10 transactions per second per account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -303,27 +290,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream.
 - `"Limit"`: The maximum number of shards to return in a single call. The default value is
   100. If you specify a value greater than 100, at most 100 results are returned.
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to describe.
 """
-function describe_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis(
-        "DescribeStream",
-        Dict{String,Any}("StreamName" => StreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis("DescribeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_stream(
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
-        "DescribeStream",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeStream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -365,49 +342,43 @@ function describe_stream_consumer(
 end
 
 """
-    describe_stream_summary(stream_name)
-    describe_stream_summary(stream_name, params::Dict{String,<:Any})
+    describe_stream_summary()
+    describe_stream_summary(params::Dict{String,<:Any})
 
 Provides a summarized description of the specified Kinesis data stream without the shard
-list. The information returned includes the stream name, Amazon Resource Name (ARN),
-status, record retention period, approximate creation time, monitoring, encryption details,
-and open shard count.   DescribeStreamSummary has a limit of 20 transactions per second per
-account.
+list.  When invoking this API, it is recommended you use the StreamARN input parameter
+rather than the StreamName input parameter.  The information returned includes the stream
+name, Amazon Resource Name (ARN), status, record retention period, approximate creation
+time, monitoring, encryption details, and open shard count.   DescribeStreamSummary has a
+limit of 20 transactions per second per account.
 
-# Arguments
-- `stream_name`: The name of the stream to describe.
-
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to describe.
 """
-function describe_stream_summary(
-    StreamName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_stream_summary(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
-        "DescribeStreamSummary",
-        Dict{String,Any}("StreamName" => StreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeStreamSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_stream_summary(
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "DescribeStreamSummary",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    disable_enhanced_monitoring(shard_level_metrics, stream_name)
-    disable_enhanced_monitoring(shard_level_metrics, stream_name, params::Dict{String,<:Any})
+    disable_enhanced_monitoring(shard_level_metrics)
+    disable_enhanced_monitoring(shard_level_metrics, params::Dict{String,<:Any})
 
-Disables enhanced monitoring.
+Disables enhanced monitoring.  When invoking this API, it is recommended you use the
+StreamARN input parameter rather than the StreamName input parameter.
 
 # Arguments
 - `shard_level_metrics`: List of shard-level metrics to disable. The following are the
@@ -417,25 +388,25 @@ Disables enhanced monitoring.
   IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis
   Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer
   Guide.
-- `stream_name`: The name of the Kinesis data stream for which to disable enhanced
-  monitoring.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the Kinesis data stream for which to disable enhanced
+  monitoring.
 """
 function disable_enhanced_monitoring(
-    ShardLevelMetrics, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ShardLevelMetrics; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "DisableEnhancedMonitoring",
-        Dict{String,Any}(
-            "ShardLevelMetrics" => ShardLevelMetrics, "StreamName" => StreamName
-        );
+        Dict{String,Any}("ShardLevelMetrics" => ShardLevelMetrics);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disable_enhanced_monitoring(
     ShardLevelMetrics,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -443,11 +414,7 @@ function disable_enhanced_monitoring(
         "DisableEnhancedMonitoring",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ShardLevelMetrics" => ShardLevelMetrics, "StreamName" => StreamName
-                ),
-                params,
+                _merge, Dict{String,Any}("ShardLevelMetrics" => ShardLevelMetrics), params
             ),
         );
         aws_config=aws_config,
@@ -456,10 +423,12 @@ function disable_enhanced_monitoring(
 end
 
 """
-    enable_enhanced_monitoring(shard_level_metrics, stream_name)
-    enable_enhanced_monitoring(shard_level_metrics, stream_name, params::Dict{String,<:Any})
+    enable_enhanced_monitoring(shard_level_metrics)
+    enable_enhanced_monitoring(shard_level_metrics, params::Dict{String,<:Any})
 
-Enables enhanced Kinesis data stream monitoring for shard-level metrics.
+Enables enhanced Kinesis data stream monitoring for shard-level metrics.  When invoking
+this API, it is recommended you use the StreamARN input parameter rather than the
+StreamName input parameter.
 
 # Arguments
 - `shard_level_metrics`: List of shard-level metrics to enable. The following are the valid
@@ -469,24 +438,24 @@ Enables enhanced Kinesis data stream monitoring for shard-level metrics.
   IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis
   Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer
   Guide.
-- `stream_name`: The name of the stream for which to enable enhanced monitoring.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream for which to enable enhanced monitoring.
 """
 function enable_enhanced_monitoring(
-    ShardLevelMetrics, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ShardLevelMetrics; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "EnableEnhancedMonitoring",
-        Dict{String,Any}(
-            "ShardLevelMetrics" => ShardLevelMetrics, "StreamName" => StreamName
-        );
+        Dict{String,Any}("ShardLevelMetrics" => ShardLevelMetrics);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function enable_enhanced_monitoring(
     ShardLevelMetrics,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -494,11 +463,7 @@ function enable_enhanced_monitoring(
         "EnableEnhancedMonitoring",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ShardLevelMetrics" => ShardLevelMetrics, "StreamName" => StreamName
-                ),
-                params,
+                _merge, Dict{String,Any}("ShardLevelMetrics" => ShardLevelMetrics), params
             ),
         );
         aws_config=aws_config,
@@ -510,33 +475,35 @@ end
     get_records(shard_iterator)
     get_records(shard_iterator, params::Dict{String,<:Any})
 
-Gets data records from a Kinesis data stream's shard. Specify a shard iterator using the
-ShardIterator parameter. The shard iterator specifies the position in the shard from which
-you want to start reading data records sequentially. If there are no records available in
-the portion of the shard that the iterator points to, GetRecords returns an empty list. It
-might take multiple calls to get to a portion of the shard that contains records. You can
-scale by provisioning multiple shards per stream while considering service limits (for more
-information, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams
-Developer Guide). Your application should have one thread per shard, each reading
-continuously from its stream. To read from a stream continually, call GetRecords in a loop.
-Use GetShardIterator to get the shard iterator to specify in the first GetRecords call.
-GetRecords returns a new shard iterator in NextShardIterator. Specify the shard iterator
-returned in NextShardIterator in subsequent calls to GetRecords. If the shard has been
-closed, the shard iterator can't return more data and GetRecords returns null in
-NextShardIterator. You can terminate the loop when the shard is closed, or when the shard
-iterator reaches the record with the sequence number or other attribute that marks it as
-the last record to process. Each data record can be up to 1 MiB in size, and each shard can
-read up to 2 MiB per second. You can ensure that your calls don't exceed the maximum
-supported size or throughput by using the Limit parameter to specify the maximum number of
-records that GetRecords can return. Consider your average record size when determining this
-limit. The maximum number of records that can be returned per call is 10,000. The size of
-the data returned by GetRecords varies depending on the utilization of the shard. It is
-recommended that consumer applications retrieve records via the GetRecords command using
-the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to
-consumer applications falling behind. The maximum size of data that GetRecords can return
-is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5
-seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned
-throughput on the stream, subsequent calls made within the next 1 second throw
+Gets data records from a Kinesis data stream's shard.  When invoking this API, it is
+recommended you use the StreamARN input parameter in addition to the ShardIterator
+parameter.  Specify a shard iterator using the ShardIterator parameter. The shard iterator
+specifies the position in the shard from which you want to start reading data records
+sequentially. If there are no records available in the portion of the shard that the
+iterator points to, GetRecords returns an empty list. It might take multiple calls to get
+to a portion of the shard that contains records. You can scale by provisioning multiple
+shards per stream while considering service limits (for more information, see Amazon
+Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide). Your
+application should have one thread per shard, each reading continuously from its stream. To
+read from a stream continually, call GetRecords in a loop. Use GetShardIterator to get the
+shard iterator to specify in the first GetRecords call. GetRecords returns a new shard
+iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in
+subsequent calls to GetRecords. If the shard has been closed, the shard iterator can't
+return more data and GetRecords returns null in NextShardIterator. You can terminate the
+loop when the shard is closed, or when the shard iterator reaches the record with the
+sequence number or other attribute that marks it as the last record to process. Each data
+record can be up to 1 MiB in size, and each shard can read up to 2 MiB per second. You can
+ensure that your calls don't exceed the maximum supported size or throughput by using the
+Limit parameter to specify the maximum number of records that GetRecords can return.
+Consider your average record size when determining this limit. The maximum number of
+records that can be returned per call is 10,000. The size of the data returned by
+GetRecords varies depending on the utilization of the shard. It is recommended that
+consumer applications retrieve records via the GetRecords command using the 5 TPS limit to
+remain caught up. Retrieving records less frequently can lead to consumer applications
+falling behind. The maximum size of data that GetRecords can return is 10 MiB. If a call
+returns this amount of data, subsequent calls made within the next 5 seconds throw
+ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on
+the stream, subsequent calls made within the next 1 second throw
 ProvisionedThroughputExceededException. GetRecords doesn't return any data when it throws
 an exception. For this reason, we recommend that you wait 1 second between calls to
 GetRecords. However, it's possible that the application will get exceptions for longer than
@@ -563,6 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of records to return. Specify a value of up to 10,000. If
   you specify a value that is greater than 10,000, GetRecords throws
   InvalidArgumentException. The default value is 10,000.
+- `"StreamARN"`: The ARN of the stream.
 """
 function get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
@@ -588,30 +556,31 @@ function get_records(
 end
 
 """
-    get_shard_iterator(shard_id, shard_iterator_type, stream_name)
-    get_shard_iterator(shard_id, shard_iterator_type, stream_name, params::Dict{String,<:Any})
+    get_shard_iterator(shard_id, shard_iterator_type)
+    get_shard_iterator(shard_id, shard_iterator_type, params::Dict{String,<:Any})
 
 Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is
-returned to the requester. A shard iterator specifies the shard position from which to
-start reading data records sequentially. The position is specified using the sequence
-number of a data record in a shard. A sequence number is the identifier associated with
-every record ingested in the stream, and is assigned when a record is put into the stream.
-Each stream has one or more shards. You must specify the shard iterator type. For example,
-you can set the ShardIteratorType parameter to read exactly from the position denoted by a
-specific sequence number by using the AT_SEQUENCE_NUMBER shard iterator type.
-Alternatively, the parameter can read right after the sequence number by using the
-AFTER_SEQUENCE_NUMBER shard iterator type, using sequence numbers returned by earlier calls
-to PutRecord, PutRecords, GetRecords, or DescribeStream. In the request, you can specify
-the shard iterator type AT_TIMESTAMP to read records from an arbitrary point in time,
-TRIM_HORIZON to cause ShardIterator to point to the last untrimmed record in the shard in
-the system (the oldest data record in the shard), or LATEST so that you always read the
-most recent data in the shard.  When you read repeatedly from a stream, use a
-GetShardIterator request to get the first shard iterator for use in your first GetRecords
-request and for subsequent reads use the shard iterator returned by the GetRecords request
-in NextShardIterator. A new shard iterator is returned by every GetRecords request in
-NextShardIterator, which you use in the ShardIterator parameter of the next GetRecords
-request.  If a GetShardIterator request is made too often, you receive a
-ProvisionedThroughputExceededException. For more information about throughput limits, see
+returned to the requester.  When invoking this API, it is recommended you use the StreamARN
+input parameter rather than the StreamName input parameter.  A shard iterator specifies the
+shard position from which to start reading data records sequentially. The position is
+specified using the sequence number of a data record in a shard. A sequence number is the
+identifier associated with every record ingested in the stream, and is assigned when a
+record is put into the stream. Each stream has one or more shards. You must specify the
+shard iterator type. For example, you can set the ShardIteratorType parameter to read
+exactly from the position denoted by a specific sequence number by using the
+AT_SEQUENCE_NUMBER shard iterator type. Alternatively, the parameter can read right after
+the sequence number by using the AFTER_SEQUENCE_NUMBER shard iterator type, using sequence
+numbers returned by earlier calls to PutRecord, PutRecords, GetRecords, or DescribeStream.
+In the request, you can specify the shard iterator type AT_TIMESTAMP to read records from
+an arbitrary point in time, TRIM_HORIZON to cause ShardIterator to point to the last
+untrimmed record in the shard in the system (the oldest data record in the shard), or
+LATEST so that you always read the most recent data in the shard.  When you read repeatedly
+from a stream, use a GetShardIterator request to get the first shard iterator for use in
+your first GetRecords request and for subsequent reads use the shard iterator returned by
+the GetRecords request in NextShardIterator. A new shard iterator is returned by every
+GetRecords request in NextShardIterator, which you use in the ShardIterator parameter of
+the next GetRecords request.  If a GetShardIterator request is made too often, you receive
+a ProvisionedThroughputExceededException. For more information about throughput limits, see
 GetRecords, and Streams Limits in the Amazon Kinesis Data Streams Developer Guide. If the
 shard is closed, GetShardIterator returns a valid iterator for the last sequence number of
 the shard. A shard can be closed as a result of using SplitShard or MergeShards.
@@ -629,13 +598,14 @@ GetShardIterator has a limit of five transactions per second per account per ope
   last untrimmed record in the shard in the system, which is the oldest data record in the
   shard.   LATEST - Start reading just after the most recent record in the shard, so that you
   always read the most recent data in the shard.
-- `stream_name`: The name of the Amazon Kinesis data stream.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StartingSequenceNumber"`: The sequence number of the data record in the shard from
   which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and
   AFTER_SEQUENCE_NUMBER.
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the Amazon Kinesis data stream.
 - `"Timestamp"`: The time stamp of the data record from which to start reading. Used with
   shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in
   milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record
@@ -644,18 +614,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the oldest untrimmed data record (TRIM_HORIZON).
 """
 function get_shard_iterator(
-    ShardId,
-    ShardIteratorType,
-    StreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ShardId, ShardIteratorType; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "GetShardIterator",
-        Dict{String,Any}(
-            "ShardId" => ShardId,
-            "ShardIteratorType" => ShardIteratorType,
-            "StreamName" => StreamName,
-        );
+        Dict{String,Any}("ShardId" => ShardId, "ShardIteratorType" => ShardIteratorType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -663,7 +626,6 @@ end
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -673,9 +635,7 @@ function get_shard_iterator(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ShardId" => ShardId,
-                    "ShardIteratorType" => ShardIteratorType,
-                    "StreamName" => StreamName,
+                    "ShardId" => ShardId, "ShardIteratorType" => ShardIteratorType
                 ),
                 params,
             ),
@@ -686,39 +646,41 @@ function get_shard_iterator(
 end
 
 """
-    increase_stream_retention_period(retention_period_hours, stream_name)
-    increase_stream_retention_period(retention_period_hours, stream_name, params::Dict{String,<:Any})
+    increase_stream_retention_period(retention_period_hours)
+    increase_stream_retention_period(retention_period_hours, params::Dict{String,<:Any})
 
 Increases the Kinesis data stream's retention period, which is the length of time data
 records are accessible after they are added to the stream. The maximum value of a stream's
-retention period is 8760 hours (365 days). If you choose a longer stream retention period,
-this operation increases the time period during which records that have not yet expired are
-accessible. However, it does not make previous, expired data (older than the stream's
-previous retention period) accessible after the operation has been called. For example, if
-a stream's retention period is set to 24 hours and is increased to 168 hours, any data that
-is older than 24 hours remains inaccessible to consumer applications.
+retention period is 8760 hours (365 days).  When invoking this API, it is recommended you
+use the StreamARN input parameter rather than the StreamName input parameter.  If you
+choose a longer stream retention period, this operation increases the time period during
+which records that have not yet expired are accessible. However, it does not make previous,
+expired data (older than the stream's previous retention period) accessible after the
+operation has been called. For example, if a stream's retention period is set to 24 hours
+and is increased to 168 hours, any data that is older than 24 hours remains inaccessible to
+consumer applications.
 
 # Arguments
 - `retention_period_hours`: The new retention period of the stream, in hours. Must be more
   than the current retention period.
-- `stream_name`: The name of the stream to modify.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to modify.
 """
 function increase_stream_retention_period(
-    RetentionPeriodHours, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionPeriodHours; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "IncreaseStreamRetentionPeriod",
-        Dict{String,Any}(
-            "RetentionPeriodHours" => RetentionPeriodHours, "StreamName" => StreamName
-        );
+        Dict{String,Any}("RetentionPeriodHours" => RetentionPeriodHours);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function increase_stream_retention_period(
     RetentionPeriodHours,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -727,10 +689,7 @@ function increase_stream_retention_period(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "RetentionPeriodHours" => RetentionPeriodHours,
-                    "StreamName" => StreamName,
-                ),
+                Dict{String,Any}("RetentionPeriodHours" => RetentionPeriodHours),
                 params,
             ),
         );
@@ -744,12 +703,14 @@ end
     list_shards(params::Dict{String,<:Any})
 
 Lists the shards in a stream and provides information about each shard. This operation has
-a limit of 1000 transactions per second per data stream. This action does not list expired
-shards. For information about expired shards, see Data Routing, Data Persistence, and Shard
-State after a Reshard.   This API is a new operation that is used by the Amazon Kinesis
-Client Library (KCL). If you have a fine-grained IAM policy that only allows specific
-operations, you must update your policy to allow calls to this API. For more information,
-see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
+a limit of 1000 transactions per second per data stream.  When invoking this API, it is
+recommended you use the StreamARN input parameter rather than the StreamName input
+parameter.  This action does not list expired shards. For information about expired shards,
+see Data Routing, Data Persistence, and Shard State after a Reshard.   This API is a new
+operation that is used by the Amazon Kinesis Client Library (KCL). If you have a
+fine-grained IAM policy that only allows specific operations, you must update your policy
+to allow calls to this API. For more information, see Controlling Access to Amazon Kinesis
+Data Streams Resources Using IAM.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -790,6 +751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Timestamp property. If you specify the AT_TIMESTAMP type, then all shards that were open at
   the provided timestamp are returned. If you specify the FROM_TIMESTAMP type, then all
   shards starting from the provided timestamp to TIP are returned.
+- `"StreamARN"`: The ARN of the stream.
 - `"StreamCreationTimestamp"`: Specify this input parameter to distinguish data streams
   that have the same name. For example, if you create a data stream and then delete it, and
   you later create another data stream with the same name, you can use this input parameter
@@ -892,6 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExclusiveStartStreamName"`: The name of the stream to start the list with.
 - `"Limit"`: The maximum number of streams to list. The default value is 100. If you
   specify a value greater than 100, at most 100 results are returned.
+- `"NextToken"`:
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis("ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -905,14 +868,12 @@ function list_streams(
 end
 
 """
-    list_tags_for_stream(stream_name)
-    list_tags_for_stream(stream_name, params::Dict{String,<:Any})
+    list_tags_for_stream()
+    list_tags_for_stream(params::Dict{String,<:Any})
 
 Lists the tags for the specified Kinesis data stream. This operation has a limit of five
-transactions per second per account.
-
-# Arguments
-- `stream_name`: The name of the stream.
+transactions per second per account.  When invoking this API, it is recommended you use the
+StreamARN input parameter rather than the StreamName input parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -922,78 +883,70 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The number of tags to return. If this number is less than the total number of
   tags associated with the stream, HasMoreTags is set to true. To list additional tags, set
   ExclusiveStartTagKey to the last key in the response.
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream.
 """
-function list_tags_for_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
-        "ListTagsForStream",
-        Dict{String,Any}("StreamName" => StreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tags_for_stream(
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
-        "ListTagsForStream",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTagsForStream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    merge_shards(adjacent_shard_to_merge, shard_to_merge, stream_name)
-    merge_shards(adjacent_shard_to_merge, shard_to_merge, stream_name, params::Dict{String,<:Any})
+    merge_shards(adjacent_shard_to_merge, shard_to_merge)
+    merge_shards(adjacent_shard_to_merge, shard_to_merge, params::Dict{String,<:Any})
 
 Merges two adjacent shards in a Kinesis data stream and combines them into a single shard
-to reduce the stream's capacity to ingest and transport data. Two shards are considered
-adjacent if the union of the hash key ranges for the two shards form a contiguous set with
-no gaps. For example, if you have two shards, one with a hash key range of 276...381 and
-the other with a hash key range of 382...454, then you could merge these two shards into a
-single shard that would have a hash key range of 276...454. After the merge, the single
-child shard receives data for all hash key values covered by the two parent shards.
-MergeShards is called when there is a need to reduce the overall capacity of a stream
-because of excess capacity that is not being used. You must specify the shard to be merged
-and the adjacent shard for a stream. For more information about merging shards, see Merge
-Two Shards in the Amazon Kinesis Data Streams Developer Guide. If the stream is in the
-ACTIVE state, you can call MergeShards. If a stream is in the CREATING, UPDATING, or
-DELETING state, MergeShards returns a ResourceInUseException. If the specified stream does
-not exist, MergeShards returns a ResourceNotFoundException.  You can use
-DescribeStreamSummary to check the state of the stream, which is returned in StreamStatus.
-MergeShards is an asynchronous operation. Upon receiving a MergeShards request, Amazon
-Kinesis Data Streams immediately returns a response and sets the StreamStatus to UPDATING.
-After the operation is completed, Kinesis Data Streams sets the StreamStatus to ACTIVE.
-Read and write operations continue to work while the stream is in the UPDATING state.  You
-use DescribeStreamSummary and the ListShards APIs to determine the shard IDs that are
-specified in the MergeShards request.  If you try to operate on too many streams in
-parallel using CreateStream, DeleteStream, MergeShards, or SplitShard, you receive a
-LimitExceededException.   MergeShards has a limit of five transactions per second per
-account.
+to reduce the stream's capacity to ingest and transport data. This API is only supported
+for the data streams with the provisioned capacity mode. Two shards are considered adjacent
+if the union of the hash key ranges for the two shards form a contiguous set with no gaps.
+For example, if you have two shards, one with a hash key range of 276...381 and the other
+with a hash key range of 382...454, then you could merge these two shards into a single
+shard that would have a hash key range of 276...454. After the merge, the single child
+shard receives data for all hash key values covered by the two parent shards.  When
+invoking this API, it is recommended you use the StreamARN input parameter rather than the
+StreamName input parameter.   MergeShards is called when there is a need to reduce the
+overall capacity of a stream because of excess capacity that is not being used. You must
+specify the shard to be merged and the adjacent shard for a stream. For more information
+about merging shards, see Merge Two Shards in the Amazon Kinesis Data Streams Developer
+Guide. If the stream is in the ACTIVE state, you can call MergeShards. If a stream is in
+the CREATING, UPDATING, or DELETING state, MergeShards returns a ResourceInUseException. If
+the specified stream does not exist, MergeShards returns a ResourceNotFoundException.  You
+can use DescribeStreamSummary to check the state of the stream, which is returned in
+StreamStatus.  MergeShards is an asynchronous operation. Upon receiving a MergeShards
+request, Amazon Kinesis Data Streams immediately returns a response and sets the
+StreamStatus to UPDATING. After the operation is completed, Kinesis Data Streams sets the
+StreamStatus to ACTIVE. Read and write operations continue to work while the stream is in
+the UPDATING state.  You use DescribeStreamSummary and the ListShards APIs to determine the
+shard IDs that are specified in the MergeShards request.  If you try to operate on too many
+streams in parallel using CreateStream, DeleteStream, MergeShards, or SplitShard, you
+receive a LimitExceededException.   MergeShards has a limit of five transactions per second
+per account.
 
 # Arguments
 - `adjacent_shard_to_merge`: The shard ID of the adjacent shard for the merge.
 - `shard_to_merge`: The shard ID of the shard to combine with the adjacent shard for the
   merge.
-- `stream_name`: The name of the stream for the merge.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream for the merge.
 """
 function merge_shards(
-    AdjacentShardToMerge,
-    ShardToMerge,
-    StreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AdjacentShardToMerge, ShardToMerge; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "MergeShards",
         Dict{String,Any}(
-            "AdjacentShardToMerge" => AdjacentShardToMerge,
-            "ShardToMerge" => ShardToMerge,
-            "StreamName" => StreamName,
+            "AdjacentShardToMerge" => AdjacentShardToMerge, "ShardToMerge" => ShardToMerge
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1002,7 +955,6 @@ end
 function merge_shards(
     AdjacentShardToMerge,
     ShardToMerge,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1014,7 +966,6 @@ function merge_shards(
                 Dict{String,Any}(
                     "AdjacentShardToMerge" => AdjacentShardToMerge,
                     "ShardToMerge" => ShardToMerge,
-                    "StreamName" => StreamName,
                 ),
                 params,
             ),
@@ -1025,36 +976,38 @@ function merge_shards(
 end
 
 """
-    put_record(data, partition_key, stream_name)
-    put_record(data, partition_key, stream_name, params::Dict{String,<:Any})
+    put_record(data, partition_key)
+    put_record(data, partition_key, params::Dict{String,<:Any})
 
 Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data
 into the stream for real-time ingestion and subsequent processing, one record at a time.
 Each shard can support writes up to 1,000 records per second, up to a maximum data write
-total of 1 MiB per second. You must specify the name of the stream that captures, stores,
-and transports the data; a partition key; and the data blob itself. The data blob can be
-any type of data; for example, a segment from a log file, geographic/location data, website
-clickstream data, and so on. The partition key is used by Kinesis Data Streams to
-distribute data across shards. Kinesis Data Streams segregates the data records that belong
-to a stream into multiple shards, using the partition key associated with each data record
-to determine the shard to which a given data record belongs. Partition keys are Unicode
-strings, with a maximum length limit of 256 characters for each key. An MD5 hash function
-is used to map partition keys to 128-bit integer values and to map associated data records
-to shards using the hash key ranges of the shards. You can override hashing the partition
-key to determine the shard by explicitly specifying a hash value using the ExplicitHashKey
-parameter. For more information, see Adding Data to a Stream in the Amazon Kinesis Data
-Streams Developer Guide.  PutRecord returns the shard ID of where the data record was
-placed and the sequence number that was assigned to the data record. Sequence numbers
-increase over time and are specific to a shard within a stream, not across all shards
-within a stream. To guarantee strictly increasing ordering, write serially to a shard and
-use the SequenceNumberForOrdering parameter. For more information, see Adding Data to a
-Stream in the Amazon Kinesis Data Streams Developer Guide.  After you write a record to a
-stream, you cannot modify that record or its order within the stream.  If a PutRecord
-request cannot be processed because of insufficient provisioned throughput on the shard
-involved in the request, PutRecord throws ProvisionedThroughputExceededException.  By
-default, data records are accessible for 24 hours from the time that they are added to a
-stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to
-modify this retention period.
+total of 1 MiB per second.  When invoking this API, it is recommended you use the StreamARN
+input parameter rather than the StreamName input parameter.  You must specify the name of
+the stream that captures, stores, and transports the data; a partition key; and the data
+blob itself. The data blob can be any type of data; for example, a segment from a log file,
+geographic/location data, website clickstream data, and so on. The partition key is used by
+Kinesis Data Streams to distribute data across shards. Kinesis Data Streams segregates the
+data records that belong to a stream into multiple shards, using the partition key
+associated with each data record to determine the shard to which a given data record
+belongs. Partition keys are Unicode strings, with a maximum length limit of 256 characters
+for each key. An MD5 hash function is used to map partition keys to 128-bit integer values
+and to map associated data records to shards using the hash key ranges of the shards. You
+can override hashing the partition key to determine the shard by explicitly specifying a
+hash value using the ExplicitHashKey parameter. For more information, see Adding Data to a
+Stream in the Amazon Kinesis Data Streams Developer Guide.  PutRecord returns the shard ID
+of where the data record was placed and the sequence number that was assigned to the data
+record. Sequence numbers increase over time and are specific to a shard within a stream,
+not across all shards within a stream. To guarantee strictly increasing ordering, write
+serially to a shard and use the SequenceNumberForOrdering parameter. For more information,
+see Adding Data to a Stream in the Amazon Kinesis Data Streams Developer Guide.  After you
+write a record to a stream, you cannot modify that record or its order within the stream.
+If a PutRecord request cannot be processed because of insufficient provisioned throughput
+on the shard involved in the request, PutRecord throws
+ProvisionedThroughputExceededException.  By default, data records are accessible for 24
+hours from the time that they are added to a stream. You can use
+IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention
+period.
 
 # Arguments
 - `data`: The data blob to put into the record, which is base64-encoded when the blob is
@@ -1067,7 +1020,6 @@ modify this retention period.
   function is used to map partition keys to 128-bit integer values and to map associated data
   records to shards. As a result of this hashing mechanism, all data records with the same
   partition key map to the same shard within the stream.
-- `stream_name`: The name of the stream to put the data record into.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1078,15 +1030,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in
   the result when putting record n-1). If this parameter is not set, records are coarsely
   ordered based on arrival time.
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream to put the data record into.
 """
-function put_record(
-    Data, PartitionKey, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function put_record(Data, PartitionKey; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
         "PutRecord",
-        Dict{String,Any}(
-            "Data" => Data, "PartitionKey" => PartitionKey, "StreamName" => StreamName
-        );
+        Dict{String,Any}("Data" => Data, "PartitionKey" => PartitionKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1094,7 +1044,6 @@ end
 function put_record(
     Data,
     PartitionKey,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1103,11 +1052,7 @@ function put_record(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "Data" => Data,
-                    "PartitionKey" => PartitionKey,
-                    "StreamName" => StreamName,
-                ),
+                Dict{String,Any}("Data" => Data, "PartitionKey" => PartitionKey),
                 params,
             ),
         );
@@ -1117,43 +1062,44 @@ function put_record(
 end
 
 """
-    put_records(records, stream_name)
-    put_records(records, stream_name, params::Dict{String,<:Any})
+    put_records(records)
+    put_records(records, params::Dict{String,<:Any})
 
 Writes multiple data records into a Kinesis data stream in a single call (also referred to
 as a PutRecords request). Use this operation to send data into the stream for data
-ingestion and processing.  Each PutRecords request can support up to 500 records. Each
-record in the request can be as large as 1 MiB, up to a limit of 5 MiB for the entire
-request, including partition keys. Each shard can support writes up to 1,000 records per
-second, up to a maximum data write total of 1 MiB per second. You must specify the name of
-the stream that captures, stores, and transports the data; and an array of request Records,
-with each record in the array requiring a partition key and data blob. The record size
-limit applies to the total size of the partition key and data blob. The data blob can be
-any type of data; for example, a segment from a log file, geographic/location data, website
-clickstream data, and so on. The partition key is used by Kinesis Data Streams as input to
-a hash function that maps the partition key and associated data to a specific shard. An MD5
-hash function is used to map partition keys to 128-bit integer values and to map associated
-data records to shards. As a result of this hashing mechanism, all data records with the
-same partition key map to the same shard within the stream. For more information, see
-Adding Data to a Stream in the Amazon Kinesis Data Streams Developer Guide. Each record in
-the Records array may include an optional parameter, ExplicitHashKey, which overrides the
-partition key to shard mapping. This parameter allows a data producer to determine
-explicitly the shard where the record is stored. For more information, see Adding Multiple
-Records with PutRecords in the Amazon Kinesis Data Streams Developer Guide. The PutRecords
-response includes an array of response Records. Each record in the response array directly
-correlates with a record in the request array using natural ordering, from the top to the
-bottom of the request and response. The response Records array always includes the same
-number of records as the request array. The response Records array includes both
-successfully and unsuccessfully processed records. Kinesis Data Streams attempts to process
-all records in each PutRecords request. A single record failure does not stop the
-processing of subsequent records. As a result, PutRecords doesn't guarantee the ordering of
-records. If you need to read records in the same order they are written to the stream, use
-PutRecord instead of PutRecords, and write to the same shard. A successfully processed
-record includes ShardId and SequenceNumber values. The ShardId parameter identifies the
-shard in the stream where the record is stored. The SequenceNumber parameter is an
-identifier assigned to the put record, unique to all records in the stream. An
-unsuccessfully processed record includes ErrorCode and ErrorMessage values. ErrorCode
-reflects the type of error and can be one of the following values:
+ingestion and processing.   When invoking this API, it is recommended you use the StreamARN
+input parameter rather than the StreamName input parameter.  Each PutRecords request can
+support up to 500 records. Each record in the request can be as large as 1 MiB, up to a
+limit of 5 MiB for the entire request, including partition keys. Each shard can support
+writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per
+second. You must specify the name of the stream that captures, stores, and transports the
+data; and an array of request Records, with each record in the array requiring a partition
+key and data blob. The record size limit applies to the total size of the partition key and
+data blob. The data blob can be any type of data; for example, a segment from a log file,
+geographic/location data, website clickstream data, and so on. The partition key is used by
+Kinesis Data Streams as input to a hash function that maps the partition key and associated
+data to a specific shard. An MD5 hash function is used to map partition keys to 128-bit
+integer values and to map associated data records to shards. As a result of this hashing
+mechanism, all data records with the same partition key map to the same shard within the
+stream. For more information, see Adding Data to a Stream in the Amazon Kinesis Data
+Streams Developer Guide. Each record in the Records array may include an optional
+parameter, ExplicitHashKey, which overrides the partition key to shard mapping. This
+parameter allows a data producer to determine explicitly the shard where the record is
+stored. For more information, see Adding Multiple Records with PutRecords in the Amazon
+Kinesis Data Streams Developer Guide. The PutRecords response includes an array of response
+Records. Each record in the response array directly correlates with a record in the request
+array using natural ordering, from the top to the bottom of the request and response. The
+response Records array always includes the same number of records as the request array. The
+response Records array includes both successfully and unsuccessfully processed records.
+Kinesis Data Streams attempts to process all records in each PutRecords request. A single
+record failure does not stop the processing of subsequent records. As a result, PutRecords
+doesn't guarantee the ordering of records. If you need to read records in the same order
+they are written to the stream, use PutRecord instead of PutRecords, and write to the same
+shard. A successfully processed record includes ShardId and SequenceNumber values. The
+ShardId parameter identifies the shard in the stream where the record is stored. The
+SequenceNumber parameter is an identifier assigned to the put record, unique to all records
+in the stream. An unsuccessfully processed record includes ErrorCode and ErrorMessage
+values. ErrorCode reflects the type of error and can be one of the following values:
 ProvisionedThroughputExceededException or InternalFailure. ErrorMessage provides more
 detailed information about the ProvisionedThroughputExceededException exception including
 the account ID, stream name, and shard ID of the record that was throttled. For more
@@ -1166,32 +1112,26 @@ period.
 
 # Arguments
 - `records`: The records associated with the request.
-- `stream_name`: The stream name associated with the request.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The stream name associated with the request.
 """
-function put_records(Records, StreamName; aws_config::AbstractAWSConfig=global_aws_config())
+function put_records(Records; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
         "PutRecords",
-        Dict{String,Any}("Records" => Records, "StreamName" => StreamName);
+        Dict{String,Any}("Records" => Records);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_records(
-    Records,
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Records, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "PutRecords",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Records" => Records, "StreamName" => StreamName),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Records" => Records), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1252,81 +1192,77 @@ function register_stream_consumer(
 end
 
 """
-    remove_tags_from_stream(stream_name, tag_keys)
-    remove_tags_from_stream(stream_name, tag_keys, params::Dict{String,<:Any})
+    remove_tags_from_stream(tag_keys)
+    remove_tags_from_stream(tag_keys, params::Dict{String,<:Any})
 
 Removes tags from the specified Kinesis data stream. Removed tags are deleted and cannot be
-recovered after this operation successfully completes. If you specify a tag that does not
-exist, it is ignored.  RemoveTagsFromStream has a limit of five transactions per second per
-account.
+recovered after this operation successfully completes.  When invoking this API, it is
+recommended you use the StreamARN input parameter rather than the StreamName input
+parameter.  If you specify a tag that does not exist, it is ignored.  RemoveTagsFromStream
+has a limit of five transactions per second per account.
 
 # Arguments
-- `stream_name`: The name of the stream.
 - `tag_keys`: A list of tag keys. Each corresponding tag is removed from the stream.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream.
 """
-function remove_tags_from_stream(
-    StreamName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function remove_tags_from_stream(TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis(
         "RemoveTagsFromStream",
-        Dict{String,Any}("StreamName" => StreamName, "TagKeys" => TagKeys);
+        Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_tags_from_stream(
-    StreamName,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "RemoveTagsFromStream",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("StreamName" => StreamName, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    split_shard(new_starting_hash_key, shard_to_split, stream_name)
-    split_shard(new_starting_hash_key, shard_to_split, stream_name, params::Dict{String,<:Any})
+    split_shard(new_starting_hash_key, shard_to_split)
+    split_shard(new_starting_hash_key, shard_to_split, params::Dict{String,<:Any})
 
 Splits a shard into two new shards in the Kinesis data stream, to increase the stream's
 capacity to ingest and transport data. SplitShard is called when there is a need to
 increase the overall capacity of a stream because of an expected increase in the volume of
-data records being ingested.  You can also use SplitShard when a shard appears to be
-approaching its maximum utilization; for example, the producers sending data into the
-specific shard are suddenly sending more than previously anticipated. You can also call
-SplitShard to increase stream capacity, so that more Kinesis Data Streams applications can
-simultaneously read data from the stream for real-time processing.  You must specify the
-shard to be split and the new hash key, which is the position in the shard where the shard
-gets split in two. In many cases, the new hash key might be the average of the beginning
-and ending hash key, but it can be any hash key value in the range being mapped into the
-shard. For more information, see Split a Shard in the Amazon Kinesis Data Streams Developer
-Guide. You can use DescribeStreamSummary and the ListShards APIs to determine the shard ID
-and hash key values for the ShardToSplit and NewStartingHashKey parameters that are
-specified in the SplitShard request.  SplitShard is an asynchronous operation. Upon
-receiving a SplitShard request, Kinesis Data Streams immediately returns a response and
-sets the stream status to UPDATING. After the operation is completed, Kinesis Data Streams
-sets the stream status to ACTIVE. Read and write operations continue to work while the
-stream is in the UPDATING state.  You can use DescribeStreamSummary to check the status of
-the stream, which is returned in StreamStatus. If the stream is in the ACTIVE state, you
-can call SplitShard.  If the specified stream does not exist, DescribeStreamSummary returns
-a ResourceNotFoundException. If you try to create more shards than are authorized for your
-account, you receive a LimitExceededException.  For the default shard limit for an Amazon
-Web Services account, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams
-Developer Guide. To increase this limit, contact Amazon Web Services Support. If you try to
-operate on too many streams simultaneously using CreateStream, DeleteStream, MergeShards,
-and/or SplitShard, you receive a LimitExceededException.   SplitShard has a limit of five
-transactions per second per account.
+data records being ingested. This API is only supported for the data streams with the
+provisioned capacity mode.  When invoking this API, it is recommended you use the StreamARN
+input parameter rather than the StreamName input parameter.  You can also use SplitShard
+when a shard appears to be approaching its maximum utilization; for example, the producers
+sending data into the specific shard are suddenly sending more than previously anticipated.
+You can also call SplitShard to increase stream capacity, so that more Kinesis Data Streams
+applications can simultaneously read data from the stream for real-time processing.  You
+must specify the shard to be split and the new hash key, which is the position in the shard
+where the shard gets split in two. In many cases, the new hash key might be the average of
+the beginning and ending hash key, but it can be any hash key value in the range being
+mapped into the shard. For more information, see Split a Shard in the Amazon Kinesis Data
+Streams Developer Guide. You can use DescribeStreamSummary and the ListShards APIs to
+determine the shard ID and hash key values for the ShardToSplit and NewStartingHashKey
+parameters that are specified in the SplitShard request.  SplitShard is an asynchronous
+operation. Upon receiving a SplitShard request, Kinesis Data Streams immediately returns a
+response and sets the stream status to UPDATING. After the operation is completed, Kinesis
+Data Streams sets the stream status to ACTIVE. Read and write operations continue to work
+while the stream is in the UPDATING state.  You can use DescribeStreamSummary to check the
+status of the stream, which is returned in StreamStatus. If the stream is in the ACTIVE
+state, you can call SplitShard.  If the specified stream does not exist,
+DescribeStreamSummary returns a ResourceNotFoundException. If you try to create more shards
+than are authorized for your account, you receive a LimitExceededException.  For the
+default shard limit for an Amazon Web Services account, see Kinesis Data Streams Limits in
+the Amazon Kinesis Data Streams Developer Guide. To increase this limit, contact Amazon Web
+Services Support. If you try to operate on too many streams simultaneously using
+CreateStream, DeleteStream, MergeShards, and/or SplitShard, you receive a
+LimitExceededException.   SplitShard has a limit of five transactions per second per
+account.
 
 # Arguments
 - `new_starting_hash_key`: A hash key value for the starting hash key of one of the child
@@ -1336,21 +1272,19 @@ transactions per second per account.
   higher hash key values in hash key range are distributed to one of the child shards. All
   the lower hash key values in the range are distributed to the other child shard.
 - `shard_to_split`: The shard ID of the shard to split.
-- `stream_name`: The name of the stream for the shard split.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream for the shard split.
 """
 function split_shard(
-    NewStartingHashKey,
-    ShardToSplit,
-    StreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    NewStartingHashKey, ShardToSplit; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "SplitShard",
         Dict{String,Any}(
-            "NewStartingHashKey" => NewStartingHashKey,
-            "ShardToSplit" => ShardToSplit,
-            "StreamName" => StreamName,
+            "NewStartingHashKey" => NewStartingHashKey, "ShardToSplit" => ShardToSplit
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1359,7 +1293,6 @@ end
 function split_shard(
     NewStartingHashKey,
     ShardToSplit,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1371,7 +1304,6 @@ function split_shard(
                 Dict{String,Any}(
                     "NewStartingHashKey" => NewStartingHashKey,
                     "ShardToSplit" => ShardToSplit,
-                    "StreamName" => StreamName,
                 ),
                 params,
             ),
@@ -1382,8 +1314,8 @@ function split_shard(
 end
 
 """
-    start_stream_encryption(encryption_type, key_id, stream_name)
-    start_stream_encryption(encryption_type, key_id, stream_name, params::Dict{String,<:Any})
+    start_stream_encryption(encryption_type, key_id)
+    start_stream_encryption(encryption_type, key_id, params::Dict{String,<:Any})
 
 Enables or updates server-side encryption using an Amazon Web Services KMS key for a
 specified stream.  Starting encryption is an asynchronous operation. Upon receiving the
@@ -1396,7 +1328,9 @@ written to the stream.  API Limits: You can successfully apply a new Amazon Web 
 KMS key for server-side encryption 25 times in a rolling 24-hour period. Note: It can take
 up to 5 seconds after the stream is in an ACTIVE status before all records written to the
 stream are encrypted. After you enable encryption, you can verify that encryption is
-applied by inspecting the API response from PutRecord or PutRecords.
+applied by inspecting the API response from PutRecord or PutRecords.  When invoking this
+API, it is recommended you use the StreamARN input parameter rather than the StreamName
+input parameter.
 
 # Arguments
 - `encryption_type`: The encryption type to use. The only valid value is KMS.
@@ -1409,17 +1343,18 @@ applied by inspecting the API response from PutRecord or PutRecords.
   example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID
   example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName
   Master key owned by Kinesis Data Streams: alias/aws/kinesis
-- `stream_name`: The name of the stream for which to start encrypting records.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream for which to start encrypting records.
 """
 function start_stream_encryption(
-    EncryptionType, KeyId, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    EncryptionType, KeyId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "StartStreamEncryption",
-        Dict{String,Any}(
-            "EncryptionType" => EncryptionType, "KeyId" => KeyId, "StreamName" => StreamName
-        );
+        Dict{String,Any}("EncryptionType" => EncryptionType, "KeyId" => KeyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1427,7 +1362,6 @@ end
 function start_stream_encryption(
     EncryptionType,
     KeyId,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1436,11 +1370,7 @@ function start_stream_encryption(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "EncryptionType" => EncryptionType,
-                    "KeyId" => KeyId,
-                    "StreamName" => StreamName,
-                ),
+                Dict{String,Any}("EncryptionType" => EncryptionType, "KeyId" => KeyId),
                 params,
             ),
         );
@@ -1450,21 +1380,22 @@ function start_stream_encryption(
 end
 
 """
-    stop_stream_encryption(encryption_type, key_id, stream_name)
-    stop_stream_encryption(encryption_type, key_id, stream_name, params::Dict{String,<:Any})
+    stop_stream_encryption(encryption_type, key_id)
+    stop_stream_encryption(encryption_type, key_id, params::Dict{String,<:Any})
 
-Disables server-side encryption for a specified stream.  Stopping encryption is an
-asynchronous operation. Upon receiving the request, Kinesis Data Streams returns
-immediately and sets the status of the stream to UPDATING. After the update is complete,
-Kinesis Data Streams sets the status of the stream back to ACTIVE. Stopping encryption
-normally takes a few seconds to complete, but it can take minutes. You can continue to read
-and write data to your stream while its status is UPDATING. Once the status of the stream
-is ACTIVE, records written to the stream are no longer encrypted by Kinesis Data Streams.
-API Limits: You can successfully disable server-side encryption 25 times in a rolling
-24-hour period.  Note: It can take up to 5 seconds after the stream is in an ACTIVE status
-before all records written to the stream are no longer subject to encryption. After you
-disabled encryption, you can verify that encryption is not applied by inspecting the API
-response from PutRecord or PutRecords.
+Disables server-side encryption for a specified stream.   When invoking this API, it is
+recommended you use the StreamARN input parameter rather than the StreamName input
+parameter.  Stopping encryption is an asynchronous operation. Upon receiving the request,
+Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING.
+After the update is complete, Kinesis Data Streams sets the status of the stream back to
+ACTIVE. Stopping encryption normally takes a few seconds to complete, but it can take
+minutes. You can continue to read and write data to your stream while its status is
+UPDATING. Once the status of the stream is ACTIVE, records written to the stream are no
+longer encrypted by Kinesis Data Streams.  API Limits: You can successfully disable
+server-side encryption 25 times in a rolling 24-hour period.  Note: It can take up to 5
+seconds after the stream is in an ACTIVE status before all records written to the stream
+are no longer subject to encryption. After you disabled encryption, you can verify that
+encryption is not applied by inspecting the API response from PutRecord or PutRecords.
 
 # Arguments
 - `encryption_type`: The encryption type. The only valid value is KMS.
@@ -1477,17 +1408,18 @@ response from PutRecord or PutRecords.
   example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID
   example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName
   Master key owned by Kinesis Data Streams: alias/aws/kinesis
-- `stream_name`: The name of the stream on which to stop encrypting records.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream on which to stop encrypting records.
 """
 function stop_stream_encryption(
-    EncryptionType, KeyId, StreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    EncryptionType, KeyId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "StopStreamEncryption",
-        Dict{String,Any}(
-            "EncryptionType" => EncryptionType, "KeyId" => KeyId, "StreamName" => StreamName
-        );
+        Dict{String,Any}("EncryptionType" => EncryptionType, "KeyId" => KeyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1495,7 +1427,6 @@ end
 function stop_stream_encryption(
     EncryptionType,
     KeyId,
-    StreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1504,11 +1435,7 @@ function stop_stream_encryption(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "EncryptionType" => EncryptionType,
-                    "KeyId" => KeyId,
-                    "StreamName" => StreamName,
-                ),
+                Dict{String,Any}("EncryptionType" => EncryptionType, "KeyId" => KeyId),
                 params,
             ),
         );
@@ -1518,34 +1445,36 @@ function stop_stream_encryption(
 end
 
 """
-    update_shard_count(scaling_type, stream_name, target_shard_count)
-    update_shard_count(scaling_type, stream_name, target_shard_count, params::Dict{String,<:Any})
+    update_shard_count(scaling_type, target_shard_count)
+    update_shard_count(scaling_type, target_shard_count, params::Dict{String,<:Any})
 
-Updates the shard count of the specified stream to the specified number of shards. Updating
-the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data
-Streams returns immediately and sets the status of the stream to UPDATING. After the update
-is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending
-on the size of the stream, the scaling action could take a few minutes to complete. You can
-continue to read and write data to your stream while its status is UPDATING. To update the
-shard count, Kinesis Data Streams performs splits or merges on individual shards. This can
-cause short-lived shards to be created, in addition to the final shards. These short-lived
-shards count towards your total shard limit for your account in the Region. When using this
-operation, we recommend that you specify a target shard count that is a multiple of 25%
-(25%, 50%, 75%, 100%). You can specify any target value within your shard limit. However,
-if you specify a target that isn't a multiple of 25%, the scaling action might take longer
-to complete.  This operation has the following default limits. By default, you cannot do
-the following:   Scale more than ten times per rolling 24-hour period per stream   Scale up
-to more than double your current shard count for a stream   Scale down below half your
-current shard count for a stream   Scale up to more than 10000 shards in a stream   Scale a
-stream with more than 10000 shards down unless the result is less than 10000 shards   Scale
-up to more than the shard limit for your account   For the default limits for an Amazon Web
-Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To
-request an increase in the call rate limit, the shard limit for this API, or your overall
-shard limit, use the limits form.
+Updates the shard count of the specified stream to the specified number of shards. This API
+is only supported for the data streams with the provisioned capacity mode.  When invoking
+this API, it is recommended you use the StreamARN input parameter rather than the
+StreamName input parameter.  Updating the shard count is an asynchronous operation. Upon
+receiving the request, Kinesis Data Streams returns immediately and sets the status of the
+stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of
+the stream back to ACTIVE. Depending on the size of the stream, the scaling action could
+take a few minutes to complete. You can continue to read and write data to your stream
+while its status is UPDATING. To update the shard count, Kinesis Data Streams performs
+splits or merges on individual shards. This can cause short-lived shards to be created, in
+addition to the final shards. These short-lived shards count towards your total shard limit
+for your account in the Region. When using this operation, we recommend that you specify a
+target shard count that is a multiple of 25% (25%, 50%, 75%, 100%). You can specify any
+target value within your shard limit. However, if you specify a target that isn't a
+multiple of 25%, the scaling action might take longer to complete.  This operation has the
+following default limits. By default, you cannot do the following:   Scale more than ten
+times per rolling 24-hour period per stream   Scale up to more than double your current
+shard count for a stream   Scale down below half your current shard count for a stream
+Scale up to more than 10000 shards in a stream   Scale a stream with more than 10000 shards
+down unless the result is less than 10000 shards   Scale up to more than the shard limit
+for your account   For the default limits for an Amazon Web Services account, see Streams
+Limits in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the
+call rate limit, the shard limit for this API, or your overall shard limit, use the limits
+form.
 
 # Arguments
 - `scaling_type`: The scaling type. Uniform scaling creates shards of equal size.
-- `stream_name`: The name of the stream.
 - `target_shard_count`: The new number of shards. This value has the following default
   limits. By default, you cannot do the following:    Set this value to more than double your
   current shard count for a stream.   Set this value below half your current shard count for
@@ -1554,19 +1483,18 @@ shard limit, use the limits form.
   increase.   Scale a stream with more than 10000 shards down unless you set this value to
   less than 10000 shards.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream.
+- `"StreamName"`: The name of the stream.
 """
 function update_shard_count(
-    ScalingType,
-    StreamName,
-    TargetShardCount;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ScalingType, TargetShardCount; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis(
         "UpdateShardCount",
         Dict{String,Any}(
-            "ScalingType" => ScalingType,
-            "StreamName" => StreamName,
-            "TargetShardCount" => TargetShardCount,
+            "ScalingType" => ScalingType, "TargetShardCount" => TargetShardCount
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1574,7 +1502,6 @@ function update_shard_count(
 end
 function update_shard_count(
     ScalingType,
-    StreamName,
     TargetShardCount,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1585,9 +1512,7 @@ function update_shard_count(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ScalingType" => ScalingType,
-                    "StreamName" => StreamName,
-                    "TargetShardCount" => TargetShardCount,
+                    "ScalingType" => ScalingType, "TargetShardCount" => TargetShardCount
                 ),
                 params,
             ),

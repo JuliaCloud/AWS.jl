@@ -21,6 +21,7 @@ retention rules in the Amazon Elastic Compute Cloud User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The retention rule description.
+- `"LockConfiguration"`: Information about the retention rule lock configuration.
 - `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
   retained by a tag-level retention rule. For tag-level retention rules, only deleted
   resources, of the specified resource type, that have one or more of the specified tag key
@@ -148,6 +149,8 @@ Lists the Recycle Bin retention rules in the Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LockState"`: The lock state of the retention rules to list. Only retention rules with
+  the specified lock state are returned.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -214,6 +217,47 @@ function list_tags_for_resource(
 end
 
 """
+    lock_rule(lock_configuration, identifier)
+    lock_rule(lock_configuration, identifier, params::Dict{String,<:Any})
+
+Locks a retention rule. A locked retention rule can't be modified or deleted.
+
+# Arguments
+- `lock_configuration`: Information about the retention rule lock configuration.
+- `identifier`: The unique ID of the retention rule.
+
+"""
+function lock_rule(
+    LockConfiguration, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/lock",
+        Dict{String,Any}("LockConfiguration" => LockConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function lock_rule(
+    LockConfiguration,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/lock",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LockConfiguration" => LockConfiguration), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(tags, resource_arn)
     tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
@@ -243,6 +287,39 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    unlock_rule(identifier)
+    unlock_rule(identifier, params::Dict{String,<:Any})
+
+Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
+only after the unlock delay period expires.
+
+# Arguments
+- `identifier`: The unique ID of the retention rule.
+
+"""
+function unlock_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/unlock";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function unlock_rule(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/unlock",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -290,8 +367,10 @@ end
     update_rule(identifier)
     update_rule(identifier, params::Dict{String,<:Any})
 
-Updates an existing Recycle Bin retention rule. For more information, see  Update Recycle
-Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
+Updates an existing Recycle Bin retention rule. You can update a retention rule's
+description, resource tags, and retention period at any time after creation. You can't
+update a retention rule's resource type after creation. For more information, see  Update
+Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `identifier`: The unique ID of the retention rule.
@@ -309,9 +388,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention rule does not have any resource tags specified. It retains all deleted resources
   of the specified resource type in the Region in which the rule is created, even if the
   resources are not tagged.
-- `"ResourceType"`: The resource type to be retained by the retention rule. Currently, only
-  Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify
-  EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
+- `"ResourceType"`:  This parameter is currently not supported. You can't update a
+  retention rule's resource type after creation.
 - `"RetentionPeriod"`: Information about the retention period for which the retention rule
   is to retain resources.
 """

@@ -1516,6 +1516,52 @@ function describe_trusts(
 end
 
 """
+    describe_update_directory(directory_id, update_type)
+    describe_update_directory(directory_id, update_type, params::Dict{String,<:Any})
+
+ Describes the updates of a directory for a particular update type.
+
+# Arguments
+- `directory_id`:  The unique identifier of the directory.
+- `update_type`:  The type of updates you want to describe for the directory.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`:  The DescribeUpdateDirectoryResult. NextToken value from a previous call
+  to DescribeUpdateDirectory. Pass null if this is the first call.
+- `"RegionName"`:  The name of the Region.
+"""
+function describe_update_directory(
+    DirectoryId, UpdateType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return directory_service(
+        "DescribeUpdateDirectory",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "UpdateType" => UpdateType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_update_directory(
+    DirectoryId,
+    UpdateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return directory_service(
+        "DescribeUpdateDirectory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DirectoryId" => DirectoryId, "UpdateType" => UpdateType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disable_client_authentication(directory_id, type)
     disable_client_authentication(directory_id, type, params::Dict{String,<:Any})
 
@@ -2674,6 +2720,54 @@ function update_conditional_forwarder(
                     "DnsIpAddrs" => DnsIpAddrs,
                     "RemoteDomainName" => RemoteDomainName,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_directory_setup(directory_id, update_type)
+    update_directory_setup(directory_id, update_type, params::Dict{String,<:Any})
+
+ Updates the directory for a particular update type.
+
+# Arguments
+- `directory_id`:  The identifier of the directory on which you want to perform the update.
+- `update_type`:  The type of update that needs to be performed on the directory. For
+  example, OS.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreateSnapshotBeforeUpdate"`:  The boolean that specifies if a snapshot for the
+  directory needs to be taken before updating the directory.
+- `"OSUpdateSettings"`:  The settings for the OS update that needs to be performed on the
+  directory.
+"""
+function update_directory_setup(
+    DirectoryId, UpdateType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return directory_service(
+        "UpdateDirectorySetup",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "UpdateType" => UpdateType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_directory_setup(
+    DirectoryId,
+    UpdateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return directory_service(
+        "UpdateDirectorySetup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DirectoryId" => DirectoryId, "UpdateType" => UpdateType),
                 params,
             ),
         );

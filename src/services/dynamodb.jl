@@ -154,8 +154,10 @@ call to BatchWriteItem can transmit up to 16MB of data over the network, consist
 to 25 item put or delete operations. While individual items can be up to 400 KB once
 stored, it's important to note that an item's representation might be greater than 400KB
 while being sent in DynamoDB's JSON format for the API call. For more details on this
-distinction, see Naming Rules and Data Types.   BatchWriteItem cannot update items. To
-update items, use the UpdateItem action.  The individual PutItem and DeleteItem operations
+distinction, see Naming Rules and Data Types.   BatchWriteItem cannot update items. If you
+perform a BatchWriteItem operation on an existing item, that item's values will be
+overwritten by the operation and it will appear like it was updated. To update items, we
+recommend you use the UpdateItem action.  The individual PutItem and DeleteItem operations
 specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any
 requested operations fail because the table's provisioned throughput is exceeded or an
 internal processing failure occurs, the failed operations are returned in the
@@ -1793,16 +1795,15 @@ replaces the existing item. You can perform a conditional put operation (add a n
 one with the specified primary key doesn't exist), or replace an existing item if it has
 certain attribute values. You can return the item's attribute values in the same operation,
 using the ReturnValues parameter. When you add an item, the primary key attributes are the
-only required attributes. Attribute values cannot be null. Empty String and Binary
-attribute values are allowed. Attribute values of type String and Binary must have a length
-greater than zero if the attribute is used as a key attribute for a table or index. Set
-type attributes cannot be empty.  Invalid Requests with empty values will be rejected with
-a ValidationException exception.  To prevent a new item from replacing an existing item,
-use a conditional expression that contains the attribute_not_exists function with the name
-of the attribute being used as the partition key for the table. Since every record must
-contain that attribute, the attribute_not_exists function will only succeed if no matching
-item exists.  For more information about PutItem, see Working with Items in the Amazon
-DynamoDB Developer Guide.
+only required attributes.  Empty String and Binary attribute values are allowed. Attribute
+values of type String and Binary must have a length greater than zero if the attribute is
+used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid
+Requests with empty values will be rejected with a ValidationException exception.  To
+prevent a new item from replacing an existing item, use a conditional expression that
+contains the attribute_not_exists function with the name of the attribute being used as the
+partition key for the table. Since every record must contain that attribute, the
+attribute_not_exists function will only succeed if no matching item exists.  For more
+information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
 
 # Arguments
 - `item`: A map of attribute name/value pairs, one for each attribute. Only the primary key

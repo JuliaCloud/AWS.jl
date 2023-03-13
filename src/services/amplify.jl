@@ -53,7 +53,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue to work with CI/CD. However, we strongly recommend that you migrate these apps to
   use the GitHub App. For more information, see Migrating an existing OAuth app to the
   Amplify GitHub App in the Amplify User Guide .
-- `"platform"`:  The platform or framework for an Amplify app.
+- `"platform"`:  The platform for the Amplify app. For a static app, set the platform type
+  to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE.
+  For an app requiring Amplify Hosting's original SSR support only, set the platform type to
+  WEB_DYNAMIC.
 - `"repository"`:  The repository for an Amplify app.
 - `"tags"`:  The tag for an Amplify app.
 """
@@ -1348,7 +1351,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to work with CI/CD. However, we strongly recommend that you migrate these apps to use the
   GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub
   App in the Amplify User Guide .
-- `"platform"`:  The platform for an Amplify app.
+- `"platform"`:  The platform for the Amplify app. For a static app, set the platform type
+  to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE.
+  For an app requiring Amplify Hosting's original SSR support only, set the platform type to
+  WEB_DYNAMIC.
 - `"repository"`:  The name of the repository for an Amplify app
 """
 function update_app(appId; aws_config::AbstractAWSConfig=global_aws_config())

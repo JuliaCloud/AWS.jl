@@ -125,6 +125,62 @@ function create_dataflow_endpoint_group(
 end
 
 """
+    create_ephemeris(name, satellite_id)
+    create_ephemeris(name, satellite_id, params::Dict{String,<:Any})
+
+Creates an Ephemeris with the specified EphemerisData.
+
+# Arguments
+- `name`: A name string associated with the ephemeris. Used as a human-readable identifier
+  for the ephemeris.
+- `satellite_id`: AWS Ground Station satellite ID for this ephemeris.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enabled"`: Whether to set the ephemeris status to ENABLED after validation. Setting
+  this to false will set the ephemeris status to DISABLED after validation.
+- `"ephemeris"`: Ephemeris data.
+- `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
+  will become EXPIRED.
+- `"kmsKeyArn"`: The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+- `"priority"`: Customer-provided priority score to establish the order in which
+  overlapping ephemerides should be used. The default for customer-provided ephemeris
+  priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+- `"tags"`: Tags assigned to an ephemeris.
+"""
+function create_ephemeris(
+    name, satelliteId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return groundstation(
+        "POST",
+        "/ephemeris",
+        Dict{String,Any}("name" => name, "satelliteId" => satelliteId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ephemeris(
+    name,
+    satelliteId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/ephemeris",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "satelliteId" => satelliteId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn)
     create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn, params::Dict{String,<:Any})
 
@@ -268,6 +324,38 @@ function delete_dataflow_endpoint_group(
 end
 
 """
+    delete_ephemeris(ephemeris_id)
+    delete_ephemeris(ephemeris_id, params::Dict{String,<:Any})
+
+Deletes an ephemeris
+
+# Arguments
+- `ephemeris_id`: The AWS Ground Station ephemeris ID.
+
+"""
+function delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=global_aws_config())
+    return groundstation(
+        "DELETE",
+        "/ephemeris/$(ephemerisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ephemeris(
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "DELETE",
+        "/ephemeris/$(ephemerisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_mission_profile(mission_profile_id)
     delete_mission_profile(mission_profile_id, params::Dict{String,<:Any})
 
@@ -327,6 +415,38 @@ function describe_contact(
     return groundstation(
         "GET",
         "/contact/$(contactId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_ephemeris(ephemeris_id)
+    describe_ephemeris(ephemeris_id, params::Dict{String,<:Any})
+
+Describes an existing ephemeris.
+
+# Arguments
+- `ephemeris_id`: The AWS Ground Station ephemeris ID.
+
+"""
+function describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=global_aws_config())
+    return groundstation(
+        "GET",
+        "/ephemeris/$(ephemerisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_ephemeris(
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/ephemeris/$(ephemerisId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -537,8 +657,8 @@ Returns a list of contacts. If statusList contains AVAILABLE, the request must i
 groundStation, missionprofileArn, and satelliteArn.
 
 # Arguments
-- `end_time`: End time of a contact.
-- `start_time`: Start time of a contact.
+- `end_time`: End time of a contact in UTC.
+- `start_time`: Start time of a contact in UTC.
 - `status_list`: Status of a contact reservation.
 
 # Optional Parameters
@@ -616,6 +736,64 @@ function list_dataflow_endpoint_groups(
         "GET",
         "/dataflowEndpointGroup",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_ephemerides(end_time, satellite_id, start_time)
+    list_ephemerides(end_time, satellite_id, start_time, params::Dict{String,<:Any})
+
+List existing ephemerides.
+
+# Arguments
+- `end_time`: The end time to list in UTC. The operation will return an ephemeris if its
+  expiration time is within the time range defined by the startTime and endTime.
+- `satellite_id`: The AWS Ground Station satellite ID to list ephemeris for.
+- `start_time`: The start time to list in UTC. The operation will return an ephemeris if
+  its expiration time is within the time range defined by the startTime and endTime.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum number of ephemerides to return.
+- `"nextToken"`: Pagination token.
+- `"statusList"`: The list of ephemeris status to return.
+"""
+function list_ephemerides(
+    endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return groundstation(
+        "POST",
+        "/ephemerides",
+        Dict{String,Any}(
+            "endTime" => endTime, "satelliteId" => satelliteId, "startTime" => startTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_ephemerides(
+    endTime,
+    satelliteId,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/ephemerides",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "satelliteId" => satelliteId,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -746,11 +924,11 @@ end
 Reserves a contact using specified parameters.
 
 # Arguments
-- `end_time`: End time of a contact.
+- `end_time`: End time of a contact in UTC.
 - `ground_station`: Name of a ground station.
 - `mission_profile_arn`: ARN of a mission profile.
 - `satellite_arn`: ARN of a satellite
-- `start_time`: Start time of a contact.
+- `start_time`: Start time of a contact in UTC.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -925,6 +1103,51 @@ function update_config(
                 _merge, Dict{String,Any}("configData" => configData, "name" => name), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_ephemeris(enabled, ephemeris_id)
+    update_ephemeris(enabled, ephemeris_id, params::Dict{String,<:Any})
+
+Updates an existing ephemeris
+
+# Arguments
+- `enabled`: Whether the ephemeris is enabled or not. Changing this value will not require
+  the ephemeris to be re-validated.
+- `ephemeris_id`: The AWS Ground Station ephemeris ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: A name string associated with the ephemeris. Used as a human-readable
+  identifier for the ephemeris.
+- `"priority"`: Customer-provided priority score to establish the order in which
+  overlapping ephemerides should be used. The default for customer-provided ephemeris
+  priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+"""
+function update_ephemeris(
+    enabled, ephemerisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return groundstation(
+        "PUT",
+        "/ephemeris/$(ephemerisId)",
+        Dict{String,Any}("enabled" => enabled);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_ephemeris(
+    enabled,
+    ephemerisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return groundstation(
+        "PUT",
+        "/ephemeris/$(ephemerisId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("enabled" => enabled), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

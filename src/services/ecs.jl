@@ -107,6 +107,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the default capacity provider strategy for the cluster is used. If a default
   capacity provider strategy isn't defined for a cluster when it was created, it can be
   defined later with the PutClusterCapacityProviders API operation.
+- `"serviceConnectDefaults"`: Use this parameter to set a default Service Connect
+  namespace. After you set a default Service Connect namespace, any new services with Service
+  Connect turned on that are created in the cluster are added as client services in the
+  namespace. This setting only applies to new services that set the enabled parameter to true
+  in the ServiceConnectConfiguration. You can set the namespace of each service individually
+  in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a
+  namespace can use short names to connect to services in the namespace. Tasks can connect to
+  services across all of the clusters in the namespace. Tasks connect through a managed proxy
+  container that collects logs and metrics for increased visibility. Only the tasks that
+  Amazon ECS services create are supported with Service Connect. For more information, see
+  Service Connect in the Amazon Elastic Container Service Developer Guide.
 - `"settings"`: The setting to use when creating a cluster. This parameter is used to turn
   on CloudWatch Container Insights for a cluster. If this value is specified, it overrides
   the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
@@ -236,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task has first started. This is only used when your service is configured to use a load
   balancer. If your service has a load balancer defined and you don't specify a health check
   grace period value, the default value of 0 is used. If you do not use an Elastic Load
-  Balancing, we recomend that you use the startPeriod in the task definition healtch check
+  Balancing, we recommend that you use the startPeriod in the task definition health check
   parameters. For more information, see Health check. If your service's tasks take a while to
   start and respond to Elastic Load Balancing health checks, you can specify a health check
   grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon
@@ -331,6 +342,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the
   Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't
   support the DAEMON scheduling strategy.
+- `"serviceConnectConfiguration"`: The configuration for this service to discover and
+  connect to services, and be discovered by, and connected from, other services within a
+  namespace. Tasks that run in a namespace can use short names to connect to services in the
+  namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks
+  connect through a managed proxy container that collects logs and metrics for increased
+  visibility. Only the tasks that Amazon ECS services create are supported with Service
+  Connect. For more information, see Service Connect in the Amazon Elastic Container Service
+  Developer Guide.
 - `"serviceRegistries"`: The details of the service discovery registry to associate with
   this service. For more information, see Service discovery.  Each service may be associated
   with one service registry. Multiple service registries for each service isn't supported.
@@ -905,10 +924,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"include"`: Determines whether to include additional information about the clusters in
   the response. If this field is omitted, this information isn't included. If ATTACHMENTS is
   specified, the attachments for the container instances or tasks within the cluster are
-  included. If SETTINGS is specified, the settings for the cluster are included. If
-  CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS
-  is specified, the task and service count is included, separated by launch type. If TAGS is
-  specified, the metadata tags associated with the cluster are included.
+  included, for example the capacity providers. If SETTINGS is specified, the settings for
+  the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster
+  is included. If STATISTICS is specified, the task and service count is included, separated
+  by launch type. If TAGS is specified, the metadata tags associated with the cluster are
+  included.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -1184,8 +1204,10 @@ end
 
 Runs a command remotely on a container within a task. If you use a condition key in your
 IAM policy to refine the conditions for the policy statement, for example limit the actions
-to a specific cluster, you recevie an AccessDeniedException when there is a mismatch
-between the condition key value and the corresponding parameter value.
+to a specific cluster, you receive an AccessDeniedException when there is a mismatch
+between the condition key value and the corresponding parameter value. For information
+about required permissions and considerations, see Using Amazon ECS Exec for debugging in
+the Amazon ECS Developer Guide.
 
 # Arguments
 - `command`: The command to run on the container.
@@ -1229,6 +1251,39 @@ function execute_command(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_task_protection(cluster)
+    get_task_protection(cluster, params::Dict{String,<:Any})
+
+Retrieves the protection status of tasks in an Amazon ECS service.
+
+# Arguments
+- `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  the service that the task sets exist in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tasks"`: A list of up to 100 task IDs or full ARN entries.
+"""
+function get_task_protection(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "GetTaskProtection",
+        Dict{String,Any}("cluster" => cluster);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_task_protection(
+    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "GetTaskProtection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1458,6 +1513,64 @@ function list_services(
 end
 
 """
+    list_services_by_namespace(namespace)
+    list_services_by_namespace(namespace, params::Dict{String,<:Any})
+
+This operation lists all of the services that are associated with a Cloud Map namespace.
+This list might include services in different clusters. In contrast, ListServices can only
+list services in one cluster at a time. If you need to filter the list of services in a
+single cluster by various parameters, use ListServices. For more information, see Service
+Connect in the Amazon Elastic Container Service Developer Guide.
+
+# Arguments
+- `namespace`: The namespace name or full Amazon Resource Name (ARN) of the Cloud Map
+  namespace to list the services in. Tasks that run in a namespace can use short names to
+  connect to services in the namespace. Tasks can connect to services across all of the
+  clusters in the namespace. Tasks connect through a managed proxy container that collects
+  logs and metrics for increased visibility. Only the tasks that Amazon ECS services create
+  are supported with Service Connect. For more information, see Service Connect in the Amazon
+  Elastic Container Service Developer Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of service results that ListServicesByNamespace
+  returns in paginated output. When this parameter is used, ListServicesByNamespace only
+  returns maxResults results in a single page along with a nextToken response element. The
+  remaining results of the initial request can be seen by sending another
+  ListServicesByNamespace request with the returned nextToken value. This value can be
+  between 1 and 100. If this parameter isn't used, then ListServicesByNamespace returns up to
+  10 results and a nextToken value if applicable.
+- `"nextToken"`: The nextToken value that's returned from a ListServicesByNamespace
+  request. It indicates that more results are available to fulfill the request and further
+  calls are needed. If maxResults is returned, it is possible the number of results is less
+  than maxResults.
+"""
+function list_services_by_namespace(
+    namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "ListServicesByNamespace",
+        Dict{String,Any}("namespace" => namespace);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_services_by_namespace(
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "ListServicesByNamespace",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("namespace" => namespace), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1639,7 +1752,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of the service to use when filtering the ListTasks results.
   Specifying a serviceName limits the results to tasks that belong to that service.
 - `"startedBy"`: The startedBy value to filter the task results with. Specifying a
-  startedBy value limits the results to tasks that were started with that value.
+  startedBy value limits the results to tasks that were started with that value. When you
+  specify startedBy as the filter, it must be the only filter that you use.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -2698,6 +2812,17 @@ Updates the cluster.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"configuration"`: The execute command configuration for the cluster.
+- `"serviceConnectDefaults"`: Use this parameter to set a default Service Connect
+  namespace. After you set a default Service Connect namespace, any new services with Service
+  Connect turned on that are created in the cluster are added as client services in the
+  namespace. This setting only applies to new services that set the enabled parameter to true
+  in the ServiceConnectConfiguration. You can set the namespace of each service individually
+  in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a
+  namespace can use short names to connect to services in the namespace. Tasks can connect to
+  services across all of the clusters in the namespace. Tasks connect through a managed proxy
+  container that collects logs and metrics for increased visibility. Only the tasks that
+  Amazon ECS services create are supported with Service Connect. For more information, see
+  Service Connect in the Amazon Elastic Container Service Developer Guide.
 - `"settings"`: The cluster settings for your cluster.
 """
 function update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2730,6 +2855,11 @@ Modifies the settings to use for a cluster.
 - `settings`: The setting to use by default for a cluster. This parameter is used to turn
   on CloudWatch Container Insights for a cluster. If this value is specified, it overrides
   the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
+  Currently, if you delete an existing cluster that does not have Container Insights turned
+  on, and then create a new cluster with the same name with Container Insights tuned on,
+  Container Insights will not actually be turned on. If you want to preserve the same name
+  for your existing cluster and turn on Container Insights, you must wait 7 days before you
+  can re-create it.
 
 """
 function update_cluster_settings(
@@ -2773,11 +2903,13 @@ instance was launched with the Amazon ECS-optimized AMI or another operating sys
 UpdateContainerAgent API isn't supported for container instances using the Amazon
 ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the
 ecs-init package. This updates the agent. For more information, see Updating the Amazon ECS
-container agent in the Amazon Elastic Container Service Developer Guide.  The
-UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the
-ecs-init service installed and running. For help updating the Amazon ECS container agent on
-other operating systems, see Manually updating the Amazon ECS container agent in the Amazon
-Elastic Container Service Developer Guide.
+container agent in the Amazon Elastic Container Service Developer Guide.   Agent updates
+with the UpdateContainerAgent API operation do not apply to Windows container instances. We
+recommend that you launch new container instances to update the agent version in your
+Windows clusters.  The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or
+Amazon Linux AMI with the ecs-init service installed and running. For help updating the
+Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS
+container agent in the Amazon Elastic Container Service Developer Guide.
 
 # Arguments
 - `container_instance`: The container instance ID or full ARN entries for the container
@@ -3056,6 +3188,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the service to the task. If no value is specified, the tags aren't propagated. Only tasks
   launched after the update will reflect the update. To update the tags on all tasks, set
   forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags.
+- `"serviceConnectConfiguration"`: The configuration for this service to discover and
+  connect to services, and be discovered by, and connected from, other services within a
+  namespace. Tasks that run in a namespace can use short names to connect to services in the
+  namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks
+  connect through a managed proxy container that collects logs and metrics for increased
+  visibility. Only the tasks that Amazon ECS services create are supported with Service
+  Connect. For more information, see Service Connect in the Amazon Elastic Container Service
+  Developer Guide.
 - `"serviceRegistries"`: The details for the service discovery registries to assign to this
   service. For more information, see Service Discovery. When you add, update, or remove the
   service registries configuration, Amazon ECS starts new tasks with the updated service
@@ -3132,6 +3272,79 @@ function update_service_primary_task_set(
                     "cluster" => cluster,
                     "primaryTaskSet" => primaryTaskSet,
                     "service" => service,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_task_protection(cluster, protection_enabled, tasks)
+    update_task_protection(cluster, protection_enabled, tasks, params::Dict{String,<:Any})
+
+Updates the protection status of a task. You can set protectionEnabled to true to protect
+your task from termination during scale-in events from Service Autoscaling or deployments.
+Task-protection, by default, expires after 2 hours at which point Amazon ECS unsets the
+protectionEnabled property making the task eligible for termination by a subsequent
+scale-in event. You can specify a custom expiration period for task protection from 1
+minute to up to 2,880 minutes (48 hours). To specify the custom expiration period, set the
+expiresInMinutes property. The expiresInMinutes property is always reset when you invoke
+this operation for a task that already has protectionEnabled set to true. You can keep
+extending the protection expiration period of a task by invoking this operation repeatedly.
+To learn more about Amazon ECS task protection, see Task scale-in protection in the  Amazon
+Elastic Container Service Developer Guide .  This operation is only supported for tasks
+belonging to an Amazon ECS service. Invoking this operation for a standalone task will
+result in an TASK_NOT_VALID failure. For more information, see API failure reasons.   If
+you prefer to set task protection from within the container, we recommend using the Task
+scale-in protection endpoint.
+
+# Arguments
+- `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  the service that the task sets exist in.
+- `protection_enabled`: Specify true to mark a task for protection and false to unset
+  protection, making it eligible for termination.
+- `tasks`: A list of up to 10 task IDs or full ARN entries.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"expiresInMinutes"`: If you set protectionEnabled to true, you can specify the duration
+  for task protection in minutes. You can specify a value from 1 minute to up to 2,880
+  minutes (48 hours). During this time, your task will not be terminated by scale-in events
+  from Service Auto Scaling or deployments. After this time period lapses, protectionEnabled
+  will be reset to false. If you don’t specify the time, then the task is automatically
+  protected for 120 minutes (2 hours).
+"""
+function update_task_protection(
+    cluster, protectionEnabled, tasks; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateTaskProtection",
+        Dict{String,Any}(
+            "cluster" => cluster, "protectionEnabled" => protectionEnabled, "tasks" => tasks
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_task_protection(
+    cluster,
+    protectionEnabled,
+    tasks,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateTaskProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cluster" => cluster,
+                    "protectionEnabled" => protectionEnabled,
+                    "tasks" => tasks,
                 ),
                 params,
             ),

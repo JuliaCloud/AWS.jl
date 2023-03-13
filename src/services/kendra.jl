@@ -1792,8 +1792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of data source connectors to return.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of data source connectors
-  (DataSourceSummaryItems).
+  pagination token to retrieve the next set of data source connectors.
 """
 function list_data_sources(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
@@ -2038,10 +2037,10 @@ Lists the Amazon Kendra indexes that you created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of data sources to return.
+- `"MaxResults"`: The maximum number of indices to return.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of indexes (DataSourceSummaryItems).
+  pagination token to retrieve the next set of indexes.
 """
 function list_indices(; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -2268,8 +2267,8 @@ return only one type of result using the QueryResultTypeConfig parameter. Each q
 returns the 100 most relevant results.
 
 # Arguments
-- `index_id`: The unique identifier of the index to search. The identifier is returned in
-  the response from the CreateIndex API.
+- `index_id`: The identifier of the index to search. The identifier is returned in the
+  response from the CreateIndex API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2297,7 +2296,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than 100 results, only 100 are returned.
 - `"QueryResultTypeFilter"`: Sets the type of query. Only results for the specified query
   type are returned.
-- `"QueryText"`: The text to search for.
+- `"QueryText"`: The input query text for the search. Amazon Kendra truncates queries at 30
+  token words, which excludes punctuation and stop words. Truncation still applies if you use
+  Boolean or more advanced, complex queries.
 - `"RequestedDocumentAttributes"`: An array of document attributes to include in the
   response. You can limit the response to include certain document attributes. By default all
   document attributes are included in the response.

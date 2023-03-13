@@ -967,6 +967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelName"`: The name of the ML model used by the inference scheduler to be listed.
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   inference schedulers.
+- `"Status"`: Specifies the current status of the inference schedulers to list.
 """
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(

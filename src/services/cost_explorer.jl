@@ -57,9 +57,9 @@ end
     create_anomaly_subscription(anomaly_subscription)
     create_anomaly_subscription(anomaly_subscription, params::Dict{String,<:Any})
 
-Adds a subscription to a cost anomaly detection monitor. You can use each subscription to
-define subscribers with email or SNS notifications. Email subscribers can set a dollar
-threshold and a time frequency for receiving notifications.
+Adds an alert subscription to a cost anomaly detection monitor. You can use each
+subscription to define subscribers with email or SNS notifications. Email subscribers can
+set an absolute or percentage threshold and a time frequency for receiving notifications.
 
 # Arguments
 - `anomaly_subscription`: The cost anomaly subscription object that you want to create.
@@ -331,7 +331,7 @@ end
     get_anomalies(date_interval, params::Dict{String,<:Any})
 
 Retrieves all of the cost anomalies detected on your account during the time period that's
-specified by the DateInterval object.
+specified by the DateInterval object. Anomalies are available for up to 90 days.
 
 # Arguments
 - `date_interval`: Assigns the start and end dates for retrieving cost anomalies. The
@@ -1180,7 +1180,9 @@ end
     get_savings_plans_purchase_recommendation(lookback_period_in_days, payment_option, savings_plans_type, term_in_years)
     get_savings_plans_purchase_recommendation(lookback_period_in_days, payment_option, savings_plans_type, term_in_years, params::Dict{String,<:Any})
 
-Retrieves your request parameters, Savings Plan Recommendations Summary and Details.
+Retrieves the Savings Plans recommendations for your account. First use
+StartSavingsPlansPurchaseRecommendationGeneration to generate a new set of recommendations,
+and then use GetSavingsPlansPurchaseRecommendation to retrieve them.
 
 # Arguments
 - `lookback_period_in_days`: The lookback period that's used to generate the recommendation.
@@ -1572,6 +1574,40 @@ function list_cost_category_definitions(
 end
 
 """
+    list_savings_plans_purchase_recommendation_generation()
+    list_savings_plans_purchase_recommendation_generation(params::Dict{String,<:Any})
+
+Retrieves a list of your historical recommendation generations within the past 30 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GenerationStatus"`: The status of the recommendation generation.
+- `"NextPageToken"`: The token to retrieve the next set of results.
+- `"PageSize"`: The number of recommendations that you want returned in a single response
+  object.
+- `"RecommendationIds"`: The IDs for each specific recommendation.
+"""
+function list_savings_plans_purchase_recommendation_generation(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListSavingsPlansPurchaseRecommendationGeneration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_savings_plans_purchase_recommendation_generation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListSavingsPlansPurchaseRecommendationGeneration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1645,6 +1681,38 @@ function provide_anomaly_feedback(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_savings_plans_purchase_recommendation_generation()
+    start_savings_plans_purchase_recommendation_generation(params::Dict{String,<:Any})
+
+Requests a Savings Plans recommendation generation. This enables you to calculate a fresh
+set of Savings Plans recommendations that takes your latest usage data and current Savings
+Plans inventory into account. You can refresh Savings Plans recommendations up to three
+times daily for a consolidated billing family.
+StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input
+parameters are needed to support this operation.
+
+"""
+function start_savings_plans_purchase_recommendation_generation(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "StartSavingsPlansPurchaseRecommendationGeneration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_savings_plans_purchase_recommendation_generation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "StartSavingsPlansPurchaseRecommendationGeneration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1812,7 +1880,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MonitorArnList"`: A list of cost anomaly monitor ARNs.
 - `"Subscribers"`: The update to the subscriber list.
 - `"SubscriptionName"`: The new name of the subscription.
-- `"Threshold"`: The update to the threshold value for receiving notifications.
+- `"Threshold"`: (deprecated) The update to the threshold value for receiving
+  notifications.  This field has been deprecated. To update a threshold, use
+  ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a
+  ThresholdExpression.
+- `"ThresholdExpression"`: The update to the Expression object used to specify the
+  anomalies that you want to generate alerts for. This supports dimensions and nested
+  expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and
+  ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The
+  match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and
+  10,000,000,000. The following are examples of valid ThresholdExpressions:   Absolute
+  threshold: { \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\",
+  \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ], \"Values\": [ \"100\" ] } }    Percentage
+  threshold: { \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\",
+  \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ], \"Values\": [ \"100\" ] } }     AND two
+  thresholds together: { \"And\": [ { \"Dimensions\": { \"Key\":
+  \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
+  \"Values\": [ \"100\" ] } }, { \"Dimensions\": { \"Key\":
+  \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
+  \"Values\": [ \"100\" ] } } ] }     OR two thresholds together: { \"Or\": [ {
+  \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\", \"MatchOptions\": [
+  \"GREATER_THAN_OR_EQUAL\" ], \"Values\": [ \"100\" ] } }, { \"Dimensions\": { \"Key\":
+  \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
+  \"Values\": [ \"100\" ] } } ] }
 """
 function update_anomaly_subscription(
     SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()

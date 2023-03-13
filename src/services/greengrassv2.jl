@@ -239,7 +239,8 @@ revision of an existing deployment. For more information, see the Create deploym
 IoT Greengrass V2 Developer Guide.
 
 # Arguments
-- `target_arn`: The ARN of the target IoT thing or thing group.
+- `target_arn`: The ARN of the target IoT thing or thing group. When creating a
+  subdeployment, the targetARN can only be a thing group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -258,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"iotJobConfiguration"`: The job configuration for the deployment configuration. The job
   configuration specifies the rollout, timeout, and stop configurations for the deployment
   configuration.
+- `"parentTargetArn"`: The parent deployment's target ARN within a subdeployment.
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 """
@@ -848,6 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only the latest revision of each deployment.   Default: LATEST_ONLY
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
+- `"parentTargetArn"`: The parent deployment's target ARN within a subdeployment.
 - `"targetArn"`: The ARN of the target IoT thing or thing group.
 """
 function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
