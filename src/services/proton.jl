@@ -1602,6 +1602,39 @@ function get_repository_sync_status(
 end
 
 """
+    get_resources_summary()
+    get_resources_summary(params::Dict{String,<:Any})
+
+Get counts of Proton resources. For infrastructure-provisioning resources (environments,
+services, service instances, pipelines), the action returns staleness counts. A resource is
+stale when it's behind the recommended version of the Proton template that it uses and it
+needs an update to become current. The action returns staleness counts (counts of resources
+that are up-to-date, behind a template major version, or behind a template minor version),
+the total number of resources, and the number of resources that are in a failed state,
+grouped by resource type. Components, environments, and service templates are
+exceptions—see the components, environments, and serviceTemplates field descriptions. For
+context, the action also returns the total number of each type of Proton template in the
+Amazon Web Services account. For more information, see Proton dashboard in the Proton User
+Guide.
+
+"""
+function get_resources_summary(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_resources_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetResourcesSummary",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_service(name)
     get_service(name, params::Dict{String,<:Any})
 

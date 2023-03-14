@@ -5172,18 +5172,19 @@ end
     get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name)
     get_unfiltered_partition_metadata(catalog_id, database_name, partition_values, supported_permission_types, table_name, params::Dict{String,<:Any})
 
-
+Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For
+IAM authorization, the public IAM action associated with this API is glue:GetPartition.
 
 # Arguments
-- `catalog_id`:
-- `database_name`:
-- `partition_values`:
-- `supported_permission_types`:
-- `table_name`:
+- `catalog_id`: The catalog ID where the partition resides.
+- `database_name`: (Required) Specifies the name of a database that contains the partition.
+- `partition_values`: (Required) A list of partition key values.
+- `supported_permission_types`: (Required) A list of supported permission types.
+- `table_name`: (Required) Specifies the name of a table that contains the partition.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AuditContext"`:
+- `"AuditContext"`: A structure containing Lake Formation audit context information.
 """
 function get_unfiltered_partition_metadata(
     CatalogId,
@@ -5239,21 +5240,42 @@ end
     get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name)
     get_unfiltered_partitions_metadata(catalog_id, database_name, supported_permission_types, table_name, params::Dict{String,<:Any})
 
-
+Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For
+IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
 
 # Arguments
-- `catalog_id`:
-- `database_name`:
-- `supported_permission_types`:
-- `table_name`:
+- `catalog_id`: The ID of the Data Catalog where the partitions in question reside. If none
+  is provided, the AWS account ID is used by default.
+- `database_name`: The name of the catalog database where the partitions reside.
+- `supported_permission_types`: A list of supported permission types.
+- `table_name`: The name of the table that contains the partition.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AuditContext"`:
-- `"Expression"`:
-- `"MaxResults"`:
-- `"NextToken"`:
-- `"Segment"`:
+- `"AuditContext"`: A structure containing Lake Formation audit context information.
+- `"Expression"`: An expression that filters the partitions to be returned. The expression
+  uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser
+  parses the expression.   Operators: The following are the operators that you can use in the
+  Expression API call:  =  Checks whether the values of the two operands are equal; if yes,
+  then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b'
+  holds 20.  (a = b) is not true.  &lt; &gt;  Checks whether the values of two operands are
+  equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt;
+  b) is true.  &gt;  Checks whether the value of the left operand is greater than the value
+  of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not
+  true.  &lt;  Checks whether the value of the left operand is less than the value of the
+  right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=
+   Checks whether the value of the left operand is greater than or equal to the value of the
+  right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.
+  &lt;=  Checks whether the value of the left operand is less than or equal to the value of
+  the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.
+  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key
+  Types: The following are the supported partition keys.    string     date     timestamp
+  int     bigint     long     tinyint     smallint     decimal    If an type is encountered
+  that is not valid, an exception is thrown.
+- `"MaxResults"`: The maximum number of partitions to return in a single response.
+- `"NextToken"`: A continuation token, if this is not the first call to retrieve these
+  partitions.
+- `"Segment"`: The segment of the table's partitions to scan in this request.
 """
 function get_unfiltered_partitions_metadata(
     CatalogId,
@@ -5305,17 +5327,18 @@ end
     get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types)
     get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types, params::Dict{String,<:Any})
 
-
+Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM
+authorization, the public IAM action associated with this API is glue:GetTable.
 
 # Arguments
-- `catalog_id`:
-- `database_name`:
-- `name`:
-- `supported_permission_types`:
+- `catalog_id`: The catalog ID where the table resides.
+- `database_name`: (Required) Specifies the name of a database that contains the table.
+- `name`: (Required) Specifies the name of a table for which you are requesting metadata.
+- `supported_permission_types`: (Required) A list of supported permission types.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AuditContext"`:
+- `"AuditContext"`: A structure containing Lake Formation audit context information.
 """
 function get_unfiltered_table_metadata(
     CatalogId,

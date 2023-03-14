@@ -642,6 +642,67 @@ function extend_transaction(
 end
 
 """
+    get_data_cells_filter(database_name, name, table_catalog_id, table_name)
+    get_data_cells_filter(database_name, name, table_catalog_id, table_name, params::Dict{String,<:Any})
+
+Returns a data cells filter.
+
+# Arguments
+- `database_name`: A database in the Glue Data Catalog.
+- `name`: The name given by the user to the data filter cell.
+- `table_catalog_id`: The ID of the catalog to which the table belongs.
+- `table_name`: A table in the database.
+
+"""
+function get_data_cells_filter(
+    DatabaseName,
+    Name,
+    TableCatalogId,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/GetDataCellsFilter",
+        Dict{String,Any}(
+            "DatabaseName" => DatabaseName,
+            "Name" => Name,
+            "TableCatalogId" => TableCatalogId,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_cells_filter(
+    DatabaseName,
+    Name,
+    TableCatalogId,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/GetDataCellsFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName,
+                    "Name" => Name,
+                    "TableCatalogId" => TableCatalogId,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_lake_settings()
     get_data_lake_settings(params::Dict{String,<:Any})
 
@@ -1820,6 +1881,44 @@ function start_transaction(
         "POST",
         "/StartTransaction",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_cells_filter(table_data)
+    update_data_cells_filter(table_data, params::Dict{String,<:Any})
+
+Updates a data cell filter.
+
+# Arguments
+- `table_data`: A DataCellsFilter structure containing information about the data cells
+  filter.
+
+"""
+function update_data_cells_filter(
+    TableData; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/UpdateDataCellsFilter",
+        Dict{String,Any}("TableData" => TableData);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_data_cells_filter(
+    TableData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/UpdateDataCellsFilter",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TableData" => TableData), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

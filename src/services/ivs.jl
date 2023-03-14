@@ -42,7 +42,7 @@ end
 Performs GetStreamKey on multiple ARNs simultaneously.
 
 # Arguments
-- `arns`: Array of ARNs, one per channel.
+- `arns`: Array of ARNs, one per stream key.
 
 """
 function batch_get_stream_key(arns; aws_config::AbstractAWSConfig=global_aws_config())
@@ -230,8 +230,8 @@ end
 Deletes the specified channel and its associated stream keys. If you try to delete a live
 channel, you will get an error (409 ConflictException). To delete a channel that is live,
 call StopStream, wait for the Amazon EventBridge \"Stream End\" event (to verify that the
-stream's state was changed from Live to Offline), then call DeleteChannel. (See  Using
-EventBridge with Amazon IVS.)
+stream's state is no longer Live), then call DeleteChannel. (See  Using EventBridge with
+Amazon IVS.)
 
 # Arguments
 - `arn`: ARN of the channel to be deleted.
@@ -954,10 +954,10 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
 # Arguments
 - `resource_arn`: ARN of the resource for which tags are to be added or updated. The ARN
   must be URL-encoded.
-- `tags`: Array of tags to be added or updated. See Tagging Amazon Web Services Resources
-  for more information, including restrictions that apply to tags and \"Tag naming limits and
-  requirements\"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `tags`: Array of tags to be added or updated. Array of maps, each of the form
+  string:string (key:value). See Tagging Amazon Web Services Resources for more information,
+  including restrictions that apply to tags and \"Tag naming limits and requirements\";
+  Amazon IVS has no service-specific constraints beyond what is documented there.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -993,10 +993,10 @@ Removes tags from the resource with the specified ARN.
 # Arguments
 - `resource_arn`: ARN of the resource for which tags are to be removed. The ARN must be
   URL-encoded.
-- `tag_keys`: Array of tags to be removed. See Tagging Amazon Web Services Resources for
-  more information, including restrictions that apply to tags and \"Tag naming limits and
-  requirements\"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form string:string
+  (key:value). See Tagging Amazon Web Services Resources for more information, including
+  restrictions that apply to tags and \"Tag naming limits and requirements\"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 
 """
 function untag_resource(

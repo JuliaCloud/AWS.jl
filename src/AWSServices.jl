@@ -93,6 +93,7 @@ const chime_sdk_media_pipelines = AWS.RestJSONService(
 const chime_sdk_meetings = AWS.RestJSONService("chime", "meetings-chime", "2021-07-15")
 const chime_sdk_messaging = AWS.RestJSONService("chime", "messaging-chime", "2021-05-15")
 const chime_sdk_voice = AWS.RestJSONService("chime", "voice-chime", "2022-08-03")
+const cleanrooms = AWS.RestJSONService("cleanrooms", "cleanrooms", "2022-02-17")
 const cloud9 = AWS.JSONService(
     "cloud9", "cloud9", "2017-09-23", "1.1", "AWSCloud9WorkspaceManagementService"
 )
@@ -118,6 +119,9 @@ const cloudtrail = AWS.JSONService(
     "2013-11-01",
     "1.1",
     "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
+)
+const cloudtrail_data = AWS.RestJSONService(
+    "cloudtrail-data", "cloudtrail-data", "2021-08-11"
 )
 const cloudwatch = AWS.QueryService("monitoring", "monitoring", "2010-08-01")
 const cloudwatch_events = AWS.JSONService(
@@ -328,6 +332,9 @@ const inspector = AWS.JSONService(
     "inspector", "inspector", "2016-02-16", "1.1", "InspectorService"
 )
 const inspector2 = AWS.RestJSONService("inspector2", "inspector2", "2020-06-08")
+const internetmonitor = AWS.RestJSONService(
+    "internetmonitor", "internetmonitor", "2021-06-03"
+)
 const iot = AWS.RestJSONService("execute-api", "iot", "2015-05-28")
 const iot_1click_devices_service = AWS.RestJSONService(
     "iot1click", "devices.iot1click", "2018-05-14"
@@ -365,6 +372,13 @@ const kafka = AWS.RestJSONService("kafka", "kafka", "2018-11-14")
 const kafkaconnect = AWS.RestJSONService("kafkaconnect", "kafkaconnect", "2021-09-14")
 const kendra = AWS.JSONService(
     "kendra", "kendra", "2019-02-03", "1.1", "AWSKendraFrontendService"
+)
+const kendra_ranking = AWS.JSONService(
+    "kendra-ranking",
+    "kendra-ranking",
+    "2022-10-19",
+    "1.0",
+    "AWSKendraRerankingFrontendService",
 )
 const keyspaces = AWS.JSONService(
     "cassandra", "cassandra", "2022-02-10", "1.0", "KeyspacesService"
@@ -690,6 +704,7 @@ const timestream_query = AWS.JSONService(
 const timestream_write = AWS.JSONService(
     "timestream", "ingest.timestream", "2018-11-01", "1.0", "Timestream_20181101"
 )
+const tnb = AWS.RestJSONService("tnb", "tnb", "2008-10-21")
 const transcribe = AWS.JSONService(
     "transcribe", "transcribe", "2017-10-26", "1.1", "Transcribe"
 )

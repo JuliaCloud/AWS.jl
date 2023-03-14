@@ -466,6 +466,9 @@ service for a VPC to your network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: A friendly name that lets you easily find a configuration in the Resolver
   dashboard in the Route 53 console.
+- `"ResolverEndpointType"`:  For the endpoint type you can choose either IPv4, IPv6. or
+  dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
+  endpoint type is applied to all IP addresses.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 function create_resolver_endpoint(
@@ -1307,7 +1310,7 @@ end
     get_resolver_config(resource_id)
     get_resolver_config(resource_id, params::Dict{String,<:Any})
 
-Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
+Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
 Amazon Virtual Private Cloud.
 
 # Arguments
@@ -1985,7 +1988,7 @@ end
     list_resolver_configs()
     list_resolver_configs(params::Dict{String,<:Any})
 
-Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the
+Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the
 configurations to manage DNS resolution behavior for your VPCs.
 
 # Optional Parameters
@@ -2686,11 +2689,11 @@ end
 Updates the firewall domain list from an array of domain specifications.
 
 # Arguments
-- `domains`: A list of domains to use in the update operation. Each domain specification in
-  your domain list must satisfy the following requirements:    It can optionally start with *
-  (asterisk).   With the exception of the optional starting asterisk, it must only contain
-  the following characters: A-Z, a-z, 0-9, - (hyphen).   It must be from 1-255 characters in
-  length.
+- `domains`: A list of domains to use in the update operation.  There is a limit of 1000
+  domains per request.  Each domain specification in your domain list must satisfy the
+  following requirements:    It can optionally start with * (asterisk).   With the exception
+  of the optional starting asterisk, it must only contain the following characters: A-Z, a-z,
+  0-9, - (hyphen).   It must be from 1-255 characters in length.
 - `firewall_domain_list_id`: The ID of the domain list whose domains you want to update.
 - `operation`: What you want DNS Firewall to do with the domains that you are providing:
    ADD - Add the domains to the ones that are already in the domain list.     REMOVE - Search
@@ -2875,14 +2878,17 @@ end
     update_resolver_config(autodefined_reverse_flag, resource_id)
     update_resolver_config(autodefined_reverse_flag, resource_id, params::Dict{String,<:Any})
 
-Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
+Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
 Amazon Virtual Private Cloud.
 
 # Arguments
 - `autodefined_reverse_flag`: Indicates whether or not the Resolver will create autodefined
   rules for reverse DNS lookups. This is enabled by default. Disabling this option will also
   affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in
-  the Amazon EC2 guide.  It can take some time for the status change to be completed.
+  the Amazon EC2 guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that
+  you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic
+  to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring –
+  Here’s How to Prepare.   It can take some time for the status change to be completed.
 - `resource_id`: Resource ID of the Amazon VPC that you want to update the Resolver
   configuration for.
 
@@ -2971,7 +2977,8 @@ end
     update_resolver_endpoint(resolver_endpoint_id)
     update_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
 
-Updates the name of an inbound or an outbound Resolver endpoint.
+Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can
+only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
 
 # Arguments
 - `resolver_endpoint_id`: The ID of the Resolver endpoint that you want to update.
@@ -2979,6 +2986,9 @@ Updates the name of an inbound or an outbound Resolver endpoint.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the Resolver endpoint that you want to update.
+- `"ResolverEndpointType"`:  Specifies the endpoint type for what type of IP address the
+  endpoint uses to forward DNS queries.
+- `"UpdateIpAddresses"`:  Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
 """
 function update_resolver_endpoint(
     ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()

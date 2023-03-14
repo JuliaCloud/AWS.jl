@@ -240,9 +240,11 @@ end
     get_transcript(x-_amz-_bearer)
     get_transcript(x-_amz-_bearer, params::Dict{String,<:Any})
 
-Retrieves a transcript of the session, including details about any attachments.
-ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon
-Connect Participant Service APIs do not use Signature Version 4 authentication.
+Retrieves a transcript of the session, including details about any attachments. For
+information about accessing past chat contact transcripts for a persistent chat, see Enable
+persistent chat.    ConnectionToken is used for invoking this API instead of
+ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version
+4 authentication.
 
 # Arguments
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.

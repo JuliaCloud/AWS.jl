@@ -8,11 +8,8 @@ using AWS.UUIDs
     create_accessor(accessor_type, client_request_token)
     create_accessor(accessor_type, client_request_token, params::Dict{String,<:Any})
 
- The token based access feature is in preview release for Ethereum on Amazon Managed
-Blockchain and is subject to change. We recommend that you use this feature only with test
-scenarios, and not in production environments.  Creates a new accessor for use with Managed
-Blockchain Ethereum nodes. An accessor object is a container that has the information
-required for token based access to your Ethereum nodes.
+Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains
+information required for token based access to your Ethereum nodes.
 
 # Arguments
 - `accessor_type`: The type of accessor.  Currently accessor type is restricted to
@@ -23,6 +20,13 @@ required for token based access to your Ethereum nodes.
   client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon
   Web Services CLI.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Tags to assign to the Accessor.  Each tag consists of a key and an optional
+  value. You can specify multiple key-value pairs in a single request with an overall maximum
+  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
+  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
+  Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 function create_accessor(
     AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()
@@ -149,12 +153,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: An optional description for the network.
 - `"FrameworkConfiguration"`:  Configuration properties of the blockchain framework
   relevant to the network configuration.
-- `"Tags"`: Tags to assign to the network. Each tag consists of a key and optional value.
-  When specifying tags during creation, you can specify multiple key-value pairs in a single
-  request, with an overall maximum of 50 tags added to each resource. For more information
-  about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer
-  Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer
-  Guide.
+- `"Tags"`: Tags to assign to the network.  Each tag consists of a key and an optional
+  value. You can specify multiple key-value pairs in a single request with an overall maximum
+  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
+  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
+  Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 function create_network(
     ClientRequestToken,
@@ -233,12 +236,11 @@ Ethereum.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MemberId"`: The unique identifier of the member that owns this node. Applies only to
   Hyperledger Fabric.
-- `"Tags"`: Tags to assign to the node. Each tag consists of a key and optional value. When
-  specifying tags during creation, you can specify multiple key-value pairs in a single
-  request, with an overall maximum of 50 tags added to each resource. For more information
-  about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer
-  Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer
-  Guide.
+- `"Tags"`: Tags to assign to the node.  Each tag consists of a key and an optional value.
+  You can specify multiple key-value pairs in a single request with an overall maximum of 50
+  tags allowed per resource. For more information about tags, see Tagging Resources in the
+  Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
+  Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 function create_node(
     ClientRequestToken,
@@ -307,13 +309,11 @@ proposal. Applies only to Hyperledger Fabric.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the proposal that is visible to voting members, for
   example, \"Proposal to add Example Corp. as member.\"
-- `"Tags"`: Tags to assign to the proposal. Each tag consists of a key and optional value.
-  When specifying tags during creation, you can specify multiple key-value pairs in a single
-  request, with an overall maximum of 50 tags added to each resource. If the proposal is for
-  a network invitation, the invitation inherits the tags added to the proposal. For more
-  information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum
-  Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric
-  Developer Guide.
+- `"Tags"`: Tags to assign to the proposal.  Each tag consists of a key and an optional
+  value. You can specify multiple key-value pairs in a single request with an overall maximum
+  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
+  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
+  Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 function create_proposal(
     Actions,
@@ -365,15 +365,13 @@ end
     delete_accessor(accessor_id)
     delete_accessor(accessor_id, params::Dict{String,<:Any})
 
- The token based access feature is in preview release for Ethereum on Amazon Managed
-Blockchain and is subject to change. We recommend that you use this feature only with test
-scenarios, and not in production environments.  Deletes an accessor that your Amazon Web
-Services account owns. An accessor object is a container that has the information required
-for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an
-accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION.
-An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or
-HTTP requests. However, WebSocket connections that were initiated while the accessor was in
-the AVAILABLE state remain open until they expire (up to 2 hours).
+Deletes an accessor that your Amazon Web Services account owns. An accessor object is a
+container that has the information required for token based access to your Ethereum nodes
+including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor
+changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state
+can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections
+that were initiated while the accessor was in the AVAILABLE state remain open until they
+expire (up to 2 hours).
 
 # Arguments
 - `accessor_id`: The unique identifier of the accessor.
@@ -488,11 +486,8 @@ end
     get_accessor(accessor_id)
     get_accessor(accessor_id, params::Dict{String,<:Any})
 
- The token based access feature is in preview release for Ethereum on Amazon Managed
-Blockchain and is subject to change. We recommend that you use this feature only with test
-scenarios, and not in production environments.  Returns detailed information about an
-accessor. An accessor object is a container that has the information required for token
-based access to your Ethereum nodes.
+Returns detailed information about an accessor. An accessor object is a container that has
+the information required for token based access to your Ethereum nodes.
 
 # Arguments
 - `accessor_id`: The unique identifier of the accessor.
@@ -664,11 +659,8 @@ end
     list_accessors()
     list_accessors(params::Dict{String,<:Any})
 
- The token based access feature is in preview release for Ethereum on Amazon Managed
-Blockchain and is subject to change. We recommend that you use this feature only with test
-scenarios, and not in production environments.  Returns a list of the accessors and their
-properties. Accessor objects are containers that have the information required for token
-based access to your Ethereum nodes.
+Returns a list of the accessors and their properties. Accessor objects are containers that
+have the information required for token based access to your Ethereum nodes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -200,6 +200,98 @@ function batch_enable_standards(
 end
 
 """
+    batch_get_security_controls(security_control_ids)
+    batch_get_security_controls(security_control_ids, params::Dict{String,<:Any})
+
+ Provides details about a batch of security controls for the current Amazon Web Services
+account and Amazon Web Services Region.
+
+# Arguments
+- `security_control_ids`:  A list of security controls (identified with SecurityControlId,
+  SecurityControlArn, or a mix of both parameters). The security control ID or Amazon
+  Resource Name (ARN) is the same across standards.
+
+"""
+function batch_get_security_controls(
+    SecurityControlIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/securityControls/batchGet",
+        Dict{String,Any}("SecurityControlIds" => SecurityControlIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_security_controls(
+    SecurityControlIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/securityControls/batchGet",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SecurityControlIds" => SecurityControlIds), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_standards_control_associations(standards_control_association_ids)
+    batch_get_standards_control_associations(standards_control_association_ids, params::Dict{String,<:Any})
+
+ For a batch of security controls and standards, identifies whether each control is
+currently enabled or disabled in a standard.
+
+# Arguments
+- `standards_control_association_ids`:  An array with one or more objects that includes a
+  security control (identified with SecurityControlId, SecurityControlArn, or a mix of both
+  parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to query
+  the enablement status of a control in a specified standard. The security control ID or ARN
+  is the same across standards.
+
+"""
+function batch_get_standards_control_associations(
+    StandardsControlAssociationIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/associations/batchGet",
+        Dict{String,Any}(
+            "StandardsControlAssociationIds" => StandardsControlAssociationIds
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_standards_control_associations(
+    StandardsControlAssociationIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/associations/batchGet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StandardsControlAssociationIds" => StandardsControlAssociationIds
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_import_findings(findings)
     batch_import_findings(findings, params::Dict{String,<:Any})
 
@@ -319,6 +411,54 @@ function batch_update_findings(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("FindingIdentifiers" => FindingIdentifiers), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_standards_control_associations(standards_control_association_updates)
+    batch_update_standards_control_associations(standards_control_association_updates, params::Dict{String,<:Any})
+
+ For a batch of security controls and standards, this operation updates the enablement
+status of a control in a standard.
+
+# Arguments
+- `standards_control_association_updates`:  Updates the enablement status of a security
+  control in a specified standard.
+
+"""
+function batch_update_standards_control_associations(
+    StandardsControlAssociationUpdates; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "PATCH",
+        "/associations",
+        Dict{String,Any}(
+            "StandardsControlAssociationUpdates" => StandardsControlAssociationUpdates
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_standards_control_associations(
+    StandardsControlAssociationUpdates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StandardsControlAssociationUpdates" =>
+                        StandardsControlAssociationUpdates,
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -593,7 +733,7 @@ affect any findings or insights that were already sent to Amazon CloudWatch Even
 the custom action.
 
 # Arguments
-- `action_target_arn`: The ARN of the custom action target to delete.
+- `action_target_arn`: The Amazon Resource Name (ARN) of the custom action target to delete.
 
 """
 function delete_action_target(
@@ -1254,16 +1394,25 @@ Enables Security Hub for your account in the current Region or the Region you sp
 the request. When you enable Security Hub, you grant to Security Hub the permissions
 necessary to gather findings from other services that are integrated with Security Hub.
 When you use the EnableSecurityHub operation to enable Security Hub, you also automatically
-enable the following standards.   CIS Amazon Web Services Foundations   Amazon Web Services
-Foundational Security Best Practices   You do not enable the Payment Card Industry Data
-Security Standard (PCI DSS) standard.  To not enable the automatically enabled standards,
-set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard,
-use the BatchEnableStandards operation. To disable a standard, use the
+enable the following standards:   Center for Internet Security (CIS) Amazon Web Services
+Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices
+Other standards are not automatically enabled.  To opt out of automatically enabled
+standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a
+standard, use the BatchEnableStandards operation. To disable a standard, use the
 BatchDisableStandards operation. To learn more, see the setup information in the Security
 Hub User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ControlFindingGenerator"`: This field, used when enabling Security Hub, specifies
+  whether the calling account has consolidated control findings turned on. If the value for
+  this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a
+  control check even when the check applies to multiple enabled standards. If the value for
+  this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a
+  control check when the check applies to multiple enabled standards. The value for this
+  field in a member account matches the value in the administrator account. For accounts that
+  aren't part of an organization, the default value of this field is SECURITY_CONTROL if you
+  enabled Security Hub on or after February 9, 2023.
 - `"EnableDefaultStandards"`: Whether to enable the security standards that Security Hub
   has designated as automatically enabled. If you do not provide a value for
   EnableDefaultStandards, it is set to true. To not enable the automatically enabled
@@ -1785,6 +1934,97 @@ function list_organization_admin_accounts(
 end
 
 """
+    list_security_control_definitions()
+    list_security_control_definitions(params::Dict{String,<:Any})
+
+ Lists all of the security controls that apply to a specified standard.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  An optional parameter that limits the total results of the API response
+  to the specified number. If this parameter isn't provided in the request, the results
+  include the first 25 security controls that apply to the specified standard. The results
+  also include a NextToken parameter that you can use in a subsequent API call to get the
+  next 25 controls. This repeats until all controls for the standard are returned.
+- `"NextToken"`:  Optional pagination parameter.
+- `"StandardsArn"`:  The Amazon Resource Name (ARN) of the standard that you want to view
+  controls for.
+"""
+function list_security_control_definitions(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/securityControls/definitions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_security_control_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/securityControls/definitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_standards_control_associations(security_control_id)
+    list_standards_control_associations(security_control_id, params::Dict{String,<:Any})
+
+ Specifies whether a control is currently enabled or disabled in each enabled standard in
+the calling account.
+
+# Arguments
+- `security_control_id`:  The identifier of the control (identified with SecurityControlId,
+  SecurityControlArn, or a mix of both parameters) that you want to determine the enablement
+  status of in each enabled standard.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  An optional parameter that limits the total results of the API response
+  to the specified number. If this parameter isn't provided in the request, the results
+  include the first 25 standard and control associations. The results also include a
+  NextToken parameter that you can use in a subsequent API call to get the next 25
+  associations. This repeats until all associations for the specified control are returned.
+  The number of results is limited by the number of supported Security Hub standards that
+  you've enabled in the calling account.
+- `"NextToken"`:  Optional pagination parameter.
+"""
+function list_standards_control_associations(
+    SecurityControlId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/associations",
+        Dict{String,Any}("SecurityControlId" => SecurityControlId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_standards_control_associations(
+    SecurityControlId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "GET",
+        "/associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SecurityControlId" => SecurityControlId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -2136,6 +2376,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoEnableControls"`: Whether to automatically enable new controls when they are added
   to standards that are enabled. By default, this is set to true, and new controls are
   enabled automatically. To not automatically enable new controls, set this to false.
+- `"ControlFindingGenerator"`: Updates whether the calling account has consolidated control
+  findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub
+  generates a single finding for a control check even when the check applies to multiple
+  enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub
+  generates separate findings for a control check when the check applies to multiple enabled
+  standards. For accounts that are part of an organization, this value can only be updated in
+  the administrator account.
 """
 function update_security_hub_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()

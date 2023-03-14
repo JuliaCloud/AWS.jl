@@ -274,12 +274,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either text or speech based on the responseContentType value.   If the value is
   text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins
   with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly
-  to generate the speech using the configuration that you specified in the requestContentType
-  parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns
-  speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm at
-  16 KHz in 16-bit, little-endian format.   The following are the accepted values:
-  audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain;
-  charset=utf-8
+  to generate the speech using the configuration that you specified in the
+  responseContentType parameter. For example, if you specify audio/mpeg as the value, Amazon
+  Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned
+  is audio/pcm at 16 KHz in 16-bit, little-endian format.   The following are the accepted
+  values:   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)
+  text/plain; charset=utf-8
 - `"inputStream"`: User input in PCM or Opus audio format or text format as described in
   the requestContentType parameter.
 - `"x-amz-lex-request-attributes"`: Request-specific information passed between the client

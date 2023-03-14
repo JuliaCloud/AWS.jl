@@ -891,9 +891,9 @@ end
     get_cluster_session_credentials(cluster_id, execution_role_arn)
     get_cluster_session_credentials(cluster_id, execution_role_arn, params::Dict{String,<:Any})
 
-Provides Temporary, basic HTTP credentials that are associated with a given runtime IAM
+Provides temporary, HTTP basic credentials that are associated with a given runtime IAM
 role and used by a cluster with fine-grained access control activated. You can use these
-credentials to connect to cluster endpoints that support username-based and password-based
+credentials to connect to cluster endpoints that support username and password
 authentication.
 
 # Arguments

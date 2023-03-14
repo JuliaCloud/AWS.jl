@@ -113,6 +113,11 @@ information, see the Amazon Lightsail Developer Guide.
 - `instance_name`: The name of the Lightsail instance where you want to utilize the storage
   disk.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoMounting"`: A Boolean value used to determine the automatic mounting of a storage
+  volume to a virtual computer. The default value is False.  This value only applies to
+  Lightsail for Research resources.
 """
 function attach_disk(
     diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1234,6 +1239,44 @@ function create_domain_entry(
                 Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_guisession_access_details(resource_name)
+    create_guisession_access_details(resource_name, params::Dict{String,<:Any})
+
+Creates two URLs that are used to access a virtual computer’s graphical user interface
+(GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual
+computer's application. The secondary URL initiates a web-based NICE DCV session to the
+virtual computer's operating session.  Use StartGUISession to open the session.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function create_guisession_access_details(
+    resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateGUISessionAccessDetails",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_guisession_access_details(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateGUISessionAccessDetails",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3231,6 +3274,8 @@ due to operating system updates or new application releases.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appCategory"`: Returns a list of blueprints that are specific to Lightsail for
+  Research.  You must use this parameter to view Lightsail for Research blueprints.
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) blueprints in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -3459,6 +3504,8 @@ quota.  Bundles are referred to as instance plans in the Lightsail console.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appCategory"`: Returns a list of bundles that are specific to Lightsail for Research.
+  You must use this parameter to view Lightsail for Research bundles.
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) bundles in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -3894,6 +3941,63 @@ function get_container_services(
     return lightsail(
         "GetContainerServices",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cost_estimate(end_time, resource_name, start_time)
+    get_cost_estimate(end_time, resource_name, start_time, params::Dict{String,<:Any})
+
+Retrieves information about the cost estimate for a specified resource. A cost estimate
+will not generate for a resource that has been deleted.
+
+# Arguments
+- `end_time`: The cost estimate end time. Constraints:   Specified in Coordinated Universal
+  Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end
+  time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert
+  a human-friendly time to Unix time format using a converter like Epoch converter.
+- `resource_name`: The resource name.
+- `start_time`: The cost estimate start time. Constraints:   Specified in Coordinated
+  Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use
+  a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You
+  can convert a human-friendly time to Unix time format using a converter like Epoch
+  converter.
+
+"""
+function get_cost_estimate(
+    endTime, resourceName, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetCostEstimate",
+        Dict{String,Any}(
+            "endTime" => endTime, "resourceName" => resourceName, "startTime" => startTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cost_estimate(
+    endTime,
+    resourceName,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetCostEstimate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "resourceName" => resourceName,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6449,6 +6553,41 @@ function set_resource_access_for_bucket(
 end
 
 """
+    start_guisession(resource_name)
+    start_guisession(resource_name, params::Dict{String,<:Any})
+
+Initiates a graphical user interface (GUI) session that’s used to access a virtual
+computer’s operating system and application. The session will be active for 1 hour. Use
+this action to resume the session after it expires.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function start_guisession(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StartGUISession",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_guisession(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StartGUISession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_instance(instance_name)
     start_instance(instance_name, params::Dict{String,<:Any})
 
@@ -6523,6 +6662,40 @@ function start_relational_database(
                 Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_guisession(resource_name)
+    stop_guisession(resource_name, params::Dict{String,<:Any})
+
+Terminates a web-based NICE DCV session that’s used to access a virtual computer’s
+operating system or application. The session will close and any unsaved data will be lost.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function stop_guisession(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StopGUISession",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_guisession(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StopGUISession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

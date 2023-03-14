@@ -106,8 +106,8 @@ end
     create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id)
     create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id, params::Dict{String,<:Any})
 
-Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to
-Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio
+to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
 
 # Arguments
 - `client_token`: The client idempotency token for this create call.
@@ -279,8 +279,8 @@ end
     delete_managed_endpoint(endpoint_id, virtual_cluster_id)
     delete_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
 
-Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to
-Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio
+to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
 
 # Arguments
 - `endpoint_id`: The ID of the managed endpoint.
@@ -429,8 +429,8 @@ end
     describe_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
 
 Displays detailed information about a managed endpoint. A managed endpoint is a gateway
-that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your
-virtual cluster.
+that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
+communicate with your virtual cluster.
 
 # Arguments
 - `endpoint_id`: This output displays ID of the managed endpoint.
@@ -579,8 +579,8 @@ end
     list_managed_endpoints(virtual_cluster_id, params::Dict{String,<:Any})
 
 Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that
-connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your
-virtual cluster.
+connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate
+with your virtual cluster.
 
 # Arguments
 - `virtual_cluster_id`: The ID of the virtual cluster.
@@ -665,8 +665,8 @@ same way you model Kubernetes namespaces to meet your requirements.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"containerProviderId"`: The container provider ID of the virtual cluster.
-- `"containerProviderType"`: The container provider type of the virtual cluster. EKS is the
-  only supported type as of now.
+- `"containerProviderType"`: The container provider type of the virtual cluster. Amazon EKS
+  is the only supported type as of now.
 - `"createdAfter"`: The date and time after which the virtual clusters are created.
 - `"createdBefore"`: The date and time before which the virtual clusters are created.
 - `"maxResults"`: The maximum number of virtual clusters that can be listed.
@@ -710,6 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobTemplateParameters"`: The values of job template parameters to start a job run.
 - `"name"`: The name of the job run.
 - `"releaseLabel"`: The Amazon EMR release version to use for the job run.
+- `"retryPolicyConfiguration"`: The retry policy configuration for the job run.
 - `"tags"`: The tags assigned to job runs.
 """
 function start_job_run(
@@ -744,14 +745,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns tags to resources. A tag is a label that you assign to an AWS resource. Each tag
-consists of a key and an optional value, both of which you define. Tags enable you to
-categorize your AWS resources by attributes such as purpose, owner, or environment. When
-you have many resources of the same type, you can quickly identify a specific resource
-based on the tags you've assigned to it. For example, you can define a set of tags for your
-Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We
-recommend that you devise a consistent set of tag keys for each resource type. You can then
-search and filter the resources based on the tags that you add.
+Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services
+resource. Each tag consists of a key and an optional value, both of which you define. Tags
+enable you to categorize your Amazon Web Services resources by attributes such as purpose,
+owner, or environment. When you have many resources of the same type, you can quickly
+identify a specific resource based on the tags you've assigned to it. For example, you can
+define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's
+owner and stack level. We recommend that you devise a consistent set of tag keys for each
+resource type. You can then search and filter the resources based on the tags that you add.
 
 # Arguments
 - `resource_arn`: The ARN of resources.

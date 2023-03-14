@@ -236,7 +236,8 @@ end
     create_analysis(analysis_id, aws_account_id, name)
     create_analysis(analysis_id, aws_account_id, name, params::Dict{String,<:Any})
 
-Creates an analysis in Amazon QuickSight.
+Creates an analysis in Amazon QuickSight. Analyses can be created either from a template or
+from an AnalysisDefinition.
 
 # Arguments
 - `analysis_id`: The ID for the analysis that you're creating. This ID displays in the URL
@@ -249,7 +250,8 @@ Creates an analysis in Amazon QuickSight.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Definition"`: The definition of an analysis. A definition is the data model of all
-  features in a Dashboard, Template, or Analysis.
+  features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must
+  be provided in order for the request to be valid.
 - `"Parameters"`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
 - `"Permissions"`: A structure that describes the principals and the resource-level
@@ -259,7 +261,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Permissions.
 - `"SourceEntity"`: A source entity to use for the analysis that you're creating. This
   metadata structure contains details that describe a source template and one or more
-  datasets.
+  datasets. Either a SourceEntity or a Definition must be provided in order for the request
+  to be valid.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the analysis.
 - `"ThemeArn"`: The ARN for the theme to apply to the analysis that you're creating. To see
@@ -296,12 +299,12 @@ end
     create_dashboard(aws_account_id, dashboard_id, name)
     create_dashboard(aws_account_id, dashboard_id, name, params::Dict{String,<:Any})
 
-Creates a dashboard from a template. To first create a template, see the  CreateTemplate
-API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon
-QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With
-the right permissions, you can create scheduled email reports from them. If you have the
-correct permissions, you can create a dashboard from a template that exists in a different
-Amazon Web Services account.
+Creates a dashboard from either a template or directly with a DashboardDefinition. To first
+create a template, see the  CreateTemplate  API operation. A dashboard is an entity in
+Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can
+share Amazon QuickSight dashboards. With the right permissions, you can create scheduled
+email reports from them. If you have the correct permissions, you can create a dashboard
+from a template that exists in a different Amazon Web Services account.
 
 # Arguments
 - `aws_account_id`: The ID of the Amazon Web Services account where you want to create the
@@ -321,7 +324,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This
   option is COLLAPSED by default.
 - `"Definition"`: The definition of a dashboard. A definition is the data model of all
-  features in a Dashboard, Template, or Analysis.
+  features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must
+  be provided in order for the request to be valid.
 - `"Parameters"`: The parameters for the creation of the dashboard, which you want to use
   to override the default settings. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
@@ -336,7 +340,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the source template. The SourceTemplateARN can contain any Amazon Web Services account
   and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
   entity within SourceTemplate to list the replacement datasets for the placeholders listed
-  in the original. The schema in each dataset must match its placeholder.
+  in the original. The schema in each dataset must match its placeholder.  Either a
+  SourceEntity or a Definition must be provided in order for the request to be valid.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dashboard.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
@@ -897,13 +902,14 @@ end
     create_template(aws_account_id, template_id)
     create_template(aws_account_id, template_id, params::Dict{String,<:Any})
 
-Creates a template from an existing Amazon QuickSight analysis or template. You can use the
-resulting template to create a dashboard. A template is an entity in Amazon QuickSight that
-encapsulates the metadata required to create an analysis and that you can use to create s
-dashboard. A template adds a layer of abstraction by using placeholders to replace the
-dataset associated with the analysis. You can use templates to create dashboards by
-replacing dataset placeholders with datasets that follow the same schema that was used to
-create the source analysis and template.
+Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight
+analysis or template. You can use the resulting template to create additional dashboards,
+templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the
+metadata required to create an analysis and that you can use to create s dashboard. A
+template adds a layer of abstraction by using placeholders to replace the dataset
+associated with the analysis. You can use templates to create dashboards by replacing
+dataset placeholders with datasets that follow the same schema that was used to create the
+source analysis and template.
 
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that the group is in. You
@@ -914,7 +920,8 @@ create the source analysis and template.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Definition"`: The definition of a template. A definition is the data model of all
-  features in a Dashboard, Template, or Analysis.
+  features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must
+  be provided in order for the request to be valid.
 - `"Name"`: A display name for the template.
 - `"Permissions"`: A list of resource permissions to be set on the template.
 - `"SourceEntity"`: The entity that you are using as a source when you create the template.
@@ -925,7 +932,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the
   DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must match
-  its placeholder.
+  its placeholder.  Either a SourceEntity or a Definition must be provided in order for the
+  request to be valid.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the resource.
 - `"VersionDescription"`: A description of the current template version being created. This
@@ -1806,9 +1814,8 @@ end
     delete_user(aws_account_id, namespace, user_name)
     delete_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
-Deletes the Amazon QuickSight user that is associated with the identity of the Identity and
-Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as
-a result of this call.
+Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or
+role that's making the call. The IAM user isn't deleted as a result of this call.
 
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that the user is in.
@@ -3388,9 +3395,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your
   account (readers, authors, or admins). They need to be authenticated as one of the
   following:   Active Directory (AD) users or group members   Invited nonfederated users
-  Identity and Access Management (IAM) users and IAM role-based sessions authenticated
-  through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this
-  parameter for users in the third group, IAM users and IAM role-based sessions.
+  IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using
+  SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group,
+  IAM users and IAM role-based sessions.
 """
 function get_session_embed_url(
     AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4316,8 +4323,14 @@ end
     register_user(aws_account_id, email, identity_type, namespace, user_role)
     register_user(aws_account_id, email, identity_type, namespace, user_role, params::Dict{String,<:Any})
 
-Creates an Amazon QuickSight user, whose identity is associated with the Identity and
-Access Management (IAM) identity or role specified in the request.
+Creates an Amazon QuickSight user whose identity is associated with the Identity and Access
+Management (IAM) identity or role specified in the request. When you register a new user
+from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user
+accesses this registration URL to create their account. Amazon QuickSight doesn't send a
+registration email to users who are registered from the Amazon QuickSight API. If you want
+new users to receive a registration email, then add those users in the Amazon QuickSight
+console. For more information on registering a new user in the Amazon QuickSight console,
+see  Inviting users to access Amazon QuickSight.
 
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that the user is in.
@@ -4868,9 +4881,8 @@ Updates the Amazon QuickSight settings in your Amazon Web Services account.
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the Amazon
   QuickSight settings that you want to list.
 - `default_namespace`: The default namespace for this Amazon Web Services account.
-  Currently, the default is default. Identity and Access Management (IAM) users that register
-  for the first time with Amazon QuickSight provide an email address that becomes associated
-  with the default namespace.
+  Currently, the default is default. IAM users that register for the first time with Amazon
+  QuickSight provide an email address that becomes associated with the default namespace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
