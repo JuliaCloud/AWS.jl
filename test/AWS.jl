@@ -961,6 +961,54 @@ end
 
         @test _bucket_exists(bucket_name) == false
     end
+
+    @testset "additional S3 operations" begin
+        @service S3
+
+        bucket_name = "aws-jl-test---" * _now_formatted()
+
+        # Testing a file name with various special & Unicode characters
+        file_name = "$(uuid4())/📁!!/@ +*"
+
+        function _bucket_exists(bucket_name)
+            try
+                S3.head_bucket(bucket_name)
+                return true
+            catch e
+                if e isa AWSException && e.cause.status == 404
+                    return false
+                else
+                    rethrow(e)
+                end
+            end
+        end
+
+        # HEAD operation
+        @test _bucket_exists(bucket_name) == false
+
+        # PUT operation
+        S3.create_bucket(bucket_name)
+        @test _bucket_exists(bucket_name)
+
+        try
+            # PUT with parameters operation
+            body = "sample-file-body"
+            S3.put_object(bucket_name, file_name, Dict("body" => body))
+            @test !isempty(S3.get_object(bucket_name, file_name))
+
+            # GET operation
+            result = S3.list_objects(bucket_name)
+            @test result["Contents"]["Key"] == file_name
+        finally
+            # DELETE the file, check that it's gone, and then DELETE the bucket
+            S3.delete_object(bucket_name, file_name)
+            @test_throws AWSException S3.get_object(bucket_name, file_name)
+            S3.delete_bucket(bucket_name)
+            sleep(2)
+        end
+
+        @test _bucket_exists(bucket_name) == false
+    end
 end
 
 @testset "rest-json" begin
