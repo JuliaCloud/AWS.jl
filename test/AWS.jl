@@ -1000,6 +1000,9 @@ end
             result = S3.list_objects(bucket_name)
             @test result["Contents"]["Key"] == file_name
         finally
+            # DELETE the file, check that it's gone, and then DELETE the bucket
+            S3.delete_object(bucket_name, file_name)
+            @test_throws AWSException S3.get_object(bucket_name, file_name)
             S3.delete_bucket(bucket_name)
             sleep(2)
         end
