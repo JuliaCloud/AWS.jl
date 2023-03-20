@@ -7,8 +7,7 @@ BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
 function log_is_retry(successful)
     return record ->
         record.level == Logging.Debug &&
-            haskey(record.kwargs, :retry) &&
-            record.kwargs[:retry] == successful
+        get(record.kwargs, :retry, nothing) == successful
 end
 
 try
