@@ -66,6 +66,27 @@ function _aws_http_request_patch(response::AWS.Response=_response())
     return p
 end
 
+function _throttling_patch(retries::Ref{Int})
+    status = 503
+    body = """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n
+        <Error>
+          <Code>SlowDown</Code>
+          <Message>Please reduce your request rate</Message>
+          <Resource>/mybucket/myfoto.jpg</Resource>
+          <RequestId>4442587FB7D0A2F9</RequestId>
+        </Error>
+        """
+
+    p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
+        retries[] += 1
+        resp = _response(; status=status, body=body).response
+        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        throw(AWS.AWSException(err, body))
+    end
+    return p
+end
+
 _cred_file_patch = @patch function dot_aws_credentials_file()
     return ""
 end

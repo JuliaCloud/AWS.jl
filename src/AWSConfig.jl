@@ -1,18 +1,43 @@
 abstract type AbstractAWSConfig end
+
+# https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
+const AWS_MAX_RETRY_ATTEMPTS = 3
+
+"""
+    max_attempts(::AbstractAWSConfig) -> Int
+
+The number of AWS request retry attempts to make.
+Each backend may perform an additional layer backend-specific retries.
+
+`AbstractAWSConfig` subtypes should allow users to override the default.
+The default is 3, per the recommendations at
+https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
+"""
+max_attempts(::AbstractAWSConfig) = AWS_MAX_RETRY_ATTEMPTS
+
 mutable struct AWSConfig <: AbstractAWSConfig
     credentials::Union{AWSCredentials,Nothing}
     region::String
     output::String
+    max_attempts::Int
 end
+
+# provide a default for the new field since people were using the default constructor
+AWSConfig(creds, region, output) = AWSConfig(creds, region, output, AWS_MAX_RETRY_ATTEMPTS)
 
 credentials(aws::AWSConfig) = aws.credentials
 region(aws::AWSConfig) = aws.region
+max_attempts(aws::AWSConfig) = aws.max_attempts
 
 function AWSConfig(;
-    profile=nothing, creds=AWSCredentials(; profile=profile), region=nothing, output="json"
+    profile=nothing,
+    creds=AWSCredentials(; profile=profile),
+    region=nothing,
+    output="json",
+    max_attempts=AWS_MAX_RETRY_ATTEMPTS,
 )
     region = @something region aws_get_region(; profile=profile)
-    return AWSConfig(creds, region, output)
+    return AWSConfig(creds, region, output, max_attempts)
 end
 
 """

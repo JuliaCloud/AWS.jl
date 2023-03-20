@@ -114,6 +114,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "LimitExceededException",
         "RequestThrottled",
         "PriorRequestNotComplete",
+        "SlowDown",
     ]
 
     request.headers["User-Agent"] = user_agent[]
@@ -190,7 +191,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         return false
     end
 
-    delays = AWSExponentialBackoff(; max_attempts=3)
+    delays = AWSExponentialBackoff(; max_attempts=max_attempts(aws))
 
     retry(upgrade_error(get_response); check=check, delays=delays)()
 
